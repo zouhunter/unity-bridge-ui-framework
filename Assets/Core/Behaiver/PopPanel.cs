@@ -10,9 +10,9 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 /// <summary>
-/// 用于标记ui打开的父级
-/// [3维场景中可能有多个地方需要打开用户界面]
+/// 弹窗面板
+/// [动态弹出，用于显示信息或记录信息，弹出排队]
 /// </summary>
-public class UIGroup : MonoBehaviour {
+public class PopPanel : MonoBehaviour {
 
 }

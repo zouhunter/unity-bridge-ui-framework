@@ -1,0 +1,531 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e0c2324a9ab1224ebe3edad393e3544, type: 3}
+  m_Name: Calculation Canvas
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 114000010298563440}
+  - {fileID: 114000012233751832}
+  - {fileID: 114000010644080434}
+  - {fileID: 114000014286786980}
+  - {fileID: 114000011942583978}
+  - {fileID: 114000013433516744}
+  - {fileID: 114000013031896054}
+  - {fileID: 114000013722275232}
+  - {fileID: 114000013699202766}
+  editorStates:
+  - {fileID: 114000011612848376}
+  livesInScene: 0
+--- !u!114 &-1015213240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4caff27366054dd44a30ddb5be369acc, type: 3}
+  m_Name: Input 2
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000010644080434}
+  side: 4
+  sidePosition: 59.5
+  sideOffset: 0
+  connection: {fileID: 114000010314465718}
+  typeID: 466c6f6174
+--- !u!114 &-969106576
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3dd50b389073b148b5ec10e419dc073, type: 3}
+  m_Name: Input Node
+  m_EditorClassIdentifier: 
+  rect:
+    x: -650
+    y: -100
+    width: 200
+    height: 50
+  nodeKnobs:
+  - {fileID: 114000012571196658}
+  Inputs: []
+  Outputs:
+  - {fileID: 114000012571196658}
+  value: 24
+--- !u!114 &-953204298
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e7026d0da7df848ab67d517ac12d74, type: 3}
+  m_Name: Value
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000012233751832}
+  side: 2
+  sidePosition: 34.5
+  sideOffset: 0
+  connections:
+  - {fileID: 114000010252456776}
+  typeID: 466c6f6174
+  calculationBlockade: 0
+--- !u!114 &-826948218
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e7026d0da7df848ab67d517ac12d74, type: 3}
+  m_Name: Output 1
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000013433516744}
+  side: 2
+  sidePosition: 34.5
+  sideOffset: 0
+  connections:
+  - {fileID: 114000012069734808}
+  - {fileID: 114000013392151536}
+  typeID: 466c6f6174
+  calculationBlockade: 0
+--- !u!114 &-791414708
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4caff27366054dd44a30ddb5be369acc, type: 3}
+  m_Name: Input 1
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000013031896054}
+  side: 4
+  sidePosition: 34.5
+  sideOffset: 0
+  connection: {fileID: 0}
+  typeID: 466c6f6174
+--- !u!114 &-791230964
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4caff27366054dd44a30ddb5be369acc, type: 3}
+  m_Name: Input 1
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000013433516744}
+  side: 4
+  sidePosition: 34.5
+  sideOffset: 0
+  connection: {fileID: 114000013175629252}
+  typeID: 466c6f6174
+--- !u!114 &-629551170
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4caff27366054dd44a30ddb5be369acc, type: 3}
+  m_Name: Input 1
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000010644080434}
+  side: 4
+  sidePosition: 34.5
+  sideOffset: 0
+  connection: {fileID: 114000012571196658}
+  typeID: 466c6f6174
+--- !u!114 &-623589582
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a65ad2b155f0d40838ed81292e4df7, type: 3}
+  m_Name: Calc Node
+  m_EditorClassIdentifier: 
+  rect:
+    x: -350
+    y: -50
+    width: 200
+    height: 100
+  nodeKnobs:
+  - {fileID: 114000010638118846}
+  - {fileID: 114000010252456776}
+  - {fileID: 114000013175629252}
+  Inputs:
+  - {fileID: 114000010638118846}
+  - {fileID: 114000010252456776}
+  Outputs:
+  - {fileID: 114000013175629252}
+  type: 2
+  Input1Val: 24
+  Input2Val: 32
+--- !u!114 &-352412140
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4caff27366054dd44a30ddb5be369acc, type: 3}
+  m_Name: Value
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000014286786980}
+  side: 4
+  sidePosition: 34.5
+  sideOffset: 0
+  connection: {fileID: 114000013175629252}
+  typeID: 466c6f6174
+--- !u!114 &45302654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4caff27366054dd44a30ddb5be369acc, type: 3}
+  m_Name: Input 2
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000013433516744}
+  side: 4
+  sidePosition: 59.5
+  sideOffset: 0
+  connection: {fileID: 114000013790076398}
+  typeID: 466c6f6174
+--- !u!114 &96544336
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e7026d0da7df848ab67d517ac12d74, type: 3}
+  m_Name: Output 1
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000013031896054}
+  side: 2
+  sidePosition: 38.5
+  sideOffset: 0
+  connections:
+  - {fileID: 114000013456404906}
+  typeID: 466c6f6174
+  calculationBlockade: 0
+--- !u!114 &345178360
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6ab6487237ff124ea4c2aa5de9ce3fb, type: 3}
+  m_Name: MainEditorState
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 11400000}
+  parentEditor: {fileID: 0}
+  drawing: 1
+  selectedNode: {fileID: 114000013699202766}
+  panOffset: {x: -273, y: -116}
+  zoom: 1
+--- !u!114 &674913962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3dd50b389073b148b5ec10e419dc073, type: 3}
+  m_Name: Input Node
+  m_EditorClassIdentifier: 
+  rect:
+    x: -350
+    y: 100
+    width: 200
+    height: 50
+  nodeKnobs:
+  - {fileID: 114000013790076398}
+  Inputs: []
+  Outputs:
+  - {fileID: 114000013790076398}
+  value: 512
+--- !u!114 &802064792
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4caff27366054dd44a30ddb5be369acc, type: 3}
+  m_Name: Value
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000013699202766}
+  side: 4
+  sidePosition: 34.5
+  sideOffset: 0
+  connection: {fileID: 114000010440721798}
+  typeID: 466c6f6174
+--- !u!114 &966081816
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3dd50b389073b148b5ec10e419dc073, type: 3}
+  m_Name: Input Node
+  m_EditorClassIdentifier: 
+  rect:
+    x: -650
+    y: 0
+    width: 200
+    height: 50
+  nodeKnobs:
+  - {fileID: 114000010314465718}
+  Inputs: []
+  Outputs:
+  - {fileID: 114000010314465718}
+  value: 32
+--- !u!114 &1303526642
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e7026d0da7df848ab67d517ac12d74, type: 3}
+  m_Name: Value
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000010298563440}
+  side: 2
+  sidePosition: 34.5
+  sideOffset: 0
+  connections:
+  - {fileID: 114000010638118846}
+  typeID: 466c6f6174
+  calculationBlockade: 0
+--- !u!114 &1764226038
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a65ad2b155f0d40838ed81292e4df7, type: 3}
+  m_Name: Calc Node
+  m_EditorClassIdentifier: 
+  rect:
+    x: 300
+    y: 50
+    width: 200
+    height: 100
+  nodeKnobs:
+  - {fileID: 114000010476255308}
+  - {fileID: 114000013392151536}
+  - {fileID: 114000011364214352}
+  Inputs:
+  - {fileID: 114000010476255308}
+  - {fileID: 114000013392151536}
+  Outputs:
+  - {fileID: 114000011364214352}
+  type: 3
+  Input1Val: 1
+  Input2Val: 256
+--- !u!114 &1907959236
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e7026d0da7df848ab67d517ac12d74, type: 3}
+  m_Name: Output 1
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000010644080434}
+  side: 2
+  sidePosition: 34.5
+  sideOffset: 0
+  connections:
+  - {fileID: 114000010476439052}
+  - {fileID: 114000010915257876}
+  typeID: 466c6f6174
+  calculationBlockade: 0
+--- !u!114 &2124481520
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4caff27366054dd44a30ddb5be369acc, type: 3}
+  m_Name: Input 2
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000013031896054}
+  side: 4
+  sidePosition: 59.5
+  sideOffset: 0
+  connection: {fileID: 114000010440721798}
+  typeID: 466c6f6174
+--- !u!114 &-2129120568
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a65ad2b155f0d40838ed81292e4df7, type: 3}
+  m_Name: Calc Node
+  m_EditorClassIdentifier: 
+  rect:
+    x: 0
+    y: 0
+    width: 200
+    height: 100
+  nodeKnobs:
+  - {fileID: 114000010476439052}
+  - {fileID: 114000011312972670}
+  - {fileID: 114000010440721798}
+  Inputs:
+  - {fileID: 114000010476439052}
+  - {fileID: 114000011312972670}
+  Outputs:
+  - {fileID: 114000010440721798}
+  type: 1
+  Input1Val: 768
+  Input2Val: 512
+--- !u!114 &-2106232406
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4caff27366054dd44a30ddb5be369acc, type: 3}
+  m_Name: Value
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000013722275232}
+  side: 4
+  sidePosition: 34.5
+  sideOffset: 0
+  connection: {fileID: 114000011364214352}
+  typeID: 466c6f6174
+--- !u!114 &-1863434546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f5df92d12f07d45a4fcfb96e1b36d8, type: 3}
+  m_Name: Display Node
+  m_EditorClassIdentifier: 
+  rect:
+    x: 300
+    y: -100
+    width: 150
+    height: 50
+  nodeKnobs:
+  - {fileID: 114000012069734808}
+  Inputs:
+  - {fileID: 114000012069734808}
+  Outputs: []
+  assigned: 1
+  value: 256
+--- !u!114 &-1840362080
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f5df92d12f07d45a4fcfb96e1b36d8, type: 3}
+  m_Name: Display Node
+  m_EditorClassIdentifier: 
+  rect:
+    x: 600
+    y: 50
+    width: 150
+    height: 50
+  nodeKnobs:
+  - {fileID: 114000013456404906}
+  Inputs:
+  - {fileID: 114000013456404906}
+  Outputs: []
+  assigned: 1
+  value: 0.00390625
+--- !u!114 &-1772560914
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e7026d0da7df848ab67d517ac12d74, type: 3}
+  m_Name: Value
+  m_EditorClassIdentifier: 
+  body: {fileID: 114000011942583978}
+  side: 2
+  sidePosition: 34.5
+  sideOffset: 0
+  connections:
+  - {fileID: 114000011312972670}
+  typeID: 466c6f6174
+  calculationBlockade: 0
+--- !u!114 &-1275850332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f5df92d12f07d45a4fcfb96e1b36d8, type: 3}
+  m_Name: Display Node
+  m_EditorClassIdentifier: 
+  rect:
+    x: 0
+    y: -100
+    width: 150
+    height: 50
+  nodeKnobs:
+  - {fileID: 114000010915257876}
+  Inputs:
+  - {fileID: 114000010915257876}
+  Outputs: []
+  assigned: 1
+  value: 768

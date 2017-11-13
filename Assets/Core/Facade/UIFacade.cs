@@ -34,21 +34,29 @@ public sealed class UIFacade
         }
         return instenceDic[id];
     }
-    /// <summary>
-    /// 保存Facade实例
-    /// </summary>
+    // Facade实例
     private static Dictionary<int, UIFacade> instenceDic = new Dictionary<int, UIFacade>();
+    // 面板组
+    private static List<PanelGroup> groupList = new List<PanelGroup>();
 
     private PanelBase parentPanel;
+    
     private UIFacade() { }
     private UIFacade(PanelBase parentPanel) { this.parentPanel = parentPanel; }
 
     public static void RegistGroup(PanelGroup group)
     {
-
+        if(!groupList.Contains(group))
+        {
+            groupList.Add(group);
+        }
     }
+
     public static void UnRegistGroup(PanelGroup group)
     {
-
+        if (groupList.Contains(group))
+        {
+            groupList.Remove(group);
+        }
     }
 }

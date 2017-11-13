@@ -310,6 +310,51 @@
         </ownedOperations>
       </Interface>
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="e3f22453-1328-4a97-aabb-31580928e767"
+        name="UIFacade"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <interfaceRealization
+            Id="fe08fb6a-86ea-417a-bf83-9d41c1667d21">
+            <interfaceMoniker
+              Id="a21b8ab5-b253-417c-ad8e-60c29ae1bb53"
+              LastKnownName="IUIFacade"
+              LastKnownLocation="FlexibleUI.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="73a8f4ce-b482-4e90-b938-bae874649c05"
+            name="Open"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="605358e9-05c1-4958-96f8-3b068e349094"
+                  name="panelName"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
   </packagedElements>
   <primitiveType
     Id="220a3521-e091-4221-bae9-3ef9018e845c"

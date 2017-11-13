@@ -26,25 +26,52 @@ public sealed class UIFacade
             return instenceDic[0];
         }
     }
+
     public static UIFacade GetInstence(PanelBase parentPanel)
     {
-        var id = parentPanel.GetInstanceID();
-        if(!instenceDic.ContainsKey(id) || instenceDic[id] == null || instenceDic[id].parentPanel == null){
-            instenceDic[id] = new UIFacade(parentPanel);
+        if(parentPanel == null)
+        {
+            return Instence;
         }
-        return instenceDic[id];
+        else
+        {
+            var id = parentPanel.GetInstanceID();
+            if (!instenceDic.ContainsKey(id) || instenceDic[id] == null || instenceDic[id].parentPanel == null)
+            {
+                instenceDic[id] = new UIFacade(parentPanel);
+            }
+            return instenceDic[id];
+        }
+    }
+
+    public static UIFacade GetInstence(string panelGroupObjPath)
+    {
+        if(string.IsNullOrEmpty(panelGroupObjPath))
+        {
+            return Instence;
+        }
+        else
+        {
+            var group = Resources.Load<PanelGroupObj>(panelGroupObjPath);
+            RegistGroup(group);
+            var id = group.GetInstanceID();
+            if (!instenceDic.ContainsKey(id) || instenceDic[id] == null || instenceDic[id].parentPanel == null){
+                instenceDic[id] = new UIFacade();
+            }
+            return instenceDic[id];
+        }
     }
     // Facade实例
     private static Dictionary<int, UIFacade> instenceDic = new Dictionary<int, UIFacade>();
     // 面板组
-    private static List<PanelGroup> groupList = new List<PanelGroup>();
+    private static List<IPanelGroup> groupList = new List<IPanelGroup>();
 
     private PanelBase parentPanel;
     
     private UIFacade() { }
-    private UIFacade(PanelBase parentPanel) { this.parentPanel = parentPanel; }
+    private UIFacade(PanelBase parentPanel):this() { this.parentPanel = parentPanel; }
 
-    public static void RegistGroup(PanelGroup group)
+    public static void RegistGroup(IPanelGroup group)
     {
         if(!groupList.Contains(group))
         {
@@ -52,7 +79,7 @@ public sealed class UIFacade
         }
     }
 
-    public static void UnRegistGroup(PanelGroup group)
+    public static void UnRegistGroup(IPanelGroup group)
     {
         if (groupList.Contains(group))
         {

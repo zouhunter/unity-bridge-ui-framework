@@ -14,7 +14,8 @@ using System.Collections.Generic;
 /// 用于标记ui打开的父级
 /// [3维场景中可能有多个地方需要打开用户界面]
 /// </summary>
-public abstract class PanelGroup : MonoBehaviour {
+public abstract class PanelGroup : MonoBehaviour , IPanelGroup
+{
 
     public List<BridgeObj> bridges;
 

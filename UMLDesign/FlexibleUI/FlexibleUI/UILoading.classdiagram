@@ -229,6 +229,32 @@
         <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
       </referencedType>
     </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="8724547a-86a0-472c-94f5-a4f7a9685b56" name="UIFacade" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="e3f22453-1328-4a97-aabb-31580928e767" />
+        <suppliersInternal>
+          <interfaceRealization Id="3be98b86-e205-4975-9985-d0809ef88df3">
+            <interfaceMoniker Id="12300b50-3e37-43e7-8054-ccf9d11b507a" LastKnownName="IUIFacade" />
+            <elementDefinition Id="fe08fb6a-86ea-417a-bf83-9d41c1667d21" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation Id="6b78c1d4-6eeb-4ac2-81e4-5fd311846e85" name="Open" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="73a8f4ce-b482-4e90-b938-bae874649c05" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="d732145a-745c-41e4-ac1d-d5f58aac95c1" name="panelName" direction="In" isUnique="false">
+                  <elementDefinition Id="605358e9-05c1-4958-96f8-3b068e349094" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="a4373694-8255-4a91-b94d-d68a841e719a" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
   </packagedElements>
   <package Id="a1e3cad2-c516-4741-8346-451f87db9201" name="FlexibleUI">
     <elementDefinition Id="35451fd2-6ce6-4a92-bda7-3c595c63d694" />

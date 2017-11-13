@@ -9,10 +9,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
-/// <summary>
-/// 弹窗面板
-/// [动态弹出，用于显示信息或记录信息，弹出排队]
-/// </summary>
-public class PopPanel : MonoBehaviour {
+using System.Collections.Generic;
+
+public interface IPanelCreater {
 
 }

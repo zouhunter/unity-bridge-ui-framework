@@ -9,9 +9,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
-using System.Collections.Generic;
-
-public class PrefabUINode : UINodeBase
-{
+/// <summary>
+/// 用于标记ui打开的父级
+/// [3维场景中可能有多个地方需要打开用户界面]
+/// </summary>
+public class PanelGroup : MonoBehaviour {
 
 }

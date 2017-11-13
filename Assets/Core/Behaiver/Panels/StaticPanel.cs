@@ -14,6 +14,6 @@ using System.Collections;
 /// 背景面板
 /// [一个UIPanelGroup只能同时存在一个背景面板]
 /// </summary>
-public class BGPanel : PanelBase {
+public class StaticPanel : PanelBase {
 
 }

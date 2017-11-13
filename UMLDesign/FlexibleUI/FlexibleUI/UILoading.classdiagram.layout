@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="UILoading">
+  <logicalClassDesignerModelMoniker Id="ddc711cb-bc5c-4e28-9d1f-af3dda8995c5" />
+  <nestedChildShapes>
+    <interfaceShape Id="c6048cc7-dffd-4dba-9421-9c0888135549" absoluteBounds="0.5, 1, 2.125, 1.4106596841414771" hideQualifiedName="false" increaseHeight="0.18800345897674564" customColor="207, 223, 191">
+      <interfaceMoniker Id="12300b50-3e37-43e7-8054-ccf9d11b507a" LastKnownName="IUIFacade" />
+      <nestedChildShapes>
+        <AttributeElementListCompartment Id="91edc545-a9ff-43e4-8864-27794220afa5" absoluteBounds="0.515, 1.5780034589767458, 2.0949999999999998, 0.36132811258236563" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="da074562-c225-4812-9576-d312acb7afe8" absoluteBounds="0.515, 1.9493315715591113, 2.0949999999999998, 0.36132811258236575" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </interfaceShape>
+  </nestedChildShapes>
+</logicalClassDesignerDiagram>

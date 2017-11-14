@@ -6,6 +6,5 @@ using System.Collections;
 /// </summary>
 public interface IPanelGroup  {
     Transform Trans { get; }
-    bool Contains(string panelName);
-    BridgeObj OpenPanel(IPanelBase parentPanel,string panelName, object data);
+    bool TryMatchPanel(string parentName, string panelName, out BridgeObj bridgeObj, out UINodeBase uiNode);
 }

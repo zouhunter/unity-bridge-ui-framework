@@ -30,6 +30,13 @@ public abstract class PanelGroup : MonoBehaviour , IPanelGroup
         return Nodes.Find(x => x.panelName == panelName) != null;
     }
 
+    public bool TryMatchPanel(string parentName,string panelName,out BridgeObj bridgeObj, out UINodeBase uiNode)
+    {
+        bridgeObj = bridges.Find(x => x.inNode == parentName && x.outNode == panelName);
+        uiNode = Nodes.Find(x => x.panelName == panelName);
+        return uiNode != null;
+    }
+
     public BridgeObj OpenPanel(IPanelBase parentPanel, string panelName, object data)
     {
         var inpanelName = parentPanel == null ? "" : parentPanel.Name;
@@ -37,7 +44,6 @@ public abstract class PanelGroup : MonoBehaviour , IPanelGroup
         if(bridge != null)
         {
             var bg = Instantiate(bridge);
-            bg.QueueSend(data);
             return bg;
         }
         return null;

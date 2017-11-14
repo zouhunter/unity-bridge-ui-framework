@@ -12,5 +12,5 @@ using System.Collections;
 using System.Collections.Generic;
 
 public interface IPanelCreater {
-
+    void GetGameObjectInfo(UINodeBase itemInfo);
 }

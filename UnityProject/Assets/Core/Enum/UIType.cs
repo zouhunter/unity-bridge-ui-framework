@@ -11,5 +11,8 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 
 public enum UIType {
-
+    Bottom = 1,
+    Heap =2,
+    Pop =3,
+    Tip =4,
 }

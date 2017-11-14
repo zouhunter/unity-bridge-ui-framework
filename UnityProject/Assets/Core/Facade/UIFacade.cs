@@ -47,7 +47,10 @@ public sealed class UIFacade : IUIFacade
 
     // Facade实例
     private static Dictionary<int, UIFacade> instenceDic = new Dictionary<int, UIFacade>();
-
+    //生成器字典
+    private static Dictionary<IPanelGroup, IPanelCreater> createrDic = new Dictionary<IPanelGroup, IPanelCreater>();
+    // 已创建
+    private static List<IPanelBase> createdPanels = new List<IPanelBase>();
     // 面板组
     private static List<IPanelGroup> groupList = new List<IPanelGroup>();
 
@@ -64,6 +67,8 @@ public sealed class UIFacade : IUIFacade
         if (!groupList.Contains(group))
         {
             groupList.Add(group);
+            var creater = new PanelCreater(group);
+            createrDic[group] = creater;
         }
     }
 
@@ -72,28 +77,35 @@ public sealed class UIFacade : IUIFacade
         if (groupList.Contains(group))
         {
             groupList.Remove(group);
+            createrDic.Remove(group);
         }
     }
 
     public BridgeObj OpenPanel(string panelName, object data = null)
     {
+        string parentName = parentPanel == null ? "" : parentPanel.Name;
+        BridgeObj bridgeObj = null;
+        UINodeBase uiNode = null;
+        bool match = false;
         IPanelGroup group = null;
-        if (currentGroup !=null && currentGroup.Contains(panelName))
+        if (currentGroup != null)
         {
             group = currentGroup;
+            match = currentGroup.TryMatchPanel(parentName, panelName, out bridgeObj, out uiNode);
         }
-        else
+
+        if(!match)
         {
             foreach (var item in groupList)
             {
-                if(item.Contains(panelName))
-                {
-                    group = item;
-                    break;
-                }
+                group = item;
+                match = item.TryMatchPanel(parentName, panelName, out bridgeObj, out uiNode);
+                if (match) break;
             }
         }
-        return group ==null?null: group.OpenPanel(parentPanel, panelName, data);
+        createrDic[group].GetGameObjectInfo(uiNode);
+        Debug.Log(match);
+        return bridgeObj;
     }
 
     public BridgeObj[] OpenPanels(string panelName, object data = null)
@@ -101,11 +113,11 @@ public sealed class UIFacade : IUIFacade
         var bridges = new List<BridgeObj>();
         foreach (var item in groupList)
         {
-            if (item.Contains(panelName))
-            {
-                var bridge = item.OpenPanel(parentPanel, panelName, data);
-                bridges.Add(bridge);
-            }
+            //if (item.Contains(panelName))
+            //{
+            //    var bridge = item.OpenPanel(parentPanel, panelName, data);
+            //    bridges.Add(bridge);
+            //}
         }
         return bridges.ToArray();
     }

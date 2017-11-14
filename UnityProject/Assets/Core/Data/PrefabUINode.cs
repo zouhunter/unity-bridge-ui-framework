@@ -10,8 +10,9 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-
+[CreateAssetMenu(menuName = "UI/prefabuinode")]
 public class PrefabUINode : UINodeBase
 {
-
+    public GameObject prefab;
+    public override string IDName { get { return panelName; } }
 }

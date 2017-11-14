@@ -14,13 +14,7 @@ using System;
 /// 弹窗面板
 /// [动态弹出，用于显示信息或记录信息，弹出排队]
 /// </summary>
-public class ChoisePanel : MonoBehaviour, IPanelBase
+public class ChoisePanel :PanelBase
 {
-    public int InstenceID
-    {
-        get
-        {
-            return GetInstanceID();
-        }
-    }
+  
 }

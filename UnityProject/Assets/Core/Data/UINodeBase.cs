@@ -14,4 +14,10 @@ using System.Collections;
 /// [记录ui打开的规则]
 /// </summary>
 public abstract class UINodeBase :ScriptableObject{
+    public string panelName;
+    public int instanceID;
+    public abstract string IDName { get; }
+    public GameObject instence;
+    public int layer;
+    public UnityAction<GameObject> OnCreate;
 }

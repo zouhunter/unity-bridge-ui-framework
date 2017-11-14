@@ -14,5 +14,11 @@ using System.Collections;
 /// [用于界面创建及打开的规则]
 /// </summary>
 public interface IPanelBase {
+    string Name { get; }
     int InstenceID { get; }
+    IPanelGroup Group { get; set; }
+
+    void HandleData(object data);
+
+    void HandleCallBack(BridgeObj bridge, object data);
 }

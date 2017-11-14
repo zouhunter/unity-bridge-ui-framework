@@ -12,5 +12,10 @@ using System.Collections;
 
 public class BundleUINode : UINodeBase
 {
-
+#if UNITY_EDITOR
+    public string guid;
+    public bool good;
+#endif
+    public string bundleName;
+    public override string IDName { get { return bundleName + panelName; } }
 }

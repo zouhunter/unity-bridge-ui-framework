@@ -11,5 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 
 public enum OpenRule {
-
+    QueueOther,
+    HideParent,
+    MaskOthers,
 }

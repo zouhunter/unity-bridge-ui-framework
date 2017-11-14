@@ -11,8 +11,8 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 
-public interface IUIFacade {
-    void Open(string panelName);
-    void Hide(string panelName);
-    void Close(string panelName);
+public interface IUIFacade
+{
+    BridgeObj OpenPanel(string panelName, object data = null);
+    BridgeObj[] OpenPanels(string panelName, object data = null);
 }

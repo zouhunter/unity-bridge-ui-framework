@@ -1,29 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="file:///C:/PROGRAM FILES (X86)/MICROSOFT VISUAL STUDIO 14.0/COMMON7/IDE/EXTENSIONS/MICROSOFT/ARCHITECTURE TOOLS/EXTENSIBILITY/Logging/CodeGenLog.xslt"?>
-<Log xmlns="http://schemas.microsoft.com/VisualStudio/2010/CodeGen.RE.Log" Label="Code Generation/Text Transformation Log">
-  <MessageClass Name="Message" Label="Message" Option="Show informational messages" />
-  <MessageClass Name="Warning" Label="Warning" Option="Show warnings" />
-  <MessageClass Name="Error" Label="Error" Option="Show errors" />
-  <MessageClass Name="Property" Label="Property" Option="Show metadata" />
-  <MessageClass Name="Diagnostic" Label="Message" Option="Show diagnostic messages" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="High" Text="Code generation or text transformation started." />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="Name = ClassTemplate" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="Overwrite = True" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="ProjectPath = ..\FlexibleUILib\FlexibleUILib.csproj" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="TargetName = {Name}" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Medium" Text="FlexibleUI's Text Template Binding: 'ClassTemplate' will apply ClassTemplate.t4 to: 'FlexibleUI::UIFacade' -  (Class) " />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="'FlexibleUI::UIFacade' -  (Class): no file generated because the 'AppliesToElement' method of the template 'ClassTemplate.t4' evaluated to false." />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="Name = StructTemplate" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="Overwrite = True" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="ProjectPath = ..\FlexibleUILib\FlexibleUILib.csproj" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="TargetName = {Name}" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Medium" Text="FlexibleUI's Text Template Binding: 'StructTemplate' will apply StructTemplate.t4 to: 'FlexibleUI::UIFacade' -  (Class) " />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="Diagnostic" Text="'FlexibleUI::UIFacade' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2017-11-14T07:14:05" Importance="High" Text="Code generation complete. Errors: 0. Warnings: 0." />
+<Log xmlns="http://schemas.microsoft.com/VisualStudio/2010/CodeGen.RE.Log" Label="代码生成/文本转换记录">
+  <MessageClass Name="Message" Label="消息" Option="显示提供相关信息的消息" />
+  <MessageClass Name="Warning" Label="警告" Option="显示警告" />
+  <MessageClass Name="Error" Label="错误" Option="显示错误" />
+  <MessageClass Name="Property" Label="属性" Option="显示元数据" />
+  <MessageClass Name="Diagnostic" Label="消息" Option="显示诊断消息" />
+  <Message Timestamp="2017-11-14T18:57:28" Importance="High" Text="已启动代码生成或文本转换。" />
+  <Message Timestamp="2017-11-14T18:57:28" Importance="Diagnostic" Text="名称 = ClassTemplate" />
+  <Message Timestamp="2017-11-14T18:57:28" Importance="Diagnostic" Text="覆盖 = True" />
+  <Message Timestamp="2017-11-14T18:57:28" Importance="Diagnostic" Text="ProjectPath = ..\FlexibleUILib\FlexibleUILib.csproj" />
+  <Message Timestamp="2017-11-14T18:57:28" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2017-11-14T18:57:28" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2017-11-14T18:57:28" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2017-11-14T18:57:28" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2017-11-14T18:57:28" Importance="Medium" Text="FlexibleUI 的文本模板绑定: “ClassTemplate”会将 ClassTemplate.t4 应用于: “FlexibleUI::UIFacade”- (Class) " />
+  <Message Timestamp="2017-11-14T18:58:03" Importance="Medium" Text="“FlexibleUI::UIFacade”- (Class) : 成功(已创建文件) - E:\GitHub\FlexibleUI\UMLDesign\FlexibleUI\FlexibleUILib\GeneratedCode\UIFacade.cs" />
+  <Message Timestamp="2017-11-14T18:58:03" Importance="Diagnostic" Text="名称 = StructTemplate" />
+  <Message Timestamp="2017-11-14T18:58:03" Importance="Diagnostic" Text="覆盖 = True" />
+  <Message Timestamp="2017-11-14T18:58:03" Importance="Diagnostic" Text="ProjectPath = ..\FlexibleUILib\FlexibleUILib.csproj" />
+  <Message Timestamp="2017-11-14T18:58:03" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2017-11-14T18:58:03" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2017-11-14T18:58:03" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2017-11-14T18:58:03" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2017-11-14T18:58:03" Importance="Medium" Text="FlexibleUI 的文本模板绑定: “StructTemplate”会将 StructTemplate.t4 应用于: “FlexibleUI::UIFacade”- (Class) " />
+  <Message Timestamp="2017-11-14T18:58:04" Importance="Diagnostic" Text="“FlexibleUI::UIFacade”- (Class): 没有生成任何文件，因为模板“StructTemplate.t4”的“AppliesToElement”方法的计算结果为 false。" />
+  <Message Timestamp="2017-11-14T18:58:04" Importance="High" Text="代码生成完成。错误: 0。警告: 0。" />
 </Log>

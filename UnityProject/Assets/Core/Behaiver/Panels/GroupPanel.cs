@@ -14,6 +14,14 @@ using System.Collections;
 /// 组面板
 /// [打开的同时打开一组面板,关闭时全部关闭]
 /// </summary>
-public class GroupPanel : PanelBase {
+public class GroupPanel : MonoBehaviour, IPanelBase
+{
+    public int InstenceID
+    {
+        get
+        {
+            return GetInstanceID();
+        }
+    }
 
 }

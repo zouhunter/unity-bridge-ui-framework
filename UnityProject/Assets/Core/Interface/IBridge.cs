@@ -9,10 +9,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
-/// <summary>
-/// 所有ui界面的父级
-/// [用于界面创建及打开的规则]
-/// </summary>
-public class PanelBase : MonoBehaviour {
+using System.Collections.Generic;
+
+public interface IBridge  {
 
 }

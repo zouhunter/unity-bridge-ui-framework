@@ -9,9 +9,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
-/// <summary>
-/// ui节点信息的抽象父级
-/// [记录ui打开的规则]
-/// </summary>
-public abstract class UINodeBase :ScriptableObject{
+using System.Collections.Generic;
+
+public class Demo : MonoBehaviour {
+
 }

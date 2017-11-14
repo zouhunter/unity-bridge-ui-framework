@@ -27,7 +27,7 @@ public sealed class UIFacade
         }
     }
 
-    public static UIFacade GetInstence(PanelBase parentPanel)
+    public static UIFacade GetInstence(IPanelBase parentPanel)
     {
         if(parentPanel == null)
         {
@@ -35,7 +35,7 @@ public sealed class UIFacade
         }
         else
         {
-            var id = parentPanel.GetInstanceID();
+            var id = parentPanel.InstenceID;
             if (!instenceDic.ContainsKey(id) || instenceDic[id] == null || instenceDic[id].parentPanel == null)
             {
                 instenceDic[id] = new UIFacade(parentPanel);
@@ -66,10 +66,10 @@ public sealed class UIFacade
     // 面板组
     private static List<IPanelGroup> groupList = new List<IPanelGroup>();
 
-    private PanelBase parentPanel;
+    private IPanelBase parentPanel;
     
     private UIFacade() { }
-    private UIFacade(PanelBase parentPanel):this() { this.parentPanel = parentPanel; }
+    private UIFacade(IPanelBase parentPanel):this() { this.parentPanel = parentPanel; }
 
     public static void RegistGroup(IPanelGroup group)
     {

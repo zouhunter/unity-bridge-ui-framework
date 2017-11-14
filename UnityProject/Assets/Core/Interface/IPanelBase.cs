@@ -10,8 +10,9 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 /// <summary>
-/// ui节点信息的抽象父级
-/// [记录ui打开的规则]
+/// 所有ui界面的父级
+/// [用于界面创建及打开的规则]
 /// </summary>
-public abstract class UINodeBase :ScriptableObject{
+public interface IPanelBase {
+    int InstenceID { get; }
 }

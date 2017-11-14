@@ -14,6 +14,14 @@ using System.Collections;
 /// 背景面板
 /// [一个UIPanelGroup只能同时存在一个背景面板]
 /// </summary>
-public class NoticePanel : PanelBase {
+public class NoticePanel : MonoBehaviour, IPanelBase
+{
+    public int InstenceID
+    {
+        get
+        {
+            return GetInstanceID();
+        }
+    }
 
 }

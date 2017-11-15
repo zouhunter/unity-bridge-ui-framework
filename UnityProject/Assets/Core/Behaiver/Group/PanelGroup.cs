@@ -18,7 +18,7 @@ using System;
 public abstract class PanelGroup : MonoBehaviour , IPanelGroup
 {
     public List<BridgeObj> bridges;
-
+    private Dictionary<BridgeObj, BridgePool> poolDic = new Dictionary<BridgeObj, BridgePool>();
     public abstract List<UINodeBase> Nodes { get; }
 
     public abstract List<PanelGroupObj> SubGroups { get; }
@@ -32,26 +32,33 @@ public abstract class PanelGroup : MonoBehaviour , IPanelGroup
 
     public bool TryMatchPanel(string parentName,string panelName,out BridgeObj bridgeObj, out UINodeBase uiNode)
     {
-        bridgeObj = bridges.Find(x => x.inNode == parentName && x.outNode == panelName);
-        uiNode = Nodes.Find(x => x.panelName == panelName);
-        return uiNode != null;
-    }
-
-    public BridgeObj OpenPanel(IPanelBase parentPanel, string panelName, object data)
-    {
-        var inpanelName = parentPanel == null ? "" : parentPanel.Name;
-        var bridge = bridges.Find(x => x.outNode == panelName && x.inNode == inpanelName);
+        var bridge = bridges.Find(x => x.inNode == parentName && x.outNode == panelName);
         if(bridge != null)
         {
-            var bg = Instantiate(bridge);
-            return bg;
+            bridgeObj = poolDic[bridge].Allocate();//申请了个实例
         }
-        return null;
+        else
+        {
+            bridgeObj = null;
+        }
+        uiNode = Nodes.Find(x => x.panelName == panelName);
+        return uiNode != null;
     }
 
     protected virtual void Awake()
     {
         UIFacade.RegistGroup(this);
+        RegistBridgePool();
+    }
+    /// <summary>
+    /// bridge生成池
+    /// </summary>
+    protected virtual void RegistBridgePool()
+    {
+        foreach (var item in bridges)
+        {
+            poolDic[item] = new BridgePool(1, item);
+        }
     }
     protected virtual void OnDestroy()
     {

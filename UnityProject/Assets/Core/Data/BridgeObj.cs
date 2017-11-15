@@ -20,6 +20,8 @@ public class BridgeObj : ScriptableObject {
     #region 实例使用
     private IPanelBase rootPanel;
 
+    public UnityAction onRelease { get; set; }
+
     public Queue<object> dataQueue = new Queue<object>();
 
     public event UnityAction<string,object> callBack;
@@ -29,12 +31,14 @@ public class BridgeObj : ScriptableObject {
         dataQueue.Enqueue(data);
     }
 
-    public void CallBack(string panelName,object data)
+    public void CallBack(object data)
     {
-        if (callBack != null) callBack.Invoke(panelName,data);
-        if(rootPanel !=null){
-            rootPanel.HandleCallBack(this, data);
-        }
+        if (callBack != null) callBack.Invoke(outNode, data);
+    }
+
+    public void Release()
+    {
+        if (onRelease != null) onRelease();
     }
     #endregion
 }

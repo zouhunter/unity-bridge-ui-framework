@@ -30,8 +30,9 @@ public class PanelBase :MonoBehaviour, IPanelBase
         throw new NotImplementedException();
     }
 
-    public void HandleData(object data)
+    public void HandleData(BridgeObj bridge, object data)
     {
+        bridge.onRelease();
         throw new NotImplementedException();
     }
 }

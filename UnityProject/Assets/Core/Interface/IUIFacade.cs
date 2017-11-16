@@ -13,6 +13,5 @@ using System.Collections.Generic;
 
 public interface IUIFacade
 {
-    BridgeObj OpenPanel(string panelName, object data = null);
-    BridgeObj[] OpenPanels(string panelName, object data = null);
+    UIHandle OpenPanel(string panelName, object data = null);
 }

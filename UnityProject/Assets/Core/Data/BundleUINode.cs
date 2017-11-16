@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
-
+[CreateAssetMenu(menuName = "UI/bundleuinode")]
 public class BundleUINode : UINodeBase
 {
 #if UNITY_EDITOR

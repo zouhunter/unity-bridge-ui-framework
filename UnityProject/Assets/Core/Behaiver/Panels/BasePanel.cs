@@ -10,6 +10,7 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class PanelBase :MonoBehaviour, IPanelBase
 {
@@ -20,19 +21,51 @@ public class PanelBase :MonoBehaviour, IPanelBase
             return GetInstanceID();
         }
     }
-
     public string Name { get { return name; } }
-
     public IPanelGroup Group { get; set; }
 
-    public void HandleCallBack(BridgeObj bridge, object data)
+    private BridgeObj bridge;
+
+    public void CallBack(object data)
     {
-        throw new NotImplementedException();
+        if(bridge != null)
+        {
+            bridge.CallBack(data);
+        }
     }
 
-    public void HandleData(BridgeObj bridge, object data)
+    public void HandleData(BridgeObj bridge)
     {
-        bridge.onRelease();
-        throw new NotImplementedException();
+        this.bridge = bridge;
+        if (bridge)
+        {
+            HandleData(bridge.dataQueue);
+            bridge.onGet = HandleData;
+        }
+    }
+
+    private void HandleData(Queue<object> dataQueue)
+    {
+        if(dataQueue != null)
+        {
+            while (dataQueue.Count > 0)
+            {
+                var data = dataQueue.Dequeue();
+                HandleData(data);
+            }
+        }
+    }
+
+    protected virtual void HandleData(object data)
+    {
+        Debug.Log(data);
+    }
+
+    private void OnDestroy()
+    {
+        if(bridge && bridge.onRelease != null)
+        {
+            bridge.onRelease();
+        }
     }
 }

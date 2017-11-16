@@ -17,5 +17,5 @@ public interface IPanelBase {
     string Name { get; }
     int InstenceID { get; }
     IPanelGroup Group { get; set; }
-    void HandleData(BridgeObj bridge,object data);
+    void HandleData(BridgeObj bridge);
 }

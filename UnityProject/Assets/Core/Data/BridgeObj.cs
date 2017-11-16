@@ -24,11 +24,17 @@ public class BridgeObj : ScriptableObject {
 
     public Queue<object> dataQueue = new Queue<object>();
 
-    public event UnityAction<string,object> callBack;
+    public UnityAction<string,object> callBack;
+
+    public UnityAction<Queue<object>> onGet;
 
     public void QueueSend(object data)
     {
         dataQueue.Enqueue(data);
+        if(onGet != null)
+        {
+            onGet.Invoke(dataQueue);
+        }
     }
 
     public void CallBack(object data)

@@ -10,7 +10,12 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
-public class Panel01 : MonoBehaviour {
-
+public class Panel01 :  PanelBase,IPointerClickHandler{
+   
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        CallBack("panel01 发送的回调");
+    }
 }

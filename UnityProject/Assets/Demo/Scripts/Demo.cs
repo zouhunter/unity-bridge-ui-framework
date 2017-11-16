@@ -11,24 +11,17 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Demo : MonoBehaviour {
+public class Demo : MonoBehaviour
+{
     private void OnGUI()
     {
-        if(GUILayout.Button("Open Panel01"))
+        if (GUILayout.Button("Open Panel01"))
         {
-           var bridge = UIFacade.Instence.OpenPanel("Panel01");
-            if(bridge)
+            var handle = UIFacade.Instence.OpenPanel("Panel01");
+            handle.callBack += (panel, data) =>
             {
-                bridge.callBack += (panel, data) =>
-                {
-                    Debug.Log(panel);
-                };
-            }
-            else
-            {
-                Debug.Log("open err");
-            }
-         
+                Debug.Log(panel);
+            };
         }
     }
 }

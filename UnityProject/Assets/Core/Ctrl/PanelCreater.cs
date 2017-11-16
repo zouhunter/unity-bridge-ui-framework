@@ -11,11 +11,6 @@ public class PanelCreater:IPanelCreater
     private List<string> _cansaleKeys = new List<string>();
     private Transform _root;
 
-    public PanelCreater(IPanelGroup group)
-    {
-        _root = group.Trans;
-    }
-
     public PanelCreater(Transform root)
     {
         _root = root;
@@ -37,7 +32,7 @@ public class PanelCreater:IPanelCreater
     /// <typeparam name="T"></typeparam>
     /// <param name="panelName"></param>
     /// <param name="onCreate"></param>
-    public void GetGameObjectInfo(UINodeBase itemInfo)
+    public void CreatePanel(UINodeBase itemInfo)
     {
         if (_cansaleKeys.Contains(itemInfo.panelName)) _cansaleKeys.RemoveAll(x => x == itemInfo.panelName);
 
@@ -58,12 +53,20 @@ public class PanelCreater:IPanelCreater
         }
     }
     /// <summary>
+    /// 取消创建对象
+    /// </summary>
+    /// <param name="panelName"></param>
+    public void CansaleCreate(string panelName)
+    {
+        _cansaleKeys.Add(panelName);
+    }
+    /// <summary>
     /// BundleUINode创建对象
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="panelName"></param>
     /// <param name="onCreate"></param>
-    public void GetGameObjectInfo(BundleUINode itemInfo)
+    private void GetGameObjectInfo(BundleUINode itemInfo)
     {
         var trigger = itemInfo as BundleUINode;
 #if AssetBundleTools
@@ -89,7 +92,7 @@ public class PanelCreater:IPanelCreater
     /// PrefabUINode创建对象
     /// </summary>
     /// <param name="iteminfo"></param>
-    public void GetGameObjectInfo(PrefabUINode iteminfo)
+    private void GetGameObjectInfo(PrefabUINode iteminfo)
     {
         var trigger = iteminfo as PrefabUINode;
 
@@ -102,14 +105,6 @@ public class PanelCreater:IPanelCreater
         {
             Debug.Log(trigger.panelName + "-->空");
         }
-    }
-    /// <summary>
-    /// 取消创建对象
-    /// </summary>
-    /// <param name="panelName"></param>
-    public void CansaleLoadObject(string panelName)
-    {
-        _cansaleKeys.Add(panelName);
     }
     /// <summary>
     /// 获取对象实例
@@ -130,99 +125,11 @@ public class PanelCreater:IPanelCreater
         GameObject go = GameObject.Instantiate(prefab);
 
         go.SetActive(true);
-        SetTranform(go, trigger.type, _root);
+        Utility.SetTranform(go, trigger.type, _root);
 
-        if (trigger.OnCreate != null) trigger.OnCreate(go);
+        if (trigger.OnCreate != null)
+            trigger.OnCreate(go);
     }
 
-    public static void SetTranform(GameObject item, UIType type, Transform parent)
-    {
-        string rootName = LayerToString(type);
-        var root = parent.transform.Find(rootName);
-        if (root == null)
-        {
-            root = new GameObject(rootName).transform;
-            if (parent is RectTransform)
-            {
-                var rectParent = root.gameObject.AddComponent<RectTransform>();
-                rectParent.anchorMin = Vector2.zero;
-                rectParent.anchorMax = Vector2.one;
-                rectParent.offsetMin = Vector3.zero;
-                rectParent.offsetMax = Vector3.zero;
-                root = rectParent;
-                root.SetParent(parent, false);
-            }
-            else
-            {
-                root.SetParent(parent, true);
-            }
-
-            if (rootName.StartsWith("-1"))
-            {
-                root.SetAsLastSibling();
-            }
-            else
-            {
-                int i = 0;
-                for (; i < parent.childCount; i++)
-                {
-                    var ritem = parent.GetChild(i);
-                    if (ritem.name.StartsWith("-1"))
-                    {
-                        break;
-                    }
-                    if (string.Compare(rootName, ritem.name) < 0)
-                    {
-                        break;
-                    }
-                }
-                root.SetSiblingIndex(i);
-            }
-        }
-        item.transform.SetParent(root, !(item.GetComponent<Transform>() is RectTransform));
-    }
-
-    public static string LayerToString(UIType layer, bool showint = true)
-    {
-        string str = "";
-        if (showint) str += (int)layer + "|";
-
-        switch (layer)
-        {
-            case UIType.Bottom:
-                str += "[Bottom]";
-                break;
-            case UIType.Heap:
-                str += "[H]";
-                break;
-            case UIType.Pop:
-                str += "[P]";
-                break;
-            case UIType.Tip:
-                str += "[T]";
-                break;
-            default:
-                break;
-        }
-        return str;
-    }
-
-    /// <summary>
-    /// 重新排序
-    /// </summary>
-    /// <param name="parentDic"></param>
-    private void ResortParents(Dictionary<int, Transform> parentDic)
-    {
-        int[] keys = new int[parentDic.Count];
-        parentDic.Keys.CopyTo(keys, 0);
-        System.Array.Sort(keys);
-        for (int i = 0; i < keys.Length; i++)
-        {
-            parentDic[keys[i]].SetAsLastSibling();
-        }
-        if (parentDic.ContainsKey(-1))
-        {
-            parentDic[-1].SetAsLastSibling();
-        }
-    }
+  
 }

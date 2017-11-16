@@ -25,11 +25,6 @@ public abstract class PanelGroup : MonoBehaviour , IPanelGroup
 
     public Transform Trans { get { return transform; } }
 
-    public bool Contains(string panelName)
-    {
-        return Nodes.Find(x => x.panelName == panelName) != null;
-    }
-
     public bool TryMatchPanel(string parentName,string panelName,out BridgeObj bridgeObj, out UINodeBase uiNode)
     {
         var bridge = bridges.Find(x => x.inNode == parentName && x.outNode == panelName);
@@ -57,7 +52,7 @@ public abstract class PanelGroup : MonoBehaviour , IPanelGroup
     {
         foreach (var item in bridges)
         {
-            poolDic[item] = new BridgePool(1, item);
+            poolDic[item] = new BridgePool(item);
         }
     }
     protected virtual void OnDestroy()

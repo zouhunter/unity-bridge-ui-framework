@@ -27,7 +27,6 @@ public sealed class UIFacade : IUIFacade
             return instenceDic[0];
         }
     }
-
     public static UIFacade GetInstence(IPanelBase parentPanel)
     {
         if (parentPanel == null)
@@ -44,7 +43,6 @@ public sealed class UIFacade : IUIFacade
             return instenceDic[id];
         }
     }
-
     // Facade实例
     private static Dictionary<int, UIFacade> instenceDic = new Dictionary<int, UIFacade>();
     //生成器字典
@@ -53,6 +51,10 @@ public sealed class UIFacade : IUIFacade
     private static List<IPanelBase> createdPanels = new List<IPanelBase>();
     // 面板组
     private static List<IPanelGroup> groupList = new List<IPanelGroup>();
+    //激活的handle
+    private static List<UIHandle> activeBridges = new List<UIHandle>();
+    //handle池
+    private static UIHandlePool handlePool = new UIHandlePool();
 
     private IPanelBase parentPanel;
 
@@ -67,7 +69,7 @@ public sealed class UIFacade : IUIFacade
         if (!groupList.Contains(group))
         {
             groupList.Add(group);
-            var creater = new PanelCreater(group);
+            var creater = new PanelCreater(group.Trans);
             createrDic[group] = creater;
         }
     }
@@ -81,44 +83,34 @@ public sealed class UIFacade : IUIFacade
         }
     }
 
-    public BridgeObj OpenPanel(string panelName, object data = null)
+    public UIHandle OpenPanel(string panelName, object data = null)
     {
         string parentName = parentPanel == null ? "" : parentPanel.Name;
-        BridgeObj bridgeObj = null;
-        UINodeBase uiNode = null;
-        bool match = false;
-        IPanelGroup group = null;
-        if (currentGroup != null)
-        {
-            group = currentGroup;
-            match = currentGroup.TryMatchPanel(parentName, panelName, out bridgeObj, out uiNode);
-        }
+        var handle = handlePool.Allocate();
 
-        if(!match)
-        {
-            foreach (var item in groupList)
-            {
-                group = item;
-                match = item.TryMatchPanel(parentName, panelName, out bridgeObj, out uiNode);
-                if (match) break;
-            }
-        }
-        createrDic[group].GetGameObjectInfo(uiNode);
-        Debug.Log(match);
-        return bridgeObj;
-    }
-
-    public BridgeObj[] OpenPanels(string panelName, object data = null)
-    {
-        var bridges = new List<BridgeObj>();
         foreach (var item in groupList)
         {
-            //if (item.Contains(panelName))
-            //{
-            //    var bridge = item.OpenPanel(parentPanel, panelName, data);
-            //    bridges.Add(bridge);
-            //}
+            var group = item;
+            BridgeObj bridgeObj = null;
+            UINodeBase uiNode = null;
+            var match = item.TryMatchPanel(parentName, panelName, out bridgeObj, out uiNode);
+            Debug.Log("TryMatchPanel:" + item);
+
+            if (match)
+            {
+                handle.RegistBridge(bridgeObj);
+                uiNode.OnCreate = (go) =>
+                {
+                    var b = go.GetComponent<IPanelBase>();
+                    if (b != null)
+                    {
+                        b.HandleData(bridgeObj);
+                    }
+                };
+                createrDic[group].CreatePanel(uiNode);
+            }
         }
-        return bridges.ToArray();
+
+        return handle;
     }
 }

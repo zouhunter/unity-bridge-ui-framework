@@ -20,35 +20,36 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
     public List<BridgeObj> bridges;
     private Dictionary<BridgeObj, BridgePool> poolDic = new Dictionary<BridgeObj, BridgePool>();
     private List<IPanelBase> createdPanels = new List<IPanelBase>();
+    private Stack<IPanelBase> hidedPanels = new Stack<IPanelBase>();
     public abstract List<UINodeBase> Nodes { get; }
     public abstract List<PanelGroupObj> SubGroups { get; }
     public Transform Trans { get { return transform; } }
+
     private IPanelCreater creater;
-    private List<string> opendLook = new List<string>();
 
-    public BridgeObj InstencePanel(string parentName, string panelName, IPanelBase root)
+    public BridgeObj InstencePanel(string parentName, string panelName, Transform root)
     {
+        BridgeObj bridge = null;
+        UINodeBase uiNode = null;
 
-            BridgeObj bridge = null;
-            UINodeBase uiNode = null;
-
-            if (TryMatchPanel(parentName, panelName, out bridge, out uiNode))
+        if (TryMatchPanel(parentName, panelName, out bridge, out uiNode))
+        {
+            uiNode.OnCreate = (go) =>
             {
-                uiNode.OnCreate = (go) =>
+                Utility.SetTranform(go.transform, uiNode.type, root == null ? Trans : root);
+                go.SetActive(true);
+                var panel = go.GetComponent<IPanelBase>();
+                if (panel != null)
                 {
-                    Utility.SetTranform(go, uiNode.type, root == null ? Trans : root.Content);
-                    go.SetActive(true);
-                    var panel = go.GetComponent<IPanelBase>();
-                    if (panel != null)
-                    {
-                        createdPanels.Add(panel);
-                        InitPanelByBridge(panel, root, bridge);
-                    }
-                };
-                creater.CreatePanel(uiNode);
-            }
-            return bridge;
-      
+                    panel.UType = uiNode.type;
+                    createdPanels.Add(panel);
+                    InitPanelByBridge(panel, bridge);
+                }
+            };
+            creater.CreatePanel(uiNode);
+        }
+        return bridge;
+
     }
 
     /// <summary>
@@ -57,14 +58,17 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
     /// <param name="panel"></param>
     /// <param name="root"></param>
     /// <param name="bridge"></param>
-    private void InitPanelByBridge(IPanelBase panel,IPanelBase root,BridgeObj bridge)
+    private void InitPanelByBridge(IPanelBase panel, BridgeObj bridge)
     {
-        if((bridge.showRule & ShowRule.Single) == ShowRule.Single){
-            opendLook.Add(panel.Name);//标记已经创建
-        }
-        if((bridge.showRule & ShowRule.HideParent) == ShowRule.HideParent)
+        var parent = createdPanels.Find(x => x.Name == bridge.inNode);
+        if ((bridge.showRule & ShowModel.HideParent) == ShowModel.HideParent)
         {
-            panel.Hide();
+            if (parent != null)
+            {
+                Utility.SetTranform(panel.PanelTrans, panel.UType, Trans);
+                parent.Hide();
+                hidedPanels.Push(parent);
+            }
         }
         panel.onDelete += OnDeletePanel;
         panel.HandleData(bridge);
@@ -75,13 +79,7 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
 
         if (bridge != null)
         {
-            if(createdPanels.Find(x=>x.Name == panelName) != null && (bridge.showRule & ShowRule.Single) == ShowRule.Single){
-                bridgeObj = null;
-            }
-            else
-            {
-                bridgeObj = poolDic[bridge].Allocate();
-            }
+            bridgeObj = poolDic[bridge].Allocate();
         }
         else
         {
@@ -125,9 +123,10 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
         {
             createdPanels.Remove(panel);
         }
-        if(opendLook.Contains(panel.Name))
+        while (hidedPanels.Count > 0)
         {
-            opendLook.Remove(panel.Name);
+            var item = hidedPanels.Pop();
+            item.UnHide();
         }
     }
 }

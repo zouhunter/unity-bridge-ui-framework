@@ -11,7 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 
 public enum CloseRule  {
-    Destroy,
-    HideOnly,
-    HideAndReset,
+    DestroyImmediate,//快速销毁并从内存中清除
+    DestroyDely,//延迟销毁
+    DestroyWithAnim,//播放销毁动画
 }

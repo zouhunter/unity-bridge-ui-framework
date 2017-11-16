@@ -11,7 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 
 public enum HideRule  {
-    AlaphZero,
-    HideChildObject,
-    HideGameObject
+    HideChildObject,//隐藏自己的可见物体
+    HideGameObject,//直接隐藏自己
+    MoveToPoint,//向空间移动
 }

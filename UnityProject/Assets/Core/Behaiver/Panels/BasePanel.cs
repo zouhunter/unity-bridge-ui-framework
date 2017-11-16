@@ -26,6 +26,16 @@ public class PanelBase :MonoBehaviour, IPanelBase
     [SerializeField]
     private Transform content;
     public Transform Content { get { return content == null ? transform:content; } }
+
+    public UIType UType { get; set; }
+    public Transform PanelTrans
+    {
+        get
+        {
+            return transform;
+        }
+    }
+
     public CloseRule closeRule;
     public HideRule hideRule;
     protected UIFacade selfFacade;
@@ -87,6 +97,10 @@ public class PanelBase :MonoBehaviour, IPanelBase
     public virtual void Hide()
     {
         gameObject.SetActive(false);
+    }
+    public virtual void UnHide()
+    {
+        gameObject.SetActive(true);
     }
 
     public virtual void Close()

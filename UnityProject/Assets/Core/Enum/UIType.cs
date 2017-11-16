@@ -10,9 +10,44 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 
-public enum UIType {
+
+public enum UIFormType
+{
+    Normal,
+    Fixed,
+    PopUp
+}
+
+public enum UILayerType
+{
     Bottom = 1,
-    Heap =2,
-    Pop =3,
-    Tip =4,
+    Middle = 2,
+    Top = 3
+}
+
+/// <summary>
+/// UI窗体透明度类型
+/// </summary>
+public enum UILucenyType
+{
+    //完全透明，不能穿透
+    Lucency,
+    //半透明，不能穿透
+    Translucence,
+    //低透明度，不能穿透
+    ImPenetrable,
+    //可以穿透
+    Pentrate
+}
+
+[System.Serializable]
+public class UIType
+{
+    //位置
+    public UIFormType form = UIFormType.Normal;
+    //层级
+    public UILayerType layer = UILayerType.Bottom;
+    //透明度
+    public UILucenyType luceny = UILucenyType.Lucency;
+
 }

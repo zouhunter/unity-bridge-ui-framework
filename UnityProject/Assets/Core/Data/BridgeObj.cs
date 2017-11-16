@@ -10,7 +10,7 @@ using UnityEngine.Events;
 public class BridgeObj : ScriptableObject {
 
     #region 加载规则
-    public ShowRule showRule;
+    public ShowModel showRule;
     public string inNode;
     public string outNode;
     #endregion

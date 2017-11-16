@@ -39,6 +39,7 @@ public sealed class UIFacade : IUIFacade
             if (!facadeDic.ContainsKey(id) || facadeDic[id] == null || facadeDic[id].parentPanel == null)
             {
                 facadeDic[id] = new UIFacade(parentPanel);
+                facadeDic[id].parentPanel = parentPanel;
             }
             return facadeDic[id];
         }
@@ -63,7 +64,7 @@ public sealed class UIFacade : IUIFacade
     private IPanelBase parentPanel;//如果有设置其为父transform
 
     private IPanelGroup currentGroup { get { return parentPanel == null ? null : parentPanel.Group; } }
-
+    private Transform Content { get { return parentPanel == null ? null : parentPanel.Content; } }
     private UIFacade() { }
 
     private UIFacade(IPanelBase parentPanel) : this() { this.parentPanel = parentPanel; }
@@ -116,7 +117,7 @@ public sealed class UIFacade : IUIFacade
 
     private void InternalOpen(IPanelGroup group,UIHandle handle,string parentName,string panelName)
     {
-        BridgeObj bridgeObj = group.InstencePanel(parentName, panelName, parentPanel);
+        BridgeObj bridgeObj = group.InstencePanel(parentName, panelName,Content);
         if (bridgeObj != null)
         {
             handle.RegistBridge(bridgeObj);

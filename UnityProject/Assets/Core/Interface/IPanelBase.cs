@@ -17,9 +17,12 @@ public interface IPanelBase {
     string Name { get; }
     int InstenceID { get; }
     IPanelGroup Group { get; set; }
+    UIType UType { get; set; }
+    Transform PanelTrans { get; }
     Transform Content { get; }
     event UnityAction<IPanelBase> onDelete;
     void HandleData(BridgeObj bridge);
     void Close();
     void Hide();
+    void UnHide();
 }

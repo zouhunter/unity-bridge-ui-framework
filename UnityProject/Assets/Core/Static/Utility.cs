@@ -2,9 +2,9 @@
 using System.Collections;
 
 public static class Utility {
-    public static void SetTranform(GameObject item, UIType type, Transform parent)
+    public static void SetTranform(Transform item, UIType type, Transform parent)
     {
-        string rootName = LayerToString(type);
+        string rootName = LayerToString(type.layer);
         var root = parent.transform.Find(rootName);
         if (root == null)
         {
@@ -48,23 +48,20 @@ public static class Utility {
         }
         item.transform.SetParent(root, !(item.GetComponent<Transform>() is RectTransform));
     }
-    public static string LayerToString(UIType layer, bool showint = true)
+    public static string LayerToString(UILayerType layer, bool showint = true)
     {
         string str = "";
         if (showint) str += (int)layer + "|";
 
         switch (layer)
         {
-            case UIType.Bottom:
-                str += "[Bottom]";
+            case UILayerType.Bottom:
+                str += "[B]";
                 break;
-            case UIType.Heap:
-                str += "[H]";
+            case UILayerType.Middle:
+                str += "[M]";
                 break;
-            case UIType.Pop:
-                str += "[P]";
-                break;
-            case UIType.Tip:
+            case UILayerType.Top:
                 str += "[T]";
                 break;
             default:

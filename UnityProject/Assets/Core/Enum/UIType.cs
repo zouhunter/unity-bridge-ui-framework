@@ -1,22 +1,14 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
-using UnityEngine.Events;
-using UnityEngine.Sprites;
-using UnityEngine.Scripting;
-using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
-using UnityEngine.Assertions.Must;
-using UnityEngine.Assertions.Comparers;
-using System.Collections;
-
-
+﻿/// <summary>
+/// 基本的窗口类型
+/// </summary>
 public enum UIFormType
 {
     Fixed,//固定窗口(只能打开单个)
     DragAble//可拖拽(可以打开多个小窗体)
 }
-
+/// <summary>
+/// 基本层级类型
+/// </summary>
 public enum UILayerType
 {
     Bottom = 1,
@@ -39,6 +31,9 @@ public enum UILucenyType
     Pentrate
 }
 
+/// <summary>
+/// ui的基本类型
+/// </summary>
 [System.Serializable]
 public class UIType
 {

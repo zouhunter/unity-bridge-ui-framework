@@ -21,7 +21,7 @@ public interface IPanelBase {
     Transform PanelTrans { get; }
     Transform Content { get; }
     event UnityAction<IPanelBase> onDelete;
-    void HandleData(BridgeObj bridge);
+    void HandleData(Bridge bridge);
     void Close();
     void Hide();
     void UnHide();

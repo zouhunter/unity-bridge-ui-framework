@@ -13,7 +13,7 @@ using System.Collections;
 /// ui节点信息的抽象父级
 /// [记录ui打开的规则]
 /// </summary>
-public abstract class UINodeBase :ScriptableObject{
+public abstract class UINodeBase{
     public string panelName;
     public int instanceID;
     public abstract string IDName { get; }

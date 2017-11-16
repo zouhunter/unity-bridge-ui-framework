@@ -6,17 +6,17 @@ using UnityEngine.Events;
 /// 记录面板之间的加载关联
 /// [同时用于之间的数据交流,使用时实例化对象]
 /// </summary>
-[CreateAssetMenu(menuName = "UI/bridgeobj")]
-public class BridgeObj : ScriptableObject {
+[System.Serializable]
+public class Bridge  {
 
     #region 加载规则
-    public ShowModel showRule;
+    public ShowModel showModel;
     public string inNode;
     public string outNode;
     #endregion
 
     #region 实例使用
-    public event UnityAction<BridgeObj> onRelease;
+    public event UnityAction<Bridge> onRelease;
 
     public Queue<object> dataQueue = new Queue<object>();
 

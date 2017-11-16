@@ -1,15 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
-using UnityEngine.Events;
-using UnityEngine.Sprites;
-using UnityEngine.Scripting;
-using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
-using UnityEngine.Assertions.Must;
-using UnityEngine.Assertions.Comparers;
 using System.Collections.Generic;
-using System;
 
 /// <summary>
 /// 界面操作接口
@@ -118,7 +108,7 @@ public sealed class UIFacade : IUIFacade
     private void InternalOpen(IPanelGroup group, UIHandle handle,  string panelName,object data = null)
     {
         var parentName = parentPanel == null ? "" : parentPanel.Name;
-        BridgeObj bridgeObj = group.InstencePanel(parentName, panelName, Content);
+        Bridge bridgeObj = group.InstencePanel(parentName, panelName, Content);
         if (bridgeObj != null)
         {
             bridgeObj.Send(data);

@@ -40,7 +40,7 @@ public class PanelBase :MonoBehaviour, IPanelBase
     public HideRule hideRule;
     protected UIFacade selfFacade;
 
-    protected BridgeObj bridge;
+    protected Bridge bridge;
 
     public event UnityAction<IPanelBase> onDelete;
 
@@ -52,10 +52,10 @@ public class PanelBase :MonoBehaviour, IPanelBase
         }
     }
 
-    public void HandleData(BridgeObj bridge)
+    public void HandleData(Bridge bridge)
     {
         this.bridge = bridge;
-        if (bridge){
+        if (bridge != null){
             HandleData(bridge.dataQueue);
             bridge.onGet = HandleData;
         }
@@ -85,7 +85,7 @@ public class PanelBase :MonoBehaviour, IPanelBase
 
     protected virtual void OnDestroy()
     {
-        if(bridge){
+        if(bridge != null){
             bridge.Release();
         }
         if(onDelete != null){

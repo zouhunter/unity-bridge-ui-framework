@@ -10,7 +10,7 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-[CreateAssetMenu(menuName = "UI/prefabuinode")]
+[System.Serializable]
 public class PrefabUINode : UINodeBase
 {
     public GameObject prefab;

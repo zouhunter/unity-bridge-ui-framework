@@ -14,7 +14,7 @@ using System.Collections.Generic;
 public class UIHandle {
     public string panelName { get;private set; }
 
-    private List<BridgeObj> bridges = new List<BridgeObj>();
+    private List<Bridge> bridges = new List<Bridge>();
 
     public UnityAction<string,object> callBack;
 
@@ -25,7 +25,7 @@ public class UIHandle {
         this.panelName = panelName;
     }
 
-    public void RegistBridge(BridgeObj obj)
+    public void RegistBridge(Bridge obj)
     {
         if(!bridges.Contains(obj))
         {
@@ -35,7 +35,7 @@ public class UIHandle {
         }
     }
 
-    public void UnRegistBridge(BridgeObj obj)
+    public void UnRegistBridge(Bridge obj)
     {
         if(bridges.Contains(obj))
         {

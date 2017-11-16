@@ -11,23 +11,27 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 
-public class BridgePool: IObjectPool<BridgeObj>
+public class BridgePool: IObjectPool<Bridge>
 {
-    private BridgeObj bridgePrefab;
-    private ObjectPool<BridgeObj> innerPool;
-    public BridgePool(BridgeObj bridgeObj)
+    private Bridge bridgePrefab;
+    private ObjectPool<Bridge> innerPool;
+    public BridgePool(Bridge bridgeObj)
     {
         this.bridgePrefab = bridgeObj;
-        innerPool = new ObjectPool<BridgeObj>(1, CreateInstence);
+        innerPool = new ObjectPool<Bridge>(1, CreateInstence);
     }
 
-    public BridgeObj Allocate()
+    public Bridge Allocate()
     {
         return innerPool.Allocate();
     }
 
-    public BridgeObj CreateInstence()
+    public Bridge CreateInstence()
     {
-        return Object.Instantiate(bridgePrefab);
+        var bridge = new Bridge();
+        bridge.inNode = bridgePrefab.inNode;
+        bridge.outNode = bridgePrefab.outNode;
+        bridge.showModel = bridgePrefab.showModel;
+        return bridge;
     }
 }

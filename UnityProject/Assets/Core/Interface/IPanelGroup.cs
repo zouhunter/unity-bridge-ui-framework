@@ -8,6 +8,6 @@ using System;
 /// </summary>
 public interface IPanelGroup  {
     Transform Trans { get; }
-    BridgeObj InstencePanel(string parentName, string panelName, Transform root);
+    Bridge InstencePanel(string parentName, string panelName, Transform root);
     IPanelBase[] RetrivePanels(string panelName);
 }

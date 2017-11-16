@@ -17,20 +17,20 @@ using System;
 /// </summary>
 public abstract class PanelGroup : MonoBehaviour, IPanelGroup
 {
-    public List<BridgeObj> bridges;
-    private Dictionary<BridgeObj, BridgePool> poolDic = new Dictionary<BridgeObj, BridgePool>();
+    public List<Bridge> bridges;
+    private Dictionary<Bridge, BridgePool> poolDic = new Dictionary<Bridge, BridgePool>();
     private List<IPanelBase> createdPanels = new List<IPanelBase>();
     private Stack<IPanelBase> hidedPanels = new Stack<IPanelBase>();
-    private Dictionary<IPanelBase, BridgeObj> bridgeDic = new Dictionary<IPanelBase, BridgeObj>();
+    private Dictionary<IPanelBase, Bridge> bridgeDic = new Dictionary<IPanelBase, Bridge>();
     public abstract List<UINodeBase> Nodes { get; }
     public abstract List<PanelGroupObj> SubGroups { get; }
     public Transform Trans { get { return transform; } }
 
     private IPanelCreater creater;
 
-    public BridgeObj InstencePanel(string parentName, string panelName, Transform root)
+    public Bridge InstencePanel(string parentName, string panelName, Transform root)
     {
-        BridgeObj bridge = null;
+        Bridge bridge = null;
 
         UINodeBase uiNode = null;
 
@@ -60,10 +60,10 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
     /// <param name="panel"></param>
     /// <param name="root"></param>
     /// <param name="bridge"></param>
-    private void InitPanelByBridge(IPanelBase panel, BridgeObj bridge)
+    private void InitPanelByBridge(IPanelBase panel, Bridge bridge)
     {
         var parent = createdPanels.Find(x => x.Name == bridge.inNode);
-        if ((bridge.showRule & ShowModel.HideParent) == ShowModel.HideParent)
+        if ((bridge.showModel & ShowModel.HideParent) == ShowModel.HideParent)
         {
             if (parent != null)
             {
@@ -75,7 +75,7 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
         panel.onDelete += OnDeletePanel;
         panel.HandleData(bridge);
     }
-    private bool TryMatchPanel(string parentName, string panelName, out BridgeObj bridgeObj, out UINodeBase uiNode)
+    private bool TryMatchPanel(string parentName, string panelName, out Bridge bridgeObj, out UINodeBase uiNode)
     {
         uiNode = Nodes.Find(x => x.panelName == panelName);
 

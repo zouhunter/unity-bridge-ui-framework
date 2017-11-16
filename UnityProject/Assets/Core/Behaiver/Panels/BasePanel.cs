@@ -23,8 +23,15 @@ public class PanelBase :MonoBehaviour, IPanelBase
     }
     public string Name { get { return name; } }
     public IPanelGroup Group { get; set; }
+    [SerializeField]
+    private Transform content;
+    public Transform Content { get { return content == null ? transform:content; } }
 
-    private BridgeObj bridge;
+    protected UIFacade selfFacade;
+
+    protected BridgeObj bridge;
+
+    public event UnityAction<IPanelBase> onDelete;
 
     public void CallBack(object data)
     {
@@ -44,7 +51,7 @@ public class PanelBase :MonoBehaviour, IPanelBase
         }
     }
 
-    private void HandleData(Queue<object> dataQueue)
+    protected virtual void HandleData(Queue<object> dataQueue)
     {
         if(dataQueue != null)
         {
@@ -61,11 +68,29 @@ public class PanelBase :MonoBehaviour, IPanelBase
         Debug.Log(data);
     }
 
-    private void OnDestroy()
+    protected virtual void Awake()
     {
-        if(bridge && bridge.onRelease != null)
-        {
-            bridge.onRelease();
+        selfFacade = UIFacade.CreatePanelFacade(this);
+    }
+
+    protected virtual void OnDestroy()
+    {
+        if(bridge){
+            bridge.Release();
+        }
+        if(onDelete != null){
+            onDelete.Invoke(this);
         }
     }
+
+    public virtual void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public virtual void Close()
+    {
+        Destroy(gameObject);
+    }
+
 }

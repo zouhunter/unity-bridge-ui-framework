@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 using System;
 
@@ -7,5 +8,6 @@ using System;
 /// </summary>
 public interface IPanelGroup  {
     Transform Trans { get; }
-    bool TryMatchPanel(string parentName, string panelName, out BridgeObj bridgeObj, out UINodeBase uiNode);
+    BridgeObj InstencePanel(string parentName, string panelName, IPanelBase parentPanel);
+    IPanelBase[] RetrivePanels(string panelName);
 }

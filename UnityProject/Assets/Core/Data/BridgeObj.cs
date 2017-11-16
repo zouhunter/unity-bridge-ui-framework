@@ -12,15 +12,13 @@ public class BridgeObj : ScriptableObject {
     #region 加载规则
     public CloseRule closeRule;
     public HideRule hideRule;
-    public OpenRule openRule;
+    public ShowRule showRule;
     public string inNode;
     public string outNode;
     #endregion
 
     #region 实例使用
-    private IPanelBase rootPanel;
-
-    public UnityAction onRelease { get; set; }
+    public event UnityAction<BridgeObj> onRelease;
 
     public Queue<object> dataQueue = new Queue<object>();
 
@@ -44,7 +42,7 @@ public class BridgeObj : ScriptableObject {
 
     public void Release()
     {
-        if (onRelease != null) onRelease();
+        if (onRelease != null) onRelease(this);
     }
     #endregion
 }

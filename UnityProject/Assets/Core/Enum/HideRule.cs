@@ -11,7 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 
 public enum HideRule  {
-    Alaph,
-    HideView,
-    HideAll
+    AlaphZero,
+    HideChildObject,
+    HideGameObject
 }

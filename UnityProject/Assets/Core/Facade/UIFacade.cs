@@ -20,14 +20,14 @@ public sealed class UIFacade : IUIFacade
     {
         get
         {
-            if (!instenceDic.ContainsKey(0) || instenceDic[0] == null)
+            if (!facadeDic.ContainsKey(0) || facadeDic[0] == null)
             {
-                instenceDic[0] = new UIFacade();
+                facadeDic[0] = new UIFacade();
             }
-            return instenceDic[0];
+            return facadeDic[0];
         }
     }
-    public static UIFacade GetInstence(IPanelBase parentPanel)
+    public static UIFacade CreatePanelFacade(IPanelBase parentPanel)
     {
         if (parentPanel == null)
         {
@@ -36,27 +36,31 @@ public sealed class UIFacade : IUIFacade
         else
         {
             var id = parentPanel.InstenceID;
-            if (!instenceDic.ContainsKey(id) || instenceDic[id] == null || instenceDic[id].parentPanel == null)
+            if (!facadeDic.ContainsKey(id) || facadeDic[id] == null || facadeDic[id].parentPanel == null)
             {
-                instenceDic[id] = new UIFacade(parentPanel);
+                facadeDic[id] = new UIFacade(parentPanel);
             }
-            return instenceDic[id];
+            return facadeDic[id];
+        }
+    }
+    public static void RemovePanelFacade(IPanelBase parentPanel)
+    {
+        if (parentPanel != null)
+        {
+            var id = parentPanel.InstenceID;
+            facadeDic.Remove(id);
         }
     }
     // Facade实例
-    private static Dictionary<int, UIFacade> instenceDic = new Dictionary<int, UIFacade>();
-    //生成器字典
-    private static Dictionary<IPanelGroup, IPanelCreater> createrDic = new Dictionary<IPanelGroup, IPanelCreater>();
-    // 已创建
-    private static List<IPanelBase> createdPanels = new List<IPanelBase>();
+    private static Dictionary<int, UIFacade> facadeDic = new Dictionary<int, UIFacade>();
     // 面板组
     private static List<IPanelGroup> groupList = new List<IPanelGroup>();
     //激活的handle
-    private static List<UIHandle> activeBridges = new List<UIHandle>();
+    private static List<UIHandle> createdHandle = new List<UIHandle>();
     //handle池
     private static UIHandlePool handlePool = new UIHandlePool();
 
-    private IPanelBase parentPanel;
+    private IPanelBase parentPanel;//如果有设置其为父transform
 
     private IPanelGroup currentGroup { get { return parentPanel == null ? null : parentPanel.Group; } }
 
@@ -69,8 +73,6 @@ public sealed class UIFacade : IUIFacade
         if (!groupList.Contains(group))
         {
             groupList.Add(group);
-            var creater = new PanelCreater(group.Trans);
-            createrDic[group] = creater;
         }
     }
 
@@ -79,38 +81,98 @@ public sealed class UIFacade : IUIFacade
         if (groupList.Contains(group))
         {
             groupList.Remove(group);
-            createrDic.Remove(group);
         }
     }
 
-    public UIHandle OpenPanel(string panelName, object data = null)
+    public UIHandle Open(string panelName, object data = null)
     {
         string parentName = parentPanel == null ? "" : parentPanel.Name;
         var handle = handlePool.Allocate();
+        handle.onRelease += AutoReleaseHandle;
+        createdHandle.Add(handle);
 
-        foreach (var item in groupList)
+        if(currentGroup != null)//限制性打开
         {
-            var group = item;
-            BridgeObj bridgeObj = null;
-            UINodeBase uiNode = null;
-            var match = item.TryMatchPanel(parentName, panelName, out bridgeObj, out uiNode);
-            Debug.Log("TryMatchPanel:" + item);
-
-            if (match)
+            InternalOpen(currentGroup, handle, parentName, panelName);
+        }
+        else
+        {
+            foreach (var group in groupList)
             {
-                handle.RegistBridge(bridgeObj);
-                uiNode.OnCreate = (go) =>
-                {
-                    var b = go.GetComponent<IPanelBase>();
-                    if (b != null)
-                    {
-                        b.HandleData(bridgeObj);
-                    }
-                };
-                createrDic[group].CreatePanel(uiNode);
+                InternalOpen(group, handle, parentName, panelName);
             }
         }
 
         return handle;
+    }
+
+    private void InternalOpen(IPanelGroup group,UIHandle handle,string parentName,string panelName)
+    {
+        BridgeObj bridgeObj = group.InstencePanel(parentName, panelName, parentPanel);
+        if (bridgeObj != null)
+        {
+            handle.RegistBridge(bridgeObj);
+        }
+    }
+
+    private void AutoReleaseHandle(UIHandle handle)
+    {
+        if(createdHandle.Contains(handle))
+        {
+            createdHandle.Remove(handle);
+        }
+    }
+
+    public void Hide(string panelName)
+    {
+        if (currentGroup != null)//限制性打开
+        {
+            InternalHide(currentGroup, panelName);
+        }
+        else
+        {
+            foreach (var group in groupList)
+            {
+                InternalHide(group, panelName);
+            }
+        }
+    }
+    private void InternalHide(IPanelGroup group,string panelName)
+    {
+        var panels = group.RetrivePanels(panelName);
+        if (panels != null)
+        {
+            foreach (var panel in panels)
+            {
+                panel.Hide();
+            }
+        }
+    }
+
+    public void Close(string panelName)
+    {
+        if (currentGroup != null)
+        {
+            InteralClose(currentGroup, panelName);
+        }
+        else
+        {
+            foreach (var group in groupList)
+            {
+                InteralClose(group, panelName);
+            }
+        }
+    }
+
+    private void InteralClose(IPanelGroup group, string panelName)
+    {
+        var panels = group.RetrivePanels(panelName);
+        if (panels != null)
+        {
+            foreach (var panel in panels)
+            {
+                panel.Close();
+            }
+        }
     }
 }

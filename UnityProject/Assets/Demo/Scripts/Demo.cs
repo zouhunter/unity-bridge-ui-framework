@@ -13,15 +13,25 @@ using System.Collections.Generic;
 
 public class Demo : MonoBehaviour
 {
+    private const string pane01 = "Panel01";
+    private UIFacade uiFacade;
+    private void Awake()
+    {
+        uiFacade = UIFacade.Instence; 
+    }
     private void OnGUI()
     {
-        if (GUILayout.Button("Open Panel01"))
+        if (GUILayout.Button("Open " + pane01))
         {
-            var handle = UIFacade.Instence.OpenPanel("Panel01");
+            var handle = uiFacade.Open(pane01);
             handle.callBack += (panel, data) =>
             {
                 Debug.Log(panel);
             };
+        }
+        if(GUILayout.Button("Close " + pane01))
+        {
+            uiFacade.Close(pane01);
         }
     }
 }

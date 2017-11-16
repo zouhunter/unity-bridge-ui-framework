@@ -12,25 +12,38 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class UIHandle {
+
     private List<BridgeObj> bridges = new List<BridgeObj>();
+
     public UnityAction<string,object> callBack;
+
+    public UnityAction<UIHandle> onRelease;
 
     public void RegistBridge(BridgeObj obj)
     {
         if(!bridges.Contains(obj))
         {
             obj.callBack += OnBridgeCallBack;
+            obj.onRelease += UnRegistBridge;
             bridges.Add(obj);
         }
     }
+
     public void UnRegistBridge(BridgeObj obj)
     {
         if(bridges.Contains(obj))
         {
             obj.callBack -= OnBridgeCallBack;
+            obj.onRelease -= UnRegistBridge;
             bridges.Remove(obj);
         }
+
+        if(bridges.Count == 0)
+        {
+            Release();
+        }
     }
+
     public void Send(object data)
     {
         foreach (var item in bridges)
@@ -45,5 +58,10 @@ public class UIHandle {
         {
             callBack.Invoke(panelName, data);
         }
+    }
+
+    public void Release()
+    {
+        if (onRelease != null) onRelease(this);
     }
 }

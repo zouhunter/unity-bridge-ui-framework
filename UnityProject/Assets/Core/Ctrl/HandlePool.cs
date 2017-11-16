@@ -22,7 +22,8 @@ public class UIHandlePool : IObjectPool<UIHandle>
 
     public UIHandle Allocate()
     {
-        return innerPool.Allocate();
+        var handle = innerPool.Allocate();
+        return handle;
     }
 
     private UIHandle CreateInstence()

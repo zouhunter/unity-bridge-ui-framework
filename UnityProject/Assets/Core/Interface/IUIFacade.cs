@@ -13,5 +13,7 @@ using System.Collections.Generic;
 
 public interface IUIFacade
 {
-    UIHandle OpenPanel(string panelName, object data = null);
+    UIHandle Open(string panelName, object data = null);
+    void Hide(string panelName);
+    void Close(string panelName);
 }

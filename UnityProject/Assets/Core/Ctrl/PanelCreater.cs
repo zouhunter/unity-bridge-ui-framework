@@ -2,27 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PanelCreater:IPanelCreater
+public class PanelCreater : IPanelCreater
 {
 #if AssetBundleTools
-        private AssetBundleLoader assetLoader;
+    private AssetBundleLoader assetLoader;
 #endif
     private List<string> _loadingKeys = new List<string>();
     private List<string> _cansaleKeys = new List<string>();
-    private Transform _root;
 
-    public PanelCreater(Transform root)
+    public PanelCreater()
     {
-        _root = root;
 #if AssetBundleTools
-            assetLoader = AssetBundleLoader.Instence;
+        assetLoader = AssetBundleLoader.Instence;
 #endif
     }
-    public PanelCreater(string url, string menu, Transform root)
+    public PanelCreater(string url, string menu)
     {
-        _root = root;
 #if AssetBundleTools
-            assetLoader = AssetBundleLoader.GetInstance(url, menu);
+        assetLoader = AssetBundleLoader.GetInstance(url, menu);
 #endif
     }
 
@@ -70,22 +67,18 @@ public class PanelCreater:IPanelCreater
     {
         var trigger = itemInfo as BundleUINode;
 #if AssetBundleTools
-            assetLoader.LoadAssetFromUrlAsync<GameObject>(trigger.bundleName, trigger.panelName, (x) =>
+        assetLoader.LoadAssetFromUrlAsync<GameObject>(trigger.bundleName, trigger.panelName, (x) =>
+        {
+            if (x != null)
             {
-                if (_root == null)
-                {
-                    Debug.Log("父节点已销毁");
-                }
-                else if (x != null)
-                {
-                    CreateInstance(x, trigger);
-                    _loadingKeys.Remove(trigger.IDName);
-                }
-                else
-                {
-                    Debug.Log(trigger.bundleName + ".." + trigger.panelName + "-->空");
-                }
-            });
+                CreateInstance(x, trigger);
+                _loadingKeys.Remove(trigger.IDName);
+            }
+            else
+            {
+                Debug.Log(trigger.bundleName + ".." + trigger.panelName + "-->空");
+            }
+        });
 #endif
     }
     /// <summary>
@@ -109,27 +102,28 @@ public class PanelCreater:IPanelCreater
     /// <summary>
     /// 获取对象实例
     /// </summary>
-    private void CreateInstance(GameObject prefab, UINodeBase trigger)
+    private void CreateInstance(GameObject prefab, UINodeBase nodeInfo)
     {
-        if (_cansaleKeys.Contains(trigger.panelName))
+        if (_cansaleKeys.Contains(nodeInfo.panelName))
         {
-            _cansaleKeys.Remove(trigger.panelName);
+            _cansaleKeys.Remove(nodeInfo.panelName);
             return;
         }
 
-        if (prefab == null || trigger == null)
+        if (prefab == null || nodeInfo == null)
         {
             return;
         }
 
         GameObject go = GameObject.Instantiate(prefab);
 
-        go.SetActive(true);
-        Utility.SetTranform(go, trigger.type, _root);
+        go.name = nodeInfo.panelName;
 
-        if (trigger.OnCreate != null)
-            trigger.OnCreate(go);
+        go.SetActive(true);
+
+        if (nodeInfo.OnCreate != null)
+            nodeInfo.OnCreate(go);
     }
 
-  
+
 }

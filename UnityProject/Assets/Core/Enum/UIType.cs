@@ -13,9 +13,8 @@ using System.Collections;
 
 public enum UIFormType
 {
-    Normal,
-    Fixed,
-    PopUp
+    Fixed,//固定窗口(只能打开单个)
+    DragAble//可拖拽(可以打开多个小窗体)
 }
 
 public enum UILayerType
@@ -44,7 +43,7 @@ public enum UILucenyType
 public class UIType
 {
     //位置
-    public UIFormType form = UIFormType.Normal;
+    public UIFormType form = UIFormType.Fixed;
     //层级
     public UILayerType layer = UILayerType.Bottom;
     //透明度

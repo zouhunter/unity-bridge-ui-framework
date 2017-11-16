@@ -55,8 +55,7 @@ public class PanelBase :MonoBehaviour, IPanelBase
     public void HandleData(BridgeObj bridge)
     {
         this.bridge = bridge;
-        if (bridge)
-        {
+        if (bridge){
             HandleData(bridge.dataQueue);
             bridge.onGet = HandleData;
         }

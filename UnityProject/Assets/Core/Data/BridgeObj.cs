@@ -24,11 +24,10 @@ public class BridgeObj : ScriptableObject {
 
     public UnityAction<Queue<object>> onGet;
 
-    public void QueueSend(object data)
+    public void Send(object data)
     {
         dataQueue.Enqueue(data);
-        if(onGet != null)
-        {
+        if(onGet != null){
             onGet.Invoke(dataQueue);
         }
     }

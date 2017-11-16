@@ -18,7 +18,7 @@ public class UIHandle {
 
     public UnityAction<string,object> callBack;
 
-    public UnityAction<string> onRelease;
+    public UnityAction<string> onRelease { get; set; }
 
     public void ResetHandle(string panelName)
     {
@@ -54,7 +54,7 @@ public class UIHandle {
     {
         foreach (var item in bridges)
         {
-            item.QueueSend(data);
+            item.Send(data);
         }
     }
 
@@ -69,6 +69,8 @@ public class UIHandle {
     public void Release()
     {
         if (onRelease != null)
+        {
             onRelease(panelName);
+        }
     }
 }

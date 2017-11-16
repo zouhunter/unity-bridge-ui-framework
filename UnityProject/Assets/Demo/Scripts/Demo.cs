@@ -23,19 +23,21 @@ public class Demo : MonoBehaviour
     {
         if (GUILayout.Button("Open(1) " + pane01))
         {
-            var handle = uiFacade.Open(pane01);
-            handle.callBack += (panel, data) =>
+            var handle = uiFacade.Open(pane01,"你好panel01");
+            handle.callBack = (panel, data) =>
             {
                 Debug.Log(panel);
             };
+            handle.Send("你好panel01 _ send");
         }
         if (GUILayout.Button("Open(2) " + pane01))
         {
             var handle = uiFacade.Open(pane01);
-            handle.callBack += (panel, data) =>
+            handle.callBack = (panel, data) =>
             {
-                Debug.Log(panel);
+                handle.Send("你好panel01 _ callback");
             };
+
         }
         if (GUILayout.Button("Close " + pane01))
         {

@@ -21,6 +21,7 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
     private Dictionary<BridgeObj, BridgePool> poolDic = new Dictionary<BridgeObj, BridgePool>();
     private List<IPanelBase> createdPanels = new List<IPanelBase>();
     private Stack<IPanelBase> hidedPanels = new Stack<IPanelBase>();
+    private Dictionary<IPanelBase, BridgeObj> bridgeDic = new Dictionary<IPanelBase, BridgeObj>();
     public abstract List<UINodeBase> Nodes { get; }
     public abstract List<PanelGroupObj> SubGroups { get; }
     public Transform Trans { get { return transform; } }
@@ -30,6 +31,7 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
     public BridgeObj InstencePanel(string parentName, string panelName, Transform root)
     {
         BridgeObj bridge = null;
+
         UINodeBase uiNode = null;
 
         if (TryMatchPanel(parentName, panelName, out bridge, out uiNode))
@@ -43,13 +45,13 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
                 {
                     panel.UType = uiNode.type;
                     createdPanels.Add(panel);
+                    bridgeDic.Add(panel, bridge);
                     InitPanelByBridge(panel, bridge);
                 }
             };
             creater.CreatePanel(uiNode);
         }
         return bridge;
-
     }
 
     /// <summary>
@@ -75,6 +77,18 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
     }
     private bool TryMatchPanel(string parentName, string panelName, out BridgeObj bridgeObj, out UINodeBase uiNode)
     {
+        uiNode = Nodes.Find(x => x.panelName == panelName);
+
+        if (uiNode != null && uiNode.type.form == UIFormType.Fixed)
+        {
+            var oldPanel = createdPanels.Find(x => x.Name == panelName);
+            if (oldPanel != null)
+            {
+                bridgeObj = bridgeDic[oldPanel];
+                return false;
+            }
+        }
+
         var bridge = bridges.Find(x => x.inNode == parentName && x.outNode == panelName);
 
         if (bridge != null)
@@ -85,8 +99,6 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
         {
             bridgeObj = null;
         }
-
-        uiNode = Nodes.Find(x => x.panelName == panelName);
 
         return uiNode != null && bridgeObj != null;
     }
@@ -122,6 +134,10 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
         if (createdPanels.Contains(panel))
         {
             createdPanels.Remove(panel);
+        }
+        if(bridgeDic.ContainsKey(panel))
+        {
+            bridgeDic.Remove(panel);
         }
         while (hidedPanels.Count > 0)
         {

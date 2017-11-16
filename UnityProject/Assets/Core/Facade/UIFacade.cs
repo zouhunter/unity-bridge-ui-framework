@@ -57,12 +57,11 @@ public sealed class UIFacade : IUIFacade
     // 面板组
     private static List<IPanelGroup> groupList = new List<IPanelGroup>();
     //激活的handle
-    private static Dictionary<string,UIHandle> createdHandle = new Dictionary<string, UIHandle>();
+    private static Dictionary<string, UIHandle> createdHandle = new Dictionary<string, UIHandle>();
     //handle池
     private static UIHandlePool handlePool = new UIHandlePool();
 
     private IPanelBase parentPanel;//如果有设置其为父transform
-
     private IPanelGroup currentGroup { get { return parentPanel == null ? null : parentPanel.Group; } }
     private Transform Content { get { return parentPanel == null ? null : parentPanel.Content; } }
     private UIFacade() { }
@@ -87,47 +86,49 @@ public sealed class UIFacade : IUIFacade
 
     public UIHandle Open(string panelName, object data = null)
     {
-        if(createdHandle.ContainsKey(panelName))
+        if (!createdHandle.ContainsKey(panelName))
         {
-            return createdHandle[panelName];
+            var hd = CreateHandle(panelName);
+            createdHandle.Add(panelName, hd);
+        }
+
+        var handle = createdHandle[panelName];
+
+        if (currentGroup != null)//限制性打开
+        {
+            InternalOpen(currentGroup, handle, panelName,data);
         }
         else
         {
-            string parentName = parentPanel == null ? "" : parentPanel.Name;
-            var handle = handlePool.Allocate(panelName);
-            handle.onRelease += AutoReleaseHandle;
-            createdHandle.Add(panelName, handle);
-
-            if (currentGroup != null)//限制性打开
+            foreach (var group in groupList)
             {
-                InternalOpen(currentGroup, handle, parentName, panelName);
+                InternalOpen(group, handle, panelName, data);
             }
-            else
-            {
-                foreach (var group in groupList)
-                {
-                    InternalOpen(group, handle, parentName, panelName);
-                }
-            }
-
-            return handle;
         }
-     
+        return handle;
+    }
+    private UIHandle CreateHandle(string panelName)
+    {
+        string parentName = parentPanel == null ? "" : parentPanel.Name;
+        var handle = handlePool.Allocate(panelName);
+        handle.onRelease = AutoReleaseHandle;
+        return handle;
     }
 
-    private void InternalOpen(IPanelGroup group,UIHandle handle,string parentName,string panelName)
+    private void InternalOpen(IPanelGroup group, UIHandle handle,  string panelName,object data = null)
     {
-        BridgeObj bridgeObj = group.InstencePanel(parentName, panelName,Content);
+        var parentName = parentPanel == null ? "" : parentPanel.Name;
+        BridgeObj bridgeObj = group.InstencePanel(parentName, panelName, Content);
         if (bridgeObj != null)
         {
+            bridgeObj.Send(data);
             handle.RegistBridge(bridgeObj);
         }
     }
 
     private void AutoReleaseHandle(string panelName)
     {
-        Debug.Log("Release Handle:" + panelName);
-        if(createdHandle.ContainsKey(panelName))
+        if (createdHandle.ContainsKey(panelName))
         {
             createdHandle.Remove(panelName);
         }
@@ -147,7 +148,7 @@ public sealed class UIFacade : IUIFacade
             }
         }
     }
-    private void InternalHide(IPanelGroup group,string panelName)
+    private void InternalHide(IPanelGroup group, string panelName)
     {
         var panels = group.RetrivePanels(panelName);
         if (panels != null)

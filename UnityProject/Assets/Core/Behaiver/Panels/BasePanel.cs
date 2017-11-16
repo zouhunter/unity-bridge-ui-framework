@@ -26,7 +26,8 @@ public class PanelBase :MonoBehaviour, IPanelBase
     [SerializeField]
     private Transform content;
     public Transform Content { get { return content == null ? transform:content; } }
-
+    public CloseRule closeRule;
+    public HideRule hideRule;
     protected UIFacade selfFacade;
 
     protected BridgeObj bridge;

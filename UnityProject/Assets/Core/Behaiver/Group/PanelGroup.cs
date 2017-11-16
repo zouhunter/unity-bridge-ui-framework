@@ -28,24 +28,27 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
 
     public BridgeObj InstencePanel(string parentName, string panelName, IPanelBase root)
     {
-        BridgeObj bridge = null;
-        UINodeBase uiNode = null;
 
-        if (TryMatchPanel(parentName, panelName, out bridge, out uiNode))
-        {
-            uiNode.OnCreate = (go) =>
+            BridgeObj bridge = null;
+            UINodeBase uiNode = null;
+
+            if (TryMatchPanel(parentName, panelName, out bridge, out uiNode))
             {
-                Utility.SetTranform(go, uiNode.type, root == null ? Trans : root.Content);
-                var panel = go.GetComponent<IPanelBase>();
-                if (panel != null)
+                uiNode.OnCreate = (go) =>
                 {
-                    createdPanels.Add(panel);
-                    InitPanelByBridge(panel,root,bridge);
-                }
-            };
-            creater.CreatePanel(uiNode);
-        }
-        return bridge;
+                    Utility.SetTranform(go, uiNode.type, root == null ? Trans : root.Content);
+                    go.SetActive(true);
+                    var panel = go.GetComponent<IPanelBase>();
+                    if (panel != null)
+                    {
+                        createdPanels.Add(panel);
+                        InitPanelByBridge(panel, root, bridge);
+                    }
+                };
+                creater.CreatePanel(uiNode);
+            }
+            return bridge;
+      
     }
 
     /// <summary>
@@ -58,6 +61,10 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
     {
         if((bridge.showRule & ShowRule.Single) == ShowRule.Single){
             opendLook.Add(panel.Name);//标记已经创建
+        }
+        if((bridge.showRule & ShowRule.HideParent) == ShowRule.HideParent)
+        {
+            panel.Hide();
         }
         panel.onDelete += OnDeletePanel;
         panel.HandleData(bridge);

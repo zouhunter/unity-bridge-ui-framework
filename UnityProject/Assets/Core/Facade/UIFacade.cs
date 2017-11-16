@@ -56,7 +56,7 @@ public sealed class UIFacade : IUIFacade
     // 面板组
     private static List<IPanelGroup> groupList = new List<IPanelGroup>();
     //激活的handle
-    private static List<UIHandle> createdHandle = new List<UIHandle>();
+    private static Dictionary<string,UIHandle> createdHandle = new Dictionary<string, UIHandle>();
     //handle池
     private static UIHandlePool handlePool = new UIHandlePool();
 
@@ -86,24 +86,32 @@ public sealed class UIFacade : IUIFacade
 
     public UIHandle Open(string panelName, object data = null)
     {
-        string parentName = parentPanel == null ? "" : parentPanel.Name;
-        var handle = handlePool.Allocate();
-        handle.onRelease += AutoReleaseHandle;
-        createdHandle.Add(handle);
-
-        if(currentGroup != null)//限制性打开
+        if(createdHandle.ContainsKey(panelName))
         {
-            InternalOpen(currentGroup, handle, parentName, panelName);
+            return createdHandle[panelName];
         }
         else
         {
-            foreach (var group in groupList)
-            {
-                InternalOpen(group, handle, parentName, panelName);
-            }
-        }
+            string parentName = parentPanel == null ? "" : parentPanel.Name;
+            var handle = handlePool.Allocate(panelName);
+            handle.onRelease += AutoReleaseHandle;
+            createdHandle.Add(panelName, handle);
 
-        return handle;
+            if (currentGroup != null)//限制性打开
+            {
+                InternalOpen(currentGroup, handle, parentName, panelName);
+            }
+            else
+            {
+                foreach (var group in groupList)
+                {
+                    InternalOpen(group, handle, parentName, panelName);
+                }
+            }
+
+            return handle;
+        }
+     
     }
 
     private void InternalOpen(IPanelGroup group,UIHandle handle,string parentName,string panelName)
@@ -115,11 +123,12 @@ public sealed class UIFacade : IUIFacade
         }
     }
 
-    private void AutoReleaseHandle(UIHandle handle)
+    private void AutoReleaseHandle(string panelName)
     {
-        if(createdHandle.Contains(handle))
+        Debug.Log("Release Handle:" + panelName);
+        if(createdHandle.ContainsKey(panelName))
         {
-            createdHandle.Remove(handle);
+            createdHandle.Remove(panelName);
         }
     }
 

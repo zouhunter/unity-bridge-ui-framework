@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class UIHandlePool : IObjectPool<UIHandle>
+public class UIHandlePool 
 {
     private ObjectPool<UIHandle> innerPool;
     public UIHandlePool()
@@ -20,9 +20,10 @@ public class UIHandlePool : IObjectPool<UIHandle>
         innerPool = new ObjectPool<UIHandle>(1,CreateInstence);
     }
 
-    public UIHandle Allocate()
+    public UIHandle Allocate(string panelName)
     {
         var handle = innerPool.Allocate();
+        handle.ResetHandle(panelName);
         return handle;
     }
 

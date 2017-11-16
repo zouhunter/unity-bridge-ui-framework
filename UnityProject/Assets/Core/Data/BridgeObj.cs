@@ -10,8 +10,6 @@ using UnityEngine.Events;
 public class BridgeObj : ScriptableObject {
 
     #region 加载规则
-    public CloseRule closeRule;
-    public HideRule hideRule;
     public ShowRule showRule;
     public string inNode;
     public string outNode;
@@ -42,7 +40,8 @@ public class BridgeObj : ScriptableObject {
 
     public void Release()
     {
-        if (onRelease != null) onRelease(this);
+        if (onRelease != null)
+            onRelease(this);
     }
     #endregion
 }

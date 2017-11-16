@@ -21,7 +21,7 @@ public class Demo : MonoBehaviour
     }
     private void OnGUI()
     {
-        if (GUILayout.Button("Open " + pane01))
+        if (GUILayout.Button("Open(1) " + pane01))
         {
             var handle = uiFacade.Open(pane01);
             handle.callBack += (panel, data) =>
@@ -29,9 +29,21 @@ public class Demo : MonoBehaviour
                 Debug.Log(panel);
             };
         }
-        if(GUILayout.Button("Close " + pane01))
+        if (GUILayout.Button("Open(2) " + pane01))
+        {
+            var handle = uiFacade.Open(pane01);
+            handle.callBack += (panel, data) =>
+            {
+                Debug.Log(panel);
+            };
+        }
+        if (GUILayout.Button("Close " + pane01))
         {
             uiFacade.Close(pane01);
+        }
+        if (GUILayout.Button("Hide " + pane01))
+        {
+            uiFacade.Hide(pane01);
         }
     }
 }

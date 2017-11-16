@@ -12,12 +12,18 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class UIHandle {
+    public string panelName { get;private set; }
 
     private List<BridgeObj> bridges = new List<BridgeObj>();
 
     public UnityAction<string,object> callBack;
 
-    public UnityAction<UIHandle> onRelease;
+    public UnityAction<string> onRelease;
+
+    public void ResetHandle(string panelName)
+    {
+        this.panelName = panelName;
+    }
 
     public void RegistBridge(BridgeObj obj)
     {
@@ -62,6 +68,7 @@ public class UIHandle {
 
     public void Release()
     {
-        if (onRelease != null) onRelease(this);
+        if (onRelease != null)
+            onRelease(panelName);
     }
 }

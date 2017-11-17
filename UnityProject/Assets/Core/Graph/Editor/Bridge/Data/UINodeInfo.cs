@@ -10,7 +10,7 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-
+[SerializeField]
 public class NodeInfo {
     public LoadType type;
     public UIType uiType;

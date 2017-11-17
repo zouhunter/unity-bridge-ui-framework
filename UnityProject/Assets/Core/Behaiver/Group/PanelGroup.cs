@@ -11,12 +11,16 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+
 /// <summary>
 /// 用于标记ui打开的父级
 /// [3维场景中可能有多个地方需要打开用户界面]
 /// </summary>
 public class PanelGroup : MonoBehaviour, IPanelGroup
 {
+#if UNITY_EDITOR
+    public string createrGuid;
+#endif
     public LoadType loadType;
     public List<BundleUIInfo> b_nodes;
     public List<PrefabUIInfo> p_nodes;

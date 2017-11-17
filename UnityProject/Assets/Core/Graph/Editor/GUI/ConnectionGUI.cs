@@ -142,20 +142,14 @@ namespace NodeGraph {
 			var startTan = new Vector3(startPoint.x + pointDistanceX, centerPoint.y, 0f);
 			var endTan = new Vector3(endPoint.x - pointDistanceX, centerPoint.y, 0f);
 
-			var totalAssets = 0;
-			var totalGroups = 0;
-			//if(assetGroups != null) {
-			//	totalAssets = assetGroups.Select(v => v.Value.Count).Sum();
-			//	totalGroups = assetGroups.Keys.Count;
-			//}
 
 			Color lineColor;
-			var lineWidth = (totalAssets > 0) ? 3f : 2f;
+            var lineWidth = 3;// (totalAssets > 0) ? 3f : 2f;
 
 			if(IsSelected) {
 				lineColor = Model.Settings.GUI.COLOR_ENABLED;
 			} else {
-				lineColor = (totalAssets > 0) ? Model.Settings.GUI.COLOR_CONNECTED : Model.Settings.GUI.COLOR_NOT_CONNECTED;
+				lineColor = /*(totalAssets > 0) ? Model.Settings.GUI.COLOR_CONNECTED :*/ Model.Settings.GUI.COLOR_NOT_CONNECTED;
 			}
 
 			ConnectionGUIUtility.HandleMaterial.SetPass(0);
@@ -186,12 +180,12 @@ namespace NodeGraph {
 				}
 			}
 
-			string connectionLabel;
-			if(totalGroups > 1) {
-				connectionLabel = string.Format("{0}:{1}", totalAssets, totalGroups);
-			} else {
-				connectionLabel = string.Format("{0}", totalAssets);
-			}
+			string connectionLabel = "[b]";
+			//if(totalGroups > 1) {
+			//	connectionLabel = string.Format("{0}:{1}", totalAssets, totalGroups);
+			//} else {
+			//	connectionLabel = string.Format("{0}", totalAssets);
+			//}
 
 			var style = new GUIStyle(connectionButtonStyle);
 

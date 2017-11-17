@@ -29,7 +29,7 @@ namespace NodeGraph {
 				if (GUILayout.Button(Styles.kEDITBUTTON, GUILayout.Width(150f), GUILayout.ExpandWidth(false)))
 				{
 					// Get the target we are inspecting and open the graph
-					var window = EditorWindow.GetWindow<NodeGraphWindow>();
+					var window = EditorWindow.GetWindow<UIConfigWindow>();
 					window.OpenGraph(graph);
 				}
 			}

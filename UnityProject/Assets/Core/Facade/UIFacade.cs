@@ -99,7 +99,6 @@ public sealed class UIFacade : IUIFacade
     }
     private UIHandle CreateHandle(string panelName)
     {
-        string parentName = parentPanel == null ? "" : parentPanel.Name;
         var handle = handlePool.Allocate(panelName);
         handle.onRelease = AutoReleaseHandle;
         return handle;

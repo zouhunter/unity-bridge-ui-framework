@@ -15,18 +15,49 @@ using System;
 /// 用于标记ui打开的父级
 /// [3维场景中可能有多个地方需要打开用户界面]
 /// </summary>
-public abstract class PanelGroup : MonoBehaviour, IPanelGroup
+public class PanelGroup : MonoBehaviour, IPanelGroup
 {
+    public LoadType loadType;
+    public List<BundleUIInfo> b_nodes;
+    public List<PrefabUIInfo> p_nodes;
     public List<Bridge> bridges;
+    public List<PanelGroupObj> subGroups;
+
     private Dictionary<Bridge, BridgePool> poolDic = new Dictionary<Bridge, BridgePool>();
     private List<IPanelBase> createdPanels = new List<IPanelBase>();
     private Stack<IPanelBase> hidedPanels = new Stack<IPanelBase>();
     private Dictionary<IPanelBase, Bridge> bridgeDic = new Dictionary<IPanelBase, Bridge>();
-    public abstract List<UIInfoBase> Nodes { get; }
-    public abstract List<PanelGroupObj> SubGroups { get; }
+    private List<UIInfoBase> activeNodes;
+    public List<UIInfoBase> Nodes { get { return activeNodes; } }
+
     public Transform Trans { get { return transform; } }
 
-    private IPanelCreater creater;
+    private IPanelCreater creater = new PanelCreater();
+
+    void Awake()
+    {
+        RegistUINodes();
+        RegistBridgePool();
+        UIFacade.RegistGroup(this);
+    }
+
+    private void RegistUINodes()
+    {
+        activeNodes = new List<UIInfoBase>();
+        if ((loadType & LoadType.Prefab) == LoadType.Prefab)
+        {
+            activeNodes.AddRange(b_nodes.ConvertAll<UIInfoBase>(x => x));
+        }
+        if ((loadType & LoadType.Prefab) == LoadType.Prefab)
+        {
+            activeNodes.AddRange(p_nodes.ConvertAll<UIInfoBase>(x => x));
+        }
+
+        foreach (var item in subGroups)
+        {
+            item.RegistUINodes(activeNodes,bridges);
+        }
+    }
 
     public Bridge InstencePanel(string parentName, string panelName, Transform root)
     {
@@ -103,12 +134,6 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
         return uiNode != null && bridgeObj != null;
     }
 
-    protected virtual void Awake()
-    {
-        creater = new PanelCreater();
-        UIFacade.RegistGroup(this);
-        RegistBridgePool();
-    }
     /// <summary>
     /// bridge生成池
     /// </summary>

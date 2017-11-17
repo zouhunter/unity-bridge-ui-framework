@@ -103,7 +103,7 @@ namespace NodeGraph.DataModel.Version2 {
                         var fileInfo = new FileInfo(configGuiPath);
                         var baseDir = fileInfo.Directory.Parent.Parent.Parent.Parent;
 
-                    UnityEngine.Assertions.Assert.AreEqual ("NodeGraph", baseDir.Name);
+                    UnityEngine.Assertions.Assert.AreEqual ("Graph", baseDir.Name);
 
 						string baseDirPath = baseDir.ToString ().Replace( '\\', '/');
 

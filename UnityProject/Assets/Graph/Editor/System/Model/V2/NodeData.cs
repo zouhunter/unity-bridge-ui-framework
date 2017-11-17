@@ -273,14 +273,14 @@ namespace NodeGraph.DataModel.Version2 {
 			NodeDataImporter imp = null;
 			Node n = null;
 
-			switch(v1.Kind) {
-			case V1.NodeKind.LOADER_GUI:
-				{
-					var v = new Loader();
-					imp = v;
-					n   = v;
-				}
-				break;
+			//switch(v1.Kind) {
+			//case V1.NodeKind.LOADER_GUI:
+			//	{
+			//		var v = new Loader();
+			//		imp = v;
+			//		n   = v;
+			//	}
+			//	break;
 			//case V1.NodeKind.FILTER_GUI:
 			//	{
 			//		var v = new Filter();
@@ -288,13 +288,13 @@ namespace NodeGraph.DataModel.Version2 {
 			//		n   = v;
 			//	}
 			//	break;
-			case V1.NodeKind.IMPORTSETTING_GUI:
-				{
-					var v = new ImportSetting();
-					imp = v;
-					n   = v;
-				}
-				break;
+			//case V1.NodeKind.IMPORTSETTING_GUI:
+			//	{
+			//		var v = new ImportSetting();
+			//		imp = v;
+			//		n   = v;
+			//	}
+			//	break;
 			//case V1.NodeKind.MODIFIER_GUI:
 			//	{
 			//		var v = new Modifier();
@@ -302,13 +302,13 @@ namespace NodeGraph.DataModel.Version2 {
 			//		n   = v;
 			//	}
 			//	break;
-			case V1.NodeKind.GROUPING_GUI:
-				{
-					var v = new Grouping();
-					imp = v;
-					n   = v;
-				}
-				break;
+			//case V1.NodeKind.GROUPING_GUI:
+			//	{
+			//		var v = new Grouping();
+			//		imp = v;
+			//		n   = v;
+			//	}
+			//	break;
 			//case V1.NodeKind.PREFABBUILDER_GUI:
 			//	{
 			//		var v = new PrefabBuilder();
@@ -316,13 +316,13 @@ namespace NodeGraph.DataModel.Version2 {
 			//		n   = v;
 			//	}
 			//	break;
-			case V1.NodeKind.BUNDLECONFIG_GUI:
-				{
-					var v = new BundleConfigurator();
-					imp = v;
-					n   = v;
-				}
-				break;
+			//case V1.NodeKind.BUNDLECONFIG_GUI:
+			//	{
+			//		var v = new BundleConfigurator();
+			//		imp = v;
+			//		n   = v;
+			//	}
+			//	break;
 			//case V1.NodeKind.BUNDLEBUILDER_GUI:
 			//	{
 			//		var v = new BundleBuilder();
@@ -330,14 +330,14 @@ namespace NodeGraph.DataModel.Version2 {
 			//		n   = v;
 			//	}
 			//	break;
-			case V1.NodeKind.EXPORTER_GUI:
-				{
-					var v = new Exporter();
-					imp = v;
-					n   = v;
-				}
-				break;
-			}
+			//case V1.NodeKind.EXPORTER_GUI:
+			//	{
+			//		var v = new Exporter();
+			//		imp = v;
+			//		n   = v;
+			//	}
+			//	break;
+			//}
 
 			n.Initialize(data);
 			imp.Import(v1, data);

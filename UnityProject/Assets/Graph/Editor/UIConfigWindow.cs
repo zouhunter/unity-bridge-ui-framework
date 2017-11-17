@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 
 using System;
@@ -12,19 +12,22 @@ using Model = NodeGraph.DataModel.Version2;
 using NodeGraph;
 
 ///*namespace NodeGraph */{
-public class NodeGraphWindow : EditorWindow
+public class UIConfigWindow : EditorWindow
 {
     public class Settings
     {
-        public const string GUI_TEXT_MENU_OPEN = "Window/NodeGraph";
+        public const string GUI_TEXT_MENU_OPEN = "Window/NodeGraph/UIConfig";
     }
 
     [Serializable]
     public class SavedSelection
     {
-        [SerializeField] public List<NodeGUI> nodes;
-        [SerializeField] public List<ConnectionGUI> connections;
-        [SerializeField] private float m_pasteOffset = kPasteOffset;
+        [SerializeField]
+        public List<NodeGUI> nodes;
+        [SerializeField]
+        public List<ConnectionGUI> connections;
+        [SerializeField]
+        private float m_pasteOffset = kPasteOffset;
 
         static readonly float kPasteOffset = 20.0f;
 
@@ -163,11 +166,15 @@ public class NodeGraphWindow : EditorWindow
         SCRIPT_ASSETGENERATOR
     }
 
-    [SerializeField] private List<NodeGUI> nodes = new List<NodeGUI>();
-    [SerializeField] private List<ConnectionGUI> connections = new List<ConnectionGUI>();
+    [SerializeField]
+    private List<NodeGUI> nodes = new List<NodeGUI>();
+    [SerializeField]
+    private List<ConnectionGUI> connections = new List<ConnectionGUI>();
 
-    [SerializeField] private SavedSelection activeSelection = null;
-    [SerializeField] private SavedSelection copiedSelection = null;
+    [SerializeField]
+    private SavedSelection activeSelection = null;
+    [SerializeField]
+    private SavedSelection copiedSelection = null;
 
     private bool showErrors;
     private bool showVerboseLog;
@@ -222,11 +229,11 @@ public class NodeGraphWindow : EditorWindow
      * An alternative way to get Window, becuase
      * GetWindow<AssetBundleGraphEditorWindow>() forces window to be active and present
      */
-    private static NodeGraphWindow Window
+    private static UIConfigWindow Window
     {
         get
         {
-            NodeGraphWindow[] windows = Resources.FindObjectsOfTypeAll<NodeGraphWindow>();
+            UIConfigWindow[] windows = Resources.FindObjectsOfTypeAll<UIConfigWindow>();
             if (windows.Length > 0)
             {
                 return windows[0];
@@ -347,7 +354,7 @@ public class NodeGraphWindow : EditorWindow
     [MenuItem(Settings.GUI_TEXT_MENU_OPEN, false, 1)]
     public static void Open()
     {
-        GetWindow<NodeGraphWindow>();
+        GetWindow<UIConfigWindow>();
     }
 
     //[MenuItem(Model.Settings.GUI_TEXT_MENU_DELETE_CACHE)]
@@ -516,18 +523,18 @@ public class NodeGraphWindow : EditorWindow
         }
     }
 
-    [UnityEditor.Callbacks.OnOpenAsset()]
-    public static bool OnOpenAsset(int instanceID, int line)
-    {
-        var graph = EditorUtility.InstanceIDToObject(instanceID) as Model.ConfigGraph;
-        if (graph != null)
-        {
-            var window = GetWindow<NodeGraphWindow>();
-            window.OpenGraph(graph);
-            return true;
-        }
-        return false;
-    }
+    //[UnityEditor.Callbacks.OnOpenAsset()]
+    //public static bool OnOpenAsset(int instanceID, int line)
+    //{
+    //    var graph = EditorUtility.InstanceIDToObject(instanceID) as Model.ConfigGraph;
+    //    if (graph != null)
+    //    {
+    //        var window = GetWindow<NodeGraphWindow>();
+    //        window.OpenGraph(graph);
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
     public void OpenGraph(string path)
     {
@@ -844,37 +851,37 @@ public class NodeGraphWindow : EditorWindow
         }
     }
 
-    private void OnAssetsReimported(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
-    {
-        if (controller != null)
-        {
-            controller.OnAssetsReimported(importedAssets, deletedAssets, movedAssets, movedFromAssetPaths);
-        }
+    //private void OnAssetsReimported(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+    //{
+    //    if (controller != null)
+    //    {
+    //        controller.OnAssetsReimported(importedAssets, deletedAssets, movedAssets, movedFromAssetPaths);
+    //    }
 
-        if (!string.IsNullOrEmpty(graphAssetPath))
-        {
-            if (deletedAssets.Contains(graphAssetPath))
-            {
-                CloseGraph();
-                return;
-            }
+    //    if (!string.IsNullOrEmpty(graphAssetPath))
+    //    {
+    //        if (deletedAssets.Contains(graphAssetPath))
+    //        {
+    //            CloseGraph();
+    //            return;
+    //        }
 
-            int moveIndex = Array.FindIndex(movedFromAssetPaths, p => p == graphAssetPath);
-            if (moveIndex >= 0)
-            {
-                SetGraphAssetPath(movedAssets[moveIndex]);
-            }
-        }
-    }
+    //        int moveIndex = Array.FindIndex(movedFromAssetPaths, p => p == graphAssetPath);
+    //        if (moveIndex >= 0)
+    //        {
+    //            SetGraphAssetPath(movedAssets[moveIndex]);
+    //        }
+    //    }
+    //}
 
-    public static void NotifyAssetsReimportedToAllWindows(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
-    {
-        var w = Window;
-        if (w != null)
-        {
-            w.OnAssetsReimported(importedAssets, deletedAssets, movedAssets, movedFromAssetPaths);
-        }
-    }
+    //public static void NotifyAssetsReimportedToAllWindows(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+    //{
+    //    var w = Window;
+    //    if (w != null)
+    //    {
+    //        w.OnAssetsReimported(importedAssets, deletedAssets, movedAssets, movedFromAssetPaths);
+    //    }
+    //}
 
     private void DrawGUIToolBar()
     {
@@ -1332,9 +1339,10 @@ public class NodeGraphWindow : EditorWindow
 
                         if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
                         {
-                            AddNodeFromGUI(new Loader(path),
-                                string.Format("Load from {0}", Path.GetFileName(path)),
-                                evt.mousePosition.x, evt.mousePosition.y);
+                            //AddNodeFromGUI(new Loader(path),
+                            //    string.Format("Load from {0}", Path.GetFileName(path)),
+                            //    evt.mousePosition.x, evt.mousePosition.y);
+                            Debug.Log(path);
                             Setup();
                             Repaint();
                         }

@@ -19,7 +19,7 @@ namespace NodeGraph {
 		public override void OnInspectorGUI () {
 
 			ConnectionGUIInspectorHelper helper = target as ConnectionGUIInspectorHelper;
-            GUILayout.TextField(helper.connectionGUI.Data.ruleTest);
+
             var con = helper.connectionGUI;
 			if (con == null) {
 				return;

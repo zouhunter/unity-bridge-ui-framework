@@ -10,9 +10,7 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-[System.Serializable]
-public class PrefabUINode : UINodeBase
-{
-    public GameObject prefab;
-    public override string IDName { get { return panelName; } }
+
+public class EnableNode : MonoBehaviour {
+
 }

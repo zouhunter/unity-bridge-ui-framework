@@ -70,46 +70,6 @@ namespace NodeGraph {
 		}
 		#endregion
 
-		#region Build
-
-        /// <summary>
-        /// Prepare is the method which validates and perform necessary setups in order to build.
-        /// </summary>
-        /// <param name="target">Target platform.</param>
-        /// <param name="nodeData">NodeData instance for this node.</param>
-        /// <param name="incoming">Incoming group of assets for this node on executing graph.</param>
-        /// <param name="connectionsToOutput">Outgoing connections from this node.</param>
-        /// <param name="outputFunc">An interface to set outgoing group of assets.</param>
-		//public virtual void Prepare (BuildTarget target, 
-		//	Model.NodeData nodeData, 
-		//	IEnumerable<PerformGraph.AssetGroups> incoming, 
-		//	IEnumerable<Model.ConnectionData> connectionsToOutput, 
-		//	PerformGraph.Output outputFunc) 
-		//{
-		//	// Do nothing
-		//}
-
-        /// <summary>
-        /// Build is the method which actualy performs the build. It is always called after Setup() is performed.
-        /// </summary>
-        /// <param name="target">Target platform.</param>
-        /// <param name="nodeData">NodeData instance for this node.</param>
-        /// <param name="incoming">Incoming group of assets for this node on executing graph.</param>
-        /// <param name="connectionsToOutput">Outgoing connections from this node.</param>
-        /// <param name="outputFunc">An interface to set outgoing group of assets.</param>
-        /// <param name="progressFunc">An interface to display progress.</param>
-		//public virtual void Build (BuildTarget target, 
-		//	Model.NodeData nodeData, 
-		//	IEnumerable<PerformGraph.AssetGroups> incoming, 
-		//	IEnumerable<Model.ConnectionData> connectionsToOutput, 
-		//	PerformGraph.Output outputFunc,
-		//	Action<Model.NodeData, string, float> progressFunc)
-		//{
-		//	// Do nothing
-		//}
-
-		#endregion
-
 		#region GUI
         /// <summary>
         /// Gets the active style name in GUISkin.
@@ -139,28 +99,6 @@ namespace NodeGraph {
 		public virtual void OnContextMenuGUI(GenericMenu menu) {
 			// Do nothing
 		}
-
-        /// <summary>
-        /// OnAssetsReimported() is called when there are changes of assets during editing graph.
-        /// </summary>
-        /// <param name="nodeData">NodeGUI instance for this node.</param>
-        /// <param name="streamManager">Manager instance to retrieve graph's incoming/outgoing group.</param>
-        /// <param name="target">Target platform.</param>
-        /// <param name="importedAssets">Imported asset paths.</param>
-        /// <param name="deletedAssets">Deleted asset paths.</param>
-        /// <param name="movedAssets">Moved asset paths.</param>
-        /// <param name="movedFromAssetPaths">Original paths of moved assets.</param>
-		//public virtual bool OnAssetsReimported(
-		//	Model.NodeData nodeData,
-		//	AssetReferenceStreamManager streamManager,
-		//	BuildTarget target, 
-		//	string[] importedAssets, 
-		//	string[] deletedAssets, 
-		//	string[] movedAssets, 
-		//	string[] movedFromAssetPaths)
-		//{
-		//	return false;
-		//}
 
 		#endregion
 	}

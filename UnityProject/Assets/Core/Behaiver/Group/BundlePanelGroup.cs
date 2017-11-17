@@ -14,9 +14,9 @@ using System;
 
 public class BundlePanelGroup : PanelGroup
 {
-    public List<BundleUINode> nodes;
+    public List<BundleUIInfo> nodes;
     public List<BundlePanelGroupObj> subGroups;
-    public override List<UINodeBase> Nodes { get { return nodes.ConvertAll<UINodeBase>(x => x); } }
+    public override List<UIInfoBase> Nodes { get { return nodes.ConvertAll<UIInfoBase>(x => x); } }
 
     public override List<PanelGroupObj> SubGroups { get { return subGroups.ConvertAll<PanelGroupObj>(x=>x); } }
 }

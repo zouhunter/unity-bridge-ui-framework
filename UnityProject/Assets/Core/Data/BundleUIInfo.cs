@@ -9,8 +9,13 @@ using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
-using System.Collections.Generic;
-
-public interface IPanelCreater {
-    void CreatePanel(UIInfoBase itemInfo);
+[System.Serializable]
+public class BundleUIInfo : UIInfoBase
+{
+#if UNITY_EDITOR
+    public string guid;
+    public bool good;
+#endif
+    public string bundleName;
+    public override string IDName { get { return bundleName + panelName; } }
 }

@@ -22,7 +22,7 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
     private List<IPanelBase> createdPanels = new List<IPanelBase>();
     private Stack<IPanelBase> hidedPanels = new Stack<IPanelBase>();
     private Dictionary<IPanelBase, Bridge> bridgeDic = new Dictionary<IPanelBase, Bridge>();
-    public abstract List<UINodeBase> Nodes { get; }
+    public abstract List<UIInfoBase> Nodes { get; }
     public abstract List<PanelGroupObj> SubGroups { get; }
     public Transform Trans { get { return transform; } }
 
@@ -32,7 +32,7 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
     {
         Bridge bridge = null;
 
-        UINodeBase uiNode = null;
+        UIInfoBase uiNode = null;
 
         if (TryMatchPanel(parentName, panelName, out bridge, out uiNode))
         {
@@ -75,7 +75,7 @@ public abstract class PanelGroup : MonoBehaviour, IPanelGroup
         panel.onDelete += OnDeletePanel;
         panel.HandleData(bridge);
     }
-    private bool TryMatchPanel(string parentName, string panelName, out Bridge bridgeObj, out UINodeBase uiNode)
+    private bool TryMatchPanel(string parentName, string panelName, out Bridge bridgeObj, out UIInfoBase uiNode)
     {
         uiNode = Nodes.Find(x => x.panelName == panelName);
 

@@ -29,15 +29,15 @@ public class PanelCreater : IPanelCreater
     /// <typeparam name="T"></typeparam>
     /// <param name="panelName"></param>
     /// <param name="onCreate"></param>
-    public void CreatePanel(UINodeBase itemInfo)
+    public void CreatePanel(UIInfoBase itemInfo)
     {
         if (_cansaleKeys.Contains(itemInfo.panelName)) _cansaleKeys.RemoveAll(x => x == itemInfo.panelName);
 
         if (!_loadingKeys.Contains(itemInfo.IDName))
         {
             _loadingKeys.Add(itemInfo.IDName);
-            var bInfo = itemInfo as BundleUINode;
-            var pInfo = itemInfo as PrefabUINode;
+            var bInfo = itemInfo as BundleUIInfo;
+            var pInfo = itemInfo as PrefabUIInfo;
 
             if (bInfo != null)
             {
@@ -63,9 +63,9 @@ public class PanelCreater : IPanelCreater
     /// <typeparam name="T"></typeparam>
     /// <param name="panelName"></param>
     /// <param name="onCreate"></param>
-    private void GetGameObjectInfo(BundleUINode itemInfo)
+    private void GetGameObjectInfo(BundleUIInfo itemInfo)
     {
-        var trigger = itemInfo as BundleUINode;
+        var trigger = itemInfo as BundleUIInfo;
 #if AssetBundleTools
         assetLoader.LoadAssetFromUrlAsync<GameObject>(trigger.bundleName, trigger.panelName, (x) =>
         {
@@ -85,9 +85,9 @@ public class PanelCreater : IPanelCreater
     /// PrefabUINode创建对象
     /// </summary>
     /// <param name="iteminfo"></param>
-    private void GetGameObjectInfo(PrefabUINode iteminfo)
+    private void GetGameObjectInfo(PrefabUIInfo iteminfo)
     {
-        var trigger = iteminfo as PrefabUINode;
+        var trigger = iteminfo as PrefabUIInfo;
 
         if (trigger.prefab != null)
         {
@@ -102,7 +102,7 @@ public class PanelCreater : IPanelCreater
     /// <summary>
     /// 获取对象实例
     /// </summary>
-    private void CreateInstance(GameObject prefab, UINodeBase nodeInfo)
+    private void CreateInstance(GameObject prefab, UIInfoBase nodeInfo)
     {
         if (_cansaleKeys.Contains(nodeInfo.panelName))
         {

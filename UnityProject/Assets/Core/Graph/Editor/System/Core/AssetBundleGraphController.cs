@@ -18,7 +18,7 @@ namespace NodeGraph {
 		//private AssetReferenceStreamManager m_streamManager;
 		private Model.ConfigGraph m_targetGraph;
 		//private PerformGraph[] m_performGraph;
-		private int gIndex;
+		//private int gIndex;
 
 		private BuildTarget m_lastTarget;
 
@@ -65,7 +65,7 @@ namespace NodeGraph {
 			//	new PerformGraph(m_streamManager), 
 			//	new PerformGraph(m_streamManager)
 			//};
-			gIndex = 0;
+			//gIndex = 0;
 		}
 
 		/**

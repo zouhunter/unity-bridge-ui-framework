@@ -37,6 +37,7 @@ public enum UILucenyType
 [System.Serializable]
 public class UIType
 {
+    public int layerIndex;
     //位置
     public UIFormType form = UIFormType.Fixed;
     //层级

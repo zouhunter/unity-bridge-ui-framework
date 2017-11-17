@@ -25,9 +25,9 @@ namespace NodeGraph {
 				return;
 			}
 
-			var foldouts = helper.foldouts;
+			//var foldouts = helper.foldouts;
 
-			var count = 0;
+			//var count = 0;
 			//var assetGroups = helper.assetGroups;
 			//if (assetGroups == null)  {
 			//	return;
@@ -41,7 +41,7 @@ namespace NodeGraph {
 
 			GUILayout.Label("Stats", "BoldLabel");
 			//EditorGUILayout.LabelField("Total groups", groupCount.ToString());
-			EditorGUILayout.LabelField("Total items" , count.ToString());
+			EditorGUILayout.LabelField("Total items" , "[bridge]");
 
 			GUILayout.Space(8f);
 
@@ -49,10 +49,10 @@ namespace NodeGraph {
 			helper.filterPattern = EditorGUILayout.TextField("Filter assets", helper.filterPattern);
 			helper.fileNameOnly = EditorGUILayout.ToggleLeft("Show only file names", helper.fileNameOnly);
 
-			Regex match = null;
-			if(!string.IsNullOrEmpty(helper.filterPattern)) {
-				match = new Regex(helper.filterPattern);
-			}
+			//Regex match = null;
+			//if(!string.IsNullOrEmpty(helper.filterPattern)) {
+			//	match = new Regex(helper.filterPattern);
+			//}
 
 			GUILayout.Space(8f);
 			GUILayout.Label("Groups", "BoldLabel");

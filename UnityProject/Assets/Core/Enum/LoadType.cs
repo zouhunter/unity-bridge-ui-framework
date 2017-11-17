@@ -11,8 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 
-public class NodeInfo {
-    public LoadType type;
-    public UIType uiType;
-    public GameObject prefab;
+public enum LoadType {
+    Prefab = 1,
+    Bundle = 1<<1
 }

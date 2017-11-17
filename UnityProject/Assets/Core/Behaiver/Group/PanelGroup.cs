@@ -32,10 +32,11 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
 
     public Transform Trans { get { return transform; } }
 
-    private IPanelCreater creater = new PanelCreater();
+    private IPanelCreater creater;
 
     void Awake()
     {
+        creater = new PanelCreater();
         RegistUINodes();
         RegistBridgePool();
         UIFacade.RegistGroup(this);

@@ -15,9 +15,9 @@ namespace NodeGraph {
 	public class AssetBundleGraphController {
 
 		private List<NodeException> m_nodeExceptions;
-		private AssetReferenceStreamManager m_streamManager;
+		//private AssetReferenceStreamManager m_streamManager;
 		private Model.ConfigGraph m_targetGraph;
-		private PerformGraph[] m_performGraph;
+		//private PerformGraph[] m_performGraph;
 		private int gIndex;
 
 		private BuildTarget m_lastTarget;
@@ -36,11 +36,11 @@ namespace NodeGraph {
 			}
 		}
 
-		public AssetReferenceStreamManager StreamManager {
-			get {
-				return m_streamManager;
-			}
-		}
+		//public AssetReferenceStreamManager StreamManager {
+		//	get {
+		//		return m_streamManager;
+		//	}
+		//}
 
 		public Model.ConfigGraph TargetGraph {
 			get {
@@ -60,11 +60,11 @@ namespace NodeGraph {
 		public AssetBundleGraphController(Model.ConfigGraph graph) {
 			m_targetGraph = graph;
 			m_nodeExceptions = new List<NodeException>();
-			m_streamManager = new AssetReferenceStreamManager(m_targetGraph);
-			m_performGraph  = new PerformGraph[] { 
-				new PerformGraph(m_streamManager), 
-				new PerformGraph(m_streamManager)
-			};
+			//m_streamManager = new AssetReferenceStreamManager(m_targetGraph);
+			//m_performGraph  = new PerformGraph[] { 
+			//	new PerformGraph(m_streamManager), 
+			//	new PerformGraph(m_streamManager)
+			//};
 			gIndex = 0;
 		}
 
@@ -97,21 +97,21 @@ namespace NodeGraph {
 			m_lastTarget = target;
 
 			try {
-				PerformGraph oldGraph = m_performGraph[gIndex];
-				gIndex = (gIndex+1) %2;
-				PerformGraph newGraph = m_performGraph[gIndex];
-				newGraph.BuildGraphFromSaveData(m_targetGraph, target, oldGraph);
+				//PerformGraph oldGraph = m_performGraph[gIndex];
+				//gIndex = (gIndex+1) %2;
+				//PerformGraph newGraph = m_performGraph[gIndex];
+				//newGraph.BuildGraphFromSaveData(m_targetGraph, target, oldGraph);
 
-				PerformGraph.Perform performFunc =
-					(Model.NodeData data, 
-						IEnumerable<PerformGraph.AssetGroups> incoming, 
-						IEnumerable<Model.ConnectionData> connectionsToOutput, 
-						PerformGraph.Output outputFunc) =>
-				{
-					DoNodeOperation(target, data, incoming, connectionsToOutput, outputFunc, isBuild, updateHandler);
-				};
+				//PerformGraph.Perform performFunc =
+				//	(Model.NodeData data, 
+				//		IEnumerable<PerformGraph.AssetGroups> incoming, 
+				//		IEnumerable<Model.ConnectionData> connectionsToOutput, 
+				//		PerformGraph.Output outputFunc) =>
+				//{
+				//	DoNodeOperation(target, data, incoming, connectionsToOutput, outputFunc, isBuild, updateHandler);
+				//};
 
-				newGraph.VisitAll(performFunc, forceVisitAll);
+				//newGraph.VisitAll(performFunc, forceVisitAll);
 
 				if(isBuild && m_nodeExceptions.Count == 0) {
 					Postprocess();
@@ -138,9 +138,9 @@ namespace NodeGraph {
 			try {
 				LogUtility.Logger.LogFormat(LogType.Log, "[validate] {0} validate", node.Name);
 				m_isBuilding = true;
-				DoNodeOperation(target, node.Data, null, null, 
-					(Model.ConnectionData dst, Dictionary<string, List<AssetReference>> outputGroupAsset) => {}, 
-					false, null);
+				//DoNodeOperation(target, node.Data, null, null, 
+				//	(Model.ConnectionData dst, Dictionary<string, List<AssetReference>> outputGroupAsset) => {}, 
+				//	false, null);
 
 				LogUtility.Logger.LogFormat(LogType.Log, "[Perform] {0} ", node.Name);
 
@@ -154,39 +154,39 @@ namespace NodeGraph {
 		/**
 			Perform Run or Setup from parent of given terminal node recursively.
 		*/
-		private void DoNodeOperation (
-			BuildTarget target,
-			Model.NodeData currentNodeData,
-			IEnumerable<PerformGraph.AssetGroups> incoming, 
-			IEnumerable<Model.ConnectionData> connectionsToOutput, 
-			PerformGraph.Output outputFunc,
-			bool isActualRun,
-			Action<Model.NodeData, string, float> updateHandler) 
-		{
-			try {
-				if (updateHandler != null) {
-					updateHandler(currentNodeData, "Starting...", 0f);
-				}
+		//private void DoNodeOperation (
+		//	BuildTarget target,
+		//	Model.NodeData currentNodeData,
+		//	IEnumerable<PerformGraph.AssetGroups> incoming, 
+		//	IEnumerable<Model.ConnectionData> connectionsToOutput, 
+		//	PerformGraph.Output outputFunc,
+		//	bool isActualRun,
+		//	Action<Model.NodeData, string, float> updateHandler) 
+		//{
+		//	try {
+		//		if (updateHandler != null) {
+		//			updateHandler(currentNodeData, "Starting...", 0f);
+		//		}
 
-				//if(isActualRun) {
-				//	currentNodeData.Operation.Object.Build(target, currentNodeData, incoming, connectionsToOutput, outputFunc, updateHandler);
-				//}
-				//else {
-				//	currentNodeData.Operation.Object.Prepare(target, currentNodeData, incoming, connectionsToOutput, outputFunc);
-				//}
+		//		//if(isActualRun) {
+		//		//	currentNodeData.Operation.Object.Build(target, currentNodeData, incoming, connectionsToOutput, outputFunc, updateHandler);
+		//		//}
+		//		//else {
+		//		//	currentNodeData.Operation.Object.Prepare(target, currentNodeData, incoming, connectionsToOutput, outputFunc);
+		//		//}
 
-				if (updateHandler != null) {
-					updateHandler(currentNodeData, "Completed.", 1f);
-				}
-			} catch (NodeException e) {
-				m_nodeExceptions.Add(e);
-			} 
-			// Minimize impact of errors happened during node operation
-			catch (Exception e) {
-				m_nodeExceptions.Add(new NodeException(string.Format("{0}:{1} (See Console for detail)", e.GetType().ToString(), e.Message), currentNodeData.Id));
-				LogUtility.Logger.LogException(e);
-			}
-		}
+		//		if (updateHandler != null) {
+		//			updateHandler(currentNodeData, "Completed.", 1f);
+		//		}
+		//	} catch (NodeException e) {
+		//		m_nodeExceptions.Add(e);
+		//	} 
+		//	// Minimize impact of errors happened during node operation
+		//	catch (Exception e) {
+		//		m_nodeExceptions.Add(new NodeException(string.Format("{0}:{1} (See Console for detail)", e.GetType().ToString(), e.Message), currentNodeData.Id));
+		//		LogUtility.Logger.LogException(e);
+		//	}
+		//}
 
 		private void Postprocess () 
 		{

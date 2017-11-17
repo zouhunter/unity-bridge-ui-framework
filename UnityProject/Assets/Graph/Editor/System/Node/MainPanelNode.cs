@@ -51,7 +51,7 @@ namespace NodeGraph
             return newNode;
         }
 
-        public override void OnInspectorGUI(NodeGUI node, AssetReferenceStreamManager streamManager, NodeGUIEditor editor, Action onValueChanged)
+        public override void OnInspectorGUI(NodeGUI node,  NodeGUIEditor editor, Action onValueChanged)
         {
             data = node.Data;
             EditorGUILayout.HelpBox("Split By Filter: Split incoming assets by filter conditions.", MessageType.Info);

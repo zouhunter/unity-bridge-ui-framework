@@ -704,7 +704,7 @@ public class NodeGraphWindow : EditorWindow
 
             controller.Perform(target, false, forceVisitAll, null);
 
-            RefreshInspector(controller.StreamManager);
+            //RefreshInspector(controller.StreamManager);
             ShowErrorOnNodes();
         }
         catch (Exception e)
@@ -735,7 +735,7 @@ public class NodeGraphWindow : EditorWindow
 
             controller.Validate(node, target);
 
-            RefreshInspector(controller.StreamManager);
+            //RefreshInspector(controller.StreamManager);
             ShowErrorOnNodes();
         }
         catch (Exception e)
@@ -752,97 +752,97 @@ public class NodeGraphWindow : EditorWindow
     /**
      * Execute the build.
      */
-    private void Run()
-    {
-        Debug.Log("Run __ forbided");
-        if (controller == null)
-        {
-            return;
-        }
+    //private void Run()
+    //{
+    //    Debug.Log("Run __ forbided");
+    //    if (controller == null)
+    //    {
+    //        return;
+    //    }
 
-        try
-        {
-            AssetDatabase.SaveAssets();
-            //AssetBundleBuildMap.GetBuildMap().Clear();
+    //    try
+    //    {
+    //        AssetDatabase.SaveAssets();
+    //        //AssetBundleBuildMap.GetBuildMap().Clear();
 
-            float currentCount = 0f;
-            float totalCount = (float)controller.TargetGraph.Nodes.Count;
-            Model.NodeData lastNode = null;
+    //        float currentCount = 0f;
+    //        float totalCount = (float)controller.TargetGraph.Nodes.Count;
+    //        Model.NodeData lastNode = null;
 
-            Action<Model.NodeData, string, float> updateHandler = (node, message, progress) =>
-            {
+    //        Action<Model.NodeData, string, float> updateHandler = (node, message, progress) =>
+    //        {
 
-                if (lastNode != node)
-                {
-                    // do not add count on first node visit to 
-                    // calcurate percantage correctly
-                    if (lastNode != null)
-                    {
-                        ++currentCount;
-                    }
-                    lastNode = node;
-                }
+    //            if (lastNode != node)
+    //            {
+    //                // do not add count on first node visit to 
+    //                // calcurate percantage correctly
+    //                if (lastNode != null)
+    //                {
+    //                    ++currentCount;
+    //                }
+    //                lastNode = node;
+    //            }
 
-                float currentNodeProgress = progress * (1.0f / totalCount);
-                float currentTotalProgress = (currentCount / totalCount) + currentNodeProgress;
+    //            float currentNodeProgress = progress * (1.0f / totalCount);
+    //            float currentTotalProgress = (currentCount / totalCount) + currentNodeProgress;
 
-                string title = string.Format("Processing AssetBundle Graph[{0}/{1}]", currentCount, totalCount);
-                string info = string.Format("{0}:{1}", node.Name, message);
+    //            string title = string.Format("Processing AssetBundle Graph[{0}/{1}]", currentCount, totalCount);
+    //            string info = string.Format("{0}:{1}", node.Name, message);
 
-                EditorUtility.DisplayProgressBar(title, "Processing " + info, currentTotalProgress);
-            };
+    //            EditorUtility.DisplayProgressBar(title, "Processing " + info, currentTotalProgress);
+    //        };
 
-            // perform setup. Fails if any exception raises.
-            controller.Perform(target, false, true, null);
+    //        // perform setup. Fails if any exception raises.
+    //        controller.Perform(target, false, true, null);
 
-            // if there is not error reported, then run
-            if (!controller.IsAnyIssueFound)
-            {
-                controller.Perform(target, true, true, updateHandler);
-            }
-            RefreshInspector(controller.StreamManager);
-            AssetDatabase.Refresh();
-            ShowErrorOnNodes();
-        }
-        catch (Exception e)
-        {
-            LogUtility.Logger.LogError(LogUtility.kTag, e);
-        }
-        finally
-        {
-            EditorUtility.ClearProgressBar();
-        }
-    }
+    //        // if there is not error reported, then run
+    //        if (!controller.IsAnyIssueFound)
+    //        {
+    //            controller.Perform(target, true, true, updateHandler);
+    //        }
+    //        RefreshInspector(controller.StreamManager);
+    //        AssetDatabase.Refresh();
+    //        ShowErrorOnNodes();
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        LogUtility.Logger.LogError(LogUtility.kTag, e);
+    //    }
+    //    finally
+    //    {
+    //        EditorUtility.ClearProgressBar();
+    //    }
+    //}
 
-    private static void RefreshInspector(AssetReferenceStreamManager streamManager)
-    {
-        if (Selection.activeObject == null)
-        {
-            return;
-        }
+    //private static void RefreshInspector(AssetReferenceStreamManager streamManager)
+    //{
+    //    if (Selection.activeObject == null)
+    //    {
+    //        return;
+    //    }
 
-        switch (Selection.activeObject.GetType().ToString())
-        {
-            case "AssetBundleGraph.ConnectionGUIInspectorHelper":
-                {
-                    var con = ((ConnectionGUIInspectorHelper)Selection.activeObject).connectionGUI;
+    //    switch (Selection.activeObject.GetType().ToString())
+    //    {
+    //        case "AssetBundleGraph.ConnectionGUIInspectorHelper":
+    //            {
+    //                var con = ((ConnectionGUIInspectorHelper)Selection.activeObject).connectionGUI;
 
-                    // null when multiple connection deleted.
-                    if (string.IsNullOrEmpty(con.Id))
-                    {
-                        return;
-                    }
+    //                // null when multiple connection deleted.
+    //                if (string.IsNullOrEmpty(con.Id))
+    //                {
+    //                    return;
+    //                }
 
-                ((ConnectionGUIInspectorHelper)Selection.activeObject).UpdateAssetGroups(streamManager.FindAssetGroup(con.Id));
-                    break;
-                }
-            default:
-                {
-                    // do nothing.
-                    break;
-                }
-        }
-    }
+    //            ((ConnectionGUIInspectorHelper)Selection.activeObject).UpdateAssetGroups(streamManager.FindAssetGroup(con.Id));
+    //                break;
+    //            }
+    //        default:
+    //            {
+    //                // do nothing.
+    //                break;
+    //            }
+    //    }
+    //}
 
     //private void OnAssetsReimported(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
     //{
@@ -1087,7 +1087,7 @@ public class NodeGraphWindow : EditorWindow
             // draw connections.
             foreach (var con in connections)
             {
-                con.DrawConnection(nodes, controller.StreamManager.FindAssetGroup(con.Id));
+                con.DrawConnection(nodes);
             }
 
             // draw node window x N.

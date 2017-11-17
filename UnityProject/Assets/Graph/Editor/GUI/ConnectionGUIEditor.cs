@@ -28,19 +28,19 @@ namespace NodeGraph {
 			var foldouts = helper.foldouts;
 
 			var count = 0;
-			var assetGroups = helper.assetGroups;
-			if (assetGroups == null)  {
-				return;
-			}
+			//var assetGroups = helper.assetGroups;
+			//if (assetGroups == null)  {
+			//	return;
+			//}
 
-			foreach (var assets in assetGroups.Values) {
-				count += assets.Count;
-			}
+			//foreach (var assets in assetGroups.Values) {
+			//	count += assets.Count;
+			//}
 
-			var groupCount = assetGroups.Keys.Count;
+			//var groupCount = assetGroups.Keys.Count;
 
 			GUILayout.Label("Stats", "BoldLabel");
-			EditorGUILayout.LabelField("Total groups", groupCount.ToString());
+			//EditorGUILayout.LabelField("Total groups", groupCount.ToString());
 			EditorGUILayout.LabelField("Total items" , count.ToString());
 
 			GUILayout.Space(8f);
@@ -61,47 +61,47 @@ namespace NodeGraph {
 			var redColor = new GUIStyle(EditorStyles.label);
 			redColor.normal.textColor = Color.gray;
 
-			var index = 0;
-			foreach (var groupKey in assetGroups.Keys) {
-				var assets = assetGroups[groupKey];
+			//var index = 0;
+			//foreach (var groupKey in assetGroups.Keys) {
+			//	var assets = assetGroups[groupKey];
 
-				var foldout = foldouts[index];
+			//	var foldout = foldouts[index];
 
-				foldout = EditorGUILayout.Foldout(foldout, string.Format("Group name: {0} ({1} items)", groupKey, assets.Count));
-				if (foldout) {
-					EditorGUI.indentLevel = 1;
-					for (var i = 0; i < assets.Count; i++) {
+			//	foldout = EditorGUILayout.Foldout(foldout, string.Format("Group name: {0} ({1} items)", groupKey, assets.Count));
+			//	if (foldout) {
+			//		EditorGUI.indentLevel = 1;
+			//		for (var i = 0; i < assets.Count; i++) {
 
-						if(match != null) {
-							if(!match.IsMatch(assets[i].path)) {
-								continue;
-							}
-						}
+			//			if(match != null) {
+			//				if(!match.IsMatch(assets[i].path)) {
+			//					continue;
+			//				}
+			//			}
 
-						var sourceStr = (helper.fileNameOnly) ? assets[i].fileNameAndExtension : assets[i].path;
-						var variantName = assets[i].variantName;
+			//			var sourceStr = (helper.fileNameOnly) ? assets[i].fileNameAndExtension : assets[i].path;
+			//			var variantName = assets[i].variantName;
 
-                        using (new EditorGUILayout.HorizontalScope ()) {
-                            if (!string.IsNullOrEmpty (variantName)) {
-                                EditorGUILayout.LabelField (string.Format ("{0}[{1}]", sourceStr, variantName));
-                            } else {
-                                EditorGUILayout.LabelField(sourceStr);
-                            }
-                            if (GUILayout.Button ("Select", GUILayout.Width (50f))) {
-                                var obj = AssetDatabase.LoadMainAssetAtPath(assets[i].path);
-                                if (obj != null) {
-                                    EditorGUIUtility.PingObject(obj);
-                                    Selection.activeObject = obj;
-                                }
-                            }
-                        }
-					}
-					EditorGUI.indentLevel = 0;
-				}
-				foldouts[index] = foldout;
+   //                     using (new EditorGUILayout.HorizontalScope ()) {
+   //                         if (!string.IsNullOrEmpty (variantName)) {
+   //                             EditorGUILayout.LabelField (string.Format ("{0}[{1}]", sourceStr, variantName));
+   //                         } else {
+   //                             EditorGUILayout.LabelField(sourceStr);
+   //                         }
+   //                         if (GUILayout.Button ("Select", GUILayout.Width (50f))) {
+   //                             var obj = AssetDatabase.LoadMainAssetAtPath(assets[i].path);
+   //                             if (obj != null) {
+   //                                 EditorGUIUtility.PingObject(obj);
+   //                                 Selection.activeObject = obj;
+   //                             }
+   //                         }
+   //                     }
+			//		}
+			//		EditorGUI.indentLevel = 0;
+			//	}
+			//	foldouts[index] = foldout;
 
-				index++;
-			}
+			//	index++;
+			//}
 
 		}
 	}

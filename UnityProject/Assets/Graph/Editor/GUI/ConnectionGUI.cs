@@ -116,7 +116,7 @@ namespace NodeGraph {
 			return m_buttonRect;
 		}
 		
-		public void DrawConnection (List<NodeGUI> nodes, Dictionary<string, List<AssetReference>> assetGroups) {
+		public void DrawConnection (List<NodeGUI> nodes) {
 
 			var startNode = nodes.Find(node => node.Id == OutputNodeId);
 			if (startNode == null) {
@@ -144,10 +144,10 @@ namespace NodeGraph {
 
 			var totalAssets = 0;
 			var totalGroups = 0;
-			if(assetGroups != null) {
-				totalAssets = assetGroups.Select(v => v.Value.Count).Sum();
-				totalGroups = assetGroups.Keys.Count;
-			}
+			//if(assetGroups != null) {
+			//	totalAssets = assetGroups.Select(v => v.Value.Count).Sum();
+			//	totalGroups = assetGroups.Keys.Count;
+			//}
 
 			Color lineColor;
 			var lineWidth = (totalAssets > 0) ? 3f : 2f;
@@ -218,7 +218,7 @@ namespace NodeGraph {
 			}
 
 			if (GUI.Button(m_buttonRect, connectionLabel, style)) {
-				Inspector.UpdateInspector(this, assetGroups);
+				Inspector.UpdateInspector(this);
 				ConnectionGUIUtility.ConnectionEventHandler(new ConnectionEvent(ConnectionEvent.EventType.EVENT_CONNECTION_TAPPED, this));
 			}
 		}

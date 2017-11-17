@@ -55,7 +55,7 @@ public class PrefabUINode : Node
         return newNode;
     }
 
-    public override void OnInspectorGUI(NodeGUI node, AssetReferenceStreamManager streamManager, NodeGUIEditor editor, Action onValueChanged)
+    public override void OnInspectorGUI(NodeGUI node,  NodeGUIEditor editor, Action onValueChanged)
     {
         EditorGUILayout.TextField(uiInfo.panelName);
     }

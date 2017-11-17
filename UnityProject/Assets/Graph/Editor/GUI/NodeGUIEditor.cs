@@ -39,7 +39,7 @@ namespace NodeGraph {
 
 			UnityEngine.Assertions.Assert.IsNotNull(node);
 
-			node.Data.Operation.Object.OnInspectorGUI(node, controller.StreamManager, this, () => 
+			node.Data.Operation.Object.OnInspectorGUI(node, this, () => 
 				{ 
 					node.Data.Operation.Save(); 
 					node.ParentGraph.SetGraphDirty(); 

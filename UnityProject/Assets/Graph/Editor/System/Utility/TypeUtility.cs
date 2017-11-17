@@ -225,49 +225,49 @@ namespace NodeGraph {
 			return null;
 		}
 
-		public static Type FindFirstIncomingAssetType(AssetReferenceStreamManager mgr, Model.ConnectionPointData inputPoint) {
-			var assetGroupEnum = mgr.EnumurateIncomingAssetGroups(inputPoint);
-			if(assetGroupEnum == null) {
-				return null;
-			}
+		//public static Type FindFirstIncomingAssetType(Model.ConnectionPointData inputPoint) {
+		//	var assetGroupEnum = mgr.EnumurateIncomingAssetGroups(inputPoint);
+		//	if(assetGroupEnum == null) {
+		//		return null;
+		//	}
 
-			if(assetGroupEnum.Any()) {
-				var ag = assetGroupEnum.First();
-				if(ag.Values.Any()) {
-					var assets = ag.Values.First();
-					if(assets.Count > 0) {
-						return assets[0].filterType;
-					}
-				}
-			}
+		//	if(assetGroupEnum.Any()) {
+		//		var ag = assetGroupEnum.First();
+		//		if(ag.Values.Any()) {
+		//			//var assets = ag.Values.First();
+		//			//if(assets.Count > 0) {
+		//			//	return assets[0].filterType;
+		//			//}
+		//		}
+		//	}
 
-			return null;
-		}
+		//	return null;
+		//}
 
-		public static AssetReference GetFirstIncomingAsset(IEnumerable<PerformGraph.AssetGroups> incoming) {
+		//public static AssetReference GetFirstIncomingAsset(IEnumerable<PerformGraph.AssetGroups> incoming) {
 
-			if( incoming == null ) {
-				return null;
-			}
+		//	if( incoming == null ) {
+		//		return null;
+		//	}
 
-			foreach(var ag in incoming) {
-				foreach(var v in ag.assetGroups.Values) {
-					if(v.Count > 0) {
-						return v[0];
-					}
-				}
-			}
+		//	foreach(var ag in incoming) {
+		//		foreach(var v in ag.assetGroups.Values) {
+		//			//if(v.Count > 0) {
+		//			//	return v[0];
+		//			//}
+		//		}
+		//	}
 
-			return null;
-		}
+		//	return null;
+		//}
 
-		public static Type FindFirstIncomingAssetType(IEnumerable<PerformGraph.AssetGroups> incoming) {
-			AssetReference r = GetFirstIncomingAsset(incoming);
-			if(r != null) {
-				return r.filterType;
-			}
-			return null;
-		}
+		//public static Type FindFirstIncomingAssetType(IEnumerable<PerformGraph.AssetGroups> incoming) {
+		//	AssetReference r = GetFirstIncomingAsset(incoming);
+		//	if(r != null) {
+		//		return r.filterType;
+		//	}
+		//	return null;
+		//}
 
 
 		public static MonoScript LoadMonoScript(string className) {

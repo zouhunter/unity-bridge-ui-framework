@@ -9,7 +9,7 @@ namespace NodeGraph {
 	 */
 	public class ConnectionGUIInspectorHelper : ScriptableObject {
 		public ConnectionGUI connectionGUI;
-		public void UpdateInspector (ConnectionGUI con) {
+        public void UpdateInspector (ConnectionGUI con) {
 			this.connectionGUI = con;
 		}
     }

@@ -47,7 +47,8 @@ namespace NodeGraph.DataModel.Version2 {
     /// Connection data.
     /// </summary>
 	[Serializable]
-	public class ConnectionData {
+	public class ConnectionData: IBridgeConnection
+    {
 
 		[SerializeField] private string m_id;
 		[SerializeField] private string m_fromNodeId;
@@ -55,8 +56,11 @@ namespace NodeGraph.DataModel.Version2 {
 		[SerializeField] private string m_toNodeId;
 		[SerializeField] private string m_toNodeConnectionPoiontId;
 		[SerializeField] private string m_label;
-        public string ruleTest;
-		private ConnectionData() {
+
+        public ShowModel _show;
+        public ShowModel Show { get { return _show; } }
+
+        private ConnectionData() {
 			m_id = Guid.NewGuid().ToString();
 		}
 

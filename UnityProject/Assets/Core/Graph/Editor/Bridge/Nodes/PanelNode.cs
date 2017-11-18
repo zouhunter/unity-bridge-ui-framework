@@ -14,10 +14,6 @@ using Model = NodeGraph.DataModel.Version2;
 using NodeGraph;
 using System;
 using UnityEditor;
-public interface IPanelInfoHolder
-{
-    NodeInfo Info { get; }
-}
 
 [CustomNode("Panel/PanelNode", 5)]
 public class PanelNode : Node, IPanelInfoHolder
@@ -55,6 +51,7 @@ public class PanelNode : Node, IPanelInfoHolder
     }
 
     public NodeInfo nodeInfo = new NodeInfo();
+    public string testString;
 
     public override void Initialize(Model.NodeData data)
     {
@@ -74,14 +71,20 @@ public class PanelNode : Node, IPanelInfoHolder
     {
         EditorGUILayout.HelpBox("Split By Filter: Split incoming assets by filter conditions.", MessageType.Info);
         editor.UpdateNodeName(node);
+        EditorGUI.BeginChangeCheck();
         nodeInfo.prefab = EditorGUILayout.ObjectField(nodeInfo.prefab, typeof(GameObject), false) as GameObject;
-        if(nodeInfo.prefab != null) {
-            node.Name = nodeInfo.prefab.name;
+        testString = EditorGUILayout.TextField(testString);
+        if (EditorGUI.EndChangeCheck()) {
+            if (nodeInfo.prefab != null)
+            {
+                node.Name = nodeInfo.prefab.name;
+            }
+            onValueChanged.Invoke();
         }
     }
     public override void OnContextMenuGUI(GenericMenu menu)
     {
         base.OnContextMenuGUI(menu);
-        
+
     }
 }

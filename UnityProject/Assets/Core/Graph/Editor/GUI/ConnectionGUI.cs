@@ -17,7 +17,7 @@ namespace NodeGraph {
 		[SerializeField] private ConnectionGUIInspectorHelper m_inspector;
 
 		[SerializeField] private string connectionButtonStyle;
-        
+
 		public string Label {
 			get {
 				return m_data.Label;

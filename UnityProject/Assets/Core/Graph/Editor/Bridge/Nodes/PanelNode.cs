@@ -41,7 +41,7 @@ public class PanelNode : Node {
         }
     }
     public NodeInfo nodeInfo = new NodeInfo();
-    private Model.NodeData data;
+
     public override void Initialize(Model.NodeData data)
     {
         data.AddDefaultOutputPoint();
@@ -58,7 +58,6 @@ public class PanelNode : Node {
 
     public override void OnInspectorGUI(NodeGUI node, NodeGUIEditor editor, Action onValueChanged)
     {
-        data = node.Data;
         EditorGUILayout.HelpBox("Split By Filter: Split incoming assets by filter conditions.", MessageType.Info);
         editor.UpdateNodeName(node);
         nodeInfo.prefab = EditorGUILayout.ObjectField(nodeInfo.prefab, typeof(GameObject), false) as GameObject;

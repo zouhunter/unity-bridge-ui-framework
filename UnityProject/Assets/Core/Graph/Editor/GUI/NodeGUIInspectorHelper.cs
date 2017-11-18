@@ -9,10 +9,10 @@ namespace NodeGraph {
 	 */
     public class NodeGUIInspectorHelper : ScriptableObject {
 		public NodeGUI node;
-		public AssetBundleGraphController controller;
+		public NodeGraphController controller;
 		public List<string> errors = new List<string>();
 
-		public void UpdateNode (AssetBundleGraphController c, NodeGUI node) {
+		public void UpdateNode (NodeGraphController c, NodeGUI node) {
 			this.controller = c;
 			this.node = node;
 		}

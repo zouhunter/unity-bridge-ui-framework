@@ -99,7 +99,7 @@ namespace NodeGraph {
 			}
 		}
 
-		public NodeGUI (AssetBundleGraphController controller, Model.NodeData data) {
+		public NodeGUI (NodeGraphController controller, Model.NodeData data) {
 			m_nodeWindowId = 0;
 			m_graph = controller.TargetGraph;
 			m_data = data;
@@ -110,7 +110,7 @@ namespace NodeGraph {
 			Inspector.controller = controller;
 		}
 
-		public NodeGUI Duplicate (AssetBundleGraphController controller, float newX, float newY) {
+		public NodeGUI Duplicate (NodeGraphController controller, float newX, float newY) {
 			var data = m_data.Duplicate();
 			data.X = newX;
 			data.Y = newY;

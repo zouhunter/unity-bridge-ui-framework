@@ -180,7 +180,7 @@ namespace NodeGraph {
 				}
 			}
 
-			string connectionLabel = "[b]";
+			string connectionLabel = "";
 			//if(totalGroups > 1) {
 			//	connectionLabel = string.Format("{0}:{1}", totalAssets, totalGroups);
 			//} else {

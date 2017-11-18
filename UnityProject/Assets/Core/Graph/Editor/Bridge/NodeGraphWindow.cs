@@ -9,10 +9,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 using Model = NodeGraph.DataModel.Version2;
-using NodeGraph;
 
-///*namespace NodeGraph */{
-public class UIConfigWindow : EditorWindow
+namespace NodeGraph{
+public class NodeGraphWindow : EditorWindow
 {
     public class Settings
     {
@@ -114,7 +113,7 @@ public class UIConfigWindow : EditorWindow
             }
         }
 
-        public void Clear(AssetBundleGraphController controller, bool deactivate = false)
+        public void Clear(NodeGraph.NodeGraphController controller, bool deactivate = false)
         {
 
             if (deactivate)
@@ -191,8 +190,7 @@ public class UIConfigWindow : EditorWindow
     private string graphAssetPath;
     private string graphAssetName;
 
-    private AssetBundleGraphController controller;
-    private BuildTarget target;
+    private NodeGraphController controller;
 
     private Vector2 m_LastMousePosition;
     private Vector2 m_DragNodeDistance;
@@ -229,11 +227,11 @@ public class UIConfigWindow : EditorWindow
      * An alternative way to get Window, becuase
      * GetWindow<AssetBundleGraphEditorWindow>() forces window to be active and present
      */
-    private static UIConfigWindow Window
+    private static NodeGraphWindow Window
     {
         get
         {
-            UIConfigWindow[] windows = Resources.FindObjectsOfTypeAll<UIConfigWindow>();
+                NodeGraphWindow[] windows = Resources.FindObjectsOfTypeAll<NodeGraphWindow>();
             if (windows.Length > 0)
             {
                 return windows[0];
@@ -242,165 +240,11 @@ public class UIConfigWindow : EditorWindow
             return null;
         }
     }
-
-    public static void GenerateScript(ScriptType scriptType)
-    {
-        var destinationBasePath = Model.Settings.Path.UserSpacePath;
-
-        var sourceFileName = string.Empty;
-        var destinationFileName = string.Empty;
-
-        switch (scriptType)
-        {
-            case ScriptType.SCRIPT_MODIFIER:
-                {
-                    sourceFileName = FileUtility.PathCombine(Model.Settings.Path.ScriptTemplatePath, "MyModifier.cs.template");
-                    destinationFileName = "MyModifier{0}{1}";
-                    break;
-                }
-            case ScriptType.SCRIPT_PREFABBUILDER:
-                {
-                    sourceFileName = FileUtility.PathCombine(Model.Settings.Path.ScriptTemplatePath, "MyPrefabBuilder.cs.template");
-                    destinationFileName = "MyPrefabBuilder{0}{1}";
-                    break;
-                }
-            case ScriptType.SCRIPT_POSTPROCESS:
-                {
-                    sourceFileName = FileUtility.PathCombine(Model.Settings.Path.ScriptTemplatePath, "MyPostprocess.cs.template");
-                    destinationFileName = "MyPostprocess{0}{1}";
-                    break;
-                }
-            case ScriptType.SCRIPT_FILTER:
-                {
-                    sourceFileName = FileUtility.PathCombine(Model.Settings.Path.ScriptTemplatePath, "MyFilter.cs.template");
-                    destinationFileName = "MyFilter{0}{1}";
-                    break;
-                }
-            case ScriptType.SCRIPT_NODE:
-                {
-                    sourceFileName = FileUtility.PathCombine(Model.Settings.Path.ScriptTemplatePath, "MyNode.cs.template");
-                    destinationFileName = "MyNode{0}{1}";
-                    break;
-                }
-            case ScriptType.SCRIPT_ASSETGENERATOR:
-                {
-                    sourceFileName = FileUtility.PathCombine(Model.Settings.Path.ScriptTemplatePath, "MyGenerator.cs.template");
-                    destinationFileName = "MyGenerator{0}{1}";
-                    break;
-                }
-            default:
-                {
-                    LogUtility.Logger.LogError(LogUtility.kTag, "Unknown script type found:" + scriptType);
-                    break;
-                }
-        }
-
-        if (string.IsNullOrEmpty(sourceFileName) || string.IsNullOrEmpty(destinationFileName))
-        {
-            return;
-        }
-
-        var destinationPath = FileUtility.PathCombine(destinationBasePath, string.Format(destinationFileName, "", ".cs"));
-        int count = 0;
-        while (File.Exists(destinationPath))
-        {
-            destinationPath = FileUtility.PathCombine(destinationBasePath, string.Format(destinationFileName, ++count, ".cs"));
-        }
-
-        FileUtility.CopyTemplateFile(sourceFileName, destinationPath, string.Format(destinationFileName, "", ""), string.Format(destinationFileName, count == 0 ? "" : count.ToString(), ""));
-
-        AssetDatabase.Refresh();
-
-        //Highlight in ProjectView
-        MonoScript s = AssetDatabase.LoadAssetAtPath<MonoScript>(destinationPath);
-        UnityEngine.Assertions.Assert.IsNotNull(s);
-        EditorGUIUtility.PingObject(s);
-    }
-
-    /*
-        menu items
-    */
-    //[MenuItem(Model.Settings.GUI_TEXT_MENU_GENERATE_FILTER)]
-    //public static void GenerateCustomFilter()
-    //{
-    //    GenerateScript(ScriptType.SCRIPT_FILTER);
-    //}
-    //[MenuItem(Model.Settings.GUI_TEXT_MENU_GENERATE_MODIFIER)]
-    //public static void GenerateModifier()
-    //{
-    //    GenerateScript(ScriptType.SCRIPT_MODIFIER);
-    //}
-    //[MenuItem(Model.Settings.GUI_TEXT_MENU_GENERATE_PREFABBUILDER)]
-    //public static void GeneratePrefabBuilder()
-    //{
-    //    GenerateScript(ScriptType.SCRIPT_PREFABBUILDER);
-    //}
-    //[MenuItem(Model.Settings.GUI_TEXT_MENU_GENERATE_POSTPROCESS)]
-    //public static void GeneratePostprocess()
-    //{
-    //    GenerateScript(ScriptType.SCRIPT_POSTPROCESS);
-    //}
-    //[MenuItem(Model.Settings.GUI_TEXT_MENU_GENERATE_NODE)]
-    //public static void GenerateCustomNode()
-    //{
-    //    GenerateScript(ScriptType.SCRIPT_NODE);
-    //}
-    //[MenuItem(Model.Settings.GUI_TEXT_MENU_GENERATE_ASSETGENERATOR)]
-    //public static void GenerateAssetGenerator()
-    //{
-    //    GenerateScript(ScriptType.SCRIPT_ASSETGENERATOR);
-    //}
-
     [MenuItem(Settings.GUI_TEXT_MENU_OPEN, false, 1)]
     public static void Open()
     {
-        GetWindow<UIConfigWindow>();
+        GetWindow<NodeGraphWindow>();
     }
-
-    //[MenuItem(Model.Settings.GUI_TEXT_MENU_DELETE_CACHE)]
-    //public static void DeleteCache()
-    //{
-    //    FileUtility.RemakeDirectory(Model.Settings.Path.CachePath);
-
-    //    AssetDatabase.Refresh();
-    //}
-
-    //[MenuItem(Model.Settings.GUI_TEXT_MENU_DELETE_IMPORTSETTING_SETTINGS)]
-    //public static void DeleteImportSettingSample()
-    //{
-
-    //    var result = EditorUtility.DisplayDialog("Erase All Import Settings", "Do you want to erase settings for all ImportSetting node? " +
-    //        "This operation is not undoable. It will affect all graphs in this project.", "Yes", "Cancel");
-
-    //    if (result)
-    //    {
-    //        FileUtility.RemakeDirectory(Model.Settings.Path.ImporterSettingsPath);
-    //        AssetDatabase.Refresh();
-    //    }
-    //}
-
-    //[MenuItem(Model.Settings.GUI_TEXT_MENU_BUILD, true, 1 + 101)]
-    //public static bool BuildFromMenuValidator()
-    //{
-    //    // Calling GetWindow<>() will force open window
-    //    // That's not what we want to do in validator function,
-    //    // so just reference s_currentController directly
-    //    var w = Window;
-    //    if (w == null)
-    //    {
-    //        return false;
-    //    }
-    //    return !w.IsAnyIssueFound;
-    //}
-
-    //[MenuItem(Model.Settings.GUI_TEXT_MENU_BUILD, false, 1 + 101)]
-    //public static void BuildFromMenu()
-    //{
-    //    var window = GetWindow<UIBridgeWindow>();
-    //    window.SaveGraph();
-    //    window.Run();
-    //}
-
 
     public void OnFocus()
     {
@@ -408,7 +252,6 @@ public class UIConfigWindow : EditorWindow
         modifyMode = ModifyMode.NONE;
         NodeGUIUtility.NodeEventHandler = HandleNodeEvent;
         ConnectionGUIUtility.ConnectionEventHandler = HandleConnectionEvent;
-
         HandleSelectionChange();
     }
 
@@ -432,11 +275,6 @@ public class UIConfigWindow : EditorWindow
     public void HandleSelectionChange()
     {
         Model.ConfigGraph selectedGraph = null;
-
-        //			if (Selection.activeObject == null)
-        //			{
-        //				controller = null;
-        //			}
 
         if (Selection.activeObject is Model.ConfigGraph && EditorUtility.IsPersistent(Selection.activeObject))
         {
@@ -462,11 +300,10 @@ public class UIConfigWindow : EditorWindow
     {
         LogUtility.Logger.filterLogType = LogType.Warning;
 
-        this.titleContent = new GUIContent("AssetBundle");
+        this.titleContent = new GUIContent("NodeGraph");
         this.minSize = new Vector2(600f, 300f);
         this.wantsMouseMove = true;
-
-        target = EditorUserBuildSettings.activeBuildTarget;
+        //target = EditorUserBuildSettings.activeBuildTarget;
 
         Undo.undoRedoPerformed += () =>
         {
@@ -523,18 +360,18 @@ public class UIConfigWindow : EditorWindow
         }
     }
 
-    //[UnityEditor.Callbacks.OnOpenAsset()]
-    //public static bool OnOpenAsset(int instanceID, int line)
-    //{
-    //    var graph = EditorUtility.InstanceIDToObject(instanceID) as Model.ConfigGraph;
-    //    if (graph != null)
-    //    {
-    //        var window = GetWindow<NodeGraphWindow>();
-    //        window.OpenGraph(graph);
-    //        return true;
-    //    }
-    //    return false;
-    //}
+    [UnityEditor.Callbacks.OnOpenAsset()]
+    public static bool OnOpenAsset(int instanceID, int line)
+    {
+        var graph = EditorUtility.InstanceIDToObject(instanceID) as Model.ConfigGraph;
+        if (graph != null)
+        {
+            var window = GetWindow<NodeGraphWindow>();
+            window.OpenGraph(graph);
+            return true;
+        }
+        return false;
+    }
 
     public void OpenGraph(string path)
     {
@@ -548,7 +385,6 @@ public class UIConfigWindow : EditorWindow
 
     public void OpenGraph(Model.ConfigGraph graph)
     {
-
         CloseGraph();
 
         SetGraphAssetPath(AssetDatabase.GetAssetPath(graph));
@@ -562,7 +398,7 @@ public class UIConfigWindow : EditorWindow
         activeSelection = null;
         currentEventSource = null;
 
-        controller = new AssetBundleGraphController(graph);
+        controller = new NodeGraph.NodeGraphController(graph);
         ConstructGraphGUI();
         Setup();
 
@@ -709,7 +545,7 @@ public class UIConfigWindow : EditorWindow
             // update static all node names.
             NodeGUIUtility.allNodeNames = new List<string>(nodes.Select(node => node.Name).ToList());
 
-            controller.Perform(target, false, forceVisitAll, null);
+            //controller.Perform(target, false, forceVisitAll, null);
 
             //RefreshInspector(controller.StreamManager);
             ShowErrorOnNodes();
@@ -740,7 +576,7 @@ public class UIConfigWindow : EditorWindow
 
             SaveGraph();
 
-            controller.Validate(node, target);
+            //controller.Validate(node, target);
 
             //RefreshInspector(controller.StreamManager);
             ShowErrorOnNodes();
@@ -982,7 +818,7 @@ public class UIConfigWindow : EditorWindow
             showVerboseLog = GUILayout.Toggle(showVerboseLog, "Show Verbose Log", EditorStyles.toolbarButton, GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT));
             LogUtility.Logger.filterLogType = (showVerboseLog) ? LogType.Log : LogType.Warning;
 
-            controller.TargetGraph.UseAsAssetPostprocessor = GUILayout.Toggle(controller.TargetGraph.UseAsAssetPostprocessor, "Use As Postprocessor", EditorStyles.toolbarButton, GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT));
+            //controller.TargetGraph.UseAsAssetPostprocessor = GUILayout.Toggle(controller.TargetGraph.UseAsAssetPostprocessor, "Use As Postprocessor", EditorStyles.toolbarButton, GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT));
 
             GUILayout.FlexibleSpace();
 
@@ -993,26 +829,26 @@ public class UIConfigWindow : EditorWindow
             GUIStyle tbLabelTarget = new GUIStyle(tbLabel);
             tbLabelTarget.fontStyle = FontStyle.Bold;
 
-            GUILayout.Label("Platform:", tbLabel, GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT));
+            //GUILayout.Label("Platform:", tbLabel, GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT));
 
-            var supportedTargets = NodeGUIUtility.SupportedBuildTargets;
-            int currentIndex = Mathf.Max(0, supportedTargets.FindIndex(t => t == target));
+            //var supportedTargets = NodeGUIUtility.SupportedBuildTargets;
+            //int currentIndex = Mathf.Max(0, supportedTargets.FindIndex(t => t == target));
 
-            int newIndex = EditorGUILayout.Popup(currentIndex, NodeGUIUtility.supportedBuildTargetNames,
-                EditorStyles.toolbarPopup, GUILayout.Width(150), GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT));
+            //int newIndex = EditorGUILayout.Popup(currentIndex, NodeGUIUtility.supportedBuildTargetNames,
+            //    EditorStyles.toolbarPopup, GUILayout.Width(150), GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT));
 
-            if (newIndex != currentIndex)
-            {
-                target = supportedTargets[newIndex];
-                Setup(true);
-            }
+            //if (newIndex != currentIndex)
+            //{
+            //    target = supportedTargets[newIndex];
+            //    Setup(true);
+            //}
             EditorGUI.BeginDisabledGroup(controller.IsAnyIssueFound);
             //using (new EditorGUI.DisabledScope(controller.IsAnyIssueFound))
             {
                 if (GUILayout.Button("Build", EditorStyles.toolbarButton, GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT)))
                 {
-                    //EditorApplication.delayCall += BuildFromMenu;
-                    Debug.Log("Build Clicked");
+                    EditorApplication.delayCall += controller.BuildToSelect ;
+                    //Debug.Log("Build Clicked");
                 }
             }
             EditorGUI.EndDisabledGroup();
@@ -1445,7 +1281,7 @@ public class UIConfigWindow : EditorWindow
                     // clear inspector
                     if (Selection.activeObject is NodeGUIInspectorHelper || Selection.activeObject is ConnectionGUIInspectorHelper)
                     {
-                        Selection.activeObject = null;
+                        Selection.activeObject = controller.TargetGraph;
                     }
                     break;
                 }
@@ -2178,7 +2014,8 @@ public class UIConfigWindow : EditorWindow
     private void AddConnection(string label, NodeGUI startNode, Model.ConnectionPointData startPoint, NodeGUI endNode, Model.ConnectionPointData endPoint)
     {
         Undo.RecordObject(this, "Add Connection");
-
+       
+        /* 可以用于删除已经连接上的节线
         var connectionsFromThisNode = connections
             .Where(con => con.OutputNodeId == startNode.Id)
             .Where(con => con.OutputPoint == startPoint)
@@ -2191,7 +2028,7 @@ public class UIConfigWindow : EditorWindow
             {
                 activeSelection.Remove(alreadyExistConnection);
             }
-        }
+        }*/
 
         if (!connections.ContainsConnection(startPoint, endPoint))
         {
@@ -2234,4 +2071,4 @@ public class UIConfigWindow : EditorWindow
         return highest + 1;
     }
 }
-//}
+}

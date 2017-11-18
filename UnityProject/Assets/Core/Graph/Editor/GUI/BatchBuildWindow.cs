@@ -131,7 +131,7 @@ namespace NodeGraph {
 							}
 
 							if(GUILayout.Button("Edit", GUILayout.Width(40f))) {
-								var w = GetWindow<UIConfigWindow>();
+								var w = GetWindow<NodeGraphWindow>();
 								w.OpenGraph(c.AssetPath);
 							}
 						}
@@ -316,7 +316,7 @@ namespace NodeGraph {
 				collection = CreateNewCollection(true);
 			}
 
-			m_result = AssetBundleGraphUtility.ExecuteGraphCollection(m_activeBuildTarget, collection);
+			//m_result = AssetBundleGraphUtility.ExecuteGraphCollection(m_activeBuildTarget, collection);
 
 			foreach(var r in m_result) {
 				if(r.IsAnyIssueFound) {

@@ -33,7 +33,6 @@ public class MainLunchNode : Node
             return "main";
         }
     }
-    private Model.NodeData data;
     public override void Initialize(Model.NodeData data)
     {
         data.AddDefaultOutputPoint();
@@ -49,22 +48,11 @@ public class MainLunchNode : Node
 
     public override void OnInspectorGUI(NodeGUI node, NodeGUIEditor editor, Action onValueChanged)
     {
-        data = node.Data;
-        EditorGUILayout.HelpBox("Split By Filter: Split incoming assets by filter conditions.", MessageType.Info);
+        EditorGUILayout.HelpBox("Main Panel: Defult Open Rule,And Hold Other Panels", MessageType.Info);
         editor.UpdateNodeName(node);
     }
     public override void OnContextMenuGUI(GenericMenu menu)
     {
         base.OnContextMenuGUI(menu);
-        menu.AddItem(new GUIContent("Add Node"), false, () =>
-        {
-            Debug.Log("Add");
-            data.AddOutputPoint("");
-        });
-        menu.AddItem(new GUIContent("Delete Node"), false, () =>
-        {
-            Debug.Log("Delete");
-
-        });
     }
 }

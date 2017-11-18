@@ -34,7 +34,6 @@ public class AnyLunchNode : Node
             return "anly";
         }
     }
-    private Model.NodeData data;
     public override void Initialize(Model.NodeData data)
     {
         data.AddDefaultOutputPoint();
@@ -50,22 +49,11 @@ public class AnyLunchNode : Node
 
     public override void OnInspectorGUI(NodeGUI node, NodeGUIEditor editor, Action onValueChanged)
     {
-        data = node.Data;
-        EditorGUILayout.HelpBox("Split By Filter: Split incoming assets by filter conditions.", MessageType.Info);
+        EditorGUILayout.HelpBox("Any Lunch: Lunch SubPanels From Any State", MessageType.Info);
         editor.UpdateNodeName(node);
     }
     public override void OnContextMenuGUI(GenericMenu menu)
     {
         base.OnContextMenuGUI(menu);
-        menu.AddItem(new GUIContent("Add Node"), false, () =>
-        {
-            Debug.Log("Add");
-            data.AddOutputPoint("");
-        });
-        menu.AddItem(new GUIContent("Delete Node"), false, () =>
-        {
-            Debug.Log("Delete");
-
-        });
     }
 }

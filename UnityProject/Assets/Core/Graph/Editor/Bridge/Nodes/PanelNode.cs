@@ -14,9 +14,14 @@ using Model = NodeGraph.DataModel.Version2;
 using NodeGraph;
 using System;
 using UnityEditor;
+public interface IPanelInfoHolder
+{
+    NodeInfo Info { get; }
+}
 
 [CustomNode("Panel/PanelNode", 5)]
-public class PanelNode : Node {
+public class PanelNode : Node, IPanelInfoHolder
+{
     public override string ActiveStyle
     {
         get
@@ -40,6 +45,15 @@ public class PanelNode : Node {
             return "panel";
         }
     }
+
+    public NodeInfo Info
+    {
+        get
+        {
+            return nodeInfo;
+        }
+    }
+
     public NodeInfo nodeInfo = new NodeInfo();
 
     public override void Initialize(Model.NodeData data)

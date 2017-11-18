@@ -8,7 +8,7 @@ using V1 = AssetBundleGraph;
 using Model = NodeGraph.DataModel.Version2;
 using NodeGraph;
 [CustomNode("Panel/MainPanel", 1)]
-public class MainLunchNode : Node
+public class MainPanelNode : Node
 {
     public override string ActiveStyle
     {
@@ -41,7 +41,7 @@ public class MainLunchNode : Node
 
     public override Node Clone(Model.NodeData newData)
     {
-        var newNode = new MainLunchNode();
+        var newNode = new MainPanelNode();
         Debug.Log("Clone");
         return newNode;
     }

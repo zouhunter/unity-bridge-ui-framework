@@ -66,41 +66,238 @@ namespace NodeGraph
 
             m_nodeExceptions.Clear();
 
-            var leftNode = TargetGraph.CollectAllLeafNodes();
-            foreach (var item in leftNode)
+            foreach (var item in TargetGraph.Nodes)
             {
                 if (item.Operation.Object is IPanelInfoHolder)
                 {
                     var nodeItem = item.Operation.Object as IPanelInfoHolder;
-                    if (nodeItem.Info.prefab == null)
+                    var guid = nodeItem.Info.prefabGuid;
+                    if (string.IsNullOrEmpty(guid) || string.IsNullOrEmpty(AssetDatabase.GUIDToAssetPath(guid)))
                     {
                         m_nodeExceptions.Add(new NodeException("prefab is null", item.Id));
                     }
                 }
-            }
-            var connectons = TargetGraph.Connections;
-            foreach (var item in connectons)
-            {
-                Debug.Log("Connection: " + item.Label);
             }
 
             LogUtility.Logger.Log(LogType.Log, "---Setup END---");
         }
         internal void BuildToSelect()
         {
-            var leftNode = TargetGraph.CollectAllLeafNodes();
-            foreach (var item in leftNode)
+            if (Selection.activeObject != null)
             {
-                Debug.Log("CollectAllLeftNodes: " + item.Name);
-            }
-            var connectons = TargetGraph.Connections;
-            foreach (var item in connectons)
-            {
-                Debug.Log("Connection: " + item.Label);
+                if (Selection.activeObject is PanelGroupObj)
+                {
+                    StoreInfoToPanleGroupObj(Selection.activeObject as PanelGroupObj);
+                }
+                else if (Selection.activeGameObject != null)
+                {
+                    var panelGroup = Selection.activeGameObject.GetComponent<PanelGroup>();
+                    if (panelGroup != null)
+                    {
+                        StoreInfoToPanelGroup(panelGroup);
+                    }
+                }
             }
         }
 
+        /// <summary>
+        /// 将信息保存到PanelGroupObj
+        /// </summary>
+        /// <param name="obj"></param>
+        private void StoreInfoToPanleGroupObj(PanelGroupObj group)
+        {
+            InsertBridges(group.bridges, GetBridges());
+            if (group.loadType == LoadType.Prefab)
+            {
+                InsertPrefabinfo(group.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
+            }
+            else if (group.loadType == LoadType.Bundle)
+            {
+                InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
+            }
+        }
 
+        /// <summary>
+        /// 将信息到保存到PanelGroup
+        /// </summary>
+        /// <param name="group"></param>
+        private void StoreInfoToPanelGroup(PanelGroup group)
+        {
+            InsertBridges(group.bridges, GetBridges());
+            if (group.loadType == LoadType.Prefab)
+            {
+                InsertPrefabinfo(group.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
+            }
+            else if (group.loadType == LoadType.Bundle)
+            {
+                InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
+            }
+        }
+
+        private void InsertBridges(List<Bridge> source, List<Bridge> newBridges)
+        {
+            if (newBridges == null) return;
+            foreach (var item in newBridges)
+            {
+                var old = source.Find(x => x.inNode == item.inNode && x.outNode == item.outNode);
+                if (old != null)
+                {
+                    old.showModel = item.showModel;
+                }
+                else
+                {
+                    source.Add(item);
+                }
+            }
+        }
+        private void InsertPrefabinfo(List<PrefabUIInfo> source, List<PrefabUIInfo> newInfo)
+        {
+            if (newInfo == null) return;
+            foreach (var item in newInfo)
+            {
+                var old = source.Find(x => x.panelName == item.panelName);
+                if (old != null)
+                {
+                    old.prefab  = item.prefab;
+                    old.type = item.type;
+                }
+                else
+                {
+                    source.Add(item);
+                }
+            }
+        }
+        private void InsertBundleinfo(List<BundleUIInfo> source, List<BundleUIInfo> newInfo)
+        {
+            if (newInfo == null) return;
+            foreach (var item in newInfo)
+            {
+                var old = source.Find(x => x.panelName == item.panelName);
+
+                if (old != null)
+                {
+                    old.guid = item.guid;
+                    old.type = item.type;
+                    CompleteBundleUIInfo(old);
+                }
+                else
+                {
+                    CompleteBundleUIInfo(item);
+                    source.Add(item);
+                }
+            }
+        }
+        private List<Bridge> GetBridges()
+        {
+            var nodes = TargetGraph.Nodes;
+            var connectons = TargetGraph.Connections;
+            var bridges = new List<Bridge>();
+            foreach (var item in connectons)
+            {
+                var bridge = new Bridge();
+                var innode = nodes.Find(x => x.OutputPoints != null && x.OutputPoints.Find(y => y.Id == item.FromNodeConnectionPointId) != null);
+                var outnode = nodes.Find(x => x.InputPoints != null && x.InputPoints.Find(y => y.Id == item.ToNodeConnectionPointId) != null);
+                if (innode != null)
+                {
+                    bridge.inNode = innode.Name;
+                }
+                if (outnode != null)
+                {
+                    bridge.outNode = outnode.Name;
+                }
+                bridge.showModel = item.Show;
+                bridges.Add(bridge);
+            }
+            return bridges;
+        }
+
+        private List<NodeInfo> GetNodeInfos()
+        {
+            var nodeInfos = new List<NodeInfo>();
+            var nodes = TargetGraph.Nodes;
+            foreach (var item in nodes)
+            {
+                var nodeItem = item.Operation.Object as IPanelInfoHolder;
+                if (nodeItem != null)
+                {
+                    var guid = nodeItem.Info.prefabGuid;
+                    var path = AssetDatabase.GUIDToAssetPath(guid);
+                    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                    nodeInfos.Add(nodeItem.Info);
+                }
+            }
+            return nodeInfos;
+        }
+
+        private List<PrefabUIInfo> GetPrefabUIInfos(List<NodeInfo> infos)
+        {
+            var pinfos = new List<PrefabUIInfo>();
+            foreach (var item in infos)
+            {
+                var p = new PrefabUIInfo();
+                p.type = new global::UIType();
+                p.type.form = item.form;
+                p.type.layer = item.layer;
+                p.type.layerIndex = item.layerIndex;
+                p.prefab = LoadPrefabFromGUID(item.prefabGuid);
+                p.panelName = p.prefab.name;
+                pinfos.Add(p);
+            }
+            return pinfos;
+        }
+
+        private GameObject LoadPrefabFromGUID(string guid)
+        {
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            if (!string.IsNullOrEmpty(path))
+            {
+                return AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private List<BundleUIInfo> GetBundleUIInfos(List<NodeInfo> infos)
+        {
+            var binfo = new List<BundleUIInfo>();
+            foreach (var item in infos)
+            {
+                var p = new BundleUIInfo();
+                p.type = new global::UIType();
+                p.type.form = item.form;
+                p.type.layer = item.layer;
+                p.type.layerIndex = item.layerIndex;
+                p.guid = item.prefabGuid;
+                binfo.Add(p);
+            }
+            return binfo;
+        }
+
+        private void CompleteBundleUIInfo(BundleUIInfo binfo)
+        {
+            if (string.IsNullOrEmpty(binfo.guid))
+            {
+                return;
+            }
+            else
+            {
+                var path = AssetDatabase.GUIDToAssetPath(binfo.guid);
+                var importer = AssetImporter.GetAtPath(path);
+                var obj = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                if(importer)
+                {
+                    binfo.bundleName = importer.assetBundleName;
+                    binfo.panelName = obj.name;
+                    binfo.good = true;
+                }
+                else
+                {
+                    binfo.good = false;
+                }
+            }
+        }
 
     }
 }

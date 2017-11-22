@@ -61,7 +61,7 @@ namespace AssetBundleGraph {
                         var fileInfo = new FileInfo(configGuiPath);
                         var baseDir = fileInfo.Directory.Parent.Parent.Parent.Parent;
 
-                        Assert.AreEqual ("NodeGraph", baseDir.Name);
+                        Assert.AreEqual ("Graph", baseDir.Name);
 
                         s_basePath = baseDir.ToString().Replace( '\\', '/');
                     }

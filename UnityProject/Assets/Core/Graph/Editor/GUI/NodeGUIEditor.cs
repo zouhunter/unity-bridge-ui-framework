@@ -13,18 +13,6 @@ namespace NodeGraph {
 	[CustomEditor(typeof(NodeGUIInspectorHelper))]
 	public class NodeGUIEditor : Editor {
 
-		public static BuildTargetGroup currentEditingGroup = 
-			BuildTargetUtility.DefaultTarget;
-
-		//[NonSerialized] private IModifier m_modifier;
-		//[NonSerialized] private IPrefabBuilder m_prefabBuilder;
-
-		public BuildTargetGroup CurrentEditingGroup {
-			get {
-				return currentEditingGroup;
-			}
-		}
-
 		public override bool RequiresConstantRepaint() {
 			return true;
 		}
@@ -73,63 +61,6 @@ namespace NodeGraph {
 			}
 		}
 
-		/*
-		 *  Return true if Platform is changed
-		 */ 
-		public bool DrawPlatformSelector (NodeGUI node) {
-			BuildTargetGroup g = currentEditingGroup;
-			bool editGroupChanged = false;
-
-			EditorGUI.BeginChangeCheck();
-			using (new EditorGUILayout.HorizontalScope()) {
-				var choosenIndex = -1;
-				for (var i = 0; i < NodeGUIUtility.platformButtons.Length; i++) {
-					var onOffBefore = NodeGUIUtility.platformButtons[i].targetGroup == currentEditingGroup;
-					var onOffAfter = onOffBefore;
-
-					GUIStyle toolbarbutton = new GUIStyle("toolbarbutton");
-
-					if(NodeGUIUtility.platformButtons[i].targetGroup == BuildTargetUtility.DefaultTarget) {
-						onOffAfter = GUILayout.Toggle(onOffBefore, NodeGUIUtility.platformButtons[i].ui, toolbarbutton);
-					} else {
-						var width = Mathf.Max(32f, toolbarbutton.CalcSize(NodeGUIUtility.platformButtons[i].ui).x);
-						onOffAfter = GUILayout.Toggle(onOffBefore, NodeGUIUtility.platformButtons[i].ui, toolbarbutton, GUILayout.Width( width ));
-					}
-
-					if (onOffBefore != onOffAfter) {
-						choosenIndex = i;
-						break;
-					}
-				}
-
-				if (EditorGUI.EndChangeCheck()) {
-					g = NodeGUIUtility.platformButtons[choosenIndex].targetGroup;
-				}
-			}
-
-			if (g != currentEditingGroup) {
-				currentEditingGroup = g;
-				editGroupChanged = true;
-				GUI.FocusControl(string.Empty);
-			}
-
-			return editGroupChanged;
-		}
-
-		public bool DrawOverrideTargetToggle(NodeGUI node, bool status, Action<bool> onStatusChange) {
-
-			if( currentEditingGroup == BuildTargetUtility.DefaultTarget ) {
-				return false;
-			}
-
-			bool newStatus = GUILayout.Toggle(status, 
-				"Override for " + NodeGUIUtility.GetPlatformButtonFor(currentEditingGroup).ui.tooltip);
-			
-			if(newStatus != status && onStatusChange != null) {
-				onStatusChange(newStatus);
-			}
-			return !newStatus;
-		}
 
         public string DrawFolderSelector(string label, 
             string dialogTitle, 

@@ -18,6 +18,5 @@ public abstract class UIInfoBase{
     public int instanceID;
     public abstract string IDName { get; }
     public UIType type;
-    public int layer;
     public UnityAction<GameObject> OnCreate;
 }

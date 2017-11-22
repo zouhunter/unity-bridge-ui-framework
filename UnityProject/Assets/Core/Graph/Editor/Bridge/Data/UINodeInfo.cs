@@ -10,9 +10,11 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-[SerializeField]
+[System.Serializable]
 public class NodeInfo {
-    public LoadType type;
-    public UIType uiType;
-    public GameObject prefab;
+    public int layerIndex;
+    public UIFormType form = UIFormType.Fixed;
+    public UILayerType layer = UILayerType.Bottom;
+    public UILucenyType luceny = UILucenyType.Lucency;
+    public string prefabGuid;
 }

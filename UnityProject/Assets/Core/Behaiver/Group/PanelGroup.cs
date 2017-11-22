@@ -35,7 +35,6 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
     public List<UIInfoBase> Nodes { get { return activeNodes; } }
 
     public Transform Trans { get { return transform; } }
-
     private IPanelCreater creater;
 
     void Awake()

@@ -16,9 +16,8 @@ using System.Collections;
 public enum ShowModel
 {
     Normal = 1,//普通演示不对其他对象造成影响
-    Mask = 1 << 1,//建立遮罩防止点击其他对象
-    HideParent = 1 << 2,//将父级面板隐去
-    TypeSingle = 1 << 3,//该类型中唯一显示
-    CanvasSingle = 1 << 4,//整个界面上唯一显示
-    WorldSingle = 1 << 5//整个场景界面唯一显示
+    MaskOnly = 2,//建立遮罩防止点击其他对象
+    HideParent = 3,//将父级面板隐去
+    TypeSingle = 4,//该类型中唯一显示
+    CanvasSingle = 5,//整个界面上唯一显示
 }

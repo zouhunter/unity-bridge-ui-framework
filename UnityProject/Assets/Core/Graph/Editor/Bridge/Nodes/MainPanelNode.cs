@@ -8,7 +8,7 @@ using V1 = AssetBundleGraph;
 using Model = NodeGraph.DataModel.Version2;
 using NodeGraph;
 [CustomNode("Panel/MainPanel", 1)]
-public class MainPanelNode : Node
+public class MainPanelNode : PanelNodeBase
 {
     public override string ActiveStyle
     {
@@ -33,24 +33,21 @@ public class MainPanelNode : Node
             return "main";
         }
     }
+
+    protected override string HeadInfo
+    {
+        get
+        {
+            return "this is one main panel of scene,hold other panel ,and can open by defult rule";
+        }
+    }
+
     public override void Initialize(Model.NodeData data)
     {
         data.AddDefaultOutputPoint();
         Debug.Log("Initialize");
     }
 
-    public override Node Clone(Model.NodeData newData)
-    {
-        var newNode = new MainPanelNode();
-        Debug.Log("Clone");
-        return newNode;
-    }
-
-    public override void OnInspectorGUI(NodeGUI node, NodeGUIEditor editor, Action onValueChanged)
-    {
-        EditorGUILayout.HelpBox("Main Panel: Defult Open Rule,And Hold Other Panels", MessageType.Info);
-        editor.UpdateNodeName(node);
-    }
     public override void OnContextMenuGUI(GenericMenu menu)
     {
         base.OnContextMenuGUI(menu);

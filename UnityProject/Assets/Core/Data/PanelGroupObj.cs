@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class PanelGroupObj : ScriptableObject
 {
-    public LoadType loadType;
+    public LoadType loadType = LoadType.Prefab;
     public List<BundleUIInfo> b_nodes;
     public List<PrefabUIInfo> p_nodes;
     public List<Bridge> bridges;

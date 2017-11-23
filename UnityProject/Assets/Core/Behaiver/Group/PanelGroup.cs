@@ -26,7 +26,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
     public List<PrefabUIInfo> p_nodes;
     public List<Bridge> bridges;
     public List<PanelGroupObj> subGroups;
-
+    private Bridge defultBridge;
     private Dictionary<Bridge, BridgePool> poolDic = new Dictionary<Bridge, BridgePool>();
     private List<IPanelBase> createdPanels = new List<IPanelBase>();
     private Stack<IPanelBase> hidedPanels = new Stack<IPanelBase>();
@@ -114,7 +114,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
     {
         uiNode = Nodes.Find(x => x.panelName == panelName);
 
-        if (uiNode != null && uiNode.type.form == UIFormType.Fixed)
+        if (uiNode != null)// && uiNode.type.form == UIFormType.Fixed
         {
             var oldPanel = createdPanels.Find(x => x.Name == panelName);
             if (oldPanel != null)
@@ -124,18 +124,41 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
             }
         }
 
-        var bridge = bridges.Find(x => x.inNode == parentName && x.outNode == panelName);
+        if (uiNode == null) {
+            bridgeObj = null;
+            return false;
+        }
 
-        if (bridge != null)
+        bridgeObj = GetBridgeClamp(parentName, panelName);
+        return uiNode != null && bridgeObj != null;
+    }
+
+    private Bridge GetBridgeClamp(string parentName,string panelName)
+    {
+        var mayBridge = bridges.FindAll(x => x.outNode == panelName);
+        Bridge bridge = null;
+        if (mayBridge != null && mayBridge.Count > 0)
         {
-            bridgeObj = poolDic[bridge].Allocate();
+            var dirBridge = mayBridge.Find(x => x.inNode == parentName);
+            if (dirBridge != null)
+            {
+                bridge = dirBridge;
+            }
+            else
+            {
+                bridge = mayBridge[0];
+            }
+            return poolDic[bridge].Allocate();
         }
         else
         {
-            bridgeObj = null;
+            bridge = poolDic[defultBridge].Allocate();
+            bridge.inNode = parentName;
+            bridge.outNode = panelName;
+            bridge.showModel = ShowModel.Normal;
+            return bridge;
         }
 
-        return uiNode != null && bridgeObj != null;
     }
 
     /// <summary>
@@ -147,6 +170,8 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
         {
             poolDic[item] = new BridgePool(item);
         }
+        defultBridge = new Bridge();
+        poolDic[defultBridge] = new BridgePool(defultBridge);
     }
     protected virtual void OnDestroy()
     {

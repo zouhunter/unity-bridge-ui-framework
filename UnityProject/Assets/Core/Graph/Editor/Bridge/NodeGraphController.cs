@@ -115,6 +115,7 @@ namespace NodeGraph
             {
                 InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
             }
+            EditorUtility.SetDirty(group);
         }
 
         /// <summary>
@@ -132,6 +133,7 @@ namespace NodeGraph
             {
                 InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
             }
+            EditorUtility.SetDirty(group);
         }
 
         private void InsertBridges(List<Bridge> source, List<Bridge> newBridges)
@@ -220,9 +222,9 @@ namespace NodeGraph
                 var nodeItem = item.Operation.Object as IPanelInfoHolder;
                 if (nodeItem != null)
                 {
-                    var guid = nodeItem.Info.prefabGuid;
-                    var path = AssetDatabase.GUIDToAssetPath(guid);
-                    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                    //var guid = nodeItem.Info.prefabGuid;
+                    //var path = AssetDatabase.GUIDToAssetPath(guid);
+                    //var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                     nodeInfos.Add(nodeItem.Info);
                 }
             }

@@ -15,9 +15,9 @@ using System.Collections;
 /// </summary>
 public enum ShowModel
 {
-    Normal = 1,//普通演示不对其他对象造成影响
-    MaskOnly = 2,//建立遮罩防止点击其他对象
-    HideParent = 3,//将父级面板隐去
-    TypeSingle = 4,//该类型中唯一显示
-    CanvasSingle = 5,//整个界面上唯一显示
+    Auto = 1,//当上级显示时显示
+    Mutex =1<< 1,//排斥有相同关键字的面版
+    Cover = 1 << 2,//建立遮罩防止点击其他对象
+    HideBase = 1 << 3,//将父级面板隐去
+    Single = 1 << 4,//隐藏所有打开的面板
 }

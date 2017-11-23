@@ -149,6 +149,32 @@ public partial class Utility
         }
     }
 
+    public static string ShowModelToString(ShowModel show)
+    {
+        string str = "";
+        if((show & ShowModel.Auto) == ShowModel.Auto)
+        {
+            str += "[a]";
+        }
+        if((show & ShowModel.Cover) == ShowModel.Cover)
+        {
+            str += "[c]";
+        }
+        if((show & ShowModel.Mutex) == ShowModel.Mutex)
+        {
+            str += "[m]";
+        }
+        if((show & ShowModel.HideBase) == ShowModel.HideBase)
+        {
+            str += "[h]";
+        }
+        if((show & ShowModel.Single) == ShowModel.Single)
+        {
+            str += "[s]";
+        }
+        return str;
+    }
+
     private static void CopyPropertyValueSingular(SerializedProperty destProperty, SerializedProperty sourceProperty)
     {
         switch (destProperty.propertyType)

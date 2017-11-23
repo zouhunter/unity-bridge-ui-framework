@@ -31,10 +31,27 @@ namespace NodeGraph
             }
             EditorGUILayout.HelpBox("界面切换规则:", MessageType.Info);
 
-            using (var hor = new EditorGUILayout.HorizontalScope())
+            DrawToggleFromShowModel(con, ShowModel.Auto);
+            DrawToggleFromShowModel(con, ShowModel.Mutex);
+            DrawToggleFromShowModel(con, ShowModel.Cover);
+            DrawToggleFromShowModel(con, ShowModel.HideBase);
+            DrawToggleFromShowModel(con, ShowModel.Single);
+        }
+        private void DrawToggleFromShowModel(ConnectionGUI con,ShowModel model)
+        {
+            var on = (con.Data._show & model) == model;
+            GUIStyle option = on ? EditorStyles.toolbarButton : EditorStyles.toolbarDropDown;
+            if (GUILayout.Button(model.ToString(), option))
             {
-                EditorGUILayout.TextField("优化级:",EditorStyles.boldLabel);
-                con.Data._show = (ShowModel)EditorGUILayout.EnumPopup(con.Data._show);
+                on = !on;
+                if (on)
+                {
+                    con.Data._show |= model;
+                }
+                else
+                {
+                    con.Data._show &= ~model;
+                }
             }
         }
     }

@@ -180,7 +180,7 @@ namespace NodeGraph {
 				}
 			}
 
-			string connectionLabel = Data.Show.ToString();
+            string connectionLabel = Utility.ShowModelToString(Data.Show);
 			//if(totalGroups > 1) {
 			//	connectionLabel = string.Format("{0}:{1}", totalAssets, totalGroups);
 			//} else {
@@ -216,7 +216,6 @@ namespace NodeGraph {
 				ConnectionGUIUtility.ConnectionEventHandler(new ConnectionEvent(ConnectionEvent.EventType.EVENT_CONNECTION_TAPPED, this));
 			}
 		}
-
 		public bool IsEqual (Model.ConnectionPointData from, Model.ConnectionPointData to) {
 			return (m_outputPoint == from && m_inputPoint == to);
 		}

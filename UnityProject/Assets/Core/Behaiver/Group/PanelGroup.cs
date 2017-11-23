@@ -98,7 +98,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
     private void InitPanelByBridge(IPanelBase panel, Bridge bridge)
     {
         var parent = createdPanels.Find(x => x.Name == bridge.inNode);
-        if ((bridge.showModel & ShowModel.HideParent) == ShowModel.HideParent)
+        if ((bridge.showModel & ShowModel.HideBase) == ShowModel.HideBase)
         {
             if (parent != null)
             {
@@ -155,7 +155,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
             bridge = poolDic[defultBridge].Allocate();
             bridge.inNode = parentName;
             bridge.outNode = panelName;
-            bridge.showModel = ShowModel.Normal;
+            bridge.showModel = 0;
             return bridge;
         }
 

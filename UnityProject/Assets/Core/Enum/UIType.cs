@@ -1,5 +1,5 @@
 ﻿/// <summary>
-/// 基本的窗口类型
+/// 基本的窗口类型（觉得能否多开）
 /// </summary>
 public enum UIFormType
 {
@@ -7,17 +7,17 @@ public enum UIFormType
     DragAble//可拖拽(可以打开多个小窗体)
 }
 /// <summary>
-/// 基本层级类型
+/// 基本层级类型（绝对层级）
 /// </summary>
 public enum UILayerType
 {
-    Bottom = 1,
-    Middle = 2,
-    Top = 3
+    Base = 1,//最低层，可以被任何界面复盖
+    Tip = 2,//自动关闭的小提示（自动关，所以可以高点）
+    Warning = 3//用于程序状态警告（不可以被其他层级掩盖）
 }
 
 /// <summary>
-/// UI窗体透明度类型
+/// UI窗体透明度类型(隐藏的一种方式)
 /// </summary>
 public enum UILucenyType
 {
@@ -38,10 +38,12 @@ public enum UILucenyType
 public class UIType
 {
     public int layerIndex;
+    //关键字
+    public string mutexKey;
     //位置
     public UIFormType form = UIFormType.Fixed;
     //层级
-    public UILayerType layer = UILayerType.Bottom;
+    public UILayerType layer = UILayerType.Base;
     //透明度
     public UILucenyType luceny = UILucenyType.Lucency;
 

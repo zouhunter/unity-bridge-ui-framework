@@ -289,13 +289,13 @@ public partial class Utility {
 
         switch (layer)
         {
-            case UILayerType.Bottom:
+            case UILayerType.Base:
                 str += "[B]";
                 break;
-            case UILayerType.Middle:
+            case UILayerType.Tip:
                 str += "[M]";
                 break;
-            case UILayerType.Top:
+            case UILayerType.Warning:
                 str += "[T]";
                 break;
             default:

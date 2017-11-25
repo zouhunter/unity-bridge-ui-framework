@@ -31,17 +31,17 @@ namespace NodeGraph
             }
             EditorGUILayout.HelpBox("界面切换规则:", MessageType.Info);
 
-            DrawToggleFromShowModel(con, ShowModel.Auto);
-            DrawToggleFromShowModel(con, ShowModel.Mutex);
-            DrawToggleFromShowModel(con, ShowModel.Cover);
-            DrawToggleFromShowModel(con, ShowModel.HideBase);
-            DrawToggleFromShowModel(con, ShowModel.Single);
+            DrawToggleFromShowModel(con, ShowModel.Auto,"父级界面的开关状态控制连接到的界面开关");
+            DrawToggleFromShowModel(con, ShowModel.Mutex,"让拥有相同关键字的其他界面关闭");
+            DrawToggleFromShowModel(con, ShowModel.Cover, "建立遮罩防止点击其他对象");
+            DrawToggleFromShowModel(con, ShowModel.HideBase,"连接到的界面控制将父级界面开关");
+            DrawToggleFromShowModel(con, ShowModel.Single, "隐藏所有打开的面板");
         }
-        private void DrawToggleFromShowModel(ConnectionGUI con,ShowModel model)
+        private void DrawToggleFromShowModel(ConnectionGUI con,ShowModel model,string toolTip)
         {
             var on = (con.Data._show & model) == model;
             GUIStyle option = on ? EditorStyles.toolbarButton : EditorStyles.toolbarDropDown;
-            if (GUILayout.Button(model.ToString(), option))
+            if (GUILayout.Button(new GUIContent( model.ToString(),toolTip), option))
             {
                 on = !on;
                 if (on)

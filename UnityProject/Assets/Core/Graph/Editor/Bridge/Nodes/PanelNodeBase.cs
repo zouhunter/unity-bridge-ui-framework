@@ -85,6 +85,11 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
     {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
+            EditorGUILayout.LabelField("关键字:", EditorStyles.largeLabel);
+            nodeInfo.mutexKey = EditorGUILayout.TextField(nodeInfo.mutexKey);
+        }
+        using (var hor = new EditorGUILayout.HorizontalScope())
+        {
             EditorGUILayout.LabelField("窗体类型:", EditorStyles.largeLabel);
             nodeInfo.form = (UIFormType)EditorGUILayout.EnumPopup(nodeInfo.form);
         }
@@ -95,9 +100,15 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
         }
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("层级id:", EditorStyles.largeLabel);
+            EditorGUILayout.LabelField("透明度:", EditorStyles.largeLabel);
+            nodeInfo.luceny = (UILucenyType)EditorGUILayout.EnumPopup(nodeInfo.luceny);
+        }
+        using (var hor = new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField("优先级:", EditorStyles.largeLabel);
             nodeInfo.layerIndex = EditorGUILayout.IntField(nodeInfo.layerIndex);
         }
+
     }
     private bool ChangeCheckField(UnityAction func)
     {

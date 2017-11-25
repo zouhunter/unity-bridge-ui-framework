@@ -31,6 +31,15 @@ public enum UILucenyType
     Pentrate
 }
 
+//显示时的动画类型
+public enum UIAnimType
+{
+    NoAnim,
+    LeftMoveIn,
+    ScaleFromZero,
+    ScaleFromLarge
+}
+
 /// <summary>
 /// ui的基本类型
 /// </summary>
@@ -45,6 +54,7 @@ public class UIType
     //层级
     public UILayerType layer = UILayerType.Base;
     //透明度
-    public UILucenyType luceny = UILucenyType.Lucency;
-
+    public UILucenyType hideLuceny = UILucenyType.Lucency;
+    //动画类型
+    public UIAnimType animType = UIAnimType.NoAnim;
 }

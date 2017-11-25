@@ -10,9 +10,9 @@ using UnityEngine.Events;
 public class Bridge  {
 
     #region 加载规则
-    public string inNode;
+    public string    inNode;
     public ShowModel showModel;
-    public string outNode;
+    public string    outNode;
     #endregion
 
     #region 实例使用

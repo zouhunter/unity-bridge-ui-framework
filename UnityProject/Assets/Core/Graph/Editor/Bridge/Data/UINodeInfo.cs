@@ -16,6 +16,7 @@ public class NodeInfo {
     public string mutexKey;
     public UIFormType form = UIFormType.Fixed;
     public UILayerType layer = UILayerType.Base;
-    public UILucenyType luceny = UILucenyType.Lucency;
+    public UILucenyType hideLuceny = UILucenyType.Lucency;
+    public UIAnimType animType = UIAnimType.NoAnim;
     public string prefabGuid;
 }

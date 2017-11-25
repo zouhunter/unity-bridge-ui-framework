@@ -16,7 +16,9 @@ public class UIHandle {
 
     private List<Bridge> bridges = new List<Bridge>();
 
-    public UnityAction<string,object> callBack;
+    public UnityAction<string,object> callBack { get; set; }
+
+    public UnityAction<string> onClose { get; set; }
 
     public UnityAction<string> onRelease { get; set; }
 
@@ -68,9 +70,12 @@ public class UIHandle {
 
     public void Release()
     {
+        callBack = null;
+        onClose = null;
         if (onRelease != null)
         {
             onRelease(panelName);
         }
+
     }
 }

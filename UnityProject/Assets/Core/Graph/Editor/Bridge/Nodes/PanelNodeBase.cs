@@ -8,6 +8,7 @@ using UnityEditor;
 
 public abstract class PanelNodeBase : Node, IPanelInfoHolder
 {
+    private const int lableWidth = 120;
     public NodeInfo nodeInfo = new NodeInfo();
     private GameObject prefab;
     public NodeInfo Info
@@ -77,7 +78,7 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
     {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("预制体:", EditorStyles.largeLabel);
+            EditorGUILayout.LabelField("【预制体】:", EditorStyles.largeLabel,GUILayout.Width(lableWidth));
             prefab = EditorGUILayout.ObjectField(prefab, typeof(GameObject), false) as GameObject;
         }
     }
@@ -85,28 +86,33 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
     {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("关键字:", EditorStyles.largeLabel);
+            EditorGUILayout.LabelField("唯一关键字:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
             nodeInfo.mutexKey = EditorGUILayout.TextField(nodeInfo.mutexKey);
         }
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("窗体类型:", EditorStyles.largeLabel);
+            EditorGUILayout.LabelField("可移动机制:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
             nodeInfo.form = (UIFormType)EditorGUILayout.EnumPopup(nodeInfo.form);
         }
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("层级分类:", EditorStyles.largeLabel);
+            EditorGUILayout.LabelField("绝对显示层:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
             nodeInfo.layer = (UILayerType)EditorGUILayout.EnumPopup(nodeInfo.layer);
         }
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("透明度:", EditorStyles.largeLabel);
-            nodeInfo.luceny = (UILucenyType)EditorGUILayout.EnumPopup(nodeInfo.luceny);
+            EditorGUILayout.LabelField("相对优先级:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            nodeInfo.layerIndex = EditorGUILayout.IntField(nodeInfo.layerIndex);
         }
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("优先级:", EditorStyles.largeLabel);
-            nodeInfo.layerIndex = EditorGUILayout.IntField(nodeInfo.layerIndex);
+            EditorGUILayout.LabelField("隐藏透明度:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            nodeInfo.hideLuceny = (UILucenyType)EditorGUILayout.EnumPopup(nodeInfo.hideLuceny);
+        }
+        using (var hor = new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField("出场动画组:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            nodeInfo.animType = (UIAnimType)EditorGUILayout.EnumPopup(nodeInfo.animType);
         }
 
     }

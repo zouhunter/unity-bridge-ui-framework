@@ -174,17 +174,17 @@ namespace NodeGraph
             if (newInfo == null) return;
             foreach (var item in newInfo)
             {
+                CompleteBundleUIInfo(item);
+
                 var old = source.Find(x => x.panelName == item.panelName);
 
                 if (old != null)
                 {
                     old.guid = item.guid;
                     old.type = item.type;
-                    CompleteBundleUIInfo(old);
                 }
                 else
                 {
-                    CompleteBundleUIInfo(item);
                     source.Add(item);
                 }
             }
@@ -222,9 +222,6 @@ namespace NodeGraph
                 var nodeItem = item.Operation.Object as IPanelInfoHolder;
                 if (nodeItem != null)
                 {
-                    //var guid = nodeItem.Info.prefabGuid;
-                    //var path = AssetDatabase.GUIDToAssetPath(guid);
-                    //var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                     nodeInfos.Add(nodeItem.Info);
                 }
             }
@@ -237,12 +234,8 @@ namespace NodeGraph
             foreach (var item in infos)
             {
                 var p = new PrefabUIInfo();
-                p.type = new global::UIType();
-                p.type.form = item.form;
-                p.type.layer = item.layer;
-                p.type.layerIndex = item.layerIndex;
+                SwitchInfoFromNodeInfo(p, item);
                 p.prefab = LoadPrefabFromGUID(item.prefabGuid);
-                p.panelName = p.prefab.name;
                 pinfos.Add(p);
             }
             return pinfos;
@@ -267,14 +260,22 @@ namespace NodeGraph
             foreach (var item in infos)
             {
                 var p = new BundleUIInfo();
-                p.type = new global::UIType();
-                p.type.form = item.form;
-                p.type.layer = item.layer;
-                p.type.layerIndex = item.layerIndex;
+                SwitchInfoFromNodeInfo(p, item);
                 p.guid = item.prefabGuid;
                 binfo.Add(p);
             }
             return binfo;
+        }
+
+        private void SwitchInfoFromNodeInfo(UIInfoBase p, NodeInfo item)
+        {
+            p.type = new global::UIType();
+            p.type.form = item.form;
+            p.type.layer = item.layer;
+            p.type.hideLuceny = item.hideLuceny;
+            p.type.mutexKey = item.mutexKey;
+            p.type.layerIndex = item.layerIndex;
+            p.type.animType = item.animType;
         }
 
         private void CompleteBundleUIInfo(BundleUIInfo binfo)

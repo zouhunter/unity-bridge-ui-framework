@@ -13,12 +13,27 @@ using System.Collections.Generic;
 using UnityEditor;
 [CustomPropertyDrawer(typeof(Bridge))]
 public class BridgeDrawer : PropertyDrawer {
+    SerializedProperty inNodeProp;
+    SerializedProperty outNodeProp;
+    SerializedProperty showModelProp;
+    string showKey = null;
+       
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
         return EditorGUIUtility.singleLineHeight;
     }
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        EditorGUI.LabelField(position, label);
+        inNodeProp = property.FindPropertyRelative("inNode");
+        outNodeProp = property.FindPropertyRelative("outNode");
+        showModelProp = property.FindPropertyRelative("showModel");
+        ShowModel show = (ShowModel)showModelProp.intValue;
+        showKey = Utility.ShowModelToString(show);
+        var rect_L = new Rect(position.x, position.y, position.width * 0.3f, position.height);
+        EditorGUI.LabelField(rect_L, inNodeProp.stringValue);
+        var rect_C = new Rect(position.x + position.width * 0.4f, position.y, position.width * 0.3f, position.height);
+        EditorGUI.LabelField(rect_C, showKey);
+        var rect_R = new Rect(position.x + position.width * 0.7f, position.y, position.width * 0.3f, position.height);
+        EditorGUI.LabelField(rect_R, outNodeProp.stringValue);
     }
 }

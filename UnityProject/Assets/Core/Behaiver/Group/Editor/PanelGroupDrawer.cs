@@ -441,7 +441,7 @@ public abstract class UIDrawerTemp : Editor
         for (int i = 0; i < property.arraySize; i++)
         {
             var itemProp = property.GetArrayElementAtIndex(i);
-            var assetNameProp = itemProp.FindPropertyRelative("assetName");
+            var assetNameProp = itemProp.FindPropertyRelative("panelName");
             if (!temp.Contains(assetNameProp.stringValue))
             {
                 temp.Add(assetNameProp.stringValue);

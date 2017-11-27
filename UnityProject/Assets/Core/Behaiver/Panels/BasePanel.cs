@@ -74,7 +74,6 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
 
     protected virtual void HandleData(object data)
     {
-        Debug.Log(data);
     }
 
     protected override void Awake()

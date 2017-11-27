@@ -32,6 +32,7 @@ public class BridgeDrawer : PropertyDrawer {
         if(string.IsNullOrEmpty(inNodeName)){
             inNodeName = "[Any]";
         }
+
         ShowModel show = (ShowModel)showModelProp.intValue;
         showKey = Utility.ShowModelToString(show);
         var rect_L = new Rect(position.x, position.y, position.width * 0.3f, position.height);

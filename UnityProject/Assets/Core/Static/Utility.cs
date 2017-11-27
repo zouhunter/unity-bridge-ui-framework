@@ -236,9 +236,10 @@ public partial class Utility
 #endif
 
 public partial class Utility {
-    public static void SetTranform(Transform item, UIType type, Transform parent)
+    
+    public static void SetTranform(Transform item, UILayerType layer, Transform parent)
     {
-        string rootName = LayerToString(type.layer);
+        string rootName = LayerToString(layer);
         var root = parent.transform.Find(rootName);
         if (root == null)
         {

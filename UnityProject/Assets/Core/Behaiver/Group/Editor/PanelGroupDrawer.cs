@@ -504,15 +504,15 @@ public abstract class UIDrawerTemp : Editor
             {
                 for (int j = i; j < property.arraySize - i - 1; j++)
                 {
-                    var itemj = property.GetArrayElementAtIndex(j).FindPropertyRelative("assetName");
-                    var itemj1 = property.GetArrayElementAtIndex(j + 1).FindPropertyRelative("assetName");
+                    var itemj = property.GetArrayElementAtIndex(j).FindPropertyRelative("panelName");
+                    var itemj1 = property.GetArrayElementAtIndex(j + 1).FindPropertyRelative("panelName");
                     if (string.Compare(itemj.stringValue, itemj1.stringValue) > 0)
                     {
                         property.MoveArrayElement(j, j + 1);
                     }
                 }
             }
-            currSortType = SortType.ByLayer;
+            //currSortType = SortType.ByLayer;
         }
 
         else if (currSortType == SortType.ByLayer)

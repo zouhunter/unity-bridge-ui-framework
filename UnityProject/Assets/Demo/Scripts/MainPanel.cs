@@ -11,6 +11,5 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MainPanel : MonoBehaviour {
-
+public class MainPanel : PanelBase {
 }

@@ -17,7 +17,9 @@ public class Demo : MonoBehaviour
     private UIFacade uiFacade;
     private void Awake()
     {
-        uiFacade = UIFacade.Instence; 
+        uiFacade = UIFacade.Instence;
+        uiFacade.Open(PanelNames.MainPanel);
+
     }
     private void OnGUI()
     {

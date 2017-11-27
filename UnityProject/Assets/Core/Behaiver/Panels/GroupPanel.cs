@@ -16,6 +16,8 @@ using System.Collections;
 /// </summary>
 public class GroupPanel : PanelBase
 {
-
+    [SerializeField]
+    private Transform content;
+    public override Transform Content { get { return content == null ? transform:content; } }
 
 }

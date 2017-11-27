@@ -16,5 +16,6 @@ using System.Collections;
 /// </summary>
 public class StaticPanel : PanelBase
 {
+    public override Transform Content { get { return transform; } }
 
 }

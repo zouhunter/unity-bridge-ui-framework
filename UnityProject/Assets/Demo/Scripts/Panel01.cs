@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class Panel01 : PanelBase, IPointerClickHandler
+public class Panel01 : ChoisePanel, IPointerClickHandler
 {
     [SerializeField]
     private Button m_Close;

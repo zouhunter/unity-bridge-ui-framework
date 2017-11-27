@@ -12,7 +12,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
-public class PanelBase :MonoBehaviour, IPanelBase
+public abstract class PanelBase :UIBehaviour, IPanelBase
 {
     public int InstenceID
     {
@@ -23,9 +23,8 @@ public class PanelBase :MonoBehaviour, IPanelBase
     }
     public string Name { get { return name; } }
     public IPanelGroup Group { get; set; }
-    [SerializeField]
-    private Transform content;
-    public Transform Content { get { return content == null ? transform:content; } }
+   
+    public abstract Transform Content { get; }
 
     public UIType UType { get; set; }
     public Transform PanelTrans
@@ -78,12 +77,12 @@ public class PanelBase :MonoBehaviour, IPanelBase
         Debug.Log(data);
     }
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
         selfFacade = UIFacade.CreatePanelFacade(this);
     }
 
-    protected virtual void OnDestroy()
+    protected override void OnDestroy()
     {
         if(bridge != null){
             bridge.Release();

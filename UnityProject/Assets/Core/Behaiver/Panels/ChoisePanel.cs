@@ -16,5 +16,5 @@ using System;
 /// </summary>
 public class ChoisePanel :PanelBase
 {
-  
+    public override Transform Content { get { return transform; } }
 }

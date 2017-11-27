@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
+using System;
 
 /// <summary>
 /// 背景面板
@@ -16,5 +17,5 @@ using System.Collections;
 /// </summary>
 public class NoticePanel :  PanelBase
 {
-
+    public override Transform Content { get { return transform; } }
 }

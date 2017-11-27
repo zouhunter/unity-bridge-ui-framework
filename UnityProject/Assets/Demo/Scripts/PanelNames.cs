@@ -22,4 +22,5 @@ public class PanelNames  {
         }
     }
     public static string MainPanel { get; set; }
+    public static string Panel01 { get; internal set; }
 }

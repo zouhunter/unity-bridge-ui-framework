@@ -11,5 +11,12 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MainPanel : PanelBase {
+public class MainPanel : GroupPanel {
+    [SerializeField]
+    private Button m_openPanel01;
+    protected override void Awake()
+    {
+        base.Awake();
+        m_openPanel01.onClick.AddListener(()=>selfFacade.Open(PanelNames.Panel01));
+    }
 }

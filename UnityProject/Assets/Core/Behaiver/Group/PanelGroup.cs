@@ -36,7 +36,6 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
 
     public Transform Trans { get { return transform; } }
     private IPanelCreater creater;
-
     void Awake()
     {
         creater = new PanelCreater();
@@ -44,14 +43,24 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
         RegistBridgePool();
         UIFacade.RegistGroup(this);
     }
+    private void OnEnable()
+    {
+        
+    }
+    private void OnDisable()
+    {
+        
+    }
 
     private void RegistUINodes()
     {
         activeNodes = new List<UIInfoBase>();
-        if ((loadType & LoadType.Prefab) == LoadType.Prefab)
+
+        if ((loadType & LoadType.Bundle) == LoadType.Bundle)
         {
             activeNodes.AddRange(b_nodes.ConvertAll<UIInfoBase>(x => x));
         }
+
         if ((loadType & LoadType.Prefab) == LoadType.Prefab)
         {
             activeNodes.AddRange(p_nodes.ConvertAll<UIInfoBase>(x => x));
@@ -62,6 +71,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
             item.RegistUINodes(activeNodes,bridges);
         }
     }
+
 
     public Bridge InstencePanel(string parentName, string panelName, Transform root)
     {

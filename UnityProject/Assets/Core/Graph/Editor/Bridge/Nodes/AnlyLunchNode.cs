@@ -42,7 +42,7 @@ public class AnyLunchNode : Node
 
     public override Node Clone(Model.NodeData newData)
     {
-        var newNode = new EnableLunchNode();
+        var newNode = new AnyLunchNode();
         Debug.Log("Clone");
         return newNode;
     }

@@ -124,6 +124,17 @@ namespace NodeGraph.DataModel.Version2 {
 			return m_allNodes.Except(nodesWithChild).ToList();
 		}
 
+        public List<NodeData> CollectAllRootNodes()
+        {
+            var nodesNoRoot = new List<NodeData>();
+            foreach (var c in Nodes)
+            {
+                if(c.InputPoints.Count == 0)
+                nodesNoRoot.Add(c);
+            }
+            return nodesNoRoot;
+        }
+
 		public void Save() {
 			m_allNodes.ForEach(n => n.Operation.Save());
 			SetGraphDirty();

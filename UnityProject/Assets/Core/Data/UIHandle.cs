@@ -68,7 +68,7 @@ public class UIHandle {
         }
     }
 
-    public void Release()
+    private void Release()
     {
         callBack = null;
         onClose = null;

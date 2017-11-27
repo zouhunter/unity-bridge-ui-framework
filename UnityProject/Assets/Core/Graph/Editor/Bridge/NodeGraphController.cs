@@ -201,9 +201,14 @@ namespace NodeGraph
                 var outnode = nodes.Find(x => x.InputPoints != null && x.InputPoints.Find(y => y.Id == item.ToNodeConnectionPointId) != null);
                 if (innode != null)
                 {
-                    bridge.inNode = innode.Name;
+                    if(innode.Operation.Object is IPanelInfoHolder)
+                    {
+                        bridge.inNode = innode.Name;
+                    }
                 }
-                if (outnode != null)
+               
+
+                if (outnode != null && outnode.Operation.Object is IPanelInfoHolder)
                 {
                     bridge.outNode = outnode.Name;
                 }
@@ -220,8 +225,7 @@ namespace NodeGraph
             foreach (var item in nodes)
             {
                 var nodeItem = item.Operation.Object as IPanelInfoHolder;
-                if (nodeItem != null)
-                {
+                if (nodeItem != null){
                     nodeInfos.Add(nodeItem.Info);
                 }
             }

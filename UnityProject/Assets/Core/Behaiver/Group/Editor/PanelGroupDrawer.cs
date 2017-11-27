@@ -233,6 +233,7 @@ public abstract class UIDrawerTemp : Editor
                     if (GUILayout.Button(new GUIContent("%", "移除重复"), btnStyle))
                     {
                         RemoveBundlesDouble(prefabsProp);
+                        RemoveBridgesDouble(bridgesProp);
                     }
                     if (GUILayout.Button(new GUIContent("！", "排序"), btnStyle))
                     {
@@ -254,6 +255,7 @@ public abstract class UIDrawerTemp : Editor
                     if (GUILayout.Button(new GUIContent("%", "移除重复"), btnStyle))
                     {
                         RemoveBundlesDouble(bundlesProp);
+                        RemoveBridgesDouble(bridgesProp);
                     }
                     if (GUILayout.Button(new GUIContent("*", "快速更新"), btnStyle))
                     {
@@ -434,6 +436,7 @@ public abstract class UIDrawerTemp : Editor
             }
         }
     }
+
     private void RemoveBundlesDouble(SerializedProperty property)
     {
         compair: List<string> temp = new List<string>();
@@ -445,6 +448,29 @@ public abstract class UIDrawerTemp : Editor
             if (!temp.Contains(assetNameProp.stringValue))
             {
                 temp.Add(assetNameProp.stringValue);
+            }
+            else
+            {
+                property.DeleteArrayElementAtIndex(i);
+                goto compair;
+            }
+        }
+    }
+
+    private void RemoveBridgesDouble(SerializedProperty property)
+    {
+        compair: List<string> temp = new List<string>();
+
+        for (int i = 0; i < property.arraySize; i++)
+        {
+            var itemProp = property.GetArrayElementAtIndex(i);
+            var innode = itemProp.FindPropertyRelative("inNode");
+            var outnode = itemProp.FindPropertyRelative("outNode");
+            var showmodle = itemProp.FindPropertyRelative("showModel");
+            var key = innode.stringValue + showmodle.intValue + outnode.stringValue;
+            if (!temp.Contains(key))
+            {
+                temp.Add(key);
             }
             else
             {

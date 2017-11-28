@@ -91,34 +91,7 @@ namespace NodeGraph
                     StoreInfoOfPanel(panelGroup);
                 }
             }
-            //if (Selection.activeObject != null)
-            //{
-            //    if (Selection.activeObject is PanelGroupObj)
-            //    {
-            //        StoreInfoOfPanel(Selection.activeObject as PanelGroupObj);
-            //    }
-            //    else
-            //}
         }
-
-        ///// <summary>
-        ///// 将信息保存到PanelGroupObj
-        ///// </summary>
-        ///// <param name="obj"></param>
-        //private void StoreInfoOfPanel(PanelGroupObj group)
-        //{
-        //    InsertBridges(group.bridges, GetBridges());
-        //    if (group.loadType == LoadType.Prefab)
-        //    {
-        //        InsertPrefabinfo(group.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
-        //    }
-        //    else if (group.loadType == LoadType.Bundle)
-        //    {
-        //        InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
-        //    }
-        //    TryRecoredGraphGUID(group);
-        //    EditorUtility.SetDirty(group);
-        //}
 
         /// <summary>
         /// 将信息到保存到PanelGroup
@@ -158,29 +131,13 @@ namespace NodeGraph
                 }
             }
         }
-        //private void TryRecoredGraphGUID(PanelGroupObj group)
-        //{
-        //    var path = AssetDatabase.GetAssetPath(TargetGraph);
-        //    var guid = AssetDatabase.AssetPathToGUID(path);
-        //    var panelGroupObj = group as PanelGroupObj;
-        //    var record = panelGroupObj.graphList.Find(x => x.guid == guid);
-        //    if (record == null)
-        //    {
-        //        var item = new GraphWorp(TargetGraph.name, guid);
-        //        panelGroupObj.graphList.Add(item);
-        //    }
-        //    else
-        //    {
-        //        record.graphName = TargetGraph.name;
-        //    }
-        //}
 
         private void InsertBridges(List<Bridge> source, List<Bridge> newBridges)
         {
             if (newBridges == null) return;
             foreach (var item in newBridges)
             {
-                var old = source.Find(x => x.inNode == item.inNode && x.outNode == item.outNode);
+                var old = source.Find(x => (x.inNode == item.inNode||(x.inNode == "" && item.inNode == "")) && x.outNode == item.outNode);
                 if (old != null)
                 {
                     old.showModel = item.showModel;

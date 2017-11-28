@@ -16,8 +16,7 @@ namespace NodeGraph
     {
         public class Settings
         {
-            public const string GUI_TEXT_MENU_OPEN = "Window/NodeGraph/UIConfig";
-            public const string PANEL_GROUPOBJ = "Window/NodeGraph/UIGourpObj";
+            public const string GUI_TEXT_MENU_OPEN = "Window/NodeGraph";
         }
 
         [Serializable]
@@ -246,12 +245,6 @@ namespace NodeGraph
         public static void Open()
         {
             GetWindow<NodeGraphWindow>();
-        }
-        [MenuItem(Settings.PANEL_GROUPOBJ, false, 1)]
-        public static void CreateObj()
-        {
-           var obj = ScriptableObject.CreateInstance<PanelGroupObj>();
-            ProjectWindowUtil.CreateAsset(obj, "new PanelGroupObj.asset");
         }
         public void OnFocus()
         {

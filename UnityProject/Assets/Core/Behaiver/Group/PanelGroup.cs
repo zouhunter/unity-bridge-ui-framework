@@ -31,7 +31,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
     private Bridge defultBridge;
     private Dictionary<Bridge, BridgePool> poolDic = new Dictionary<Bridge, BridgePool>();
     private List<IPanelBase> createdPanels = new List<IPanelBase>();
-    private Stack<IPanelBase> hidedPanels = new Stack<IPanelBase>();
+    private List<IPanelBase> hidedPanels = new List<IPanelBase>();
     private Dictionary<IPanelBase, Bridge> bridgeDic = new Dictionary<IPanelBase, Bridge>();
     private List<UIInfoBase> activeNodes;
     private IPanelCreater creater;
@@ -101,8 +101,10 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
     /// </summary>
     private void TryRecordParentDic(string parentPanel, IPanelBase childPanel)
     {
+        Debug.Log(parentPanel + ":" + childPanel.Name + ":"+ createdPanels.Count);
         if (string.IsNullOrEmpty(parentPanel)) return;
         var parent = createdPanels.Find(x => x.Name == parentPanel);
+            Debug.Log(parent);
         if (parent != null)
         {
             parent.RecordChild(childPanel);
@@ -158,9 +160,10 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
             {
                 panel.SetParent(Trans);
                 parent.Hide();
-                hidedPanels.Push(parent);
+                hidedPanels.Add(parent);
             }
         }
+        panel.Group = this;
         panel.onDelete += OnDeletePanel;
         panel.HandleData(bridge);
     }
@@ -258,6 +261,10 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
         {
             bridgeDic.Remove(panel);
         }
+        if(hidedPanels.Contains(panel))
+        {
+            hidedPanels.Remove(panel);
+        }
         if(panel.ChildPanels != null)
         {
             foreach (var item in panel.ChildPanels){
@@ -266,8 +273,9 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
         }
         while (hidedPanels.Count > 0)
         {
-            var item = hidedPanels.Pop();
+            var item = hidedPanels[0];
             item.UnHide();
+            hidedPanels.RemoveAt(0);
         }
     }
     #endregion

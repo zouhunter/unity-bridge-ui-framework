@@ -11,6 +11,6 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Panel02 : MonoBehaviour {
+public class Panel02 : ChoisePanel {
 
 }

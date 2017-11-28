@@ -112,7 +112,7 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
         {
             childPanels = new List<IPanelBase>();
         }
-        if (childPanels.Contains(childPanel))
+        if (!childPanels.Contains(childPanel))
         {
             childPanels.Add(childPanel);
         }

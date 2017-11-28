@@ -104,9 +104,33 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
     {
         TryHideParent(panel, bridge);
         TryHideMutexPanels(panel, bridge);
-        TryAutoOpen(panel.Name, panel.Content);
         TryCreateMask(panel, bridge);
+        TryHideGroup(panel, bridge);
+        TryAutoOpen(panel.Name, panel.Content);
     }
+    /// <summary>
+    /// 隐藏整个面板中其他的ui界面
+    /// </summary>
+    /// <param name="panel"></param>
+    /// <param name="bridge"></param>
+    private void TryHideGroup(IPanelBase panel, Bridge bridge)
+    {
+        if((bridge.showModel & ShowModel.Single) == ShowModel.Single)
+        {
+            var parent = createdPanels.Find(x => x.Name == bridge.inNode);
+            if (parent != null){
+                panel.SetParent(Trans);
+            }
+            foreach (var oldPanel in createdPanels)
+            {
+                if(oldPanel != panel)
+                {
+                    HidePanelInteral(panel, oldPanel);
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// 建立遮罩
     /// </summary>
@@ -149,18 +173,12 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
                 var mayPanel = createdPanels.Find(x => x.Name == bg.outNode && x.UType.layer == childPanel.UType.layer && x != childPanel);
                 if (mayPanel != null)
                 {
-                    if (mayPanel.IsShowing)
-                    {
-                        mayPanel.Hide();
-                        if (!hidedPanelStack.ContainsKey(childPanel)){
-                            hidedPanelStack[childPanel] = new Stack<IPanelBase>();
-                        }
-                        hidedPanelStack[childPanel].Push(mayPanel);
-                    }
+                    HidePanelInteral(childPanel, mayPanel);
                 }
             }
         }
     }
+    
     /// <summary>
     /// 自动打开子面板
     /// </summary>
@@ -193,7 +211,22 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
             activeNodes.AddRange(p_nodes.ConvertAll<UIInfoBase>(x => x));
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="panel"></param>
+    /// <param name="needHidePanel"></param>
+    private void HidePanelInteral(IPanelBase panel,IPanelBase needHidePanel)
+    {
+        if(needHidePanel.IsShowing)
+        {
+            needHidePanel.Hide();
+            if (!hidedPanelStack.ContainsKey(panel)){
+                hidedPanelStack[panel] = new Stack<IPanelBase>();
+            }
+            hidedPanelStack[panel].Push(needHidePanel);
+        }
+    }
     /// <summary>
     /// 按规则设置面板及父亲面板的状态
     /// </summary>
@@ -221,15 +254,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
             if (parent != null)
             {
                 panel.SetParent(Trans);
-                if (parent.IsShowing)
-                {
-                    parent.Hide();
-                    if (!hidedPanelStack.ContainsKey(panel))
-                    {
-                        hidedPanelStack[panel] = new Stack<IPanelBase>();
-                    }
-                    hidedPanelStack[panel].Push(parent);
-                }
+                HidePanelInteral(panel, parent);
             }
         }
     }
@@ -359,7 +384,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
                     }
                 }
             }
-
+            hidedPanelStack.Remove(panel);
         }
     }
     #endregion

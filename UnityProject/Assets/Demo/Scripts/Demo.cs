@@ -18,11 +18,13 @@ public class Demo : MonoBehaviour
     private void Awake()
     {
         uiFacade = UIFacade.Instence;
-        uiFacade.Open(PanelNames.MainPanel);
-
     }
     private void OnGUI()
     {
+        if(GUILayout.Button("Open:MainPanel"))
+        {
+            uiFacade.Open(PanelNames.MainPanel);
+        }
         if (GUILayout.Button("Open(1) " + pane01))
         {
             var handle = uiFacade.Open(pane01,"你好panel01");

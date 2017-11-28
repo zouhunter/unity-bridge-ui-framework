@@ -17,5 +17,5 @@ using System;
 /// </summary>
 public class NoticePanel :  PanelBase
 {
-    public override Transform Content { get { return transform; } }
+    public override Transform Content { get { return Group.Trans; } }
 }

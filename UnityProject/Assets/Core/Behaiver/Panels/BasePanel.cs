@@ -25,23 +25,24 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
     public IPanelGroup Group { get; set; }
     public abstract Transform Content { get; }
     public UIType UType { get; set; }
-    public Transform PanelTrans
+
+    public List<IPanelBase> ChildPanels
     {
         get
         {
-            return transform;
+            return childPanels;
         }
     }
-    
+
     protected UIFacade selfFacade;
 
     protected Bridge bridge;
-
+    protected List<IPanelBase> childPanels;
     public event UnityAction<IPanelBase> onDelete;
 
     public void SetParent(Transform Trans)
     {
-        Utility.SetTranform(PanelTrans, UType.layer, Trans);
+        Utility.SetTranform(transform, UType.layer, Trans);
     }
     public void CallBack(object data)
     {
@@ -105,4 +106,15 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
         Destroy(gameObject);
     }
 
+    public void RecordChild(IPanelBase childPanel)
+    {
+        if (childPanels == null)
+        {
+            childPanels = new List<IPanelBase>();
+        }
+        if (childPanels.Contains(childPanel))
+        {
+            childPanels.Add(childPanel);
+        }
+    }
 }

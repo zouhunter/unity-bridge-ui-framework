@@ -105,7 +105,21 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
         TryHideParent(panel, bridge);
         TryHideMutexPanels(panel, bridge);
         TryAutoOpen(panel.Name, panel.Content);
+        TryCreateMask(panel, bridge);
     }
+    /// <summary>
+    /// 建立遮罩
+    /// </summary>
+    /// <param name="panel"></param>
+    /// <param name="bridge"></param>
+    private void TryCreateMask(IPanelBase panel, Bridge bridge)
+    {
+        if((bridge.showModel & ShowModel.Cover) == ShowModel.Cover)
+        {
+            panel.Cover();
+        }
+    }
+
     /// <summary>
     /// 记录父子关系
     /// </summary>
@@ -194,7 +208,11 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
         panel.HandleData(bridge);
 
     }
-
+    /// <summary>
+    /// 选择性隐藏父级
+    /// </summary>
+    /// <param name="panel"></param>
+    /// <param name="bridge"></param>
     private void TryHideParent(IPanelBase panel, Bridge bridge)
     {
         if ((bridge.showModel & ShowModel.HideBase) == ShowModel.HideBase)

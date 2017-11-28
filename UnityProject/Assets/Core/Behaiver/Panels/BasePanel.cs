@@ -170,4 +170,14 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
             childPanels.Remove(childPanel);
         }
     }
+
+    public void Cover()
+    {
+        var img = GetComponent<Image>();
+        if(img == null){
+            img = gameObject.AddComponent<Image>();
+            img.color = new Color(0, 0, 0, 0.01f);
+        }
+        img.raycastTarget = true;
+    }
 }

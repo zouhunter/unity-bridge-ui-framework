@@ -13,13 +13,19 @@ using System.Collections.Generic;
 
 public class MainPanel : GroupPanel {
     [SerializeField]
+    private Button m_close;
+    [SerializeField]
     private Button m_openPanel01;
     [SerializeField]
-    private Button m_close;
+    private Button m_openPanel02;
+    [SerializeField]
+    private Button m_openPanel03;
     protected override void Awake()
     {
         base.Awake();
         m_openPanel01.onClick.AddListener(()=>selfFacade.Open(PanelNames.Panel01));
+        m_openPanel02.onClick.AddListener(()=>selfFacade.Open(PanelNames.Panel02));
+        m_openPanel03.onClick.AddListener(()=>selfFacade.Open(PanelNames.Panel03));
         m_close.onClick.AddListener(Close);
     }
 }

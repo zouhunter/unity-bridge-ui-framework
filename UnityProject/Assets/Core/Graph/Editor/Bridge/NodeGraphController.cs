@@ -137,7 +137,8 @@ namespace NodeGraph
             if (newBridges == null) return;
             foreach (var item in newBridges)
             {
-                var old = source.Find(x => (x.inNode == item.inNode||(x.inNode == "" && item.inNode == "")) && x.outNode == item.outNode);
+                if (string.IsNullOrEmpty(item.outNode)) continue;
+                var old = source.Find(x => (x.inNode == item.inNode||(string.IsNullOrEmpty(x.inNode) && string.IsNullOrEmpty(item.inNode))) && x.outNode == item.outNode);
                 if (old != null)
                 {
                     old.showModel = item.showModel;
@@ -275,7 +276,6 @@ namespace NodeGraph
             p.type.form = item.form;
             p.type.layer = item.layer;
             p.type.hideLuceny = item.hideLuceny;
-            p.type.mutexKey = item.mutexKey;
             p.type.layerIndex = item.layerIndex;
             p.type.animType = item.animType;
         }

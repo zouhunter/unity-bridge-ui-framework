@@ -12,6 +12,7 @@ public class PanelGroupDrawer : Editor
 {
     protected SerializedProperty script;
     protected SerializedProperty createrGuidProp;
+    protected SerializedProperty bridgesProp;
     protected SerializedProperty groupObjsProp;
 
     protected SerializedProperty bundlesProp;
@@ -39,6 +40,7 @@ public class PanelGroupDrawer : Editor
     {
         script = serializedObject.FindProperty("m_Script");
         createrGuidProp = serializedObject.FindProperty("createrGuid");
+        bridgesProp = serializedObject.FindProperty("bridges");
         bundlesProp = serializedObject.FindProperty("b_nodes");
         prefabsProp = serializedObject.FindProperty("p_nodes");
         graphListProp = serializedObject.FindProperty("graphList");
@@ -230,7 +232,7 @@ public class PanelGroupDrawer : Editor
                     if (GUILayout.Button(new GUIContent("%", "移除重复"), btnStyle))
                     {
                         RemoveBundlesDouble(prefabsProp);
-                        //RemoveBridgesDouble(bridgesProp);
+                        RemoveBridgesDouble(bridgesProp);
                     }
                     if (GUILayout.Button(new GUIContent("！", "排序"), btnStyle))
                     {
@@ -252,7 +254,7 @@ public class PanelGroupDrawer : Editor
                     if (GUILayout.Button(new GUIContent("%", "移除重复"), btnStyle))
                     {
                         RemoveBundlesDouble(bundlesProp);
-                        //RemoveBridgesDouble(bridgesProp);
+                        RemoveBridgesDouble(bridgesProp);
                     }
                     if (GUILayout.Button(new GUIContent("*", "快速更新"), btnStyle))
                     {

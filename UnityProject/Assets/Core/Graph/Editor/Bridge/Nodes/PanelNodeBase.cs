@@ -84,11 +84,11 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
     }
     private void DrawInforamtion()
     {
-        using (var hor = new EditorGUILayout.HorizontalScope())
-        {
-            EditorGUILayout.LabelField("唯一关键字:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            nodeInfo.mutexKey = EditorGUILayout.TextField(nodeInfo.mutexKey);
-        }
+        //using (var hor = new EditorGUILayout.HorizontalScope())
+        //{
+        //    EditorGUILayout.LabelField("唯一关键字:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+        //    nodeInfo.mutexKey = EditorGUILayout.TextField(nodeInfo.mutexKey);
+        //}
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("可移动机制:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));

@@ -11,7 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
-[CustomPropertyDrawer(typeof(Bridge))]
+//[CustomPropertyDrawer(typeof(Bridge))]
 public class BridgeDrawer : PropertyDrawer {
     SerializedProperty inNodeProp;
     SerializedProperty outNodeProp;

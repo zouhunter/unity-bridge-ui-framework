@@ -63,8 +63,6 @@ public class UIType
 {
     //层级优先
     public int layerIndex;
-    //互斥关键字
-    public string mutexKey;
     //位置控制
     public UIFormType form = UIFormType.Fixed;
     //绝对层级

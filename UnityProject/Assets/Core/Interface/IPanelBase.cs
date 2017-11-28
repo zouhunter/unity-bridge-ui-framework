@@ -22,6 +22,8 @@ public interface IPanelBase
     Transform Content { get; }
     List<IPanelBase> ChildPanels { get; }
 
+    event UnityAction<IPanelBase> onHide;
+    event UnityAction<IPanelBase> onUnHide;
     event UnityAction<IPanelBase> onDelete;
     UIType UType { get; set; }
     void SetParent(Transform parent);

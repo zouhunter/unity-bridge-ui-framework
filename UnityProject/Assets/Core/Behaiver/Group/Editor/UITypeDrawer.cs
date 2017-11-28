@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using UnityEditor;
 [CustomPropertyDrawer(typeof(UIType))]
 public class UITypeDrawer : PropertyDrawer {
-    SerializedProperty mutexKeyProp;
+    //SerializedProperty mutexKeyProp;
     SerializedProperty formProp;
     SerializedProperty layerProp;
     SerializedProperty layerIndexProp;
@@ -29,7 +29,7 @@ public class UITypeDrawer : PropertyDrawer {
 
     private void InitProperty(SerializedProperty property)
     {
-        mutexKeyProp = property.FindPropertyRelative("mutexKey");
+        //mutexKeyProp = property.FindPropertyRelative("mutexKey");
         formProp = property.FindPropertyRelative("form");
         layerProp = property.FindPropertyRelative("layer");
         layerIndexProp = property.FindPropertyRelative("layerIndex");
@@ -40,11 +40,11 @@ public class UITypeDrawer : PropertyDrawer {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         InitProperty(property);
-        using (var hor = new EditorGUILayout.HorizontalScope())
-        {
-            EditorGUILayout.LabelField("唯一关键字:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            mutexKeyProp.stringValue = EditorGUILayout.TextField(mutexKeyProp.stringValue);
-        }
+        //using (var hor = new EditorGUILayout.HorizontalScope())
+        //{
+        //    EditorGUILayout.LabelField("唯一关键字:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+        //    mutexKeyProp.stringValue = EditorGUILayout.TextField(mutexKeyProp.stringValue);
+        //}
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("可移动机制:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));

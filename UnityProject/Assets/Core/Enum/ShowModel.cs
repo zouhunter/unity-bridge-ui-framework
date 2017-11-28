@@ -16,7 +16,7 @@ using System.Collections;
 public enum ShowModel
 {
     Auto = 1,//当上级显示时显示
-    Mutex =1<< 1,//排斥有相同关键字的面版
+    Mutex = 1 << 1,//排斥有相同类型面版
     Cover = 1 << 2,//建立遮罩防止点击其他对象
     HideBase = 1 << 3,//将父级面板隐去
     Single = 1 << 4,//隐藏所有打开的面板

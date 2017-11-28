@@ -39,6 +39,8 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
     protected Bridge bridge;
     protected List<IPanelBase> childPanels;
     public event UnityAction<IPanelBase> onDelete;
+    public event UnityAction<IPanelBase> onHide;
+    public event UnityAction<IPanelBase> onUnHide;
 
     public void SetParent(Transform Trans)
     {
@@ -114,7 +116,16 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
         }
         if (!childPanels.Contains(childPanel))
         {
+            childPanel.onDelete += OnRemoveChild;
             childPanels.Add(childPanel);
+        }
+    }
+
+    private void OnRemoveChild(IPanelBase childPanel)
+    {
+        if(childPanels != null && childPanels.Contains(childPanel))
+        {
+            childPanels.Remove(childPanel);
         }
     }
 }

@@ -9,3 +9,15 @@ using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
+using System.Collections.Generic;
+[System.Serializable]
+public class GraphWorp  {
+    public string graphName;
+    public string guid;
+
+    public GraphWorp(string graphName, string guid)
+    {
+        this.graphName = graphName;
+        this.guid = guid;
+    }
+}

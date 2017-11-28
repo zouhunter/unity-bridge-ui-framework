@@ -10,7 +10,7 @@ using Object = UnityEngine.Object;
 public class PrefabInfoDrawer :UIInfoBaseDrawer
 {
     SerializedProperty prefabProp;//prefab
-    protected const int ht = 3;
+    protected const int ht = 1;
 
     protected override void InitPropertys(SerializedProperty property)
     {
@@ -26,9 +26,9 @@ public class PrefabInfoDrawer :UIInfoBaseDrawer
     protected override void DrawExpanded(Rect opendRect)
     {
         var rect = new Rect(opendRect.x, opendRect.y, opendRect.width, singleHeight);
+        EditorGUI.BeginDisabledGroup(true);
         EditorGUI.PropertyField(rect, typeProp, new GUIContent("[type]"));
-        rect.y += singleHeight;
-        layerProp.intValue = EditorGUI.MaskField(rect, new GUIContent("[layer]"), layerProp.intValue, layerProp.enumNames);
+        EditorGUI.EndDisabledGroup();
     }
 
     protected override void DrawObjectField(Rect rect)

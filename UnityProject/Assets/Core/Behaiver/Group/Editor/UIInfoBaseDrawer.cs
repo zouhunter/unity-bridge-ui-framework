@@ -78,7 +78,7 @@ public abstract class UIInfoBaseDrawer : PropertyDrawer
 
         Rect acceptRect = new Rect(position.max.x - position.width * 0.1f, position.yMin, position.width * 0.1f, singleHeight);
 
-        DragAndDrapAction(acceptRect);
+        //DragAndDrapAction(acceptRect);
 
         DrawObjectField(acceptRect);
 

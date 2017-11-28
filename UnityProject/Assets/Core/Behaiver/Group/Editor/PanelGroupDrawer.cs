@@ -33,7 +33,7 @@ public abstract class UIDrawerTemp : Editor
 
     protected SerializedProperty bundlesProp;
     protected SerializedProperty prefabsProp;
-    protected SerializedProperty bridgesProp;
+    protected SerializedProperty graphListProp;
     protected SerializedProperty defultTypeProp;
     protected bool swink;
     private string query;
@@ -58,7 +58,7 @@ public abstract class UIDrawerTemp : Editor
         createrGuidProp = serializedObject.FindProperty("createrGuid");
         bundlesProp = serializedObject.FindProperty("b_nodes");
         prefabsProp = serializedObject.FindProperty("p_nodes");
-        bridgesProp = serializedObject.FindProperty("bridges");
+        graphListProp = serializedObject.FindProperty("graphList");
         groupObjsProp = serializedObject.FindProperty("subGroups");
         defultTypeProp = serializedObject.FindProperty("loadType");
         var sobj = new SerializedObject(PanelGroupObj.CreateInstance<PanelGroupObj>());
@@ -75,8 +75,8 @@ public abstract class UIDrawerTemp : Editor
             DrawOption();
             DrawToolButtons();
         }
+        DrawGraphItems();
         DrawRuntimeItems();
-        DrawBridgeItems();
         serializedObject.ApplyModifiedProperties();
     }
 
@@ -178,12 +178,26 @@ public abstract class UIDrawerTemp : Editor
         }
 
     }
-    protected virtual void DrawBridgeItems()
+    protected virtual void DrawGraphItems()
     {
         GUI.backgroundColor = Color.yellow;
-        EditorGUILayout.LabelField("界面加载配制信息", EditorStyles.helpBox);
+        EditorGUILayout.LabelField("界面配制图表", EditorStyles.helpBox);
         GUI.backgroundColor = Color.white;
-        DrawListProperty(bridgesProp, false);
+        for (int i = 0; i < graphListProp.arraySize; i++)
+        {
+            var item = graphListProp.GetArrayElementAtIndex(i);
+            var key = item.FindPropertyRelative("graphName");
+            var guid = item.FindPropertyRelative("guid");
+            if (GUILayout.Button(key.stringValue, EditorStyles.toolbarButton))
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid.stringValue);
+                if(!string.IsNullOrEmpty(path))
+                {
+                    NodeGraph.DataModel.Version2.ConfigGraph graph = AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.Version2.ConfigGraph>(path);
+                    AssetDatabase.OpenAsset(graph);
+                }
+            }
+        }
     }
     private LoadType EnumIndexToLoadType(int index)
     {
@@ -233,7 +247,7 @@ public abstract class UIDrawerTemp : Editor
                     if (GUILayout.Button(new GUIContent("%", "移除重复"), btnStyle))
                     {
                         RemoveBundlesDouble(prefabsProp);
-                        RemoveBridgesDouble(bridgesProp);
+                        //RemoveBridgesDouble(bridgesProp);
                     }
                     if (GUILayout.Button(new GUIContent("！", "排序"), btnStyle))
                     {
@@ -255,7 +269,7 @@ public abstract class UIDrawerTemp : Editor
                     if (GUILayout.Button(new GUIContent("%", "移除重复"), btnStyle))
                     {
                         RemoveBundlesDouble(bundlesProp);
-                        RemoveBridgesDouble(bridgesProp);
+                        //RemoveBridgesDouble(bridgesProp);
                     }
                     if (GUILayout.Button(new GUIContent("*", "快速更新"), btnStyle))
                     {
@@ -413,7 +427,7 @@ public abstract class UIDrawerTemp : Editor
     {
         var guidProp = itemProp.FindPropertyRelative("guid");
         var goodProp = itemProp.FindPropertyRelative("good");
-        var assetNameProp = itemProp.FindPropertyRelative("assetName");
+        var assetNameProp = itemProp.FindPropertyRelative("panelName");
         var bundleNameProp = itemProp.FindPropertyRelative("bundleName");
 
         if (!goodProp.boolValue)

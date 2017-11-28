@@ -35,11 +35,19 @@ public class BridgeDrawer : PropertyDrawer {
 
         ShowModel show = (ShowModel)showModelProp.intValue;
         showKey = Utility.ShowModelToString(show);
+
         var rect_L = new Rect(position.x, position.y, position.width * 0.3f, position.height);
-        EditorGUI.LabelField(rect_L, inNodeName);
+        if(GUI.Button(rect_L, inNodeName,EditorStyles.miniButtonLeft))
+        {
+
+        }
+        //EditorGUI.LabelField(rect_L, inNodeName);
         var rect_C = new Rect(position.x + position.width * 0.4f, position.y, position.width * 0.3f, position.height);
         EditorGUI.LabelField(rect_C, showKey);
-        var rect_R = new Rect(position.x + position.width * 0.7f, position.y, position.width * 0.3f, position.height);
-        EditorGUI.LabelField(rect_R, outNodeProp.stringValue);
+        var rect_R = new Rect(position.xMax - position.width * 0.3f, position.y, position.width * 0.2f, position.height);
+        if (GUI.Button(rect_R, outNodeProp.stringValue, EditorStyles.miniButtonLeft))
+        {
+
+        }
     }
 }

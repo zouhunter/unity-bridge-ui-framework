@@ -23,9 +23,7 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
     }
     public string Name { get { return name; } }
     public IPanelGroup Group { get; set; }
-   
     public abstract Transform Content { get; }
-
     public UIType UType { get; set; }
     public Transform PanelTrans
     {
@@ -34,15 +32,17 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
             return transform;
         }
     }
-
-    public CloseRule closeRule;
-    public HideRule hideRule;
+    
     protected UIFacade selfFacade;
 
     protected Bridge bridge;
 
     public event UnityAction<IPanelBase> onDelete;
 
+    public void SetParent(Transform Trans)
+    {
+        Utility.SetTranform(PanelTrans, UType.layer, Trans);
+    }
     public void CallBack(object data)
     {
         if(bridge != null)

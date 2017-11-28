@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class PanelGroupObj : ScriptableObject
 {
+#if UNITY_EDITOR
+    public List<GraphWorp> graphList;
+#endif
     public LoadType loadType = LoadType.Prefab;
     public List<BundleUIInfo> b_nodes;
     public List<PrefabUIInfo> p_nodes;

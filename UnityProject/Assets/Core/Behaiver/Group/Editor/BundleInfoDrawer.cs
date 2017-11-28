@@ -12,7 +12,7 @@ public class UIBundleInfoDrawer : UIInfoBaseDrawer
     protected SerializedProperty guidProp;
     protected SerializedProperty bundleNameProp;
 
-    protected const int ht = 5;
+    protected const int ht = 3;
 
     protected override void InitPropertys(SerializedProperty property)
     {
@@ -45,12 +45,9 @@ public class UIBundleInfoDrawer : UIInfoBaseDrawer
         EditorGUI.PropertyField(rect, panelNameProp, new GUIContent("[name]"));
         rect.y += singleHeight;
         EditorGUI.PropertyField(rect, bundleNameProp, new GUIContent("[bundle]"));
-        EditorGUI.EndDisabledGroup();
-
         rect.y += singleHeight;
         EditorGUI.PropertyField(rect, typeProp, new GUIContent("[type]"));
-        rect.y += singleHeight;
-        layerProp.intValue = EditorGUI.MaskField(rect, new GUIContent("[layer]"), layerProp.intValue, layerProp.enumNames);
+        EditorGUI.EndDisabledGroup();
     }
 
     protected override void DrawObjectField(Rect acceptRect)

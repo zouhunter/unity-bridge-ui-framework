@@ -87,14 +87,14 @@ namespace NodeGraph
             {
                 if (Selection.activeObject is PanelGroupObj)
                 {
-                    StoreInfoToPanleGroupObj(Selection.activeObject as PanelGroupObj);
+                    StoreInfoOfPanel(Selection.activeObject as PanelGroupObj);
                 }
                 else if (Selection.activeGameObject != null)
                 {
                     var panelGroup = Selection.activeGameObject.GetComponent<PanelGroup>();
                     if (panelGroup != null)
                     {
-                        StoreInfoToPanelGroup(panelGroup);
+                        StoreInfoOfPanel(panelGroup);
                     }
                 }
             }
@@ -104,7 +104,7 @@ namespace NodeGraph
         /// 将信息保存到PanelGroupObj
         /// </summary>
         /// <param name="obj"></param>
-        private void StoreInfoToPanleGroupObj(PanelGroupObj group)
+        private void StoreInfoOfPanel(PanelGroupObj group)
         {
             InsertBridges(group.bridges, GetBridges());
             if (group.loadType == LoadType.Prefab)
@@ -115,6 +115,7 @@ namespace NodeGraph
             {
                 InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
             }
+            TryRecoredGraphGUID(group);
             EditorUtility.SetDirty(group);
         }
 
@@ -122,7 +123,7 @@ namespace NodeGraph
         /// 将信息到保存到PanelGroup
         /// </summary>
         /// <param name="group"></param>
-        private void StoreInfoToPanelGroup(PanelGroup group)
+        private void StoreInfoOfPanel(PanelGroup group)
         {
             InsertBridges(group.bridges, GetBridges());
             if (group.loadType == LoadType.Prefab)
@@ -133,7 +134,44 @@ namespace NodeGraph
             {
                 InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
             }
+            TryRecoredGraphGUID(group);
             EditorUtility.SetDirty(group);
+        }
+
+        private void TryRecoredGraphGUID(PanelGroup group)
+        {
+            var path = AssetDatabase.GetAssetPath(TargetGraph);
+            var guid = AssetDatabase.AssetPathToGUID(path);
+            if (group is PanelGroup)
+            {
+                var panelGroup = group as PanelGroup;
+                var record = panelGroup.graphList.Find(x => x.guid == guid);
+                if (record == null)
+                {
+                    var item = new GraphWorp(TargetGraph.name, guid);
+                    panelGroup.graphList.Add(item);
+                }
+                else
+                {
+                    record.graphName = TargetGraph.name;
+                }
+            }
+        }
+        private void TryRecoredGraphGUID(PanelGroupObj group)
+        {
+            var path = AssetDatabase.GetAssetPath(TargetGraph);
+            var guid = AssetDatabase.AssetPathToGUID(path);
+            var panelGroupObj = group as PanelGroupObj;
+            var record = panelGroupObj.graphList.Find(x => x.guid == guid);
+            if (record == null)
+            {
+                var item = new GraphWorp(TargetGraph.name, guid);
+                panelGroupObj.graphList.Add(item);
+            }
+            else
+            {
+                record.graphName = TargetGraph.name;
+            }
         }
 
         private void InsertBridges(List<Bridge> source, List<Bridge> newBridges)
@@ -160,7 +198,7 @@ namespace NodeGraph
                 var old = source.Find(x => x.panelName == item.panelName);
                 if (old != null)
                 {
-                    old.prefab  = item.prefab;
+                    old.prefab = item.prefab;
                     old.type = item.type;
                 }
                 else
@@ -201,12 +239,12 @@ namespace NodeGraph
                 var outnode = nodes.Find(x => x.InputPoints != null && x.InputPoints.Find(y => y.Id == item.ToNodeConnectionPointId) != null);
                 if (innode != null)
                 {
-                    if(innode.Operation.Object is IPanelInfoHolder)
+                    if (innode.Operation.Object is IPanelInfoHolder)
                     {
                         bridge.inNode = innode.Name;
                     }
                 }
-               
+
 
                 if (outnode != null && outnode.Operation.Object is IPanelInfoHolder)
                 {
@@ -225,7 +263,8 @@ namespace NodeGraph
             foreach (var item in nodes)
             {
                 var nodeItem = item.Operation.Object as IPanelInfoHolder;
-                if (nodeItem != null){
+                if (nodeItem != null)
+                {
                     nodeInfos.Add(nodeItem.Info);
                 }
             }
@@ -240,6 +279,7 @@ namespace NodeGraph
                 var p = new PrefabUIInfo();
                 SwitchInfoFromNodeInfo(p, item);
                 p.prefab = LoadPrefabFromGUID(item.prefabGuid);
+                p.panelName = p.prefab.name;
                 pinfos.Add(p);
             }
             return pinfos;
@@ -293,7 +333,7 @@ namespace NodeGraph
                 var path = AssetDatabase.GUIDToAssetPath(binfo.guid);
                 var importer = AssetImporter.GetAtPath(path);
                 var obj = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                if(importer)
+                if (importer)
                 {
                     binfo.bundleName = importer.assetBundleName;
                     binfo.panelName = obj.name;

@@ -12,11 +12,6 @@ using System.Collections;
 using System.Collections.Generic;
 [System.Serializable]
 public class NodeInfo {
-    public int layerIndex;
-    //public string mutexKey;
-    public UIFormType form = UIFormType.Fixed;
-    public UILayerType layer = UILayerType.Base;
-    public UILucenyType hideLuceny = UILucenyType.Lucency;
-    public UIAnimType animType = UIAnimType.NoAnim;
+    public UIType uiType;
     public string prefabGuid;
 }

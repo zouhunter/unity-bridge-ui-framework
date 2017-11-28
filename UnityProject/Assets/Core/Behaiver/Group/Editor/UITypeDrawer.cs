@@ -17,7 +17,7 @@ public class UITypeDrawer : PropertyDrawer {
     SerializedProperty formProp;
     SerializedProperty layerProp;
     SerializedProperty layerIndexProp;
-    SerializedProperty hideLucenyProp;
+    SerializedProperty hideAlaphProp;
     SerializedProperty animTypeProp;
 
     const float lableWidth = 120;
@@ -33,7 +33,7 @@ public class UITypeDrawer : PropertyDrawer {
         formProp = property.FindPropertyRelative("form");
         layerProp = property.FindPropertyRelative("layer");
         layerIndexProp = property.FindPropertyRelative("layerIndex");
-        hideLucenyProp = property.FindPropertyRelative("hideLuceny");
+        hideAlaphProp = property.FindPropertyRelative("hideAlaph");
         animTypeProp = property.FindPropertyRelative("animType");
     }
 
@@ -63,7 +63,7 @@ public class UITypeDrawer : PropertyDrawer {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("隐藏透明度:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            hideLucenyProp.enumValueIndex = (int)(UILucenyType)EditorGUILayout.EnumPopup((UILucenyType)hideLucenyProp.enumValueIndex);
+            hideAlaphProp.floatValue = EditorGUILayout.Slider(hideAlaphProp.floatValue, 0, 1);
         }
         using (var hor = new EditorGUILayout.HorizontalScope())
         {

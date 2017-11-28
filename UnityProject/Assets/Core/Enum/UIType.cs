@@ -16,21 +16,6 @@ public enum UILayerType
     Warning = 2//用于程序状态警告（不可以被其他层级掩盖）
 }
 
-/// <summary>
-/// UI窗体透明度类型(隐藏的一种方式)
-/// </summary>
-public enum UILucenyType
-{
-    //完全透明，不能穿透
-    Lucency = 0,
-    //半透明，不能穿透
-    Translucence = 1,
-    //低透明度，不能穿透
-    ImPenetrable = 2,
-    //可以穿透
-    Pentrate = 3
-}
-
 //显示时的动画类型
 public enum UIAnimType
 {
@@ -42,17 +27,17 @@ public enum UIAnimType
 
 public enum HideRule
 {
-    HideChildObject = 0,//隐藏自己的可见物体
+    AlaphGameObject = 0,//隐藏自己的可见物体
     HideGameObject = 1,//直接隐藏自己
-    MoveToPoint = 2,//向空间移动
 }
 
 
 public enum CloseRule
 {
-    DestroyImmediate= 0,//快速销毁并从内存中清除
-    DestroyDely = 1,//延迟销毁
-    DestroyWithAnim = 2,//播放销毁动画
+    DestroyNoraml = 0,//普通销毁
+    DestroyImmediate = 1,//快速销毁并从内存中清除
+    DestroyDely = 2,//延迟销毁
+    HideGameObject = 3//缓存文件,仅当场景切换时销毁
 }
 
 /// <summary>
@@ -68,7 +53,7 @@ public class UIType
     //绝对层级
     public UILayerType layer = UILayerType.Base;
     //隐藏透明度
-    public UILucenyType hideLuceny = UILucenyType.Lucency;
+    public float hideAlaph = 0.2f;
     //出场动画
     public UIAnimType animType = UIAnimType.NoAnim;
     //关闭规则

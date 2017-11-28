@@ -84,35 +84,40 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
     }
     private void DrawInforamtion()
     {
-        //using (var hor = new EditorGUILayout.HorizontalScope())
-        //{
-        //    EditorGUILayout.LabelField("唯一关键字:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-        //    nodeInfo.mutexKey = EditorGUILayout.TextField(nodeInfo.mutexKey);
-        //}
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("可移动机制:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            nodeInfo.form = (UIFormType)EditorGUILayout.EnumPopup(nodeInfo.form);
+            EditorGUILayout.LabelField("移动机制:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            nodeInfo.uiType.form = (UIFormType)EditorGUILayout.EnumPopup(nodeInfo.uiType.form);
         }
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("绝对显示层:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            nodeInfo.layer = (UILayerType)EditorGUILayout.EnumPopup(nodeInfo.layer);
+            EditorGUILayout.LabelField("绝对显示:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            nodeInfo.uiType.layer = (UILayerType)EditorGUILayout.EnumPopup(nodeInfo.uiType.layer);
         }
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("相对优先级:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            nodeInfo.layerIndex = EditorGUILayout.IntField(nodeInfo.layerIndex);
+            EditorGUILayout.LabelField("相对优先:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            nodeInfo.uiType.layerIndex = EditorGUILayout.IntField(nodeInfo.uiType.layerIndex);
         }
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("隐藏透明度:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            nodeInfo.hideLuceny = (UILucenyType)EditorGUILayout.EnumPopup(nodeInfo.hideLuceny);
+            EditorGUILayout.LabelField("隐藏方式:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            nodeInfo.uiType.hideRule = (HideRule)EditorGUILayout.EnumPopup(nodeInfo.uiType.hideRule);
         }
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("出场动画组:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            nodeInfo.animType = (UIAnimType)EditorGUILayout.EnumPopup(nodeInfo.animType);
+            EditorGUILayout.LabelField("隐藏透明:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            nodeInfo.uiType.hideAlaph = EditorGUILayout.Slider(nodeInfo.uiType.hideAlaph, 0, 1);
+        }
+        using (var hor = new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField("关闭方式:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            nodeInfo.uiType.closeRule = (CloseRule)EditorGUILayout.EnumPopup(nodeInfo.uiType.closeRule);
+        }
+        using (var hor = new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField("动画效果:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            nodeInfo.uiType.animType = (UIAnimType)EditorGUILayout.EnumPopup(nodeInfo.uiType.animType);
         }
 
     }

@@ -8,6 +8,29 @@
         <interfaceMoniker Id="41cc4102-9234-4e3f-bc12-86e2da8f0e3b" LastKnownName="IPanelNode" />
       </annotatedElements>
     </comment>
+    <comment Id="1a3cffb5-8911-49f7-96fb-44d13df882a8">
+      <elementDefinition Id="55ccaf40-8aa9-4cdb-872b-3cf364b0ec2d" />
+      <body>记录一组面板
+将自己注册到UIFacade中</body>
+      <annotatedElements>
+        <interfaceMoniker Id="6038c598-8f75-4faa-897e-d9dd1cea2329" LastKnownName="IPanelGroup" />
+      </annotatedElements>
+    </comment>
+    <comment Id="816275de-2447-4428-8f27-36405a2ea4c6">
+      <elementDefinition Id="d348f5a2-bd61-424a-9d0d-82c27a61eb8a" />
+      <body>所有界面的接口
+用于记录信息/初始化/事件反馈</body>
+      <annotatedElements>
+        <interfaceMoniker Id="9d56edb6-263a-493f-8f0a-2ae6ce14943a" LastKnownName="IPanelBase" />
+      </annotatedElements>
+    </comment>
+    <comment Id="cb7a5f75-2872-4341-841c-76db81ce0a59">
+      <elementDefinition Id="73a8fdd2-07dd-485a-ae99-b611f3b005f4" />
+      <body>面板创建器,实现直接通过prefab或资源包的方式创建面板</body>
+      <annotatedElements>
+        <interfaceMoniker Id="c68a5050-5cbb-4d70-a2d2-280a2f86de63" LastKnownName="IPanelLoader" />
+      </annotatedElements>
+    </comment>
   </ownedCommentsInternal>
   <appliedStereotypesInternal>
     <stereotypeInstance Id="47273059-951e-4d29-94a5-79c04c6e4dbc" name="namespace" profile="CSharpProfile">
@@ -366,6 +389,37 @@
       <Interface Id="c68a5050-5cbb-4d70-a2d2-280a2f86de63" name="IPanelLoader" isAbstract="false" isLeaf="false">
         <elementDefinition Id="ed0a5048-d9a7-47d5-9684-4a5a6f4a6664" />
       </Interface>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="6038c598-8f75-4faa-897e-d9dd1cea2329" name="IPanelGroup" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c836039d-d3d8-4028-86c5-ee52ece1e339" />
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="83716df9-3942-4b1d-9cf7-892bc5b389b5" name="PanelGroup" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="dbb790f9-6bf5-44a3-b399-d6bdf4ea5a31" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="3b5fe20b-c62d-4a97-a9a5-837fe3ca0b86" name="PanelGroupObj" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="dec8a891-5ff3-47e5-97c4-77dfb1725642" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="c5af5248-8cd7-4075-b662-7df11aaf807a" name="Interface1" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="ef53eea2-68ed-45d5-9446-8a99869eb256" />
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="11171021-4de6-4221-8e1b-d6e5e411715c" name="BasePanel" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="140071a8-191a-4634-900d-00019401b9d1" />
+        <suppliersInternal>
+          <interfaceRealization Id="be5d74de-0ef6-4011-9850-bca12da3b465">
+            <interfaceMoniker Id="9d56edb6-263a-493f-8f0a-2ae6ce14943a" LastKnownName="IPanelBase" />
+            <elementDefinition Id="c866fe00-97df-4ba1-8120-6ee64606181e" />
+          </interfaceRealization>
+        </suppliersInternal>
+      </class>
     </logicalClassDesignerModelHasTypes>
   </packagedElements>
   <package Id="a1e3cad2-c516-4741-8346-451f87db9201" name="FlexibleUI">

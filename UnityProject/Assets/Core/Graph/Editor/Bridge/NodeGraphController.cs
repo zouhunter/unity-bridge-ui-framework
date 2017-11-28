@@ -236,7 +236,7 @@ namespace NodeGraph
             foreach (var item in infos)
             {
                 var p = new PrefabUIInfo();
-                SwitchInfoFromNodeInfo(p, item);
+                p.type = item.uiType;
                 p.prefab = LoadPrefabFromGUID(item.prefabGuid);
                 p.panelName = p.prefab.name;
                 pinfos.Add(p);
@@ -263,21 +263,11 @@ namespace NodeGraph
             foreach (var item in infos)
             {
                 var p = new BundleUIInfo();
-                SwitchInfoFromNodeInfo(p, item);
+                p.type = item.uiType;
                 p.guid = item.prefabGuid;
                 binfo.Add(p);
             }
             return binfo;
-        }
-
-        private void SwitchInfoFromNodeInfo(UIInfoBase p, NodeInfo item)
-        {
-            p.type = new global::UIType();
-            p.type.form = item.form;
-            p.type.layer = item.layer;
-            p.type.hideLuceny = item.hideLuceny;
-            p.type.layerIndex = item.layerIndex;
-            p.type.animType = item.animType;
         }
 
         private void CompleteBundleUIInfo(BundleUIInfo binfo)

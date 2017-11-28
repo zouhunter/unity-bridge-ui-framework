@@ -12,7 +12,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
-public abstract class PanelBase :UIBehaviour, IPanelBase
+public abstract class PanelBase : UIBehaviour, IPanelBase
 {
     public int InstenceID
     {
@@ -38,7 +38,7 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
     {
         get
         {
-            return _isShowing;
+            return _isShowing && !IsDestroyed();
         }
     }
 
@@ -46,7 +46,7 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
     {
         get
         {
-            return _isAlive;
+            return _isAlive && !IsDestroyed();
         }
     }
 
@@ -63,7 +63,7 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
     }
     public void CallBack(object data)
     {
-        if(bridge != null)
+        if (bridge != null)
         {
             bridge.CallBack(data);
         }
@@ -72,7 +72,8 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
     public void HandleData(Bridge bridge)
     {
         this.bridge = bridge;
-        if (bridge != null){
+        if (bridge != null)
+        {
             HandleData(bridge.dataQueue);
             bridge.onGet = HandleData;
         }
@@ -80,7 +81,7 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
 
     protected virtual void HandleData(Queue<object> dataQueue)
     {
-        if(dataQueue != null)
+        if (dataQueue != null)
         {
             while (dataQueue.Count > 0)
             {
@@ -104,10 +105,12 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
         _isAlive = false;
         _isShowing = false;
 
-        if (bridge != null){
+        if (bridge != null)
+        {
             bridge.Release();
         }
-        if(onDelete != null){
+        if (onDelete != null)
+        {
             onDelete.Invoke(this);
         }
     }
@@ -117,37 +120,51 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
         _isShowing = false;
         switch (UType.hideRule)
         {
-            case HideRule.HideChildObject:
+            case HideRule.AlaphGameObject:
+                AlaphGameObject(true);
                 break;
             case HideRule.HideGameObject:
-                break;
-            case HideRule.MoveToPoint:
+                gameObject.SetActive(false);
                 break;
             default:
                 break;
         }
-        gameObject.SetActive(false);
     }
     public virtual void UnHide()
     {
         _isShowing = true;
         switch (UType.hideRule)
         {
-            case HideRule.HideChildObject:
+            case HideRule.AlaphGameObject:
+                AlaphGameObject(false);
                 break;
             case HideRule.HideGameObject:
-                break;
-            case HideRule.MoveToPoint:
+                gameObject.SetActive(true);
                 break;
             default:
                 break;
         }
-        gameObject.SetActive(true);
     }
 
     public virtual void Close()
     {
-        Destroy(gameObject);
+        switch (UType.closeRule)
+        {
+            case CloseRule.DestroyImmediate:
+                DestroyImmediate(gameObject);
+                break;
+            case CloseRule.DestroyDely:
+                Destroy(gameObject, 0.02f);
+                break;
+            case CloseRule.DestroyNoraml:
+                Destroy(gameObject);
+                break;
+            case CloseRule.HideGameObject:
+                gameObject.SetActive(false);
+                break;
+            default:
+                break;
+        }
     }
 
     public void RecordChild(IPanelBase childPanel)
@@ -162,22 +179,42 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
             childPanels.Add(childPanel);
         }
     }
-
-    private void OnRemoveChild(IPanelBase childPanel)
-    {
-        if(childPanels != null && childPanels.Contains(childPanel))
-        {
-            childPanels.Remove(childPanel);
-        }
-    }
-
     public void Cover()
     {
         var img = GetComponent<Image>();
-        if(img == null){
+        if (img == null)
+        {
             img = gameObject.AddComponent<Image>();
             img.color = new Color(0, 0, 0, 0.01f);
         }
         img.raycastTarget = true;
     }
+    private void OnRemoveChild(IPanelBase childPanel)
+    {
+        if (childPanels != null && childPanels.Contains(childPanel))
+        {
+            childPanels.Remove(childPanel);
+        }
+    }
+
+    private void AlaphGameObject(bool hide)
+    {
+        var canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
+        if(hide)
+        {
+            canvasGroup.alpha = UType.hideAlaph;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
+        else
+        {
+            Destroy(canvasGroup);
+        }
+       
+    }
+
 }

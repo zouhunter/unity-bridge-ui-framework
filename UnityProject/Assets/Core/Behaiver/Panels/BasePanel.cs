@@ -34,14 +34,29 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
         }
     }
 
+    public bool IsShowing
+    {
+        get
+        {
+            return _isShowing;
+        }
+    }
+
+    public bool IsAlive
+    {
+        get
+        {
+            return _isAlive;
+        }
+    }
+
     protected UIFacade selfFacade;
 
     protected Bridge bridge;
     protected List<IPanelBase> childPanels;
     public event UnityAction<IPanelBase> onDelete;
-    public event UnityAction<IPanelBase> onHide;
-    public event UnityAction<IPanelBase> onUnHide;
-
+    protected bool _isShowing = true;
+    private bool _isAlive = true;
     public void SetParent(Transform Trans)
     {
         Utility.SetTranform(transform, UType.layer, Trans);
@@ -86,7 +101,10 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
 
     protected override void OnDestroy()
     {
-        if(bridge != null){
+        _isAlive = false;
+        _isShowing = false;
+
+        if (bridge != null){
             bridge.Release();
         }
         if(onDelete != null){
@@ -96,10 +114,34 @@ public abstract class PanelBase :UIBehaviour, IPanelBase
 
     public virtual void Hide()
     {
+        _isShowing = false;
+        switch (UType.hideRule)
+        {
+            case HideRule.HideChildObject:
+                break;
+            case HideRule.HideGameObject:
+                break;
+            case HideRule.MoveToPoint:
+                break;
+            default:
+                break;
+        }
         gameObject.SetActive(false);
     }
     public virtual void UnHide()
     {
+        _isShowing = true;
+        switch (UType.hideRule)
+        {
+            case HideRule.HideChildObject:
+                break;
+            case HideRule.HideGameObject:
+                break;
+            case HideRule.MoveToPoint:
+                break;
+            default:
+                break;
+        }
         gameObject.SetActive(true);
     }
 

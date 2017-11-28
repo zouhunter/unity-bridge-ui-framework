@@ -22,10 +22,11 @@ public interface IPanelBase
     Transform Content { get; }
     List<IPanelBase> ChildPanels { get; }
 
-    event UnityAction<IPanelBase> onHide;
-    event UnityAction<IPanelBase> onUnHide;
     event UnityAction<IPanelBase> onDelete;
     UIType UType { get; set; }
+    bool IsShowing { get; }
+    bool IsAlive { get; }
+
     void SetParent(Transform parent);
     void RecordChild(IPanelBase childPanel);
     void HandleData(Bridge bridge);

@@ -31,7 +31,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
     private Bridge defultBridge;
     private Dictionary<Bridge, BridgePool> poolDic = new Dictionary<Bridge, BridgePool>();
     private List<IPanelBase> createdPanels = new List<IPanelBase>();
-    private List<IPanelBase> hidedPanels = new List<IPanelBase>();
+    private Dictionary<IPanelBase, Stack<IPanelBase>> hidedPanelStack = new Dictionary<IPanelBase, Stack<IPanelBase>>();
     private Dictionary<IPanelBase, Bridge> bridgeDic = new Dictionary<IPanelBase, Bridge>();
     private List<UIInfoBase> activeNodes;
     private IPanelCreater creater;
@@ -86,7 +86,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
                     TryRecordParentDic(parentName, panel);
                     bridgeDic.Add(panel, bridge);
                     InitPanel(panel, bridge, uiNode);
-                    HandBridgeOptions(panel,bridge);
+                    HandBridgeOptions(panel, bridge);
                 }
             };
             creater.CreatePanel(uiNode);
@@ -111,7 +111,6 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
     /// </summary>
     private void TryRecordParentDic(string parentPanel, IPanelBase childPanel)
     {
-        // Debug.Log(parentPanel + ":" + childPanel.Name + ":"+ createdPanels.Count);
         if (string.IsNullOrEmpty(parentPanel)) return;
         var parent = createdPanels.Find(x => x.Name == parentPanel);
         if (parent != null)
@@ -128,16 +127,22 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
     /// <param name="bridge"></param>
     private void TryHideMutexPanels(IPanelBase childPanel, Bridge bridge)
     {
-        //Debug.Log(bridge.showModel);
-        if((bridge.showModel & ShowModel.Mutex) == ShowModel.Mutex)
+        if ((bridge.showModel & ShowModel.Mutex) == ShowModel.Mutex)
         {
             var mayBridges = bridges.FindAll(x => x.inNode == bridge.inNode);
             foreach (var bg in mayBridges)
             {
                 var mayPanel = createdPanels.Find(x => x.Name == bg.outNode && x.UType.layer == childPanel.UType.layer && x != childPanel);
-                if(mayPanel != null)
+                if (mayPanel != null)
                 {
-                    mayPanel.Hide();
+                    if (mayPanel.IsShowing)
+                    {
+                        mayPanel.Hide();
+                        if (!hidedPanelStack.ContainsKey(childPanel)){
+                            hidedPanelStack[childPanel] = new Stack<IPanelBase>();
+                        }
+                        hidedPanelStack[childPanel].Push(mayPanel);
+                    }
                 }
             }
         }
@@ -187,7 +192,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
         panel.Group = this;
         panel.onDelete += OnDeletePanel;
         panel.HandleData(bridge);
-       
+
     }
 
     private void TryHideParent(IPanelBase panel, Bridge bridge)
@@ -198,8 +203,15 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
             if (parent != null)
             {
                 panel.SetParent(Trans);
-                parent.Hide();
-                hidedPanels.Add(parent);
+                if (parent.IsShowing)
+                {
+                    parent.Hide();
+                    if (!hidedPanelStack.ContainsKey(panel))
+                    {
+                        hidedPanelStack[panel] = new Stack<IPanelBase>();
+                    }
+                    hidedPanelStack[panel].Push(parent);
+                }
             }
         }
     }
@@ -218,12 +230,17 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
 
         if (uiNode != null)// && uiNode.type.form == UIFormType.Fixed
         {
-            if(uiNode.type.form == UIFormType.Fixed)
+            if (uiNode.type.form == UIFormType.Fixed)
             {
                 var oldPanel = createdPanels.Find(x => x.Name == panelName);
                 if (oldPanel != null)
                 {
                     bridgeObj = bridgeDic[oldPanel];
+                    if (!oldPanel.IsShowing)
+                    {
+                        oldPanel.UnHide();
+                        HandBridgeOptions(oldPanel, bridgeObj);
+                    }
                     return false;
                 }
             }
@@ -296,14 +313,12 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
         {
             createdPanels.Remove(panel);
         }
+
         if (bridgeDic.ContainsKey(panel))
         {
             bridgeDic.Remove(panel);
         }
-        if (hidedPanels.Contains(panel))
-        {
-            hidedPanels.Remove(panel);
-        }
+
         if (panel.ChildPanels != null)
         {
             foreach (var item in panel.ChildPanels)
@@ -311,11 +326,22 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
                 item.Close();
             }
         }
-        while (hidedPanels.Count > 0)
+
+        if (hidedPanelStack.ContainsKey(panel))
         {
-            var item = hidedPanels[0];
-            item.UnHide();
-            hidedPanels.RemoveAt(0);
+            var stack = hidedPanelStack[panel];
+            if (stack != null)
+            {
+                while (stack.Count > 0)
+                {
+                    var item = stack.Pop();
+                    if (item.IsAlive && !item.IsShowing)
+                    {
+                        item.UnHide();
+                    }
+                }
+            }
+
         }
     }
     #endregion

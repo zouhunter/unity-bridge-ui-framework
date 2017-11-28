@@ -8,24 +8,7 @@ using UnityEngine.Serialization;
 
 using AssetBundle = UnityEngine.AssetBundle;
 [CustomEditor(typeof(PanelGroup)), CanEditMultipleObjects]
-public class PanelGroupDrawer : UIDrawerTemp
-{
-    protected override void DrawRuntimeItems()
-    {
-        EditorGUILayout.LabelField("共用资源列表", EditorStyles.helpBox);
-        DrawListProperty(groupObjsProp, true);
-        base.DrawRuntimeItems();
-    }
-
-
-}
-[CustomEditor(typeof(PanelGroupObj))]
-public class UIGroupObjDrawer : UIDrawerTemp
-{
-
-}
-
-public abstract class UIDrawerTemp : Editor
+public class PanelGroupDrawer : Editor
 {
     protected SerializedProperty script;
     protected SerializedProperty createrGuidProp;

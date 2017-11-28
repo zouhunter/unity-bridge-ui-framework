@@ -25,7 +25,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
     public List<BundleUIInfo> b_nodes;
     public List<PrefabUIInfo> p_nodes;
     public List<Bridge> bridges;
-    public List<PanelGroupObj> subGroups;
+    //public List<PanelGroupObj> subGroups;
     public Transform Trans { get { return transform; } }
     public List<UIInfoBase> Nodes { get { return activeNodes; } }
 
@@ -106,10 +106,10 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
             activeNodes.AddRange(p_nodes.ConvertAll<UIInfoBase>(x => x));
         }
 
-        foreach (var item in subGroups)
-        {
-            item.RegistUINodes(activeNodes, bridges);
-        }
+        //foreach (var item in subGroups)
+        //{
+        //    item.RegistUINodes(activeNodes, bridges);
+        //}
     }
 
     /// <summary>

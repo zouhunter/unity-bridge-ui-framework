@@ -83,41 +83,42 @@ namespace NodeGraph
         }
         internal void BuildToSelect()
         {
-            if (Selection.activeObject != null)
+            if (Selection.activeGameObject != null)
             {
-                if (Selection.activeObject is PanelGroupObj)
+                var panelGroup = Selection.activeGameObject.GetComponent<PanelGroup>();
+                if (panelGroup != null)
                 {
-                    StoreInfoOfPanel(Selection.activeObject as PanelGroupObj);
-                }
-                else if (Selection.activeGameObject != null)
-                {
-                    var panelGroup = Selection.activeGameObject.GetComponent<PanelGroup>();
-                    if (panelGroup != null)
-                    {
-                        StoreInfoOfPanel(panelGroup);
-                    }
+                    StoreInfoOfPanel(panelGroup);
                 }
             }
+            //if (Selection.activeObject != null)
+            //{
+            //    if (Selection.activeObject is PanelGroupObj)
+            //    {
+            //        StoreInfoOfPanel(Selection.activeObject as PanelGroupObj);
+            //    }
+            //    else
+            //}
         }
 
-        /// <summary>
-        /// 将信息保存到PanelGroupObj
-        /// </summary>
-        /// <param name="obj"></param>
-        private void StoreInfoOfPanel(PanelGroupObj group)
-        {
-            InsertBridges(group.bridges, GetBridges());
-            if (group.loadType == LoadType.Prefab)
-            {
-                InsertPrefabinfo(group.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
-            }
-            else if (group.loadType == LoadType.Bundle)
-            {
-                InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
-            }
-            TryRecoredGraphGUID(group);
-            EditorUtility.SetDirty(group);
-        }
+        ///// <summary>
+        ///// 将信息保存到PanelGroupObj
+        ///// </summary>
+        ///// <param name="obj"></param>
+        //private void StoreInfoOfPanel(PanelGroupObj group)
+        //{
+        //    InsertBridges(group.bridges, GetBridges());
+        //    if (group.loadType == LoadType.Prefab)
+        //    {
+        //        InsertPrefabinfo(group.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
+        //    }
+        //    else if (group.loadType == LoadType.Bundle)
+        //    {
+        //        InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
+        //    }
+        //    TryRecoredGraphGUID(group);
+        //    EditorUtility.SetDirty(group);
+        //}
 
         /// <summary>
         /// 将信息到保存到PanelGroup
@@ -157,22 +158,22 @@ namespace NodeGraph
                 }
             }
         }
-        private void TryRecoredGraphGUID(PanelGroupObj group)
-        {
-            var path = AssetDatabase.GetAssetPath(TargetGraph);
-            var guid = AssetDatabase.AssetPathToGUID(path);
-            var panelGroupObj = group as PanelGroupObj;
-            var record = panelGroupObj.graphList.Find(x => x.guid == guid);
-            if (record == null)
-            {
-                var item = new GraphWorp(TargetGraph.name, guid);
-                panelGroupObj.graphList.Add(item);
-            }
-            else
-            {
-                record.graphName = TargetGraph.name;
-            }
-        }
+        //private void TryRecoredGraphGUID(PanelGroupObj group)
+        //{
+        //    var path = AssetDatabase.GetAssetPath(TargetGraph);
+        //    var guid = AssetDatabase.AssetPathToGUID(path);
+        //    var panelGroupObj = group as PanelGroupObj;
+        //    var record = panelGroupObj.graphList.Find(x => x.guid == guid);
+        //    if (record == null)
+        //    {
+        //        var item = new GraphWorp(TargetGraph.name, guid);
+        //        panelGroupObj.graphList.Add(item);
+        //    }
+        //    else
+        //    {
+        //        record.graphName = TargetGraph.name;
+        //    }
+        //}
 
         private void InsertBridges(List<Bridge> source, List<Bridge> newBridges)
         {

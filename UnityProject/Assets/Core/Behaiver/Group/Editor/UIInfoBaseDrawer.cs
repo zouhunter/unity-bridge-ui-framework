@@ -169,10 +169,10 @@ public abstract class UIInfoBaseDrawer : PropertyDrawer
     protected virtual void ResetBuildInfoOnOpen()
     {
         //使用对象是UIGroupObj，将无法从button和Toggle加载
-        if (serializedObject.targetObject is PanelGroupObj)
-        {
+        //if (serializedObject.targetObject is PanelGroupObj)
+        //{
            
-        }
+        //}
     }
 
     protected abstract GameObject GetPrefabItem();

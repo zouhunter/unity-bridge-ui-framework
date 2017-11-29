@@ -271,7 +271,7 @@ public partial class Utility
         {
             var obj = root.GetChild(i);
             var panel = obj.GetComponent<IPanelBase>();
-            if (panel == null || obj == item || panel.UType.layerIndex <= layerIndex)
+            if (panel == null || obj == item || panel.UType == null|| panel.UType.layerIndex <= layerIndex)
             {
                 id = i;
             }

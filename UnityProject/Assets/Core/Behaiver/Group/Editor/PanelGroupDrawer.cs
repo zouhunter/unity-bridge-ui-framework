@@ -11,7 +11,6 @@ using AssetBundle = UnityEngine.AssetBundle;
 public class PanelGroupDrawer : Editor
 {
     protected SerializedProperty script;
-    protected SerializedProperty createrGuidProp;
     protected SerializedProperty bridgesProp;
     protected SerializedProperty groupObjsProp;
 
@@ -39,7 +38,6 @@ public class PanelGroupDrawer : Editor
     private void OnEnable()
     {
         script = serializedObject.FindProperty("m_Script");
-        createrGuidProp = serializedObject.FindProperty("createrGuid");
         bridgesProp = serializedObject.FindProperty("bridges");
         bundlesProp = serializedObject.FindProperty("b_nodes");
         prefabsProp = serializedObject.FindProperty("p_nodes");
@@ -234,6 +232,10 @@ public class PanelGroupDrawer : Editor
                         RemoveBundlesDouble(prefabsProp);
                         RemoveBridgesDouble(bridgesProp);
                     }
+                    if (GUILayout.Button(new GUIContent("*", "快速更新"), btnStyle))
+                    {
+                        QuickUpdateFromGraph();
+                    }
                     if (GUILayout.Button(new GUIContent("！", "排序"), btnStyle))
                     {
                         SortAllBundles(prefabsProp);
@@ -259,6 +261,7 @@ public class PanelGroupDrawer : Editor
                     if (GUILayout.Button(new GUIContent("*", "快速更新"), btnStyle))
                     {
                         QuickUpdateBundles();
+                        QuickUpdateFromGraph();
                     }
                     if (GUILayout.Button(new GUIContent("!", "排序"), btnStyle))
                     {
@@ -323,8 +326,21 @@ public class PanelGroupDrawer : Editor
                 break;
         }
     }
-
-
+    
+    /// <summary>
+    /// 快速从graph更新
+    /// </summary>
+    private void QuickUpdateFromGraph()
+    {
+        for (int i = 0; i < graphListProp.arraySize; i++)
+        {
+            var guid = graphListProp.GetArrayElementAtIndex(i).FindPropertyRelative("guid").stringValue;
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            var graph = AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.Version2.ConfigGraph>(path);
+            NodeGraph. NodeGraphController controller = new NodeGraph.NodeGraphController(graph);
+            controller.BuildToSelect();
+        }
+    }
     private void GroupLoadPrefabs(SerializedProperty proprety)
     {
         for (int i = 0; i < proprety.arraySize; i++)

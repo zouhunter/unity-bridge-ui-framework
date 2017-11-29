@@ -31,28 +31,32 @@ namespace NodeGraph
             }
             EditorGUILayout.HelpBox("界面切换规则:", MessageType.Info);
 
-            DrawToggleFromShowModel(con, ShowModel.Auto,"父级界面的开关状态控制连接到的界面开关");
-            DrawToggleFromShowModel(con, ShowModel.Mutex,"让拥有相同关键字的其他界面关闭");
-            //DrawToggleFromShowModel(con, ShowModel.Cover, "建立遮罩防止点击其他对象");
-            DrawToggleFromShowModel(con, ShowModel.HideBase,"连接到的界面控制将父级界面开关");
-            DrawToggleFromShowModel(con, ShowModel.Single, "隐藏所有打开的面板");
+            DrawToggleFromShowModel(con, ShowModel.Auto,"自动打开");
+            DrawToggleFromShowModel(con, ShowModel.Mutex,"同级互斥");
+            DrawToggleFromShowModel(con, ShowModel.HideBase,"隐藏父级");
+            DrawToggleFromShowModel(con, ShowModel.Single, "独立显示");
         }
-        private void DrawToggleFromShowModel(ConnectionGUI con,ShowModel model,string toolTip)
+        private void DrawToggleFromShowModel(ConnectionGUI con,ShowModel model,string tip)
         {
             var on = (con.Data._show & model) == model;
-            GUIStyle option = on ? EditorStyles.toolbarButton : EditorStyles.toolbarDropDown;
-            if (GUILayout.Button(new GUIContent( model.ToString(),toolTip), option))
+            using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                on = !on;
-                if (on)
+                var thison = GUILayout.Toggle(on, model.ToString(), EditorStyles.radioButton, GUILayout.Height(60), GUILayout.Width(60));
+                EditorGUILayout.LabelField(tip);
+                if (thison != on)
                 {
-                    con.Data._show |= model;
-                }
-                else
-                {
-                    con.Data._show &= ~model;
+                    on = thison;
+                    if (on)
+                    {
+                        con.Data._show |= model;
+                    }
+                    else
+                    {
+                        con.Data._show &= ~model;
+                    }
                 }
             }
+           
         }
     }
 }

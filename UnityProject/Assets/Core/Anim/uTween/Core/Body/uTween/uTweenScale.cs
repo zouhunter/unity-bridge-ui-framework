@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 
-namespace uTween {
+namespace BridgeUI.uTween {
 	[System.Serializable]
 	public class uTweenScale : uTween<Vector3> {
 

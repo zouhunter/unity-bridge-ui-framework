@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace uTween
+namespace BridgeUI.uTween
 {
     [System.Serializable]
 

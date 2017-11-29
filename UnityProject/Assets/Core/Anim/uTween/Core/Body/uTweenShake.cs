@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace uTween
+namespace BridgeUI.uTween
 {
     [System.Serializable]
     public class uTweenShake : uTweener

@@ -11,6 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using BridgeUI;
 
 public class Panel01 : SinglePanel, IPointerClickHandler
 {

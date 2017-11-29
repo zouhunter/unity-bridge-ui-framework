@@ -10,34 +10,36 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-/// <summary>
-/// 所有ui界面的父级
-/// [用于界面创建及打开的规则]
-/// </summary>
-public interface IPanelBase
+using BridgeUI.Model;
+
+namespace BridgeUI
 {
-    string Name { get; }
-    int InstenceID { get; }
-    IPanelGroup Group { get; set; }
-    Transform Content { get; }
-    List<IPanelBase> ChildPanels { get; }
+    /// <summary>
+    /// 所有ui界面的父级
+    /// [用于界面创建及打开的规则]
+    /// </summary>
+    public interface IPanelBaseInternal : IPanelBase
+    {
+        string Name { get; }
+        int InstenceID { get; }
+        IPanelGroup Group { get; set; }
+        Transform Content { get; }
+        List<IPanelBaseInternal> ChildPanels { get; }
+        event UnityAction<IPanelBaseInternal> onDelete;
+        UIType UType { get; set; }
+        bool IsShowing { get; }
+        bool IsAlive { get; }
+        void SetParent(Transform parent);
 
-    event UnityAction<IPanelBase> onDelete;
-    UIType UType { get; set; }
-    bool IsShowing { get; }
-    bool IsAlive { get; }
+        void RecordChild(IPanelBaseInternal childPanel);
 
-    void SetParent(Transform parent);
+        void HandleData(Bridge bridge);
+    }
 
-    void RecordChild(IPanelBase childPanel);
-
-    void HandleData(Bridge bridge);
-
-    void Cover();
-
-    void Close();
-
-    void Hide();
-
-    void UnHide();
+    public interface IPanelBase
+    {
+        void Close();
+        void Hide();
+        void UnHide();
+    }
 }

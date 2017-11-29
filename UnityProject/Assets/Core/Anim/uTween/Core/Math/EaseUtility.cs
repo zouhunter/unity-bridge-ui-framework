@@ -5,7 +5,7 @@ using System.Collections;
 /// Ease type.
 /// </summary>
 
-namespace uTween {
+namespace BridgeUI.uTween {
 	public enum EaseType{
 		none,
 		easeInQuad,

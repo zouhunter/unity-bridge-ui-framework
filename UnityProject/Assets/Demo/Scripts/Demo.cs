@@ -10,7 +10,8 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-
+using BridgeUI.Model;
+using BridgeUI;
 public class Demo : MonoBehaviour
 {
     private const string pane01 = "Panel01";

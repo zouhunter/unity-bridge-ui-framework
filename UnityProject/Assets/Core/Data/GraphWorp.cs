@@ -10,14 +10,18 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-[System.Serializable]
-public class GraphWorp  {
-    public string graphName;
-    public string guid;
-
-    public GraphWorp(string graphName, string guid)
+namespace BridgeUI.Model
+{
+    [System.Serializable]
+    public class GraphWorp
     {
-        this.graphName = graphName;
-        this.guid = guid;
+        public string graphName;
+        public string guid;
+
+        public GraphWorp(string graphName, string guid)
+        {
+            this.graphName = graphName;
+            this.guid = guid;
+        }
     }
 }

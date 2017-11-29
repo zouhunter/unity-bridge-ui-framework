@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-namespace uTween
+namespace BridgeUI.uTween
 {
     public abstract class uTween<T> : uTweener
     {

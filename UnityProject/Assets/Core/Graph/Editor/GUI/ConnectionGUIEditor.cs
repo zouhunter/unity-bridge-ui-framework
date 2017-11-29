@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using Model = NodeGraph.DataModel.Version2;
+using BridgeUI;
 
 namespace NodeGraph
 {

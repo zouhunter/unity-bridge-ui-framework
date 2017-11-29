@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace uTween {
+namespace BridgeUI.uTween {
     public enum Direction
     {
 		Reverse = -1,

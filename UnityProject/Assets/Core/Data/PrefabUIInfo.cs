@@ -10,9 +10,12 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-[System.Serializable]
-public class PrefabUIInfo : UIInfoBase
+namespace BridgeUI.Model
 {
-    public GameObject prefab;
-    public override string IDName { get { return panelName; } }
+    [System.Serializable]
+    public class PrefabUIInfo : UIInfoBase
+    {
+        public GameObject prefab;
+        public override string IDName { get { return panelName; } }
+    }
 }

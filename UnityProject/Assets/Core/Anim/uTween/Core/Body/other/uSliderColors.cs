@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 
-namespace uTween {
+namespace BridgeUI.uTween {
 	[AddComponentMenu("uTools/Tween/Slider Colors(uTools)")]
 	public class uSliderColors : MonoBehaviour {
 		public Image target;

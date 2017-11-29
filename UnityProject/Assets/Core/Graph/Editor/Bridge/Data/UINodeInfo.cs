@@ -10,8 +10,13 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-[System.Serializable]
-public class NodeInfo {
-    public UIType uiType;
-    public string prefabGuid;
+namespace BridgeUI.Model
+{
+
+    [System.Serializable]
+    public class NodeInfo
+    {
+        public UIType uiType;
+        public string prefabGuid;
+    }
 }

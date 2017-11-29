@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace uTween
+namespace BridgeUI.uTween
 {
     [System.Serializable]
 

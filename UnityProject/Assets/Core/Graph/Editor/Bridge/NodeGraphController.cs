@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 
 using Model = NodeGraph.DataModel.Version2;
+using BridgeUI.Model;
+using BridgeUI;
 
 namespace NodeGraph
 {
@@ -138,7 +140,7 @@ namespace NodeGraph
             foreach (var item in newBridges)
             {
                 if (string.IsNullOrEmpty(item.outNode)) continue;
-                var old = source.Find(x => (x.inNode == item.inNode||(string.IsNullOrEmpty(x.inNode) && string.IsNullOrEmpty(item.inNode))) && x.outNode == item.outNode);
+                var old = source.Find(x => (x.inNode == item.inNode || (string.IsNullOrEmpty(x.inNode) && string.IsNullOrEmpty(item.inNode))) && x.outNode == item.outNode);
                 if (old != null)
                 {
                     old.showModel = item.showModel;

@@ -11,367 +11,376 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using BridgeUI.Model;
 
-/// <summary>
-/// 用于标记ui打开的父级
-/// [3维场景中可能有多个地方需要打开用户界面]
-/// </summary>
-public class PanelGroup : MonoBehaviour, IPanelGroup
+namespace BridgeUI
 {
+    /// <summary>
+    /// 用于标记ui打开的父级
+    /// [3维场景中可能有多个地方需要打开用户界面]
+    /// </summary>
+    public class PanelGroup : MonoBehaviour, IPanelGroup
+    {
 #if UNITY_EDITOR
-    public List<GraphWorp> graphList;
+        public List<GraphWorp> graphList;
 #endif
-    public LoadType loadType = LoadType.Prefab;
-    public List<BundleUIInfo> b_nodes;
-    public List<PrefabUIInfo> p_nodes;
-    public List<Bridge> bridges;
-    public Transform Trans { get { return transform; } }
-    public List<UIInfoBase> Nodes { get { return activeNodes; } }
+        public LoadType loadType = LoadType.Prefab;
+        public List<BundleUIInfo> b_nodes;
+        public List<PrefabUIInfo> p_nodes;
+        public List<Bridge> bridges;
+        public Transform Trans { get { return transform; } }
+        public List<UIInfoBase> Nodes { get { return activeNodes; } }
+        private Bridge defultBridge;
+        private Dictionary<Bridge, BridgePool> poolDic = new Dictionary<Bridge, BridgePool>();
+        private List<IPanelBaseInternal> createdPanels = new List<IPanelBaseInternal>();
+        private Dictionary<IPanelBaseInternal, Stack<IPanelBaseInternal>> hidedPanelStack = new Dictionary<IPanelBaseInternal, Stack<IPanelBaseInternal>>();
+        private Dictionary<IPanelBaseInternal, Bridge> bridgeDic = new Dictionary<IPanelBaseInternal, Bridge>();
+        private List<UIInfoBase> activeNodes;
+        private IPanelCreater creater;
 
-    private Bridge defultBridge;
-    private Dictionary<Bridge, BridgePool> poolDic = new Dictionary<Bridge, BridgePool>();
-    private List<IPanelBase> createdPanels = new List<IPanelBase>();
-    private Dictionary<IPanelBase, Stack<IPanelBase>> hidedPanelStack = new Dictionary<IPanelBase, Stack<IPanelBase>>();
-    private Dictionary<IPanelBase, Bridge> bridgeDic = new Dictionary<IPanelBase, Bridge>();
-    private List<UIInfoBase> activeNodes;
-    private IPanelCreater creater;
-
-    void Awake()
-    {
-        creater = new PanelCreater();
-        RegistUINodes();
-        RegistBridgePool();
-        TryAutoOpen(Trans);
-        UIFacade.RegistGroup(this);
-    }
-
-    private void OnEnable()
-    {
-        var created = createdPanels.ToArray();
-        foreach (var item in created)
+        void Awake()
         {
-            item.UnHide();
+            creater = new PanelCreater();
+            RegistUINodes();
+            RegistBridgePool();
+            TryAutoOpen(Trans);
+            UIFacade.RegistGroup(this);
         }
-    }
 
-    private void OnDisable()
-    {
-        var created = createdPanels.ToArray();
-        foreach (var item in created)
+        private void OnEnable()
         {
-            item.Hide();
-        }
-    }
-    protected virtual void OnDestroy()
-    {
-        UIFacade.UnRegistGroup(this);
-    }
-
-    public Bridge InstencePanel(IPanelBase parentPanel, string panelName, Transform root)
-    {
-        Bridge bridge = null;
-        UIInfoBase uiNode = null;
-        if (TryMatchPanel(parentPanel, panelName, out bridge, out uiNode))
-        {
-            uiNode.OnCreate = (go) =>
+            var created = createdPanels.ToArray();
+            foreach (var item in created)
             {
-                Utility.SetTranform(go.transform, uiNode.type.layer,uiNode.type.layerIndex, root == null ? Trans : root);
-                go.SetActive(true);
-                var panel = go.GetComponent<IPanelBase>();
-                if (panel != null)
-                {
-                    createdPanels.Add(panel);
-                    if(parentPanel!= null) parentPanel.RecordChild(panel);
-                    bridgeDic.Add(panel, bridge);
-                    InitPanel(panel, bridge, uiNode);
-                    HandBridgeOptions(panel, bridge);
-                }
-            };
-            creater.CreatePanel(uiNode);
-        }
-        return bridge;
-    }
-
-    public IPanelBase[] RetrivePanels(string panelName)
-    {
-        return createdPanels.FindAll(x => x.Name == panelName).ToArray();
-    }
-
-    #region private Functions
-    private void HandBridgeOptions(IPanelBase panel, Bridge bridge)
-    {
-        TryHideParent(panel, bridge);
-        TryHideMutexPanels(panel, bridge);
-        TryHideGroup(panel, bridge);
-        TryAutoOpen( panel.Content, panel);
-    }
-    /// <summary>
-    /// 隐藏整个面板中其他的ui界面
-    /// </summary>
-    /// <param name="panel"></param>
-    /// <param name="bridge"></param>
-    private void TryHideGroup(IPanelBase panel, Bridge bridge)
-    {
-        if ((bridge.showModel & ShowModel.Single) == ShowModel.Single)
-        {
-            var parent = createdPanels.Find(x => x.Name == bridge.inNode);
-            if (parent != null)
-            {
-                panel.SetParent(Trans);
-            }
-            foreach (var oldPanel in createdPanels)
-            {
-                if (oldPanel != panel)
-                {
-                    HidePanelInteral(panel, oldPanel);
-                }
+                item.UnHide();
             }
         }
-    }
 
-    /// <summary>
-    /// 互斥面板自动隐藏
-    /// </summary>
-    /// <param name="childPanel"></param>
-    /// <param name=""></param>
-    /// <param name="bridge"></param>
-    private void TryHideMutexPanels(IPanelBase childPanel, Bridge bridge)
-    {
-        if ((bridge.showModel & ShowModel.Mutex) == ShowModel.Mutex)
+        private void OnDisable()
         {
-            var mayBridges = bridges.FindAll(x => x.inNode == bridge.inNode);
-            foreach (var bg in mayBridges)
+            var created = createdPanels.ToArray();
+            foreach (var item in created)
             {
-                var mayPanels = createdPanels.FindAll(x => x.Name == bg.outNode && x.UType.layer == childPanel.UType.layer && x != childPanel);
-                foreach (var mayPanel in mayPanels)
+                item.Hide();
+            }
+        }
+        protected virtual void OnDestroy()
+        {
+            UIFacade.UnRegistGroup(this);
+        }
+
+        public Bridge InstencePanel(IPanelBaseInternal parentPanel, string panelName, Transform root)
+        {
+            Bridge bridge = null;
+            UIInfoBase uiNode = null;
+            if (TryMatchPanel(parentPanel, panelName, out bridge, out uiNode))
+            {
+                uiNode.OnCreate = (go) =>
                 {
-                    if (mayPanel != null && mayPanel.IsShowing)
+                    Utility.SetTranform(go.transform, uiNode.type.layer, uiNode.type.layerIndex, root == null ? Trans : root);
+                    go.SetActive(true);
+                    var panel = go.GetComponent<IPanelBaseInternal>();
+                    if (panel != null)
                     {
-                        HidePanelInteral(childPanel, mayPanel);
+                        createdPanels.Add(panel);
+                        if (parentPanel != null) parentPanel.RecordChild(panel);
+                        bridgeDic.Add(panel, bridge);
+                        InitPanel(panel, bridge, uiNode);
+                        HandBridgeOptions(panel, bridge);
                     }
-                }
-
+                };
+                creater.CreatePanel(uiNode);
             }
-        }
-    }
-
-    /// <summary>
-    /// 自动打开子面板
-    /// </summary>
-    /// <param name="panel"></param>
-    private void TryAutoOpen(Transform content, IPanelBase parentPanel =null)
-    {
-        var panelName = parentPanel == null ? "" : parentPanel.Name;
-        var autoBridges = bridges.FindAll(x => x.inNode == panelName && (x.showModel & ShowModel.Auto) == ShowModel.Auto);
-        if (autoBridges != null)
-        {
-            foreach (var autoBridge in autoBridges)
-            {
-                InstencePanel(parentPanel, autoBridge.outNode, content);
-            }
-        }
-    }
-    /// <summary>
-    /// 注册所有ui节点信息
-    /// </summary>
-    private void RegistUINodes()
-    {
-        activeNodes = new List<UIInfoBase>();
-
-        if ((loadType & LoadType.Bundle) == LoadType.Bundle)
-        {
-            activeNodes.AddRange(b_nodes.ConvertAll<UIInfoBase>(x => x));
-        }
-
-        if ((loadType & LoadType.Prefab) == LoadType.Prefab)
-        {
-            activeNodes.AddRange(p_nodes.ConvertAll<UIInfoBase>(x => x));
-        }
-    }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="panel"></param>
-    /// <param name="needHidePanel"></param>
-    private void HidePanelInteral(IPanelBase panel, IPanelBase needHidePanel)
-    {
-        if (needHidePanel.IsShowing)
-        {
-            needHidePanel.Hide();
-            if (!hidedPanelStack.ContainsKey(panel))
-            {
-                hidedPanelStack[panel] = new Stack<IPanelBase>();
-            }
-            //Debug.Log("push:" + needHidePanel);
-            hidedPanelStack[panel].Push(needHidePanel);
-        }
-    }
-    /// <summary>
-    /// 按规则设置面板及父亲面板的状态
-    /// </summary>
-    /// <param name="panel"></param>
-    /// <param name="root"></param>
-    /// <param name="bridge"></param>
-    private void InitPanel(IPanelBase panel, Bridge bridge, UIInfoBase uiNode)
-    {
-        panel.UType = uiNode.type;
-        panel.Group = this;
-        panel.onDelete += OnDeletePanel;
-        panel.HandleData(bridge);
-       
-    }
-    /// <summary>
-    /// 选择性隐藏父级
-    /// </summary>
-    /// <param name="panel"></param>
-    /// <param name="bridge"></param>
-    private void TryHideParent(IPanelBase panel, Bridge bridge)
-    {
-        if ((bridge.showModel & ShowModel.HideBase) == ShowModel.HideBase)
-        {
-            var parent = createdPanels.Find(x => x.Name == bridge.inNode);
-            if (parent != null)
-            {
-                panel.SetParent(Trans);
-                HidePanelInteral(panel, parent);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 找到信息源和bridge
-    /// </summary>
-    /// <param name="parentName"></param>
-    /// <param name="panelName"></param>
-    /// <param name="bridgeObj"></param>
-    /// <param name="uiNode"></param>
-    /// <returns></returns>
-    private bool TryMatchPanel(IPanelBase parentPanel, string panelName, out Bridge bridgeObj, out UIInfoBase uiNode)
-    {
-        uiNode = Nodes.Find(x => x.panelName == panelName);
-
-        if (uiNode != null)// && uiNode.type.form == UIFormType.Fixed
-        {
-            if (uiNode.type.form == UIFormType.Fixed)
-            {
-                var oldPanel = createdPanels.Find(x => x.Name == panelName);
-                if (oldPanel != null)
-                {
-                    bridgeObj = bridgeDic[oldPanel];
-                    if (!oldPanel.IsShowing)
-                    {
-                        oldPanel.UnHide();
-                        HandBridgeOptions(oldPanel, bridgeObj);
-                    }
-                    return false;
-                }
-            }
-        }
-
-        if (uiNode == null)
-        {
-            bridgeObj = null;
-            return false;
-        }
-
-        bridgeObj = GetBridgeClamp(parentPanel, panelName);
-        return uiNode != null && bridgeObj != null;
-    }
-
-    /// <summary>
-    /// 获取可用的bridge
-    /// </summary>
-    /// <param name="parentName"></param>
-    /// <param name="panelName"></param>
-    /// <returns></returns>
-    private Bridge GetBridgeClamp(IPanelBase parentPanel, string panelName)
-    {
-        var parentName = parentPanel == null ? "" : parentPanel.Name;
-        var mayBridge = bridges.FindAll(x => x.outNode == panelName);
-        Bridge bridge = null;
-        if (mayBridge != null && mayBridge.Count > 0)
-        {
-            var dirBridge = mayBridge.Find(x => x.inNode == parentName);
-            if (dirBridge != null)
-            {
-                bridge = dirBridge;
-            }
-            else
-            {
-                bridge = mayBridge[0];
-            }
-            return poolDic[bridge].Allocate(parentPanel);
-        }
-        else
-        {
-            bridge = poolDic[defultBridge].Allocate();
-            bridge.inNode = parentName;
-            bridge.outNode = panelName;
-            bridge.showModel = 0;
             return bridge;
         }
 
-    }
-
-    /// <summary>
-    /// bridge生成池
-    /// </summary>
-    protected virtual void RegistBridgePool()
-    {
-        foreach (var item in bridges)
+        public IPanelBaseInternal[] RetrivePanels(string panelName)
         {
-            poolDic[item] = new BridgePool(item);
-        }
-        defultBridge = new Bridge();
-        poolDic[defultBridge] = new BridgePool(defultBridge);
-    }
-
-    /// <summary>
-    /// 当删除一个面板时触发一些事
-    /// </summary>
-    /// <param name="panel"></param>
-    private void OnDeletePanel(IPanelBase panel)
-    {
-        if (createdPanels.Contains(panel))
-        {
-            createdPanels.Remove(panel);
+            return createdPanels.FindAll(x => x.Name == panelName).ToArray();
         }
 
-        if (bridgeDic.ContainsKey(panel))
+        public List<IPanelBaseInternal> GetPanelsByName(string panelName)
         {
-            bridgeDic.Remove(panel);
+            var panels = createdPanels.FindAll(x => x.Name == panelName);
+            return panels;
         }
 
-        if (panel.ChildPanels != null)
+        #region private Functions
+        private void HandBridgeOptions(IPanelBaseInternal panel, Bridge bridge)
         {
-            var childs = panel.ChildPanels.ToArray();
-            foreach (var item in childs)
+            TryHideParent(panel, bridge);
+            TryHideMutexPanels(panel, bridge);
+            TryHideGroup(panel, bridge);
+            TryAutoOpen(panel.Content, panel);
+        }
+        /// <summary>
+        /// 隐藏整个面板中其他的ui界面
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="bridge"></param>
+        private void TryHideGroup(IPanelBaseInternal panel, Bridge bridge)
+        {
+            if ((bridge.showModel & ShowModel.Single) == ShowModel.Single)
             {
-                if (item.IsAlive)
+                var parent = createdPanels.Find(x => x.Name == bridge.inNode);
+                if (parent != null)
                 {
-                    item.Close();
+                    panel.SetParent(Trans);
                 }
-            }
-        }
-
-        if (hidedPanelStack.ContainsKey(panel))
-        {
-            var stack = hidedPanelStack[panel];
-            if (stack != null)
-            {
-                while (stack.Count > 0)
+                foreach (var oldPanel in createdPanels)
                 {
-                    var item = stack.Pop();
-                    if (item.IsAlive && !item.IsShowing)
+                    if (oldPanel != panel)
                     {
-                        item.UnHide();
+                        HidePanelInteral(panel, oldPanel);
                     }
-                    //Debug.Log("Pop:" + item);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 互斥面板自动隐藏
+        /// </summary>
+        /// <param name="childPanel"></param>
+        /// <param name=""></param>
+        /// <param name="bridge"></param>
+        private void TryHideMutexPanels(IPanelBaseInternal childPanel, Bridge bridge)
+        {
+            if ((bridge.showModel & ShowModel.Mutex) == ShowModel.Mutex)
+            {
+                var mayBridges = bridges.FindAll(x => x.inNode == bridge.inNode);
+                foreach (var bg in mayBridges)
+                {
+                    var mayPanels = createdPanels.FindAll(x => x.Name == bg.outNode && x.UType.layer == childPanel.UType.layer && x != childPanel);
+                    foreach (var mayPanel in mayPanels)
+                    {
+                        if (mayPanel != null && mayPanel.IsShowing)
+                        {
+                            HidePanelInteral(childPanel, mayPanel);
+                        }
+                    }
 
                 }
             }
-            hidedPanelStack.Remove(panel);
         }
+
+        /// <summary>
+        /// 自动打开子面板
+        /// </summary>
+        /// <param name="panel"></param>
+        private void TryAutoOpen(Transform content, IPanelBaseInternal parentPanel = null)
+        {
+            var panelName = parentPanel == null ? "" : parentPanel.Name;
+            var autoBridges = bridges.FindAll(x => x.inNode == panelName && (x.showModel & ShowModel.Auto) == ShowModel.Auto);
+            if (autoBridges != null)
+            {
+                foreach (var autoBridge in autoBridges)
+                {
+                    InstencePanel(parentPanel, autoBridge.outNode, content);
+                }
+            }
+        }
+        /// <summary>
+        /// 注册所有ui节点信息
+        /// </summary>
+        private void RegistUINodes()
+        {
+            activeNodes = new List<UIInfoBase>();
+
+            if ((loadType & LoadType.Bundle) == LoadType.Bundle)
+            {
+                activeNodes.AddRange(b_nodes.ConvertAll<UIInfoBase>(x => x));
+            }
+
+            if ((loadType & LoadType.Prefab) == LoadType.Prefab)
+            {
+                activeNodes.AddRange(p_nodes.ConvertAll<UIInfoBase>(x => x));
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="needHidePanel"></param>
+        private void HidePanelInteral(IPanelBaseInternal panel, IPanelBaseInternal needHidePanel)
+        {
+            if (needHidePanel.IsShowing)
+            {
+                needHidePanel.Hide();
+                if (!hidedPanelStack.ContainsKey(panel))
+                {
+                    hidedPanelStack[panel] = new Stack<IPanelBaseInternal>();
+                }
+                //Debug.Log("push:" + needHidePanel);
+                hidedPanelStack[panel].Push(needHidePanel);
+            }
+        }
+        /// <summary>
+        /// 按规则设置面板及父亲面板的状态
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="root"></param>
+        /// <param name="bridge"></param>
+        private void InitPanel(IPanelBaseInternal panel, Bridge bridge, UIInfoBase uiNode)
+        {
+            panel.UType = uiNode.type;
+            panel.Group = this;
+            panel.onDelete += OnDeletePanel;
+            panel.HandleData(bridge);
+
+        }
+        /// <summary>
+        /// 选择性隐藏父级
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="bridge"></param>
+        private void TryHideParent(IPanelBaseInternal panel, Bridge bridge)
+        {
+            if ((bridge.showModel & ShowModel.HideBase) == ShowModel.HideBase)
+            {
+                var parent = createdPanels.Find(x => x.Name == bridge.inNode);
+                if (parent != null)
+                {
+                    panel.SetParent(Trans);
+                    HidePanelInteral(panel, parent);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 找到信息源和bridge
+        /// </summary>
+        /// <param name="parentName"></param>
+        /// <param name="panelName"></param>
+        /// <param name="bridgeObj"></param>
+        /// <param name="uiNode"></param>
+        /// <returns></returns>
+        private bool TryMatchPanel(IPanelBaseInternal parentPanel, string panelName, out Bridge bridgeObj, out UIInfoBase uiNode)
+        {
+            uiNode = Nodes.Find(x => x.panelName == panelName);
+
+            if (uiNode != null)// && uiNode.type.form == UIFormType.Fixed
+            {
+                if (uiNode.type.form == UIFormType.Fixed)
+                {
+                    var oldPanel = createdPanels.Find(x => x.Name == panelName);
+                    if (oldPanel != null)
+                    {
+                        bridgeObj = bridgeDic[oldPanel];
+                        if (!oldPanel.IsShowing)
+                        {
+                            oldPanel.UnHide();
+                            HandBridgeOptions(oldPanel, bridgeObj);
+                        }
+                        return false;
+                    }
+                }
+            }
+
+            if (uiNode == null)
+            {
+                bridgeObj = null;
+                return false;
+            }
+
+            bridgeObj = GetBridgeClamp(parentPanel, panelName);
+            return uiNode != null && bridgeObj != null;
+        }
+
+        /// <summary>
+        /// 获取可用的bridge
+        /// </summary>
+        /// <param name="parentName"></param>
+        /// <param name="panelName"></param>
+        /// <returns></returns>
+        private Bridge GetBridgeClamp(IPanelBaseInternal parentPanel, string panelName)
+        {
+            var parentName = parentPanel == null ? "" : parentPanel.Name;
+            var mayBridge = bridges.FindAll(x => x.outNode == panelName);
+            Bridge bridge = null;
+            if (mayBridge != null && mayBridge.Count > 0)
+            {
+                var dirBridge = mayBridge.Find(x => x.inNode == parentName);
+                if (dirBridge != null)
+                {
+                    bridge = dirBridge;
+                }
+                else
+                {
+                    bridge = mayBridge[0];
+                }
+                return poolDic[bridge].Allocate(parentPanel);
+            }
+            else
+            {
+                bridge = poolDic[defultBridge].Allocate();
+                bridge.inNode = parentName;
+                bridge.outNode = panelName;
+                bridge.showModel = 0;
+                return bridge;
+            }
+
+        }
+
+        /// <summary>
+        /// bridge生成池
+        /// </summary>
+        protected virtual void RegistBridgePool()
+        {
+            foreach (var item in bridges)
+            {
+                poolDic[item] = new BridgePool(item);
+            }
+            defultBridge = new Bridge();
+            poolDic[defultBridge] = new BridgePool(defultBridge);
+        }
+
+        /// <summary>
+        /// 当删除一个面板时触发一些事
+        /// </summary>
+        /// <param name="panel"></param>
+        private void OnDeletePanel(IPanelBaseInternal panel)
+        {
+            if (createdPanels.Contains(panel))
+            {
+                createdPanels.Remove(panel);
+            }
+
+            if (bridgeDic.ContainsKey(panel))
+            {
+                bridgeDic.Remove(panel);
+            }
+
+            if (panel.ChildPanels != null)
+            {
+                var childs = panel.ChildPanels.ToArray();
+                foreach (var item in childs)
+                {
+                    if (item.IsAlive)
+                    {
+                        item.Close();
+                    }
+                }
+            }
+
+            if (hidedPanelStack.ContainsKey(panel))
+            {
+                var stack = hidedPanelStack[panel];
+                if (stack != null)
+                {
+                    while (stack.Count > 0)
+                    {
+                        var item = stack.Pop();
+                        if (item.IsAlive && !item.IsShowing)
+                        {
+                            item.UnHide();
+                        }
+                        //Debug.Log("Pop:" + item);
+
+                    }
+                }
+                hidedPanelStack.Remove(panel);
+            }
+        }
+        #endregion
     }
-    #endregion
 }

@@ -9,15 +9,17 @@ using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
-
-/// <summary>
-/// 组面板
-/// [打开的同时打开一组面板,关闭时全部关闭]
-/// </summary>
-public class GroupPanel : PanelBase
+namespace BridgeUI
 {
-    [SerializeField]
-    private Transform content;
-    public override Transform Content { get { return content == null ? Group.Trans:content; } }
+    /// <summary>
+    /// 组面板
+    /// [打开的同时打开一组面板,关闭时全部关闭]
+    /// </summary>
+    public class GroupPanel : PanelBase
+    {
+        [SerializeField]
+        private Transform content;
+        public override Transform Content { get { return content == null ? Group.Trans : content; } }
 
+    }
 }

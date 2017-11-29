@@ -10,10 +10,15 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+using BridgeUI.Model;
 
-public interface IUIFacade
+namespace BridgeUI
 {
-    IUIHandle Open(string panelName, object data = null);
-    void Hide(string panelName);
-    void Close(string panelName);
+    public interface IUIFacade
+    {
+        IUIHandle Open(string panelName, object data = null);
+        bool IsPanelOpen(string panelName);
+        void Hide(string panelName);
+        void Close(string panelName);
+    }
 }

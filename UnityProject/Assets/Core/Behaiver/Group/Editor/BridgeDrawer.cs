@@ -11,43 +11,49 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
-//[CustomPropertyDrawer(typeof(Bridge))]
-public class BridgeDrawer : PropertyDrawer {
-    SerializedProperty inNodeProp;
-    SerializedProperty outNodeProp;
-    SerializedProperty showModelProp;
-    private string inNodeName;
-    string showKey = null;
-       
-    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+using BridgeUI;
+namespace BridgeUIEditor
+{
+    //[CustomPropertyDrawer(typeof(Bridge))]
+    public class BridgeDrawer : PropertyDrawer
     {
-        return EditorGUIUtility.singleLineHeight;
-    }
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        inNodeProp = property.FindPropertyRelative("inNode");
-        outNodeProp = property.FindPropertyRelative("outNode");
-        showModelProp = property.FindPropertyRelative("showModel");
-        inNodeName = inNodeProp.stringValue;
-        if(string.IsNullOrEmpty(inNodeName)){
-            inNodeName = "[Any]";
-        }
+        SerializedProperty inNodeProp;
+        SerializedProperty outNodeProp;
+        SerializedProperty showModelProp;
+        private string inNodeName;
+        string showKey = null;
 
-        ShowModel show = (ShowModel)showModelProp.intValue;
-        showKey = Utility.ShowModelToString(show);
-
-        var rect_L = new Rect(position.x, position.y, position.width * 0.3f, position.height);
-        if(GUI.Button(rect_L, inNodeName,EditorStyles.miniButtonLeft))
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-
+            return EditorGUIUtility.singleLineHeight;
         }
-        //EditorGUI.LabelField(rect_L, inNodeName);
-        var rect_C = new Rect(position.x + position.width * 0.4f, position.y, position.width * 0.3f, position.height);
-        EditorGUI.LabelField(rect_C, showKey);
-        var rect_R = new Rect(position.xMax - position.width * 0.3f, position.y, position.width * 0.2f, position.height);
-        if (GUI.Button(rect_R, outNodeProp.stringValue, EditorStyles.miniButtonLeft))
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            inNodeProp = property.FindPropertyRelative("inNode");
+            outNodeProp = property.FindPropertyRelative("outNode");
+            showModelProp = property.FindPropertyRelative("showModel");
+            inNodeName = inNodeProp.stringValue;
+            if (string.IsNullOrEmpty(inNodeName))
+            {
+                inNodeName = "[Any]";
+            }
 
+            ShowModel show = (ShowModel)showModelProp.intValue;
+            showKey = Utility.ShowModelToString(show);
+
+            var rect_L = new Rect(position.x, position.y, position.width * 0.3f, position.height);
+            if (GUI.Button(rect_L, inNodeName, EditorStyles.miniButtonLeft))
+            {
+
+            }
+            //EditorGUI.LabelField(rect_L, inNodeName);
+            var rect_C = new Rect(position.x + position.width * 0.4f, position.y, position.width * 0.3f, position.height);
+            EditorGUI.LabelField(rect_C, showKey);
+            var rect_R = new Rect(position.xMax - position.width * 0.3f, position.y, position.width * 0.2f, position.height);
+            if (GUI.Button(rect_R, outNodeProp.stringValue, EditorStyles.miniButtonLeft))
+            {
+
+            }
         }
     }
 }

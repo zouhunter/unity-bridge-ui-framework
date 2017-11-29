@@ -10,7 +10,12 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+using BridgeUI.Model;
 
-public interface IPanelCreater {
-    void CreatePanel(UIInfoBase itemInfo);
+namespace BridgeUI
+{
+    public interface IPanelCreater
+    {
+        void CreatePanel(UIInfoBase itemInfo);
+    }
 }

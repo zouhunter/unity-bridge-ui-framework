@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 /// Base of tween.
 /// </summary>
 
-namespace uTween
+namespace BridgeUI.uTween
 {
     public abstract class uTweener
     {

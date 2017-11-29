@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-namespace uTween {
+namespace BridgeUI.uTween {
     [System.Serializable]
 
     public class uTweenAlpha : uTween<float> {

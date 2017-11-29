@@ -10,16 +10,21 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-public interface IUIHandleInternal
+using BridgeUI.Model;
+
+namespace BridgeUI
 {
-    void Reset(UnityAction<UIHandle> onRelease);
-    void RegistBridge(Bridge bridgeObj);
-    void UnRegistBridge(Bridge obj);
-}
-public interface IUIHandle
-{
-    UnityAction<IPanelBase, object> onCallBack { get; set; }
-    UnityAction<IPanelBase> onCreate { get; set; }
-    UnityAction<IPanelBase> onClose { get; set; }
-    void Send(object data);
+    internal interface IUIHandleInternal : IUIHandle
+    {
+        void Reset(UnityAction<UIHandle> onRelease);
+        void RegistBridge(Bridge bridgeObj);
+        void UnRegistBridge(Bridge obj);
+    }
+    public interface IUIHandle
+    {
+        UnityAction<IPanelBase, object> onCallBack { get; set; }
+        UnityAction<IPanelBase> onCreate { get; set; }
+        UnityAction<IPanelBase> onClose { get; set; }
+        void Send(object data);
+    }
 }

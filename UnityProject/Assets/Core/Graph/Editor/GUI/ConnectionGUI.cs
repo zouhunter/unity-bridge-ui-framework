@@ -6,7 +6,8 @@ using System.Linq;
 using System.Collections.Generic;
 
 using Model=NodeGraph.DataModel.Version2;
-
+using BridgeUI;
+using BridgeUI.Model;
 namespace NodeGraph {
 	[Serializable] 
 	public class ConnectionGUI {

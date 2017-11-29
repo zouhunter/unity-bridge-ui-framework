@@ -10,7 +10,7 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-
+using BridgeUI;
 public interface IBridgeConnection  {
     ShowModel Show { get; }
 }

@@ -4,8 +4,8 @@ using Model = NodeGraph.DataModel.Version2;
 using NodeGraph;
 using System;
 using UnityEditor;
-
-
+using BridgeUI.Model;
+using BridgeUI;
 public abstract class PanelNodeBase : Node, IPanelInfoHolder
 {
     private const int lableWidth = 120;

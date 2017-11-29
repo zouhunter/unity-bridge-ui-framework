@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System.Collections;
 
-namespace uTween {
+namespace BridgeUI.uTween {
 	[AddComponentMenu("uTools/Tween/Button Scale(uTools)")]
 	public class uButtonScale : MonoBehaviour, IPointerEnterHandler,
         IPointerDownHandler,

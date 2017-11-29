@@ -10,87 +10,90 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-
-public class UIHandle: IUIHandleInternal,IUIHandle
+using BridgeUI.Model;
+namespace BridgeUI
 {
-    private List<Bridge> bridges = new List<Bridge>();
-    public UnityAction<IPanelBase, object> onCallBack { get; set; }
-    public UnityAction<IPanelBase> onCreate { get; set; }
-    public UnityAction<IPanelBase> onClose { get; set; }
-    private UnityAction<UIHandle> onRelease { get; set; }
-    public void Reset(UnityAction<UIHandle> onRelease)
+    public class UIHandle : IUIHandleInternal
     {
-        this.onRelease = onRelease;
-    }
-
-    public void RegistBridge(Bridge obj)
-    {
-        if(!bridges.Contains(obj))
+        private List<Bridge> bridges = new List<Bridge>();
+        public UnityAction<IPanelBase, object> onCallBack { get; set; }
+        public UnityAction<IPanelBase> onCreate { get; set; }
+        public UnityAction<IPanelBase> onClose { get; set; }
+        private UnityAction<UIHandle> onRelease { get; set; }
+        public void Reset(UnityAction<UIHandle> onRelease)
         {
-            obj.onCallBack += OnBridgeCallBack;
-            obj.onRelease += UnRegistBridge;
-            obj.onCreate += OnCreatePanel;
-            bridges.Add(obj);
-        }
-    }
-
-    public void UnRegistBridge(Bridge obj)
-    {
-        if(bridges.Contains(obj))
-        {
-            obj.onCallBack -= OnBridgeCallBack;
-            obj.onRelease -= UnRegistBridge;
-            obj.onCreate -= OnCreatePanel;
-            bridges.Remove(obj);
+            this.onRelease = onRelease;
         }
 
-        if(onClose != null)
+        public void RegistBridge(Bridge obj)
         {
-            onClose(obj.OutPanel);
+            if (!bridges.Contains(obj))
+            {
+                obj.onCallBack += OnBridgeCallBack;
+                obj.onRelease += UnRegistBridge;
+                obj.onCreate += OnCreatePanel;
+                bridges.Add(obj);
+            }
         }
 
-        if(bridges.Count == 0)
+        public void UnRegistBridge(Bridge obj)
         {
-            Release();
-        }
-    }
+            if (bridges.Contains(obj))
+            {
+                obj.onCallBack -= OnBridgeCallBack;
+                obj.onRelease -= UnRegistBridge;
+                obj.onCreate -= OnCreatePanel;
+                bridges.Remove(obj);
+            }
 
-    public void Send(object data)
-    {
-        foreach (var item in bridges)
-        {
-            item.Send(data);
-        }
-    }
+            if (onClose != null)
+            {
+                onClose(obj.OutPanel);
+            }
 
-    private void OnBridgeCallBack(IPanelBase panel, object data)
-    {
-        if(onCallBack != null)
-        {
-            onCallBack.Invoke(panel, data);
+            if (bridges.Count == 0)
+            {
+                Release();
+            }
         }
-    }
 
-    private void OnCreatePanel(IPanelBase panel)
-    {
-        if(onCreate != null)
+        public void Send(object data)
         {
-            onCreate.Invoke(panel);
+            foreach (var item in bridges)
+            {
+                item.Send(data);
+            }
         }
-    }
-    private void Release()
-    {
-        if (onRelease != null)
-        {
-            onRelease(this);
-        }
-        Clean();
-    }
 
-    private void Clean()
-    {
-        this.onCallBack = null;
-        this.onCreate = null;
-        this.onClose = null;
+        private void OnBridgeCallBack(IPanelBaseInternal panel, object data)
+        {
+            if (onCallBack != null)
+            {
+                onCallBack.Invoke(panel, data);
+            }
+        }
+
+        private void OnCreatePanel(IPanelBaseInternal panel)
+        {
+            if (onCreate != null)
+            {
+                onCreate.Invoke(panel);
+            }
+        }
+        private void Release()
+        {
+            if (onRelease != null)
+            {
+                onRelease(this);
+            }
+            Clean();
+        }
+
+        private void Clean()
+        {
+            this.onCallBack = null;
+            this.onCreate = null;
+            this.onClose = null;
+        }
     }
 }

@@ -332,7 +332,7 @@ public class PanelGroupDrawer : Editor
             var itemProp = proprety.GetArrayElementAtIndex(i);
             GameObject prefab = null;
             var prefabProp = itemProp.FindPropertyRelative("prefab");
-            var assetNameProp = itemProp.FindPropertyRelative("assetName");
+            var assetNameProp = itemProp.FindPropertyRelative("panelName");
             var instanceIDProp = itemProp.FindPropertyRelative("instanceID");
 
             if (instanceIDProp.intValue != 0) continue;

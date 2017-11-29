@@ -28,10 +28,16 @@ public interface IPanelBase
     bool IsAlive { get; }
 
     void SetParent(Transform parent);
+
     void RecordChild(IPanelBase childPanel);
+
     void HandleData(Bridge bridge);
+
     void Cover();
+
     void Close();
+
     void Hide();
+
     void UnHide();
 }

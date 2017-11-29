@@ -7,6 +7,6 @@ using System.Collections.Generic;
 public interface IPanelGroup  {
     Transform Trans { get; }
     List<UIInfoBase> Nodes { get; }
-    Bridge InstencePanel(string parentName, string panelName, Transform root);
+    Bridge InstencePanel(IPanelBase parentPanel, string panelName, Transform root);
     IPanelBase[] RetrivePanels(string panelName);
 }

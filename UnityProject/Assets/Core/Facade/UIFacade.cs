@@ -46,8 +46,8 @@ public sealed class UIFacade : IUIFacade
     private static Dictionary<int, UIFacade> facadeDic = new Dictionary<int, UIFacade>();
     // 面板组
     private static List<IPanelGroup> groupList = new List<IPanelGroup>();
-    //激活的handle
-    private static Dictionary<string, UIHandle> createdHandle = new Dictionary<string, UIHandle>();
+    ////激活的handle
+    //private static Dictionary<string, UIHandle> createdHandle = new Dictionary<string, UIHandle>();
     //handle池
     private static UIHandlePool handlePool = new UIHandlePool();
 
@@ -74,15 +74,9 @@ public sealed class UIFacade : IUIFacade
         }
     }
 
-    public UIHandle Open(string panelName, object data = null)
+    public IUIHandle Open(string panelName, object data = null)
     {
-        if (!createdHandle.ContainsKey(panelName))
-        {
-            var hd = CreateHandle(panelName);
-            createdHandle.Add(panelName, hd);
-        }
-
-        var handle = createdHandle[panelName];
+        var handle = handlePool.Allocate(panelName);
 
         if (currentGroup != null)//限制性打开
         {
@@ -97,29 +91,14 @@ public sealed class UIFacade : IUIFacade
         }
         return handle;
     }
-    private UIHandle CreateHandle(string panelName)
-    {
-        var handle = handlePool.Allocate(panelName);
-        handle.onRelease = AutoReleaseHandle;
-        return handle;
-    }
 
-    private void InternalOpen(IPanelGroup group, UIHandle handle,  string panelName,object data = null)
+    private void InternalOpen(IPanelGroup group, IUIHandleInternal handle,  string panelName,object data = null)
     {
-        var parentName = parentPanel == null ? "" : parentPanel.Name;
-        Bridge bridgeObj = group.InstencePanel(parentName, panelName, Content);
+        Bridge bridgeObj = group.InstencePanel(parentPanel, panelName, Content);
         if (bridgeObj != null)
         {
             bridgeObj.Send(data);
             handle.RegistBridge(bridgeObj);
-        }
-    }
-
-    private void AutoReleaseHandle(string panelName)
-    {
-        if (createdHandle.ContainsKey(panelName))
-        {
-            createdHandle.Remove(panelName);
         }
     }
 

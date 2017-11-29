@@ -10,8 +10,9 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
-public class BridgePool: IObjectPool<Bridge>
+public class BridgePool
 {
     private Bridge bridgePrefab;
     private ObjectPool<Bridge> innerPool;
@@ -21,17 +22,19 @@ public class BridgePool: IObjectPool<Bridge>
         innerPool = new ObjectPool<Bridge>(1, CreateInstence);
     }
 
-    public Bridge Allocate()
-    {
-        return innerPool.Allocate();
-    }
-
     public Bridge CreateInstence()
     {
         var bridge = new Bridge();
         bridge.inNode = bridgePrefab.inNode;
         bridge.outNode = bridgePrefab.outNode;
         bridge.showModel = bridgePrefab.showModel;
+        return bridge;
+    }
+
+    internal Bridge Allocate(IPanelBase parentPanel = null)
+    {
+        var bridge = innerPool.Allocate();
+        bridge.Reset(parentPanel);
         return bridge;
     }
 }

@@ -65,7 +65,7 @@ public abstract class PanelBase : UIBehaviour, IPanelBase
     {
         if (bridge != null)
         {
-            bridge.CallBack(data);
+            bridge.CallBack(this,data);
         }
     }
 
@@ -109,6 +109,7 @@ public abstract class PanelBase : UIBehaviour, IPanelBase
         {
             bridge.Release();
         }
+
         if (onDelete != null)
         {
             onDelete.Invoke(this);

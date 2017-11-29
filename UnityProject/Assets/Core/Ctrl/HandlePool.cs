@@ -23,7 +23,7 @@ public class UIHandlePool
     public UIHandle Allocate(string panelName)
     {
         var handle = innerPool.Allocate();
-        handle.ResetHandle(panelName);
+        handle.Reset(panelName);
         return handle;
     }
 

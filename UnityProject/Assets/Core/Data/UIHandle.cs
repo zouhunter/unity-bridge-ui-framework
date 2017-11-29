@@ -11,19 +11,21 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UIHandle {
+public class UIHandle: IUIHandleInternal,IUIHandle
+{
     public string panelName { get;private set; }
-
     private List<Bridge> bridges = new List<Bridge>();
-
-    public UnityAction<string,object> callBack { get; set; }
-
-    public UnityAction<string> onClose { get; set; }
-
-    public UnityAction<string> onRelease { get; set; }
-
-    public void ResetHandle(string panelName)
+    public UnityAction<IPanelBase, object> onCallBack { get; set; }
+    public UnityAction<IPanelBase> onCreate { get; set; }
+    public UnityAction<IPanelBase> onClose { get; set; }
+    private UnityAction<string> onRelease { get; set; }
+    public void Reset(string panelName)
     {
+        this.onCallBack = null;
+        this.onCreate = null;
+        this.onClose = null;
+
+        this.onRelease = onRelease;
         this.panelName = panelName;
     }
 
@@ -31,8 +33,9 @@ public class UIHandle {
     {
         if(!bridges.Contains(obj))
         {
-            obj.callBack += OnBridgeCallBack;
+            obj.onCallBack += OnBridgeCallBack;
             obj.onRelease += UnRegistBridge;
+            obj.onCreate += OnCreatePanel;
             bridges.Add(obj);
         }
     }
@@ -41,8 +44,9 @@ public class UIHandle {
     {
         if(bridges.Contains(obj))
         {
-            obj.callBack -= OnBridgeCallBack;
+            obj.onCallBack -= OnBridgeCallBack;
             obj.onRelease -= UnRegistBridge;
+            obj.onCreate -= OnCreatePanel;
             bridges.Remove(obj);
         }
 
@@ -60,17 +64,24 @@ public class UIHandle {
         }
     }
 
-    private void OnBridgeCallBack(string panelName, object data)
+    private void OnBridgeCallBack(IPanelBase panel, object data)
     {
-        if(callBack != null)
+        if(onCallBack != null)
         {
-            callBack.Invoke(panelName, data);
+            onCallBack.Invoke(panel, data);
         }
     }
 
+    private void OnCreatePanel(IPanelBase panel)
+    {
+        if(onCreate != null)
+        {
+            onCreate.Invoke(panel);
+        }
+    }
     private void Release()
     {
-        callBack = null;
+        onCallBack = null;
         onClose = null;
         if (onRelease != null)
         {

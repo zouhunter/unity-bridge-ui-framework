@@ -365,9 +365,13 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
 
         if (panel.ChildPanels != null)
         {
-            foreach (var item in panel.ChildPanels)
+            var childs = panel.ChildPanels.ToArray();
+            foreach (var item in childs)
             {
-                item.Close();
+                if(item.IsAlive)
+                {
+                    item.Close();
+                }
             }
         }
 

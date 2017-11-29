@@ -5,25 +5,6 @@ using UnityEditor;
 using System;
 public partial class Utility
 {
-    public static void DefineLoadType()
-    {
-        var defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone);
-        if (defines.Contains(_defineLoadType))
-        {
-            var newDefines = defines.Replace(_defineLoadType, "").Replace(";;", ";");
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, newDefines);
-        }
-    }
-    public static void UnDefineLoadType()
-    {
-        var defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone);
-        if (!defines.Contains(_defineLoadType))
-        {
-            var newDefines = defines.TrimEnd(';');
-            newDefines += _defineLoadType;
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, newDefines);
-        }
-    }
     public static void ApplyPrefab(GameObject gitem)
     {
         var instanceRoot = PrefabUtility.FindValidUploadPrefabInstanceRoot(gitem);
@@ -152,7 +133,7 @@ public partial class Utility
     public static string ShowModelToString(ShowModel show)
     {
         string str = "";
-        if((show & ShowModel.Auto) == ShowModel.Auto)
+        if ((show & ShowModel.Auto) == ShowModel.Auto)
         {
             str += "[a]";
         }
@@ -160,15 +141,15 @@ public partial class Utility
         //{
         //    str += "[c]";
         //}
-        if((show & ShowModel.Mutex) == ShowModel.Mutex)
+        if ((show & ShowModel.Mutex) == ShowModel.Mutex)
         {
             str += "[m]";
         }
-        if((show & ShowModel.HideBase) == ShowModel.HideBase)
+        if ((show & ShowModel.HideBase) == ShowModel.HideBase)
         {
             str += "[h]";
         }
-        if((show & ShowModel.Single) == ShowModel.Single)
+        if ((show & ShowModel.Single) == ShowModel.Single)
         {
             str += "[s]";
         }
@@ -235,9 +216,10 @@ public partial class Utility
 }
 #endif
 
-public partial class Utility {
-    
-    public static void SetTranform(Transform item, UILayerType layer, Transform parent)
+public partial class Utility
+{
+
+    public static void SetTranform(Transform item, UILayerType layer, int layerIndex, Transform parent)
     {
         string rootName = LayerToString(layer);
         var root = parent.transform.Find(rootName);
@@ -282,7 +264,26 @@ public partial class Utility {
             }
         }
         item.transform.SetParent(root, !(item.GetComponent<Transform>() is RectTransform));
+
+        var childCount = root.childCount;
+        int id = 0;
+        for (int i = 0; i < childCount; i++)
+        {
+            var obj = root.GetChild(i);
+            var panel = obj.GetComponent<IPanelBase>();
+            if (panel == null || obj == item || panel.UType.layerIndex <= layerIndex)
+            {
+                id = i;
+            }
+            else
+            {
+                break;
+            }
+        }
+        item.SetSiblingIndex(id);
+
     }
+
     public static string LayerToString(UILayerType layer, bool showint = true)
     {
         string str = "";
@@ -294,16 +295,17 @@ public partial class Utility {
                 str += "[B]";
                 break;
             case UILayerType.Tip:
-                str += "[M]";
+                str += "[T]";
                 break;
             case UILayerType.Warning:
-                str += "[T]";
+                str += "[W]";
                 break;
             default:
                 break;
         }
         return str;
     }
-    private const string _defineLoadType = "UsePrefab";
-  
+
+    //private const string _defineLoadType = "UsePrefab";
+
 }

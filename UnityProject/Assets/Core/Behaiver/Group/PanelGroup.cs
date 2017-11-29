@@ -75,7 +75,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
         {
             uiNode.OnCreate = (go) =>
             {
-                Utility.SetTranform(go.transform, uiNode.type.layer, root == null ? Trans : root);
+                Utility.SetTranform(go.transform, uiNode.type.layer,uiNode.type.layerIndex, root == null ? Trans : root);
                 go.SetActive(true);
                 var panel = go.GetComponent<IPanelBase>();
                 if (panel != null)

@@ -25,7 +25,6 @@ public abstract class PanelBase : UIBehaviour, IPanelBase
     public IPanelGroup Group { get; set; }
     public abstract Transform Content { get; }
     public UIType UType { get; set; }
-    public GameObject Obj { get { return gameObject; } }
     public List<IPanelBase> ChildPanels
     {
         get
@@ -57,11 +56,9 @@ public abstract class PanelBase : UIBehaviour, IPanelBase
     public event UnityAction<IPanelBase> onDelete;
     protected bool _isShowing = true;
     private bool _isAlive = true;
-    private event UnityAction onStart;
-    private event UnityAction onDestroy;
     public void SetParent(Transform Trans)
     {
-        Utility.SetTranform(transform, UType.layer, Trans);
+        Utility.SetTranform(transform, UType.layer,UType.layerIndex, Trans);
     }
     public void CallBack(object data)
     {
@@ -106,7 +103,7 @@ public abstract class PanelBase : UIBehaviour, IPanelBase
     protected override void Start()
     {
         base.Start();
-        AppendComponents(this);
+        AppendComponentsByType();
         bridge.OnCreatePanel(this);
     }
 
@@ -192,19 +189,23 @@ public abstract class PanelBase : UIBehaviour, IPanelBase
         }
     }
 
-    private void AppendComponents(IPanelBase panel)
+    private void AppendComponentsByType()
     {
-        if (panel.UType.form == UIFormType.DragAble)
+        if (UType.form == UIFormType.DragAble)
         {
-            if (panel.Obj.GetComponent<DragPanel>() == null)
+            if (gameObject.GetComponent<DragPanel>() == null)
             {
-                panel.Obj.AddComponent<DragPanel>();
+                gameObject.AddComponent<DragPanel>();
             }
         }
 
-        if(UIAnimType.NoAnim != panel.UType.animType){
-            var tween = panel.Obj.AddComponent<UIPanelTween>();
-            tween.type = panel.UType.animType;
+        if(UIAnimType.NoAnim != UType.animType){
+            var tween = GetComponent<UIPanelTween>();
+            if(tween == null)
+            {
+                tween = gameObject.AddComponent<UIPanelTween>();
+            }
+            tween.type = UType.animType;
         }
 
     }

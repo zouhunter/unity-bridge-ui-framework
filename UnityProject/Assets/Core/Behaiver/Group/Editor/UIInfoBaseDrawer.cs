@@ -197,7 +197,7 @@ public abstract class UIInfoBaseDrawer : PropertyDrawer
             }
             if (uigroup != null)
             {
-                Utility.SetTranform(go.transform, (UILayerType)layerProp.intValue, uigroup.transform);
+                Utility.SetTranform(go.transform, (UILayerType)layerProp.intValue,layerIndexProp.intValue, uigroup.transform);
             }
             else
             {

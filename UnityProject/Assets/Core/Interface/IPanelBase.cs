@@ -19,7 +19,6 @@ public interface IPanelBase
     string Name { get; }
     int InstenceID { get; }
     IPanelGroup Group { get; set; }
-    GameObject Obj { get; }
     Transform Content { get; }
     List<IPanelBase> ChildPanels { get; }
 

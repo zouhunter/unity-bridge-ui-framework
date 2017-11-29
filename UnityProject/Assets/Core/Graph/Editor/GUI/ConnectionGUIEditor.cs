@@ -33,7 +33,7 @@ namespace NodeGraph
 
             DrawToggleFromShowModel(con, ShowModel.Auto,"父级界面的开关状态控制连接到的界面开关");
             DrawToggleFromShowModel(con, ShowModel.Mutex,"让拥有相同关键字的其他界面关闭");
-            DrawToggleFromShowModel(con, ShowModel.Cover, "建立遮罩防止点击其他对象");
+            //DrawToggleFromShowModel(con, ShowModel.Cover, "建立遮罩防止点击其他对象");
             DrawToggleFromShowModel(con, ShowModel.HideBase,"连接到的界面控制将父级界面开关");
             DrawToggleFromShowModel(con, ShowModel.Single, "隐藏所有打开的面板");
         }

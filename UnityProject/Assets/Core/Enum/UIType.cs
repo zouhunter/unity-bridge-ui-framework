@@ -20,9 +20,9 @@ public enum UILayerType
 public enum UIAnimType
 {
     NoAnim = 0,
-    LeftMoveIn = 1,
-    ScaleFromZero = 2,
-    ScaleFromLarge = 3
+    ScalePanel = 1,
+    PosUpPanel = 2,
+    RotatePanel = 3,
 }
 
 public enum HideRule

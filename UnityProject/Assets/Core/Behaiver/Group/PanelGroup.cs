@@ -102,7 +102,6 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
     {
         TryHideParent(panel, bridge);
         TryHideMutexPanels(panel, bridge);
-        TryCreateMask(panel, bridge);
         TryHideGroup(panel, bridge);
         TryAutoOpen( panel.Content, panel);
     }
@@ -129,20 +128,6 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
             }
         }
     }
-
-    /// <summary>
-    /// 建立遮罩
-    /// </summary>
-    /// <param name="panel"></param>
-    /// <param name="bridge"></param>
-    private void TryCreateMask(IPanelBase panel, Bridge bridge)
-    {
-        if ((bridge.showModel & ShowModel.Cover) == ShowModel.Cover)
-        {
-            panel.Cover();
-        }
-    }
-
 
     /// <summary>
     /// 互斥面板自动隐藏
@@ -233,11 +218,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
         panel.Group = this;
         panel.onDelete += OnDeletePanel;
         panel.HandleData(bridge);
-        if(uiNode.type.form == UIFormType.DragAble)
-        {
-            panel.Obj.AddComponent<DragPanel>();
-        }
-
+       
     }
     /// <summary>
     /// 选择性隐藏父级

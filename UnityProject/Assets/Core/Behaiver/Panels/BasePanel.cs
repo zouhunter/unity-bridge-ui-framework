@@ -57,6 +57,8 @@ public abstract class PanelBase : UIBehaviour, IPanelBase
     public event UnityAction<IPanelBase> onDelete;
     protected bool _isShowing = true;
     private bool _isAlive = true;
+    private event UnityAction onStart;
+    private event UnityAction onDestroy;
     public void SetParent(Transform Trans)
     {
         Utility.SetTranform(transform, UType.layer, Trans);
@@ -104,6 +106,7 @@ public abstract class PanelBase : UIBehaviour, IPanelBase
     protected override void Start()
     {
         base.Start();
+        AppendComponents(this);
         bridge.OnCreatePanel(this);
     }
 
@@ -187,6 +190,23 @@ public abstract class PanelBase : UIBehaviour, IPanelBase
             childPanel.onDelete += OnRemoveChild;
             childPanels.Add(childPanel);
         }
+    }
+
+    private void AppendComponents(IPanelBase panel)
+    {
+        if (panel.UType.form == UIFormType.DragAble)
+        {
+            if (panel.Obj.GetComponent<DragPanel>() == null)
+            {
+                panel.Obj.AddComponent<DragPanel>();
+            }
+        }
+
+        if(UIAnimType.NoAnim != panel.UType.animType){
+            var tween = panel.Obj.AddComponent<UIPanelTween>();
+            tween.type = panel.UType.animType;
+        }
+
     }
     public void Cover()
     {

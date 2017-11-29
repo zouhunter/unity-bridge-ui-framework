@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="enums">
+  <logicalClassDesignerModelMoniker Id="7023555c-bb42-4498-8f87-467f72a0cf90" />
+  <nestedChildShapes>
+    <enumerationShape Id="78c946f0-3a27-4858-b275-8ce332acd283" absoluteBounds="0.75, 1.875, 1.5, 0.69117186754941962" hideQualifiedName="false" increaseHeight="0" customColor="161, 150, 103">
+      <enumerationMoniker Id="0552ae24-2bfc-4a6c-932c-5eb5f4aaed11" LastKnownName="UIFormType" />
+      <nestedChildShapes>
+        <LiteralElementListCompartment Id="8cea37a9-ac10-46e4-b653-5d0c40d803ef" absoluteBounds="0.7649999999999999, 2.265, 1.4700000000000002, 0.2011718675494194" name="LiteralsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </enumerationShape>
+    <enumerationShape Id="ce3bd18b-ff6d-49d8-817e-fac20dc0c41b" absoluteBounds="0.75, 2.625, 1.5, 0.69117186754941962" hideQualifiedName="false" increaseHeight="0" customColor="161, 150, 103">
+      <enumerationMoniker Id="a98e1f63-f1d7-43d7-b723-ee0eba446c3d" LastKnownName="UILayerType" />
+      <nestedChildShapes>
+        <LiteralElementListCompartment Id="e00482e3-5eb8-448e-ad33-89d0c1f309cf" absoluteBounds="0.7649999999999999, 3.015, 1.4700000000000002, 0.2011718675494194" name="LiteralsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </enumerationShape>
+    <enumerationShape Id="568b1f6a-fb34-4783-bac2-d7c0cd9fef06" absoluteBounds="0.75, 3.375, 1.5, 0.69117186754941962" hideQualifiedName="false" increaseHeight="0" customColor="161, 150, 103">
+      <enumerationMoniker Id="74492aaf-c867-4476-ab43-d8aa56967c67" LastKnownName="HideRule" />
+      <nestedChildShapes>
+        <LiteralElementListCompartment Id="d5b3fb08-afca-4751-9275-fcbb60bd04d0" absoluteBounds="0.76500000000000012, 3.765, 1.4700000000000002, 0.2011718675494194" name="LiteralsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </enumerationShape>
+    <enumerationShape Id="5af0dc0b-43fa-4f73-adfc-23bc393ccde3" absoluteBounds="0.75, 4.125, 1.5, 0.69117186754941873" hideQualifiedName="false" increaseHeight="0" customColor="161, 150, 103">
+      <enumerationMoniker Id="19fc7c9d-ce49-4b7e-918b-d50d0ec4bac3" LastKnownName="CloseRule" />
+      <nestedChildShapes>
+        <LiteralElementListCompartment Id="a3c93622-57b1-4b63-9738-cf1198498f75" absoluteBounds="0.76500000000000012, 4.515, 1.4700000000000002, 0.2011718675494194" name="LiteralsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </enumerationShape>
+  </nestedChildShapes>
+</logicalClassDesignerDiagram>

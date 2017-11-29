@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9718cf21-289e-43f3-b031-def0dd93ed3c}</ProjectGuid>
     <ArchitectureToolsVersion>2.0.0.0</ArchitectureToolsVersion>
-    <Name>FlexibleUI</Name>
+    <Name>BridgeUI</Name>
     <RootNamespace>FlexibleUI</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -22,18 +22,39 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
   <ItemGroup>
+    <Content Include="controllers.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="controllers.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>controllers.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="enums.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="enums.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>enums.classdiagram</DependentUpon>
+    </Content>
     <Content Include="ModelDefinition\Package_1635.uml">
       <SubType>Content</SubType>
     </Content>
     <Content Include="ModelDefinition\Package_1900.uml">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="UILoading.classdiagram">
+    <Content Include="behaivers.classdiagram">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="UILoading.classdiagram.layout">
+    <Content Include="behaivers.classdiagram.layout">
       <SubType>Content</SubType>
-      <DependentUpon>UILoading.classdiagram</DependentUpon>
+      <DependentUpon>behaivers.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="models.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="models.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>models.classdiagram</DependentUpon>
     </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="ModelDefinition\FlexibleUI.uml">

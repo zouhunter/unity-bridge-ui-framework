@@ -224,6 +224,7 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
             if (!hidedPanelStack.ContainsKey(panel)){
                 hidedPanelStack[panel] = new Stack<IPanelBase>();
             }
+            //Debug.Log("push:" + needHidePanel);
             hidedPanelStack[panel].Push(needHidePanel);
         }
     }
@@ -382,6 +383,8 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
                     {
                         item.UnHide();
                     }
+                    //Debug.Log("Pop:" + item);
+
                 }
             }
             hidedPanelStack.Remove(panel);

@@ -20,15 +20,20 @@ public class UIHandlePool
         innerPool = new ObjectPool<UIHandle>(1,CreateInstence);
     }
 
-    public UIHandle Allocate(string panelName)
+    public UIHandle Allocate()
     {
         var handle = innerPool.Allocate();
-        handle.Reset(panelName);
+        handle.Reset(OnRelease);
         return handle;
     }
 
     private UIHandle CreateInstence()
     {
         return new UIHandle();
+    }
+
+    private void OnRelease(UIHandle handle)
+    {
+        innerPool.Release(handle);
     }
 }

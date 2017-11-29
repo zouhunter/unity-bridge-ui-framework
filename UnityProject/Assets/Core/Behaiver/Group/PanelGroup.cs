@@ -83,7 +83,6 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
                     createdPanels.Add(panel);
                     if(parentPanel!= null) parentPanel.RecordChild(panel);
                     bridgeDic.Add(panel, bridge);
-                    bridge.OnCreatePanel(panel);
                     InitPanel(panel, bridge, uiNode);
                     HandBridgeOptions(panel, bridge);
                 }
@@ -234,6 +233,10 @@ public class PanelGroup : MonoBehaviour, IPanelGroup
         panel.Group = this;
         panel.onDelete += OnDeletePanel;
         panel.HandleData(bridge);
+        if(uiNode.type.form == UIFormType.DragAble)
+        {
+            panel.Obj.AddComponent<DragPanel>();
+        }
 
     }
     /// <summary>

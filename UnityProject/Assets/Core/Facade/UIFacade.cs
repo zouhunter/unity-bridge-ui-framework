@@ -46,8 +46,6 @@ public sealed class UIFacade : IUIFacade
     private static Dictionary<int, UIFacade> facadeDic = new Dictionary<int, UIFacade>();
     // 面板组
     private static List<IPanelGroup> groupList = new List<IPanelGroup>();
-    ////激活的handle
-    //private static Dictionary<string, UIHandle> createdHandle = new Dictionary<string, UIHandle>();
     //handle池
     private static UIHandlePool handlePool = new UIHandlePool();
 
@@ -76,7 +74,7 @@ public sealed class UIFacade : IUIFacade
 
     public IUIHandle Open(string panelName, object data = null)
     {
-        var handle = handlePool.Allocate(panelName);
+        var handle = handlePool.Allocate();
 
         if (currentGroup != null)//限制性打开
         {
@@ -116,6 +114,7 @@ public sealed class UIFacade : IUIFacade
             }
         }
     }
+
     private void InternalHide(IPanelGroup group, string panelName)
     {
         var panels = group.RetrivePanels(panelName);

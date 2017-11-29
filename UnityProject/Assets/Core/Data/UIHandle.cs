@@ -13,20 +13,14 @@ using System.Collections.Generic;
 
 public class UIHandle: IUIHandleInternal,IUIHandle
 {
-    public string panelName { get;private set; }
     private List<Bridge> bridges = new List<Bridge>();
     public UnityAction<IPanelBase, object> onCallBack { get; set; }
     public UnityAction<IPanelBase> onCreate { get; set; }
     public UnityAction<IPanelBase> onClose { get; set; }
-    private UnityAction<string> onRelease { get; set; }
-    public void Reset(string panelName)
+    private UnityAction<UIHandle> onRelease { get; set; }
+    public void Reset(UnityAction<UIHandle> onRelease)
     {
-        this.onCallBack = null;
-        this.onCreate = null;
-        this.onClose = null;
-
         this.onRelease = onRelease;
-        this.panelName = panelName;
     }
 
     public void RegistBridge(Bridge obj)
@@ -48,6 +42,11 @@ public class UIHandle: IUIHandleInternal,IUIHandle
             obj.onRelease -= UnRegistBridge;
             obj.onCreate -= OnCreatePanel;
             bridges.Remove(obj);
+        }
+
+        if(onClose != null)
+        {
+            onClose(obj.OutPanel);
         }
 
         if(bridges.Count == 0)
@@ -81,12 +80,17 @@ public class UIHandle: IUIHandleInternal,IUIHandle
     }
     private void Release()
     {
-        onCallBack = null;
-        onClose = null;
         if (onRelease != null)
         {
-            onRelease(panelName);
+            onRelease(this);
         }
+        Clean();
+    }
 
+    private void Clean()
+    {
+        this.onCallBack = null;
+        this.onCreate = null;
+        this.onClose = null;
     }
 }

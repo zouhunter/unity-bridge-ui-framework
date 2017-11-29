@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 public interface IUIHandleInternal
 {
-    void Reset(string panelName);
+    void Reset(UnityAction<UIHandle> onRelease);
     void RegistBridge(Bridge bridgeObj);
     void UnRegistBridge(Bridge obj);
 }

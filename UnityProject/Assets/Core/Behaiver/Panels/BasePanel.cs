@@ -25,7 +25,7 @@ public abstract class PanelBase : UIBehaviour, IPanelBase
     public IPanelGroup Group { get; set; }
     public abstract Transform Content { get; }
     public UIType UType { get; set; }
-
+    public GameObject Obj { get { return gameObject; } }
     public List<IPanelBase> ChildPanels
     {
         get
@@ -93,15 +93,23 @@ public abstract class PanelBase : UIBehaviour, IPanelBase
 
     protected virtual void HandleData(object data)
     {
+
     }
 
     protected override void Awake()
     {
+        base.Awake();
         selfFacade = UIFacade.CreatePanelFacade(this);
+    }
+    protected override void Start()
+    {
+        base.Start();
+        bridge.OnCreatePanel(this);
     }
 
     protected override void OnDestroy()
     {
+        base.OnDestroy();
         _isAlive = false;
         _isShowing = false;
 

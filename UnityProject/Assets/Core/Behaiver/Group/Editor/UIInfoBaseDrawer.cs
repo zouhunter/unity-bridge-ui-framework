@@ -6,6 +6,8 @@ public abstract class UIInfoBaseDrawer : PropertyDrawer
     protected SerializedProperty panelNameProp;
     protected SerializedProperty typeProp;
     protected SerializedProperty layerProp;
+    protected SerializedProperty formProp;
+    protected SerializedProperty layerIndexProp;
     protected SerializedProperty instanceIDProp;
     protected SerializedObject serializedObject;
     protected const float widthBt = 20;
@@ -29,7 +31,9 @@ public abstract class UIInfoBaseDrawer : PropertyDrawer
     {
         panelNameProp = property.FindPropertyRelative("panelName");
         typeProp = property.FindPropertyRelative("type"); ;
+        formProp = typeProp.FindPropertyRelative("form");
         layerProp = typeProp.FindPropertyRelative("layer");
+        layerIndexProp = typeProp.FindPropertyRelative("layerIndex");
         instanceIDProp = property.FindPropertyRelative("instanceID");
     }
 
@@ -92,16 +96,16 @@ public abstract class UIInfoBaseDrawer : PropertyDrawer
     protected virtual void InformationShow(Rect rect)
     {
         var infoRect = rect;
-        infoRect.x = infoRect.width - 150;
+        infoRect.x = infoRect.width - 100;
         infoRect.width = 25;
         GUI.color = new Color(0.3f, 0.5f, 0.8f);
-        EditorGUI.SelectableLabel(infoRect, string.Format("[{0}]", ((UILayerType)layerProp.enumValueIndex).ToString().Substring(0, 1)));
+        EditorGUI.SelectableLabel(infoRect, string.Format("[{0}]", ((UIFormType)formProp.enumValueIndex).ToString().Substring(0, 1)));
 
-        infoRect.x += infoRect.width * 3;
+        infoRect.x += infoRect.width * 2;
         infoRect.width = 100;
         GUI.color = new Color(0.8f, 0.8f, 0.4f);
         string str = Utility.LayerToString((UILayerType)layerProp.intValue, false);// LayerToString();
-        EditorGUI.SelectableLabel(infoRect, str);
+        EditorGUI.SelectableLabel(infoRect,string.Format("{0} {1}", str, layerIndexProp.intValue));
         GUI.color = Color.white;
     }
 

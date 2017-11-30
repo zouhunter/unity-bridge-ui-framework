@@ -26,6 +26,26 @@
       Id="42e8e381-4b1e-41d5-8a91-0e10a4ef023c">
       <body>面板的关联信息及打开的规则</body>
     </comment>
+    <comment
+      Id="03f3a8dd-1291-4871-aa83-42831accdbeb">
+      <body>加载具体的资源</body>
+      <annotatedElements>
+        <interfaceMoniker
+          Id="eafabb95-d987-4e2d-b298-819324abda9d"
+          LastKnownName="IPanelLoader"
+          LastKnownLocation="FlexibleUI.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="0a8f38af-7dcf-41cf-92d4-95d5b951cd05">
+      <body>用户使用接口</body>
+      <annotatedElements>
+        <interfaceMoniker
+          Id="c15d2ff5-61e6-41f8-85a8-f5bafeb4797e"
+          LastKnownName="IUIFacade"
+          LastKnownLocation="FlexibleUI.uml" />
+      </annotatedElements>
+    </comment>
   </ownedCommentsInternal>
   <appliedStereotypesInternal>
     <stereotypeInstance
@@ -1925,7 +1945,7 @@
     <packageHasNamedElement>
       <class
         Id="96f03e0c-54b1-44da-99a7-a7f54a9d13c1"
-        name="Bridge"
+        name="BridgeInfo"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
@@ -1994,6 +2014,69 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="c5594129-7ef8-4f21-ae33-3d7fe61632d5"
+        name="object" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="060c87c8-d403-4096-9f07-8b7d792e954f"
+        name="UIHandle"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="359244b4-9b90-478e-9ec3-81d59344433a"
+        name="Bridge"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="93fc57da-0433-43eb-a961-7a2eb39f9caf"
+            isDerived="false"
+            sourceEndRoleName="Bridge"
+            targetEndRoleName="UIHandle"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="060c87c8-d403-4096-9f07-8b7d792e954f"
+              LastKnownName="UIHandle"
+              LastKnownLocation="FlexibleUI.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="f03d6b57-2005-4d3d-ad23-ea093b1e4060"
+                  name="Bridge"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="dcbf5527-3fa9-4bd1-8f38-ba69f67f4254"
+                  name="UIHandle"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

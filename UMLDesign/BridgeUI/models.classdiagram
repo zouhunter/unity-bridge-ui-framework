@@ -154,7 +154,7 @@
       </class>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
-      <class Id="cfc89fc2-2b14-41d6-a4e8-340914efe75a" name="Bridge" isAbstract="false" isLeaf="false" isActiveClass="false">
+      <class Id="cfc89fc2-2b14-41d6-a4e8-340914efe75a" name="BridgeInfo" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="96f03e0c-54b1-44da-99a7-a7f54a9d13c1" />
         <ownedAttributesInternal>
           <property Id="eb4f1958-9e4e-4918-8803-c23be68517b3" name="inNode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">

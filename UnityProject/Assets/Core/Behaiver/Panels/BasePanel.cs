@@ -243,10 +243,10 @@ namespace BridgeUI
         private void AlaphGameObject(bool hide)
         {
             var canvasGroup = GetComponent<CanvasGroup>();
-            if (canvasGroup == null)
-            {
+            if (canvasGroup == null){
                 canvasGroup = gameObject.AddComponent<CanvasGroup>();
             }
+
             if (hide)
             {
                 canvasGroup.alpha = UType.hideAlaph;
@@ -255,7 +255,9 @@ namespace BridgeUI
             }
             else
             {
-                Destroy(canvasGroup);
+                canvasGroup.alpha = 1;
+                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
             }
 
         }

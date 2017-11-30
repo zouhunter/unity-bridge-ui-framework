@@ -59,10 +59,10 @@
       <relativeChildShapes />
     </commentShape>
     <classShape Id="c71b756a-52f9-477c-9971-249bc825164d" absoluteBounds="4.5, 1, 2, 1.4833984375000004" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
-      <classMoniker Id="cfc89fc2-2b14-41d6-a4e8-340914efe75a" LastKnownName="Bridge" />
+      <classMoniker Id="cfc89fc2-2b14-41d6-a4e8-340914efe75a" LastKnownName="BridgeInfo" />
       <nestedChildShapes>
         <AttributeElementListCompartment Id="ad6e1f85-55c5-496a-84df-72641c841ee0" absoluteBounds="4.515, 1.3900000000000001, 1.9700000000000002, 0.75708007812500011" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
-        <OperationElementListCompartment Id="c22ee8d1-c4a6-40d9-81de-a6daab7cae4c" absoluteBounds="4.515, 2.1570800781250004, 1.9700000000000002, 0.22631835937500022" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="c22ee8d1-c4a6-40d9-81de-a6daab7cae4c" absoluteBounds="4.515, 2.1570800781250004, 1.9700000000000002, 0.226318359375" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <commentShape Id="8913f018-e58b-4686-ae1d-89308a94ff19" absoluteBounds="6.875, 1, 1.25, 0.625" customColor="251, 247, 200">

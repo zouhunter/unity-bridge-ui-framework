@@ -1,5 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="832b2403-c121-47b4-9a4d-9a65ceaadaf1" name="controllers" linkedPackageId="3e8b35de-9ee4-4452-96d7-1d5a1531ce90" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <ownedCommentsInternal>
+    <comment Id="7934f59b-9503-4860-9461-1f37dcedbbf6">
+      <elementDefinition Id="03f3a8dd-1291-4871-aa83-42831accdbeb" />
+      <body>加载具体的资源</body>
+      <annotatedElements>
+        <interfaceMoniker Id="70f6c8cb-2365-41ba-a4b2-b3a9f94b621e" LastKnownName="IPanelLoader" />
+      </annotatedElements>
+    </comment>
+    <comment Id="12916507-a238-43af-8cc4-d2bbdbba9603">
+      <elementDefinition Id="0a8f38af-7dcf-41cf-92d4-95d5b951cd05" />
+      <body>用户使用接口</body>
+      <annotatedElements>
+        <interfaceMoniker Id="7f198106-5f91-4525-aaf9-54448feb7af1" LastKnownName="IUIFacade" />
+      </annotatedElements>
+    </comment>
+  </ownedCommentsInternal>
   <appliedStereotypesInternal>
     <stereotypeInstance Id="7b586f26-701b-45e9-8a4f-b31627738237" name="namespace" profile="CSharpProfile">
       <elementDefinition Id="749848a9-f983-4508-b067-76ab2b77758b" />

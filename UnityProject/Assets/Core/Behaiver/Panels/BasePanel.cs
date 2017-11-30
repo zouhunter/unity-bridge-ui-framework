@@ -56,7 +56,8 @@ namespace BridgeUI
         protected Bridge bridge;
         protected List<IPanelBaseInternal> childPanels;
         public event UnityAction<IPanelBaseInternal> onDelete;
-        protected bool _isShowing = true;
+        protected IAnimPlayer animPlayer;
+        private bool _isShowing = true;
         private bool _isAlive = true;
         public void SetParent(Transform Trans)
         {
@@ -80,7 +81,7 @@ namespace BridgeUI
             }
         }
 
-        protected virtual void HandleData(Queue<object> dataQueue)
+        protected void HandleData(Queue<object> dataQueue)
         {
             if (dataQueue != null)
             {
@@ -162,6 +163,23 @@ namespace BridgeUI
 
         public virtual void Close()
         {
+            if(UType.quitAnim != UIAnimType.NoAnim)
+            {
+                var tweenPanel = GetComponent<UIPanelTween>();
+                if (tweenPanel == null){
+                    tweenPanel = gameObject.AddComponent<UIPanelTween>();
+                }
+                tweenPanel.QuitAnim(UType.quitAnim,CloseInternal);
+            }
+            else
+            {
+                CloseInternal();
+            }
+            
+        }
+
+        private void CloseInternal()
+        {
             switch (UType.closeRule)
             {
                 case CloseRule.DestroyImmediate:
@@ -208,14 +226,13 @@ namespace BridgeUI
                 }
             }
 
-            if (UIAnimType.NoAnim != UType.animType)
+            if (UIAnimType.NoAnim != UType.enterAnim)
             {
-                var tween = GetComponent<UIPanelTween>();
-                if (tween == null)
-                {
-                    tween = gameObject.AddComponent<UIPanelTween>();
+                animPlayer = GetComponent<UIPanelTween>();
+                if (animPlayer == null){
+                    animPlayer = gameObject.AddComponent<UIPanelTween>();
                 }
-                tween.type = UType.animType;
+                animPlayer.EnterAnim(UType.enterAnim, null);
             }
 
         }
@@ -232,6 +249,7 @@ namespace BridgeUI
             img.color = new Color(0, 0, 0, 0.01f);
             img.raycastTarget = true;
         }
+
         private void OnRemoveChild(IPanelBaseInternal childPanel)
         {
             if (childPanels != null && childPanels.Contains(childPanel))

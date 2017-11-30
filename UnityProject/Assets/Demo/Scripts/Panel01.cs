@@ -13,13 +13,13 @@ using System.Collections.Generic;
 using System;
 using BridgeUI;
 
-public class Panel01 : SinglePanel, IPointerClickHandler
+class Panel01 : SinglePanel, IPointerClickHandler
 {
     [SerializeField]
     private Button m_Close;
     [SerializeField]
     private Button m_childPanel;
-    private string panel02 = "Panel02";
+
     protected override void Awake()
     {
         base.Awake();
@@ -32,6 +32,7 @@ public class Panel01 : SinglePanel, IPointerClickHandler
     }
     private void OpenChildPanel()
     {
-        selfFacade.Open(panel02, "你好panel02");
+        selfFacade.Open(PanelNames.Panel02, "你好panel02");
+        Test();
     }
 }

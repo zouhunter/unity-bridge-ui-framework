@@ -12,8 +12,7 @@ using System.Collections;
 namespace BridgeUI
 {
     /// <summary>
-    /// 组面板
-    /// [打开的同时打开一组面板,关闭时全部关闭]
+    /// 组面板[包含容器]
     /// </summary>
     public class GroupPanel : PanelBase
     {

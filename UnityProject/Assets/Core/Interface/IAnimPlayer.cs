@@ -9,15 +9,13 @@ using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
-using System;
+using System.Collections.Generic;
 namespace BridgeUI
 {
-    /// <summary>
-    /// 单一面板[不包含容器]
-    /// </summary>
-    public class SinglePanel : PanelBase
+
+    public interface IAnimPlayer
     {
-        public override Transform Content { get { return Group.Trans; } }
-        internal void Test() { }
+        void EnterAnim(UIAnimType animType, UnityAction onComplete);
+        void QuitAnim(UIAnimType animType, UnityAction onComplete);
     }
 }

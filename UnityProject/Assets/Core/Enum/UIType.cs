@@ -57,7 +57,9 @@ namespace BridgeUI
         //隐藏透明度
         public float hideAlaph = 0.2f;
         //出场动画
-        public UIAnimType animType = UIAnimType.NoAnim;
+        public UIAnimType enterAnim = UIAnimType.NoAnim;
+        //关闭动画
+        public UIAnimType quitAnim = UIAnimType.NoAnim;
         //关闭规则
         public CloseRule closeRule = CloseRule.DestroyImmediate;
         //隐藏规则

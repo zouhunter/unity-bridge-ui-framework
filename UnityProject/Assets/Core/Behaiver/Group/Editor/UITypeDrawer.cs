@@ -17,12 +17,12 @@ namespace BridgeUIEditor
     [CustomPropertyDrawer(typeof(UIType))]
     public class UITypeDrawer : PropertyDrawer
     {
-        //SerializedProperty mutexKeyProp;
         SerializedProperty formProp;
         SerializedProperty layerProp;
         SerializedProperty layerIndexProp;
         SerializedProperty hideAlaphProp;
-        SerializedProperty animTypeProp;
+        SerializedProperty enterAnimProp;
+        SerializedProperty quitAnimProp;
 
         const float lableWidth = 120;
 
@@ -33,22 +33,17 @@ namespace BridgeUIEditor
 
         private void InitProperty(SerializedProperty property)
         {
-            //mutexKeyProp = property.FindPropertyRelative("mutexKey");
             formProp = property.FindPropertyRelative("form");
             layerProp = property.FindPropertyRelative("layer");
             layerIndexProp = property.FindPropertyRelative("layerIndex");
             hideAlaphProp = property.FindPropertyRelative("hideAlaph");
-            animTypeProp = property.FindPropertyRelative("animType");
+            enterAnimProp = property.FindPropertyRelative("enterAnim");
+            quitAnimProp = property.FindPropertyRelative("quitAnim");
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             InitProperty(property);
-            //using (var hor = new EditorGUILayout.HorizontalScope())
-            //{
-            //    EditorGUILayout.LabelField("唯一关键字:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            //    mutexKeyProp.stringValue = EditorGUILayout.TextField(mutexKeyProp.stringValue);
-            //}
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("可移动机制:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
@@ -72,7 +67,12 @@ namespace BridgeUIEditor
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("出场动画组:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-                animTypeProp.enumValueIndex = (int)(UIAnimType)EditorGUILayout.EnumPopup((UIAnimType)animTypeProp.enumValueIndex);
+                enterAnimProp.enumValueIndex = (int)(UIAnimType)EditorGUILayout.EnumPopup((UIAnimType)enterAnimProp.enumValueIndex);
+            }
+            using (var hor = new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField("闭场动画组:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+                quitAnimProp.enumValueIndex = (int)(UIAnimType)EditorGUILayout.EnumPopup((UIAnimType)quitAnimProp.enumValueIndex);
             }
         }
     }

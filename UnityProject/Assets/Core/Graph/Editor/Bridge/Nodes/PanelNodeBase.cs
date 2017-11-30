@@ -116,10 +116,14 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
         }
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("动画效果:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            nodeInfo.uiType.animType = (UIAnimType)EditorGUILayout.EnumPopup(nodeInfo.uiType.animType);
+            EditorGUILayout.LabelField("出场动画:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            nodeInfo.uiType.enterAnim = (UIAnimType)EditorGUILayout.EnumPopup(nodeInfo.uiType.enterAnim);
         }
-
+        using (var hor = new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField("关闭动画:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            nodeInfo.uiType.quitAnim = (UIAnimType)EditorGUILayout.EnumPopup(nodeInfo.uiType.quitAnim);
+        }
     }
     private bool ChangeCheckField(UnityAction func)
     {

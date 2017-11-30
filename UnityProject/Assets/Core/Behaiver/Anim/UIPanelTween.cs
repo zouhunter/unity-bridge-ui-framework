@@ -7,15 +7,43 @@ using System.Collections.Generic;
 using BridgeUI.uTween;
 namespace BridgeUI
 {
-    public class UIPanelTween : MonoBehaviour
+    public class UIPanelTween : MonoBehaviour, IAnimPlayer
     {
-        public UIAnimType type;
         private float duration = 0.2f;
         private uTweener tween;
-        void Start()
+        private RectTransform panel;
+        void Awake()
         {
-            var panel = GetComponent<RectTransform>();
-            switch (type)
+            panel = GetComponent<RectTransform>();
+        }
+
+        void Update()
+        {
+            tween.Update();
+        }
+
+        public void EnterAnim(UIAnimType animType,UnityAction onComplete)
+        {
+            ResetAnim(animType);
+            if (onComplete != null)
+            {
+                tween.AddOnFinished(onComplete);
+            }
+            tween.SetCurrentValueToEnd();
+            tween.PlayForward();
+        }
+
+        public void QuitAnim(UIAnimType animType, UnityAction onComplete)
+        {
+            ResetAnim(animType);
+            if (onComplete != null) tween.AddOnFinished(onComplete);
+            tween.SetCurrentValueToEnd();
+            tween.PlayReverse();
+        }
+
+        private void ResetAnim(UIAnimType animType)
+        {
+            switch (animType)
             {
                 case UIAnimType.ScalePanel:
                     tween = uTweenScale.Begin(panel, Vector3.one * 0.8f, panel.localScale, duration);
@@ -29,18 +57,6 @@ namespace BridgeUI
                 default:
                     break;
             }
-            Play();
         }
-
-        void Update()
-        {
-            tween.Update();
-        }
-
-        void Play()
-        {
-            tween.PlayForward();
-        }
-
     }
 }

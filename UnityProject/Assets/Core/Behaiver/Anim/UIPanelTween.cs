@@ -29,7 +29,7 @@ namespace BridgeUI
             {
                 tween.AddOnFinished(onComplete);
             }
-            tween.SetCurrentValueToEnd();
+            tween.ResetToBeginning();
             tween.PlayForward();
         }
 
@@ -37,7 +37,7 @@ namespace BridgeUI
         {
             ResetAnim(animType);
             if (onComplete != null) tween.AddOnFinished(onComplete);
-            tween.SetCurrentValueToEnd();
+            tween.ResetToComplete();
             tween.PlayReverse();
         }
 

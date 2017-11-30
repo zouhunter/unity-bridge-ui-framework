@@ -216,6 +216,13 @@ namespace BridgeUI.uTween
             Sample(mFactor, false);
         }
 
+        public void ResetToComplete()
+        {
+            mStarted = true;
+            mFactor = (amountPerDelta < 0f) ? 0f : 1f;
+            Sample(mFactor, true);
+        }
+
         /// <summary>
         /// Manually start the tweening process, reversing its direction.
         /// </summary>

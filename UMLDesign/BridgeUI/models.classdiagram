@@ -3,11 +3,25 @@
   <ownedCommentsInternal>
     <comment Id="27d9f4f3-83bc-4af8-bf2a-e3da299027aa">
       <elementDefinition Id="8ad40818-6abc-437b-85c3-a3044a9b09ad" />
-      <body>面板的资源信息及打开后执行的一系列规则</body>
+      <body>序列化并保存相关资源信息</body>
+      <annotatedElements>
+        <classMoniker Id="b8502a0d-b6aa-4189-8426-cce49f5e7884" LastKnownName="BundleUIInfo" />
+        <classMoniker Id="18ef45e8-149e-44ec-bfc8-15df41bd8a54" LastKnownName="PrefabUIInfo" />
+      </annotatedElements>
     </comment>
     <comment Id="07b8fe62-8f5a-4d0e-960c-6ec628675ccc">
       <elementDefinition Id="42e8e381-4b1e-41d5-8a91-0e10a4ef023c" />
       <body>面板的关联信息及打开的规则</body>
+      <annotatedElements>
+        <classMoniker Id="cfc89fc2-2b14-41d6-a4e8-340914efe75a" LastKnownName="BridgeInfo" />
+      </annotatedElements>
+    </comment>
+    <comment Id="9c5404c0-d943-4c69-be8f-b2c0202e69b9">
+      <elementDefinition Id="01e4eeb3-68a0-4903-a7be-a9558530a3a6" />
+      <body>其中good和guid用于编辑状态下关联资源,同时防止打包时自动引用</body>
+      <annotatedElements>
+        <classMoniker Id="b8502a0d-b6aa-4189-8426-cce49f5e7884" LastKnownName="BundleUIInfo" />
+      </annotatedElements>
     </comment>
   </ownedCommentsInternal>
   <appliedStereotypesInternal>
@@ -99,6 +113,24 @@
               <referencedTypeMoniker Id="971c61d8-6b12-4282-9b06-6f7563f392d7" LastKnownName="string" />
             </type_NamedElement>
           </property>
+          <property Id="7a304d65-3922-4a03-ba87-96d5e4680e9e" name="instanceID" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="16079c02-34bc-42fb-85e6-b28eb8befd4c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="2b8fb303-09d1-400a-8080-60f80dfc11e0" LastKnownName="int" />
+            </type_NamedElement>
+          </property>
+          <property Id="352e3940-afa6-40ed-a611-a336d6efd400" name="IDName" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="20abd255-bf84-464c-ae97-4f980d5b79a7" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="971c61d8-6b12-4282-9b06-6f7563f392d7" LastKnownName="string" />
+            </type_NamedElement>
+          </property>
+          <property Id="e9a575a2-8998-4b2e-97b9-06bdcf009e19" name="OnCreate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="aa371d9e-f912-4fc7-8380-dc1f366faa1f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="a935020d-077a-490a-ba5b-e9076906a6b3" LastKnownName="UnityAction&lt;GameObject&gt;" />
+            </type_NamedElement>
+          </property>
         </ownedAttributes>
       </Interface>
     </logicalClassDesignerModelHasTypes>
@@ -121,14 +153,6 @@
             <elementDefinition Id="6bc4dd81-294a-498a-b951-30e3b8f4358b" />
           </interfaceRealization>
         </suppliersInternal>
-        <ownedAttributesInternal>
-          <property Id="257552ae-0de6-4ac9-bbfb-3c3b90628de6" name="panelName" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-            <elementDefinition Id="82cc91c1-363f-4347-92a0-680e93763294" />
-            <type_NamedElement>
-              <referencedTypeMoniker Id="971c61d8-6b12-4282-9b06-6f7563f392d7" LastKnownName="string" />
-            </type_NamedElement>
-          </property>
-        </ownedAttributesInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
@@ -140,6 +164,14 @@
             <elementDefinition Id="a712c22e-fc4e-4b9e-9cde-bc8ad62dfae3" />
           </generalization>
         </generalsInternal>
+        <ownedAttributesInternal>
+          <property Id="6b5a5061-2d42-41b5-b9c3-3976e77855e9" name="prefab" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="936dfc70-9727-43c3-b835-da3b1f1b73c7" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="28dd3284-58d8-4ee7-a4d1-741f04896032" LastKnownName="GameObject" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
@@ -151,6 +183,26 @@
             <elementDefinition Id="9a6f7a53-32a6-4040-bf77-99164f174afa" />
           </generalization>
         </generalsInternal>
+        <ownedAttributesInternal>
+          <property Id="92ef623d-25fb-4973-8e81-a7bae8efafd8" name="guid" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="de2949a8-8a6c-4708-b9b9-49df699e50c4" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="971c61d8-6b12-4282-9b06-6f7563f392d7" LastKnownName="string" />
+            </type_NamedElement>
+          </property>
+          <property Id="fab37308-a216-4747-8aea-c1aa1cca7722" name="good" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d23575e9-02d4-42e6-8252-3537b60d4855" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0c63ddd2-16ae-4207-b356-f3c708c81f28" LastKnownName="bool" />
+            </type_NamedElement>
+          </property>
+          <property Id="4b75d07e-5fcf-449b-8990-da60401e1905" name="bundleName" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="24eb7e58-87e4-44f6-96c3-37f48d98866b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="971c61d8-6b12-4282-9b06-6f7563f392d7" LastKnownName="string" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
@@ -186,6 +238,26 @@
     <packageHasNamedElement>
       <referencedType Id="e0fb68d6-59b8-40b6-9e07-28ef97c01c6d" name="ShowModel" isAbstract="false" isLeaf="false" cachedFullName="FlexibleUI::ShowModel">
         <elementDefinition Id="57f84237-6f1e-4171-81fb-f67e465c5ec3" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="2b8fb303-09d1-400a-8080-60f80dfc11e0" name="int" isAbstract="false" isLeaf="false" cachedFullName="int">
+        <elementDefinition Id="a1838bff-7e4e-4375-9d54-15f240893452" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="a935020d-077a-490a-ba5b-e9076906a6b3" name="UnityAction&lt;GameObject&gt;" isAbstract="false" isLeaf="false" cachedFullName="UnityAction&lt;GameObject&gt;">
+        <elementDefinition Id="1527b0c3-a1d3-4b54-b1d1-3e068f5ecd30" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="0c63ddd2-16ae-4207-b356-f3c708c81f28" name="bool" isAbstract="false" isLeaf="false" cachedFullName="bool">
+        <elementDefinition Id="55e37714-2b45-4578-a07d-fa0c9957edab" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="28dd3284-58d8-4ee7-a4d1-741f04896032" name="GameObject" isAbstract="false" isLeaf="false" cachedFullName="GameObject">
+        <elementDefinition Id="062804fa-867d-45db-9a16-a70ff135b98e" />
       </referencedType>
     </packageHasNamedElement>
   </packagedElements>

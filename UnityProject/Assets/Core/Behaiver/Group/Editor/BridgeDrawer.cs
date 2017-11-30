@@ -38,7 +38,7 @@ namespace BridgeUIEditor
                 inNodeName = "[Any]";
             }
 
-            ShowModel show = (ShowModel)showModelProp.intValue;
+            ShowMode show = (ShowMode)showModelProp.intValue;
             showKey = Utility.ShowModelToString(show);
 
             var rect_L = new Rect(position.x, position.y, position.width * 0.3f, position.height);

@@ -58,8 +58,8 @@ namespace NodeGraph.DataModel.Version2 {
 		[SerializeField] private string m_toNodeConnectionPoiontId;
 		[SerializeField] private string m_label;
 
-        public ShowModel _show;
-        public ShowModel Show { get { return _show; } }
+        public ShowMode _show;
+        public ShowMode Show { get { return _show; } }
 
         private ConnectionData() {
 			m_id = Guid.NewGuid().ToString();

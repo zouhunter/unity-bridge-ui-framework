@@ -11,6 +11,9 @@
     <comment Id="e2952e97-0803-435e-a197-a778957a4b35">
       <elementDefinition Id="507382a9-9fe0-44c5-b1ca-7f3d92cc51e3" />
       <body>定义一组界面开关的关联属性</body>
+      <annotatedElements>
+        <enumerationMoniker Id="0552ae24-2bfc-4a6c-932c-5eb5f4aaed11" LastKnownName="ShowModel" />
+      </annotatedElements>
     </comment>
   </ownedCommentsInternal>
   <appliedStereotypesInternal>
@@ -129,6 +132,17 @@
             <elementDefinition Id="a1fba4d4-611d-44c4-80c9-71006b0d2c1d" />
           </association>
         </targetEnds>
+        <ownedLiterals>
+          <enumerationLiteral Id="cd94b97e-8b19-42d6-9333-556eecd9e28a" name="Base">
+            <elementDefinition Id="1c4b4cda-6e06-4dd0-9c20-4197beb3ac49" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="27686685-0761-4942-8fb5-b63e99ffd5c7" name="Warning">
+            <elementDefinition Id="afb6627f-98b7-4503-8ed0-e83a95ef3622" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="e24619f2-5455-4e87-83c5-bf1ddb4c236f" name="Tip">
+            <elementDefinition Id="4bb96c04-8c9f-424c-9224-ef79b9e8104d" />
+          </enumerationLiteral>
+        </ownedLiterals>
       </enumeration>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
@@ -152,6 +166,14 @@
             <elementDefinition Id="8f93cfa9-2d78-4878-bf70-7d5c6abf7d82" />
           </association>
         </targetEnds>
+        <ownedLiterals>
+          <enumerationLiteral Id="1c9f42b0-9a18-415b-a741-86afdb96e0d7" name="HideGameObject">
+            <elementDefinition Id="fc94e377-af8a-4802-a0f3-de2addabeedb" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="1da6b06c-4239-4cc3-a281-b4a2f5386238" name="AlaplhGameObject">
+            <elementDefinition Id="9fc544b8-f639-43c0-a67c-d41205caa2da" />
+          </enumerationLiteral>
+        </ownedLiterals>
       </enumeration>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
@@ -175,11 +197,25 @@
             <elementDefinition Id="f3c1229e-000e-4178-8182-86963093cbaf" />
           </association>
         </targetEnds>
+        <ownedLiterals>
+          <enumerationLiteral Id="f9736f4d-26e4-4e82-a21e-8cd803425283" name="DestroyNoraml">
+            <elementDefinition Id="4c0c8067-9480-4edd-b568-c020e34b4447" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="642db9bb-2c55-4a0c-a3d2-67566bcf742b" name="DestroyImmediate">
+            <elementDefinition Id="aa79ea5a-4112-4ef7-a5fa-6c2441e8794e" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="2b166add-1b83-43cf-957f-49e67e25fe3a" name="DestroyDely">
+            <elementDefinition Id="5015285e-c809-4e19-a6f4-7337c5eac70f" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="a0275880-b4c3-40ed-9b7f-0614c4d487f7" name="HideGameObject">
+            <elementDefinition Id="b58a8ab3-c1aa-41f0-b7b1-d83dbed34378" />
+          </enumerationLiteral>
+        </ownedLiterals>
       </enumeration>
     </logicalClassDesignerModelHasTypes>
     <packageHasNamedElement>
-      <referencedType Id="fcb510ec-5b60-495d-8d7d-0f1cd4718fd9" name="FlexibleUI::UIFormType" isAbstract="false" isLeaf="false" cachedFullName="FlexibleUI::UIFormType">
-        <elementDefinition Id="2f640b55-7e57-425c-a15f-073c3d15ddc9" />
+      <referencedType Id="fcb510ec-5b60-495d-8d7d-0f1cd4718fd9" name="UIFormType" isAbstract="false" isLeaf="false" cachedFullName="FlexibleUI::UIFormType">
+        <elementDefinition Id="4ecd73cb-b6af-4904-8d41-c09390fdb3df" />
       </referencedType>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -204,7 +240,7 @@
           <property Id="38eea760-ff1d-48b3-b655-ae86974e90e4" name="form" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <elementDefinition Id="81c19a8d-205b-4844-bf7d-65c80e10e7d1" />
             <type_NamedElement>
-              <referencedTypeMoniker Id="fcb510ec-5b60-495d-8d7d-0f1cd4718fd9" LastKnownName="FlexibleUI::UIFormType" />
+              <referencedTypeMoniker Id="fcb510ec-5b60-495d-8d7d-0f1cd4718fd9" LastKnownName="UIFormType" />
             </type_NamedElement>
           </property>
           <property Id="941ede09-ff4d-47d9-8174-9c40ce5e57df" name="layer" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
@@ -225,43 +261,102 @@
               <referencedTypeMoniker Id="857613bc-c3f8-486e-bae0-57aa6138a5b8" LastKnownName="int" />
             </type_NamedElement>
           </property>
-          <property Id="e31b6226-332a-47a9-beb8-aa2a36d600ba" name="animType" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+          <property Id="e31b6226-332a-47a9-beb8-aa2a36d600ba" name="enterAnim" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <elementDefinition Id="bd87241e-b3fa-4e9d-858f-3856b02bb8ba" />
             <type_NamedElement>
-              <referencedTypeMoniker Id="5e6e474b-722d-4ebc-a609-f29958a9425c" LastKnownName="ShowModel" />
+              <referencedTypeMoniker Id="abd0dddc-1f66-486a-b244-b52949bc51bc" LastKnownName="ShowModel" />
+            </type_NamedElement>
+          </property>
+          <property Id="68c92425-0087-435b-8129-bc328737d372" name="quitAnim" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="34e19f8a-35bd-412f-979c-6a5e1a5a1868" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="29c2f8a1-53ca-4edd-b847-3bce21730a45" LastKnownName="ShowModel" />
             </type_NamedElement>
           </property>
         </ownedAttributesInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
-    <packageHasNamedElement>
-      <referencedType Id="5e6e474b-722d-4ebc-a609-f29958a9425c" name="ShowModel" isAbstract="false" isLeaf="false" cachedFullName="FlexibleUI::ShowModel">
-        <elementDefinition Id="57f84237-6f1e-4171-81fb-f67e465c5ec3" />
-      </referencedType>
-    </packageHasNamedElement>
     <logicalClassDesignerModelHasTypes>
       <enumeration Id="3d1d1b21-574f-46fe-ba23-8465fc2d7d68" name="UIAnimType" isAbstract="false" isLeaf="false">
         <elementDefinition Id="1eb63d24-6d7c-483f-ab7f-2987c30c8f9a" />
         <targetEnds>
-          <association Id="165a3f75-a0f8-4ce0-901b-d8bdaa1834f9" isDerived="false" sourceEndRoleName="UIAnimType1" targetEndRoleName="UIType" isLeaf="false" isAbstract="false">
+          <association Id="5f45805f-4feb-43eb-86a6-0e099b6bf19c" isDerived="false" sourceEndRoleName="UIAnimType" targetEndRoleName="UIType" isLeaf="false" isAbstract="false">
             <classMoniker Id="b12cddc5-c747-4448-8d96-4230027c29c1" LastKnownName="UIType" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
-                <memberEnd Id="3cb773bd-396e-4bd7-9548-61db040f50c3" name="UIAnimType1" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="95d037d4-26cb-4ea4-8ca4-ad3adeeb08df" />
+                <memberEnd Id="94073226-8a8c-4cba-a4a9-f180bc4badba" name="UIAnimType" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="c399f1ec-43bd-46aa-99ed-07464fb9e6e4" />
                 </memberEnd>
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
-                <memberEnd Id="5b76903f-082a-4e41-b9c4-b4dbc5ae0dea" name="UIType" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="e8d7e04e-e721-4e51-9b3e-0c78c01a2971" />
+                <memberEnd Id="5d874498-1f6a-422d-b910-f9180c8b2981" name="UIType" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <elementDefinition Id="b9b8453c-7867-4c8e-b463-d823488c59b4" />
                 </memberEnd>
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
-            <elementDefinition Id="7aeecede-aa76-4b02-bfe6-8279cdbd49e3" />
+            <elementDefinition Id="4ed87b04-f240-42b5-bb05-f06804bca7d6" />
           </association>
         </targetEnds>
+        <ownedLiterals>
+          <enumerationLiteral Id="e5b6ad08-2c1c-4277-94e7-5d0717817ed9" name="ScalePanel">
+            <elementDefinition Id="20b631e6-9fc4-4749-98e7-bed79a36d657" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="34c9da2b-dda6-41e1-a80f-8722a9383090" name="RotatePanel">
+            <elementDefinition Id="bcec52a4-5722-42d2-8e9f-26319322c4df" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="b249b488-fc50-4ab0-a63f-2b8d29814b01" name="PopPanel">
+            <elementDefinition Id="75147301-6154-4b01-9f1f-a24e2cb44daf" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="82f85635-bd0d-4bc6-a674-e80c1997c04d" name="NoAnim">
+            <elementDefinition Id="1998298b-f6ab-4eae-9d07-e08a1e93a546" />
+          </enumerationLiteral>
+        </ownedLiterals>
       </enumeration>
     </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <enumeration Id="b446c923-77d4-4e19-901a-0afbd8249fff" name="UIFormType" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="4ecd73cb-b6af-4904-8d41-c09390fdb3df" />
+        <targetEnds>
+          <association Id="4e208791-7073-4e2e-8400-862d236f1506" isDerived="false" sourceEndRoleName="UIFormType" targetEndRoleName="UIType" isLeaf="false" isAbstract="false">
+            <classMoniker Id="b12cddc5-c747-4448-8d96-4230027c29c1" LastKnownName="UIType" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="0e835664-c431-4705-927e-53e4f462b454" name="UIFormType" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="24b8b441-af3e-4bdd-8593-89f1ba75fa33" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="06092871-f8cb-4817-8dd7-8845f56f6f6e" name="UIType" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                  <elementDefinition Id="a326146c-9184-4b01-9078-777a25910588" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="67e8b0e5-a383-4126-afd0-842e10b96fbb" />
+          </association>
+        </targetEnds>
+        <ownedLiterals>
+          <enumerationLiteral Id="c3324d1e-6bd8-49ff-a55f-7b15c59185c5" name="Fixed">
+            <elementDefinition Id="81deb1ea-3f90-4316-bcc8-ac7eb4a7f79c" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="b5328191-11bf-45f6-b158-ae284786d540" name="HeadBar">
+            <elementDefinition Id="7bea2703-2780-4e44-a234-f3bc7627604a" />
+          </enumerationLiteral>
+          <enumerationLiteral Id="aa196aed-3c31-4b5d-a9ba-48527eb46c26" name="DragAble">
+            <elementDefinition Id="d03e3d98-db52-4959-8b06-a4eaa5227490" />
+          </enumerationLiteral>
+        </ownedLiterals>
+      </enumeration>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="abd0dddc-1f66-486a-b244-b52949bc51bc" name="ShowModel" isAbstract="false" isLeaf="false" cachedFullName="FlexibleUI::ShowModel">
+        <elementDefinition Id="e11c65d2-44c5-4df6-b36a-7d4cbd324211" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="29c2f8a1-53ca-4edd-b847-3bce21730a45" name="ShowModel" isAbstract="false" isLeaf="false" cachedFullName="FlexibleUI::ShowModel">
+        <elementDefinition Id="57f84237-6f1e-4171-81fb-f67e465c5ec3" />
+      </referencedType>
+    </packageHasNamedElement>
   </packagedElements>
   <package Id="d4519a63-db0c-4955-a3c6-20d2f10267d2" name="FlexibleUI">
     <elementDefinition Id="35451fd2-6ce6-4a92-bda7-3c595c63d694" />

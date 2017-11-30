@@ -117,7 +117,7 @@ namespace BridgeUI
         /// <param name="info"></param>
         private void TryMakeCover(IPanelBase panel, BridgeInfo info)
         {
-            if ((info.showModel & ShowModel.Cover) == ShowModel.Cover)
+            if ((info.showModel & ShowMode.Cover) == ShowMode.Cover)
             {
                 panel.Cover();
             }
@@ -129,7 +129,7 @@ namespace BridgeUI
         /// <param name="bridge"></param>
         private void TryHideGroup(IPanelBase panel, BridgeInfo bridge)
         {
-            if ((bridge.showModel & ShowModel.Single) == ShowModel.Single)
+            if ((bridge.showModel & ShowMode.Single) == ShowMode.Single)
             {
                 var parent = createdPanels.Find(x => x.Name == bridge.inNode);
                 if (parent != null)
@@ -154,7 +154,7 @@ namespace BridgeUI
         /// <param name="bridge"></param>
         private void TryHideMutexPanels(IPanelBase childPanel, BridgeInfo bridge)
         {
-            if ((bridge.showModel & ShowModel.Mutex) == ShowModel.Mutex)
+            if ((bridge.showModel & ShowMode.Mutex) == ShowMode.Mutex)
             {
                 var mayBridges = bridges.FindAll(x => x.inNode == bridge.inNode);
                 foreach (var bg in mayBridges)
@@ -179,7 +179,7 @@ namespace BridgeUI
         private void TryAutoOpen(Transform content, IPanelBase parentPanel = null)
         {
             var panelName = parentPanel == null ? "" : parentPanel.Name;
-            var autoBridges = bridges.FindAll(x => x.inNode == panelName && (x.showModel & ShowModel.Auto) == ShowModel.Auto);
+            var autoBridges = bridges.FindAll(x => x.inNode == panelName && (x.showModel & ShowMode.Auto) == ShowMode.Auto);
             if (autoBridges != null)
             {
                 foreach (var autoBridge in autoBridges)
@@ -244,7 +244,7 @@ namespace BridgeUI
         /// <param name="bridge"></param>
         private void TryHideParent(IPanelBase panel, BridgeInfo bridge)
         {
-            if ((bridge.showModel & ShowModel.HideBase) == ShowModel.HideBase)
+            if ((bridge.showModel & ShowMode.HideBase) == ShowMode.HideBase)
             {
                 var parent = createdPanels.Find(x => x.Name == bridge.inNode);
                 if (parent != null)

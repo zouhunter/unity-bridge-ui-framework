@@ -17,14 +17,36 @@
     <comment
       Id="507382a9-9fe0-44c5-b1ca-7f3d92cc51e3">
       <body>定义一组界面开关的关联属性</body>
+      <annotatedElements>
+        <enumerationMoniker
+          Id="57f84237-6f1e-4171-81fb-f67e465c5ec3"
+          LastKnownName="ShowModel"
+          LastKnownLocation="FlexibleUI.uml" />
+      </annotatedElements>
     </comment>
     <comment
       Id="8ad40818-6abc-437b-85c3-a3044a9b09ad">
-      <body>面板的资源信息及打开后执行的一系列规则</body>
+      <body>序列化并保存相关资源信息</body>
+      <annotatedElements>
+        <classMoniker
+          Id="d0aef2a9-e9ef-49fc-bb11-d3131934787e"
+          LastKnownName="BundleUIInfo"
+          LastKnownLocation="FlexibleUI.uml" />
+        <classMoniker
+          Id="2b7f3c1b-7acc-48d6-a902-2b7c78d5dfd4"
+          LastKnownName="PrefabUIInfo"
+          LastKnownLocation="FlexibleUI.uml" />
+      </annotatedElements>
     </comment>
     <comment
       Id="42e8e381-4b1e-41d5-8a91-0e10a4ef023c">
       <body>面板的关联信息及打开的规则</body>
+      <annotatedElements>
+        <classMoniker
+          Id="96f03e0c-54b1-44da-99a7-a7f54a9d13c1"
+          LastKnownName="BridgeInfo"
+          LastKnownLocation="FlexibleUI.uml" />
+      </annotatedElements>
     </comment>
     <comment
       Id="03f3a8dd-1291-4871-aa83-42831accdbeb">
@@ -43,6 +65,66 @@
         <interfaceMoniker
           Id="c15d2ff5-61e6-41f8-85a8-f5bafeb4797e"
           LastKnownName="IUIFacade"
+          LastKnownLocation="FlexibleUI.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="01e4eeb3-68a0-4903-a7be-a9558530a3a6">
+      <body>其中good和guid用于编辑状态下关联资源,同时防止打包时自动引用</body>
+      <annotatedElements>
+        <classMoniker
+          Id="d0aef2a9-e9ef-49fc-bb11-d3131934787e"
+          LastKnownName="BundleUIInfo"
+          LastKnownLocation="FlexibleUI.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="e5f65b9a-fdf8-4142-ae45-4e8bd89a21de">
+      <body>Bridge缓存池</body>
+      <annotatedElements>
+        <classMoniker
+          Id="2d382f57-7f23-474b-a7a7-12e741e82aaa"
+          LastKnownName="BridgePool"
+          LastKnownLocation="FlexibleUI.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="c8dd4387-49d1-47e3-a00b-ff328585bba6">
+      <body>Handle缓存池</body>
+      <annotatedElements>
+        <classMoniker
+          Id="c8e25095-e45a-4727-893c-b8df0ed0cacc"
+          LastKnownName="UIHandlePool"
+          LastKnownLocation="FlexibleUI.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="d022e89e-f1da-4106-a6f4-7f61b6506b68">
+      <body>用户可直接访问</body>
+      <annotatedElements>
+        <interfaceMoniker
+          Id="c94ceee5-0898-4569-87ca-c2ec259c7292"
+          LastKnownName="IUIHanle"
+          LastKnownLocation="FlexibleUI.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="f4139e00-2bef-4fc9-9f97-8cf09498b09b">
+      <body>通信的核心类,也是框架命名的由来</body>
+      <annotatedElements>
+        <classMoniker
+          Id="359244b4-9b90-478e-9ec3-81d59344433a"
+          LastKnownName="Bridge"
+          LastKnownLocation="FlexibleUI.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="9637f572-7967-49cb-b40b-e95e482bb4be">
+      <body>一个场景中可能有多个PanelGroup</body>
+      <annotatedElements>
+        <classMoniker
+          Id="dab57309-96c2-4fd9-b074-f8e70913d2f1"
+          LastKnownName="PanelGroup"
           LastKnownLocation="FlexibleUI.uml" />
       </annotatedElements>
     </comment>
@@ -576,6 +658,84 @@
               LastKnownLocation="FlexibleUI.uml" />
           </interfaceRealization>
         </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="d0e9e083-9ba0-437c-a675-5edc3f54b85e"
+            name="GetPanelsByName"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="9a018c19-bf27-4c40-a031-32b93a3e0969"
+                  name="panelName"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="2dac8f82-a4db-4f43-83ef-d4444b8dbc4b"
+                      LastKnownName="string"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="1edc4844-7014-4008-ac22-746eff441532"
+                  direction="Return"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="0f3e762d-0a9f-4e83-9ee7-87937e46d1ae"
+                      LastKnownName="List&lt;IPanelBaseInternal&gt;"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="e5c2484d-e431-4e37-b563-805dd3733ba6"
+            name="InstencePanel"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="70584326-1e40-4bd7-a3ad-22d201da6bba"
+                  direction="Return"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="359244b4-9b90-478e-9ec3-81d59344433a"
+                      LastKnownName="Bridge"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="bfc817e4-8cb2-400c-af09-258cdc3b62a9"
+                  name="parentPanel"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="3ae3ed42-cfba-4217-a661-ca1e10893f30"
+                      LastKnownName="IPanelBaseInternal"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -609,13 +769,129 @@
               LastKnownLocation="FlexibleUI.uml" />
           </interfaceRealization>
           <interfaceRealization
-            Id="fb62d441-ec4c-46ce-b99f-4f87db5e5259">
+            Id="6d8d9622-bcbc-4dc6-a12d-f9bfcb8d6f96">
             <interfaceMoniker
-              Id="8e021dab-c094-4d30-b161-2131990809e3"
-              LastKnownName="IPanelBase"
+              Id="0e0fd06e-abe6-4f89-8af3-0fa930294e10"
+              LastKnownName="IPanelInternal"
               LastKnownLocation="FlexibleUI.uml" />
           </interfaceRealization>
+          <dependency
+            Id="9ec67059-3082-404b-bc30-1467709b0c1e">
+            <classMoniker
+              Id="dfc4117a-5d20-444e-8594-4fb55ad78e83"
+              LastKnownName="AnimPlayer"
+              LastKnownLocation="FlexibleUI.uml" />
+          </dependency>
+          <dependency
+            Id="224f672c-4068-49a4-9ef3-1b108f697515">
+            <classMoniker
+              Id="705a5f55-67d9-4267-ac36-291f082d719f"
+              LastKnownName="DragPanel"
+              LastKnownLocation="FlexibleUI.uml" />
+          </dependency>
         </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="0b6ff253-921a-496b-997a-528fc0deddfb"
+            name="Close"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="6c0cce1e-5cb4-46ca-98d5-67b4cb91ea1e"
+            name="Hide"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="91fce819-9c3b-4b89-bf35-faee2eae80c5"
+            name="UnHide"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="3a8dca5f-bee6-42e6-8f21-3c8b06322363"
+            name="Cover"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="8a9b7531-7797-449c-8c42-1332a06cb98e"
+            name="HandleData"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="ca4ae66f-4d3c-49d8-a42c-a81beb435997"
+                  name="bridge"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="359244b4-9b90-478e-9ec3-81d59344433a"
+                      LastKnownName="Bridge"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="1bd70ca5-5791-45b8-9f5e-707e3a40478d"
+            name="RecordChild"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="4c57aba3-c392-44ff-aff9-4d33680899a4"
+                  name="childPanel"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="c580f8b4-ad8b-4797-a1ae-325ef93f4ffe"
+            name="SetParent"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="1d4a69f9-3cf9-4e52-8622-59677c4e22bb"
+                  name="parent"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="d4a2998b-5ae3-4c54-99e8-7a185c960093"
+                      LastKnownName="Transform"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -997,26 +1273,6 @@
               LastKnownLocation="FlexibleUI.uml" />
           </interfaceRealization>
         </suppliersInternal>
-        <ownedAttributesInternal>
-          <property
-            Id="6bddbb87-e12e-4d9f-af8f-c9438d7d393a"
-            name="groups"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="FlexibleUI.uml" />
-            </type_NamedElement>
-          </property>
-        </ownedAttributesInternal>
         <ownedOperationsInternal>
           <operation
             Id="07ac6acd-3d1c-4757-9b20-5e011fead78b"
@@ -1091,6 +1347,95 @@
                   </type_NamedElement>
                 </parameter>
               </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="cfffbc88-b3fb-4404-9cda-da84d009428b"
+                  name="data"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="c5594129-7ef8-4f21-ae33-3d7fe61632d5"
+                      LastKnownName="object"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="003e14dc-9469-4b01-a8aa-f68c0776d316"
+            name="Close"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="ba182599-92ba-47b9-adf8-08124cdb3f73"
+                  name="panelName"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="b11e5624-ba9f-4d9e-8966-884c28323a09"
+            name="Hide"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="bac69b60-c8e1-4ad4-a012-d31e950bbca1"
+                  name="PanelName"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="8a889f89-7da2-4582-bdfb-1025cbb7bda6"
+            name="bool IsPanelOpen"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="ad6a3e46-553d-459a-9a81-b5b02f6ae8c5"
+                  name="string panelName"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="2dac8f82-a4db-4f43-83ef-d4444b8dbc4b"
+                      LastKnownName="string"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
             </ownedParameters>
           </operation>
         </ownedOperationsInternal>
@@ -1101,14 +1446,158 @@
         Id="2108edd7-c575-43b3-8aa5-b329380dc748"
         name="IPanelGroup"
         isAbstract="false"
-        isLeaf="false" />
+        isLeaf="false">
+        <ownedAttributes>
+          <property
+            Id="62387b9c-8d23-4be0-922b-c5ed9654a013"
+            name="Trans"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="d4a2998b-5ae3-4c54-99e8-7a185c960093"
+                LastKnownName="Transform"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="49d8cb67-1100-48be-82e7-e6e1237fa0c4"
+            name="Nodes"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="6088d882-e120-4ac3-82dd-729114f00ffa"
+                LastKnownName="List&lt;UIInfoBase&gt;"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributes>
+        <ownedOperations>
+          <operation
+            Id="24f1e5e5-13d7-4e1f-9102-66641bab9bae"
+            name="GetPanelsByName"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="b69c7821-5b44-472a-9865-cea0ac8d8a78"
+                  name="panelName"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="2dac8f82-a4db-4f43-83ef-d4444b8dbc4b"
+                      LastKnownName="string"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="22c227e4-18e2-419c-86b2-7c82fac40e33"
+                  direction="Return"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="0f3e762d-0a9f-4e83-9ee7-87937e46d1ae"
+                      LastKnownName="List&lt;IPanelBaseInternal&gt;"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="40bcf80b-c2c3-4923-af20-2a1486baa97f"
+            name="InstencePanel"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="4f386344-e46c-4c15-b064-9b87b7a08656"
+                  direction="Return"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="359244b4-9b90-478e-9ec3-81d59344433a"
+                      LastKnownName="Bridge"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="90a6642c-f79d-41b2-8f70-45bf4776ddd7"
+                  name="parentPanel"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="3ae3ed42-cfba-4217-a661-ca1e10893f30"
+                      LastKnownName="IPanelBaseInternal"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <Interface
         Id="8e021dab-c094-4d30-b161-2131990809e3"
         name="IPanelBase"
         isAbstract="false"
-        isLeaf="false" />
+        isLeaf="false">
+        <ownedOperations>
+          <operation
+            Id="05896fe6-4e33-45e4-b9ca-5c4abf6ba423"
+            name="Close"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="9e2dfba5-3381-425f-a9b3-485765cddad9"
+            name="Hide"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="a86b41dc-81b8-457a-918a-543695dee5f0"
+            name="UnHide"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperations>
+      </Interface>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <Interface
@@ -1152,83 +1641,6 @@
             </propertyInstances>
           </stereotypeInstance>
         </appliedStereotypesInternal>
-        <ownedAttributes>
-          <property
-            Id="c2f36529-f6d0-4ec1-8aff-3243fc122f81"
-            name="groups"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <appliedStereotypesInternal>
-              <stereotypeInstance
-                Id="74a02a14-3b3c-49c4-b6de-1e62fc116a8e"
-                name="property"
-                profile="CSharpProfile">
-                <propertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="b06ed134-9286-4735-a512-757afbf6a046">
-                    <propertyInstance
-                      Id="ada2cf70-d539-4790-8256-712205f0d584"
-                      name="ClrAttributes" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="5561a2c7-0053-4201-86ae-aac3a2535fc0">
-                    <propertyInstance
-                      Id="c43c1d44-87df-4953-be1c-0f589498863d"
-                      name="Get"
-                      value="none" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="e1c1ed58-b6c4-4b43-a48a-65ec25a6400a">
-                    <propertyInstance
-                      Id="757583d6-0d0e-4b55-84d6-4dd468dfe20f"
-                      name="HasBody"
-                      value="false" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="47299524-dc84-458f-8057-72a507b3de08">
-                    <propertyInstance
-                      Id="db000b74-c1aa-4ce5-91e9-dfc9d3209e2a"
-                      name="IsUnsafe"
-                      value="false" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="72e9e454-193e-486b-99a8-82917312f638">
-                    <propertyInstance
-                      Id="f105a5b7-17ea-433e-96e8-f96ce0def80d"
-                      name="Inheritance"
-                      value="none" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="a09611a0-d99d-41a8-8a60-96dbdad7492d">
-                    <propertyInstance
-                      Id="6fda2d4e-ea71-46bd-b77a-f5fc24aee92c"
-                      name="PackageVisibility"
-                      value="internal" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="e4bcc7e5-9cac-403b-8753-41f7b628b69e">
-                    <propertyInstance
-                      Id="501ff689-cf79-46fa-ba38-01b231a5227d"
-                      name="Set"
-                      value="none" />
-                  </stereotypeInstanceHasPropertyInstances>
-                </propertyInstances>
-              </stereotypeInstance>
-            </appliedStereotypesInternal>
-            <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
-                LastKnownName="String"
-                LastKnownLocation="FlexibleUI.uml" />
-            </type_NamedElement>
-          </property>
-        </ownedAttributes>
         <ownedOperations>
           <operation
             Id="67e68ad7-57ec-4466-a064-04dbd6d65b44"
@@ -1291,7 +1703,7 @@
             <ownedParameters>
               <operationHasOwnedParameters>
                 <parameter
-                  Id="6d43cda4-e10a-4d12-b94b-9a08418295be"
+                  Id="c1169a37-01cf-4659-85e3-dccaa03d324a"
                   name="panelName"
                   direction="In"
                   isUnique="false">
@@ -1299,6 +1711,95 @@
                     <primitiveTypeMoniker
                       Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
                       LastKnownName="String"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="68aa78ef-3ae6-43b6-8f3b-f407f6878a32"
+                  name="data"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="c5594129-7ef8-4f21-ae33-3d7fe61632d5"
+                      LastKnownName="object"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="d4b7efb6-f686-4614-926b-3a097332dbed"
+            name="Close"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="01877d7d-e445-4be6-bcfd-81a39b6d8f7d"
+                  name="panelName"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="6e68593c-ea3d-4d7a-a178-103e97e8ce38"
+            name="Hide"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="213c655e-1ee5-4df7-8c00-bf915e5e91f2"
+                  name="PanelName"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="85fde87a-511a-4791-a98b-2c0a0a2b446e"
+            name="bool IsPanelOpen"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="2a4eadae-f30b-4a66-8297-f3d029b163be"
+                  name="panelName"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="2dac8f82-a4db-4f43-83ef-d4444b8dbc4b"
+                      LastKnownName="string"
                       LastKnownLocation="FlexibleUI.uml" />
                   </type_NamedElement>
                 </parameter>
@@ -1322,7 +1823,24 @@
             isStatic="false"
             isAbstract="true"
             concurrency="Sequential"
-            isQuery="false" />
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="93b50c0e-1d6b-4204-b847-9c4c5fa9ffb9"
+                  name="info"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="a95c467b-8d48-47a7-aa4a-d3b0826af1af"
+                      LastKnownName="UIInfoBase"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperations>
       </Interface>
     </packageHasNamedElement>
@@ -1369,13 +1887,66 @@
                 LastKnownLocation="FlexibleUI.uml" />
             </type_NamedElement>
           </property>
+          <property
+            Id="16079c02-34bc-42fb-85e6-b28eb8befd4c"
+            name="instanceID"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="a1838bff-7e4e-4375-9d54-15f240893452"
+                LastKnownName="int"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="20abd255-bf84-464c-ae97-4f980d5b79a7"
+            name="IDName"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="2dac8f82-a4db-4f43-83ef-d4444b8dbc4b"
+                LastKnownName="string"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="aa371d9e-f912-4fc7-8380-dc1f366faa1f"
+            name="OnCreate"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="1527b0c3-a1d3-4b54-b1d1-3e068f5ecd30"
+                LastKnownName="UnityAction&lt;GameObject&gt;"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
         </ownedAttributes>
       </Interface>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
         Id="99b4d346-8909-46e6-bec6-b9cbeda18939"
-        name="PanelLoader"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
@@ -1396,7 +1967,24 @@
             isStatic="false"
             isAbstract="false"
             concurrency="Sequential"
-            isQuery="false" />
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="267f83fe-31ed-46a7-ae40-40da298acb3d"
+                  name="info"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="a95c467b-8d48-47a7-aa4a-d3b0826af1af"
+                      LastKnownName="UIInfoBase"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
@@ -1447,6 +2035,17 @@
             </relationshipOwnedElementsInternal>
           </association>
         </targetEnds>
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="1c4b4cda-6e06-4dd0-9c20-4197beb3ac49"
+            name="Base" />
+          <enumerationLiteral
+            Id="afb6627f-98b7-4503-8ed0-e83a95ef3622"
+            name="Warning" />
+          <enumerationLiteral
+            Id="4bb96c04-8c9f-424c-9224-ef79b9e8104d"
+            name="Tip" />
+        </ownedLiterals>
       </enumeration>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1496,6 +2095,14 @@
             </relationshipOwnedElementsInternal>
           </association>
         </targetEnds>
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="fc94e377-af8a-4802-a0f3-de2addabeedb"
+            name="HideGameObject" />
+          <enumerationLiteral
+            Id="9fc544b8-f639-43c0-a67c-d41205caa2da"
+            name="AlaplhGameObject" />
+        </ownedLiterals>
       </enumeration>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1545,6 +2152,20 @@
             </relationshipOwnedElementsInternal>
           </association>
         </targetEnds>
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="4c0c8067-9480-4edd-b568-c020e34b4447"
+            name="DestroyNoraml" />
+          <enumerationLiteral
+            Id="aa79ea5a-4112-4ef7-a5fa-6c2441e8794e"
+            name="DestroyImmediate" />
+          <enumerationLiteral
+            Id="5015285e-c809-4e19-a6f4-7337c5eac70f"
+            name="DestroyDely" />
+          <enumerationLiteral
+            Id="b58a8ab3-c1aa-41f0-b7b1-d83dbed34378"
+            name="HideGameObject" />
+        </ownedLiterals>
       </enumeration>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1684,26 +2305,6 @@
               LastKnownLocation="FlexibleUI.uml" />
           </interfaceRealization>
         </suppliersInternal>
-        <ownedAttributesInternal>
-          <property
-            Id="82cc91c1-363f-4347-92a0-680e93763294"
-            name="panelName"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <type_NamedElement>
-              <undefinedTypeMoniker
-                Id="2dac8f82-a4db-4f43-83ef-d4444b8dbc4b"
-                LastKnownName="string"
-                LastKnownLocation="FlexibleUI.uml" />
-            </type_NamedElement>
-          </property>
-        </ownedAttributesInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1723,6 +2324,26 @@
               LastKnownLocation="FlexibleUI.uml" />
           </generalization>
         </generalsInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="936dfc70-9727-43c3-b835-da3b1f1b73c7"
+            name="prefab"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="062804fa-867d-45db-9a16-a70ff135b98e"
+                LastKnownName="GameObject"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1742,12 +2363,63 @@
               LastKnownLocation="FlexibleUI.uml" />
           </generalization>
         </generalsInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="de2949a8-8a6c-4708-b9b9-49df699e50c4"
+            name="guid"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="2dac8f82-a4db-4f43-83ef-d4444b8dbc4b"
+                LastKnownName="string"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="d23575e9-02d4-42e6-8252-3537b60d4855"
+            name="good"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="55e37714-2b45-4578-a07d-fa0c9957edab"
+                LastKnownName="bool"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="24eb7e58-87e4-44f6-96c3-37f48d98866b"
+            name="bundleName"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="2dac8f82-a4db-4f43-83ef-d4444b8dbc4b"
+                LastKnownName="string"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
       </class>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <undefinedType
-        Id="2f640b55-7e57-425c-a15f-073c3d15ddc9"
-        name="FlexibleUI::UIFormType" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
@@ -1769,9 +2441,9 @@
             aggregation="None"
             isComposite="false">
             <type_NamedElement>
-              <undefinedTypeMoniker
-                Id="2f640b55-7e57-425c-a15f-073c3d15ddc9"
-                LastKnownName="FlexibleUI::UIFormType"
+              <enumerationMoniker
+                Id="4ecd73cb-b6af-4904-8d41-c09390fdb3df"
+                LastKnownName="UIFormType"
                 LastKnownLocation="FlexibleUI.uml" />
             </type_NamedElement>
           </property>
@@ -1831,7 +2503,25 @@
           </property>
           <property
             Id="bd87241e-b3fa-4e9d-858f-3856b02bb8ba"
-            name="animType"
+            name="enterAnim"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="e11c65d2-44c5-4df6-b36a-7d4cbd324211"
+                LastKnownName="ShowModel"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="34e19f8a-35bd-412f-979c-6a5e1a5a1868"
+            name="quitAnim"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -1894,9 +2584,9 @@
         isLeaf="false">
         <targetEnds>
           <association
-            Id="7aeecede-aa76-4b02-bfe6-8279cdbd49e3"
+            Id="4ed87b04-f240-42b5-bb05-f06804bca7d6"
             isDerived="false"
-            sourceEndRoleName="UIAnimType1"
+            sourceEndRoleName="UIAnimType"
             targetEndRoleName="UIType"
             isLeaf="false"
             isAbstract="false">
@@ -1907,20 +2597,20 @@
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="95d037d4-26cb-4ea4-8ca4-ad3adeeb08df"
-                  name="UIAnimType1"
+                  Id="c399f1ec-43bd-46aa-99ed-07464fb9e6e4"
+                  name="UIAnimType"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
                   isDerived="false"
                   isDerivedUnion="false"
-                  aggregation="Shared"
+                  aggregation="Composite"
                   isComposite="false"
                   isNavigableOwned="false" />
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="e8d7e04e-e721-4e51-9b3e-0c78c01a2971"
+                  Id="b9b8453c-7867-4c8e-b463-d823488c59b4"
                   name="UIType"
                   isLeaf="false"
                   isStatic="false"
@@ -1928,11 +2618,25 @@
                   isDerived="false"
                   isDerivedUnion="false"
                   aggregation="None"
-                  isComposite="false" />
+                  isComposite="true" />
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
           </association>
         </targetEnds>
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="20b631e6-9fc4-4749-98e7-bed79a36d657"
+            name="ScalePanel" />
+          <enumerationLiteral
+            Id="bcec52a4-5722-42d2-8e9f-26319322c4df"
+            name="RotatePanel" />
+          <enumerationLiteral
+            Id="75147301-6154-4b01-9f1f-a24e2cb44daf"
+            name="PopPanel" />
+          <enumerationLiteral
+            Id="1998298b-f6ab-4eae-9d07-e08a1e93a546"
+            name="NoAnim" />
+        </ownedLiterals>
       </enumeration>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -2026,7 +2730,102 @@
         name="UIHandle"
         isAbstract="false"
         isLeaf="false"
-        isActiveClass="false" />
+        isActiveClass="false">
+        <suppliersInternal>
+          <interfaceRealization
+            Id="606d24f8-ea89-4aca-8826-4be130a9644a">
+            <interfaceMoniker
+              Id="e4e3c43e-e116-433f-8705-543dae259b43"
+              LastKnownName="IUIHanelInternal"
+              LastKnownLocation="FlexibleUI.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="75f7bebc-3f24-45c5-aaca-23f6397a16e4"
+            name="Send"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="aba4fc1b-5da7-4beb-810f-aa8a2994e1d5"
+                  name="data"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="c5594129-7ef8-4f21-ae33-3d7fe61632d5"
+                      LastKnownName="object"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="26db17e9-f728-4893-baba-fb573439d6d9"
+            name="+ Reset(UnityAction&lt;UIHandle&gt; onRelease);"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="af13fff1-f4e2-4f30-867b-bb4322379ee9"
+            name="RegistBridge"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="6722c1cd-c28a-4807-9966-6fb92b347340"
+                  name="bridge"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="359244b4-9b90-478e-9ec3-81d59344433a"
+                      LastKnownName="Bridge"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="402c4e40-403d-42ac-8ba7-f98592590c83"
+            name="UnRegistBridge"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="c3392b8f-caf0-4524-9efd-60293bd47096"
+                  name="bridge"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="359244b4-9b90-478e-9ec3-81d59344433a"
+                      LastKnownName="Bridge"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
@@ -2076,7 +2875,1110 @@
             </relationshipOwnedElementsInternal>
           </association>
         </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="6389551e-1c42-4f6f-860f-c5f2228fe79a"
+            name="info"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <classMoniker
+                Id="96f03e0c-54b1-44da-99a7-a7f54a9d13c1"
+                LastKnownName="BridgeInfo"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="6b51ef6b-aa64-44b9-8c14-2701eea69c70"
+            name="onGet"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="57d4a5ac-1837-4d97-bbf5-7f4adee8928d"
+                LastKnownName="UnityAction&lt;Queue&lt;object&gt;&gt;"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="fe4cfe8f-5097-4dd4-836b-d74c5d98ca13"
+            name="Release"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="70cb0abd-f2b4-424b-9f00-24f08af5d646"
+            name="CallBack"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="c50f5811-8c6c-4d2b-909b-91a654d16aae"
+                  name="panel"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="3ae3ed42-cfba-4217-a661-ca1e10893f30"
+                      LastKnownName="IPanelBaseInternal"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="74e10456-2c58-4dcc-877e-6c4a4eca6309"
+                  name="data"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="c5594129-7ef8-4f21-ae33-3d7fe61632d5"
+                      LastKnownName="object"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="53c40564-4de1-45de-8115-17aa59f460d4"
+            name="Send"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="fda8dd7b-2872-4876-a75d-7c24dcddab1f"
+                  name="data"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="c5594129-7ef8-4f21-ae33-3d7fe61632d5"
+                      LastKnownName="object"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="c50d1308-cd4c-4515-99e2-bb6e284ab67d"
+            name="Reset"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="d5802c1c-c0db-4b8b-8cd2-5f89d2efa65d"
+                  name="panel"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="3ae3ed42-cfba-4217-a661-ca1e10893f30"
+                      LastKnownName="IPanelBaseInternal"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
       </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="4ecd73cb-b6af-4904-8d41-c09390fdb3df"
+        name="UIFormType"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="67e8b0e5-a383-4126-afd0-842e10b96fbb"
+            isDerived="false"
+            sourceEndRoleName="UIFormType"
+            targetEndRoleName="UIType"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="37cd318a-d36c-49e3-a9b9-8b8e3523dd64"
+              LastKnownName="UIType"
+              LastKnownLocation="FlexibleUI.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="24b8b441-af3e-4bdd-8593-89f1ba75fa33"
+                  name="UIFormType"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="a326146c-9184-4b01-9078-777a25910588"
+                  name="UIType"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="81deb1ea-3f90-4316-bcc8-ac7eb4a7f79c"
+            name="Fixed" />
+          <enumerationLiteral
+            Id="7bea2703-2780-4e44-a234-f3bc7627604a"
+            name="HeadBar" />
+          <enumerationLiteral
+            Id="d03e3d98-db52-4959-8b06-a4eaa5227490"
+            name="DragAble" />
+        </ownedLiterals>
+      </enumeration>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="1527b0c3-a1d3-4b54-b1d1-3e068f5ecd30"
+        name="UnityAction&lt;GameObject&gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="55e37714-2b45-4578-a07d-fa0c9957edab"
+        name="bool" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="062804fa-867d-45db-9a16-a70ff135b98e"
+        name="GameObject" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="c8e25095-e45a-4727-893c-b8df0ed0cacc"
+        name="UIHandlePool"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedOperationsInternal>
+          <operation
+            Id="2f9d7f46-34e7-4197-9e58-3e354e359fda"
+            name="Allocate"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="ab918231-bd7d-4c99-b6c5-8a1660f3fa91"
+                  direction="Return"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="060c87c8-d403-4096-9f07-8b7d792e954f"
+                      LastKnownName="UIHandle"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="2d382f57-7f23-474b-a7a7-12e741e82aaa"
+        name="BridgePool"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedOperationsInternal>
+          <operation
+            Id="b26b755e-fe38-4cec-a1a8-a011689b5f92"
+            name="Allocate"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="7e20948d-c796-4a43-808f-28283a6f6b15"
+                  direction="Return"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="359244b4-9b90-478e-9ec3-81d59344433a"
+                      LastKnownName="Bridge"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="7018990a-e716-4228-8844-27b4dd9bc82d"
+                  name="parentPanel"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="c7004275-bc62-4cac-b7c4-a81a0020bfa5"
+                      LastKnownName="BaseInternal"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="c7004275-bc62-4cac-b7c4-a81a0020bfa5"
+        name="BaseInternal" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="a95c467b-8d48-47a7-aa4a-d3b0826af1af"
+        name="UIInfoBase" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="9a75db79-240a-4e9a-ba32-456478b69bdd"
+        name="PanelLoader"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <interfaceRealization
+            Id="08b3f6fe-01b8-49bb-8624-cb40ce7ca71b">
+            <interfaceMoniker
+              Id="eafabb95-d987-4e2d-b298-819324abda9d"
+              LastKnownName="IPanelLoader"
+              LastKnownLocation="FlexibleUI.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="1a8f6fba-2ab6-4a7b-b4f8-9d91feef3a69"
+            name="CreateInstence"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="0e8b4805-c0d4-48fc-a50f-33d2df94e329"
+                  name="info"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="a95c467b-8d48-47a7-aa4a-d3b0826af1af"
+                      LastKnownName="UIInfoBase"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="827da84d-9fc8-4709-ae61-06820adf4ed9"
+        name="IBridge"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="c94ceee5-0898-4569-87ca-c2ec259c7292"
+        name="IUIHanle"
+        isAbstract="false"
+        isLeaf="false">
+        <ownedAttributes>
+          <property
+            Id="cc3b58d2-f3c6-420c-b110-ffd070411dd4"
+            name="onCallBack"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="ce30bfee-cddc-4bc2-825f-91b02b8a2ca5"
+                LastKnownName="UnityAction&lt;IPanelBase, object&gt;"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="ca721820-42a7-4445-91e4-44fe95c380f4"
+            name="onCreate"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="feabfd86-ab98-45f2-8116-0f94c64dcc8e"
+                LastKnownName="UnityAction&lt;IPanelBase&gt;"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="32d8945b-df80-4cae-b990-8038af4a0f58"
+            name="onClose"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="feabfd86-ab98-45f2-8116-0f94c64dcc8e"
+                LastKnownName="UnityAction&lt;IPanelBase&gt;"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributes>
+        <ownedOperations>
+          <operation
+            Id="1201ce2a-40df-448b-88b7-7e29abc07747"
+            name="Send"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="baa52cc3-2a5b-4222-95ce-336138312d16"
+                  name="data"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="c5594129-7ef8-4f21-ae33-3d7fe61632d5"
+                      LastKnownName="object"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="e4e3c43e-e116-433f-8705-543dae259b43"
+        name="IUIHanelInternal"
+        isAbstract="false"
+        isLeaf="false">
+        <generalsInternal>
+          <generalization
+            Id="0890ed51-aceb-443d-a197-8cd65461f760"
+            isSubstitutable="false">
+            <interfaceMoniker
+              Id="c94ceee5-0898-4569-87ca-c2ec259c7292"
+              LastKnownName="IUIHanle"
+              LastKnownLocation="FlexibleUI.uml" />
+          </generalization>
+        </generalsInternal>
+        <ownedOperations>
+          <operation
+            Id="4ff1f972-5db7-475b-afb7-93dc0879d590"
+            name="+ Reset(UnityAction&lt;UIHandle&gt; onRelease);"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="2b5a76e3-e6f2-45a9-be60-625e48be18b8"
+            name="RegistBridge"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="067e7a09-29eb-4702-8884-b426dc2636b7"
+                  name="bridge"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="359244b4-9b90-478e-9ec3-81d59344433a"
+                      LastKnownName="Bridge"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="640f2a7e-3e38-44e0-8679-f4bf603d6b22"
+            name="UnRegistBridge"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="d1a89cf0-d73e-43c8-8392-7c209c628679"
+                  name="bridge"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="359244b4-9b90-478e-9ec3-81d59344433a"
+                      LastKnownName="Bridge"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="3ae3ed42-cfba-4217-a661-ca1e10893f30"
+        name="IPanelBaseInternal" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="57d4a5ac-1837-4d97-bbf5-7f4adee8928d"
+        name="UnityAction&lt;Queue&lt;object&gt;&gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="769b5376-6ac2-4ac4-be29-4fe196d578d9"
+        name="onCallBack" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="ce30bfee-cddc-4bc2-825f-91b02b8a2ca5"
+        name="UnityAction&lt;IPanelBase, object&gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="41dc882c-ec22-452c-8ec6-1e8e4e7453d2"
+        name="UnityAction&lt;IPanelBase&gt; &gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="feabfd86-ab98-45f2-8116-0f94c64dcc8e"
+        name="UnityAction&lt;IPanelBase&gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="1c710578-94f0-402c-be35-d9513e6be786"
+        name="IAnimPlayer"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="1afccb46-e7d1-4386-9a43-696ae7e75ec2"
+        name="IDragPanel"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="72f29bae-5434-4095-a366-850f85e75a0f"
+        name="SinglePanel"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="96b20bd7-ea23-46ee-b283-8f9df9682c51"
+            isSubstitutable="false">
+            <classMoniker
+              Id="140071a8-191a-4634-900d-00019401b9d1"
+              LastKnownName="BasePanel"
+              LastKnownLocation="FlexibleUI.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="e58f03b6-08b7-4895-86cf-ee86674d7bed"
+        name="GroupPanel"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="af3ef4e4-6bbf-4f60-b2dd-909317d3c68e"
+            isSubstitutable="false">
+            <classMoniker
+              Id="140071a8-191a-4634-900d-00019401b9d1"
+              LastKnownName="BasePanel"
+              LastKnownLocation="FlexibleUI.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="dfc4117a-5d20-444e-8594-4fb55ad78e83"
+        name="AnimPlayer"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedOperationsInternal>
+          <operation
+            Id="f8df1d3e-05a9-410f-a240-9eb83757bb17"
+            name="EnterAnim"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="03d89e86-d6dd-40ff-888a-b72edb46e14f"
+                  name="animType"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <enumerationMoniker
+                      Id="1eb63d24-6d7c-483f-ab7f-2987c30c8f9a"
+                      LastKnownName="UIAnimType"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="a58b6230-1493-417a-9d90-240f9bf90b18"
+                  name="onComplete"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="f3e06ed9-ee6c-4063-94f5-731a2869a556"
+                      LastKnownName="UnityAction"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="6f19931e-9fa7-4bce-b9da-b7708e7b4cf3"
+            name="QuitAnim"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="49f6eae2-6b69-44ea-8b04-939691e2bf31"
+                  name="animType"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <enumerationMoniker
+                      Id="1eb63d24-6d7c-483f-ab7f-2987c30c8f9a"
+                      LastKnownName="UIAnimType"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="38d088db-1f76-4d16-8fd0-3a7daed4c1a4"
+                  name="onComplete"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="f3e06ed9-ee6c-4063-94f5-731a2869a556"
+                      LastKnownName="UnityAction"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="8c1ad0bd-c7f8-403e-aef3-1438c9699f20"
+            name="ResetAnim"
+            visibility="Private"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="cb525859-dbf4-4dc2-81cb-c82f7f10567c"
+                  name="animType"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <enumerationMoniker
+                      Id="1eb63d24-6d7c-483f-ab7f-2987c30c8f9a"
+                      LastKnownName="UIAnimType"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="f3e06ed9-ee6c-4063-94f5-731a2869a556"
+        name="UnityAction" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="705a5f55-67d9-4267-ac36-291f082d719f"
+        name="DragPanel"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="d4a2998b-5ae3-4c54-99e8-7a185c960093"
+        name="Transform" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="6088d882-e120-4ac3-82dd-729114f00ffa"
+        name="List&lt;UIInfoBase&gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="0f3e762d-0a9f-4e83-9ee7-87937e46d1ae"
+        name="List&lt;IPanelBaseInternal&gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="dab57309-96c2-4fd9-b074-f8e70913d2f1"
+        name="PanelGroup"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <interfaceRealization
+            Id="be9efd75-4e3c-49fa-a72e-7241866e96f7">
+            <interfaceMoniker
+              Id="2108edd7-c575-43b3-8aa5-b329380dc748"
+              LastKnownName="IPanelGroup"
+              LastKnownLocation="FlexibleUI.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="a5ccbe6d-bd4a-4d76-98ec-a41c75570220"
+            name="GetPanelsByName"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="ced945f0-b61e-4451-a358-c0a2402ff225"
+                  name="panelName"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="2dac8f82-a4db-4f43-83ef-d4444b8dbc4b"
+                      LastKnownName="string"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="51423504-922f-43d9-9f81-e5fa23d41527"
+                  direction="Return"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="0f3e762d-0a9f-4e83-9ee7-87937e46d1ae"
+                      LastKnownName="List&lt;IPanelBaseInternal&gt;"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="d79f793c-33a8-4e4d-94b1-2f42a17e81ec"
+            name="InstencePanel"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="47757fb8-063a-4022-bcc9-e3826a614470"
+                  name="parentPanel"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="3ae3ed42-cfba-4217-a661-ca1e10893f30"
+                      LastKnownName="IPanelBaseInternal"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="8825cbe1-9a2e-43ad-851c-be7ec8305bf1"
+                  direction="Return"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="359244b4-9b90-478e-9ec3-81d59344433a"
+                      LastKnownName="Bridge"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="0f60c245-7b67-42ce-86fe-1a396c43029f"
+        name="Class3"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="0e0fd06e-abe6-4f89-8af3-0fa930294e10"
+        name="IPanelInternal"
+        isAbstract="false"
+        isLeaf="false">
+        <generalsInternal>
+          <generalization
+            Id="7e26d93a-e4a7-4b73-9fbb-5839a500582d"
+            isSubstitutable="false">
+            <interfaceMoniker
+              Id="8e021dab-c094-4d30-b161-2131990809e3"
+              LastKnownName="IPanelBase"
+              LastKnownLocation="FlexibleUI.uml" />
+          </generalization>
+        </generalsInternal>
+        <ownedAttributes>
+          <property
+            Id="b3b0d6b9-728f-49c8-b14f-4a43e370df25"
+            name="IsAlive"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="55e37714-2b45-4578-a07d-fa0c9957edab"
+                LastKnownName="bool"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="4b7c2d0c-ab7e-4b70-967b-de55220430c5"
+            name="IsShowing"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="55e37714-2b45-4578-a07d-fa0c9957edab"
+                LastKnownName="bool"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="cfadb67e-d1b4-433b-acea-5c95f0ff4dcc"
+            name="UType"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <enumerationMoniker
+                Id="69f103cd-3dd9-4889-88aa-bab919683448"
+                LastKnownName="UIType"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="10026dbe-cf44-4782-b857-9d75166d068c"
+            name="Name"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="2dac8f82-a4db-4f43-83ef-d4444b8dbc4b"
+                LastKnownName="string"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="01817ddf-c1c3-4d72-9e3f-2b909b411844"
+            name="InstenceID"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="a1838bff-7e4e-4375-9d54-15f240893452"
+                LastKnownName="int"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="1c597f16-866d-4cce-866e-5b5dd12abfb6"
+            name="group"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="c836039d-d3d8-4028-86c5-ee52ece1e339"
+                LastKnownName="IPanelGroup"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="acf85259-7f25-4a5b-8b9d-633a26ab3a07"
+            name="Content"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="d4a2998b-5ae3-4c54-99e8-7a185c960093"
+                LastKnownName="Transform"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="20ab09b0-7dd4-45aa-a6c9-80ad9d06f85c"
+            name="onDelete"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="9354da58-4856-4a79-9c63-79c3f993afcf"
+                LastKnownName="UnityAction&lt;IPanelBaseInternal&gt;"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributes>
+        <ownedOperations>
+          <operation
+            Id="2e4a1005-f62a-4a6f-8f2c-a49ff0eb020f"
+            name="Cover"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="bf147b81-04b3-446b-9d39-bd0de05e9657"
+            name="HandleData"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="e0baee89-28c2-4cfd-b858-3922eb1c5510"
+                  name="bridge"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="359244b4-9b90-478e-9ec3-81d59344433a"
+                      LastKnownName="Bridge"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="cf706552-801d-4a2c-8eac-2c9aa0f3e919"
+            name="RecordChild"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="659e7a3b-06a8-4575-8f4d-273b64e88786"
+                  name="childPanel"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="b3f57a57-41e1-4613-a3ce-dd53d8d069b0"
+            name="SetParent"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="c881ef59-39bf-426a-8f5a-ac56486ffd74"
+                  name="parent"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="d4a2998b-5ae3-4c54-99e8-7a185c960093"
+                      LastKnownName="Transform"
+                      LastKnownLocation="FlexibleUI.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="9354da58-4856-4a79-9c63-79c3f993afcf"
+        name="UnityAction&lt;IPanelBaseInternal&gt;" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

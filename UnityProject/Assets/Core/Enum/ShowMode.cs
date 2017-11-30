@@ -15,7 +15,7 @@ namespace BridgeUI
     /// <summary>
     /// 界面的显示状态
     /// </summary>
-    public enum ShowModel
+    public enum ShowMode
     {
         Auto = 1,//当上级显示时显示
         Mutex = 1 << 1,//排斥有相同类型面版

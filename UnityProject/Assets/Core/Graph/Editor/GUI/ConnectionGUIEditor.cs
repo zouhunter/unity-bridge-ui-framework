@@ -32,13 +32,13 @@ namespace NodeGraph
             }
             EditorGUILayout.HelpBox("界面切换规则:", MessageType.Info);
 
-            DrawToggleFromShowModel(con, ShowModel.Auto,"自动打开");
-            DrawToggleFromShowModel(con, ShowModel.Mutex,"同级互斥");
-            DrawToggleFromShowModel(con, ShowModel.Cover, "界面遮罩");
-            DrawToggleFromShowModel(con, ShowModel.HideBase,"隐藏父级");
-            DrawToggleFromShowModel(con, ShowModel.Single, "独立显示");
+            DrawToggleFromShowModel(con, ShowMode.Auto,"自动打开");
+            DrawToggleFromShowModel(con, ShowMode.Mutex,"同级互斥");
+            DrawToggleFromShowModel(con, ShowMode.Cover, "界面遮罩");
+            DrawToggleFromShowModel(con, ShowMode.HideBase,"隐藏父级");
+            DrawToggleFromShowModel(con, ShowMode.Single, "独立显示");
         }
-        private void DrawToggleFromShowModel(ConnectionGUI con,ShowModel model,string tip)
+        private void DrawToggleFromShowModel(ConnectionGUI con,ShowMode model,string tip)
         {
             var on = (con.Data._show & model) == model;
             using (var hor = new EditorGUILayout.HorizontalScope())

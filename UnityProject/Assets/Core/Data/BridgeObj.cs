@@ -16,7 +16,7 @@ namespace BridgeUI.Model
 
         #region 加载规则
         public string inNode;
-        public ShowModel showModel;
+        public ShowMode showModel;
         public string outNode;
         #endregion
 

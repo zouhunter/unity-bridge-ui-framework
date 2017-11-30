@@ -134,26 +134,26 @@ namespace BridgeUI
             }
         }
 
-        public static string ShowModelToString(ShowModel show)
+        public static string ShowModelToString(ShowMode show)
         {
             string str = "";
-            if ((show & ShowModel.Auto) == ShowModel.Auto)
+            if ((show & ShowMode.Auto) == ShowMode.Auto)
             {
                 str += "[a]";
             }
-            if ((show & ShowModel.Cover) == ShowModel.Cover)
+            if ((show & ShowMode.Cover) == ShowMode.Cover)
             {
                 str += "[c]";
             }
-            if ((show & ShowModel.Mutex) == ShowModel.Mutex)
+            if ((show & ShowMode.Mutex) == ShowMode.Mutex)
             {
                 str += "[m]";
             }
-            if ((show & ShowModel.HideBase) == ShowModel.HideBase)
+            if ((show & ShowMode.HideBase) == ShowMode.HideBase)
             {
                 str += "[h]";
             }
-            if ((show & ShowModel.Single) == ShowModel.Single)
+            if ((show & ShowMode.Single) == ShowMode.Single)
             {
                 str += "[s]";
             }

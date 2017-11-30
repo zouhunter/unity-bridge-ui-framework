@@ -20,7 +20,7 @@ namespace BridgeUI
                 return facadeDic[0];
             }
         }
-        public static UIFacade CreatePanelFacade(IPanelBaseInternal parentPanel)
+        public static UIFacade CreatePanelFacade(IPanelBase parentPanel)
         {
             if (parentPanel == null)
             {
@@ -37,7 +37,7 @@ namespace BridgeUI
                 return facadeDic[id];
             }
         }
-        public static void RemovePanelFacade(IPanelBaseInternal parentPanel)
+        public static void RemovePanelFacade(IPanelBase parentPanel)
         {
             if (parentPanel != null)
             {
@@ -52,12 +52,12 @@ namespace BridgeUI
         //handle池
         private static UIHandlePool handlePool = new UIHandlePool();
 
-        private IPanelBaseInternal parentPanel;//如果有设置其为父transform
+        private IPanelBase parentPanel;//如果有设置其为父transform
         private IPanelGroup currentGroup { get { return parentPanel == null ? null : parentPanel.Group; } }
         private Transform Content { get { return parentPanel == null ? null : parentPanel.Content; } }
         private UIFacade() { }
 
-        private UIFacade(IPanelBaseInternal parentPanel) : this() { this.parentPanel = parentPanel; }
+        private UIFacade(IPanelBase parentPanel) : this() { this.parentPanel = parentPanel; }
 
         public static void RegistGroup(IPanelGroup group)
         {
@@ -150,8 +150,7 @@ namespace BridgeUI
             var panels = group.RetrivePanels(panelName);
             if (panels != null)
             {
-                foreach (var panel in panels)
-                {
+                foreach (var panel in panels) {
                     panel.Close();
                 }
             }
@@ -162,7 +161,7 @@ namespace BridgeUI
             bool globleHave = false;
             foreach (var item in groupList)
             {
-                var panels = item.GetPanelsByName(panelName);
+                var panels = item.RetrivePanels(panelName);
                 globleHave |= (panels != null && panels.Count > 0);
             }
             return globleHave;

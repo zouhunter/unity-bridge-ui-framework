@@ -26,15 +26,19 @@ namespace BridgeUI
 
         public Bridge CreateInstence()
         {
-            var bridge = new Bridge(bridgePrefab);
+            var bridge = new Bridge(bridgePrefab, OnRelease);
             return bridge;
         }
 
-        internal Bridge Allocate(IPanelBaseInternal parentPanel = null)
+        internal Bridge Allocate(IPanelBase parentPanel = null)
         {
             var bridge = innerPool.Allocate();
             bridge.Reset(parentPanel);
             return bridge;
+        }
+        private void OnRelease(Bridge bridge)
+        {
+            innerPool.Release(bridge);
         }
     }
 }

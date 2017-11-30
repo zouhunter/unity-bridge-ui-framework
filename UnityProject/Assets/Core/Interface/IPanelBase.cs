@@ -18,29 +18,26 @@ namespace BridgeUI
     /// 所有ui界面的父级
     /// [用于界面创建及打开的规则]
     /// </summary>
-    public interface IPanelBaseInternal : IPanelBase
+    public interface IPanelBase
     {
         string Name { get; }
         int InstenceID { get; }
         IPanelGroup Group { get; set; }
         Transform Content { get; }
-        List<IPanelBaseInternal> ChildPanels { get; }
-        event UnityAction<IPanelBaseInternal> onDelete;
+        List<IPanelBase> ChildPanels { get; }
+        event UnityAction<IPanelBase> onDelete;
         UIType UType { get; set; }
         bool IsShowing { get; }
         bool IsAlive { get; }
         void SetParent(Transform parent);
-
-        void RecordChild(IPanelBaseInternal childPanel);
+        void Close();
+        void Hide();
+        void UnHide();
+        void RecordChild(IPanelBase childPanel);
 
         void HandleData(Bridge bridge);
         void Cover();
     }
 
-    public interface IPanelBase
-    {
-        void Close();
-        void Hide();
-        void UnHide();
-    }
+  
 }

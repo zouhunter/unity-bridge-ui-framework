@@ -274,7 +274,7 @@ namespace BridgeUI
             for (int i = 0; i < childCount; i++)
             {
                 var obj = root.GetChild(i);
-                var panel = obj.GetComponent<IPanelBaseInternal>();
+                var panel = obj.GetComponent<IPanelBase>();
                 if (panel == null || obj == item || panel.UType == null || panel.UType.layerIndex <= layerIndex)
                 {
                     id = i;

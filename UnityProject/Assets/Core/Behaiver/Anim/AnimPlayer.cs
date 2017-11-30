@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using BridgeUI.uTween;
 namespace BridgeUI
 {
-    public class UIPanelTween : MonoBehaviour, IAnimPlayer
+    public class AnimPlayer : MonoBehaviour, IAnimPlayer
     {
         private float duration = 0.2f;
         private uTweener tween;

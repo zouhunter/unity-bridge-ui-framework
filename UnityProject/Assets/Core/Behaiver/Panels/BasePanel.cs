@@ -14,7 +14,7 @@ using BridgeUI.Model;
 using System.Collections.Generic;
 namespace BridgeUI
 {
-    public abstract class PanelBase : UIBehaviour, IPanelBaseInternal
+    public abstract class PanelBase : UIBehaviour, IPanelBase
     {
         public int InstenceID
         {
@@ -27,7 +27,7 @@ namespace BridgeUI
         public IPanelGroup Group { get; set; }
         public abstract Transform Content { get; }
         public UIType UType { get; set; }
-        public List<IPanelBaseInternal> ChildPanels
+        public List<IPanelBase> ChildPanels
         {
             get
             {
@@ -54,8 +54,8 @@ namespace BridgeUI
         protected UIFacade selfFacade;
 
         protected Bridge bridge;
-        protected List<IPanelBaseInternal> childPanels;
-        public event UnityAction<IPanelBaseInternal> onDelete;
+        protected List<IPanelBase> childPanels;
+        public event UnityAction<IPanelBase> onDelete;
         protected IAnimPlayer animPlayer;
         private bool _isShowing = true;
         private bool _isAlive = true;
@@ -163,19 +163,19 @@ namespace BridgeUI
 
         public virtual void Close()
         {
-            if(UType.quitAnim != UIAnimType.NoAnim)
+            if (IsShowing && UType.quitAnim != UIAnimType.NoAnim)
             {
-                var tweenPanel = GetComponent<UIPanelTween>();
-                if (tweenPanel == null){
-                    tweenPanel = gameObject.AddComponent<UIPanelTween>();
+                var tweenPanel = GetComponent<AnimPlayer>();
+                if (tweenPanel == null)
+                {
+                    tweenPanel = gameObject.AddComponent<AnimPlayer>();
                 }
-                tweenPanel.QuitAnim(UType.quitAnim,CloseInternal);
+                tweenPanel.QuitAnim(UType.quitAnim, CloseInternal);
             }
             else
             {
                 CloseInternal();
             }
-            
         }
 
         private void CloseInternal()
@@ -199,11 +199,11 @@ namespace BridgeUI
             }
         }
 
-        public void RecordChild(IPanelBaseInternal childPanel)
+        public void RecordChild(IPanelBase childPanel)
         {
             if (childPanels == null)
             {
-                childPanels = new List<IPanelBaseInternal>();
+                childPanels = new List<IPanelBase>();
             }
             if (!childPanels.Contains(childPanel))
             {
@@ -228,9 +228,9 @@ namespace BridgeUI
 
             if (UIAnimType.NoAnim != UType.enterAnim)
             {
-                animPlayer = GetComponent<UIPanelTween>();
+                animPlayer = GetComponent<AnimPlayer>();
                 if (animPlayer == null){
-                    animPlayer = gameObject.AddComponent<UIPanelTween>();
+                    animPlayer = gameObject.AddComponent<AnimPlayer>();
                 }
                 animPlayer.EnterAnim(UType.enterAnim, null);
             }
@@ -250,7 +250,7 @@ namespace BridgeUI
             img.raycastTarget = true;
         }
 
-        private void OnRemoveChild(IPanelBaseInternal childPanel)
+        private void OnRemoveChild(IPanelBase childPanel)
         {
             if (childPanels != null && childPanels.Contains(childPanel))
             {

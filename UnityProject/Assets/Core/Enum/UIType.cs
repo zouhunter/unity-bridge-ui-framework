@@ -6,7 +6,8 @@ namespace BridgeUI
     public enum UIFormType
     {
         Fixed = 0,//固定窗口(只能打开单个)
-        DragAble = 1//可拖拽(可以打开多个小窗体)
+        DragAble = 1,//可拖拽(可以打开多个小窗体)
+        HeadBar = 2,//没有关闭按扭(只有场景跳转时关闭)
     }
     /// <summary>
     /// 基本层级类型（绝对层级）

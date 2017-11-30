@@ -65,7 +65,7 @@ namespace BridgeUI
             }
         }
 
-        private void OnBridgeCallBack(IPanelBaseInternal panel, object data)
+        private void OnBridgeCallBack(IPanelBase panel, object data)
         {
             if (onCallBack != null)
             {
@@ -73,7 +73,7 @@ namespace BridgeUI
             }
         }
 
-        private void OnCreatePanel(IPanelBaseInternal panel)
+        private void OnCreatePanel(IPanelBase panel)
         {
             if (onCreate != null)
             {

@@ -111,7 +111,21 @@ namespace BridgeUI
             TryHideParent(panel, bridge.Info);
             TryHideMutexPanels(panel, bridge.Info);
             TryHideGroup(panel, bridge.Info);
+            TryMakeCover(panel,bridge.Info);
             TryAutoOpen(panel.Content, panel);
+        }
+
+        /// <summary>
+        /// 建立遮罩
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="info"></param>
+        private void TryMakeCover(IPanelBaseInternal panel, BridgeInfo info)
+        {
+            if ((info.showModel & ShowModel.Cover) == ShowModel.Cover)
+            {
+                panel.Cover();
+            }
         }
         /// <summary>
         /// 隐藏整个面板中其他的ui界面

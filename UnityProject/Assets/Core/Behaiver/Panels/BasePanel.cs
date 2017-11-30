@@ -106,7 +106,10 @@ namespace BridgeUI
         {
             base.Start();
             AppendComponentsByType();
-            bridge.OnCreatePanel(this);
+            if (bridge != null)
+            {
+                bridge.OnCreatePanel(this);
+            }
         }
 
         protected override void OnDestroy()
@@ -193,6 +196,10 @@ namespace BridgeUI
 
         private void AppendComponentsByType()
         {
+            if (UType == null)
+            {
+                UType = new UIType();
+            }
             if (UType.form == UIFormType.DragAble)
             {
                 if (gameObject.GetComponent<DragPanel>() == null)
@@ -214,12 +221,15 @@ namespace BridgeUI
         }
         public void Cover()
         {
-            var img = GetComponent<Image>();
-            if (img == null)
-            {
-                img = gameObject.AddComponent<Image>();
-                img.color = new Color(0, 0, 0, 0.01f);
-            }
+            var covername = Name + "_Cover";
+            var trans = new GameObject(covername).transform;
+            trans.SetParent(transform, false);
+            trans.SetSiblingIndex(0);
+            var rectt = trans.gameObject.AddComponent<RectTransform>();
+            rectt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 10000);
+            rectt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 10000);
+            var img = rectt.gameObject.AddComponent<Image>();
+            img.color = new Color(0, 0, 0, 0.01f);
             img.raycastTarget = true;
         }
         private void OnRemoveChild(IPanelBaseInternal childPanel)

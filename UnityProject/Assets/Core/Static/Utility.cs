@@ -141,10 +141,10 @@ namespace BridgeUI
             {
                 str += "[a]";
             }
-            //if((show & ShowModel.Cover) == ShowModel.Cover)
-            //{
-            //    str += "[c]";
-            //}
+            if ((show & ShowModel.Cover) == ShowModel.Cover)
+            {
+                str += "[c]";
+            }
             if ((show & ShowModel.Mutex) == ShowModel.Mutex)
             {
                 str += "[m]";
@@ -309,8 +309,5 @@ namespace BridgeUI
             }
             return str;
         }
-
-        //private const string _defineLoadType = "UsePrefab";
-
     }
 }

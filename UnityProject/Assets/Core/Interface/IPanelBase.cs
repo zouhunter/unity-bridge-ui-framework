@@ -34,6 +34,7 @@ namespace BridgeUI
         void RecordChild(IPanelBaseInternal childPanel);
 
         void HandleData(Bridge bridge);
+        void Cover();
     }
 
     public interface IPanelBase

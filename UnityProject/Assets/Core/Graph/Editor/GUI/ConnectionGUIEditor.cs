@@ -34,6 +34,7 @@ namespace NodeGraph
 
             DrawToggleFromShowModel(con, ShowModel.Auto,"自动打开");
             DrawToggleFromShowModel(con, ShowModel.Mutex,"同级互斥");
+            DrawToggleFromShowModel(con, ShowModel.Cover, "界面遮罩");
             DrawToggleFromShowModel(con, ShowModel.HideBase,"隐藏父级");
             DrawToggleFromShowModel(con, ShowModel.Single, "独立显示");
         }
@@ -42,7 +43,7 @@ namespace NodeGraph
             var on = (con.Data._show & model) == model;
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                var thison = GUILayout.Toggle(on, model.ToString(), EditorStyles.radioButton, GUILayout.Height(60), GUILayout.Width(60));
+                var thison = GUILayout.Toggle(on, model.ToString(), EditorStyles.radioButton, GUILayout.Height(60),GUILayout.Width(100));
                 EditorGUILayout.LabelField(tip);
                 if (thison != on)
                 {

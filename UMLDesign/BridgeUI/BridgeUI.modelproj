@@ -29,12 +29,12 @@
       <SubType>Content</SubType>
       <DependentUpon>controllers.classdiagram</DependentUpon>
     </Content>
-    <Content Include="enums.classdiagram">
+    <Content Include="rules.classdiagram">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="enums.classdiagram.layout">
+    <Content Include="rules.classdiagram.layout">
       <SubType>Content</SubType>
-      <DependentUpon>enums.classdiagram</DependentUpon>
+      <DependentUpon>rules.classdiagram</DependentUpon>
     </Content>
     <Content Include="ModelDefinition\Package_1635.uml">
       <SubType>Content</SubType>

@@ -1,8 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
   Id="35451fd2-6ce6-4a92-bda7-3c595c63d694"
   name="FlexibleUI" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="adf19e5b-92bb-49a5-aa0c-f9267835fb19">
+      <body>定义界面本身的一些属性</body>
+      <annotatedElements>
+        <classMoniker
+          Id="37cd318a-d36c-49e3-a9b9-8b8e3523dd64"
+          LastKnownName="UIType"
+          LastKnownLocation="FlexibleUI.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="507382a9-9fe0-44c5-b1ca-7f3d92cc51e3">
+      <body>定义一组界面开关的关联属性</body>
+    </comment>
+    <comment
+      Id="8ad40818-6abc-437b-85c3-a3044a9b09ad">
+      <body>面板的资源信息及打开后执行的一系列规则</body>
+    </comment>
+    <comment
+      Id="42e8e381-4b1e-41d5-8a91-0e10a4ef023c">
+      <body>面板的关联信息及打开的规则</body>
+    </comment>
+  </ownedCommentsInternal>
   <appliedStereotypesInternal>
     <stereotypeInstance
       Id="749848a9-f983-4508-b067-76ab2b77758b"
@@ -824,9 +848,68 @@
     <packageHasNamedElement>
       <enumeration
         Id="57f84237-6f1e-4171-81fb-f67e465c5ec3"
-        name="UIFormType"
+        name="ShowModel"
         isAbstract="false"
-        isLeaf="false" />
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="a30beb34-0ba4-4e90-b37f-63cf4907fce5"
+            isDerived="false"
+            sourceEndRoleName="UIAnimType"
+            targetEndRoleName="ShowModel"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="e11c65d2-44c5-4df6-b36a-7d4cbd324211"
+              LastKnownName="ShowModel"
+              LastKnownLocation="FlexibleUI.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="327d847d-780a-4da3-a5ad-665ab890c2bb"
+                  name="UIAnimType"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="a60abcac-b191-4f93-bc66-de31f232b3b9"
+                  name="ShowModel"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="d7db7888-9c9e-4dfa-bdfc-6ca2ca00f45b"
+            name="Auto" />
+          <enumerationLiteral
+            Id="0ad1c58b-9d37-41a2-8e8d-85a201f51dc5"
+            name="HideParent" />
+          <enumerationLiteral
+            Id="a09cf7ae-2247-4e9e-93a6-2a74bfc95d47"
+            name="Single" />
+          <enumerationLiteral
+            Id="ba5e2bca-8f80-45c5-a69e-9a629ffb406e"
+            name="Cover" />
+          <enumerationLiteral
+            Id="b4b83d6b-4d64-46c5-b8c8-39e4cad341a9"
+            name="Mutex" />
+        </ownedLiterals>
+      </enumeration>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <enumeration
@@ -1302,21 +1385,147 @@
         Id="b207890a-fdd6-494b-a8ba-b9128c549aa4"
         name="UILayerType"
         isAbstract="false"
-        isLeaf="false" />
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="a1fba4d4-611d-44c4-80c9-71006b0d2c1d"
+            isDerived="false"
+            sourceEndRoleName="UILayerType"
+            targetEndRoleName="UIType"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="37cd318a-d36c-49e3-a9b9-8b8e3523dd64"
+              LastKnownName="UIType"
+              LastKnownLocation="FlexibleUI.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="bc4d106f-bebd-4a7c-a5ae-f08dcffadc81"
+                  name="UILayerType"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="9b536a01-f64e-4381-a9e2-01c2a19db370"
+                  name="UIType"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </enumeration>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <enumeration
         Id="9a2ca334-c9e5-4c27-b66a-8b4952615729"
         name="HideRule"
         isAbstract="false"
-        isLeaf="false" />
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="8f93cfa9-2d78-4878-bf70-7d5c6abf7d82"
+            isDerived="false"
+            sourceEndRoleName="HideRule"
+            targetEndRoleName="UIType"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="37cd318a-d36c-49e3-a9b9-8b8e3523dd64"
+              LastKnownName="UIType"
+              LastKnownLocation="FlexibleUI.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="6ff6cdbd-fc41-41d8-8440-0b175b913c02"
+                  name="HideRule"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="6b67eff8-d29c-4655-a58a-09d9c940e96c"
+                  name="UIType"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </enumeration>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <enumeration
         Id="9ea70634-05cf-4618-976d-e0aa760b085b"
         name="CloseRule"
         isAbstract="false"
-        isLeaf="false" />
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="f3c1229e-000e-4178-8182-86963093cbaf"
+            isDerived="false"
+            sourceEndRoleName="CloseRule"
+            targetEndRoleName="UIType"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="37cd318a-d36c-49e3-a9b9-8b8e3523dd64"
+              LastKnownName="UIType"
+              LastKnownLocation="FlexibleUI.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1f650f08-722c-456f-9f05-aa406955abbb"
+                  name="CloseRule"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="75ea4adc-ea87-4950-b8e4-bf45a70ca561"
+                  name="UIType"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </enumeration>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
@@ -1348,7 +1557,7 @@
             <type_NamedElement>
               <enumerationMoniker
                 Id="57f84237-6f1e-4171-81fb-f67e465c5ec3"
-                LastKnownName="UIFormType"
+                LastKnownName="ShowModel"
                 LastKnownLocation="FlexibleUI.uml" />
             </type_NamedElement>
           </property>
@@ -1514,6 +1723,277 @@
           </generalization>
         </generalsInternal>
       </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="2f640b55-7e57-425c-a15f-073c3d15ddc9"
+        name="FlexibleUI::UIFormType" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="37cd318a-d36c-49e3-a9b9-8b8e3523dd64"
+        name="UIType"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="81c19a8d-205b-4844-bf7d-65c80e10e7d1"
+            name="form"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="2f640b55-7e57-425c-a15f-073c3d15ddc9"
+                LastKnownName="FlexibleUI::UIFormType"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="cb147d30-930b-4c41-b09d-927560935fb0"
+            name="layer"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <enumerationMoniker
+                Id="b207890a-fdd6-494b-a8ba-b9128c549aa4"
+                LastKnownName="UILayerType"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="672ca40d-14ce-4ec8-8338-06c677353555"
+            name="hidealaph"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="e4a1cb7d-052c-4600-995b-b915002a7ce4"
+                LastKnownName="float"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="7ba1db6a-d420-49e2-8297-609d74881088"
+            name="layerindex"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="a1838bff-7e4e-4375-9d54-15f240893452"
+                LastKnownName="int"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="bd87241e-b3fa-4e9d-858f-3856b02bb8ba"
+            name="animType"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <enumerationMoniker
+                Id="57f84237-6f1e-4171-81fb-f67e465c5ec3"
+                LastKnownName="ShowModel"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="e11c65d2-44c5-4df6-b36a-7d4cbd324211"
+        name="ShowModel"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="c770da6c-838e-4677-b382-bae78e33d8ab"
+            name="animType"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <enumerationMoniker
+                Id="57f84237-6f1e-4171-81fb-f67e465c5ec3"
+                LastKnownName="ShowModel"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="28d70945-fe5c-42ee-ac22-c0f2c8924362"
+        name="Interface4"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="1eb63d24-6d7c-483f-ab7f-2987c30c8f9a"
+        name="UIAnimType"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="7aeecede-aa76-4b02-bfe6-8279cdbd49e3"
+            isDerived="false"
+            sourceEndRoleName="UIAnimType1"
+            targetEndRoleName="UIType"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="37cd318a-d36c-49e3-a9b9-8b8e3523dd64"
+              LastKnownName="UIType"
+              LastKnownLocation="FlexibleUI.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="95d037d4-26cb-4ea4-8ca4-ad3adeeb08df"
+                  name="UIAnimType1"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e8d7e04e-e721-4e51-9b3e-0c78c01a2971"
+                  name="UIType"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </enumeration>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="b0545ca3-449c-4f11-b39b-fa4cdc1fd1d9"
+        name="Enumeration1"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="96f03e0c-54b1-44da-99a7-a7f54a9d13c1"
+        name="Bridge"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="5eb82d47-9210-49b1-b81d-93cf47bc5c7e"
+            name="inNode"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="2dac8f82-a4db-4f43-83ef-d4444b8dbc4b"
+                LastKnownName="string"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="2fae19d1-3272-434c-a661-06bc794c351d"
+            name="outNode"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="2dac8f82-a4db-4f43-83ef-d4444b8dbc4b"
+                LastKnownName="string"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="77f5891c-4c4d-44ba-89a1-8add04d1ded8"
+            name="showModel"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <enumerationMoniker
+                Id="57f84237-6f1e-4171-81fb-f67e465c5ec3"
+                LastKnownName="ShowModel"
+                LastKnownLocation="FlexibleUI.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="4c66a277-4e61-4d2d-853f-96982440412a"
+        name="Handle"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

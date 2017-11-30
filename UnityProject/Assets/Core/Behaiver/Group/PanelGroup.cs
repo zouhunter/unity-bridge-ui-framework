@@ -27,11 +27,11 @@ namespace BridgeUI
         public LoadType loadType = LoadType.Prefab;
         public List<BundleUIInfo> b_nodes;
         public List<PrefabUIInfo> p_nodes;
-        public List<Bridge> bridges;
+        public List<BridgeInfo> bridges;
         public Transform Trans { get { return transform; } }
         public List<UIInfoBase> Nodes { get { return activeNodes; } }
-        private Bridge defultBridge;
-        private Dictionary<Bridge, BridgePool> poolDic = new Dictionary<Bridge, BridgePool>();
+        private BridgeInfo defultBridge;
+        private Dictionary<BridgeInfo, BridgePool> poolDic = new Dictionary<BridgeInfo, BridgePool>();
         private List<IPanelBaseInternal> createdPanels = new List<IPanelBaseInternal>();
         private Dictionary<IPanelBaseInternal, Stack<IPanelBaseInternal>> hidedPanelStack = new Dictionary<IPanelBaseInternal, Stack<IPanelBaseInternal>>();
         private Dictionary<IPanelBaseInternal, Bridge> bridgeDic = new Dictionary<IPanelBaseInternal, Bridge>();
@@ -108,9 +108,9 @@ namespace BridgeUI
         #region private Functions
         private void HandBridgeOptions(IPanelBaseInternal panel, Bridge bridge)
         {
-            TryHideParent(panel, bridge);
-            TryHideMutexPanels(panel, bridge);
-            TryHideGroup(panel, bridge);
+            TryHideParent(panel, bridge.Info);
+            TryHideMutexPanels(panel, bridge.Info);
+            TryHideGroup(panel, bridge.Info);
             TryAutoOpen(panel.Content, panel);
         }
         /// <summary>
@@ -118,7 +118,7 @@ namespace BridgeUI
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="bridge"></param>
-        private void TryHideGroup(IPanelBaseInternal panel, Bridge bridge)
+        private void TryHideGroup(IPanelBaseInternal panel, BridgeInfo bridge)
         {
             if ((bridge.showModel & ShowModel.Single) == ShowModel.Single)
             {
@@ -143,7 +143,7 @@ namespace BridgeUI
         /// <param name="childPanel"></param>
         /// <param name=""></param>
         /// <param name="bridge"></param>
-        private void TryHideMutexPanels(IPanelBaseInternal childPanel, Bridge bridge)
+        private void TryHideMutexPanels(IPanelBaseInternal childPanel, BridgeInfo bridge)
         {
             if ((bridge.showModel & ShowModel.Mutex) == ShowModel.Mutex)
             {
@@ -233,7 +233,7 @@ namespace BridgeUI
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="bridge"></param>
-        private void TryHideParent(IPanelBaseInternal panel, Bridge bridge)
+        private void TryHideParent(IPanelBaseInternal panel, BridgeInfo bridge)
         {
             if ((bridge.showModel & ShowModel.HideBase) == ShowModel.HideBase)
             {
@@ -296,7 +296,7 @@ namespace BridgeUI
         {
             var parentName = parentPanel == null ? "" : parentPanel.Name;
             var mayBridge = bridges.FindAll(x => x.outNode == panelName);
-            Bridge bridge = null;
+            BridgeInfo bridge = null;
             if (mayBridge != null && mayBridge.Count > 0)
             {
                 var dirBridge = mayBridge.Find(x => x.inNode == parentName);
@@ -312,11 +312,12 @@ namespace BridgeUI
             }
             else
             {
-                bridge = poolDic[defultBridge].Allocate();
-                bridge.inNode = parentName;
-                bridge.outNode = panelName;
-                bridge.showModel = 0;
-                return bridge;
+                bridge = defultBridge;
+                var bg = poolDic[defultBridge].Allocate();
+                bg.Info.inNode = parentName;
+                bg.Info.outNode = panelName;
+                bg.Info.showModel = 0;
+                return bg;
             }
 
         }
@@ -330,7 +331,7 @@ namespace BridgeUI
             {
                 poolDic[item] = new BridgePool(item);
             }
-            defultBridge = new Bridge();
+            defultBridge = new BridgeInfo();
             poolDic[defultBridge] = new BridgePool(defultBridge);
         }
 

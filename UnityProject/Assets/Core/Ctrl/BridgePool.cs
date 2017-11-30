@@ -16,9 +16,9 @@ namespace BridgeUI
 {
     public class BridgePool
     {
-        private Bridge bridgePrefab;
+        private BridgeInfo bridgePrefab;
         private ObjectPool<Bridge> innerPool;
-        public BridgePool(Bridge bridgeObj)
+        public BridgePool(BridgeInfo bridgeObj)
         {
             this.bridgePrefab = bridgeObj;
             innerPool = new ObjectPool<Bridge>(1, CreateInstence);
@@ -26,10 +26,7 @@ namespace BridgeUI
 
         public Bridge CreateInstence()
         {
-            var bridge = new Bridge();
-            bridge.inNode = bridgePrefab.inNode;
-            bridge.outNode = bridgePrefab.outNode;
-            bridge.showModel = bridgePrefab.showModel;
+            var bridge = new Bridge(bridgePrefab);
             return bridge;
         }
 

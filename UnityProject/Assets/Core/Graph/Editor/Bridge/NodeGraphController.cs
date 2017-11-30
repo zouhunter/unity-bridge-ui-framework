@@ -134,7 +134,7 @@ namespace NodeGraph
             }
         }
 
-        private void InsertBridges(List<Bridge> source, List<Bridge> newBridges)
+        private void InsertBridges(List<BridgeInfo> source, List<BridgeInfo> newBridges)
         {
             if (newBridges == null) return;
             foreach (var item in newBridges)
@@ -188,14 +188,14 @@ namespace NodeGraph
                 }
             }
         }
-        private List<Bridge> GetBridges()
+        private List<BridgeInfo> GetBridges()
         {
             var nodes = TargetGraph.Nodes;
             var connectons = TargetGraph.Connections;
-            var bridges = new List<Bridge>();
+            var bridges = new List<BridgeInfo>();
             foreach (var item in connectons)
             {
-                var bridge = new Bridge();
+                var bridge = new BridgeInfo();
                 var innode = nodes.Find(x => x.OutputPoints != null && x.OutputPoints.Find(y => y.Id == item.FromNodeConnectionPointId) != null);
                 var outnode = nodes.Find(x => x.InputPoints != null && x.InputPoints.Find(y => y.Id == item.ToNodeConnectionPointId) != null);
                 if (innode != null)

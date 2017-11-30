@@ -5,12 +5,13 @@ using UnityEngine.Events;
 using System;
 namespace BridgeUI.Model
 {
+   
     /// <summary>
     /// 记录面板之间的加载关联
     /// [同时用于之间的数据交流,使用时实例化对象]
     /// </summary>
     [System.Serializable]
-    public class Bridge
+    public class BridgeInfo
     {
 
         #region 加载规则
@@ -19,8 +20,13 @@ namespace BridgeUI.Model
         public string outNode;
         #endregion
 
-        #region 实例使用
+     
+    }
 
+    public class Bridge
+    {
+        #region 实例使用
+        public BridgeInfo Info { get; private set; }
         public UnityAction<Queue<object>> onGet { get; set; }
         public Queue<object> dataQueue = new Queue<object>();
         public event UnityAction<Bridge> onRelease;
@@ -28,7 +34,10 @@ namespace BridgeUI.Model
         public event UnityAction<IPanelBaseInternal> onCreate;
         public IPanelBaseInternal InPanel { get; private set; }
         public IPanelBaseInternal OutPanel { get; private set; }
-
+        public Bridge(BridgeInfo info)
+        {
+            this.Info = info;
+        }
         public void Reset(IPanelBaseInternal parentPanel)
         {
             this.InPanel = parentPanel;

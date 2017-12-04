@@ -59,7 +59,8 @@ namespace BridgeUI
         protected IAnimPlayer animPlayer;
         private bool _isShowing = true;
         private bool _isAlive = true;
-        protected virtual bool autoCharge { get { return false; } }
+        private  bool autoCharge;
+        private Dictionary<string, MemberInfo> fieldDic;
         protected UnityAction onChargeComplete { get; set; }
         public void SetParent(Transform Trans)
         {
@@ -91,27 +92,19 @@ namespace BridgeUI
                 {
                     var data = dataQueue.Dequeue();
                     if(data != null){
-                        if(data is Hashtable){
-                            HandleDicData(data as Hashtable);
-                        }
-                        else
-                        {
-                            HandleSingleData(data);
-                        }
+                        HandleData(data);
                     }
                 }
             }
         }
-        protected virtual void HandleSingleData(object data)
+
+        protected virtual void HandleData(object data)
         {
-        }
-        protected virtual void HandleDicData(Hashtable dic)
-        {
-            if (autoCharge){
-                LoadData(dic);
+            if (data is Hashtable && autoCharge){
+                LoadData(data as Hashtable);
             }
         }
-        private Dictionary<string, MemberInfo> fieldDic;
+
         private void InitChargeDic()
         {
             if (fieldDic == null)
@@ -128,6 +121,7 @@ namespace BridgeUI
                             key = field.Name;
                         }
                         fieldDic.Add(key, field);
+                        autoCharge = true;
                     }
                 }
             }
@@ -160,9 +154,7 @@ namespace BridgeUI
         {
             base.Awake();
             selfFacade = UIFacade.CreatePanelFacade(this);
-            if (autoCharge){
-                InitChargeDic();
-            }
+            InitChargeDic();
         }
         protected override void Start()
         {

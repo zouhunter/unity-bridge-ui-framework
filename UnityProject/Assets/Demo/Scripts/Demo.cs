@@ -24,7 +24,9 @@ public class Demo : MonoBehaviour
     {
         if (GUILayout.Button("Open:MainPanel"))
         {
-            uiFacade.Open(PanelNames.MainPanel);
+            var dic = new Hashtable();
+            dic["title"] = "我是主面板";
+            uiFacade.Open(PanelNames.MainPanel,dic);
         }
         for (int i = 0; i < 2; i++)
         {

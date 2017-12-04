@@ -24,9 +24,9 @@ public class Demo : MonoBehaviour
     {
         if (GUILayout.Button("Open:MainPanel"))
         {
-            var dic = new Hashtable();
+            var dic = new Dictionary<string,object>();
             dic["title"] = "我是主面板";
-            uiFacade.Open(PanelNames.MainPanel,dic);
+            uiFacade.Open(PanelNames.MainPanel, dic);
         }
         for (int i = 0; i < 2; i++)
         {
@@ -47,6 +47,8 @@ public class Demo : MonoBehaviour
 
     private void OpenPanel01(int index)
     {
+        var dic = new Hashtable();
+        dic[0] = "我是panel01";
         var handle = uiFacade.Open(pane01, index + "你好panel01");
         Debug.Log(index + "handle:" + handle);
         handle.onCallBack = (panel, data) =>
@@ -62,6 +64,6 @@ public class Demo : MonoBehaviour
             Debug.Log(index + "onCloese:" + panel);
         };
 
-        handle.Send(index + "你好panel01 _ send");
+        handle.Send(dic);
     }
 }

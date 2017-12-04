@@ -20,6 +20,8 @@ class Panel01 : SinglePanel, IPointerClickHandler
     [SerializeField]
     private Button m_childPanel;
 
+    [Charge(0)]
+    private string testReceive { set { Debug.Log(value); } }
     protected override void Awake()
     {
         base.Awake();

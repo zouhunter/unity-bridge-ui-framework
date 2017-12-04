@@ -60,7 +60,7 @@ namespace BridgeUI
         private bool _isShowing = true;
         private bool _isAlive = true;
         private  bool autoCharge;
-        private Dictionary<string, MemberInfo> fieldDic;
+        private Dictionary<object, MemberInfo> fieldDic;
         protected UnityAction onChargeComplete { get; set; }
         public void SetParent(Transform Trans)
         {
@@ -100,8 +100,8 @@ namespace BridgeUI
 
         protected virtual void HandleData(object data)
         {
-            if (data is Hashtable && autoCharge){
-                LoadData(data as Hashtable);
+            if (data is IDictionary && autoCharge){
+                LoadData(data as IDictionary);
             }
         }
 
@@ -110,14 +110,14 @@ namespace BridgeUI
             if (fieldDic == null)
             {
                 var fields = this.GetType().GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.GetProperty);
-                if (fields.Length > 0) fieldDic = new Dictionary<string, MemberInfo>();
+                if (fields.Length > 0) fieldDic = new Dictionary<object, MemberInfo>();
                 foreach (var field in fields)
                 {
                     var atts = field.GetCustomAttributes(typeof(Charge), true);
                     if (atts.Length > 0)
                     {
                         var key = (atts[0] as Charge).key;
-                        if(string.IsNullOrEmpty(key)){
+                        if(key == null){
                             key = field.Name;
                         }
                         fieldDic.Add(key, field);
@@ -127,13 +127,13 @@ namespace BridgeUI
             }
           
         }
-        private void LoadData(Hashtable data)
+        private void LoadData(IDictionary data)
         {
             if (fieldDic != null)
             {
                 foreach (var item in data.Keys)
                 {
-                    var key = (string)item;
+                    var key = item;
                     if (fieldDic.ContainsKey(key))
                     {
                         var member = fieldDic[key];
@@ -150,6 +150,7 @@ namespace BridgeUI
             }
 
         }
+       
         protected override void Awake()
         {
             base.Awake();

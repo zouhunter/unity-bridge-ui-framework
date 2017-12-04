@@ -68,8 +68,8 @@ namespace BridgeUI
         /// <param name="onCreate"></param>
         private void GetGameObjectInfo(BundleUIInfo itemInfo)
         {
-            var trigger = itemInfo as BundleUIInfo;
 #if AssetBundleTools
+            var trigger = itemInfo as BundleUIInfo;
             assetLoader.LoadAssetFromUrlAsync<GameObject>(trigger.bundleName, trigger.panelName, (x) =>
             {
                 if (x != null)

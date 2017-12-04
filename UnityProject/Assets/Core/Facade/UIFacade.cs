@@ -2,8 +2,24 @@
 using System.Collections.Generic;
 using System;
 using BridgeUI.Model;
+using System.Reflection;
+using UnityEngine.Events;
+public partial class PanelName
+{
+    static PanelName()
+    {
+        var fields = typeof(PanelName).GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.GetProperty);
+        foreach (var item in fields)
+        {
+            item.SetValue(null, item.Name, null);
+        }
+    }
+
+}
+
 namespace BridgeUI
 {
+  
     /// <summary>
     /// 界面操作接口
     /// </summary>
@@ -92,7 +108,18 @@ namespace BridgeUI
             }
             return handle;
         }
-
+        public IUIHandle Open(string panelName, UnityAction<object> callBack, object data = null)
+        {
+            var handle = Open(panelName, data);
+            if(callBack != null){
+                handle.onCallBack = (x, y) =>
+                {
+                    callBack(y);
+                };
+            }
+          
+            return handle;
+        }
         private void InternalOpen(IPanelGroup group, IUIHandleInternal handle, string panelName, object data = null)
         {
             Bridge bridgeObj = group.InstencePanel(parentPanel, panelName, Content);
@@ -166,5 +193,7 @@ namespace BridgeUI
             }
             return globleHave;
         }
+
+      
     }
 }

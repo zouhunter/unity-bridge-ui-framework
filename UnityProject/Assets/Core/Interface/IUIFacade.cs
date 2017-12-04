@@ -17,6 +17,7 @@ namespace BridgeUI
     public interface IUIFacade
     {
         IUIHandle Open(string panelName, object data = null);
+        IUIHandle Open(string panelName, UnityAction<object> callBack, object data = null);
         bool IsPanelOpen(string panelName);
         void Hide(string panelName);
         void Close(string panelName);

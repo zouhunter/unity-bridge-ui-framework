@@ -8,14 +8,14 @@ using V1 = AssetBundleGraph;
 using Model = NodeGraph.DataModel.Version2;
 using NodeGraph;
 
-[CustomNode("Lunch/AnyState", 3)]
-public class AnyLunchNode : Node
+[CustomNode("Luncher", 0)]
+public class Luncher : Node
 {
     public override string ActiveStyle
     {
         get
         {
-            return "node 3 on";
+            return "node 0 on";
         }
     }
 
@@ -23,7 +23,7 @@ public class AnyLunchNode : Node
     {
         get
         {
-            return "node 3";
+            return "node 0";
         }
     }
 
@@ -31,7 +31,7 @@ public class AnyLunchNode : Node
     {
         get
         {
-            return "anly";
+            return "empty";
         }
     }
     public override void Initialize(Model.NodeData data)
@@ -42,7 +42,7 @@ public class AnyLunchNode : Node
 
     public override Node Clone(Model.NodeData newData)
     {
-        var newNode = new AnyLunchNode();
+        var newNode = new Luncher();
         Debug.Log("Clone");
         return newNode;
     }

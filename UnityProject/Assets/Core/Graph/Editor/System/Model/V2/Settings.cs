@@ -223,7 +223,7 @@ namespace NodeGraph.DataModel.Version2 {
 
 		public class GUI {
 			public const float NODE_BASE_WIDTH = 120f;
-			public const float NODE_BASE_HEIGHT = 40f;
+			public const float NODE_BASE_HEIGHT = 18f;
 			public const float NODE_WIDTH_MARGIN = 48f;
 			public const float NODE_TITLE_HEIGHT_MARGIN = 8f;
 

@@ -6,11 +6,12 @@ using System;
 using UnityEditor;
 using BridgeUI.Model;
 using BridgeUI;
+
 public abstract class PanelNodeBase : Node, IPanelInfoHolder
 {
-    private const int lableWidth = 120;
+    protected const int lableWidth = 120;
+    protected GameObject prefab;
     public NodeInfo nodeInfo = new NodeInfo();
-    private GameObject prefab;
     public NodeInfo Info
     {
         get
@@ -34,9 +35,11 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
 
     protected virtual void DrawNodeInfo(NodeGUI node, Action onValueChanged)
     {
-        EditorGUILayout.HelpBox("[窗体信息配制:]", MessageType.Info);
+        DrawHeadSelect();
 
-        if (ChangeCheckField(DrawObjectField))
+        EditorGUILayout.HelpBox("[窗体信息配制:]", MessageType.Info);
+        
+        if (ChangeCheckField(DrawHeadField))
         {
             RecordPrefabInfo(node);
             onValueChanged.Invoke();
@@ -47,6 +50,8 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
             onValueChanged.Invoke();
         }
     }
+
+    protected abstract void DrawHeadSelect();
 
     protected virtual void LoadRecordIfEmpty()
     {
@@ -73,22 +78,25 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
             nodeInfo.prefabGuid = AssetDatabase.AssetPathToGUID(path);
         }
     }
-
-    private void DrawObjectField()
+    protected abstract void DrawHeadField();
+    protected abstract void DrawInforamtion();
+    protected void DrawObjectFieldInternal()
     {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("【预制体】:", EditorStyles.largeLabel,GUILayout.Width(lableWidth));
+            EditorGUILayout.LabelField("【预制体】:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
             prefab = EditorGUILayout.ObjectField(prefab, typeof(GameObject), false) as GameObject;
         }
     }
-    private void DrawInforamtion()
-    {
+    protected void DrawFormType() {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("移动机制:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
             nodeInfo.uiType.form = (UIFormType)EditorGUILayout.EnumPopup(nodeInfo.uiType.form);
         }
+    }
+    protected void DrawLayerType()
+    {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("绝对显示:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
@@ -99,21 +107,32 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
             EditorGUILayout.LabelField("相对优先:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
             nodeInfo.uiType.layerIndex = EditorGUILayout.IntField(nodeInfo.uiType.layerIndex);
         }
+    }
+    protected void DrawHideType()
+    {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("隐藏方式:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
             nodeInfo.uiType.hideRule = (HideRule)EditorGUILayout.EnumPopup(nodeInfo.uiType.hideRule);
         }
+    }
+    protected void DrawHideAlaph()
+    {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("隐藏透明:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
             nodeInfo.uiType.hideAlaph = EditorGUILayout.Slider(nodeInfo.uiType.hideAlaph, 0, 1);
         }
+    }
+    protected void DrawCloseRule()
+    {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("关闭方式:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
             nodeInfo.uiType.closeRule = (CloseRule)EditorGUILayout.EnumPopup(nodeInfo.uiType.closeRule);
         }
+    }
+    protected void DrawAnim() { 
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("出场动画:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
@@ -125,6 +144,7 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
             nodeInfo.uiType.quitAnim = (UIAnimType)EditorGUILayout.EnumPopup(nodeInfo.uiType.quitAnim);
         }
     }
+
     private bool ChangeCheckField(UnityAction func)
     {
         EditorGUI.BeginChangeCheck();

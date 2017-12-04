@@ -12,6 +12,8 @@ using System.Collections;
 using System;
 using BridgeUI.Model;
 using System.Collections.Generic;
+using System.Reflection;
+
 namespace BridgeUI
 {
     public abstract class PanelBase : UIBehaviour, IPanelBase
@@ -42,7 +44,6 @@ namespace BridgeUI
                 return _isShowing && !IsDestroyed();
             }
         }
-
         public bool IsAlive
         {
             get
@@ -52,13 +53,14 @@ namespace BridgeUI
         }
 
         protected UIFacade selfFacade;
-
         protected Bridge bridge;
         protected List<IPanelBase> childPanels;
         public event UnityAction<IPanelBase> onDelete;
         protected IAnimPlayer animPlayer;
         private bool _isShowing = true;
         private bool _isAlive = true;
+        protected virtual bool autoCharge { get { return false; } }
+        protected UnityAction onChargeComplete { get; set; }
         public void SetParent(Transform Trans)
         {
             Utility.SetTranform(transform, UType.layer, UType.layerIndex, Trans);
@@ -88,20 +90,79 @@ namespace BridgeUI
                 while (dataQueue.Count > 0)
                 {
                     var data = dataQueue.Dequeue();
-                    HandleData(data);
+                    if(data != null){
+                        if(data is Hashtable){
+                            HandleDicData(data as Hashtable);
+                        }
+                        else
+                        {
+                            HandleSingleData(data);
+                        }
+                    }
                 }
             }
         }
-
-        protected virtual void HandleData(object data)
+        protected virtual void HandleSingleData(object data)
         {
+        }
+        protected virtual void HandleDicData(Hashtable dic)
+        {
+            if (autoCharge){
+                LoadData(dic);
+            }
+        }
+        private Dictionary<string, MemberInfo> fieldDic;
+        private void InitChargeDic()
+        {
+            if (fieldDic == null)
+            {
+                var fields = this.GetType().GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.GetProperty);
+                if (fields.Length > 0) fieldDic = new Dictionary<string, MemberInfo>();
+                foreach (var field in fields)
+                {
+                    var atts = field.GetCustomAttributes(typeof(Charge), true);
+                    if (atts.Length > 0)
+                    {
+                        var key = (atts[0] as Charge).key;
+                        if(string.IsNullOrEmpty(key)){
+                            key = field.Name;
+                        }
+                        fieldDic.Add(key, field);
+                    }
+                }
+            }
+          
+        }
+        private void LoadData(Hashtable data)
+        {
+            if (fieldDic != null)
+            {
+                foreach (var item in data.Keys)
+                {
+                    var key = (string)item;
+                    if (fieldDic.ContainsKey(key))
+                    {
+                        var member = fieldDic[key];
+                        if (member is FieldInfo)
+                        {
+                            (member as FieldInfo).SetValue(this, data[item]);
+                        }
+                        else if (member is PropertyInfo)
+                        {
+                            (member as PropertyInfo).SetValue(this, data[item], new object[0]);
+                        }
+                    }
+                }
+            }
 
         }
-
         protected override void Awake()
         {
             base.Awake();
             selfFacade = UIFacade.CreatePanelFacade(this);
+            if (autoCharge){
+                InitChargeDic();
+            }
         }
         protected override void Start()
         {

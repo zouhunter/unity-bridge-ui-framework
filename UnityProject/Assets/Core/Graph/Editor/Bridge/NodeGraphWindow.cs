@@ -1146,11 +1146,12 @@ namespace NodeGraph
                     foreach (UnityEngine.Object obj in DragAndDrop.objectReferences)
                     {
                         var path = AssetDatabase.GetAssetPath(obj);
+                       
                         if (!string.IsNullOrEmpty(path))
                         {
                             FileAttributes attr = File.GetAttributes(path);
 
-                            if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+                            if ((attr & FileAttributes.Directory) == FileAttributes.Directory || obj is GameObject)
                             {
                                 DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
                                 break;
@@ -1171,16 +1172,29 @@ namespace NodeGraph
                         {
                             var path = AssetDatabase.GetAssetPath(obj);
                             FileAttributes attr = File.GetAttributes(path);
-
+                            PanelNode panelNode = null;
                             if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
                             {
-                                //AddNodeFromGUI(new Loader(path),
-                                //    string.Format("Load from {0}", Path.GetFileName(path)),
-                                //    evt.mousePosition.x, evt.mousePosition.y);
-                                Debug.Log(path);
+                                var files = System.IO.Directory.GetFiles(path);
+                                foreach (var item in files)
+                                {
+                                    if (item.EndsWith("prefab"))
+                                    {
+                                        panelNode = new PanelNode(item);
+                                        AddNodeFromGUI(panelNode, Path.GetFileNameWithoutExtension(path), evt.mousePosition.x, evt.mousePosition.y);
+                                        Setup();
+                                        Repaint();
+                                    }
+                                }
+                            }
+                            else if (obj is GameObject)
+                            {
+                                panelNode = new PanelNode(path);
+                                AddNodeFromGUI(panelNode,Path.GetFileNameWithoutExtension(path), evt.mousePosition.x, evt.mousePosition.y);
                                 Setup();
                                 Repaint();
                             }
+                            Event.current.Use();
                         }
                     }
                     break;

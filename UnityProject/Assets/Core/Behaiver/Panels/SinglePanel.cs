@@ -18,6 +18,5 @@ namespace BridgeUI
     public class SinglePanel : PanelBase
     {
         public override Transform Content { get { return Group.Trans; } }
-        internal void Test() { }
     }
 }

@@ -93,39 +93,45 @@ namespace BridgeUI
 
         public IUIHandle Open(string panelName, object data = null)
         {
+            var handle = Open(panelName, null, data);
+            return handle;
+        }
+        public IUIHandle Open(string panelName, UnityAction<object> callBack, object data = null)
+        {
             var handle = handlePool.Allocate();
 
             if (currentGroup != null)//限制性打开
             {
-                InternalOpen(currentGroup, handle, panelName, data);
+                InternalOpen(currentGroup, handle, panelName);
             }
             else
             {
                 foreach (var group in groupList)
                 {
-                    InternalOpen(group, handle, panelName, data);
+                    InternalOpen(group, handle, panelName);
                 }
             }
-            return handle;
-        }
-        public IUIHandle Open(string panelName, UnityAction<object> callBack, object data = null)
-        {
-            var handle = Open(panelName, data);
+
             if(callBack != null){
                 handle.RegistCallBack((x, y) =>
                 {
                     callBack(y);
                 });
             }
+
+            if(data != null)
+            {
+                handle.Send(data);
+            }
           
             return handle;
         }
-        private void InternalOpen(IPanelGroup group, IUIHandleInternal handle, string panelName, object data = null)
+
+        private void InternalOpen(IPanelGroup group, IUIHandleInternal handle, string panelName)
         {
             Bridge bridgeObj = group.InstencePanel(parentPanel, panelName, Content);
             if (bridgeObj != null)
             {
-                bridgeObj.Send(data);
                 handle.RegistBridge(bridgeObj);
             }
         }

@@ -52,7 +52,14 @@ public class PanelNode : PanelNodeBase
             return "Panel Node : record panel load type and other rule";
         }
     }
+    public PanelNode()
+    {
 
+    }
+    public PanelNode(string prefabPath)
+    {
+        Info.prefabGuid = AssetDatabase.AssetPathToGUID(prefabPath);
+    }
     public override void Initialize(Model.NodeData data)
     {
         data.AddDefaultOutputPoint();

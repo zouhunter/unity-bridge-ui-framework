@@ -1175,16 +1175,13 @@ namespace NodeGraph
                             PanelNode panelNode = null;
                             if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
                             {
-                                var files = System.IO.Directory.GetFiles(path);
+                                var files = System.IO.Directory.GetFiles(path, "*.prefab", SearchOption.AllDirectories);
                                 foreach (var item in files)
                                 {
-                                    if (item.EndsWith("prefab"))
-                                    {
-                                        panelNode = new PanelNode(item);
-                                        AddNodeFromGUI(panelNode, Path.GetFileNameWithoutExtension(path), evt.mousePosition.x, evt.mousePosition.y);
-                                        Setup();
-                                        Repaint();
-                                    }
+                                    panelNode = new PanelNode(item);
+                                    AddNodeFromGUI(panelNode, Path.GetFileNameWithoutExtension(item), evt.mousePosition.x, evt.mousePosition.y);
+                                    Setup();
+                                    Repaint();
                                 }
                             }
                             else if (obj is GameObject)

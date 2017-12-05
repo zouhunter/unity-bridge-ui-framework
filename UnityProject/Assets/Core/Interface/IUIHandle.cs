@@ -22,9 +22,10 @@ namespace BridgeUI
     }
     public interface IUIHandle
     {
-        UnityAction<IPanelBase, object> onCallBack { get; set; }
-        UnityAction<IPanelBase> onCreate { get; set; }
-        UnityAction<IPanelBase> onClose { get; set; }
-        void Send(object data);
+        IUIHandle Send(object data);
+        IUIHandle RegistCallBack(UnityAction<IPanelBase, object> onCallBack);
+        IUIHandle RegistCreate(UnityAction<IPanelBase> onCreate);
+        IUIHandle RegistClose(UnityAction<IPanelBase> onClose);
+
     }
 }

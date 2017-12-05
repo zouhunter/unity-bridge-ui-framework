@@ -11,14 +11,16 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using BridgeUI.Model;
+using System;
+
 namespace BridgeUI
 {
     public class UIHandle : IUIHandleInternal
     {
         private List<Bridge> bridges = new List<Bridge>();
-        public UnityAction<IPanelBase, object> onCallBack { get; set; }
-        public UnityAction<IPanelBase> onCreate { get; set; }
-        public UnityAction<IPanelBase> onClose { get; set; }
+        private UnityAction<IPanelBase, object> onCallBack { get; set; }
+        private UnityAction<IPanelBase> onCreate { get; set; }
+        private UnityAction<IPanelBase> onClose { get; set; }
         private UnityAction<UIHandle> onRelease { get; set; }
         public void Reset(UnityAction<UIHandle> onRelease)
         {
@@ -56,15 +58,6 @@ namespace BridgeUI
                 Release();
             }
         }
-
-        public void Send(object data)
-        {
-            foreach (var item in bridges)
-            {
-                item.Send(data);
-            }
-        }
-
         private void OnBridgeCallBack(IPanelBase panel, object data)
         {
             if (onCallBack != null)
@@ -94,6 +87,33 @@ namespace BridgeUI
             this.onCallBack = null;
             this.onCreate = null;
             this.onClose = null;
+        }
+
+        public IUIHandle Send(object data)
+        {
+            foreach (var item in bridges)
+            {
+                item.Send(data);
+            }
+            return this;
+        }
+
+        public IUIHandle RegistCallBack(UnityAction<IPanelBase, object> onCallBack)
+        {
+            this.onCallBack = onCallBack;
+            return this;
+        }
+
+        public IUIHandle RegistCreate(UnityAction<IPanelBase> onCreate)
+        {
+            this.onCreate = onCreate;
+            return this;
+        }
+
+        public IUIHandle RegistClose(UnityAction<IPanelBase> onClose)
+        {
+            this.onClose = onClose;
+            return this;
         }
     }
 }

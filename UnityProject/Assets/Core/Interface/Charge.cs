@@ -10,8 +10,8 @@ namespace BridgeUI
     [AttributeUsage(AttributeTargets.Field|AttributeTargets.Property)]
     public class Charge : Attribute
     {
-        public string key;
-        public Charge(string key)
+        public object key;
+        public Charge(object key)
         {
             this.key = key;
         }

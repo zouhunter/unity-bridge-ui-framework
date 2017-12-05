@@ -112,10 +112,10 @@ namespace BridgeUI
         {
             var handle = Open(panelName, data);
             if(callBack != null){
-                handle.onCallBack = (x, y) =>
+                handle.RegistCallBack((x, y) =>
                 {
                     callBack(y);
-                };
+                });
             }
           
             return handle;

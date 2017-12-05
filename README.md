@@ -35,22 +35,19 @@ UIFacade.Instence.Hide(PanelName:string);
 ```
 ###5.注册界面打开事件
 ```
-handle.onCreate = (panel)=>{
-}
+IUIHandle RegistCreate(UnityAction<IPanelBase> onCreate);
 ```
 ###6.注册界面关闭事件
 ```
-handle.onClose = (panel)=>{
-}
+IUIHandle RegistClose(UnityAction<IPanelBase> onClose);
 ```
 ###7.注册界面信息回调
 ```
-handle.onCallBack = (panel,data:object)=>{
-}
+IUIHandle RegistCallBack(UnityAction<IPanelBase, object> onCallBack);
 ```
 ###8.定向发送信息
 ```
-handle.Send(data:object);
+IUIHandle Send(object data);
 ```
 
 

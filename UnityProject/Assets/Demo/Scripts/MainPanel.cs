@@ -21,6 +21,10 @@ public class MainPanel : GroupPanel {
     private Button m_openPanel02;
     [SerializeField]
     private Button m_openPanel03;
+    [SerializeField]
+    private Text m_title;
+    [Charge]
+    private string title { get { return m_title.text; } set { m_title.text = value; } }
     protected override void Awake()
     {
         base.Awake();

@@ -34,6 +34,6 @@ class Panel01 : SinglePanel, IPointerClickHandler
     }
     private void OpenChildPanel()
     {
-        uiFacade.Open(PanelNames.Panel02, "你好panel02");
+        this.Open(PanelNames.Panel02, "你好panel02");
     }
 }

@@ -19,61 +19,31 @@ public partial class PanelName
 
 namespace BridgeUI
 {
-  
+
     /// <summary>
     /// 界面操作接口
     /// </summary>
     public sealed class UIFacade : IUIFacade
     {
+        private static UIFacade _instence;
         public static UIFacade Instence
         {
             get
             {
-                if (!facadeDic.ContainsKey(0) || facadeDic[0] == null)
+                if (_instence == null)
                 {
-                    facadeDic[0] = new UIFacade();
+                    _instence = new UIFacade();
                 }
-                return facadeDic[0];
-            }
-        }
-        public static UIFacade CreatePanelFacade(IPanelBase parentPanel)
-        {
-            if (parentPanel == null)
-            {
-                return Instence;
-            }
-            else
-            {
-                var id = parentPanel.InstenceID;
-                if (!facadeDic.ContainsKey(id) || facadeDic[id] == null || facadeDic[id].parentPanel == null)
-                {
-                    facadeDic[id] = new UIFacade(parentPanel);
-                    facadeDic[id].parentPanel = parentPanel;
-                }
-                return facadeDic[id];
-            }
-        }
-        public static void RemovePanelFacade(IPanelBase parentPanel)
-        {
-            if (parentPanel != null)
-            {
-                var id = parentPanel.InstenceID;
-                facadeDic.Remove(id);
+                return _instence;
             }
         }
         // Facade实例
-        private static Dictionary<int, UIFacade> facadeDic = new Dictionary<int, UIFacade>();
         // 面板组
         private static List<IPanelGroup> groupList = new List<IPanelGroup>();
         //handle池
         private static UIHandlePool handlePool = new UIHandlePool();
 
-        private IPanelBase parentPanel;//如果有设置其为父transform
-        private IPanelGroup currentGroup { get { return parentPanel == null ? null : parentPanel.Group; } }
-        private Transform Content { get { return parentPanel == null ? null : parentPanel.Content; } }
         private UIFacade() { }
-
-        private UIFacade(IPanelBase parentPanel) : this() { this.parentPanel = parentPanel; }
 
         public static void RegistGroup(IPanelGroup group)
         {
@@ -96,47 +66,59 @@ namespace BridgeUI
             var handle = Open(panelName, null, data);
             return handle;
         }
+
         public IUIHandle Open(string panelName, UnityAction<object> callBack, object data = null)
         {
+            return Open(null, panelName, callBack, data);
+        }
+        public IUIHandle Open(IPanelBase parent, string panelName, UnityAction<object> callBack, object data = null)
+        {
             var handle = handlePool.Allocate();
+            var currentGroup = parent == null ?  null: parent.Group;
 
             if (currentGroup != null)//限制性打开
             {
-                InternalOpen(currentGroup, handle, panelName);
+                InternalOpen(parent, currentGroup, handle, panelName);
             }
             else
             {
                 foreach (var group in groupList)
                 {
-                    InternalOpen(group, handle, panelName);
+                    InternalOpen(parent, group, handle, panelName);
                 }
             }
 
-            if(callBack != null){
+            if (callBack != null)
+            {
                 handle.RegistCallBack((x, y) =>
                 {
                     callBack(y);
                 });
             }
 
-            if(data != null)
+            if (data != null)
             {
                 handle.Send(data);
             }
-          
+
             return handle;
         }
 
-        private void InternalOpen(IPanelGroup group, IUIHandleInternal handle, string panelName)
+        private void InternalOpen(IPanelBase parentPanel, IPanelGroup group, IUIHandleInternal handle, string panelName)
         {
+            var Content = parentPanel == null ? null : parentPanel.Content;
             Bridge bridgeObj = group.InstencePanel(parentPanel, panelName, Content);
             if (bridgeObj != null)
             {
                 handle.RegistBridge(bridgeObj);
             }
         }
-
         public void Hide(string panelName)
+        {
+            Hide(null, panelName);
+        }
+
+        public void Hide(IPanelGroup currentGroup, string panelName)
         {
             if (currentGroup != null)//限制性打开
             {
@@ -163,7 +145,7 @@ namespace BridgeUI
             }
         }
 
-        public void Close(string panelName)
+        public void Close(IPanelGroup currentGroup, string panelName)
         {
             if (currentGroup != null)
             {
@@ -177,13 +159,18 @@ namespace BridgeUI
                 }
             }
         }
+        public void Close(string panelName)
+        {
+            Close(null, panelName);
+        }
 
         private void InteralClose(IPanelGroup group, string panelName)
         {
             var panels = group.RetrivePanels(panelName);
             if (panels != null)
             {
-                foreach (var panel in panels) {
+                foreach (var panel in panels)
+                {
                     panel.Close();
                 }
             }
@@ -194,12 +181,15 @@ namespace BridgeUI
             bool globleHave = false;
             foreach (var item in groupList)
             {
-                var panels = item.RetrivePanels(panelName);
-                globleHave |= (panels != null && panels.Count > 0);
+                globleHave |= IsPanelOpen(item, panelName);
             }
             return globleHave;
         }
 
-      
+        public bool IsPanelOpen(IPanelGroup parentPanel, string panelName)
+        {
+            var panels = parentPanel.RetrivePanels(panelName);
+            return (panels != null && panels.Count > 0);
+        }
     }
 }

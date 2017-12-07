@@ -12,7 +12,8 @@ using System.Collections;
 using System.Collections.Generic;
 using BridgeUI;
 
-public class MainPanel : GroupPanel {
+public class MainPanel : GroupPanel
+{
     [SerializeField]
     private Button m_close;
     [SerializeField]
@@ -28,9 +29,9 @@ public class MainPanel : GroupPanel {
     protected override void Awake()
     {
         base.Awake();
-        m_openPanel01.onClick.AddListener(()=>uiFacade.Open(PanelNames.Panel01));
-        m_openPanel02.onClick.AddListener(()=> uiFacade.Open(PanelNames.Panel02));
-        m_openPanel03.onClick.AddListener(()=> uiFacade.Open(PanelNames.Panel03));
+        m_openPanel01.onClick.AddListener(() => this.Open(PanelNames.Panel01));
+        m_openPanel02.onClick.AddListener(() => this.Open(PanelNames.Panel02));
+        m_openPanel03.onClick.AddListener(() => this.Open(PanelNames.Panel03));
         m_close.onClick.AddListener(Close);
     }
 }

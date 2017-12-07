@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using BridgeUI.Model;
-
+using UnityEngine.Events;
 namespace BridgeUI
 {
 #if UNITY_EDITOR
     using UnityEditor;
     using System;
-    public partial class Utility
+    public static partial class Utility
     {
         public static void ApplyPrefab(GameObject gitem)
         {
@@ -244,9 +244,27 @@ namespace BridgeUI
         }
     }
 #endif
-
-    public partial class Utility
+    public static partial class Utility
     {
+        public static IUIHandle Open(this IPanelBase parentPanel, string panelName, object data = null)
+        {
+            return Utility.Open(parentPanel, panelName, null, data);
+        }
+
+        public static IUIHandle Open(this IPanelBase parentPanel, string panelName,UnityAction<object> callBack, object data = null)
+        {
+           return UIFacade.Instence.Open(parentPanel, panelName, callBack, data);
+        }
+
+        public static void Hide(this IPanelBase parentPanel,string panelName)
+        {
+            UIFacade.Instence.Hide(parentPanel.Group, panelName);
+        }
+
+        public static void Close(this IPanelBase parentPanel,string panelName)
+        {
+            UIFacade.Instence.Close(parentPanel.Group, panelName);
+        }
 
         public static void SetTranform(Transform item, UILayerType layer, int layerIndex, Transform parent)
         {

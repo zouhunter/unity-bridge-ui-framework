@@ -19,7 +19,7 @@ namespace BridgeUI
 
         void Update()
         {
-            tween.Update();
+           if(tween != null) tween.Update();
         }
 
         public void EnterAnim(UIAnimType animType,UnityAction onComplete)

@@ -22,7 +22,7 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
     protected abstract string HeadInfo { get; }
     public override Node Clone(Model.NodeData newData)
     {
-        return newData.Operation.Clone();
+        return Clone(newData);
     }
 
     public override void OnInspectorGUI(NodeGUI node, NodeGUIEditor editor, Action onValueChanged)
@@ -31,6 +31,7 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
         editor.UpdateNodeName(node);
         LoadRecordIfEmpty();
         DrawNodeInfo(node, onValueChanged);
+        if(prefab != null) node.Name = prefab.name;
     }
 
     protected virtual void DrawNodeInfo(NodeGUI node, Action onValueChanged)
@@ -73,7 +74,6 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
     {
         if (prefab != null)
         {
-            node.Name = prefab.name;
             var path = AssetDatabase.GetAssetPath(prefab);
             nodeInfo.prefabGuid = AssetDatabase.AssetPathToGUID(path);
         }

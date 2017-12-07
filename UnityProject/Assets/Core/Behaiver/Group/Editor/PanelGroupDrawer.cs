@@ -335,6 +335,9 @@ namespace BridgeUIEditor
         /// </summary>
         private void QuickUpdateFromGraph()
         {
+            prefabsProp.ClearArray();
+            bundlesProp.ClearArray();
+            bridgesProp.ClearArray();
             for (int i = 0; i < graphListProp.arraySize; i++)
             {
                 var guid = graphListProp.GetArrayElementAtIndex(i).FindPropertyRelative("guid").stringValue;

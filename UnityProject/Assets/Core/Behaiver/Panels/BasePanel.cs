@@ -52,7 +52,7 @@ namespace BridgeUI
             }
         }
 
-        protected UIFacade selfFacade;
+        protected UIFacade uiFacade;
         protected Bridge bridge;
         protected List<IPanelBase> childPanels;
         public event UnityAction<IPanelBase> onDelete;
@@ -154,7 +154,7 @@ namespace BridgeUI
         protected override void Awake()
         {
             base.Awake();
-            selfFacade = UIFacade.CreatePanelFacade(this);
+            uiFacade = UIFacade.CreatePanelFacade(this);
             InitChargeDic();
         }
         protected override void Start()

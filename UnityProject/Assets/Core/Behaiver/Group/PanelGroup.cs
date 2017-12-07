@@ -83,7 +83,10 @@ namespace BridgeUI
                     if (panel != null)
                     {
                         createdPanels.Add(panel);
-                        if (parentPanel != null) parentPanel.RecordChild(panel);
+                        if (parentPanel != null)
+                        {
+                            parentPanel.RecordChild(panel);
+                        }
                         bridgeDic.Add(panel, bridge);
                         InitPanel(panel, bridge, uiNode);
                         HandBridgeOptions(panel, bridge);

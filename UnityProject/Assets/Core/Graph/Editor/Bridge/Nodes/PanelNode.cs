@@ -95,6 +95,7 @@ public class PanelNode : PanelNodeBase
         if ((nodeType & NodeType.HideGO) == 0)
         {
             DrawHideAlaph();
+            Info.uiType.hideRule = BridgeUI.HideRule.AlaphGameObject;
         }
         else
         {

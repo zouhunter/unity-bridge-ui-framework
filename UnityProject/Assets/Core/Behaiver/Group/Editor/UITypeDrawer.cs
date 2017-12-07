@@ -23,6 +23,7 @@ namespace BridgeUIEditor
         SerializedProperty hideAlaphProp;
         SerializedProperty enterAnimProp;
         SerializedProperty quitAnimProp;
+        SerializedProperty hideRuleProp;
 
         const float lableWidth = 120;
 
@@ -39,6 +40,7 @@ namespace BridgeUIEditor
             hideAlaphProp = property.FindPropertyRelative("hideAlaph");
             enterAnimProp = property.FindPropertyRelative("enterAnim");
             quitAnimProp = property.FindPropertyRelative("quitAnim");
+            hideRuleProp = property.FindPropertyRelative("hideRule");
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -61,9 +63,18 @@ namespace BridgeUIEditor
             }
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                EditorGUILayout.LabelField("隐藏透明度:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-                hideAlaphProp.floatValue = EditorGUILayout.Slider(hideAlaphProp.floatValue, 0, 1);
+                EditorGUILayout.LabelField("隐藏方式:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+                hideRuleProp.enumValueIndex = (int)(HideRule)EditorGUILayout.EnumPopup((HideRule)hideRuleProp.enumValueIndex);
             }
+            if ((HideRule)hideRuleProp.enumValueIndex == HideRule.AlaphGameObject)
+            {
+                using (var hor = new EditorGUILayout.HorizontalScope())
+                {
+                    EditorGUILayout.LabelField("隐藏透明度:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+                    hideAlaphProp.floatValue = EditorGUILayout.Slider(hideAlaphProp.floatValue, 0, 1);
+                }
+            }
+          
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("出场动画组:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));

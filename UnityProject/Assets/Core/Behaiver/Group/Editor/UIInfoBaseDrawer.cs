@@ -98,13 +98,13 @@ namespace BridgeUIEditor
         protected virtual void InformationShow(Rect rect)
         {
             var infoRect = rect;
-            infoRect.x = infoRect.width - 100;
+            infoRect.x = infoRect.width - 125;
             infoRect.width = 25;
             GUI.color = new Color(0.3f, 0.5f, 0.8f);
             EditorGUI.SelectableLabel(infoRect, string.Format("[{0}]", ((UIFormType)formProp.enumValueIndex).ToString().Substring(0, 1)));
 
-            infoRect.x += infoRect.width * 2;
-            infoRect.width = 100;
+            infoRect.x += 50;
+            infoRect.width = 50;
             GUI.color = new Color(0.8f, 0.8f, 0.4f);
             string str = Utility.LayerToString((UILayerType)layerProp.intValue, false);// LayerToString();
             EditorGUI.SelectableLabel(infoRect, string.Format("{0} {1}", str, layerIndexProp.intValue));

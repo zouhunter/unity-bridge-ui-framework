@@ -38,7 +38,7 @@ namespace BridgeUIEditor
         {
             if (prefabProp.objectReferenceValue != null)
             {
-                if (GUI.Button(rect, "", EditorStyles.objectFieldMiniThumb))
+                if (GUI.Button(rect, " ", EditorStyles.objectFieldMiniThumb))
                 {
                     EditorGUIUtility.PingObject(prefabProp.objectReferenceValue);
                 }

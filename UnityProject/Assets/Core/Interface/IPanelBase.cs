@@ -23,6 +23,7 @@ namespace BridgeUI
         string Name { get; }
         int InstenceID { get; }
         IPanelGroup Group { get; set; }
+        IPanelBase Parent { get; set; }
         Transform Content { get; }
         List<IPanelBase> ChildPanels { get; }
 

@@ -83,8 +83,7 @@ namespace BridgeUI
                     if (panel != null)
                     {
                         createdPanels.Add(panel);
-                        if (parentPanel != null)
-                        {
+                        if (parentPanel != null){
                             parentPanel.RecordChild(panel);
                         }
                         bridgeDic.Add(panel, bridge);
@@ -263,7 +262,7 @@ namespace BridgeUI
         {
             if (bridge.showModel.baseShow == BaseShow.Hide)
             {
-                var parent = createdPanels.Find(x => x.Name == bridge.inNode);
+                var parent = panel.Parent;
                 if (parent != null)
                 {
                     panel.SetParent(Trans);
@@ -273,10 +272,10 @@ namespace BridgeUI
 
             if (bridge.showModel.baseShow == BaseShow.Destroy)
             {
-                var parent = createdPanels.Find(x => x.Name == bridge.inNode);
-                if (parent != null)
+                var parent = panel.Parent;
+                if (parent != null && parent.ChildPanels.Count > 0)
                 {
-                    parent.ChildPanels.Clear();
+                    parent.ChildPanels.Remove(panel);
                     
                     if(hidedPanelStack.ContainsKey(parent))
                     {

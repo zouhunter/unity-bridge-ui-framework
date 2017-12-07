@@ -27,6 +27,7 @@ namespace BridgeUI
         }
         public string Name { get { return name; } }
         public IPanelGroup Group { get; set; }
+        public IPanelBase Parent { get; set; }
         public abstract Transform Content { get; }
         public UIType UType { get; set; }
         public List<IPanelBase> ChildPanels
@@ -255,13 +256,13 @@ namespace BridgeUI
 
         public void RecordChild(IPanelBase childPanel)
         {
-            if (childPanels == null)
-            {
+            if (childPanels == null){
                 childPanels = new List<IPanelBase>();
             }
             if (!childPanels.Contains(childPanel))
             {
                 childPanel.onDelete += OnRemoveChild;
+                childPanel.Parent = this;
                 childPanels.Add(childPanel);
             }
         }

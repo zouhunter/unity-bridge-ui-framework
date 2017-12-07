@@ -25,6 +25,7 @@ namespace BridgeUI
         IPanelGroup Group { get; set; }
         IPanelBase Parent { get; set; }
         Transform Content { get; }
+        Transform Root { get; }
         List<IPanelBase> ChildPanels { get; }
 
         event UnityAction<IPanelBase> onDelete;

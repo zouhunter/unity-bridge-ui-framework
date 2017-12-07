@@ -265,7 +265,7 @@ namespace BridgeUI
                 var parent = panel.Parent;
                 if (parent != null)
                 {
-                    panel.SetParent(Trans);
+                    panel.SetParent(parent.Root);
                     HidePanelInteral(panel, parent);
                 }
             }
@@ -275,6 +275,7 @@ namespace BridgeUI
                 var parent = panel.Parent;
                 if (parent != null && parent.ChildPanels.Count > 0)
                 {
+                    panel.SetParent(parent.Root);
                     parent.ChildPanels.Remove(panel);
                     
                     if(hidedPanelStack.ContainsKey(parent))
@@ -342,32 +343,24 @@ namespace BridgeUI
         /// <returns></returns>
         private Bridge GetBridgeClamp(IPanelBase parentPanel, string panelName)
         {
+            Bridge bridge = null;
             var parentName = parentPanel == null ? "" : parentPanel.Name;
-            var mayBridge = bridges.FindAll(x => x.outNode == panelName);
-            BridgeInfo bridge = null;
-            if (mayBridge != null && mayBridge.Count > 0)
-            {
-                var dirBridge = mayBridge.Find(x => x.inNode == parentName);
-                if (dirBridge != null)
-                {
-                    bridge = dirBridge;
-                }
-                else
-                {
-                    bridge = mayBridge[0];
-                }
-                return poolDic[bridge].Allocate(parentPanel);
+            var bridgeInfo = bridges.Find(x => x.outNode == panelName && x.inNode == parentName);
+            if (bridgeInfo == null && parentName != ""){
+                bridgeInfo = bridges.Find(x => x.outNode == parentName && x.inNode == "");
+            }
+            if(bridgeInfo == null) {
+                bridgeInfo = defultBridge;
+                bridge = poolDic[defultBridge].Allocate();
+                bridge.Info.inNode = parentName;
+                bridge.Info.outNode = panelName;
+                bridge.Info.showModel = new ShowMode();
             }
             else
             {
-                bridge = defultBridge;
-                var bg = poolDic[defultBridge].Allocate();
-                bg.Info.inNode = parentName;
-                bg.Info.outNode = panelName;
-                bg.Info.showModel = new ShowMode();
-                return bg;
+                bridge = poolDic[bridgeInfo].Allocate(parentPanel);
             }
-
+            return bridge;
         }
 
         /// <summary>

@@ -136,24 +136,49 @@ namespace BridgeUI
 
         public static string ShowModelToString(ShowMode show)
         {
+            if (show == null) return "";
             string str = "";
-            if ((show & ShowMode.Auto) == ShowMode.Auto)
+            if (show.auto)
             {
                 str += "[a]";
             }
-            if ((show & ShowMode.Cover) == ShowMode.Cover)
+            if (show.cover)
             {
                 str += "[c]";
             }
-            if ((show & ShowMode.Mutex) == ShowMode.Mutex)
+            if (show.mutex != MutexRule.NoMutex)
             {
-                str += "[m]";
+                switch (show.mutex)
+                {
+                    case MutexRule.NoMutex:
+                        break;
+                    case MutexRule.SameParentAndLayer:
+                        str += "[m(p)]";
+                        break;
+                    case MutexRule.SameLayer:
+                        str += "[m]";
+                        break;
+                    default:
+                        break;
+                }
             }
-            if ((show & ShowMode.HideBase) == ShowMode.HideBase)
+            if (show.baseShow != BaseShow.NoChange)
             {
-                str += "[h]";
+                switch (show.baseShow)
+                {
+                    case BaseShow.NoChange:
+                        break;
+                    case BaseShow.Hide:
+                        str += "[h]";
+                        break;
+                    case BaseShow.Destroy:
+                        str += "[d]";
+                        break;
+                    default:
+                        break;
+                }
             }
-            if ((show & ShowMode.Single) == ShowMode.Single)
+            if (show .single)
             {
                 str += "[s]";
             }

@@ -32,33 +32,33 @@ namespace NodeGraph
             }
             EditorGUILayout.HelpBox("界面切换规则:", MessageType.Info);
 
-            DrawToggleFromShowModel(con, ShowMode.Auto,"自动打开");
-            DrawToggleFromShowModel(con, ShowMode.Mutex,"同级互斥");
-            DrawToggleFromShowModel(con, ShowMode.Cover, "界面遮罩");
-            DrawToggleFromShowModel(con, ShowMode.HideBase,"隐藏父级");
-            DrawToggleFromShowModel(con, ShowMode.Single, "独立显示");
+            con.Data._show.auto = DrawToggle(con.Data._show.auto, "自动打开");
+            con.Data._show.mutex =(MutexRule) DrawEnum(con.Data._show.mutex,"同级互斥");
+            con.Data._show.cover = DrawToggle( con.Data._show.cover, "界面遮罩");
+            con.Data._show.baseShow = (BaseShow)DrawEnum(con.Data._show.baseShow, "父级演示");
+            con.Data._show.single = DrawToggle( con.Data._show.single, "独立显示");
         }
-        private void DrawToggleFromShowModel(ConnectionGUI con,ShowMode model,string tip)
+
+        private bool DrawToggle(bool on, string tip)
         {
-            var on = (con.Data._show & model) == model;
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                var thison = GUILayout.Toggle(on, model.ToString(), EditorStyles.radioButton, GUILayout.Height(60),GUILayout.Width(100));
+                 on = GUILayout.Toggle(on, tip, EditorStyles.radioButton, GUILayout.Height(60),GUILayout.Width(100));
                 EditorGUILayout.LabelField(tip);
-                if (thison != on)
-                {
-                    on = thison;
-                    if (on)
-                    {
-                        con.Data._show |= model;
-                    }
-                    else
-                    {
-                        con.Data._show &= ~model;
-                    }
-                }
             }
-           
+            return on;
         }
+
+        private Enum DrawEnum(Enum em, string tip) 
+        {
+            using (var hor = new EditorGUILayout.HorizontalScope())
+            {
+                em = EditorGUILayout.EnumPopup(em, EditorStyles.toolbarDropDown, GUILayout.Height(60), GUILayout.Width(100));
+                EditorGUILayout.LabelField(tip);
+            }
+            return em;
+        }
+
+
     }
 }

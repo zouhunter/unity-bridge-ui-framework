@@ -103,7 +103,7 @@ namespace BridgeUI
         #region private Functions
         private void HandBridgeOptions(IPanelBase panel, Bridge bridge)
         {
-            TryHideParent(panel, bridge.Info);
+            TryChangeParentState(panel, bridge.Info);
             TryHideMutexPanels(panel, bridge.Info);
             TryHideGroup(panel, bridge.Info);
             TryMakeCover(panel,bridge.Info);
@@ -117,7 +117,7 @@ namespace BridgeUI
         /// <param name="info"></param>
         private void TryMakeCover(IPanelBase panel, BridgeInfo info)
         {
-            if ((info.showModel & ShowMode.Cover) == ShowMode.Cover)
+            if (info.showModel.cover)
             {
                 panel.Cover();
             }
@@ -129,7 +129,7 @@ namespace BridgeUI
         /// <param name="bridge"></param>
         private void TryHideGroup(IPanelBase panel, BridgeInfo bridge)
         {
-            if ((bridge.showModel & ShowMode.Single) == ShowMode.Single)
+            if ((bridge.showModel.single))
             {
                 var parent = createdPanels.Find(x => x.Name == bridge.inNode);
                 if (parent != null)
@@ -154,12 +154,27 @@ namespace BridgeUI
         /// <param name="bridge"></param>
         private void TryHideMutexPanels(IPanelBase childPanel, BridgeInfo bridge)
         {
-            if ((bridge.showModel & ShowMode.Mutex) == ShowMode.Mutex)
+            if (bridge.showModel.mutex != MutexRule.NoMutex)
             {
-                var mayBridges = bridges.FindAll(x => x.inNode == bridge.inNode);
-                foreach (var bg in mayBridges)
+                if (bridge.showModel.mutex == MutexRule.SameParentAndLayer)
                 {
-                    var mayPanels = createdPanels.FindAll(x => x.Name == bg.outNode && x.UType.layer == childPanel.UType.layer && x != childPanel);
+                    var mayBridges = bridges.FindAll(x => x.inNode == bridge.inNode);
+                    foreach (var bg in mayBridges)
+                    {
+                        var mayPanels = createdPanels.FindAll(x => x.Name == bg.outNode && x.UType.layer == childPanel.UType.layer && x != childPanel);
+                        foreach (var mayPanel in mayPanels)
+                        {
+                            if (mayPanel != null && mayPanel.IsShowing)
+                            {
+                                HidePanelInteral(childPanel, mayPanel);
+                            }
+                        }
+
+                    }
+                }
+                else if(bridge.showModel.mutex == MutexRule.SameLayer)
+                {
+                    var mayPanels = createdPanels.FindAll(x => x.UType.layer == childPanel.UType.layer && x != childPanel);
                     foreach (var mayPanel in mayPanels)
                     {
                         if (mayPanel != null && mayPanel.IsShowing)
@@ -167,8 +182,8 @@ namespace BridgeUI
                             HidePanelInteral(childPanel, mayPanel);
                         }
                     }
-
                 }
+              
             }
         }
 
@@ -179,7 +194,7 @@ namespace BridgeUI
         private void TryAutoOpen(Transform content, IPanelBase parentPanel = null)
         {
             var panelName = parentPanel == null ? "" : parentPanel.Name;
-            var autoBridges = bridges.FindAll(x => x.inNode == panelName && (x.showModel & ShowMode.Auto) == ShowMode.Auto);
+            var autoBridges = bridges.FindAll(x => x.inNode == panelName && x.showModel.auto);
             if (autoBridges != null)
             {
                 foreach (var autoBridge in autoBridges)
@@ -215,8 +230,7 @@ namespace BridgeUI
             if (needHidePanel.IsShowing)
             {
                 needHidePanel.Hide();
-                if (!hidedPanelStack.ContainsKey(panel))
-                {
+                if (!hidedPanelStack.ContainsKey(panel)){
                     hidedPanelStack[panel] = new Stack<IPanelBase>();
                 }
                 //Debug.Log("push:" + needHidePanel);
@@ -242,15 +256,38 @@ namespace BridgeUI
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="bridge"></param>
-        private void TryHideParent(IPanelBase panel, BridgeInfo bridge)
+        private void TryChangeParentState(IPanelBase panel, BridgeInfo bridge)
         {
-            if ((bridge.showModel & ShowMode.HideBase) == ShowMode.HideBase)
+            if (bridge.showModel.baseShow == BaseShow.Hide)
             {
                 var parent = createdPanels.Find(x => x.Name == bridge.inNode);
                 if (parent != null)
                 {
                     panel.SetParent(Trans);
                     HidePanelInteral(panel, parent);
+                }
+            }
+
+            if (bridge.showModel.baseShow == BaseShow.Destroy)
+            {
+                var parent = createdPanels.Find(x => x.Name == bridge.inNode);
+                if (parent != null)
+                {
+                    parent.ChildPanels.Clear();
+                    
+                    if(hidedPanelStack.ContainsKey(parent))
+                    {
+                        if(!hidedPanelStack.ContainsKey(panel))
+                        {
+                            hidedPanelStack[panel] = new Stack<IPanelBase>();
+                        }
+                        while (hidedPanelStack[parent].Count > 0)
+                        {
+                            hidedPanelStack[panel].Push(hidedPanelStack[parent].Pop());
+                        }
+                    }
+
+                    parent.Close();
                 }
             }
         }
@@ -325,7 +362,7 @@ namespace BridgeUI
                 var bg = poolDic[defultBridge].Allocate();
                 bg.Info.inNode = parentName;
                 bg.Info.outNode = panelName;
-                bg.Info.showModel = 0;
+                bg.Info.showModel = new ShowMode();
                 return bg;
             }
 

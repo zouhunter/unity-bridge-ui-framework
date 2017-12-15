@@ -179,7 +179,7 @@ namespace BridgeUIEditor
                     var path = AssetDatabase.GUIDToAssetPath(guid.stringValue);
                     if (!string.IsNullOrEmpty(path))
                     {
-                        NodeGraph.DataModel.Version2.ConfigGraph graph = AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.Version2.ConfigGraph>(path);
+                        NodeGraph.DataModel.ConfigGraph graph = AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.ConfigGraph>(path);
                         AssetDatabase.OpenAsset(graph);
                     }
                 }
@@ -342,9 +342,10 @@ namespace BridgeUIEditor
             {
                 var guid = graphListProp.GetArrayElementAtIndex(i).FindPropertyRelative("guid").stringValue;
                 var path = AssetDatabase.GUIDToAssetPath(guid);
-                var graph = AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.Version2.ConfigGraph>(path);
-                NodeGraph.NodeGraphController controller = new NodeGraph.NodeGraphController(graph);
-                controller.BuildToSelect();
+                var graph = AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.ConfigGraph>(path);
+                NodeGraph.NodeGraphController controller = new BridgeUIGraphCtrl();
+                controller.TargetGraph = graph;
+                controller.Build();
             }
         }
         private void GroupLoadPrefabs(SerializedProperty proprety)

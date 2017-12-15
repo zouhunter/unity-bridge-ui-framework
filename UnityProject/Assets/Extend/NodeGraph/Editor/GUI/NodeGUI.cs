@@ -220,6 +220,10 @@ namespace NodeGraph
                         if (result != null)
                         {
                             NodeGUIUtility.NodeEventHandler(new NodeEvent(NodeEvent.EventType.EVENT_CONNECTING_BEGIN, this, Event.current.mousePosition, result));
+
+                            if(nodeDataDrawer != null){
+                                nodeDataDrawer.OnClickNodeGUI(this, Event.current.mousePosition, result);
+                            }
                             break;
                         }
                         else
@@ -654,11 +658,11 @@ namespace NodeGraph
         {
             EditorGUI.BeginChangeCheck();
             nodeGUIEditor.UpdateNodeName(this);
-            nodeDataDrawer.OnInspectorGUI();
+            nodeDataDrawer.OnInspectorGUI(this);
 
             if (EditorGUI.EndChangeCheck())
             {
-                Controller.Perform();
+                Controller.Validate(this);
                 Data.Operation.Save();
                 ParentGraph.SetGraphDirty();
             }

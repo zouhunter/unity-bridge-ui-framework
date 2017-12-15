@@ -54,21 +54,17 @@ public class PanelNodeDrawer : NodeDrawer
         }
     }
 
-    public override void OnInspectorGUI()
+    public override void OnInspectorGUI(NodeGUI gui)
     {
+        DrawHeadSelect();
         EditorGUILayout.HelpBox(HeadInfo, MessageType.Info);
         LoadRecordIfEmpty();
-        DrawNodeInfo();
-        //if (prefab != null) node.Name = prefab.name;
-    }
-
-    protected virtual void DrawNodeInfo()
-    {
         EditorGUILayout.HelpBox("[窗体信息配制:]", MessageType.Info);
-
         DrawHeadField();
         RecordPrefabInfo();
         DrawInforamtion();
+
+        if (prefab != null) gui.Name = prefab.name;
     }
 
 
@@ -125,6 +121,7 @@ public class PanelNodeDrawer : NodeDrawer
             nodeInfo.uiType.layerIndex = EditorGUILayout.IntField(nodeInfo.uiType.layerIndex);
         }
     }
+
     protected void DrawHideType()
     {
         using (var hor = new EditorGUILayout.HorizontalScope())
@@ -267,6 +264,14 @@ public class PanelNodeDrawer : NodeDrawer
         if (nodeType != 0)
         {
             DrawObjectFieldInternal();
+        }
+    }
+    public override void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result)
+    {
+        base.OnClickNodeGUI(nodeGUI, mousePosition, result);
+        if(prefab != null)
+        {
+            EditorGUIUtility.PingObject(prefab);
         }
     }
 }

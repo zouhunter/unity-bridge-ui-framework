@@ -29,7 +29,7 @@ public class LuncherDawer : NodeDrawer
             return "empty";
         }
     }
-    public override void OnInspectorGUI()
+    public override void OnInspectorGUI(NodeGUI gui)
     {
         EditorGUILayout.HelpBox("Any Lunch: Lunch SubPanels From Any State", MessageType.Info);
     }

@@ -81,7 +81,10 @@ namespace NodeGraph
 
                     if (attr != null)
                     {
-                        userDrawer.Add(attr.targetType, type);
+                        foreach (var item in attr.targetTypes)
+                        {
+                            userDrawer.Add(item, type);
+                        }
                     }
                 }
             }

@@ -129,7 +129,6 @@ namespace NodeGraph.DataModel
         /// <param name="y">The y coordinate.</param>
 		public NodeData(string name, Node node, float x, float y)
         {
-
             m_id = Guid.NewGuid().ToString();
             m_name = name;
             m_x = x;

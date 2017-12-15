@@ -73,6 +73,7 @@ namespace NodeGraph
         }
         protected abstract void JudgeNodeExceptions(Model.ConfigGraph m_targetGraph, List<NodeException> m_nodeExceptions);
         protected abstract void BuildFromGraph(Model.ConfigGraph m_targetGraph);
-        internal abstract List<NodeGraph.DataModel.Node> OnDragAccept(UnityEngine.Object[] objectReferences);
+        internal abstract List<KeyValuePair<string,Model.Node>> OnDragAccept(UnityEngine.Object[] objectReferences);
+        internal abstract void Validate(NodeGUI node);
     }
 }

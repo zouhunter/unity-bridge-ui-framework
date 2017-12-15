@@ -548,7 +548,7 @@ namespace NodeGraph
 
                 SaveGraph();
 
-                //controller.Validate(node, target);
+                controller.Validate(node);
 
                 //RefreshInspector(controller.StreamManager);
                 ShowErrorOnNodes();
@@ -1023,7 +1023,12 @@ namespace NodeGraph
                     if (evt.type == EventType.DragPerform)
                     {
                         DragAndDrop.AcceptDrag();
-                        controller.OnDragAccept(DragAndDrop.objectReferences);
+                        var result = controller.OnDragAccept(DragAndDrop.objectReferences);
+                        foreach (var item in result){
+                            AddNodeFromGUI(item.Value,item.Key, evt.mousePosition.x, evt.mousePosition.y);
+                        }
+                        Setup();
+                        Repaint();
                         Event.current.Use();
                     }
                     break;
@@ -1123,7 +1128,7 @@ namespace NodeGraph
                         // clear inspector
                         if (Selection.activeObject is NodeGUIInspectorHelper || Selection.activeObject is ConnectionGUIInspectorHelper)
                         {
-                            Selection.activeObject = controller.TargetGraph;
+                            Selection.activeObject = null;
                         }
                         break;
                     }

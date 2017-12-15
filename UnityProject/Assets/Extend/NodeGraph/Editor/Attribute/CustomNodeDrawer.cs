@@ -17,10 +17,11 @@ namespace NodeGraph
     [AttributeUsage(AttributeTargets.Class)]
     public class CustomNodeGraphDrawer : Attribute
     {
-        public Type targetType;
-        public CustomNodeGraphDrawer(Type type)
+        public List<Type> targetTypes;
+        public CustomNodeGraphDrawer(params Type[] types)
         {
-            this.targetType = type;
+            targetTypes = new List<Type>();
+            this.targetTypes.AddRange(types);
         }
     }
 

@@ -163,7 +163,7 @@ namespace BridgeUI
                     var mayBridges = bridges.FindAll(x => x.inNode == bridge.inNode);
                     foreach (var bg in mayBridges)
                     {
-                        var mayPanels = createdPanels.FindAll(x => x.Name == bg.outNode && x.UType.layer == childPanel.UType.layer && x != childPanel && x != childPanel.Parent);
+                        var mayPanels = createdPanels.FindAll(x => x.Name == bg.outNode && x.UType.layer == childPanel.UType.layer && x != childPanel && !IsChildOfPanel(childPanel, x));
                         foreach (var mayPanel in mayPanels)
                         {
                             if (mayPanel != null && mayPanel.IsShowing)
@@ -176,7 +176,7 @@ namespace BridgeUI
                 }
                 else if(bridge.showModel.mutex == MutexRule.SameLayer)
                 {
-                    var mayPanels = createdPanels.FindAll(x => x.UType.layer == childPanel.UType.layer && x != childPanel && x != childPanel.Parent);
+                    var mayPanels = createdPanels.FindAll(x => x.UType.layer == childPanel.UType.layer && x != childPanel && !IsChildOfPanel(childPanel, x));
                     foreach (var mayPanel in mayPanels)
                     {
                         if (mayPanel != null && mayPanel.IsShowing)
@@ -186,6 +186,22 @@ namespace BridgeUI
                     }
                 }
               
+            }
+        }
+
+        private bool IsChildOfPanel(IPanelBase current,IPanelBase target)
+        {
+            if(current.Parent == null)
+            {
+                return false;
+            }
+            if(current.Parent == target)
+            {
+                return true;
+            }
+            else
+            {
+                return IsChildOfPanel(current.Parent, target);
             }
         }
 

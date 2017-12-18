@@ -19,4 +19,15 @@ namespace BridgeUI
     {
         public override Transform Content { get { return Root; } }
     }
+
+    public class SingleCloseAblePanel : SinglePanel
+    {
+        [SerializeField]
+        private Button m_close;
+        protected override void Awake()
+        {
+            base.Awake();
+            m_close.onClick.AddListener(Close);
+        }
+    }
 }

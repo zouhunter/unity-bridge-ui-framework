@@ -163,7 +163,7 @@ namespace BridgeUI
                     var mayBridges = bridges.FindAll(x => x.inNode == bridge.inNode);
                     foreach (var bg in mayBridges)
                     {
-                        var mayPanels = createdPanels.FindAll(x => x.Name == bg.outNode && x.UType.layer == childPanel.UType.layer && x != childPanel);
+                        var mayPanels = createdPanels.FindAll(x => x.Name == bg.outNode && x.UType.layer == childPanel.UType.layer && x != childPanel && x != childPanel.Parent);
                         foreach (var mayPanel in mayPanels)
                         {
                             if (mayPanel != null && mayPanel.IsShowing)
@@ -176,7 +176,7 @@ namespace BridgeUI
                 }
                 else if(bridge.showModel.mutex == MutexRule.SameLayer)
                 {
-                    var mayPanels = createdPanels.FindAll(x => x.UType.layer == childPanel.UType.layer && x != childPanel);
+                    var mayPanels = createdPanels.FindAll(x => x.UType.layer == childPanel.UType.layer && x != childPanel && x != childPanel.Parent);
                     foreach (var mayPanel in mayPanels)
                     {
                         if (mayPanel != null && mayPanel.IsShowing)

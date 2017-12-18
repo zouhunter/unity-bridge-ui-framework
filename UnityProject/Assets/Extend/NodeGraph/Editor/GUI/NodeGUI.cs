@@ -658,7 +658,7 @@ namespace NodeGraph
         {
             EditorGUI.BeginChangeCheck();
             nodeGUIEditor.UpdateNodeName(this);
-            nodeDataDrawer.OnInspectorGUI(this);
+           if(nodeDataDrawer != null)  nodeDataDrawer.OnInspectorGUI(this);
 
             if (EditorGUI.EndChangeCheck())
             {

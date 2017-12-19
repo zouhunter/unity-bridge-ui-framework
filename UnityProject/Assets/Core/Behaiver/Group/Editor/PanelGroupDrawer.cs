@@ -237,7 +237,9 @@ namespace BridgeUIEditor
                         }
                         if (GUILayout.Button(new GUIContent("*", "快速更新"), btnStyle))
                         {
-                            QuickUpdateFromGraph();
+                            prefabsProp.ClearArray();
+                            bridgesProp.ClearArray();
+                            EditorApplication.delayCall += QuickUpdateFromGraph;
                         }
                         if (GUILayout.Button(new GUIContent("！", "排序"), btnStyle))
                         {
@@ -264,7 +266,9 @@ namespace BridgeUIEditor
                         if (GUILayout.Button(new GUIContent("*", "快速更新"), btnStyle))
                         {
                             QuickUpdateBundles();
-                            QuickUpdateFromGraph();
+                            bundlesProp.ClearArray();
+                            bridgesProp.ClearArray();
+                            EditorApplication.delayCall += QuickUpdateFromGraph;
                         }
                         if (GUILayout.Button(new GUIContent("!", "排序"), btnStyle))
                         {
@@ -335,9 +339,6 @@ namespace BridgeUIEditor
         /// </summary>
         private void QuickUpdateFromGraph()
         {
-            prefabsProp.ClearArray();
-            bundlesProp.ClearArray();
-            bridgesProp.ClearArray();
             for (int i = 0; i < graphListProp.arraySize; i++)
             {
                 var guid = graphListProp.GetArrayElementAtIndex(i).FindPropertyRelative("guid").stringValue;

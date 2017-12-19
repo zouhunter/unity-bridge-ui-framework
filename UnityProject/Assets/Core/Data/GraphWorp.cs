@@ -17,7 +17,7 @@ namespace BridgeUI.Model
     {
         public string graphName;
         public string guid;
-
+        //public string json;
         public GraphWorp(string graphName, string guid)
         {
             this.graphName = graphName;

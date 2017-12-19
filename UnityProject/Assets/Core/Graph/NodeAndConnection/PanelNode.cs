@@ -16,7 +16,7 @@ using UnityEditor;
 using BridgeUI.Model;
 using BridgeUI;
 
-[CustomNode("Panel", 1)]
+[CustomNode("Panel", 1,"BridgeUI")]
 public class PanelNode : PanelNodeBase
 {
     public PanelNode() { }

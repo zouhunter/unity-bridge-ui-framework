@@ -12,6 +12,11 @@ namespace NodeGraph
 {
     public class NodeConnectionUtility
     {
+        public static void Reset()
+        {
+            _customConnectionTypes = null;
+            s_customNodes = null;
+        }
         private static List<DataModel.CustomConnectionInfo> _customConnectionTypes;
         public static List<DataModel.CustomConnectionInfo> CustomConnectionTypes
         {
@@ -52,18 +57,15 @@ namespace NodeGraph
             return list;
         }
         private static List<DataModel.CustomNodeInfo> s_customNodes;
-        public static List<DataModel.CustomNodeInfo> CustomNodeTypes
+        public static List<DataModel.CustomNodeInfo> CustomNodeTypes(string group)
         {
-            get
+            if (s_customNodes == null)
             {
-                if (s_customNodes == null)
-                {
-                    s_customNodes = BuildCustomNodeList();
-                }
-                return s_customNodes;
+                s_customNodes = BuildCustomNodeList(group);
             }
+            return s_customNodes;
         }
-        private static List<DataModel.CustomNodeInfo> BuildCustomNodeList()
+        private static List<DataModel.CustomNodeInfo> BuildCustomNodeList(string group)
         {
             var list = new List<DataModel.CustomNodeInfo>();
 
@@ -81,7 +83,7 @@ namespace NodeGraph
             {
                 CustomNode attr = type.GetCustomAttributes(typeof(CustomNode), false).FirstOrDefault() as CustomNode;
 
-                if (attr != null)
+                if (attr != null && attr.Group == group)
                 {
                     list.Add(new DataModel.CustomNodeInfo(type, attr));
                 }

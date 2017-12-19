@@ -320,7 +320,7 @@ namespace NodeGraph
         }
 
 #if UNITY_5_5_OR_NEWER
-        bool CompareImporterPlatformNGSettings(TextureImporterPlatformNGSettings c1, TextureImporterPlatformNGSettings c2)
+        bool CompareImporterPlatformNGSettings(TextureImporterPlatformSettings c1, TextureImporterPlatformSettings c2)
         {
             if (c1.allowsAlphaSplitting != c2.allowsAlphaSplitting) return false;
             if (c1.compressionQuality != c2.compressionQuality) return false;
@@ -671,7 +671,7 @@ namespace NodeGraph
 
 #region VideoClipImporter
 #if UNITY_5_6 || UNITY_5_6_OR_NEWER
-        public bool IsEqual (VideoImporterTargetNGSettings t, VideoImporterTargetNGSettings r) {
+        public bool IsEqual (VideoImporterTargetSettings t, VideoImporterTargetSettings r) {
 
             if(r == null) {
                 if(t != r) {
@@ -695,7 +695,7 @@ namespace NodeGraph
             VideoClipImporter reference = referenceImporter as VideoClipImporter;
             UnityEngine.Assertions.Assert.IsNotNull(reference);
 
-            if (!IsEqual(target.defaultTargetNGSettings, reference.defaultTargetNGSettings))
+            if (!IsEqual(target.defaultTargetSettings, reference.defaultTargetSettings))
                 return false;
 
             /* read only properties. ImportSettingConfigurator will not use these properties for diff. */
@@ -729,8 +729,8 @@ namespace NodeGraph
                     BuildTargetUtility.PlatformNameType.VideoClipImporter);
 
                 try {
-                    var r = reference.GetTargetNGSettings (platformName);
-                    var t = target.GetTargetNGSettings (platformName);
+                    var r = reference.GetTargetSettings (platformName);
+                    var t = target.GetTargetSettings (platformName);
 
                     if(!IsEqual(r, t)) {
                         return false;
@@ -751,7 +751,7 @@ namespace NodeGraph
 			UnityEngine.Assertions.Assert.IsNotNull(reference);
 
 			/*
-			defaultTargetNGSettings	Default values for the platform-specific import NGSettings.
+			defaultTargetSettings	Default values for the platform-specific import NGSettings.
 			deinterlaceMode			Images are deinterlaced during transcode. This tells the importer how to interpret fields in the source, if any.
 			flipHorizontal			Apply a horizontal flip during import.
 			flipVertical			Apply a vertical flip during import.
@@ -769,7 +769,7 @@ namespace NodeGraph
 			useLegacyImporter		Whether to import a MovieTexture (legacy) or a VideoClip.
 			*/
 
-			importer.defaultTargetNGSettings	= reference.defaultTargetNGSettings;
+			importer.defaultTargetSettings	= reference.defaultTargetSettings;
 			importer.deinterlaceMode		= reference.deinterlaceMode;
 			importer.flipHorizontal			= reference.flipHorizontal;
 			importer.flipVertical			= reference.flipVertical;
@@ -790,11 +790,11 @@ namespace NodeGraph
                     BuildTargetUtility.PlatformNameType.VideoClipImporter);
 
                 try {
-                    var setting = reference.GetTargetNGSettings (platformName);
+                    var setting = reference.GetTargetSettings (platformName);
                     if(setting != null) {
-                        importer.SetTargetNGSettings(platformName, setting);
+                        importer.SetTargetSettings(platformName, setting);
                     } else {
-                        importer.ClearTargetNGSettings(platformName);
+                        importer.ClearTargetSettings(platformName);
                     }
                 } catch (Exception e) {
                     LogUtility.Logger.LogWarning ("VideoClipImporter", 

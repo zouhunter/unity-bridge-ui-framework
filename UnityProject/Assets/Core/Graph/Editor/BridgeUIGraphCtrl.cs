@@ -17,6 +17,14 @@ namespace BridgeUI
 {
     public class BridgeUIGraphCtrl:NodeGraphController
     {
+        public override string Group
+        {
+            get
+            {
+                return "BridgeUI";
+            }
+        }
+
         /// <summary>
         /// 将信息到保存到PanelGroup
         /// </summary>

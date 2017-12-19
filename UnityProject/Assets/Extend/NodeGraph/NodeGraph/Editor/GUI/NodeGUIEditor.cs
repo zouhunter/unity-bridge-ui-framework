@@ -44,30 +44,6 @@ namespace NodeGraph
             }
         }
 
-        public void UpdateNodeName(NodeGUI node)
-        {
-            var newName = EditorGUILayout.TextField("Node Name", node.Name);
-
-            if (NodeGUIUtility.allNodeNames != null)
-            {
-                var overlapping = NodeGUIUtility.allNodeNames.GroupBy(x => x)
-                    .Where(group => group.Count() > 1)
-                    .Select(group => group.Key);
-                if (overlapping.Any() && overlapping.Contains(newName))
-                {
-                    EditorGUILayout.HelpBox("There are node with the same name. You may want to rename to avoid confusion:" + newName, MessageType.Info);
-                }
-            }
-
-            if (newName != node.Name)
-            {
-                using (new RecordUndoScope("Change Node Name", node, true))
-                {
-                    node.Name = newName;
-                }
-            }
-        }
-
 
         public string DrawFolderSelector(string label,
             string dialogTitle,

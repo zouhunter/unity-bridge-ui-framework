@@ -22,6 +22,13 @@ namespace NodeGraph
             base.OnInspectorGUI(target);
         }
         public virtual void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result) { }
+        protected void RecordUnDo(string message,NodeGUI node,bool saveOnScopeEnd,UnityAction action)
+        {
+            using (new RecordUndoScope("Change Node Name", node, saveOnScopeEnd))
+            {
+                action.Invoke();
+            }
+        }
     }
 }
 

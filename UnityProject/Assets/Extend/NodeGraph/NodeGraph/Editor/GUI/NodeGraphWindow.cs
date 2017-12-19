@@ -397,6 +397,7 @@ namespace NodeGraph
             }
 
             Selection.activeObject = graph;
+            NodeConnectionUtility.Reset();
         }
         
 
@@ -1024,11 +1025,16 @@ namespace NodeGraph
                     {
                         DragAndDrop.AcceptDrag();
                         var result = controller.OnDragAccept(DragAndDrop.objectReferences);
-                        foreach (var item in result){
-                            AddNodeFromGUI(item.Value,item.Key, evt.mousePosition.x, evt.mousePosition.y);
+                        if(result != null)
+                        {
+                            foreach (var item in result)
+                            {
+                                AddNodeFromGUI(item.Value, item.Key, evt.mousePosition.x, evt.mousePosition.y);
+                            }
+                            Setup();
+                            Repaint();
                         }
-                        Setup();
-                        Repaint();
+                       
                         Event.current.Use();
                     }
                     break;
@@ -1311,7 +1317,7 @@ namespace NodeGraph
         private void ShowNodeCreateContextMenu(Vector2 pos)
         {
             var menu = new GenericMenu();
-            var customNodes = NodeConnectionUtility.CustomNodeTypes;
+            var customNodes = NodeConnectionUtility.CustomNodeTypes(controller.Group);
             for (int i = 0; i < customNodes.Count; ++i)
             {
                 // workaround: avoiding compilier closure bug

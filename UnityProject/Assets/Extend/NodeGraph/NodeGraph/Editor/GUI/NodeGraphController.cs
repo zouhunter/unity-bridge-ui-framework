@@ -17,6 +17,8 @@ namespace NodeGraph
         private List<NodeException> m_nodeExceptions = new List<NodeException>();
         private Model.ConfigGraph m_targetGraph;
 
+        public abstract string Group { get; }
+
         public bool IsAnyIssueFound
         {
             get
@@ -71,9 +73,9 @@ namespace NodeGraph
                 BuildFromGraph(m_targetGraph);
             }
         }
-        protected abstract void JudgeNodeExceptions(Model.ConfigGraph m_targetGraph, List<NodeException> m_nodeExceptions);
-        protected abstract void BuildFromGraph(Model.ConfigGraph m_targetGraph);
-        internal abstract List<KeyValuePair<string,Model.Node>> OnDragAccept(UnityEngine.Object[] objectReferences);
-        internal abstract void Validate(NodeGUI node);
+        protected virtual void JudgeNodeExceptions(Model.ConfigGraph m_targetGraph, List<NodeException> m_nodeExceptions) { }
+        protected virtual void BuildFromGraph(Model.ConfigGraph m_targetGraph) { }
+        internal virtual List<KeyValuePair<string, Model.Node>> OnDragAccept(UnityEngine.Object[] objectReferences) { return null; }
+        internal virtual void Validate(NodeGUI node) { }
     }
 }

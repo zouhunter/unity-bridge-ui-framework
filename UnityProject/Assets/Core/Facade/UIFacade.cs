@@ -4,18 +4,16 @@ using System;
 using BridgeUI.Model;
 using System.Reflection;
 using UnityEngine.Events;
-public partial class PanelName
+public partial class PanelNames
 {
-    static PanelName()
+    static PanelNames()
     {
-        var fields = typeof(PanelName).GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.GetProperty);
+        var fields = typeof(PanelNames).GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.GetProperty);
         foreach (var item in fields)
         {
             item.SetValue(null, item.Name, null);
         }
     }
-
-    public static string DeepSelectPanel { get; internal set; }
 }
 
 namespace BridgeUI

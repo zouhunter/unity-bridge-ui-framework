@@ -17,6 +17,7 @@ namespace BridgeUI
 {
     public class BridgeUIGraphCtrl:NodeGraphController
     {
+        private const string prefer_scriptPath ="BridgeUIPanelNames_path";
         public override string Group
         {
             get
@@ -266,7 +267,39 @@ namespace BridgeUI
                     StoreInfoOfPanel(panelGroup);
                 }
             }
+            UpdateScriptOfPanelNames(m_targetGraph.Nodes.FindAll(x=>x.Operation.Object is PanelNodeBase).ConvertAll<string>(x => x.Name));
         }
+        private void UpdateScriptOfPanelNames(List<string> list)
+        {
+            var path = PlayerPrefs.GetString(prefer_scriptPath);
+            bool needOpenSelect = false;
+            string directory = null;
+            if(!string.IsNullOrEmpty(path))
+            {
+               var script = AssetDatabase.LoadAssetAtPath<MonoScript>(path.Replace("\\","/").Replace(Application.dataPath,"Assets"));
+                if(script == null)
+                {
+                    needOpenSelect = true;
+                    directory = System.IO.Path.GetDirectoryName(path);
+                }
+            }
+            if(string.IsNullOrEmpty(path))
+            {
+                needOpenSelect = true;
+                directory = Application.dataPath;
+            }
+            if(needOpenSelect)
+            {
+                path = EditorUtility.SaveFilePanel("«Î—°‘ÒPanelNames.cs±£¥Ê¬∑æ∂", directory, "PanelNames", "cs");
+                if (!string.IsNullOrEmpty(path)) PlayerPrefs.SetString(prefer_scriptPath, path);
+            }
+
+            if (!string.IsNullOrEmpty(path))
+            {
+                new PanelNameGenerater(path).GenerateParcialPanelName(list.ToArray());
+            }
+        }
+
         internal override void OnDragUpdated()
         {
             base.OnDragUpdated();

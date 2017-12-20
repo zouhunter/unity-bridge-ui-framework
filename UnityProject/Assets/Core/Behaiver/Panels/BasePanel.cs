@@ -293,10 +293,10 @@ namespace BridgeUI
         public void Cover()
         {
             var covername = Name + "_Cover";
-            var trans = new GameObject(covername).transform;
-            trans.SetParent(transform, false);
-            trans.SetSiblingIndex(0);
-            var rectt = trans.gameObject.AddComponent<RectTransform>();
+            var rectt = new GameObject(covername,typeof(RectTransform)).GetComponent<RectTransform>();
+            rectt.gameObject.layer = 5;
+            rectt.SetParent(transform, false);
+            rectt.SetSiblingIndex(0);
             rectt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 10000);
             rectt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 10000);
             var img = rectt.gameObject.AddComponent<Image>();

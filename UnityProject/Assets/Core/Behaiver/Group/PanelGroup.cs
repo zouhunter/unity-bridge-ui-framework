@@ -50,17 +50,14 @@ namespace BridgeUI
         private void OnEnable()
         {
             var created = createdPanels.ToArray();
-            foreach (var item in created)
-            {
-                item.UnHide();
-            }
+            TryOpenPanels(created);
+            Debug.Log("OnEnable");
         }
 
         private void OnDisable()
         {
             var created = createdPanels.ToArray();
-            foreach (var item in created)
-            {
+            foreach (var item in created){
                 item.Hide();
             }
         }
@@ -445,10 +442,10 @@ namespace BridgeUI
                     }
                 }
                 hidedPanelStack.Remove(panel);
-                TryOpenPanels(mayactive);
+                TryOpenPanels(mayactive.ToArray());
             }
         }
-        private void TryOpenPanels(List<IPanelBase> panels)
+        private void TryOpenPanels(IPanelBase[] panels)
         {
             bool canActive = true;
             foreach (var item in panels)

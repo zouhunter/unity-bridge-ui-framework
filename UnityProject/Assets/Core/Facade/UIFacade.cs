@@ -15,6 +15,7 @@ public partial class PanelName
         }
     }
 
+    public static string DeepSelectPanel { get; internal set; }
 }
 
 namespace BridgeUI

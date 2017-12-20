@@ -274,28 +274,79 @@ namespace BridgeUI
                 }
             }
         }
+        internal override void OnDragUpdated()
+        {
+            base.OnDragUpdated();
+            foreach (UnityEngine.Object obj in DragAndDrop.objectReferences)
+            {
+                var path = AssetDatabase.GetAssetPath(obj);
+                if(string.IsNullOrEmpty(path) && obj is GameObject)
+                {
+                    path = GetInstenceObjectPath(obj as GameObject);
+                }
 
+
+                if (!string.IsNullOrEmpty(path))
+                {
+                    FileAttributes attr = File.GetAttributes(path);
+
+                    if ((attr & FileAttributes.Directory) == FileAttributes.Directory || obj is GameObject)
+                    {
+                        DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+                        break;
+                    }
+                    else
+                    {
+                        DragAndDrop.visualMode = DragAndDropVisualMode.Rejected;
+                        break;
+                    }
+                }
+            }
+        }
+
+        protected static string GetInstenceObjectPath(GameObject instenceObj)
+        {
+            var pfbTrans = PrefabUtility.GetPrefabParent(instenceObj);
+            if (pfbTrans != null)
+            {
+                var prefab = PrefabUtility.FindPrefabRoot(pfbTrans as GameObject);
+                if (prefab != null)
+                {
+                  return AssetDatabase.GetAssetPath(prefab);
+                }
+            }
+            return null;
+        }
         internal override List<KeyValuePair<string, Node>> OnDragAccept(UnityEngine.Object[] objectReferences)
         {
             var nodeList = new List<KeyValuePair<string,Node>>();
             foreach (UnityEngine.Object obj in DragAndDrop.objectReferences)
             {
                 var path = AssetDatabase.GetAssetPath(obj);
-                FileAttributes attr = File.GetAttributes(path);
-                PanelNode panelNode = null;
-                if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+
+                if (string.IsNullOrEmpty(path) && obj is GameObject)
                 {
-                    var files = System.IO.Directory.GetFiles(path, "*.prefab", SearchOption.AllDirectories);
-                    foreach (var item in files)
-                    {
-                        panelNode = new PanelNode(item);
-                        nodeList.Add(new KeyValuePair<string, Node>(Path.GetFileNameWithoutExtension(item), panelNode));
-                    }
+                    path = GetInstenceObjectPath(obj as GameObject);
                 }
-                else if (obj is GameObject)
+
+                if (!string.IsNullOrEmpty(path))
                 {
-                    panelNode = new PanelNode(path);
-                    nodeList.Add(new KeyValuePair<string, Node>(obj.name, panelNode));
+                    FileAttributes attr = File.GetAttributes(path);
+                    PanelNode panelNode = null;
+                    if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+                    {
+                        var files = System.IO.Directory.GetFiles(path, "*.prefab", SearchOption.AllDirectories);
+                        foreach (var item in files)
+                        {
+                            panelNode = new PanelNode(item);
+                            nodeList.Add(new KeyValuePair<string, Node>(Path.GetFileNameWithoutExtension(item), panelNode));
+                        }
+                    }
+                    else if (obj is GameObject)
+                    {
+                        panelNode = new PanelNode(path);
+                        nodeList.Add(new KeyValuePair<string, Node>(obj.name, panelNode));
+                    }
                 }
             }
             return nodeList;

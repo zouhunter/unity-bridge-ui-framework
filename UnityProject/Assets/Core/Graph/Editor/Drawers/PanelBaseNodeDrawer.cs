@@ -23,21 +23,13 @@ public class PanelNodeDrawer : NodeDrawer
     public int style = 1;
     protected GameObject prefab;
     protected NodeInfo nodeInfo { get { return (target as PanelNodeBase).nodeInfo; } }
-    public override string ActiveStyle
+    public override int Style
     {
         get
         {
-            return string.Format("node {0} on", style);
+            return style;
         }
     }
-    public override string InactiveStyle
-    {
-        get
-        {
-            return string.Format("node {0}", style);
-        }
-    }
-
     public override string Category
     {
         get
@@ -167,11 +159,6 @@ public class PanelNodeDrawer : NodeDrawer
         return EditorGUI.EndChangeCheck();
 
     }
-    public override void OnContextMenuGUI(GenericMenu menu)
-    {
-        base.OnContextMenuGUI(menu);
-    }
-
     protected void DrawInforamtion()
     {
         if ((nodeType & NodeType.Fixed) == 0)
@@ -269,6 +256,7 @@ public class PanelNodeDrawer : NodeDrawer
     public override void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result)
     {
         base.OnClickNodeGUI(nodeGUI, mousePosition, result);
+
         if(prefab != null)
         {
             EditorGUIUtility.PingObject(prefab);

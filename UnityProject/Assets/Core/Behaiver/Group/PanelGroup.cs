@@ -83,7 +83,8 @@ namespace BridgeUI
                     if (panel != null)
                     {
                         createdPanels.Add(panel);
-                        if (parentPanel != null){
+                        if (parentPanel != null)
+                        {
                             parentPanel.RecordChild(panel);
                         }
                         bridgeDic.Add(panel, bridge);
@@ -108,7 +109,7 @@ namespace BridgeUI
             TryChangeParentState(panel, bridge.Info);
             TryHideMutexPanels(panel, bridge.Info);
             TryHideGroup(panel, bridge.Info);
-            TryMakeCover(panel,bridge.Info);
+            TryMakeCover(panel, bridge.Info);
             TryAutoOpen(panel.Content, panel);
         }
 
@@ -174,7 +175,7 @@ namespace BridgeUI
 
                     }
                 }
-                else if(bridge.showModel.mutex == MutexRule.SameLayer)
+                else if (bridge.showModel.mutex == MutexRule.SameLayer)
                 {
                     var mayPanels = createdPanels.FindAll(x => x.UType.layer == childPanel.UType.layer && x != childPanel && !IsChildOfPanel(childPanel, x));
                     foreach (var mayPanel in mayPanels)
@@ -185,17 +186,17 @@ namespace BridgeUI
                         }
                     }
                 }
-              
+
             }
         }
 
-        private bool IsChildOfPanel(IPanelBase current,IPanelBase target)
+        private bool IsChildOfPanel(IPanelBase current, IPanelBase target)
         {
-            if(current.Parent == null)
+            if (current.Parent == null)
             {
                 return false;
             }
-            if(current.Parent == target)
+            if (current.Parent == target)
             {
                 return true;
             }
@@ -248,12 +249,13 @@ namespace BridgeUI
             if (needHidePanel.IsShowing)
             {
                 needHidePanel.Hide();
-                if (!hidedPanelStack.ContainsKey(panel)){
-                    hidedPanelStack[panel] = new Stack<IPanelBase>();
-                }
-                //Debug.Log("push:" + needHidePanel);
-                hidedPanelStack[panel].Push(needHidePanel);
             }
+            if (!hidedPanelStack.ContainsKey(panel))
+            {
+                hidedPanelStack[panel] = new Stack<IPanelBase>();
+            }
+            //Debug.Log("push:" + needHidePanel);
+            hidedPanelStack[panel].Push(needHidePanel);
         }
         /// <summary>
         /// 按规则设置面板及父亲面板的状态
@@ -293,10 +295,10 @@ namespace BridgeUI
                 {
                     panel.SetParent(parent.Root);
                     parent.ChildPanels.Remove(panel);
-                    
-                    if(hidedPanelStack.ContainsKey(parent))
+
+                    if (hidedPanelStack.ContainsKey(parent))
                     {
-                        if(!hidedPanelStack.ContainsKey(panel))
+                        if (!hidedPanelStack.ContainsKey(panel))
                         {
                             hidedPanelStack[panel] = new Stack<IPanelBase>();
                         }
@@ -361,13 +363,24 @@ namespace BridgeUI
         {
             Bridge bridge = null;
             var parentName = parentPanel == null ? "" : parentPanel.Name;
-            var bridgeInfo = bridges.Find(x => x.outNode == panelName && x.inNode == parentName);
-            if (bridgeInfo == null && parentName != ""){
-                bridgeInfo = bridges.Find(x => x.outNode == parentName && x.inNode == "");
+            var mayInfos = bridges.FindAll(x => x.outNode == panelName);
+            var baseInfo = mayInfos.Find(x => x.inNode == parentName);
+            BridgeInfo bridgeInfo = null;
+            if (baseInfo != null)
+            {
+                bridgeInfo = baseInfo;
             }
-            if(bridgeInfo == null) {
-                bridgeInfo = defultBridge;
-                bridge = poolDic[defultBridge].Allocate();
+            else
+            {
+                var usefulInfo = mayInfos.Find(x => string.IsNullOrEmpty(x.inNode));
+                if (usefulInfo != null){
+                    bridgeInfo = usefulInfo;
+                }
+            }
+
+            if (bridgeInfo == null)
+            {
+                bridge = poolDic[defultBridge].Allocate(parentPanel);
                 bridge.Info.inNode = parentName;
                 bridge.Info.outNode = panelName;
                 bridge.Info.showModel = new ShowMode();
@@ -375,6 +388,7 @@ namespace BridgeUI
             else
             {
                 bridge = poolDic[bridgeInfo].Allocate(parentPanel);
+                bridge.Info.inNode = parentName;
             }
             return bridge;
         }
@@ -422,21 +436,39 @@ namespace BridgeUI
 
             if (hidedPanelStack.ContainsKey(panel))
             {
+                var mayactive = new List<IPanelBase>();
                 var stack = hidedPanelStack[panel];
                 if (stack != null)
                 {
                     while (stack.Count > 0)
                     {
                         var item = stack.Pop();
-                        if (item.IsAlive && !item.IsShowing)
-                        {
-                            item.UnHide();
-                        }
-                        //Debug.Log("Pop:" + item);
-
+                        mayactive.Add(item);
                     }
                 }
                 hidedPanelStack.Remove(panel);
+                TryOpenPanels(mayactive);
+            }
+        }
+        private void TryOpenPanels(List<IPanelBase> panels)
+        {
+            bool canActive = true;
+            foreach (var item in panels)
+            {
+                canActive = true;
+                foreach (var panelStack in hidedPanelStack)
+                {
+                    if (panelStack.Value.Contains(item))
+                    {
+                        canActive = false;
+                        break;
+                    }
+                }
+
+                if (canActive && item.IsAlive && !item.IsShowing)
+                {
+                    item.UnHide();
+                }
             }
         }
         #endregion

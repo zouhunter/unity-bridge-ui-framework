@@ -70,15 +70,8 @@ namespace BridgeUI
             foreach (var item in newBridges)
             {
                 if (string.IsNullOrEmpty(item.outNode)) continue;
-                var old = source.Find(x => (x.inNode == item.inNode || (string.IsNullOrEmpty(x.inNode) && string.IsNullOrEmpty(item.inNode))) && x.outNode == item.outNode);
-                if (old != null)
-                {
-                    old.showModel = item.showModel;
-                }
-                else
-                {
-                    source.Add(item);
-                }
+                source.RemoveAll(x => (x.inNode == item.inNode || (string.IsNullOrEmpty(x.inNode) && string.IsNullOrEmpty(item.inNode))) && x.outNode == item.outNode);
+                source.Add(item);
             }
         }
         private void InsertPrefabinfo(List<PrefabUIInfo> source, List<PrefabUIInfo> newInfo)

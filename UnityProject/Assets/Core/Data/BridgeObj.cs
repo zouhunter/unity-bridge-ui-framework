@@ -11,22 +11,25 @@ namespace BridgeUI.Model
     /// [同时用于之间的数据交流,使用时实例化对象]
     /// </summary>
     [System.Serializable]
-    public class BridgeInfo
+    public struct BridgeInfo
     {
-
         #region 加载规则
         public string inNode;
         public ShowMode showModel;
         public string outNode;
         #endregion
-
-     
+        public BridgeInfo(string inNode,string outNode,ShowMode showModel)
+        {
+            this.inNode = inNode;
+            this.outNode = outNode;
+            this.showModel = showModel;
+        }
     }
 
     public class Bridge
     {
         #region 实例使用
-        public BridgeInfo Info { get; private set; }
+        public BridgeInfo Info { get; set; }
         public UnityAction<Queue<object>> onGet { get; set; }
         public Queue<object> dataQueue = new Queue<object>();
         public event UnityAction<Bridge> onRelease;
@@ -47,6 +50,15 @@ namespace BridgeUI.Model
             this.onGet = null;
             this.onCallBack = null;
             this.dataQueue.Clear();
+
+            if (InPanel != null)
+            {
+                Info = new BridgeInfo(parentPanel.Name,Info.outNode,Info.showModel);
+            }
+            else
+            {
+                Info = new BridgeInfo("", Info.outNode, Info.showModel);
+            }
         }
 
         public void Send(object data)

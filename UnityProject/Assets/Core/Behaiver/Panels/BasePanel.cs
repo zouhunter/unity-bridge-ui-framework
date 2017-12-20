@@ -261,9 +261,9 @@ namespace BridgeUI
             if (!childPanels.Contains(childPanel))
             {
                 childPanel.onDelete += OnRemoveChild;
-                childPanel.Parent = this;
                 childPanels.Add(childPanel);
             }
+            childPanel.Parent = this;
         }
 
         private void AppendComponentsByType()

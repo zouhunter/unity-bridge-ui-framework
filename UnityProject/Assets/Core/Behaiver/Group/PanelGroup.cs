@@ -364,31 +364,29 @@ namespace BridgeUI
             Bridge bridge = null;
             var parentName = parentPanel == null ? "" : parentPanel.Name;
             var mayInfos = bridges.FindAll(x => x.outNode == panelName);
-            var baseInfo = mayInfos.Find(x => x.inNode == parentName);
-            BridgeInfo bridgeInfo = null;
-            if (baseInfo != null)
+            var baseInfos = mayInfos.FindAll(x => x.inNode == parentName);
+            BridgeInfo? bridgeInfo = null;
+            if (baseInfos.Count > 0)
             {
-                bridgeInfo = baseInfo;
+                bridgeInfo = baseInfos[0];
             }
             else
             {
-                var usefulInfo = mayInfos.Find(x => string.IsNullOrEmpty(x.inNode));
-                if (usefulInfo != null){
-                    bridgeInfo = usefulInfo;
+                var usefulInfos = mayInfos.FindAll(x => string.IsNullOrEmpty(x.inNode));
+                if (usefulInfos.Count > 0)
+                {
+                    bridgeInfo = usefulInfos[0];
                 }
             }
 
             if (bridgeInfo == null)
             {
                 bridge = poolDic[defultBridge].Allocate(parentPanel);
-                bridge.Info.inNode = parentName;
-                bridge.Info.outNode = panelName;
-                bridge.Info.showModel = new ShowMode();
+                bridge.Info = new BridgeInfo(parentName, panelName, new ShowMode());
             }
             else
             {
-                bridge = poolDic[bridgeInfo].Allocate(parentPanel);
-                bridge.Info.inNode = parentName;
+                bridge = poolDic[(BridgeInfo)bridgeInfo].Allocate(parentPanel);
             }
             return bridge;
         }

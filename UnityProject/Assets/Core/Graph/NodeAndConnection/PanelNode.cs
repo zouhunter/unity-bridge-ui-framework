@@ -12,7 +12,6 @@ using System.Collections;
 using NodeGraph.DataModel;
 using NodeGraph;
 using System;
-using UnityEditor;
 using BridgeUI.Model;
 using BridgeUI;
 
@@ -36,7 +35,9 @@ public class PanelNode : PanelNodeBase
     }
     public PanelNode(string prefabPath)
     {
-        Info.prefabGuid = AssetDatabase.AssetPathToGUID(prefabPath);
+#if UNITY_EDITOR
+        Info.prefabGuid = UnityEditor. AssetDatabase.AssetPathToGUID(prefabPath);
+#endif
     }
     public override void Initialize(NodeData data)
     {

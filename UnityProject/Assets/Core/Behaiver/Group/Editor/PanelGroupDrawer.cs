@@ -16,7 +16,8 @@ namespace BridgeUIEditor
         protected SerializedProperty script;
         protected SerializedProperty bridgesProp;
         protected SerializedProperty groupObjsProp;
-
+        protected SerializedProperty resetMenuProp;
+        protected SerializedProperty menuProp;
         protected SerializedProperty bundlesProp;
         protected SerializedProperty prefabsProp;
         protected SerializedProperty graphListProp;
@@ -38,6 +39,7 @@ namespace BridgeUIEditor
             ByLayer = 1
         }
         private SortType currSortType = SortType.ByName;
+
         private void OnEnable()
         {
             script = serializedObject.FindProperty("m_Script");
@@ -47,6 +49,8 @@ namespace BridgeUIEditor
             graphListProp = serializedObject.FindProperty("graphList");
             groupObjsProp = serializedObject.FindProperty("subGroups");
             defultTypeProp = serializedObject.FindProperty("loadType");
+            resetMenuProp = serializedObject.FindProperty("resetMenu");
+            menuProp = serializedObject.FindProperty("menu");
             var sobj = new SerializedObject(PanelGroupObj.CreateInstance<PanelGroupObj>());
             prefabsPropWorp = sobj.FindProperty("p_nodes");
             bundlesPropWorp = sobj.FindProperty("b_nodes");
@@ -61,9 +65,18 @@ namespace BridgeUIEditor
                 DrawOption();
                 DrawToolButtons();
             }
+            TryDrawMenu();
             DrawGraphItems();
             DrawRuntimeItems();
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void TryDrawMenu()
+        {
+            if (defultTypeProp.enumValueIndex == 1 && resetMenuProp.boolValue)
+            {
+                EditorGUILayout.PropertyField(menuProp);
+            }
         }
 
         private void DrawScript()
@@ -258,6 +271,8 @@ namespace BridgeUIEditor
                 case LoadType.Bundle:
                     using (var hor = new EditorGUILayout.HorizontalScope(widthSytle))
                     {
+                        resetMenuProp.boolValue = GUILayout.Toggle(resetMenuProp.boolValue,new GUIContent("r","重设菜单"), btnStyle);
+
                         if (GUILayout.Button(new GUIContent("%", "移除重复"), btnStyle))
                         {
                             RemoveBundlesDouble(bundlesProp);

@@ -24,6 +24,12 @@ public partial class PanelNames {
         }
     }
     
+    public static string Panel04 {
+        get {
+            return "Panel04";
+        }
+    }
+    
     public static string Panel02 {
         get {
             return "Panel02";
@@ -33,12 +39,6 @@ public partial class PanelNames {
     public static string Panel03 {
         get {
             return "Panel03";
-        }
-    }
-    
-    public static string Panel04 {
-        get {
-            return "Panel04";
         }
     }
 }

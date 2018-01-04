@@ -10,12 +10,7 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-using BridgeUI.Model;
-namespace BridgeUI
-{
-    public enum LoadType
-    {
-        Prefab = 1,
-        Bundle = 1 << 1,
-    }
+
+public partial class PanelNames {
+
 }

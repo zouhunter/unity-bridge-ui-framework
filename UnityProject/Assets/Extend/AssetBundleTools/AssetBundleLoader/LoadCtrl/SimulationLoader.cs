@@ -24,6 +24,7 @@ namespace AssetBundles
         public SimulationLoader(MonoBehaviour holder)
         {
             this.holder = holder;
+            holder.StartCoroutine(SimulationWaitLoadObject());
         }
         Queue<Tuple<string, string, UnityAction<Object>>> tupes = new Queue<Tuple<string, string, UnityAction<Object>>>();// Tuple<string, string, UnityAction<Object>>();
         public T LoadAsset<T>(string bundleName, string assetName) where T : UnityEngine.Object
@@ -81,10 +82,14 @@ namespace AssetBundles
             while (!operation.isDone)
             {
                 operation.allowSceneActivation = false;
-                onProgressChanged(operation.progress);
                 if (operation.progress >= 0.9f)
                 {
+                    onProgressChanged(1);
                     operation.allowSceneActivation = true;
+                }
+                else
+                {
+                    onProgressChanged(operation.progress);
                 }
                 yield return null;
             }
@@ -94,18 +99,17 @@ namespace AssetBundles
         {
             var tupe = new Tuple<string, string, UnityAction<Object>>(bundleName, assetName, onLoad);
             tupes.Enqueue(tupe);
-            if (tupes.Count == 1){
-                holder.StartCoroutine(SimulationWaitLoadObject());
-            }
         }
 
         IEnumerator SimulationWaitLoadObject()
         {
-            while (tupes.Count > 0)
+            while (true)
             {
-                var tupe = tupes.Dequeue();
-                tupe.Element3.Invoke(LoadAsset<Object>(tupe.Element1, tupe.Element2));
-                yield return new WaitForEndOfFrame();
+                if (tupes.Count > 0){
+                    var tupe = tupes.Dequeue();
+                    tupe.Element3.Invoke(LoadAsset<Object>(tupe.Element1, tupe.Element2));
+                }
+                yield return null;
             }
         }
     }

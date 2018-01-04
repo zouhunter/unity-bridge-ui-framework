@@ -6,12 +6,12 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 namespace AssetBundleBuilder {
-    public class GlobalBuilderWindow : EditorWindow
+    public class ProjectsBuilderWindow : EditorWindow
     {
-        [MenuItem(ABBUtility.Menu_GlobalBuildWindow)]
-        static void BuildGlobalAssetBundles()
+        [MenuItem(ABBUtility.Menu_ProjectsBuildWindow)]
+        static void BuildProjectsAssetBundles()
         {
-            EditorWindow.GetWindow<GlobalBuilderWindow>("全局AssetBundle", true);
+            EditorWindow.GetWindow<ProjectsBuilderWindow>("全局AssetBundle", true);
         }
         
         public string assetBundleName;
@@ -27,9 +27,9 @@ namespace AssetBundleBuilder {
         void OnEnable()
         {
             script = new SerializedObject(this).FindProperty("m_Script");
-            if (EditorPrefs.HasKey(Perfer_buildPath))
+            if (PlayerPrefs.HasKey(Perfer_buildPath))
             {
-                localPath = EditorPrefs.GetString(Perfer_buildPath);
+                localPath = PlayerPrefs.GetString(Perfer_buildPath);
             }
         }
         void OnGUI()
@@ -43,7 +43,7 @@ namespace AssetBundleBuilder {
                 if (!string.IsNullOrEmpty(path))
                 {
                     localPath = path;
-                    EditorPrefs.SetString(Perfer_buildPath, localPath);
+                    PlayerPrefs.SetString(Perfer_buildPath, localPath);
                     this.Repaint();
                 }
             }
@@ -57,7 +57,7 @@ namespace AssetBundleBuilder {
                     if (!string.IsNullOrEmpty(path))
                     {
                         targetPath = path;
-                        EditorPrefs.SetString(Perfer_buildPath, targetPath);
+                        PlayerPrefs.SetString(Perfer_buildPath, targetPath);
                         this.Repaint();
                     }
                 }
@@ -74,7 +74,7 @@ namespace AssetBundleBuilder {
                 buildOption = (BuildAssetBundleOptions)EditorGUILayout.EnumMaskField("Options", buildOption);
                 if (GUILayout.Button("GlobleBulid"))
                 {
-                    ABBUtility.BuildGlobalAssetBundle(localPath, buildOption, buildTarget);
+                    ABBUtility.BuildProjectsAssetBundle(localPath, buildOption, buildTarget);
                 }
                 #endregion
         }

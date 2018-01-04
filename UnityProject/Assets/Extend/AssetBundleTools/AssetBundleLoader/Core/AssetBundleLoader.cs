@@ -10,6 +10,7 @@ using AssetBundleReference.Tuples;
 
 public class AssetBundleLoader :MonoBehaviour
 {
+    private const string defultMenu = "AssetBundle";
 #if UNITY_EDITOR
     //private static int m_SimulateAssetBundleInEditor;
     private static string kSimulateAssetBundles = "simulateinEditor";
@@ -30,41 +31,31 @@ public class AssetBundleLoader :MonoBehaviour
     #region 单例
     private static object lockHelper = new object();
     private static bool isQuit = false;
-    private static string _defultUrl;
-    private static string DefultUrl
-    {
-        get
-        {
-            if(string.IsNullOrEmpty(_defultUrl))
-            {
-#if UNITY_STANDALONE || UNITY_EDITOR
-                _defultUrl = "file://" + Application.streamingAssetsPath + "/AssetBundle";
-#else
-                            Application.streamingAssetsPath + "/AssetBundle";
-#endif
-            }
-            return _defultUrl;
-        }
-    }
+    private static AssetBundleLoader defult;
     public static AssetBundleLoader Instence
     {
        get
         {
-            AssetBundleLoader instance = null;
-            if (!loaderDic.TryGetValue(DefultUrl, out instance))
+            if (defult == null)
             {
                 lock (lockHelper)
                 {
-                    if (instance == null && !isQuit)
+                    if (defult == null && !isQuit)
                     {
-                        GameObject go = new GameObject("AssetBundle");
-                        instance = go.AddComponent<AssetBundleLoader>();
-                        instance.Init(DefultUrl, "AssetBundle");
-                        loaderDic.Add(DefultUrl, instance);
+                        GameObject go = new GameObject(defultMenu);
+                        defult = go.AddComponent<AssetBundleLoader>();
+                        var url =
+#if UNITY_STANDALONE || UNITY_EDITOR
+                           "file://" + Application.streamingAssetsPath + "/" + defultMenu;
+#else
+                            Application.streamingAssetsPath + "/" + defultMenu;
+#endif
+                        loaderDic.Add(url, defult);
+                        defult.Init(url, defultMenu);
                     }
                 }
             }
-            return instance;
+            return defult;
         }
     }
     public static AssetBundleLoader GetInstance(string url,string menu)
@@ -76,9 +67,9 @@ public class AssetBundleLoader :MonoBehaviour
             {
                 if (instance == null && !isQuit)
                 {
-                    GameObject go = new GameObject(menu);
+                    GameObject go = new GameObject(url);
                     instance = go.AddComponent<AssetBundleLoader>();
-                    instance.Init(url, menu);
+                    instance.Init(url,menu);
                     loaderDic.Add(url, instance);
                 }
             }
@@ -112,11 +103,10 @@ public class AssetBundleLoader :MonoBehaviour
         activeLoader = new UrlAssetBundleLoadCtrl(url, menu);
 
 #if UNITY_EDITOR
-        canSimulation = url.Contains(Application.streamingAssetsPath);
+        canSimulation = url.Contains(Application.streamingAssetsPath + "/" + defultMenu);
         if(canSimulation) simuationLoader = new SimulationLoader(this);
 #endif
     }
-
     void Update()
     {
         if (activeLoader != null)
@@ -290,6 +280,7 @@ public class AssetBundleLoader :MonoBehaviour
         {
             LoadMenu(() =>
             {
+                
                 AssetBundleLoadLevelOperation operation = activeLoader.LoadLevelAsync(assetBundleName, assetName, isAddictive);
                 StartCoroutine(WaitLoadLevel(operation, onProgressChange));
             });
@@ -306,7 +297,6 @@ public class AssetBundleLoader :MonoBehaviour
         yield return operation;
         if (onActive != null) onActive.Invoke();
     }
-
     IEnumerator WaitLoadObject<T>(AssetBundleLoadAssetOperation operation, UnityAction<T> onLoad) where T : UnityEngine.Object
     {
         yield return operation;
@@ -335,12 +325,17 @@ public class AssetBundleLoader :MonoBehaviour
             if (operation.m_Request != null)
             {
                 operation.m_Request.allowSceneActivation = false;
-                if (onProgressChanged != null) onProgressChanged(operation.m_Request.progress);
                 if (operation.m_Request.progress >= 0.9f)
                 {
                     operation.m_Request.allowSceneActivation = true;
+                    if (onProgressChanged != null)  onProgressChanged(1);
+                    break;
                 }
-                onProgressChanged(1);
+                else
+                {
+                    if (onProgressChanged != null) onProgressChanged(operation.m_Request.progress);
+                }
+
             }
             yield return null;
         }
@@ -350,10 +345,16 @@ public class AssetBundleLoader :MonoBehaviour
         while (!operation.isDone)
         {
             operation.allowSceneActivation = false;
-            if (onProgressChanged != null) onProgressChanged(operation.progress);
             if (operation.progress >= 0.9f)
             {
                 operation.allowSceneActivation = true;
+                if (onProgressChanged != null) onProgressChanged(1);
+                break;
+
+            }
+            else
+            {
+                if (onProgressChanged != null) onProgressChanged(operation.progress);
             }
             yield return null;
         }

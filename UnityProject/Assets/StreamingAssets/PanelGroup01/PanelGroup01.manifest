@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: uipanel/mainpanel
+      Dependencies: {}
+    Info_1:
+      Name: uipanel/panel01
+      Dependencies: {}
+    Info_2:
+      Name: uipanel/panel02
+      Dependencies: {}
+    Info_3:
+      Name: uipanel/panel03
+      Dependencies: {}
+    Info_4:
+      Name: uipanel/panel04
+      Dependencies: {}

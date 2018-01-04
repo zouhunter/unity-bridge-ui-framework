@@ -4,21 +4,9 @@ using System;
 using BridgeUI.Model;
 using System.Reflection;
 using UnityEngine.Events;
-public partial class PanelNames
-{
-    static PanelNames()
-    {
-        var fields = typeof(PanelNames).GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.GetProperty);
-        foreach (var item in fields)
-        {
-            item.SetValue(null, item.Name, null);
-        }
-    }
-}
 
 namespace BridgeUI
 {
-
     /// <summary>
     /// 界面操作接口
     /// </summary>

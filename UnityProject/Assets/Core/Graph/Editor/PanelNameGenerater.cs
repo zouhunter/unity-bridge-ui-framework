@@ -7,8 +7,10 @@ using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Text;
+using UnityEditor;
 
-public  class PanelNameGenerater : MonoBehaviour {
+public class PanelNameGenerater
+{
     private string outPutPath;
     public PanelNameGenerater(string exportPath)
     {
@@ -16,17 +18,21 @@ public  class PanelNameGenerater : MonoBehaviour {
     }
     public void GenerateParcialPanelName(string[] panelNames)
     {
-        var list = new List<string>();
-        var oldProperties = typeof(PanelNames).GetProperties();
-        list.AddRange(Array.ConvertAll<PropertyInfo, string>(oldProperties, x => x.Name));
+        var needGenerate = new List<string>();
+        var oldNames = Array.ConvertAll<PropertyInfo, string>(typeof(PanelNames).GetProperties(), x => x.Name);
+        var oldDoc = AssetDatabase.LoadAssetAtPath<TextAsset>(outPutPath.Replace("\\","/").Replace(Application.dataPath,"Assets"));
         foreach (var item in panelNames)
         {
-            if(!list.Contains(item))
+            if (Array.FindAll(oldNames, x => x == item).Length == 0)
             {
-                list.Add(item);
+                needGenerate.Add(item);
+            }
+            else if (oldDoc != null && oldDoc.text.Contains(item))
+            {
+                needGenerate.Add(item);
             }
         }
-        GenerateInternal(list.ToArray());
+        GenerateInternal(needGenerate.ToArray());
     }
 
     private void GenerateInternal(string[] panelNames)
@@ -35,7 +41,7 @@ public  class PanelNameGenerater : MonoBehaviour {
         CodeNamespace sample = new CodeNamespace();
         compunit.Namespaces.Add(sample);
 
-        
+
         CodeTypeDeclaration wrapProxyClass = new CodeTypeDeclaration("PanelNames");
         wrapProxyClass.TypeAttributes = TypeAttributes.Public;
         wrapProxyClass.IsPartial = true;
@@ -53,7 +59,7 @@ public  class PanelNameGenerater : MonoBehaviour {
             prop.GetStatements.Add(new CodeMethodReturnStatement(new CodePrimitiveExpression(item)));
             wrapProxyClass.Members.Add(prop);
         }
-        
+
 
         CSharpCodeProvider cprovider = new CSharpCodeProvider();
 

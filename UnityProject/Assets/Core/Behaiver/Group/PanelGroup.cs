@@ -24,6 +24,8 @@ namespace BridgeUI
 #if UNITY_EDITOR
         public List<GraphWorp> graphList;
 #endif
+        public bool resetMenu;
+        public string menu;
         public LoadType loadType = LoadType.Prefab;
         public List<BundleUIInfo> b_nodes;
         public List<PrefabUIInfo> p_nodes;
@@ -40,7 +42,7 @@ namespace BridgeUI
 
         void Awake()
         {
-            creater = new PanelCreater();
+            InitCreater();
             RegistUINodes();
             RegistBridgePool();
             TryAutoOpen(Trans);
@@ -57,7 +59,8 @@ namespace BridgeUI
         private void OnDisable()
         {
             var created = createdPanels.ToArray();
-            foreach (var item in created){
+            foreach (var item in created)
+            {
                 item.Hide();
             }
         }
@@ -65,6 +68,8 @@ namespace BridgeUI
         {
             UIFacade.UnRegistGroup(this);
         }
+
+
 
         public Bridge InstencePanel(IPanelBase parentPanel, string panelName, Transform root)
         {
@@ -101,6 +106,19 @@ namespace BridgeUI
         }
 
         #region private Functions
+
+        private void InitCreater()
+        {
+            if (string.IsNullOrEmpty(menu))
+            {
+                creater = new PanelCreater();
+            }
+            else
+            {
+                creater = new PanelCreater(menu);
+            }
+
+        }
         private void HandBridgeOptions(IPanelBase panel, Bridge bridge)
         {
             TryChangeParentState(panel, bridge.Info);

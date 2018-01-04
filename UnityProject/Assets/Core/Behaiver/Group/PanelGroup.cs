@@ -109,13 +109,13 @@ namespace BridgeUI
 
         private void InitCreater()
         {
-            if (string.IsNullOrEmpty(menu))
+            if (resetMenu && loadType == LoadType.Bundle)
             {
-                creater = new PanelCreater();
+                creater = new PanelCreater(menu);
             }
             else
             {
-                creater = new PanelCreater(menu);
+                creater = new PanelCreater();
             }
 
         }

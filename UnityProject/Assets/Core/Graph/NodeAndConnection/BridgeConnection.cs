@@ -13,8 +13,7 @@ using System.Collections.Generic;
 using NodeGraph;
 using NodeGraph.DataModel;
 using BridgeUI;
-
-[CustomConnection("BridgeUI")]
+[CustomConnection("bridge")]
 public class BridgeConnection : Connection
 {
     public ShowMode show;

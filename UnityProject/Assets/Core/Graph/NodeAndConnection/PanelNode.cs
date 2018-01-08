@@ -14,23 +14,24 @@ using NodeGraph;
 using System;
 using BridgeUI.Model;
 using BridgeUI;
+using System.Collections.Generic;
 
 [CustomNode("Panel", 1,"BridgeUI")]
 public class PanelNode : PanelNodeBase
 {
     public PanelNode() { }
-    public override string NodeOutputType
+    protected override IEnumerable<Point> inPoints
     {
         get
         {
-            return "BridgeUI";
+            return new Point[] { new Point("","bridge",100) };
         }
     }
-    public override string NodeInputType
+    protected override IEnumerable<Point> outPoints
     {
         get
         {
-            return "BridgeUI";
+            return new Point[] { new Point("", "bridge", 100) };
         }
     }
     public PanelNode(string prefabPath)
@@ -38,11 +39,6 @@ public class PanelNode : PanelNodeBase
 #if UNITY_EDITOR
         Info.prefabGuid = UnityEditor. AssetDatabase.AssetPathToGUID(prefabPath);
 #endif
-    }
-    public override void Initialize(NodeData data)
-    {
-        data.AddDefaultOutputPoint();
-        data.AddDefaultInputPoint();
     }
 
 }

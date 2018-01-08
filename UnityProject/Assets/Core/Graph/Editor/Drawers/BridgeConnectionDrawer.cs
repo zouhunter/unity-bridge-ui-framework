@@ -10,7 +10,8 @@ namespace BridgeUI
     public class BridgeConnectionDrawer : ConnectionDrawer
     {
         private BridgeConnection connecton;
-        internal override string Label
+
+        protected  string Label
         {
             get {
                 var str = BridgeUI.Utility.ShowModelToString((target as BridgeConnection).show);
@@ -20,6 +21,10 @@ namespace BridgeUI
         internal override Color LineColor
         {
             get { return Color.yellow; }
+        }
+        internal override void OnDrawLabel(Vector3 centerPos, string label)
+        {
+            base.OnDrawLabel(centerPos, Label);
         }
         internal override void OnInspectorGUI()
         {
@@ -31,7 +36,6 @@ namespace BridgeUI
             showMode.cover = DrawToggle(showMode.cover, "界面遮罩");
             showMode.baseShow = (BaseShow)DrawEnum(showMode.baseShow, "父级演示");
             showMode.single = DrawToggle(showMode.single, "独立显示");
-
         }
         private bool DrawToggle(bool on, string tip)
         {

@@ -9,17 +9,11 @@ using NodeGraph;
 public class Luncher : Node
 {
     public int a;
-    public override string NodeOutputType
+    protected override IEnumerable<Point> outPoints
     {
         get
         {
-            return "BridgeUI";
+            return new Point[] { new Point("+", "bridge", 100) };
         }
-    }
-  
-    public override void Initialize(NodeData data)
-    {
-        data.AddDefaultOutputPoint();
-        Debug.Log("Initialize");
     }
 }

@@ -16,7 +16,7 @@ namespace BridgeUI.Model
     [System.Serializable]
     public class NodeInfo
     {
-        public UIType uiType;
+        public UIType uiType = new UIType();
         public string prefabGuid;
     }
 }

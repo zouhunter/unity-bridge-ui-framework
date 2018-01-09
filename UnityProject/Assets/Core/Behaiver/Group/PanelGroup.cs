@@ -397,7 +397,8 @@ namespace BridgeUI
             if (bridgeInfo == null)
             {
                 bridge = poolDic[defultBridge].Allocate(parentPanel);
-                bridge.Info = new BridgeInfo(parentName, panelName, new ShowMode());
+                var show = new ShowMode(false, MutexRule.NoMutex, false, BaseShow.NoChange, false);
+                bridge.Info = new BridgeInfo(parentName, panelName, show);
             }
             else
             {

@@ -192,7 +192,7 @@ namespace BridgeUIEditor
                     var path = AssetDatabase.GUIDToAssetPath(guid.stringValue);
                     if (!string.IsNullOrEmpty(path))
                     {
-                        NodeGraph.DataModel.ConfigGraph graph = AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.ConfigGraph>(path);
+                        NodeGraph.DataModel.NodeGraphObj graph = AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.NodeGraphObj>(path);
                         AssetDatabase.OpenAsset(graph);
                     }
                 }
@@ -271,7 +271,7 @@ namespace BridgeUIEditor
                 case LoadType.Bundle:
                     using (var hor = new EditorGUILayout.HorizontalScope(widthSytle))
                     {
-                        resetMenuProp.boolValue = GUILayout.Toggle(resetMenuProp.boolValue,new GUIContent("r","重设菜单"), btnStyle);
+                        resetMenuProp.boolValue = GUILayout.Toggle(resetMenuProp.boolValue, new GUIContent("r", "重设菜单"), btnStyle);
 
                         if (GUILayout.Button(new GUIContent("%", "移除重复"), btnStyle))
                         {
@@ -358,10 +358,20 @@ namespace BridgeUIEditor
             {
                 var guid = graphListProp.GetArrayElementAtIndex(i).FindPropertyRelative("guid").stringValue;
                 var path = AssetDatabase.GUIDToAssetPath(guid);
-                var graph = AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.ConfigGraph>(path);
-                NodeGraph.NodeGraphController controller = new BridgeUIGraphCtrl();
-                controller.TargetGraph = graph;
-                controller.Build();
+                var graph = AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.NodeGraphObj>(path);
+                if (graph != null)
+                {
+                    NodeGraph.NodeGraphController controller = new BridgeUIGraphCtrl();
+                    controller.TargetGraph = graph;
+                    controller.Build();
+                }
+                else
+                {
+                    Debug.Log(graphListProp.GetArrayElementAtIndex(i) + ": Lost!  deleted!");
+                    graphListProp.DeleteArrayElementAtIndex(i);
+                    serializedObject.ApplyModifiedProperties();
+                    return;
+                }
             }
         }
         private void GroupLoadPrefabs(SerializedProperty proprety)

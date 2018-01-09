@@ -136,7 +136,6 @@ namespace BridgeUI
 
         public static string ShowModelToString(ShowMode show)
         {
-            if (show == null) return "";
             string str = "";
             if (show.auto)
             {

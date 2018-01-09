@@ -28,12 +28,21 @@ namespace BridgeUI
     /// 界面的显示状态
     /// </summary>
     [System.Serializable]
-    public class ShowMode
+    public struct ShowMode
     {
-        public bool auto = false;//当上级显示时显示
-        public MutexRule mutex = MutexRule.NoMutex;//排斥有相同类型面版
-        public bool cover = false;//建立遮罩只允许当前面版操作
-        public BaseShow baseShow = BaseShow.NoChange;//父级的显示状态
-        public bool single = false;//隐藏所有打开的面板
+        public bool auto;//当上级显示时显示
+        public MutexRule mutex;//排斥有相同类型面版
+        public bool cover;//建立遮罩只允许当前面版操作
+        public BaseShow baseShow;//父级的显示状态
+        public bool single;//隐藏所有打开的面板
+
+        public ShowMode(bool auto, MutexRule mutex, bool cover, BaseShow baseShow, bool single)
+        {
+            this.auto = auto;
+            this.mutex = mutex;
+            this.cover = cover;
+            this.baseShow = baseShow;
+            this.single = single;
+        }
     }
 }

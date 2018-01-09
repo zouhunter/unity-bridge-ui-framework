@@ -23,6 +23,7 @@ public class PanelNodeDrawer : NodeDrawer
     public int style = 1;
     protected GameObject prefab;
     protected NodeInfo nodeInfo { get { return (target as PanelNodeBase).nodeInfo; } }
+
     public override int Style
     {
         get
@@ -37,7 +38,6 @@ public class PanelNodeDrawer : NodeDrawer
             return "panel";
         }
     }
-
     protected string HeadInfo
     {
         get
@@ -48,18 +48,15 @@ public class PanelNodeDrawer : NodeDrawer
 
     public override void OnInspectorGUI(NodeGUI gui)
     {
-        DrawHeadSelect();
         EditorGUILayout.HelpBox(HeadInfo, MessageType.Info);
+        DrawHeadSelect();
         LoadRecordIfEmpty();
         EditorGUILayout.HelpBox("[窗体信息配制:]", MessageType.Info);
         DrawHeadField();
         RecordPrefabInfo();
         DrawInforamtion();
-
         if (prefab != null) gui.Name = prefab.name;
     }
-
-
     protected virtual void LoadRecordIfEmpty()
     {
         if (prefab == null && !string.IsNullOrEmpty(nodeInfo.prefabGuid))

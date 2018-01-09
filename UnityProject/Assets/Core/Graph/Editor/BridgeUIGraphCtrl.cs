@@ -119,21 +119,21 @@ namespace BridgeUI
             var bridges = new List<BridgeInfo>();
             foreach (var item in connectons)
             {
-                if (!(item.Operation.Object is BridgeConnection)) continue;
-                var connection = item.Operation.Object as BridgeConnection;
+                if (!(item.Object is BridgeConnection)) continue;
+                var connection = item.Object as BridgeConnection;
 
                 var bridge = new BridgeInfo();
                 var innode = nodes.Find(x => x.OutputPoints != null && x.OutputPoints.Find(y => y.Id == item.FromNodeConnectionPointId) != null);
                 var outnode = nodes.Find(x => x.InputPoints != null && x.InputPoints.Find(y => y.Id == item.ToNodeConnectionPointId) != null);
                 if (innode != null)
                 {
-                    if (innode.Operation.Object is IPanelInfoHolder)
+                    if (innode.Object is IPanelInfoHolder)
                     {
                         bridge.inNode = innode.Name;
                     }
                 }
 
-                if (outnode != null && outnode.Operation.Object is IPanelInfoHolder)
+                if (outnode != null && outnode.Object is IPanelInfoHolder)
                 {
                     bridge.outNode = outnode.Name;
                 }
@@ -150,7 +150,7 @@ namespace BridgeUI
             var nodes = TargetGraph.Nodes;
             foreach (var item in nodes)
             {
-                var nodeItem = item.Operation.Object as IPanelInfoHolder;
+                var nodeItem = item.Object as IPanelInfoHolder;
                 if (nodeItem != null)
                 {
                     nodeInfos.Add(nodeItem.Info);
@@ -226,9 +226,9 @@ namespace BridgeUI
         internal override void Validate(NodeGUI node)
         {
             var changed = false;
-            if (node.Data.Operation.Object is IPanelInfoHolder)
+            if (node.Data.Object is IPanelInfoHolder)
             {
-                var nodeItem = node.Data.Operation.Object as IPanelInfoHolder;
+                var nodeItem = node.Data.Object as IPanelInfoHolder;
                 var guid = nodeItem.Info.prefabGuid;
                 if (!string.IsNullOrEmpty(guid) && !string.IsNullOrEmpty(AssetDatabase.GUIDToAssetPath(guid)))
                 {
@@ -241,13 +241,13 @@ namespace BridgeUI
                 Perform();
             }
         }
-        protected override void JudgeNodeExceptions(ConfigGraph m_targetGraph, List<NodeException> m_nodeExceptions)
+        protected override void JudgeNodeExceptions(NodeGraphObj m_targetGraph, List<NodeException> m_nodeExceptions)
         {
             foreach (var item in TargetGraph.Nodes)
             {
-                if (item.Operation.Object is IPanelInfoHolder)
+                if (item.Object is IPanelInfoHolder)
                 {
-                    var nodeItem = item.Operation.Object as IPanelInfoHolder;
+                    var nodeItem = item.Object as IPanelInfoHolder;
                     var guid = nodeItem.Info.prefabGuid;
                     if (string.IsNullOrEmpty(guid) || string.IsNullOrEmpty(AssetDatabase.GUIDToAssetPath(guid)))
                     {
@@ -257,7 +257,7 @@ namespace BridgeUI
             }
         }
 
-        protected override void BuildFromGraph(ConfigGraph m_targetGraph)
+        protected override void BuildFromGraph(NodeGraphObj m_targetGraph)
         {
             if (Selection.activeGameObject != null)
             {
@@ -267,7 +267,7 @@ namespace BridgeUI
                     StoreInfoOfPanel(panelGroup);
                 }
             }
-            UpdateScriptOfPanelNames(m_targetGraph.Nodes.FindAll(x=>x.Operation.Object is PanelNodeBase).ConvertAll<string>(x => x.Name));
+            UpdateScriptOfPanelNames(m_targetGraph.Nodes.FindAll(x=>x.Object is PanelNodeBase).ConvertAll<string>(x => x.Name));
         }
         private void UpdateScriptOfPanelNames(List<string> list)
         {
@@ -365,12 +365,14 @@ namespace BridgeUI
                         foreach (var item in files)
                         {
                             panelNode = new PanelNode(item);
+                            panelNode.name = typeof(PanelNode).FullName;
                             nodeList.Add(new KeyValuePair<string, Node>(Path.GetFileNameWithoutExtension(item), panelNode));
                         }
                     }
                     else if (obj is GameObject)
                     {
                         panelNode = new PanelNode(path);
+                        panelNode.name = typeof(PanelNode).FullName;
                         nodeList.Add(new KeyValuePair<string, Node>(obj.name, panelNode));
                     }
                 }

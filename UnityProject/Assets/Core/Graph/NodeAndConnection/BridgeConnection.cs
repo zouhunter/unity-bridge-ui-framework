@@ -13,8 +13,10 @@ using System.Collections.Generic;
 using NodeGraph;
 using NodeGraph.DataModel;
 using BridgeUI;
+using System;
+
 [CustomConnection("bridge")]
 public class BridgeConnection : Connection
 {
-    public ShowMode show;
+    public ShowMode show = new ShowMode(false,MutexRule.NoMutex,false,BaseShow.NoChange,false);
 }

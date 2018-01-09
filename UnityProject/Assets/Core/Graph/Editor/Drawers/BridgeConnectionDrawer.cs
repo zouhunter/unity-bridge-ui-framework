@@ -10,7 +10,7 @@ namespace BridgeUI
     public class BridgeConnectionDrawer : ConnectionDrawer
     {
         private BridgeConnection connecton;
-
+        public static BridgeConnection copyed;
         protected  string Label
         {
             get {
@@ -29,20 +29,47 @@ namespace BridgeUI
         internal override void OnInspectorGUI()
         {
             connecton = target as BridgeConnection;
-            var showMode = connecton.show;
 
-            showMode.auto = DrawToggle(showMode.auto, "自动打开");
-            showMode.mutex = (MutexRule)DrawEnum(showMode.mutex, "同级互斥");
-            showMode.cover = DrawToggle(showMode.cover, "界面遮罩");
-            showMode.baseShow = (BaseShow)DrawEnum(showMode.baseShow, "父级演示");
-            showMode.single = DrawToggle(showMode.single, "独立显示");
+            connecton.show.auto = DrawToggle(connecton.show.auto, "自动打开");
+            GUILayout.Space(10);
+            connecton.show.mutex = (MutexRule)DrawEnum(connecton.show.mutex, "同级互斥");
+            GUILayout.Space(10);
+            connecton.show.cover = DrawToggle(connecton.show.cover, "界面遮罩");
+            GUILayout.Space(10);
+            connecton.show.baseShow = (BaseShow)DrawEnum(connecton.show.baseShow, "上级状态");
+            GUILayout.Space(10);
+            connecton.show.single = DrawToggle(connecton.show.single, "独立显示");
+        }
+
+        internal override void OnContextMenuGUI(GenericMenu menu, ConnectionGUI connectionGUI)
+        {
+            base.OnContextMenuGUI(menu, connectionGUI);
+            menu.AddItem(
+                      new GUIContent("Copy"),
+                      false,
+                      () =>
+                      {
+                          copyed = connecton;
+                      }
+                  );
+            menu.AddItem(
+                    new GUIContent("Paste"),
+                    false,
+                    () =>
+                    {
+                        if(copyed != null)
+                        {
+                            connecton.show = copyed.show;
+                        }
+                    }
+                );
         }
         private bool DrawToggle(bool on, string tip)
         {
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                on = GUILayout.Toggle(on, tip, EditorStyles.radioButton, GUILayout.Height(60), GUILayout.Width(100));
-                EditorGUILayout.LabelField(tip);
+                EditorGUILayout.LabelField(tip,GUILayout.Width(100));
+                on = EditorGUILayout.Toggle(on, EditorStyles.radioButton);
             }
             return on;
         }
@@ -51,8 +78,8 @@ namespace BridgeUI
         {
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                em = EditorGUILayout.EnumPopup(em, EditorStyles.toolbarDropDown, GUILayout.Height(60), GUILayout.Width(100));
-                EditorGUILayout.LabelField(tip);
+                EditorGUILayout.LabelField(tip, GUILayout.Width(100));
+                em = EditorGUILayout.EnumPopup(em);
             }
             return em;
         }

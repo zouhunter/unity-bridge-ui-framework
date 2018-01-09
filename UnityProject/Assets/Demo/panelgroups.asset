@@ -14,8 +14,8 @@ MonoBehaviour:
   m_allNodes:
   - m_name: Panel01
     m_id: c0be08bc-177b-401f-98e2-d92d6977cbe7
-    m_x: 456
-    m_y: 156
+    m_x: 360
+    m_y: 120
     m_node: {fileID: 11480404}
     m_inputPoints:
     - id: 029d38d1-defd-4197-8e24-dc06a0223a66
@@ -45,8 +45,8 @@ MonoBehaviour:
       type: bridge
   - m_name: Luncher
     m_id: 204b7b45-7190-48a4-a94b-e354e556fdd3
-    m_x: 216
-    m_y: 84
+    m_x: 108
+    m_y: 96
     m_node: {fileID: 11479708}
     m_inputPoints: []
     m_outputPoints:
@@ -64,8 +64,8 @@ MonoBehaviour:
       type: bridge
   - m_name: Panel04
     m_id: b2c901f0-b4f8-4771-abd4-73b6f59cb719
-    m_x: 456
-    m_y: 348
+    m_x: 360
+    m_y: 324
     m_node: {fileID: 11450576}
     m_inputPoints:
     - id: 5a9deec9-733a-41cd-a270-eeb2b9bbb11b
@@ -95,8 +95,8 @@ MonoBehaviour:
       type: bridge
   - m_name: Panel02
     m_id: e1a8a097-ec60-456f-aa09-4f6f828f7436
-    m_x: 456
-    m_y: 216
+    m_x: 360
+    m_y: 204
     m_node: {fileID: 11495648}
     m_inputPoints:
     - id: e6fda040-c50a-4ca3-94df-3697072c068d
@@ -126,8 +126,8 @@ MonoBehaviour:
       type: bridge
   - m_name: Panel03
     m_id: 824e12c9-4444-43e4-98cc-37d4de6b60c9
-    m_x: 456
-    m_y: 276
+    m_x: 360
+    m_y: 264
     m_node: {fileID: 11437848}
     m_inputPoints:
     - id: 239be81e-d124-474c-8ffe-bf1701df6f38
@@ -157,8 +157,8 @@ MonoBehaviour:
       type: bridge
   - m_name: MainPanel
     m_id: c5230db9-11a4-4736-9fe5-06742f2f7dc9
-    m_x: 216
-    m_y: 240
+    m_x: 108
+    m_y: 204
     m_node: {fileID: 11434124}
     m_inputPoints:
     - id: 3bdb02df-fd24-4b54-ae02-540ea977e456
@@ -215,7 +215,7 @@ MonoBehaviour:
     m_toNodeConnectionPoiontId: 239be81e-d124-474c-8ffe-bf1701df6f38
     m_type: bridge
     m_connection: {fileID: 11408504}
-  m_lastModified: 131599791838542551
+  m_lastModified: 131599796509009686
   m_graphDescription: "\u8FD9\u662F\u4E00\u4E2A\u8BB0\u5F55\u7A0B\u5E8F\u754C\u9762\u4E00\u4E2A\u8282\u70B9\u63A7\u5236\u5668"
   m_controllerType: BridgeUIGraphCtrl
 --- !u!114 &11408504

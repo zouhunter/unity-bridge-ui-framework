@@ -20,15 +20,13 @@ public class PanelNameGenerater
     {
         var needGenerate = new List<string>();
         var oldNames = Array.ConvertAll<PropertyInfo, string>(typeof(PanelNames).GetProperties(), x => x.Name);
-        var oldDoc = AssetDatabase.LoadAssetAtPath<TextAsset>(outPutPath.Replace("\\","/").Replace(Application.dataPath,"Assets"));
+        needGenerate.AddRange(oldNames);
+
         foreach (var item in panelNames)
         {
             if (Array.FindAll(oldNames, x => x == item).Length == 0)
             {
-                needGenerate.Add(item);
-            }
-            else if (oldDoc != null && oldDoc.text.Contains(item))
-            {
+                //生成没有的
                 needGenerate.Add(item);
             }
         }
@@ -44,7 +42,7 @@ public class PanelNameGenerater
 
         CodeTypeDeclaration wrapProxyClass = new CodeTypeDeclaration("PanelNames");
         wrapProxyClass.TypeAttributes = TypeAttributes.Public;
-        wrapProxyClass.IsPartial = true;
+        //wrapProxyClass.IsPartial = true;
         sample.Types.Add(wrapProxyClass);//把这个类添加到命名空间 ,待会儿才会编译这个类
 
 

@@ -21,6 +21,8 @@ namespace BridgeUI
         }
         public PanelCreater(string menu)
         {
+#if AssetBundleTools
+
             var url =
 #if UNITY_WEBGL
            
@@ -29,7 +31,6 @@ namespace BridgeUI
 #endif
                 Application.streamingAssetsPath + "/" + menu;
 
-#if AssetBundleTools
             assetLoader = AssetBundleLoader.GetInstance(url, menu);
 #endif
         }

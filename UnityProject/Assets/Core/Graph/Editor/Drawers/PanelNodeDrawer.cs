@@ -23,7 +23,20 @@ public class PanelNodeDrawer : NodeDrawer
     public int style = 1;
     protected GameObject prefab;
     protected NodeInfo nodeInfo { get { return (target as PanelNodeBase).nodeInfo; } }
+    protected PanelNodeBase panelNode;
+    public override Node target
+    {
+        get
+        {
+            return base.target;
+        }
 
+        set
+        {
+            base.target = value;
+            panelNode = value as PanelNodeBase;
+        }
+    }
     public override int Style
     {
         get
@@ -31,6 +44,7 @@ public class PanelNodeDrawer : NodeDrawer
             return style;
         }
     }
+
     public override string Category
     {
         get
@@ -45,7 +59,25 @@ public class PanelNodeDrawer : NodeDrawer
             return "Panel Node : record panel load type and other rule";
         }
     }
-
+    public override float CustomNodeHeight
+    {
+        get
+        {
+            if(panelNode != null && !string.IsNullOrEmpty( panelNode.description)) {
+                return EditorGUIUtility.singleLineHeight + 5;
+            }
+            return 0;
+        }
+    }
+    public override void OnNodeGUI(Rect position, NodeData data)
+    {
+        base.OnNodeGUI(position, data);
+        if(panelNode != null && !string.IsNullOrEmpty(panelNode.description))
+        {
+            var rect = new Rect(position.x + 20, position.y, position.width - 40, EditorGUIUtility.singleLineHeight);
+            EditorGUI.LabelField(rect, panelNode.description);
+        }
+    }
     public override void OnInspectorGUI(NodeGUI gui)
     {
         EditorGUILayout.HelpBox(HeadInfo, MessageType.Info);
@@ -241,6 +273,14 @@ public class PanelNodeDrawer : NodeDrawer
         {
             EditorGUILayout.LabelField("Style:");
             style = (int)EditorGUILayout.Slider(style, 1, 7);
+        }
+        using (var hor = new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField("说明:");
+            if(panelNode != null)
+            {
+                panelNode.description = EditorGUILayout.TextField(panelNode.description);
+            }
         }
     }
     protected void DrawHeadField()

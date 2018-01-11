@@ -24,6 +24,20 @@ public class PanelNodeDrawer : NodeDrawer
     protected GameObject prefab;
     protected NodeInfo nodeInfo { get { return (target as PanelNodeBase).nodeInfo; } }
     protected PanelNodeBase panelNode;
+    private PanelBase _panelCompnent;
+    private bool showComponent;
+    protected PanelBase panelCompnent
+    {
+        get
+        {
+            if (_panelCompnent == null && prefab != null)
+            {
+                _panelCompnent = prefab.GetComponent<PanelBase>();
+            }
+            return _panelCompnent;
+        }
+    }
+    protected Editor panelDrawer;
     public override Node target
     {
         get
@@ -63,7 +77,8 @@ public class PanelNodeDrawer : NodeDrawer
     {
         get
         {
-            if(panelNode != null && !string.IsNullOrEmpty( panelNode.description)) {
+            if (panelNode != null && !string.IsNullOrEmpty(panelNode.description))
+            {
                 return EditorGUIUtility.singleLineHeight + 5;
             }
             return 0;
@@ -72,7 +87,7 @@ public class PanelNodeDrawer : NodeDrawer
     public override void OnNodeGUI(Rect position, NodeData data)
     {
         base.OnNodeGUI(position, data);
-        if(panelNode != null && !string.IsNullOrEmpty(panelNode.description))
+        if (panelNode != null && !string.IsNullOrEmpty(panelNode.description))
         {
             var rect = new Rect(position.x + 20, position.y, position.width - 40, EditorGUIUtility.singleLineHeight);
             EditorGUI.LabelField(rect, panelNode.description);
@@ -87,8 +102,11 @@ public class PanelNodeDrawer : NodeDrawer
         DrawHeadField();
         RecordPrefabInfo();
         DrawInforamtion();
+        DrawShowHide();
+        DrawPanelBase();
         if (prefab != null) gui.Name = prefab.name;
     }
+
     protected virtual void LoadRecordIfEmpty()
     {
         if (prefab == null && !string.IsNullOrEmpty(nodeInfo.prefabGuid))
@@ -277,7 +295,7 @@ public class PanelNodeDrawer : NodeDrawer
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("说明:");
-            if(panelNode != null)
+            if (panelNode != null)
             {
                 panelNode.description = EditorGUILayout.TextField(panelNode.description);
             }
@@ -290,11 +308,78 @@ public class PanelNodeDrawer : NodeDrawer
             DrawObjectFieldInternal();
         }
     }
+    protected void DrawShowHide()
+    {
+        if(prefab != null && panelNode != null)
+        {
+            using (var hor = new EditorGUILayout.HorizontalScope())
+            {
+                if (GUILayout.Button("o",GUILayout.Width(20)))
+                {
+                    if(panelNode.instenceID == 0)
+                    {
+                        Transform parent = null;
+                        var group = GameObject.FindObjectOfType<PanelGroup>();
+                        if(group != null) {
+                            parent = group.GetComponent<Transform>();
+                        }
+                        else
+                        {
+                           var canvas  = GameObject.FindObjectOfType<Canvas>();
+                            if(canvas != null)
+                            {
+                                parent = canvas.GetComponent<Transform>();
+                            }
+                        }
+                        if (parent != null)
+                        {
+                            var obj = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+                            obj.transform.SetParent(parent, false);
+                            panelNode.instenceID = obj.GetInstanceID();
+                        }
+                    }
+                }
+                if(GUILayout.Button("c", GUILayout.Width(20)))
+                {
+                    if (panelNode.instenceID != 0)
+                    {
+                        var obj = EditorUtility.InstanceIDToObject(panelNode.instenceID);
+                        if(obj != null) {
+                            GameObject.DestroyImmediate(obj);
+                        }
+                    }
+                    panelNode.instenceID = 0;
+                }
+                if(GUILayout.Button("Script",EditorStyles.toolbarButton))
+                {
+                    showComponent = !showComponent;
+                }
+            }
+        }
+    }
+    protected void DrawPanelBase()
+    {
+        if (!showComponent) return;
+        GUILayout.Space(5);
+
+        if (panelDrawer == null && panelCompnent != null)
+        {
+            panelDrawer = UnityEditor.Editor.CreateEditor(panelCompnent);
+        }
+
+        if (panelDrawer != null)
+        {
+            panelDrawer.DrawHeader();
+            panelDrawer.OnInspectorGUI();
+            //var rect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, 300);
+            //panelDrawer.DrawPreview(rect);
+        }
+    }
     public override void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result)
     {
         base.OnClickNodeGUI(nodeGUI, mousePosition, result);
 
-        if(prefab != null)
+        if (prefab != null)
         {
             EditorGUIUtility.PingObject(prefab);
         }

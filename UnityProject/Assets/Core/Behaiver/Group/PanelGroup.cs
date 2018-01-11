@@ -508,7 +508,7 @@ namespace BridgeUI
                     UIBindingUtil.RegistPanelEvent(item.inNode, item.index, action);
                     this.onDestroy += () =>
                     {
-                        //在本界面关闭时销毁事件
+                        //在本组合关闭时销毁事件
                         UIBindingUtil.RemovePanelEvent(item.inNode, item.index, action);
                     };
                 }

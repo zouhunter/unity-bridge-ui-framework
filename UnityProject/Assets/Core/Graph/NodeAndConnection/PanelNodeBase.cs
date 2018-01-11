@@ -8,6 +8,7 @@ using BridgeUI;
 
 public abstract class PanelNodeBase : Node, IPanelInfoHolder
 {
+    public int instenceID;
     public string description;
     public NodeInfo nodeInfo = new NodeInfo();
     public NodeInfo Info

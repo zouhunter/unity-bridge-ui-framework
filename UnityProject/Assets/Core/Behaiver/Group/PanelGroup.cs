@@ -503,7 +503,10 @@ namespace BridgeUI
                         var parentPanel = x;
                         var panelName = item.outNode;
                         var Content = parentPanel == null ? null : parentPanel.Content;
-                        InstencePanel(parentPanel, panelName, Content);
+                        var bridge = InstencePanel(parentPanel, panelName, Content);
+                        Debug.Log(bridge);
+                        Debug.Log(y);
+                        bridge.Send(y);
                     };
                     UIBindingUtil.RegistPanelEvent(item.inNode, item.index, action);
                     this.onDestroy += () =>

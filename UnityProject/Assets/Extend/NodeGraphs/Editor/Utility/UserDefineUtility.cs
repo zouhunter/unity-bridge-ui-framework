@@ -35,6 +35,7 @@ namespace NodeGraph
             }
             return list;
         }
+        private static Dictionary<Type, Type> userDrawer;
 
         internal static NodeGraphController CreateController(NodeGraph.DataModel.NodeGraphObj graph)
         {
@@ -51,7 +52,6 @@ namespace NodeGraph
                 return null;
             }
         }
-        private static Dictionary<Type, Type> userDrawer;
         internal static object GetUserDrawer(Type type)
         {
             InitDrawerTypes();
@@ -89,7 +89,7 @@ namespace NodeGraph
                 }
             }
         }
-
+      
         public static void DrawSerializedObject(SerializedObject serializedObject)
         {
             if (serializedObject == null || serializedObject.targetObject == null) return;

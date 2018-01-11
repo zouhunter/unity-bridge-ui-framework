@@ -95,16 +95,20 @@ public class PanelNodeDrawer : NodeDrawer
     }
     public override void OnInspectorGUI(NodeGUI gui)
     {
+      
         EditorGUILayout.HelpBox(HeadInfo, MessageType.Info);
         DrawHeadSelect();
         LoadRecordIfEmpty();
         EditorGUILayout.HelpBox("[窗体信息配制:]", MessageType.Info);
-        DrawHeadField();
-        RecordPrefabInfo();
         DrawInforamtion();
+
+        DrawObjectFieldInternal();
         DrawShowHide();
         DrawPanelBase();
-        if (prefab != null) gui.Name = prefab.name;
+
+        if(prefab !=null){
+            gui.Name = prefab.name;
+        }
     }
 
     protected virtual void LoadRecordIfEmpty()
@@ -125,10 +129,10 @@ public class PanelNodeDrawer : NodeDrawer
 
     private void RecordPrefabInfo()
     {
-        if (prefab != null)
+        if (prefab != null && panelNode != null)
         {
             var path = AssetDatabase.GetAssetPath(prefab);
-            (target as PanelNodeBase).nodeInfo.prefabGuid = AssetDatabase.AssetPathToGUID(path);
+            panelNode.nodeInfo.prefabGuid = AssetDatabase.AssetPathToGUID(path);
         }
     }
     protected void DrawObjectFieldInternal()
@@ -137,6 +141,10 @@ public class PanelNodeDrawer : NodeDrawer
         {
             EditorGUILayout.LabelField("【预制体】:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
             prefab = EditorGUILayout.ObjectField(prefab, typeof(GameObject), false) as GameObject;
+            if (prefab != null)
+            {
+                RecordPrefabInfo();
+            }
         }
     }
     protected void DrawFormType()
@@ -301,32 +309,27 @@ public class PanelNodeDrawer : NodeDrawer
             }
         }
     }
-    protected void DrawHeadField()
-    {
-        if (nodeType != 0)
-        {
-            DrawObjectFieldInternal();
-        }
-    }
     protected void DrawShowHide()
     {
-        if(prefab != null && panelNode != null)
+        if (prefab != null && panelNode != null)
         {
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                if (GUILayout.Button("o",GUILayout.Width(20)))
+
+                if (GUILayout.Button("o", GUILayout.Width(20)))
                 {
-                    if(panelNode.instenceID == 0)
+                    if (panelNode.instenceID == 0)
                     {
                         Transform parent = null;
                         var group = GameObject.FindObjectOfType<PanelGroup>();
-                        if(group != null) {
+                        if (group != null)
+                        {
                             parent = group.GetComponent<Transform>();
                         }
                         else
                         {
-                           var canvas  = GameObject.FindObjectOfType<Canvas>();
-                            if(canvas != null)
+                            var canvas = GameObject.FindObjectOfType<Canvas>();
+                            if (canvas != null)
                             {
                                 parent = canvas.GetComponent<Transform>();
                             }
@@ -339,18 +342,19 @@ public class PanelNodeDrawer : NodeDrawer
                         }
                     }
                 }
-                if(GUILayout.Button("c", GUILayout.Width(20)))
+                if (GUILayout.Button("c", GUILayout.Width(20)))
                 {
                     if (panelNode.instenceID != 0)
                     {
                         var obj = EditorUtility.InstanceIDToObject(panelNode.instenceID);
-                        if(obj != null) {
+                        if (obj != null)
+                        {
                             GameObject.DestroyImmediate(obj);
                         }
                     }
                     panelNode.instenceID = 0;
                 }
-                if(GUILayout.Button("Script",EditorStyles.toolbarButton))
+                if (GUILayout.Button("Script", EditorStyles.toolbarButton))
                 {
                     showComponent = !showComponent;
                 }
@@ -360,6 +364,7 @@ public class PanelNodeDrawer : NodeDrawer
     protected void DrawPanelBase()
     {
         if (!showComponent) return;
+
         GUILayout.Space(5);
 
         if (panelDrawer == null && panelCompnent != null)
@@ -371,8 +376,6 @@ public class PanelNodeDrawer : NodeDrawer
         {
             panelDrawer.DrawHeader();
             panelDrawer.OnInspectorGUI();
-            //var rect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, 300);
-            //panelDrawer.DrawPreview(rect);
         }
     }
     public override void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result)

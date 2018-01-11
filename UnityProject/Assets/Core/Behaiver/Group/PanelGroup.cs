@@ -54,7 +54,7 @@ namespace BridgeUI
         {
             var created = createdPanels.ToArray();
             TryOpenPanels(created);
-            Debug.Log("OnEnable");
+            //Debug.Log("OnEnable");
         }
 
         private void OnDisable()

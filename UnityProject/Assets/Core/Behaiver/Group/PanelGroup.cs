@@ -39,13 +39,14 @@ namespace BridgeUI
         private Dictionary<IPanelBase, Bridge> bridgeDic = new Dictionary<IPanelBase, Bridge>();
         private List<UIInfoBase> activeNodes;
         private IPanelCreater creater;
-
-        void Awake()
+        private event UnityAction onDestroy;
+        private void Awake()
         {
             InitCreater();
             RegistUINodes();
             RegistBridgePool();
             TryAutoOpen(Trans);
+            RegistUIEvents();
             UIFacade.RegistGroup(this);
         }
 
@@ -64,12 +65,14 @@ namespace BridgeUI
                 item.Hide();
             }
         }
+
         protected virtual void OnDestroy()
         {
+            if(onDestroy != null){
+                onDestroy.Invoke();
+            }
             UIFacade.UnRegistGroup(this);
         }
-
-
 
         public Bridge InstencePanel(IPanelBase parentPanel, string panelName, Transform root)
         {
@@ -398,7 +401,7 @@ namespace BridgeUI
             {
                 bridge = poolDic[defultBridge].Allocate(parentPanel);
                 var show = new ShowMode(false, MutexRule.NoMutex, false, BaseShow.NoChange, false);
-                bridge.Info = new BridgeInfo(parentName, panelName, show);
+                bridge.Info = new BridgeInfo(parentName, panelName, show,0);
             }
             else
             {
@@ -485,6 +488,34 @@ namespace BridgeUI
                 }
             }
         }
+        #region 图形化界面关联
+        /// <summary>
+        /// 注册ui事件
+        /// </summary>
+        private void RegistUIEvents()
+        {
+            foreach (var item in bridges)
+            {
+                if(!string.IsNullOrEmpty(item.inNode) && !string.IsNullOrEmpty(item.outNode))
+                {
+                    UnityAction<PanelBase, object> action = (x, y) =>
+                    {
+                        var parentPanel = x;
+                        var panelName = item.outNode;
+                        var Content = parentPanel == null ? null : parentPanel.Content;
+                        InstencePanel(parentPanel, panelName, Content);
+                    };
+                    UIBindingUtil.RegistPanelEvent(item.inNode, item.index, action);
+                    this.onDestroy += () =>
+                    {
+                        //在本界面关闭时销毁事件
+                        UIBindingUtil.RemovePanelEvent(item.inNode, item.index, action);
+                    };
+                }
+               
+            }
+        }
+        #endregion
         #endregion
     }
 }

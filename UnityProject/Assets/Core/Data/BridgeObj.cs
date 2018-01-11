@@ -15,14 +15,16 @@ namespace BridgeUI.Model
     {
         #region 加载规则
         public string inNode;
+        public int index;
         public ShowMode showModel;
         public string outNode;
         #endregion
-        public BridgeInfo(string inNode,string outNode,ShowMode showModel)
+        public BridgeInfo(string inNode,string outNode,ShowMode showModel,int index)
         {
             this.inNode = inNode;
             this.outNode = outNode;
             this.showModel = showModel;
+            this.index = index;
         }
     }
 
@@ -53,11 +55,11 @@ namespace BridgeUI.Model
 
             if (InPanel != null)
             {
-                Info = new BridgeInfo(parentPanel.Name,Info.outNode,Info.showModel);
+                Info = new BridgeInfo(parentPanel.Name,Info.outNode,Info.showModel,0);
             }
             else
             {
-                Info = new BridgeInfo("", Info.outNode, Info.showModel);
+                Info = new BridgeInfo("", Info.outNode, Info.showModel,0);
             }
         }
 

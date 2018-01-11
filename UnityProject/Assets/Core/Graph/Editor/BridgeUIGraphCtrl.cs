@@ -139,6 +139,7 @@ namespace BridgeUI
                 }
 
                 bridge.showModel = connection.show;
+                bridge.index = connection.index;
                 bridges.Add(bridge);
             }
             return bridges;

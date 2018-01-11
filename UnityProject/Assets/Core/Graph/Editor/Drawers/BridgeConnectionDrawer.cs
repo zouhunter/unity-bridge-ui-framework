@@ -11,10 +11,12 @@ namespace BridgeUI
     {
         private BridgeConnection connecton;
         public static BridgeConnection copyed;
-        protected  string Label
+        protected string Label
         {
-            get {
-                var str = BridgeUI.Utility.ShowModelToString((target as BridgeConnection).show);
+            get
+            {
+                if (connecton == null && target != null) connecton = target as BridgeConnection;
+                var str = connecton != null ? string.Format("{0} {1}", connecton.index, Utility.ShowModelToString(connecton.show)) : "";
                 return str;
             }
         }
@@ -29,7 +31,7 @@ namespace BridgeUI
         internal override void OnInspectorGUI()
         {
             connecton = target as BridgeConnection;
-
+            DrawIndex();
             connecton.show.auto = DrawToggle(connecton.show.auto, "自动打开");
             GUILayout.Space(10);
             connecton.show.mutex = (MutexRule)DrawEnum(connecton.show.mutex, "同级互斥");
@@ -39,6 +41,14 @@ namespace BridgeUI
             connecton.show.baseShow = (BaseShow)DrawEnum(connecton.show.baseShow, "上级状态");
             GUILayout.Space(10);
             connecton.show.single = DrawToggle(connecton.show.single, "独立显示");
+        }
+        private void DrawIndex()
+        {
+            using (var hor = new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField("Index");
+                connecton.index = EditorGUILayout.IntField(connecton.index);
+            }
         }
 
         internal override void OnContextMenuGUI(GenericMenu menu, ConnectionGUI connectionGUI)
@@ -57,7 +67,7 @@ namespace BridgeUI
                     false,
                     () =>
                     {
-                        if(copyed != null)
+                        if (copyed != null)
                         {
                             connecton.show = copyed.show;
                         }
@@ -68,7 +78,7 @@ namespace BridgeUI
         {
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                EditorGUILayout.LabelField(tip,GUILayout.Width(100));
+                EditorGUILayout.LabelField(tip, GUILayout.Width(100));
                 on = EditorGUILayout.Toggle(on, EditorStyles.radioButton);
             }
             return on;

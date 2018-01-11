@@ -60,6 +60,7 @@ IUIHandle Send(object data);
 ### 5.直接从预制体加载
 ![也可以直接从预制体加载](Pics/3.png)
 ### 6.自动注册子界面通过id打开
+![最新的图形关联子面板功能](Pics/6.png)
 ```
              foreach (var item in bridges)
             {

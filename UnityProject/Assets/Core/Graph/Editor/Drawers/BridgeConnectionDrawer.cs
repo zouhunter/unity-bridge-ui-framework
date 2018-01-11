@@ -11,6 +11,8 @@ namespace BridgeUI
     {
         private BridgeConnection connecton;
         public static BridgeConnection copyed;
+        private static GUIContent endContent = EditorGUIUtility.IconContent("varpin tooltip@2x");
+        private static Vector2 contentPos = new Vector2(-endContent.image.width,-endContent.image.height) * 0.5f;
         protected string Label
         {
             get
@@ -24,7 +26,7 @@ namespace BridgeUI
         {
             get { return Color.yellow; }
         }
-        internal override void OnDrawLabel(Vector3 centerPos, string label)
+        internal override void OnDrawLabel(Vector2 centerPos, string label)
         {
             base.OnDrawLabel(centerPos, Label);
         }
@@ -50,7 +52,14 @@ namespace BridgeUI
                 connecton.index = EditorGUILayout.IntField(connecton.index);
             }
         }
+        internal override void OnConnectionGUI(Vector2 startV3, Vector2 endV3, Vector2 startTan, Vector2 endTan)
+        {
+            base.OnConnectionGUI(startV3, endV3, startTan, endTan);
+            var quater = Quaternion.Euler(endTan);
+            quater.SetLookRotation(startTan);
 
+            Handles.Label(endV3 + contentPos, endContent);//
+        }
         internal override void OnContextMenuGUI(GenericMenu menu, ConnectionGUI connectionGUI)
         {
             base.OnContextMenuGUI(menu, connectionGUI);

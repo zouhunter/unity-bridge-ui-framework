@@ -673,8 +673,7 @@ namespace NodeGraph
             //JudgeName();
             EditorGUI.BeginChangeCheck();
             Name = EditorGUILayout.TextField("Node Name", Name);
-            if (nodeDataDrawer != null)
-            {
+            if (nodeDataDrawer != null){
                 nodeDataDrawer.OnInspectorGUI(this);
             }
             if (EditorGUI.EndChangeCheck())
@@ -684,20 +683,6 @@ namespace NodeGraph
                 EditorUtility.SetDirty(ParentGraph);
             }
         }
-
-        //private void JudgeName()
-        //{
-        //    if (NodeGUIUtility.allNodeNames != null)
-        //    {
-        //        var overlapping = NodeGUIUtility.allNodeNames.GroupBy(x => x)
-        //            .Where(group => group.Count() > 1)
-        //            .Select(group => group.Key);
-        //        if (overlapping.Any() && overlapping.Contains(Name))
-        //        {
-        //            EditorGUILayout.HelpBox("There are node with the same name. You may want to rename to avoid confusion:" + Name, MessageType.Info);
-        //        }
-        //    }
-        //}
 
         public static void ShowTypeNamesMenu(string current, List<string> contents, Action<string> ExistSelected)
         {

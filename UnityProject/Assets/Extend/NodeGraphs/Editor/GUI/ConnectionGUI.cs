@@ -219,7 +219,7 @@ namespace NodeGraph
             //DrawLabel
             connectionDrawer.OnDrawLabel(centerPoint, ConnectionType);
         }
-        private void DrawCurve(Vector3 startV3, Vector3 endV3, Vector3 startTan, Vector3 endTan)
+        private void DrawCurve(Vector2 startV3, Vector2 endV3, Vector2 startTan, Vector2 endTan)
         {
             Color lineColor;
             var lineWidth = connectionDrawer == null ? 3 : connectionDrawer.LineWidth;// (totalAssets > 0) ? 3f : 2f;

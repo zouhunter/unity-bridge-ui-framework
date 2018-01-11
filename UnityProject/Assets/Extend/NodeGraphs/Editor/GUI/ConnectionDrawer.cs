@@ -18,28 +18,30 @@ namespace NodeGraph
     public class ConnectionDrawer
     {
         public DataModel.Connection target;
-        protected SerializedObject serializedObj;
+        protected Editor targetDrawer;
+
         internal virtual int LineWidth { get { return 3; } }
         internal virtual Color LineColor { get { return Color.white; } }
 
-        internal virtual void OnDrawLabel(Vector3 centerPos, string label)
+        internal virtual void OnDrawLabel(Vector2 centerPos, string label)
         {
             GUIStyle labelStyle = new GUIStyle("WhiteMiniLabel");
             labelStyle.alignment = TextAnchor.MiddleLeft;
             var labelWidth = labelStyle.CalcSize(new GUIContent(label));
-            var labelPointV3 = new Vector3(centerPos.x - (labelWidth.x / 2), centerPos.y - 24f, 0f);
+            var labelPointV3 = new Vector2(centerPos.x - (labelWidth.x / 2), centerPos.y - 24f);
             Handles.Label(labelPointV3, label, labelStyle);
         }
 
-        internal virtual void OnConnectionGUI(Vector3 startV3, Vector3 endV3, Vector3 startTan, Vector3 endTan) { }
+        internal virtual void OnConnectionGUI(Vector2 startV3, Vector2 endV3, Vector2 startTan, Vector2 endTan) { }
 
         internal virtual void OnInspectorGUI()
         {
             if (target == null) return;
-            if (serializedObj == null)
-                serializedObj = new SerializedObject(target);
-            EditorGUILayout.HelpBox("[默认绘制:]", MessageType.Info);
-            UserDefineUtility.DrawSerializedObject(serializedObj);
+
+            if (targetDrawer == null)
+                targetDrawer = Editor.CreateEditor(target);
+            targetDrawer.DrawHeader();
+            targetDrawer.OnInspectorGUI();
         }
 
         internal virtual void OnContextMenuGUI(GenericMenu menu, ConnectionGUI connectionGUI) { }

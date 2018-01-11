@@ -13,7 +13,7 @@ namespace NodeGraph
         protected Node _target;
         public virtual Node target { get { return _target; } set{ _target = value; } }
 
-        protected SerializedObject serializedObj;
+        protected Editor targetDrawer;
         public string ActiveStyle { get { return string.Format("node {0} on", Style); } }
         public string InactiveStyle { get { return string.Format("node {0}", Style); } }
         public virtual int Style { get { return 0; } }
@@ -23,9 +23,12 @@ namespace NodeGraph
         public virtual void OnNodeGUI(Rect position, NodeData data) { }
         public virtual void OnInspectorGUI(NodeGUI gui)
         {
-            if (serializedObj == null) serializedObj = new SerializedObject(target);
-            EditorGUILayout.HelpBox("[默认绘制:]", MessageType.Info);
-            UserDefineUtility.DrawSerializedObject(serializedObj);
+            if (target == null) return;
+
+            if (targetDrawer == null)
+                targetDrawer = Editor.CreateEditor(target);
+            targetDrawer.DrawHeader();
+            targetDrawer.OnInspectorGUI();
         }
         public virtual void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result) { }
         protected void RecordUnDo(string message, NodeGUI node, bool saveOnScopeEnd, UnityAction action)

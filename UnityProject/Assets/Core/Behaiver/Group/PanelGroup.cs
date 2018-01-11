@@ -500,13 +500,11 @@ namespace BridgeUI
 
                 if(!string.IsNullOrEmpty(bridgeInfo.inNode) && !string.IsNullOrEmpty(bridgeInfo.outNode))
                 {
-                    UnityAction<PanelBase, object> action = (x, y) =>
+                    Func<PanelBase, object,IUIHandle> action = (x, y) =>
                     {
                         var parentPanel = x;
                         var panelName = bridgeInfo.outNode;
-                        var Content = parentPanel == null ? null : parentPanel.Content;
-                        var bridge = InstencePanel(parentPanel, panelName, Content);
-                        bridge.Send(y);
+                        return UIFacade.Instence.Open(parentPanel, panelName, y);
                     };
 
                     UIBindingUtil.RegistPanelEvent(bridgeInfo.inNode, bridgeInfo.index, action);

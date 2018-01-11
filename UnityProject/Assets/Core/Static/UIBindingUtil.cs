@@ -9,23 +9,23 @@ namespace BridgeUI
 {
     public class UIBindingUtil
     {
-        private static Dictionary<string, Dictionary<int, UnityAction<PanelBase, object>>> panelEventDic;
-        public static void RegistPanelEvent(string parentPanel, int key, UnityAction<PanelBase, object> onOpen)
+        private static Dictionary<string, Dictionary<int, Func<PanelBase, object,IUIHandle>>> panelEventDic;
+        public static void RegistPanelEvent(string parentPanel, int key, Func<PanelBase, object, IUIHandle> onOpen)
         {
             if (onOpen != null && !string.IsNullOrEmpty(parentPanel))
             {
                 if (panelEventDic == null)
                 {
-                    panelEventDic = new Dictionary<string, Dictionary<int, UnityAction<PanelBase, object>>>();
+                    panelEventDic = new Dictionary<string, Dictionary<int, Func<PanelBase, object,IUIHandle>>>();
                 }
                 if (!panelEventDic.ContainsKey(parentPanel))
                 {
-                    panelEventDic[parentPanel] = new Dictionary<int, UnityAction<PanelBase, object>>();
+                    panelEventDic[parentPanel] = new Dictionary<int, Func<PanelBase, object,IUIHandle>>();
                 }
                 panelEventDic[parentPanel][key] = onOpen;
             }
         }
-        public static void RemovePanelEvent(string parentPanel, int key, UnityAction<PanelBase, object> onOpen)
+        public static void RemovePanelEvent(string parentPanel, int key, Func<PanelBase, object,IUIHandle> onOpen)
         {
             if (onOpen != null && panelEventDic != null && !string.IsNullOrEmpty(parentPanel))
             {
@@ -35,16 +35,17 @@ namespace BridgeUI
                 }
             }
         }
-        public static void InvokePanelEvent(PanelBase panel, int key, object data = null)
+        public static IUIHandle InvokePanelEvent(PanelBase panel, int key, object data = null)
         {
             var parentName = panel.gameObject.name;////panel的名字不能改变
             if (panelEventDic.ContainsKey(parentName))
             {
                 if (panelEventDic[parentName] != null && panelEventDic[parentName][key] != null)
                 {
-                    panelEventDic[parentName][key].Invoke(panel, data);
+                  return  panelEventDic[parentName][key].Invoke(panel, data);
                 }
             }
+            return null;
         }
     }
 }

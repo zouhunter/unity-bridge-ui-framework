@@ -61,24 +61,30 @@ IUIHandle Send(object data);
 ![也可以直接从预制体加载](Pics/3.png)
 ### 6.自动注册子界面通过id打开
 ```
- foreach (var item in bridges)
+             foreach (var item in bridges)
             {
-                if(!string.IsNullOrEmpty(item.inNode) && !string.IsNullOrEmpty(item.outNode))
+                var bridgeInfo = item;
+
+                if(!string.IsNullOrEmpty(bridgeInfo.inNode) && !string.IsNullOrEmpty(bridgeInfo.outNode))
                 {
                     UnityAction<PanelBase, object> action = (x, y) =>
                     {
                         var parentPanel = x;
-                        var panelName = item.outNode;
+                        var panelName = bridgeInfo.outNode;
                         var Content = parentPanel == null ? null : parentPanel.Content;
-                        InstencePanel(parentPanel, panelName, Content);
+                        var bridge = InstencePanel(parentPanel, panelName, Content);
+                        bridge.Send(y);
                     };
-                    UIBindingUtil.RegistPanelEvent(item.inNode, item.index, action);
+
+                    UIBindingUtil.RegistPanelEvent(bridgeInfo.inNode, bridgeInfo.index, action);
+
                     this.onDestroy += () =>
                     {
                         //在本组合关闭时销毁事件
-                        UIBindingUtil.RemovePanelEvent(item.inNode, item.index, action);
+                        UIBindingUtil.RemovePanelEvent(bridgeInfo.inNode, bridgeInfo.index, action);
                     };
                 }
+               
             }
 ```
 

@@ -496,23 +496,25 @@ namespace BridgeUI
         {
             foreach (var item in bridges)
             {
-                if(!string.IsNullOrEmpty(item.inNode) && !string.IsNullOrEmpty(item.outNode))
+                var bridgeInfo = item;
+
+                if(!string.IsNullOrEmpty(bridgeInfo.inNode) && !string.IsNullOrEmpty(bridgeInfo.outNode))
                 {
                     UnityAction<PanelBase, object> action = (x, y) =>
                     {
                         var parentPanel = x;
-                        var panelName = item.outNode;
+                        var panelName = bridgeInfo.outNode;
                         var Content = parentPanel == null ? null : parentPanel.Content;
                         var bridge = InstencePanel(parentPanel, panelName, Content);
-                        Debug.Log(bridge);
-                        Debug.Log(y);
                         bridge.Send(y);
                     };
-                    UIBindingUtil.RegistPanelEvent(item.inNode, item.index, action);
+
+                    UIBindingUtil.RegistPanelEvent(bridgeInfo.inNode, bridgeInfo.index, action);
+
                     this.onDestroy += () =>
                     {
                         //在本组合关闭时销毁事件
-                        UIBindingUtil.RemovePanelEvent(item.inNode, item.index, action);
+                        UIBindingUtil.RemovePanelEvent(bridgeInfo.inNode, bridgeInfo.index, action);
                     };
                 }
                

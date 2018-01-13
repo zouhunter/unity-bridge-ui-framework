@@ -15,16 +15,17 @@ using NodeGraph.DataModel;
 using UnityEditor;
 using BridgeUI;
 using BridgeUI.Model;
-[CustomNodeGraphDrawer(typeof(PanelNode))]
-public class PanelNodeDrawer : NodeDrawer
+
+[CustomEditor(typeof(PanelNode))]
+public class PanelNodeInfoDrawer : Editor
 {
-    protected const int lableWidth = 120;
-    public NodeType nodeType = NodeType.Destroy | NodeType.Fixed | NodeType.HideGO | NodeType.NoAnim | NodeType.ZeroLayer;
-    public int style = 1;
     protected GameObject prefab;
-    protected NodeInfo nodeInfo { get { return (target as PanelNodeBase).nodeInfo; } }
     protected PanelNodeBase panelNode;
+    protected const int lableWidth = 120;
+
+    public NodeType nodeType { get { return panelNode.nodeType; } set { panelNode.nodeType = value; } }
     private PanelBase _panelCompnent;
+    protected NodeInfo nodeInfo { get { return panelNode.nodeInfo; } }
     private bool showComponent;
     protected PanelBase panelCompnent
     {
@@ -38,34 +39,6 @@ public class PanelNodeDrawer : NodeDrawer
         }
     }
     protected Editor panelDrawer;
-    public override Node target
-    {
-        get
-        {
-            return base.target;
-        }
-
-        set
-        {
-            base.target = value;
-            panelNode = value as PanelNodeBase;
-        }
-    }
-    public override int Style
-    {
-        get
-        {
-            return style;
-        }
-    }
-
-    public override string Category
-    {
-        get
-        {
-            return "panel";
-        }
-    }
     protected string HeadInfo
     {
         get
@@ -73,45 +46,29 @@ public class PanelNodeDrawer : NodeDrawer
             return "Panel Node : record panel load type and other rule";
         }
     }
-    public override float CustomNodeHeight
+    private void OnEnable()
     {
-        get
-        {
-            if (panelNode != null && !string.IsNullOrEmpty(panelNode.description))
-            {
-                return EditorGUIUtility.singleLineHeight + 5;
-            }
-            return 0;
-        }
+        panelNode = target as PanelNodeBase;
+        LoadPrefabInfo();
     }
-    public override void OnNodeGUI(Rect position, NodeData data)
-    {
-        base.OnNodeGUI(position, data);
-        if (panelNode != null && !string.IsNullOrEmpty(panelNode.description))
-        {
-            var rect = new Rect(position.x + 20, position.y, position.width - 40, EditorGUIUtility.singleLineHeight);
-            EditorGUI.LabelField(rect, panelNode.description);
-        }
-    }
-    public override void OnInspectorGUI(NodeGUI gui)
-    {
-      
-        EditorGUILayout.HelpBox(HeadInfo, MessageType.Info);
-        DrawHeadSelect();
-        LoadRecordIfEmpty();
-        EditorGUILayout.HelpBox("[窗体信息配制:]", MessageType.Info);
-        DrawInforamtion();
 
+    public override void OnInspectorGUI()
+    {
+        serializedObject.Update();
         DrawObjectFieldInternal();
         DrawShowHide();
         DrawPanelBase();
 
-        if(prefab !=null){
-            gui.Name = prefab.name;
-        }
+        EditorGUILayout.HelpBox(HeadInfo, MessageType.Info);
+        DrawHeadSelect();
+
+        EditorGUILayout.HelpBox("[窗体信息配制:]", MessageType.Info);
+        DrawInforamtion();
+
+        serializedObject.ApplyModifiedProperties();
     }
 
-    protected virtual void LoadRecordIfEmpty()
+    protected virtual void LoadPrefabInfo()
     {
         if (prefab == null && !string.IsNullOrEmpty(nodeInfo.prefabGuid))
         {
@@ -119,6 +76,10 @@ public class PanelNodeDrawer : NodeDrawer
             if (!string.IsNullOrEmpty(path))
             {
                 prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                if (prefab != null)
+                {
+                    panelNode.assetName = prefab.name;
+                }
             }
             else
             {
@@ -133,6 +94,7 @@ public class PanelNodeDrawer : NodeDrawer
         {
             var path = AssetDatabase.GetAssetPath(prefab);
             panelNode.nodeInfo.prefabGuid = AssetDatabase.AssetPathToGUID(path);
+            panelNode.assetName = prefab.name;
         }
     }
     protected void DrawObjectFieldInternal()
@@ -140,8 +102,9 @@ public class PanelNodeDrawer : NodeDrawer
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("【预制体】:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            EditorGUI.BeginChangeCheck();
             prefab = EditorGUILayout.ObjectField(prefab, typeof(GameObject), false) as GameObject;
-            if (prefab != null)
+            if (EditorGUI.EndChangeCheck() && prefab != null)
             {
                 RecordPrefabInfo();
             }
@@ -298,7 +261,7 @@ public class PanelNodeDrawer : NodeDrawer
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("Style:");
-            style = (int)EditorGUILayout.Slider(style, 1, 7);
+            panelNode.style = (int)EditorGUILayout.Slider(panelNode.style, 1, 7);
         }
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
@@ -378,10 +341,86 @@ public class PanelNodeDrawer : NodeDrawer
             panelDrawer.OnInspectorGUI();
         }
     }
+
+}
+
+[CustomNodeGraphDrawer(typeof(PanelNode))]
+public class PanelNodeDrawer : NodeDrawer
+{
+    protected PanelNodeBase panelNode;
+    public override Node target
+    {
+        get
+        {
+            return base.target;
+        }
+
+        set
+        {
+            base.target = value;
+            panelNode = value as PanelNodeBase;
+        }
+    }
+    public override int Style
+    {
+        get
+        {
+            return panelNode.style;
+        }
+    }
+    public override string Category
+    {
+        get
+        {
+            return "panel";
+        }
+    }
+    public override float CustomNodeHeight
+    {
+        get
+        {
+            if (panelNode != null && !string.IsNullOrEmpty(panelNode.description))
+            {
+                return EditorGUIUtility.singleLineHeight + 5;
+            }
+            return 0;
+        }
+    }
+    public override void OnInspectorGUI(NodeGUI gui)
+    {
+        base.OnInspectorGUI(gui);
+        if (target != null)
+        {
+            gui.Name = (target as PanelNode).assetName;
+        }
+    }
+    public override void OnNodeGUI(Rect position, NodeData data)
+    {
+        base.OnNodeGUI(position, data);
+        if (panelNode != null && !string.IsNullOrEmpty(panelNode.description))
+        {
+            var rect = new Rect(position.x + 20, position.y, position.width - 40, EditorGUIUtility.singleLineHeight);
+            EditorGUI.LabelField(rect, panelNode.description);
+        }
+    }
     public override void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result)
     {
         base.OnClickNodeGUI(nodeGUI, mousePosition, result);
-
+        if (panelNode == null) return;
+        GameObject prefab = null;
+        var nodeInfo = panelNode.nodeInfo;
+        if (!string.IsNullOrEmpty(nodeInfo.prefabGuid))
+        {
+            var path = AssetDatabase.GUIDToAssetPath(nodeInfo.prefabGuid);
+            if (!string.IsNullOrEmpty(path))
+            {
+                prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            }
+            else
+            {
+                nodeInfo.prefabGuid = null;
+            }
+        }
         if (prefab != null)
         {
             EditorGUIUtility.PingObject(prefab);

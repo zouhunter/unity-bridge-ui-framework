@@ -41,4 +41,22 @@ public class PanelNames {
             return "MainPanel";
         }
     }
+    
+    public static string SubGroupPanel {
+        get {
+            return "SubGroupPanel";
+        }
+    }
+    
+    public static string SubGroupA {
+        get {
+            return "SubGroupA";
+        }
+    }
+    
+    public static string SubGroupB {
+        get {
+            return "SubGroupB";
+        }
+    }
 }

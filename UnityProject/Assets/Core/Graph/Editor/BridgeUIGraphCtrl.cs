@@ -213,9 +213,10 @@ namespace BridgeUI
                 var obj = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                 if (importer)
                 {
-                    binfo.bundleName = importer.assetBundleName;
+                    binfo.bundleName = importer.assetBundleName = Setting.bundleNameBase + obj.name.ToLower();
                     binfo.panelName = obj.name;
                     binfo.good = true;
+                    EditorUtility.SetDirty(importer);
                 }
                 else
                 {

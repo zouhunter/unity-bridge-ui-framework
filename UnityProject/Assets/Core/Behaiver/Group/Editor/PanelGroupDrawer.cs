@@ -474,14 +474,12 @@ namespace BridgeUIEditor
                 var obj = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
 
                 UnityEditor.AssetImporter importer = UnityEditor.AssetImporter.GetAtPath(assetPath);
-
                 assetNameProp.stringValue = obj.name;
                 bundleNameProp.stringValue = importer.assetBundleName;
-
-                if (string.IsNullOrEmpty(bundleNameProp.stringValue))
-                {
-                    UnityEditor.EditorUtility.DisplayDialog("提示", "预制体" + assetNameProp.stringValue + "没有assetBundle标记", "确认");
-                }
+                //if (string.IsNullOrEmpty(bundleNameProp.stringValue))
+                //{
+                //    UnityEditor.EditorUtility.DisplayDialog("提示", "预制体" + assetNameProp.stringValue + "没有assetBundle标记", "确认");
+                //}
             }
         }
 

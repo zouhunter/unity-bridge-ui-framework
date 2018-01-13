@@ -10,7 +10,7 @@
 
 
 
-public partial class PanelNames {
+public class PanelNames {
     
     public static string Panel01 {
         get {

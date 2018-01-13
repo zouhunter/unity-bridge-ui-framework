@@ -11,7 +11,23 @@ namespace BridgeUI
     {
         private BridgeConnection connecton;
         public static BridgeConnection copyed;
-        private static GUIContent endContent = EditorGUIUtility.IconContent("varpin tooltip@2x");
+        private static GUIContent _endContent;
+        private static GUIContent endContent {
+            get
+            {
+                if(_endContent == null)
+                {
+#if UNITY_5_6
+                    _endContent = EditorGUIUtility.IconContent("varpin tooltip@2x");
+#elif UNITY_5_3_4
+                    _endContent = EditorGUIUtility.IconContent("ChannelStripAttenuationMarker3");
+#else
+                    _endContent = EditorGUIUtility.IconContent("WarningMessageOverlay");
+#endif
+                }
+                return _endContent;
+            }
+        }
         private static Vector2 contentPos = new Vector2(-endContent.image.width,-endContent.image.height) * 0.5f;
         protected string Label
         {

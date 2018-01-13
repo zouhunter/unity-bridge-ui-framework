@@ -339,61 +339,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphList:
-  - graphName: panelgroups
-    guid: d85d4cf9b8aa1ad4aa82e8a96e2dea54
+  - graphName: PanelGroup
+    guid: aefbe694871df9942a5ebc7c267016ad
   resetMenu: 0
   menu: 
-  loadType: 1
-  b_nodes: []
+  loadType: 2
+  b_nodes:
+  - panelName: MainPanel
+    instanceID: 0
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0.2
+      enterAnim: 0
+      quitAnim: 0
+      closeRule: 0
+      hideRule: 1
+    guid: 9a21f546a47677b47b8c04207b469285
+    good: 1
+    bundleName: bridgeui/panels/mainpanel
   p_nodes:
-  - panelName: Panel01
-    instanceID: 0
-    type:
-      layerIndex: 0
-      form: 0
-      layer: 0
-      hideAlaph: 0.2
-      enterAnim: 0
-      quitAnim: 0
-      closeRule: 0
-      hideRule: 1
-    prefab: {fileID: 129970, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
-  - panelName: Panel04
-    instanceID: 0
-    type:
-      layerIndex: 0
-      form: 0
-      layer: 0
-      hideAlaph: 0.2
-      enterAnim: 0
-      quitAnim: 0
-      closeRule: 0
-      hideRule: 1
-    prefab: {fileID: 129970, guid: 1172f1b2f39183747ab91057b53a70cd, type: 2}
-  - panelName: Panel02
-    instanceID: 0
-    type:
-      layerIndex: 0
-      form: 0
-      layer: 0
-      hideAlaph: 0.2
-      enterAnim: 0
-      quitAnim: 0
-      closeRule: 0
-      hideRule: 1
-    prefab: {fileID: 129970, guid: ba16a0659248e00479962ae1a0bf4624, type: 2}
-  - panelName: Panel03
-    instanceID: 0
-    type:
-      layerIndex: 0
-      form: 0
-      layer: 0
-      hideAlaph: 0.2
-      enterAnim: 0
-      quitAnim: 0
-      closeRule: 0
-      hideRule: 1
-    prefab: {fileID: 129970, guid: cdb2321ece873174fbc0719e07c1d664, type: 2}
   - panelName: MainPanel
     instanceID: 0
     type:
@@ -408,37 +374,14 @@ MonoBehaviour:
     prefab: {fileID: 129970, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
   bridges:
   - inNode: 
+    index: 0
     showModel:
-      auto: 0
+      auto: 1
       mutex: 0
       cover: 0
-      baseShow: 1
+      baseShow: 0
       single: 0
-    outNode: Panel01
-  - inNode: MainPanel
-    showModel:
-      auto: 0
-      mutex: 1
-      cover: 0
-      baseShow: 1
-      single: 0
-    outNode: Panel02
-  - inNode: MainPanel
-    showModel:
-      auto: 0
-      mutex: 1
-      cover: 0
-      baseShow: 1
-      single: 0
-    outNode: Panel04
-  - inNode: MainPanel
-    showModel:
-      auto: 0
-      mutex: 1
-      cover: 0
-      baseShow: 1
-      single: 0
-    outNode: Panel03
+    outNode: MainPanel
 --- !u!222 &891393617
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -600,6 +543,7 @@ MonoBehaviour:
     prefab: {fileID: 129970, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
   bridges:
   - inNode: 
+    index: 0
     showModel:
       auto: 0
       mutex: 0
@@ -608,6 +552,7 @@ MonoBehaviour:
       single: 0
     outNode: Panel01
   - inNode: MainPanel
+    index: 0
     showModel:
       auto: 0
       mutex: 1
@@ -616,6 +561,7 @@ MonoBehaviour:
       single: 0
     outNode: Panel02
   - inNode: MainPanel
+    index: 0
     showModel:
       auto: 0
       mutex: 1
@@ -624,6 +570,7 @@ MonoBehaviour:
       single: 0
     outNode: Panel04
   - inNode: MainPanel
+    index: 0
     showModel:
       auto: 0
       mutex: 1

@@ -331,7 +331,6 @@ namespace BridgeUI
                 canvasGroup.interactable = true;
                 canvasGroup.blocksRaycasts = true;
             }
-
         }
 
     }

@@ -7,7 +7,7 @@ using System;
 
 namespace BridgeUI
 {
-    public class UIBindingUtil
+    public static class UIBindingController
     {
         private static Dictionary<string, Dictionary<int, Func<PanelBase, object,IUIHandle>>> panelEventDic;
         public static void RegistPanelEvent(string parentPanel, int key, Func<PanelBase, object, IUIHandle> onOpen)
@@ -47,5 +47,6 @@ namespace BridgeUI
             }
             return null;
         }
+    
     }
 }

@@ -34,7 +34,7 @@ namespace BridgeUI
             get
             {
                 if (connecton == null && target != null) connecton = target as BridgeConnection;
-                var str = connecton != null ? string.Format("{0} {1}", connecton.index, Utility.ShowModelToString(connecton.show)) : "";
+                var str = connecton != null ? string.Format("{0} {1}", connecton.index, BridgeEditorUtility.ShowModelToString(connecton.show)) : "";
                 return str;
             }
         }

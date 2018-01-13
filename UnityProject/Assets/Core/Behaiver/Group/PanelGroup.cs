@@ -507,12 +507,12 @@ namespace BridgeUI
                         return UIFacade.Instence.Open(parentPanel, panelName, y);
                     };
 
-                    UIBindingUtil.RegistPanelEvent(bridgeInfo.inNode, bridgeInfo.index, action);
+                    UIBindingController.RegistPanelEvent(bridgeInfo.inNode, bridgeInfo.index, action);
 
                     this.onDestroy += () =>
                     {
                         //在本组合关闭时销毁事件
-                        UIBindingUtil.RemovePanelEvent(bridgeInfo.inNode, bridgeInfo.index, action);
+                        UIBindingController.RemovePanelEvent(bridgeInfo.inNode, bridgeInfo.index, action);
                     };
                 }
                

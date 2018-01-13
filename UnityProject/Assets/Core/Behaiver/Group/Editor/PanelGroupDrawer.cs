@@ -228,7 +228,7 @@ namespace BridgeUIEditor
                     if (assetNameProp.stringValue.ToLower().Contains(query.ToLower()))
                     {
                         targetProperty.InsertArrayElementAtIndex(0);
-                        Utility.CopyPropertyValue(targetProperty.GetArrayElementAtIndex(0), property.GetArrayElementAtIndex(i));
+                       BridgeEditorUtility.CopyPropertyValue(targetProperty.GetArrayElementAtIndex(0), property.GetArrayElementAtIndex(i));
                     }
                 }
             }
@@ -536,7 +536,7 @@ namespace BridgeUIEditor
                 var obj = EditorUtility.InstanceIDToObject(instanceIDPorp.intValue);
                 if (obj != null)
                 {
-                    Utility.ApplyPrefab(obj as GameObject);
+                    BridgeEditorUtility.ApplyPrefab(obj as GameObject);
                     DestroyImmediate(obj);
                 }
                 instanceIDPorp.intValue = 0;

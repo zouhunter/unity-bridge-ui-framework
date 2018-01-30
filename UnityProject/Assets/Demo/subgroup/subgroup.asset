@@ -148,7 +148,7 @@ MonoBehaviour:
     m_connection: {fileID: 11462424}
   m_lastModified: 131603370339748049
   m_graphDescription: 
-  m_controllerType: BridgeUIGraphCtrl
+  m_controllerType: BridgeUI.BridgeUIGraphCtrl
   m_panelNamePath: 
 --- !u!114 &11417720
 MonoBehaviour:

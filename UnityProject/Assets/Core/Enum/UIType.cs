@@ -30,8 +30,8 @@ namespace BridgeUI
 
     public enum HideRule
     {
-        AlaphGameObject = 0,//隐藏自己的可见物体
-        HideGameObject = 1,//直接隐藏自己
+        HideGameObject = 0,//直接隐藏自己
+        AlaphGameObject = 1,//隐藏自己的可见物体
     }
 
 
@@ -47,23 +47,23 @@ namespace BridgeUI
     /// ui的显示类型
     /// </summary>
     [System.Serializable]
-    public class UIType
+    public struct UIType
     {
         //层级优先
         public int layerIndex;
         //位置控制
-        public UIFormType form = UIFormType.Fixed;
+        public UIFormType form;
         //绝对层级
-        public UILayerType layer = UILayerType.Base;
+        public UILayerType layer;
         //隐藏透明度
-        public float hideAlaph = 0.2f;
+        public float hideAlaph;
         //出场动画
-        public UIAnimType enterAnim = UIAnimType.NoAnim;
+        public UIAnimType enterAnim;
         //关闭动画
-        public UIAnimType quitAnim = UIAnimType.NoAnim;
+        public UIAnimType quitAnim;
         //关闭规则
-        public CloseRule closeRule = CloseRule.DestroyImmediate;
+        public CloseRule closeRule;
         //隐藏规则
-        public HideRule hideRule = HideRule.HideGameObject;
+        public HideRule hideRule;
     }
 }

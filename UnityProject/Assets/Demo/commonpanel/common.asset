@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
+  m_Name: common
+  m_EditorClassIdentifier: 
+  m_allNodes:
+  - m_name: PopUpPanel
+    m_id: 34cc95af-a77a-4cc5-b0c0-329fcc87b917
+    m_x: 348
+    m_y: 168
+    m_node: {fileID: 11486594}
+    m_inputPoints:
+    - id: e0b98631-c931-42b3-a15b-29da2ff3de4b
+      label: 
+      parentId: 34cc95af-a77a-4cc5-b0c0-329fcc87b917
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints:
+    - id: e671439e-9591-4484-8a40-34c94a766a64
+      label: 
+      parentId: 34cc95af-a77a-4cc5-b0c0-329fcc87b917
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  - m_name: Luncher
+    m_id: e66e383d-91fc-481d-9760-682fb63b7e7a
+    m_x: 93
+    m_y: 121
+    m_node: {fileID: 11417860}
+    m_inputPoints: []
+    m_outputPoints:
+    - id: c8f7059d-00a6-43c1-ba92-f0173be6406f
+      label: +
+      parentId: e66e383d-91fc-481d-9760-682fb63b7e7a
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  m_allConnections: []
+  m_lastModified: 131617945940782666
+  m_graphDescription: 
+  m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  m_panelNamePath: 
+--- !u!114 &11417860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
+  m_Name: Luncher
+  m_EditorClassIdentifier: 
+  a: 0
+--- !u!114 &11486594
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: PanelNode
+  m_EditorClassIdentifier: 
+  instenceID: 0
+  description: 
+  assetName: PopUpPanel
+  style: 1
+  nodeType: 3
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0.391
+      enterAnim: 1
+      quitAnim: 1
+      closeRule: 0
+      hideRule: 1
+    prefabGuid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6

@@ -198,7 +198,8 @@ namespace BridgeUI.uTween
         public void Play(bool forward)
         {
             mAmountPerDelta = Mathf.Abs(amountPerDelta);
-            if (!forward) mAmountPerDelta = -mAmountPerDelta;
+            if (!forward)
+                mAmountPerDelta = -mAmountPerDelta;
             enabled = true;
             Update();
         }

@@ -24,13 +24,24 @@ namespace BridgeUI
                 return _instence;
             }
         }
+        private static GameObjectPool _panelPool;
+        public static GameObjectPool PanelPool
+        {
+            get
+            {
+                if (_panelPool == null)
+                {
+                    var gameObjectPool = new GameObject("PanelPool");
+                    _panelPool = new GameObjectPool(gameObjectPool.transform);
+                }
+                return _panelPool;
+            }
+        }
         // Facade实例
         // 面板组
         private static List<IPanelGroup> groupList = new List<IPanelGroup>();
         //handle池
         private static UIHandlePool handlePool = new UIHandlePool();
-
-        private UIFacade() { }
 
         public static void RegistGroup(IPanelGroup group)
         {
@@ -58,14 +69,14 @@ namespace BridgeUI
         {
             return Open(null, panelName, callBack, data);
         }
-        public IUIHandle Open(IPanelBase parent, string panelName,  object data = null)
+        public IUIHandle Open(IPanelBase parent, string panelName, object data = null)
         {
-            return Open(parent, panelName,null, data);
+            return Open(parent, panelName, null, data);
         }
         public IUIHandle Open(IPanelBase parent, string panelName, UnityAction<object> callBack, object data = null)
         {
             var handle = handlePool.Allocate();
-            var currentGroup = parent == null ?  null: parent.Group;
+            var currentGroup = parent == null ? null : parent.Group;
 
             if (currentGroup != null)//限制性打开
             {

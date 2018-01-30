@@ -34,11 +34,14 @@ public class PanelNode : PanelNodeBase
             return new Point[] { new Point("", "bridge", 100) };
         }
     }
-    public PanelNode(string prefabPath)
+    public string prefabPath
     {
+        set
+        {
 #if UNITY_EDITOR
-        Info.prefabGuid = UnityEditor. AssetDatabase.AssetPathToGUID(prefabPath);
+            Info.prefabGuid = UnityEditor.AssetDatabase.AssetPathToGUID(value);
 #endif
+        }
     }
 
 }

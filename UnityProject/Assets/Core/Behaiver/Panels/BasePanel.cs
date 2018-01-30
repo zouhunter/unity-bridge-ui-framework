@@ -13,6 +13,7 @@ using System;
 using BridgeUI.Model;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Linq;
 
 namespace BridgeUI
 {
@@ -31,6 +32,7 @@ namespace BridgeUI
         public abstract Transform Content { get; }
         public Transform Root { get { return transform.parent.parent; } }
         public UIType UType { get; set; }
+
         public List<IPanelBase> ChildPanels
         {
             get
@@ -53,16 +55,65 @@ namespace BridgeUI
                 return _isAlive && !IsDestroyed();
             }
         }
+        protected IAnimPlayer animPlayer
+        {
+            get
+            {
+                if (_animPlayer == null)
+                {
+                    _animPlayer = GetComponent<AnimPlayer>();
+                    if (_animPlayer == null)
+                    {
+                        _animPlayer = gameObject.AddComponent<AnimPlayer>();
+                    }
+                }
+                return _animPlayer;
+
+            }
+        }
 
         protected Bridge bridge;
         protected List<IPanelBase> childPanels;
         public event UnityAction<IPanelBase> onDelete;
-        protected IAnimPlayer animPlayer;
         private bool _isShowing = true;
         private bool _isAlive = true;
-        private  bool autoCharge;
+        private bool autoCharge;
         private Dictionary<object, MemberInfo> fieldDic;
+        private IAnimPlayer _animPlayer;
         protected UnityAction onChargeComplete { get; set; }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            InitChargeDic();
+        }
+        protected override void Start()
+        {
+            base.Start();
+            if (bridge != null){
+                bridge.OnCreatePanel(this);
+            }
+            AppendComponentsByType();
+            OnOpenInternal();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            _isAlive = false;
+            _isShowing = false;
+
+            if (bridge != null)
+            {
+                bridge.Release();
+            }
+
+            if (onDelete != null)
+            {
+                onDelete.Invoke(this);
+            }
+        }
+
         public void SetParent(Transform Trans)
         {
             Utility.SetTranform(transform, UType.layer, UType.layerIndex, Trans);
@@ -92,7 +143,8 @@ namespace BridgeUI
                 while (dataQueue.Count > 0)
                 {
                     var data = dataQueue.Dequeue();
-                    if(data != null){
+                    if (data != null)
+                    {
                         HandleData(data);
                     }
                 }
@@ -101,7 +153,8 @@ namespace BridgeUI
 
         protected virtual void HandleData(object data)
         {
-            if (data is IDictionary && autoCharge){
+            if (data is IDictionary && autoCharge)
+            {
                 LoadData(data as IDictionary);
             }
         }
@@ -115,14 +168,14 @@ namespace BridgeUI
                           let atts = field.GetCustomAttributes(typeof(Charge), true)
                           where atts.Length > 0
                           let defultKey = (atts[0] as Charge).key
-                          let key = defultKey==null?field.Name: defultKey
-                          select new KeyValuePair<object, MemberInfo>(key,field);
+                          let key = defultKey == null ? field.Name : defultKey
+                          select new KeyValuePair<object, MemberInfo>(key, field);
 
                 fieldDic = obj.ToDictionary(x => x.Key, x => x.Value);
                 autoCharge = fieldDic.Count > 0;
             }
         }
-		
+
         private void LoadData(IDictionary data)
         {
             if (fieldDic != null)
@@ -146,38 +199,6 @@ namespace BridgeUI
             }
 
         }
-       
-        protected override void Awake()
-        {
-            base.Awake();
-            InitChargeDic();
-        }
-        protected override void Start()
-        {
-            base.Start();
-            AppendComponentsByType();
-            if (bridge != null)
-            {
-                bridge.OnCreatePanel(this);
-            }
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            _isAlive = false;
-            _isShowing = false;
-
-            if (bridge != null)
-            {
-                bridge.Release();
-            }
-
-            if (onDelete != null)
-            {
-                onDelete.Invoke(this);
-            }
-        }
 
         public virtual void Hide()
         {
@@ -196,7 +217,6 @@ namespace BridgeUI
         }
         public virtual void UnHide()
         {
-            _isShowing = true;
             switch (UType.hideRule)
             {
                 case HideRule.AlaphGameObject:
@@ -208,6 +228,9 @@ namespace BridgeUI
                 default:
                     break;
             }
+
+            _isShowing = true;
+            OnOpenInternal();
         }
 
         public virtual void Close()
@@ -229,6 +252,8 @@ namespace BridgeUI
 
         private void CloseInternal()
         {
+            _isShowing = false;
+
             switch (UType.closeRule)
             {
                 case CloseRule.DestroyImmediate:
@@ -241,7 +266,7 @@ namespace BridgeUI
                     Destroy(gameObject);
                     break;
                 case CloseRule.HideGameObject:
-                    gameObject.SetActive(false);
+                    Hide();
                     break;
                 default:
                     break;
@@ -250,7 +275,8 @@ namespace BridgeUI
 
         public void RecordChild(IPanelBase childPanel)
         {
-            if (childPanels == null){
+            if (childPanels == null)
+            {
                 childPanels = new List<IPanelBase>();
             }
             if (!childPanels.Contains(childPanel))
@@ -263,10 +289,6 @@ namespace BridgeUI
 
         private void AppendComponentsByType()
         {
-            if (UType == null)
-            {
-                UType = new UIType();
-            }
             if (UType.form == UIFormType.DragAble)
             {
                 if (gameObject.GetComponent<DragPanel>() == null)
@@ -274,21 +296,11 @@ namespace BridgeUI
                     gameObject.AddComponent<DragPanel>();
                 }
             }
-
-            if (UIAnimType.NoAnim != UType.enterAnim)
-            {
-                animPlayer = GetComponent<AnimPlayer>();
-                if (animPlayer == null){
-                    animPlayer = gameObject.AddComponent<AnimPlayer>();
-                }
-                animPlayer.EnterAnim(UType.enterAnim, null);
-            }
-
         }
         public void Cover()
         {
             var covername = Name + "_Cover";
-            var rectt = new GameObject(covername,typeof(RectTransform)).GetComponent<RectTransform>();
+            var rectt = new GameObject(covername, typeof(RectTransform)).GetComponent<RectTransform>();
             rectt.gameObject.layer = 5;
             rectt.SetParent(transform, false);
             rectt.SetSiblingIndex(0);
@@ -306,11 +318,18 @@ namespace BridgeUI
                 childPanels.Remove(childPanel);
             }
         }
-
+        private void OnOpenInternal()
+        {
+            if (UIAnimType.NoAnim != UType.enterAnim)
+            {
+                animPlayer.EnterAnim(UType.enterAnim, null);
+            }
+        }
         private void AlaphGameObject(bool hide)
         {
             var canvasGroup = GetComponent<CanvasGroup>();
-            if (canvasGroup == null){
+            if (canvasGroup == null)
+            {
                 canvasGroup = gameObject.AddComponent<CanvasGroup>();
             }
 

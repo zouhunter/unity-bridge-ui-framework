@@ -24,6 +24,7 @@ namespace BridgeUIEditor
         SerializedProperty enterAnimProp;
         SerializedProperty quitAnimProp;
         SerializedProperty hideRuleProp;
+        SerializedProperty closeRuleProp;
 
         const float lableWidth = 120;
 
@@ -41,11 +42,13 @@ namespace BridgeUIEditor
             enterAnimProp = property.FindPropertyRelative("enterAnim");
             quitAnimProp = property.FindPropertyRelative("quitAnim");
             hideRuleProp = property.FindPropertyRelative("hideRule");
+            closeRuleProp = property.FindPropertyRelative("closeRule");
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             InitProperty(property);
+
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("可移动机制:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
@@ -66,6 +69,7 @@ namespace BridgeUIEditor
                 EditorGUILayout.LabelField("隐藏方式:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
                 hideRuleProp.enumValueIndex = (int)(HideRule)EditorGUILayout.EnumPopup((HideRule)hideRuleProp.enumValueIndex);
             }
+
             if ((HideRule)hideRuleProp.enumValueIndex == HideRule.AlaphGameObject)
             {
                 using (var hor = new EditorGUILayout.HorizontalScope())
@@ -74,7 +78,13 @@ namespace BridgeUIEditor
                     hideAlaphProp.floatValue = EditorGUILayout.Slider(hideAlaphProp.floatValue, 0, 1);
                 }
             }
-          
+
+            using (var hor = new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField("关闭方式:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+                closeRuleProp.enumValueIndex = (int)(CloseRule)EditorGUILayout.EnumPopup((CloseRule)closeRuleProp.enumValueIndex);
+            }
+
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("出场动画组:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));

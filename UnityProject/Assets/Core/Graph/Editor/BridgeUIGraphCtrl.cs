@@ -15,9 +15,9 @@ using BridgeUI.Model;
 
 namespace BridgeUI
 {
-    public class BridgeUIGraphCtrl:NodeGraphController
+    public class BridgeUIGraphCtrl : NodeGraphController
     {
-        private const string prefer_scriptPath ="BridgeUIPanelNames_path";
+        private const string prefer_scriptPath = "BridgeUIPanelNames_path";
         public override string Group
         {
             get
@@ -238,7 +238,7 @@ namespace BridgeUI
                     changed = true;
                 }
             }
-            if(changed)
+            if (changed)
             {
                 Perform();
             }
@@ -269,28 +269,28 @@ namespace BridgeUI
                     StoreInfoOfPanel(panelGroup);
                 }
             }
-            UpdateScriptOfPanelNames(m_targetGraph.Nodes.FindAll(x=>x.Object is PanelNodeBase).ConvertAll<string>(x => x.Name));
+            UpdateScriptOfPanelNames(m_targetGraph.Nodes.FindAll(x => x.Object is PanelNodeBase).ConvertAll<string>(x => x.Name));
         }
         private void UpdateScriptOfPanelNames(List<string> list)
         {
             var path = PlayerPrefs.GetString(prefer_scriptPath);
             bool needOpenSelect = false;
             string directory = null;
-            if(!string.IsNullOrEmpty(path))
+            if (!string.IsNullOrEmpty(path))
             {
-               var script = AssetDatabase.LoadAssetAtPath<MonoScript>(path.Replace("\\","/").Replace(Application.dataPath,"Assets"));
-                if(script == null)
+                var script = AssetDatabase.LoadAssetAtPath<MonoScript>(path.Replace("\\", "/").Replace(Application.dataPath, "Assets"));
+                if (script == null)
                 {
                     needOpenSelect = true;
                     directory = System.IO.Path.GetDirectoryName(path);
                 }
             }
-            if(string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(path))
             {
                 needOpenSelect = true;
                 directory = Application.dataPath;
             }
-            if(needOpenSelect)
+            if (needOpenSelect)
             {
                 path = EditorUtility.SaveFilePanel("«Î—°‘ÒPanelNames.cs±£¥Ê¬∑æ∂", directory, "PanelNames", "cs");
                 if (!string.IsNullOrEmpty(path)) PlayerPrefs.SetString(prefer_scriptPath, path);
@@ -308,7 +308,7 @@ namespace BridgeUI
             foreach (UnityEngine.Object obj in DragAndDrop.objectReferences)
             {
                 var path = AssetDatabase.GetAssetPath(obj);
-                if(string.IsNullOrEmpty(path) && obj is GameObject)
+                if (string.IsNullOrEmpty(path) && obj is GameObject)
                 {
                     path = GetInstenceObjectPath(obj as GameObject);
                 }
@@ -340,14 +340,14 @@ namespace BridgeUI
                 var prefab = PrefabUtility.FindPrefabRoot(pfbTrans as GameObject);
                 if (prefab != null)
                 {
-                  return AssetDatabase.GetAssetPath(prefab);
+                    return AssetDatabase.GetAssetPath(prefab);
                 }
             }
             return null;
         }
         internal override List<KeyValuePair<string, Node>> OnDragAccept(UnityEngine.Object[] objectReferences)
         {
-            var nodeList = new List<KeyValuePair<string,Node>>();
+            var nodeList = new List<KeyValuePair<string, Node>>();
             foreach (UnityEngine.Object obj in DragAndDrop.objectReferences)
             {
                 var path = AssetDatabase.GetAssetPath(obj);
@@ -366,14 +366,17 @@ namespace BridgeUI
                         var files = System.IO.Directory.GetFiles(path, "*.prefab", SearchOption.AllDirectories);
                         foreach (var item in files)
                         {
-                            panelNode = new PanelNode(item);
+                            panelNode = ScriptableObject.CreateInstance<PanelNode>();
+                            panelNode.prefabPath = item;
                             panelNode.name = typeof(PanelNode).FullName;
                             nodeList.Add(new KeyValuePair<string, Node>(Path.GetFileNameWithoutExtension(item), panelNode));
                         }
                     }
                     else if (obj is GameObject)
                     {
-                        panelNode = new PanelNode(path);
+                        panelNode = ScriptableObject.CreateInstance<PanelNode>();
+                        panelNode.prefabPath = path;
+
                         panelNode.name = typeof(PanelNode).FullName;
                         nodeList.Add(new KeyValuePair<string, Node>(obj.name, panelNode));
                     }

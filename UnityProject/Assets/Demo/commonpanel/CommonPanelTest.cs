@@ -10,13 +10,14 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+using BridgeUI;
 
-namespace BridgeUI.Common
-{
-    public class GroupButtonPanel : ButtonsPanel
+public class CommonPanelTest : MonoBehaviour {
+    private void OnGUI()
     {
-        [SerializeField]
-        private Transform content;
-        public override Transform Content { get { return content == null ? Group.Trans : content; } }
+        if(GUILayout.Button("open popop"))
+        {
+            UIFacade.Instence.Open(PanelNames.PopUpPanel, new string[] { "你好", "这是一个提示面板!" });
+        }
     }
 }

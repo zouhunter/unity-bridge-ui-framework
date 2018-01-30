@@ -59,4 +59,10 @@ public class PanelNames {
             return "SubGroupB";
         }
     }
+    
+    public static string PopUpPanel {
+        get {
+            return "PopUpPanel";
+        }
+    }
 }

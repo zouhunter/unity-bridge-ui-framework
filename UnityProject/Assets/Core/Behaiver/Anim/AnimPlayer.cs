@@ -19,14 +19,14 @@ namespace BridgeUI
 
         void Update()
         {
-           if(tween != null) tween.Update();
+           if(tween != null)
+                tween.Update();
         }
 
         public void EnterAnim(UIAnimType animType,UnityAction onComplete)
         {
             ResetAnim(animType);
-            if (onComplete != null)
-            {
+            if (onComplete != null){
                 tween.AddOnFinished(onComplete);
             }
             tween.ResetToBeginning();
@@ -36,7 +36,8 @@ namespace BridgeUI
         public void QuitAnim(UIAnimType animType, UnityAction onComplete)
         {
             ResetAnim(animType);
-            if (onComplete != null) tween.AddOnFinished(onComplete);
+            if (onComplete != null)
+                tween.AddOnFinished(onComplete);
             tween.ResetToComplete();
             tween.PlayReverse();
         }
@@ -46,7 +47,7 @@ namespace BridgeUI
             switch (animType)
             {
                 case UIAnimType.ScalePanel:
-                    tween = uTweenScale.Begin(panel, Vector3.one * 0.8f, panel.localScale, duration);
+                    tween = uTweenScale.Begin(panel, Vector3.one * 0.8f, Vector3.one, duration);
                     break;
                 case UIAnimType.PosUpPanel:
                     tween = uTweenPosition.Begin(panel, Vector3.left * 200, Vector3.zero, duration);

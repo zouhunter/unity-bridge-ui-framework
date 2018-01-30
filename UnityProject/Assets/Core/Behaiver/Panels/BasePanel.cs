@@ -111,23 +111,18 @@ namespace BridgeUI
             if (fieldDic == null)
             {
                 var fields = this.GetType().GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.GetProperty);
-                if (fields.Length > 0) fieldDic = new Dictionary<object, MemberInfo>();
-                foreach (var field in fields)
-                {
-                    var atts = field.GetCustomAttributes(typeof(Charge), true);
-                    if (atts.Length > 0)
-                    {
-                        var key = (atts[0] as Charge).key;
-                        if(key == null){
-                            key = field.Name;
-                        }
-                        fieldDic.Add(key, field);
-                        autoCharge = true;
-                    }
-                }
+                var obj = from field in fields
+                          let atts = field.GetCustomAttributes(typeof(Charge), true)
+                          where atts.Length > 0
+                          let defultKey = (atts[0] as Charge).key
+                          let key = defultKey==null?field.Name: defultKey
+                          select new KeyValuePair<object, MemberInfo>(key,field);
+
+                fieldDic = obj.ToDictionary(x => x.Key, x => x.Value);
+                autoCharge = fieldDic.Count > 0;
             }
-          
         }
+		
         private void LoadData(IDictionary data)
         {
             if (fieldDic != null)

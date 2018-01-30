@@ -347,6 +347,9 @@ public class PanelNodeInfoDrawer : Editor
 [CustomNodeGraphDrawer(typeof(PanelNode))]
 public class PanelNodeDrawer : NodeDrawer
 {
+    protected static UIType? uiTypeTemplate;
+    protected static NodeType nodeTypeTemplate;
+
     protected PanelNodeBase panelNode;
     public override Node target
     {
@@ -425,5 +428,21 @@ public class PanelNodeDrawer : NodeDrawer
         {
             EditorGUIUtility.PingObject(prefab);
         }
+    }
+    public override void OnContextMenuGUI(GenericMenu menu, NodeGUI gui)
+    {
+        base.OnContextMenuGUI(menu, gui);
+        menu.AddItem(new GUIContent("Copy UIType"), false, () =>
+        {
+            var nodeItem = (target as PanelNode);
+            nodeTypeTemplate = nodeItem.nodeType;
+            uiTypeTemplate = nodeItem.nodeInfo.uiType;
+        });
+        menu.AddItem(new GUIContent("Paste UIType"), false, () =>
+        {
+            var nodeItem = (target as PanelNode);
+            nodeItem.nodeInfo.uiType = (UIType)uiTypeTemplate;
+            nodeItem.nodeType = nodeTypeTemplate;
+        });
     }
 }

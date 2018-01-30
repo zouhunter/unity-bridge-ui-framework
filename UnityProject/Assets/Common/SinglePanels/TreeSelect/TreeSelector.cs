@@ -17,6 +17,8 @@ namespace BridgeUI.Common
         [SerializeField]
         private TreeSelectItem prefab;
         private TreeNodeCreater creater;
+        private TreeNode rootNode;
+        public UnityAction<int[]> onSelectID { get; set; }
         public UnityAction<string[]> onSelect { get; set; }
 
         private void Awake()
@@ -29,6 +31,7 @@ namespace BridgeUI.Common
         /// <param name="nodeBase"></param>
         public void CreateTree(TreeNode nodeBase)
         {
+            this.rootNode = nodeBase;
             var created = creater.CreateTreeSelectItems(axisType, nodeBase.childern.ToArray());
             foreach (var item in created)
             {
@@ -42,16 +45,32 @@ namespace BridgeUI.Common
         /// <param name="path"></param>
         public void SetSelect(string[] path)
         {
-
+            
         }
 
         /// <summary>
         /// 当选中对象发生变化时
         /// </summary>
         /// <param name="path"></param>
-        private void OnSelectionChanged(string[] path)
+        private void OnSelectionChanged(List<string> path)
         {
+            if (onSelect != null)
+            {
+                onSelect.Invoke(path.ToArray());
+            }
 
+            if(onSelectID != null)
+            {
+                var idList = new List<int>();
+                var parent = rootNode;
+                for (int i = 0; i < path.Count; i++)
+                {
+                   var id = parent.childern.FindIndex(x => x.name == path[i]);
+                    idList.Add(id);
+                    parent = parent.childern[id];
+                }
+                onSelectID( idList.ToArray());
+            }
         }
 
         /// <summary>

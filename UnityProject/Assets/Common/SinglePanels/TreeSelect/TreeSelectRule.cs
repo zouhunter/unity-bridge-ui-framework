@@ -17,6 +17,7 @@ namespace BridgeUI.Common
         public Color fontColor = Color.white;
         public Sprite normal;
         public Sprite mask;
+        public bool defultOpen;
         public TreeSelectRule()
         {
             fontColor = Color.white;

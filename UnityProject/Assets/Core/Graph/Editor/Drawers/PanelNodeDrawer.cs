@@ -350,20 +350,8 @@ public class PanelNodeDrawer : NodeDrawer
     protected static UIType? uiTypeTemplate;
     protected static NodeType nodeTypeTemplate;
 
-    protected PanelNodeBase panelNode;
-    public override Node target
-    {
-        get
-        {
-            return base.target;
-        }
+    protected PanelNodeBase panelNode { get { return target as PanelNodeBase; } }
 
-        set
-        {
-            base.target = value;
-            panelNode = value as PanelNodeBase;
-        }
-    }
     public override int Style
     {
         get

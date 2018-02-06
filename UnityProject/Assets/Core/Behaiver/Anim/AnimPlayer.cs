@@ -1,4 +1,11 @@
-﻿using System;
+﻿#region statement
+/*************************************************************************************   
+    * 作    者：       zouhunter
+    * 时    间：       2018-02-06 11:27:06
+    * 说    明：       
+* ************************************************************************************/
+#endregion
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;

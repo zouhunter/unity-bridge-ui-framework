@@ -1,4 +1,12 @@
-﻿using System;
+﻿#region statement
+/*************************************************************************************   
+    * 作    者：       zouhunter
+    * 时    间：       2018-02-06 01:13:36
+    * 说    明：       1.用户选择面板
+                       2.反正true或false
+* ************************************************************************************/
+#endregion
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;

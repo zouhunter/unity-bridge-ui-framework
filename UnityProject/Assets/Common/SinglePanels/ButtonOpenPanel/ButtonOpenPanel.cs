@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿#region statement
+/*************************************************************************************   
+    * 作    者：       zouhunter
+    * 时    间：       2018-02-06 01:13:36
+    * 说    明：       1.绑定目标面板名和本地button
+* ************************************************************************************/
+#endregion
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
@@ -9,7 +16,6 @@ namespace BridgeUI.Common
     /// <summary>
     ///利用按扭打开其他面板
     /// </summary>
-
     public class ButtonOpenPanel : SinglePanel
     {
         [System.Serializable]

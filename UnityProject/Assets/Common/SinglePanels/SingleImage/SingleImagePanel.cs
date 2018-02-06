@@ -1,54 +1,41 @@
-﻿using System;
+﻿#region statement
+/*************************************************************************************   
+    * 作    者：       zouhunter
+    * 时    间：       2018-02-06 01:13:36
+    * 说    明：       1.传入包含sprite和title的字典
+* ************************************************************************************/
+#endregion
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
+
 namespace BridgeUI.Common
 {
-
-
-    public class SingleImagePanel : SinglePanel
+    /// <summary>
+    /// 自适应图片显示面板
+    /// </summary>
+    public class SingleImagePanel : SingleCloseAblePanel
     {
-        public UnityEvent openEvent;
-        public Button closeBtn;
-        public Image image;
-        public Text title;
+        [SerializeField]
+        private Image m_image;
+        [SerializeField]
+        private Text m_title;
 
-        public string OpenKey
-        {
-            get
-            {
-                return "openTheroryPanel";
-            }
-        }
+        [Charge]
+        private string title { set { m_title.text = value; } }
+        [Charge]
+        private Sprite sprite { set { m_image.sprite = value; } }
 
-        [System.Serializable]
-        public class SData
+        protected override void HandleData(object data)
         {
-            public string title;
-            public Sprite sprite;
-            public SData(string title, Sprite sprite)
+            base.HandleData(data);
+            if(m_image.sprite != null)
             {
-                this.title = title;
-                this.sprite = sprite;
+                m_image.GetComponent<LayoutElement>().preferredHeight = m_image.GetComponent<LayoutElement>().preferredWidth / ((float)m_image.sprite.texture.width / m_image.sprite.texture.height);
             }
-        }
-        public void HandleMessage(object message)
-        {
-            if (message is SData)
-            {
-                ShowUIPanel((SData)message);
-            }
-            closeBtn.onClick.AddListener(() => { Destroy(gameObject); });
-        }
-
-        void ShowUIPanel(SData data)
-        {
-            title.text = data.title;//.texture.name;
-            image.sprite = data.sprite;
-            openEvent.Invoke();
-            image.GetComponent<LayoutElement>().preferredHeight = image.GetComponent<LayoutElement>().preferredWidth / ((float)image.sprite.texture.width / image.sprite.texture.height);
         }
     }
 }

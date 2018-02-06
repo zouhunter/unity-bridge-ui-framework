@@ -6,6 +6,8 @@ using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
 using System.Reflection;
+using UnityEditorInternal;
+
 namespace BridgeUI.Common
 {
     [CustomPropertyDrawer(typeof(ButtonOpenPanel.Holder))]
@@ -13,6 +15,7 @@ namespace BridgeUI.Common
     {
         string[] panelNames;
         int selected = 0;
+
         public HolderDrawer()
         {
             var fields = typeof(PanelNames).GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.GetProperty);

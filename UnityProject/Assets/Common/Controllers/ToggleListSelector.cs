@@ -1,8 +1,19 @@
-﻿using UnityEngine;
+﻿#region statement
+/*************************************************************************************   
+    * 作    者：       zouhunter
+    * 时    间：       2018-02-06 11:27:06
+    * 说    明：       1.这是一个简单类型的Toggle列表生成器
+                       2.传入字符串数组
+                       3.返回id或者对应的字符串
+* ************************************************************************************/
+#endregion
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+
 namespace BridgeUI.Common
 {
     [System.Serializable]
@@ -23,48 +34,67 @@ namespace BridgeUI.Common
         public bool AnyToggleOn { get { return group.AnyTogglesOn(); } }
         private bool stopEvent;
         private GameObjectPool gameObjectPool;
-
-        public ToggleListSelector(Transform parnent)
+        private bool inited;
+        /// <summary>
+        /// 调用其他方法时，先进行初始化
+        /// </summary>
+        public void Init()
         {
             gameObjectPool = UIFacade.PanelPool;
             if (m_Select) m_Select.onClick.AddListener(TrySelectItem);
-            group = parnent.GetComponentInChildren<ToggleGroup>();
+            group = m_parent.GetComponentInChildren<ToggleGroup>();
             if (group == null)
-                group = parnent.gameObject.AddComponent<ToggleGroup>();
+                group = m_parent.gameObject.AddComponent<ToggleGroup>();
+            inited = true;
         }
 
         public void OpenSelect(string[] selectables, UnityAction<string> onChoise, bool quick = false)
         {
-            this.options = selectables;
-            this.quick = quick;
-            this.onChoise = onChoise;
-            CreateUIList(selectables);
+            if(JudgeInit())
+            {
+                this.options = selectables;
+                this.quick = quick;
+                this.onChoise = onChoise;
+                CreateUIList(selectables);
+            }
         }
 
+       
         public void OpenSelect(string[] selectables, UnityAction<int> onChoise, bool quick = false)
         {
-            this.options = selectables;
-            this.quick = quick;
-            this.onChoise = (x) =>
+            if (JudgeInit())
             {
-                if (onChoise != null)
+                this.options = selectables;
+                this.quick = quick;
+                this.onChoise = (x) =>
                 {
-                    var id = System.Array.IndexOf(options, selected);
-                    onChoise.Invoke(id);
-                }
-            };
-            CreateUIList(selectables);
+                    if (onChoise != null)
+                    {
+                        var id = System.Array.IndexOf(options, selected);
+                        onChoise.Invoke(id);
+                    }
+                };
+                CreateUIList(selectables);
+            }
         }
 
         public void SetActiveItem(string key)
         {
-            stopEvent = true;
-
-            if (createdDic.ContainsKey(key))
+            if (JudgeInit())
             {
-                createdDic[key].isOn = true;
+                stopEvent = true;
+
+                if (createdDic.ContainsKey(key))
+                {
+                    createdDic[key].isOn = true;
+                }
+                stopEvent = false;
             }
-            stopEvent = false;
+        }
+        private bool JudgeInit()
+        {
+            Debug.Assert(inited, this + ":please init first!!!");
+            return inited;
         }
 
         void TrySelectItem()

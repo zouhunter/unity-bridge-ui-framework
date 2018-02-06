@@ -1,4 +1,12 @@
-﻿using System;
+﻿#region statement
+/*************************************************************************************   
+    * 作    者：       zouhunter
+    * 时    间：       2018-02-06 01:13:36
+    * 说    明：       1.支持string,string[],popInfo等参数
+                       2.支持继承
+* ************************************************************************************/
+#endregion
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
@@ -9,6 +17,7 @@ using BridgeUI;
 namespace BridgeUI.Common
 {
     /// <summary>
+    /// 消息显示面板
     /// [popInfo][closeAble][title][info]
     /// </summary>
     public class PopupPanel : SingleCloseAblePanel

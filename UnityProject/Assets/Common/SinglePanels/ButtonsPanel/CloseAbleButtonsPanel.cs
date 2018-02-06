@@ -4,6 +4,8 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using BridgeUI;
+
+
 namespace BridgeUI.Common
 {
     public class CloseAbleButtonsPanel : ButtonsPanel

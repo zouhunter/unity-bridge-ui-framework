@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using BridgeUI;
+
 namespace BridgeUI.Common
 {
     public class TextInfoBehiaver : SinglePanel

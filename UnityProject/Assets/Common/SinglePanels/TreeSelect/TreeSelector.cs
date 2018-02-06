@@ -1,4 +1,14 @@
-﻿using UnityEngine;
+﻿#region statement
+/*************************************************************************************   
+    * 作    者：       zouhunter
+    * 时    间：       2018-02-06 01:13:36
+    * 说    明：       1.传入树型结构数据
+                       2.注册选择事件
+                       3.配制显示信息
+* ************************************************************************************/
+#endregion
+
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
@@ -7,7 +17,9 @@ using System.Linq;
 
 namespace BridgeUI.Common
 {
-
+    /// <summary>
+    /// 树形选择器
+    /// </summary>
     public class TreeSelector : MonoBehaviour
     {
         [SerializeField, Header("[支持最多七层的规则]")]

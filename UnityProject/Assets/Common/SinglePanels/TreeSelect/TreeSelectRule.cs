@@ -14,19 +14,23 @@ namespace BridgeUI.Common
         public float horizontal = 100;
         public float vertical = 100;
         public float spacing = 2f;
-        public Color fontColor = Color.white;
+        public Color fontColor_normal = Color.white;
+        public Color fontColor_mask = Color.white;
+        public Font font;
         public Sprite normal;
         public Sprite mask;
-        public bool defultOpen;
+        public bool childCloseAble;
+        public bool makeGroup;
+
         public TreeSelectRule()
         {
-            fontColor = Color.white;
+            fontColor_normal = Color.white;
         }
         public TreeSelectRule CreateCopy(int deepth)
         {
             var rule = new TreeSelectRule();
             rule.deepth = deepth;
-            rule.fontColor = fontColor;
+            rule.fontColor_normal = fontColor_normal;
             rule.horizontal = horizontal;
             rule.vertical = vertical;
             rule.spacing = spacing;

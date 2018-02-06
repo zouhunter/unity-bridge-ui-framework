@@ -4,6 +4,7 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 namespace BridgeUI.Common
 {
     public class TreeSelectItem : MonoBehaviour
@@ -13,42 +14,69 @@ namespace BridgeUI.Common
         [SerializeField]
         private LayoutElement layout;
 
-        private int deepth;
         private Transform childContent;
         private TreeSelectRule rule;
         private TreeNode node;
         private TreeNodeCreater creater;
-        public UnityAction<List<string>> onSelection { get; set; }
 
+        public UnityAction<List<string>> onSelection { get; set; }
+        public TreeNodeCreater Creater { get { return creater; } }
+        private bool settingToggle;//防止设置toggle值时回调
+        private Text title;
         void Awake()
         {
             toggle.onValueChanged.AddListener(OnToggleSwitch);
         }
-
-        public void InitTreeSelecter(GridLayoutGroup.Axis axis,int deepth, Func<int,TreeSelectRule> ruleget, TreeNode node,TreeSelectItem prefab)
+        public void SetGroup(ToggleGroup group)
         {
-            this.deepth = deepth;
+            toggle.group = group;
+        }
+        public void InitTreeSelecter(int deepth, TreeNode node, TreeOption option)
+        {
             this.node = node;
+            var ruleget = option.ruleGetter;
             this.rule = ruleget(deepth);
 
-            if(node.childern != null && node.childern.Count > 0)
+            if (node.childern != null && node.childern.Count > 0)
             {
-                InitContent(axis);
-                creater = new TreeNodeCreater(ruleget, deepth, childContent, prefab);
-                var items = creater.CreateTreeSelectItems(axis, node.childern.ToArray());
+                InitContent(option.axisType);
+                creater = new TreeNodeCreater(deepth, childContent, option);
+                var items = creater.CreateTreeSelectItems(node.childern.ToArray());
                 foreach (var item in items)
                 {
                     item.onSelection = OnSelection;
                 }
             }
+            else
+            {
+                //toggle.group = option.leafGroup;
+            }
 
             ChargeRule();
         }
 
+        internal void SetToggle(bool v, bool triggerInfo = false)
+        {
+            if (triggerInfo)
+            {
+                toggle.isOn = v;
+            }
+            else
+            {
+                settingToggle = true;
+
+                toggle.isOn = v;
+
+                settingToggle = false;
+            }
+
+        }
+
         private void OnSelection(List<string> path)
         {
+            SetToggle(true);
             path.Insert(0, node.name);
-            if(this.onSelection != null)
+            if (this.onSelection != null)
             {
                 onSelection.Invoke(path);
             }
@@ -56,30 +84,23 @@ namespace BridgeUI.Common
 
         private void ChargeRule()
         {
-            if(rule.normal) (toggle.graphic as Image).sprite = rule.normal;
-            if(rule.mask) (toggle.targetGraphic as Image).sprite = rule.mask;
-            var title = (toggle.GetComponentInChildren<Text>());
+            if (rule.normal) (toggle.targetGraphic as Image).sprite = rule.normal;
+            if (rule.mask) (toggle.graphic as Image).sprite = rule.mask;
+            title = (toggle.GetComponentInChildren<Text>());
             title.text = node.name;
             title.fontSize = rule.fontSize;
+            if (rule.font) title.font = rule.font;
             layout.preferredWidth = rule.horizontal;
             layout.preferredHeight = rule.vertical;
-            if(toggle.isOn != rule.defultOpen)
-            {
-                toggle.isOn = rule.defultOpen;
-            }
-            else
-            {
-                OnToggleSwitch(toggle.isOn);
-            }
         }
 
         private void InitContent(GridLayoutGroup.Axis axis)
         {
-            if(childContent == null)
+            if (childContent == null)
             {
                 var type = axis == GridLayoutGroup.Axis.Horizontal ? typeof(HorizontalLayoutGroup) : typeof(VerticalLayoutGroup);
                 childContent = new GameObject(name + "_content", typeof(RectTransform), type).transform;
-                childContent.transform.SetParent(transform.parent);
+                childContent.transform.SetParent(transform.parent, false);
                 childContent.SetSiblingIndex(transform.GetSiblingIndex() + 1);
                 var group = childContent.GetComponent<HorizontalOrVerticalLayoutGroup>();
                 group.childForceExpandHeight = false;
@@ -90,24 +111,41 @@ namespace BridgeUI.Common
 
         private void OnToggleSwitch(bool isOn)
         {
-            if(isOn && onSelection != null)
+            if (!settingToggle && isOn && onSelection != null)
             {
                 onSelection(new List<string> { node.name });
             }
 
-            if (childContent)
+            if (childContent && rule.childCloseAble)
             {
                 childContent.gameObject.SetActive(isOn);
             }
-            else
+
+            if (title)
             {
-                if(isOn)
-                {
-                    toggle.isOn = false;
-                }
+                title.color = isOn ? rule.fontColor_mask : rule.fontColor_normal;
+            }
+
+            if (creater != null && creater.Group != null && creater.Group.AnyTogglesOn())
+            {
+                TreeSelectItem item = creater.Group.ActiveToggles().First().GetComponentInParent<TreeSelectItem>();
+                item.SetToggleForce(isOn);
             }
         }
 
+        private void SetToggleForce(bool isOn)
+        {
+            var group = toggle.group;
+            toggle.group = null;
+
+            settingToggle = true;
+
+            toggle.isOn = isOn;
+
+            settingToggle = false;
+
+            toggle.group = group;
+        }
     }
 
 }

@@ -65,4 +65,10 @@ public class PanelNames {
             return "PopUpPanel";
         }
     }
+    
+    public static string RadiaMenuPanel {
+        get {
+            return "RadiaMenuPanel";
+        }
+    }
 }

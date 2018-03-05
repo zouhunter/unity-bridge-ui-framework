@@ -77,7 +77,7 @@ namespace BridgeUI
         }
         private void InsertPrefabinfo(List<PrefabUIInfo> source, List<PrefabUIInfo> newInfo)
         {
-            if (newInfo == null) return;
+            if (newInfo == null || source == null) return;
             foreach (var item in newInfo)
             {
                 var old = source.Find(x => x.panelName == item.panelName);
@@ -278,7 +278,7 @@ namespace BridgeUI
             string directory = null;
             if (!string.IsNullOrEmpty(path))
             {
-                var script = AssetDatabase.LoadAssetAtPath<MonoScript>(path.Replace("\\", "/").Replace(Application.dataPath, "Assets"));
+                var script = AssetDatabase.LoadAssetAtPath<MonoScript>(path.Replace("\\", "/").Replace(Application.dataPath +"/", "Assets"));
                 if (script == null)
                 {
                     needOpenSelect = true;

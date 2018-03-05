@@ -146,7 +146,7 @@ MonoBehaviour:
     m_toNodeConnectionPoiontId: 813859db-2d04-4144-bac9-e8c1b52e79a4
     m_type: bridge
     m_connection: {fileID: 11462424}
-  m_lastModified: 131603370339748049
+  m_lastModified: 131623978681142652
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
   m_panelNamePath: 
@@ -175,7 +175,7 @@ MonoBehaviour:
       enterAnim: 0
       quitAnim: 0
       closeRule: 0
-      hideRule: 1
+      hideRule: 0
     prefabGuid: 52d079d69fd0f9841b1d3ee41b4cda0c
 --- !u!114 &11421066
 MonoBehaviour:
@@ -250,7 +250,7 @@ MonoBehaviour:
       enterAnim: 2
       quitAnim: 1
       closeRule: 0
-      hideRule: 1
+      hideRule: 0
     prefabGuid: a2f4a391ad632d34a85d997640aa9ef3
 --- !u!114 &11489332
 MonoBehaviour:
@@ -277,7 +277,7 @@ MonoBehaviour:
       enterAnim: 2
       quitAnim: 3
       closeRule: 0
-      hideRule: 1
+      hideRule: 0
     prefabGuid: ba16a0659248e00479962ae1a0bf4624
 --- !u!114 &11499820
 MonoBehaviour:

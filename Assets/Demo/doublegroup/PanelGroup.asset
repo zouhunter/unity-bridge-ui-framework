@@ -65,7 +65,7 @@ MonoBehaviour:
   - m_name: Panel04
     m_id: b23ff885-cf84-4115-9d88-8d92a127f45c
     m_x: 432
-    m_y: 360
+    m_y: 1056
     m_node: {fileID: 11498654}
     m_inputPoints:
     - id: 8d85ca59-b13e-458e-88ec-4f27846dbd01
@@ -157,8 +157,8 @@ MonoBehaviour:
       type: bridge
   - m_name: Panel03
     m_id: f43dbdec-1340-4cbd-8a6a-171a8942dd1c
-    m_x: 432
-    m_y: 288
+    m_x: 1656
+    m_y: 336
     m_node: {fileID: 11436402}
     m_inputPoints:
     - id: 81b51814-cb6a-4645-9837-3198bdbc2b54
@@ -224,7 +224,7 @@ MonoBehaviour:
     m_connection: {fileID: 11489588}
   m_lastModified: 131603347778637627
   m_graphDescription: "\u8FD9\u662F\u4E00\u4E2A\u8BB0\u5F55\u7A0B\u5E8F\u754C\u9762\u4E00\u4E2A\u8282\u70B9\u63A7\u5236\u5668"
-  m_controllerType: BridgeUIGraphCtrl
+  m_controllerType: BridgeUI.BridgeUIGraphCtrl
   m_panelNamePath: 
 --- !u!114 &11400830
 MonoBehaviour:
@@ -284,7 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instenceID: 0
   description: 
-  assetName: 
+  assetName: Panel03
   style: 1
   nodeType: 31
   nodeInfo:
@@ -296,7 +296,7 @@ MonoBehaviour:
       enterAnim: 0
       quitAnim: 0
       closeRule: 0
-      hideRule: 1
+      hideRule: 0
     prefabGuid: cdb2321ece873174fbc0719e07c1d664
 --- !u!114 &11449750
 MonoBehaviour:
@@ -449,7 +449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instenceID: 0
   description: 
-  assetName: 
+  assetName: Panel04
   style: 1
   nodeType: 31
   nodeInfo:
@@ -461,5 +461,5 @@ MonoBehaviour:
       enterAnim: 0
       quitAnim: 0
       closeRule: 0
-      hideRule: 1
+      hideRule: 0
     prefabGuid: 1172f1b2f39183747ab91057b53a70cd

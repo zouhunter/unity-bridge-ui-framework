@@ -63,7 +63,7 @@ MonoBehaviour:
   m_ButtonSizeChild: 60
   m_Radius: 100
   m_DeadZone: 30
-  m_DisplaySelectedName: 0
+  m_DisplaySelectedName: 1
   m_Smoothing: 8
   m_StartAngle: 0
   m_AngleRange: 360

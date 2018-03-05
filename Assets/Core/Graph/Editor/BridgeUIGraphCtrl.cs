@@ -17,7 +17,7 @@ namespace BridgeUI
 {
     public class BridgeUIGraphCtrl : NodeGraphController
     {
-        private const string prefer_scriptPath = "BridgeUIPanelNames_path";
+        private const string prefer_script_guid = "BridgeUI_PanelNames_Guid";
         public override string Group
         {
             get
@@ -273,27 +273,46 @@ namespace BridgeUI
         }
         private void UpdateScriptOfPanelNames(List<string> list)
         {
-            var path = PlayerPrefs.GetString(prefer_scriptPath);
+            var guid = PlayerPrefs.GetString(prefer_script_guid);
             bool needOpenSelect = false;
             string directory = null;
-            if (!string.IsNullOrEmpty(path))
+            string path = null;
+            if (!string.IsNullOrEmpty(guid))
             {
-                var script = AssetDatabase.LoadAssetAtPath<MonoScript>(path.Replace("\\", "/").Replace(Application.dataPath +"/", "Assets"));
-                if (script == null)
+                path = AssetDatabase.GUIDToAssetPath(guid);
+
+                if(string.IsNullOrEmpty(path))
                 {
                     needOpenSelect = true;
-                    directory = System.IO.Path.GetDirectoryName(path);
+                }
+                else
+                {
+                    var script = AssetDatabase.LoadAssetAtPath<MonoScript>(path);
+
+                    if (script == null)
+                    {
+                        needOpenSelect = true;
+                        directory = System.IO.Path.GetDirectoryName(path);
+                    }
                 }
             }
+
             if (string.IsNullOrEmpty(path))
             {
                 needOpenSelect = true;
                 directory = Application.dataPath;
             }
+
             if (needOpenSelect)
             {
                 path = EditorUtility.SaveFilePanel("«Î—°‘ÒPanelNames.cs±£¥Ê¬∑æ∂", directory, "PanelNames", "cs");
-                if (!string.IsNullOrEmpty(path)) PlayerPrefs.SetString(prefer_scriptPath, path);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    var relePath = path.Replace("\\", "/").Replace(Application.dataPath, "Assets") ;
+                    Debug.Log(relePath);
+                    guid = AssetDatabase.AssetPathToGUID(relePath);
+                    PlayerPrefs.SetString(prefer_script_guid, guid);
+                }
             }
 
             if (!string.IsNullOrEmpty(path))

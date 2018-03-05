@@ -7,11 +7,11 @@ using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Text;
-using UnityEditor;
 
 public class PanelNameGenerater
 {
     private string outPutPath;
+    private const string panelsName = "PanelNames";
     public PanelNameGenerater(string exportPath)
     {
         this.outPutPath = exportPath;
@@ -19,17 +19,24 @@ public class PanelNameGenerater
     public void GenerateParcialPanelName(string[] panelNames)
     {
         var needGenerate = new List<string>();
-        var oldNames = Array.ConvertAll<PropertyInfo, string>(typeof(PanelNames).GetProperties(), x => x.Name);
-        needGenerate.AddRange(oldNames);
+        var type = typeof(BridgeUI.PanelGroup).Assembly.GetType(panelsName);
+
+        if(type != null)
+        {
+            var oldNames = Array.ConvertAll<PropertyInfo, string>(type.GetProperties(), x => x.Name);
+            needGenerate.AddRange(oldNames);
+        }
+     
 
         foreach (var item in panelNames)
         {
-            if (Array.FindAll(oldNames, x => x == item).Length == 0)
+            if (!needGenerate.Contains(item))
             {
                 //生成没有的
                 needGenerate.Add(item);
             }
         }
+
         GenerateInternal(needGenerate.ToArray());
     }
 
@@ -62,8 +69,7 @@ public class PanelNameGenerater
         CSharpCodeProvider cprovider = new CSharpCodeProvider();
 
         StringBuilder fileContent = new StringBuilder();
-        using (StringWriter sw = new StringWriter(fileContent))
-        {
+        using (StringWriter sw = new StringWriter(fileContent)){
             cprovider.GenerateCodeFromCompileUnit(compunit, sw, new CodeGeneratorOptions());//想把生成的代码保存为cs文件
         }
 

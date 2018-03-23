@@ -167,7 +167,7 @@ namespace BridgeUI
             {
                 var p = new PrefabUIInfo();
                 p.type = item.uiType;
-                p.prefab = LoadPrefabFromGUID(item.prefabGuid);
+                p.prefab = item.prefab;
                 p.panelName = p.prefab.name;
                 pinfos.Add(p);
             }
@@ -194,7 +194,8 @@ namespace BridgeUI
             {
                 var p = new BundleUIInfo();
                 p.type = item.uiType;
-                p.guid = item.prefabGuid;
+                var path = AssetDatabase.GetAssetPath(item.prefab);
+                p.guid = AssetDatabase.AssetPathToGUID(path);
                 binfo.Add(p);
             }
             return binfo;
@@ -231,9 +232,7 @@ namespace BridgeUI
             if (node.Data.Object is IPanelInfoHolder)
             {
                 var nodeItem = node.Data.Object as IPanelInfoHolder;
-                var guid = nodeItem.Info.prefabGuid;
-                if (!string.IsNullOrEmpty(guid) && !string.IsNullOrEmpty(AssetDatabase.GUIDToAssetPath(guid)))
-                {
+                if (nodeItem.Info.prefab == null){
                     node.ResetErrorStatus();
                     changed = true;
                 }
@@ -250,8 +249,7 @@ namespace BridgeUI
                 if (item.Object is IPanelInfoHolder)
                 {
                     var nodeItem = item.Object as IPanelInfoHolder;
-                    var guid = nodeItem.Info.prefabGuid;
-                    if (string.IsNullOrEmpty(guid) || string.IsNullOrEmpty(AssetDatabase.GUIDToAssetPath(guid)))
+                    if (nodeItem.Info.prefab == null)
                     {
                         m_nodeExceptions.Add(new NodeException("prefab is null", item.Id));
                     }
@@ -386,7 +384,7 @@ namespace BridgeUI
                         foreach (var item in files)
                         {
                             panelNode = ScriptableObject.CreateInstance<PanelNode>();
-                            panelNode.prefabPath = item;
+                            panelNode.Info.prefab = AssetDatabase.LoadAssetAtPath<GameObject>(item);
                             panelNode.name = typeof(PanelNode).FullName;
                             nodeList.Add(new KeyValuePair<string, Node>(Path.GetFileNameWithoutExtension(item), panelNode));
                         }
@@ -394,8 +392,7 @@ namespace BridgeUI
                     else if (obj is GameObject)
                     {
                         panelNode = ScriptableObject.CreateInstance<PanelNode>();
-                        panelNode.prefabPath = path;
-
+                        panelNode.Info.prefab = obj as GameObject;
                         panelNode.name = typeof(PanelNode).FullName;
                         nodeList.Add(new KeyValuePair<string, Node>(obj.name, panelNode));
                     }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+
 namespace Menu_Generic
 {
     public class RadialLayout : UIBehaviour
@@ -10,12 +11,14 @@ namespace Menu_Generic
         protected DrivenRectTransformTracker m_Tracker;
 
         protected override void OnEnable() { base.OnEnable(); CalculateRadial(); }
-
+#if UNITY_EDITOR
         protected override void OnValidate()
         {
             base.OnValidate();
             CalculateRadial();
         }
+
+#endif
 
         public void UpdateFDistance(float fdist)
         {

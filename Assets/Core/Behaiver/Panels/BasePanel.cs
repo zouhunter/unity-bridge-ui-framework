@@ -36,7 +36,7 @@ namespace BridgeUI
         public string Name { get { return name; } }
         public IPanelGroup Group { get; set; }
         public IPanelBase Parent { get; set; }
-        public abstract Transform Content { get; }
+        public virtual Transform Content { get { return transform; } }
         public Transform Root { get { return transform.parent.parent; } }
         public UIType UType { get; set; }
 

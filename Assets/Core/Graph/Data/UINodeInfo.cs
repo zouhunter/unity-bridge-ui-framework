@@ -12,11 +12,11 @@ using System.Collections;
 using System.Collections.Generic;
 namespace BridgeUI.Model
 {
-
     [System.Serializable]
     public class NodeInfo
     {
         public UIType uiType = new UIType();
-        public string prefabGuid;
+        public GameObject prefab;
+        public List<ComponentItem> components = new List<ComponentItem>();
     }
 }

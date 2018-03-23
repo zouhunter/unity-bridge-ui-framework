@@ -19,7 +19,6 @@ using System.Collections.Generic;
 [CustomNode("Panel", 1,"BridgeUI")]
 public class PanelNode : PanelNodeBase
 {
-    public PanelNode() { }
     protected override IEnumerable<Point> inPoints
     {
         get
@@ -32,15 +31,6 @@ public class PanelNode : PanelNodeBase
         get
         {
             return new Point[] { new Point("", "bridge", 100) };
-        }
-    }
-    public string prefabPath
-    {
-        set
-        {
-#if UNITY_EDITOR
-            Info.prefabGuid = UnityEditor.AssetDatabase.AssetPathToGUID(value);
-#endif
         }
     }
 

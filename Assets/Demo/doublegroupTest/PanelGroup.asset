@@ -257,7 +257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instenceID: 0
   description: 
-  assetName: 
+  assetName: Panel01
   style: 1
   nodeType: 31
   nodeInfo:
@@ -269,8 +269,8 @@ MonoBehaviour:
       enterAnim: 0
       quitAnim: 0
       closeRule: 0
-      hideRule: 1
-    prefabGuid: a2f4a391ad632d34a85d997640aa9ef3
+      hideRule: 0
+    prefab: {fileID: 129970, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
 --- !u!114 &11436402
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -297,7 +297,7 @@ MonoBehaviour:
       quitAnim: 0
       closeRule: 0
       hideRule: 0
-    prefabGuid: cdb2321ece873174fbc0719e07c1d664
+    prefab: {fileID: 129970, guid: cdb2321ece873174fbc0719e07c1d664, type: 2}
 --- !u!114 &11449750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -311,7 +311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instenceID: 0
   description: 
-  assetName: 
+  assetName: MainPanel
   style: 1
   nodeType: 31
   nodeInfo:
@@ -323,8 +323,8 @@ MonoBehaviour:
       enterAnim: 0
       quitAnim: 0
       closeRule: 0
-      hideRule: 1
-    prefabGuid: 9a21f546a47677b47b8c04207b469285
+      hideRule: 0
+    prefab: {fileID: 129970, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
 --- !u!114 &11454764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -404,7 +404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instenceID: 0
   description: 
-  assetName: 
+  assetName: Panel02
   style: 1
   nodeType: 31
   nodeInfo:
@@ -416,8 +416,8 @@ MonoBehaviour:
       enterAnim: 0
       quitAnim: 0
       closeRule: 0
-      hideRule: 1
-    prefabGuid: ba16a0659248e00479962ae1a0bf4624
+      hideRule: 0
+    prefab: {fileID: 129970, guid: ba16a0659248e00479962ae1a0bf4624, type: 2}
 --- !u!114 &11489588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -462,4 +462,4 @@ MonoBehaviour:
       quitAnim: 0
       closeRule: 0
       hideRule: 0
-    prefabGuid: 1172f1b2f39183747ab91057b53a70cd
+    prefab: {fileID: 129970, guid: 1172f1b2f39183747ab91057b53a70cd, type: 2}

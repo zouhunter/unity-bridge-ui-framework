@@ -1,116 +1,244 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
-using UnityEngine.Events;
-using UnityEngine.Sprites;
-using UnityEngine.Scripting;
-using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
-using UnityEngine.Assertions.Must;
-using UnityEngine.Assertions.Comparers;
-using System.Collections;
-using System.Collections.Generic;
-using NodeGraph;
-using NodeGraph.DataModel;
-using UnityEditor;
-using BridgeUI;
+﻿using BridgeUI;
 using BridgeUI.Model;
+
+using UnityEditor;
+
+using UnityEditorInternal;
+
+using UnityEngine;
+using UnityEngine.Events;
 
 [CustomEditor(typeof(PanelNode))]
 public class PanelNodeInfoDrawer : Editor
 {
-    protected GameObject prefab;
-    protected PanelNodeBase panelNode;
-    protected const int lableWidth = 120;
-
+    private PanelNodeBase panelNode;
     public NodeType nodeType { get { return panelNode.nodeType; } set { panelNode.nodeType = value; } }
+    private NodeInfo nodeInfo { get { if (panelNode == null) return null; return panelNode.nodeInfo; } }
+
+    private const int lableWidth = 120;
     private PanelBase _panelCompnent;
-    protected NodeInfo nodeInfo { get { return panelNode.nodeInfo; } }
-    private bool showComponent;
-    protected PanelBase panelCompnent
+    private PanelBase panelCompnent
     {
         get
         {
-            if (_panelCompnent == null && prefab != null)
+            if (_panelCompnent == null )
             {
-                _panelCompnent = prefab.GetComponent<PanelBase>();
+                _panelCompnent = panelNode.Info.prefab.GetComponent<PanelBase>();
             }
             return _panelCompnent;
         }
     }
-    protected Editor panelDrawer;
-    protected string HeadInfo
+    private Editor panelDrawer;
+    private ReorderableList preComponentList;
+    private UICoder uiCoder;
+
+    private string HeadInfo
     {
         get
         {
             return "Panel Node : record panel load type and other rule";
         }
     }
+    private string[] options = {"参数配制","控件指定","面板脚本","显示效果" };
+    private static int selected;
+
     private void OnEnable()
     {
         panelNode = target as PanelNodeBase;
-        LoadPrefabInfo();
+        OnPrefabChanged();
+        InitPanelNode();
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-        DrawObjectFieldInternal();
-        DrawShowHide();
-        DrawPanelBase();
-
-        EditorGUILayout.HelpBox(HeadInfo, MessageType.Info);
-        DrawHeadSelect();
-
-        EditorGUILayout.HelpBox("[窗体信息配制:]", MessageType.Info);
-        DrawInforamtion();
-
+        DrawObjectField();
+        SwitchDrawOption();
         serializedObject.ApplyModifiedProperties();
     }
 
-    protected virtual void LoadPrefabInfo()
+    private void OnPrefabChanged()
     {
-        if (prefab == null && !string.IsNullOrEmpty(nodeInfo.prefabGuid))
+        if (nodeInfo.prefab != null)
         {
-            var path = AssetDatabase.GUIDToAssetPath(nodeInfo.prefabGuid);
-            if (!string.IsNullOrEmpty(path))
-            {
-                prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                if (prefab != null)
-                {
-                    panelNode.assetName = prefab.name;
-                }
-            }
-            else
-            {
-                nodeInfo.prefabGuid = null;
-            }
+            panelNode.assetName = nodeInfo.prefab.name;
+            uiCoder = GenCodeUtil.LoadUICoder(nodeInfo.prefab);
         }
     }
 
-    private void RecordPrefabInfo()
+    protected virtual void InitPanelNode()
     {
-        if (prefab != null && panelNode != null)
+        if (preComponentList == null)
         {
-            var path = AssetDatabase.GetAssetPath(prefab);
-            panelNode.nodeInfo.prefabGuid = AssetDatabase.AssetPathToGUID(path);
-            panelNode.assetName = prefab.name;
+            preComponentList = new ReorderableList(panelNode.Info.components, typeof(ComponentItem));
+            preComponentList.drawHeaderCallback = DrawComponetHeader;
+            preComponentList.drawElementCallback = DrawComponetItem;
+        }
+
+        if(nodeInfo.components != null)
+        {
+            nodeInfo.components.ForEach((x) => { x.Update(); });
         }
     }
-    protected void DrawObjectFieldInternal()
+
+  
+    private void DrawObjectField()
     {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("【预制体】:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            EditorGUILayout.LabelField("预制体:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
             EditorGUI.BeginChangeCheck();
-            prefab = EditorGUILayout.ObjectField(prefab, typeof(GameObject), false) as GameObject;
-            if (EditorGUI.EndChangeCheck() && prefab != null)
+            nodeInfo.prefab = EditorGUILayout.ObjectField(nodeInfo.prefab, typeof(GameObject), false) as GameObject;
+            if(EditorGUI.EndChangeCheck())
             {
-                RecordPrefabInfo();
+                OnPrefabChanged();
             }
         }
     }
-    protected void DrawFormType()
+    private void DrawComponetHeader(Rect rect)
+    {
+        rect = new Rect(rect.x + rect.width * 0.03f, rect.y, rect.width, rect.height);
+        var height = EditorGUIUtility.singleLineHeight;
+        var compRect = new Rect(rect.x, rect.y, rect.width * 0.2f, height);
+        var nameRect = new Rect(rect.x + rect.width * 0.25f, rect.y, rect.width * 0.25f, height);
+        var typeRect = new Rect(rect.x + rect.width * 0.5f, rect.y, rect.width * 0.5f, height);
+
+        EditorGUI.LabelField(compRect, "对象");
+        EditorGUI.LabelField(nameRect, "名称");
+        EditorGUI.LabelField(typeRect, "组件");
+    }
+
+    private void DrawComponetItem(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        var height = EditorGUIUtility.singleLineHeight;
+        var item = nodeInfo.components[index];
+
+        var compRect = new Rect(rect.x, rect.y, rect.width * 0.2f, height);
+        var nameRect = new Rect(rect.x + rect.width * 0.25f, rect.y, rect.width * 0.25f, height);
+        var typeRect = new Rect(rect.x + rect.width * 0.5f, rect.y, rect.width * 0.5f, height);
+
+        EditorGUI.BeginChangeCheck();
+        item.target = EditorGUI.ObjectField(compRect, item.target, item.componentType, true) as GameObject;
+        if (EditorGUI.EndChangeCheck() && item.target)
+        {
+            var parent = PrefabUtility.GetPrefabParent(item.target);
+            if (parent)
+            {
+                item.target = parent as GameObject;
+            }
+            if (string.IsNullOrEmpty(item.name))
+            {
+                item.name = item.target.name;
+            }
+            item.components = GenCodeUtil.SortComponent(item.target as GameObject);
+        }
+
+
+        EditorGUI.BeginChangeCheck();
+        item.name = EditorGUI.TextField(nameRect, item.name);
+        if (EditorGUI.EndChangeCheck() && item.target && !string.IsNullOrEmpty(item.name))
+        {
+            item.target.name = item.name;
+        }
+
+        if (item.components != null)
+        {
+            item.componentID = EditorGUI.Popup(typeRect, item.componentID, item.componentStrs);
+        }
+        
+    }
+      
+
+    private void SwitchDrawOption()
+    {
+        selected = GUILayout.Toolbar(selected, options);
+        if(selected == 0)
+        {
+            DrawHeadSelect();
+            DrawInforamtion();
+        }
+        else if(selected == 1)
+        {
+            DrawPreComponents();
+        }
+        else if(selected == 2)
+        {
+            DrawPanelComponent();
+        }
+        else if(selected == 3)
+        {
+            DrawView();
+        }
+    }
+
+    private void DrawPreComponents()
+    {
+        if (nodeInfo.prefab == null) return;
+
+        using (var hor = new EditorGUILayout.HorizontalScope())
+        {
+            if (GUILayout.Button(new GUIContent("e", "快速解析"), EditorStyles.miniButtonRight, GUILayout.Width(20)))
+            {
+                //从旧的脚本解析出
+                GenCodeUtil.AnalysisComponent(nodeInfo.prefab, nodeInfo.components);
+            }
+            if (GUILayout.Button(new GUIContent("g", "生成脚本"), EditorStyles.miniButtonRight, GUILayout.Width(20)))
+            {
+                if(uiCoder != null)
+                {
+                    var go = nodeInfo.prefab;
+                    GenCodeUtil.CreateComponent(go,nodeInfo.components,uiCoder);
+                }
+            }
+            if (GUILayout.Button(new GUIContent("b", "快速绑定"), EditorStyles.miniButtonRight, GUILayout.Width(20)))
+            {
+                GenCodeUtil.BindingUI(nodeInfo.prefab,nodeInfo.components);
+            }
+        }
+        preComponentList.DoLayoutList();
+        var addRect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
+
+        if (addRect.Contains(Event.current.mousePosition))
+        {
+            if (Event.current.type == EventType.DragUpdated)
+            {
+                if (DragAndDrop.objectReferences.Length > 0)
+                {
+                    foreach (var item in DragAndDrop.objectReferences)
+                    {
+                        if (item is GameObject)
+                        {
+                            DragAndDrop.visualMode = DragAndDropVisualMode.Move;
+                        }
+                    }
+                }
+            }
+            else if (Event.current.type == EventType.DragPerform)
+            {
+                if (DragAndDrop.objectReferences.Length > 0)
+                {
+                    foreach (var item in DragAndDrop.objectReferences)
+                    {
+                        if (item is GameObject)
+                        {
+                            var obj = item as GameObject;
+                            var parent = PrefabUtility.GetPrefabParent(obj);
+                            Debug.Log(parent);
+                            if(parent)
+                            {
+                                nodeInfo.components.Add(new ComponentItem(parent as GameObject));
+                            }
+                        }
+                    }
+                    DragAndDrop.AcceptDrag();
+                }
+
+            }
+        }
+        
+    }
+
+    private void DrawFormType()
     {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
@@ -118,7 +246,7 @@ public class PanelNodeInfoDrawer : Editor
             nodeInfo.uiType.form = (UIFormType)EditorGUILayout.EnumPopup(nodeInfo.uiType.form);
         }
     }
-    protected void DrawLayerType()
+    private void DrawLayerType()
     {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
@@ -132,7 +260,7 @@ public class PanelNodeInfoDrawer : Editor
         }
     }
 
-    protected void DrawHideType()
+    private void DrawHideType()
     {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
@@ -140,7 +268,7 @@ public class PanelNodeInfoDrawer : Editor
             nodeInfo.uiType.hideRule = (HideRule)EditorGUILayout.EnumPopup(nodeInfo.uiType.hideRule);
         }
     }
-    protected void DrawHideAlaph()
+    private void DrawHideAlaph()
     {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
@@ -148,7 +276,7 @@ public class PanelNodeInfoDrawer : Editor
             nodeInfo.uiType.hideAlaph = EditorGUILayout.Slider(nodeInfo.uiType.hideAlaph, 0, 1);
         }
     }
-    protected void DrawCloseRule()
+    private void DrawCloseRule()
     {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
@@ -156,7 +284,7 @@ public class PanelNodeInfoDrawer : Editor
             nodeInfo.uiType.closeRule = (CloseRule)EditorGUILayout.EnumPopup(nodeInfo.uiType.closeRule);
         }
     }
-    protected void DrawAnim()
+    private void DrawAnim()
     {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
@@ -177,7 +305,7 @@ public class PanelNodeInfoDrawer : Editor
         return EditorGUI.EndChangeCheck();
 
     }
-    protected void DrawInforamtion()
+    private void DrawInforamtion()
     {
         if ((nodeType & NodeType.Fixed) == 0)
         {
@@ -248,16 +376,8 @@ public class PanelNodeInfoDrawer : Editor
             }
         }
     }
-    protected void DrawHeadSelect()
+    private void DrawView()
     {
-        using (var hor = new EditorGUILayout.HorizontalScope())
-        {
-            DrawToggleFromNodeType(NodeType.Fixed);
-            DrawToggleFromNodeType(NodeType.ZeroLayer);
-            DrawToggleFromNodeType(NodeType.HideGO);
-            DrawToggleFromNodeType(NodeType.Destroy);
-            DrawToggleFromNodeType(NodeType.NoAnim);
-        }
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
             EditorGUILayout.LabelField("Style:");
@@ -272,61 +392,23 @@ public class PanelNodeInfoDrawer : Editor
             }
         }
     }
-    protected void DrawShowHide()
+    private void DrawHeadSelect()
     {
-        if (prefab != null && panelNode != null)
+        using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            using (var hor = new EditorGUILayout.HorizontalScope())
-            {
-
-                if (GUILayout.Button("o", GUILayout.Width(20)))
-                {
-                    if (panelNode.instenceID == 0)
-                    {
-                        Transform parent = null;
-                        var group = GameObject.FindObjectOfType<PanelGroup>();
-                        if (group != null)
-                        {
-                            parent = group.GetComponent<Transform>();
-                        }
-                        else
-                        {
-                            var canvas = GameObject.FindObjectOfType<Canvas>();
-                            if (canvas != null)
-                            {
-                                parent = canvas.GetComponent<Transform>();
-                            }
-                        }
-                        if (parent != null)
-                        {
-                            var obj = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
-                            obj.transform.SetParent(parent, false);
-                            panelNode.instenceID = obj.GetInstanceID();
-                        }
-                    }
-                }
-                if (GUILayout.Button("c", GUILayout.Width(20)))
-                {
-                    if (panelNode.instenceID != 0)
-                    {
-                        var obj = EditorUtility.InstanceIDToObject(panelNode.instenceID);
-                        if (obj != null)
-                        {
-                            GameObject.DestroyImmediate(obj);
-                        }
-                    }
-                    panelNode.instenceID = 0;
-                }
-                if (GUILayout.Button("Script", EditorStyles.toolbarButton))
-                {
-                    showComponent = !showComponent;
-                }
-            }
+            DrawToggleFromNodeType(NodeType.Fixed);
+            DrawToggleFromNodeType(NodeType.ZeroLayer);
+            DrawToggleFromNodeType(NodeType.HideGO);
+            DrawToggleFromNodeType(NodeType.Destroy);
+            DrawToggleFromNodeType(NodeType.NoAnim);
         }
+       
     }
-    protected void DrawPanelBase()
+    private void DrawPanelComponent()
     {
-        if (!showComponent) return;
+        DrawScritOptions();
+
+        if (!panelCompnent) return;
 
         GUILayout.Space(5);
 
@@ -337,100 +419,57 @@ public class PanelNodeInfoDrawer : Editor
 
         if (panelDrawer != null)
         {
-            panelDrawer.DrawHeader();
             panelDrawer.OnInspectorGUI();
         }
     }
+    private void DrawScritOptions()
+    {
+        if (nodeInfo != null && nodeInfo.prefab)
+        {
+            using (var hor = new EditorGUILayout.HorizontalScope())
+            {
+                if (GUILayout.Button(new GUIContent("o","打开"), EditorStyles.miniButtonRight, GUILayout.Width(20)))
+                {
+                    if (panelNode.instenceID == 0)
+                    {
+                        Transform parent = null;
+                        var group = FindObjectOfType<PanelGroup>();
+                        if (group != null)
+                        {
+                            parent = group.GetComponent<Transform>();
+                        }
+                        else
+                        {
+                            var canvas = FindObjectOfType<Canvas>();
+                            if (canvas != null)
+                            {
+                                parent = canvas.GetComponent<Transform>();
+                            }
+                        }
+                        if (parent != null)
+                        {
+                            var obj = PrefabUtility.InstantiatePrefab(nodeInfo.prefab) as GameObject;
+                            obj.transform.SetParent(parent, false);
+                            panelNode.instenceID = obj.GetInstanceID();
+                        }
+                    }
+                }
+                if (GUILayout.Button(new GUIContent("c", "关闭"), EditorStyles.miniButtonRight, GUILayout.Width(20)))
+                {
+                    if (panelNode.instenceID != 0)
+                    {
+                        var obj = EditorUtility.InstanceIDToObject(panelNode.instenceID);
+                        if (obj != null)
+                        {
+                            DestroyImmediate(obj);
+                        }
+                    }
+                    panelNode.instenceID = 0;
+                }
+
+            }
+        }
+    }
 
 }
 
-[CustomNodeGraphDrawer(typeof(PanelNode))]
-public class PanelNodeDrawer : NodeDrawer
-{
-    protected static UIType? uiTypeTemplate;
-    protected static NodeType nodeTypeTemplate;
-
-    protected PanelNodeBase panelNode { get { return target as PanelNodeBase; } }
-
-    public override int Style
-    {
-        get
-        {
-            return panelNode.style;
-        }
-    }
-    public override string Category
-    {
-        get
-        {
-            return "panel";
-        }
-    }
-    public override float CustomNodeHeight
-    {
-        get
-        {
-            if (panelNode != null && !string.IsNullOrEmpty(panelNode.description))
-            {
-                return EditorGUIUtility.singleLineHeight + 5;
-            }
-            return 0;
-        }
-    }
-    public override void OnInspectorGUI(NodeGUI gui)
-    {
-        base.OnInspectorGUI(gui);
-        if (target != null)
-        {
-            gui.Name = (target as PanelNode).assetName;
-        }
-    }
-    public override void OnNodeGUI(Rect position, NodeData data)
-    {
-        base.OnNodeGUI(position, data);
-        if (panelNode != null && !string.IsNullOrEmpty(panelNode.description))
-        {
-            var rect = new Rect(position.x + 20, position.y, position.width - 40, EditorGUIUtility.singleLineHeight);
-            EditorGUI.LabelField(rect, panelNode.description);
-        }
-    }
-    public override void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result)
-    {
-        base.OnClickNodeGUI(nodeGUI, mousePosition, result);
-        if (panelNode == null) return;
-        GameObject prefab = null;
-        var nodeInfo = panelNode.nodeInfo;
-        if (!string.IsNullOrEmpty(nodeInfo.prefabGuid))
-        {
-            var path = AssetDatabase.GUIDToAssetPath(nodeInfo.prefabGuid);
-            if (!string.IsNullOrEmpty(path))
-            {
-                prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-            }
-            else
-            {
-                nodeInfo.prefabGuid = null;
-            }
-        }
-        if (prefab != null)
-        {
-            EditorGUIUtility.PingObject(prefab);
-        }
-    }
-    public override void OnContextMenuGUI(GenericMenu menu, NodeGUI gui)
-    {
-        base.OnContextMenuGUI(menu, gui);
-        menu.AddItem(new GUIContent("Copy UIType"), false, () =>
-        {
-            var nodeItem = (target as PanelNode);
-            nodeTypeTemplate = nodeItem.nodeType;
-            uiTypeTemplate = nodeItem.nodeInfo.uiType;
-        });
-        menu.AddItem(new GUIContent("Paste UIType"), false, () =>
-        {
-            var nodeItem = (target as PanelNode);
-            nodeItem.nodeInfo.uiType = (UIType)uiTypeTemplate;
-            nodeItem.nodeType = nodeTypeTemplate;
-        });
-    }
-}

@@ -26,6 +26,5 @@ namespace BridgeUI
         [SerializeField]
         private Transform content;
         public override Transform Content { get { return content == null ? Group.Trans : content; } }
-
     }
 }

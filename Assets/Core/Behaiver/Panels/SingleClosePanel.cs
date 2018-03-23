@@ -16,6 +16,7 @@ namespace BridgeUI
     {
         [SerializeField]
         protected Button m_close;
+
         protected override void Awake()
         {
             base.Awake();

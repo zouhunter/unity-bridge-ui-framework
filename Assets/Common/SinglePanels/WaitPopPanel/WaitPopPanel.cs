@@ -25,7 +25,7 @@ namespace BridgeUI.Common
         private bool cansaleAble { set { m_close.interactable = value; } }
 
         [Charge]
-        private string title;
+        private string title { set { m_title.text = value; } }
 
         protected override void Awake()
         {

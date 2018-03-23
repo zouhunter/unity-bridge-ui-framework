@@ -84,8 +84,8 @@ namespace BridgeUI
         public event UnityAction<IPanelBase> onDelete;
         private bool _isShowing = true;
         private bool _isAlive = true;
-        private bool autoCharge;
-        private Dictionary<object, MemberInfo> fieldDic;
+        protected virtual bool AutoCharge { get { return false; } }
+        private Dictionary<object, PropertyInfo> propDic;
         private IAnimPlayer _animPlayer;
         protected UnityAction onChargeComplete { get; set; }
 
@@ -160,7 +160,7 @@ namespace BridgeUI
 
         protected virtual void HandleData(object data)
         {
-            if (data is IDictionary && autoCharge)
+            if (data is IDictionary && AutoCharge)
             {
                 LoadData(data as IDictionary);
             }
@@ -168,39 +168,32 @@ namespace BridgeUI
 
         private void InitChargeDic()
         {
-            if (fieldDic == null)
+            if (propDic == null && AutoCharge)
             {
-                var fields = this.GetType().GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.GetProperty);
-                var obj = from field in fields
-                          let atts = field.GetCustomAttributes(typeof(Charge), true)
+                var props = this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic| BindingFlags.GetProperty);
+                Debug.Log(props.Length);
+                var obj = from prop in props
+                          let atts = prop.GetCustomAttributes(typeof(Charge), true)
                           where atts.Length > 0
                           let defultKey = (atts[0] as Charge).key
-                          let key = defultKey == null ? field.Name : defultKey
-                          select new KeyValuePair<object, MemberInfo>(key, field);
+                          let key = defultKey == null ? prop.Name : defultKey
+                          select new KeyValuePair<object, PropertyInfo>(key, prop);
 
-                fieldDic = obj.ToDictionary(x => x.Key, x => x.Value);
-                autoCharge = fieldDic.Count > 0;
+                propDic = obj.ToDictionary(x => x.Key, x => x.Value);
             }
         }
 
         private void LoadData(IDictionary data)
         {
-            if (fieldDic != null)
+            if (propDic != null)
             {
                 foreach (var item in data.Keys)
                 {
                     var key = item;
-                    if (fieldDic.ContainsKey(key))
+                    if (propDic.ContainsKey(key))
                     {
-                        var member = fieldDic[key];
-                        if (member is FieldInfo)
-                        {
-                            (member as FieldInfo).SetValue(this, data[item]);
-                        }
-                        else if (member is PropertyInfo)
-                        {
-                            (member as PropertyInfo).SetValue(this, data[item], new object[0]);
-                        }
+                        var prop = propDic[key];
+                        prop.SetValue(this, data[item], new object[0]);
                     }
                 }
             }

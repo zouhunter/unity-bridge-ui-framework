@@ -7,7 +7,11 @@ using System.Collections.Generic;
 
 namespace BridgeUI
 {
-    [AttributeUsage(AttributeTargets.Field|AttributeTargets.Property)]
+    /// <summary>
+    /// 在属性上添加本Attribute,
+    /// 在传递字典类参数时，可自动匹配填充数据
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property,AllowMultiple =false,Inherited =true)]
     public class Charge : Attribute
     {
         public object key;

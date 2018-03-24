@@ -15,7 +15,7 @@ public class PanelNodeInfoDrawer : Editor
     public NodeType nodeType { get { return panelNode.nodeType; } set { panelNode.nodeType = value; } }
     private NodeInfo nodeInfo { get { if (panelNode == null) return null; return panelNode.nodeInfo; } }
 
-    private const int lableWidth = 120;
+    private const int lableWidth = 60;
     private PanelBase _panelCompnent;
     private PanelBase panelCompnent
     {
@@ -31,7 +31,7 @@ public class PanelNodeInfoDrawer : Editor
     private Editor panelDrawer;
     private ReorderableList preComponentList;
     private UICoder uiCoder;
-
+    private bool showRule;
     private string HeadInfo
     {
         get
@@ -41,7 +41,8 @@ public class PanelNodeInfoDrawer : Editor
     }
     private string[] options = {"参数配制","控件指定","面板脚本","显示效果" };
     private static int selected;
-
+    private GenCodeRule rule { get { if (panelNode == null) return default(GenCodeRule);return panelNode.rule; } }
+    private System.Collections.Generic.List<ComponentItem> components { get { if (panelNode == null) return null;return panelNode.components; } }
     private void OnEnable()
     {
         panelNode = target as PanelNodeBase;
@@ -62,7 +63,7 @@ public class PanelNodeInfoDrawer : Editor
         if (nodeInfo.prefab != null)
         {
             panelNode.assetName = nodeInfo.prefab.name;
-            uiCoder = GenCodeUtil.LoadUICoder(nodeInfo.prefab);
+            uiCoder = GenCodeUtil.LoadUICoder(nodeInfo.prefab, rule);
         }
     }
 
@@ -70,14 +71,16 @@ public class PanelNodeInfoDrawer : Editor
     {
         if (preComponentList == null)
         {
-            preComponentList = new ReorderableList(panelNode.Info.components, typeof(ComponentItem));
+            preComponentList = new ReorderableList(components, typeof(ComponentItem));
             preComponentList.drawHeaderCallback = DrawComponetHeader;
             preComponentList.drawElementCallback = DrawComponetItem;
         }
 
-        if(nodeInfo.components != null)
+        if(components != null)
         {
-            nodeInfo.components.ForEach((x) => { x.Update(); });
+            components.ForEach((x) => {
+                x.components = GenCodeUtil.SortComponent(x.target);
+            });
         }
     }
 
@@ -86,11 +89,12 @@ public class PanelNodeInfoDrawer : Editor
     {
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            EditorGUILayout.LabelField("预制体:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
+            if (GUILayout.Button("预制体:", EditorStyles.toolbarButton, GUILayout.Width(lableWidth))) { 
+                ToggleOpen();
+            }
             EditorGUI.BeginChangeCheck();
             nodeInfo.prefab = EditorGUILayout.ObjectField(nodeInfo.prefab, typeof(GameObject), false) as GameObject;
-            if(EditorGUI.EndChangeCheck())
-            {
+            if (EditorGUI.EndChangeCheck()) {
                 OnPrefabChanged();
             }
         }
@@ -111,7 +115,7 @@ public class PanelNodeInfoDrawer : Editor
     private void DrawComponetItem(Rect rect, int index, bool isActive, bool isFocused)
     {
         var height = EditorGUIUtility.singleLineHeight;
-        var item = nodeInfo.components[index];
+        var item = components[index];
 
         var compRect = new Rect(rect.x, rect.y, rect.width * 0.2f, height);
         var nameRect = new Rect(rect.x + rect.width * 0.25f, rect.y, rect.width * 0.25f, height);
@@ -154,7 +158,6 @@ public class PanelNodeInfoDrawer : Editor
         selected = GUILayout.Toolbar(selected, options);
         if(selected == 0)
         {
-            DrawHeadSelect();
             DrawInforamtion();
         }
         else if(selected == 1)
@@ -177,25 +180,45 @@ public class PanelNodeInfoDrawer : Editor
 
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            if (GUILayout.Button(new GUIContent("e", "快速解析"), EditorStyles.miniButtonRight, GUILayout.Width(20)))
+            if (GUILayout.Button(new GUIContent("←", "快速解析"), EditorStyles.miniButton))
             {
                 //从旧的脚本解析出
-                GenCodeUtil.AnalysisComponent(nodeInfo.prefab, nodeInfo.components);
+                GenCodeUtil.AnalysisComponent(nodeInfo.prefab, components);
             }
-            if (GUILayout.Button(new GUIContent("g", "生成脚本"), EditorStyles.miniButtonRight, GUILayout.Width(20)))
+            GUILayout.FlexibleSpace();
+            showRule = GUILayout.Toggle(showRule, new GUIContent("⇆", "生成脚本"), EditorStyles.miniButton);
+            GUILayout.FlexibleSpace();
+
+            if (GUILayout.Button(new GUIContent("→", "快速绑定"), EditorStyles.miniButton))
             {
-                if(uiCoder != null)
-                {
-                    var go = nodeInfo.prefab;
-                    GenCodeUtil.CreateComponent(go,nodeInfo.components,uiCoder);
-                }
-            }
-            if (GUILayout.Button(new GUIContent("b", "快速绑定"), EditorStyles.miniButtonRight, GUILayout.Width(20)))
-            {
-                GenCodeUtil.BindingUI(nodeInfo.prefab,nodeInfo.components);
+                GenCodeUtil.BindingUI(nodeInfo.prefab,components);
             }
         }
-        preComponentList.DoLayoutList();
+
+        if(showRule)
+        {
+            using (var hor = new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField("BaseType:",GUILayout.Width( lableWidth));
+                rule.baseTypeIndex = EditorGUILayout.Popup(rule.baseTypeIndex, GenCodeUtil.supportBaseTypes);
+            }
+
+            using (var hor = new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.FlexibleSpace();
+                if (GUILayout.Button(new GUIContent("update", "更新脚本控件信息"), EditorStyles.miniButton, GUILayout.Width(60)))
+                {
+                    if (uiCoder != null)
+                    {
+                        var go = nodeInfo.prefab;
+                        GenCodeUtil.CreateScript(go, components, uiCoder,rule);
+                    }
+                }
+            }
+            
+        }
+
+            preComponentList.DoLayoutList();
         var addRect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
 
         if (addRect.Contains(Event.current.mousePosition))
@@ -226,7 +249,9 @@ public class PanelNodeInfoDrawer : Editor
                             Debug.Log(parent);
                             if(parent)
                             {
-                                nodeInfo.components.Add(new ComponentItem(parent as GameObject));
+                                var c_item = new ComponentItem(parent as GameObject);
+                                c_item.components = GenCodeUtil.SortComponent(target as GameObject);
+                                components.Add(c_item);
                             }
                         }
                     }
@@ -307,60 +332,110 @@ public class PanelNodeInfoDrawer : Editor
     }
     private void DrawInforamtion()
     {
-        if ((nodeType & NodeType.Fixed) == 0)
+        DrawOption("窗体类型",() =>
         {
-            DrawFormType();
-        }
-        else
+            DrawToggleFromNodeType(NodeType.Fixed, nodeInfo.uiType.form.ToString());
+        }, () =>
         {
-            nodeInfo.uiType.form = BridgeUI.UIFormType.Fixed;
-        }
+            if ((nodeType & NodeType.Fixed) == 0)
+            {
+                DrawFormType();
+            }
+            else
+            {
+                nodeInfo.uiType.form = BridgeUI.UIFormType.Fixed;
+            }
+        });
 
-        if ((nodeType & NodeType.ZeroLayer) == 0)
-        {
-            DrawLayerType();
-        }
-        else
-        {
-            nodeInfo.uiType.layer = BridgeUI.UILayerType.Base;
-            nodeInfo.uiType.layerIndex = 0;
-        }
 
-        if ((nodeType & NodeType.HideGO) == 0)
+        DrawOption("层级类型",() =>
         {
-            DrawHideAlaph();
-            nodeInfo.uiType.hideRule = BridgeUI.HideRule.AlaphGameObject;
-        }
-        else
+            DrawToggleFromNodeType(NodeType.ZeroLayer, nodeInfo.uiType.layer.ToString());
+        }, () =>
         {
-            nodeInfo.uiType.hideRule = BridgeUI.HideRule.HideGameObject;
-        }
+            if ((nodeType & NodeType.ZeroLayer) == 0)
+            {
+                DrawLayerType();
+            }
+            else
+            {
+                nodeInfo.uiType.layer = BridgeUI.UILayerType.Base;
+                nodeInfo.uiType.layerIndex = 0;
+            }
+        });
 
-        if ((nodeType & NodeType.Destroy) == 0)
-        {
-            DrawCloseRule();
-        }
-        else
-        {
-            nodeInfo.uiType.closeRule = BridgeUI.CloseRule.DestroyNoraml;
-        }
 
-        if ((nodeType & NodeType.NoAnim) == 0)
+        DrawOption("层级ID", () =>
         {
-            DrawAnim();
-        }
-        else
+            DrawToggleFromNodeType(NodeType.HideGO, nodeInfo.uiType.hideRule.ToString());
+        }, () =>
         {
-            nodeInfo.uiType.enterAnim = BridgeUI.UIAnimType.NoAnim;
-            nodeInfo.uiType.quitAnim = BridgeUI.UIAnimType.NoAnim;
-        }
+            if ((nodeType & NodeType.HideGO) == 0)
+            {
+                DrawHideAlaph();
+                nodeInfo.uiType.hideRule = BridgeUI.HideRule.AlaphGameObject;
+            }
+            else
+            {
+                nodeInfo.uiType.hideRule = BridgeUI.HideRule.HideGameObject;
+            }
+        });
+
+
+        DrawOption("关闭规则", () =>
+        {
+            DrawToggleFromNodeType(NodeType.Destroy, nodeInfo.uiType.closeRule.ToString());
+        }, () =>
+        {
+            if ((nodeType & NodeType.Destroy) == 0)
+            {
+                DrawCloseRule();
+            }
+            else
+            {
+                nodeInfo.uiType.closeRule = BridgeUI.CloseRule.DestroyNoraml;
+            }
+        });
+
+
+        DrawOption("动画状态", () =>
+        {
+            DrawToggleFromNodeType(NodeType.NoAnim, nodeInfo.uiType.enterAnim.ToString());
+        }, () =>
+        {
+            if ((nodeType & NodeType.NoAnim) == 0)
+            {
+                DrawAnim();
+            }
+            else
+            {
+                nodeInfo.uiType.enterAnim = BridgeUI.UIAnimType.NoAnim;
+                nodeInfo.uiType.quitAnim = BridgeUI.UIAnimType.NoAnim;
+            }
+        });
     }
-    private void DrawToggleFromNodeType(NodeType model)
+
+    private void DrawOption(string label,UnityAction head,UnityAction body)
+    {
+        EditorGUILayout.LabelField("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+        EditorGUILayout.LabelField(string.Format("【{0}】",label), EditorStyles.miniBoldLabel);
+        using (var hor = new EditorGUILayout.HorizontalScope())
+        {
+            head.Invoke();
+            using (var ver = new EditorGUILayout.VerticalScope())
+            {
+                body.Invoke();
+            }
+        }
+        GUILayout.Space(20);
+    }
+
+    private void DrawToggleFromNodeType(NodeType model,string title)
     {
         var on = (nodeType & model) == model;
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            var thison = GUILayout.Toggle(on, model.ToString(), EditorStyles.radioButton, GUILayout.Width(60));
+            var thison = GUILayout.Toggle(on, title, EditorStyles.radioButton, GUILayout.Width(60));
 
             if (thison != on)
             {
@@ -392,22 +467,8 @@ public class PanelNodeInfoDrawer : Editor
             }
         }
     }
-    private void DrawHeadSelect()
-    {
-        using (var hor = new EditorGUILayout.HorizontalScope())
-        {
-            DrawToggleFromNodeType(NodeType.Fixed);
-            DrawToggleFromNodeType(NodeType.ZeroLayer);
-            DrawToggleFromNodeType(NodeType.HideGO);
-            DrawToggleFromNodeType(NodeType.Destroy);
-            DrawToggleFromNodeType(NodeType.NoAnim);
-        }
-       
-    }
     private void DrawPanelComponent()
     {
-        DrawScritOptions();
-
         if (!panelCompnent) return;
 
         GUILayout.Space(5);
@@ -422,53 +483,43 @@ public class PanelNodeInfoDrawer : Editor
             panelDrawer.OnInspectorGUI();
         }
     }
-    private void DrawScritOptions()
+    /// <summary>
+    /// 切换面板的打开状态
+    /// </summary>
+    private void ToggleOpen()
     {
-        if (nodeInfo != null && nodeInfo.prefab)
+        if(panelNode.instenceID == 0)
         {
-            using (var hor = new EditorGUILayout.HorizontalScope())
+            Transform parent = null;
+            var group = FindObjectOfType<PanelGroup>();
+            if (group != null)
             {
-                if (GUILayout.Button(new GUIContent("o","打开"), EditorStyles.miniButtonRight, GUILayout.Width(20)))
+                parent = group.GetComponent<Transform>();
+            }
+            else
+            {
+                var canvas = FindObjectOfType<Canvas>();
+                if (canvas != null)
                 {
-                    if (panelNode.instenceID == 0)
-                    {
-                        Transform parent = null;
-                        var group = FindObjectOfType<PanelGroup>();
-                        if (group != null)
-                        {
-                            parent = group.GetComponent<Transform>();
-                        }
-                        else
-                        {
-                            var canvas = FindObjectOfType<Canvas>();
-                            if (canvas != null)
-                            {
-                                parent = canvas.GetComponent<Transform>();
-                            }
-                        }
-                        if (parent != null)
-                        {
-                            var obj = PrefabUtility.InstantiatePrefab(nodeInfo.prefab) as GameObject;
-                            obj.transform.SetParent(parent, false);
-                            panelNode.instenceID = obj.GetInstanceID();
-                        }
-                    }
+                    parent = canvas.GetComponent<Transform>();
                 }
-                if (GUILayout.Button(new GUIContent("c", "关闭"), EditorStyles.miniButtonRight, GUILayout.Width(20)))
-                {
-                    if (panelNode.instenceID != 0)
-                    {
-                        var obj = EditorUtility.InstanceIDToObject(panelNode.instenceID);
-                        if (obj != null)
-                        {
-                            DestroyImmediate(obj);
-                        }
-                    }
-                    panelNode.instenceID = 0;
-                }
-
+            }
+            if (parent != null)
+            {
+                var obj = PrefabUtility.InstantiatePrefab(nodeInfo.prefab) as GameObject;
+                obj.transform.SetParent(parent, false);
+                panelNode.instenceID = obj.GetInstanceID();
             }
         }
+        else
+        {
+            var obj = EditorUtility.InstanceIDToObject(panelNode.instenceID);
+            if (obj != null){
+                DestroyImmediate(obj);
+            }
+            panelNode.instenceID = 0;
+        }
+
     }
 
 }

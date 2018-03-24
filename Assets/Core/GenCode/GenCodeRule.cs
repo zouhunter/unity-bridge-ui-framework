@@ -10,12 +10,14 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+
 namespace BridgeUI.Model
 {
+
     [System.Serializable]
-    public class NodeInfo
+    public class GenCodeRule
     {
-        public UIType uiType = new UIType();
-        public GameObject prefab;
+        public int baseTypeIndex;
+        public bool canInherit;
     }
 }

@@ -8,7 +8,7 @@ using BridgeUI;
 
 namespace BridgeUI.Common
 {
-    public class CloseAbleButtonsPanel : ButtonsPanel
+    public sealed class CloseAbleButtonsPanel : ButtonsPanel
     {
         [SerializeField]
         private Button m_close;

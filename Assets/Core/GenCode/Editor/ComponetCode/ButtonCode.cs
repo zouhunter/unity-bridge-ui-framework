@@ -10,12 +10,15 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-namespace BridgeUI.Model
+using System.CodeDom;
+
+namespace BridgeUI
 {
-    [System.Serializable]
-    public class NodeInfo
+    public class ButtonCode : ComponentCode
     {
-        public UIType uiType = new UIType();
-        public GameObject prefab;
+        public override CodeMemberMethod[] CreateMethods()
+        {
+            return null;
+        }
     }
 }

@@ -47,7 +47,7 @@ namespace BridgeUI
         {
             get
             {
-                return CalculateHead("请填写作者", System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
+                return CalculateHead(Application.companyName, System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),"本脚本由电脑自动生成","请尽量不要在其中写代码","更无法使用协程及高版本特性");
             }
         }
         public CodeCompileUnit unit { get; private set; }
@@ -91,14 +91,13 @@ namespace BridgeUI
 
         private string CalculateHead(string author, string time, params string[] detailInfo)
         {
-            var str1 = "#region statement\r\n" +
+            var str1 =
                "/*************************************************************************************   \r\n" +
                "    * 作    者：       {0}\r\n" +
                "    * 时    间：       {1}\r\n" +
                "    * 说    明：       ";
             var str2 = "\r\n                       ";
-            var str3 = "\r\n* ************************************************************************************/" +
-            "\r\n#endregion\r\n";
+            var str3 = "\r\n* ************************************************************************************/\r\n";
 
             var headerStr = string.Format(str1, author, time);
             for (int i = 0; i < detailInfo.Length; i++)

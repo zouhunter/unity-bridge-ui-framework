@@ -39,15 +39,6 @@ namespace BridgeUI.Model
         {
             this.name = target.name;
             this.target = target;
-            Update();
-        }
-
-        public void Update()
-        {
-            if (target != null)
-            {
-                this.components = GenCodeUtil.SortComponent(target as GameObject);
-            }
         }
     }
 

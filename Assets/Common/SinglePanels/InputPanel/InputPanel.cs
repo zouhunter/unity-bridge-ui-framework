@@ -19,7 +19,7 @@ namespace BridgeUI.Common
     /// <summary>
     /// 输入面板
     /// </summary>
-    public class InputPanel : SingleCloseAblePanel
+    public sealed class InputPanel : SingleCloseAblePanel
     {
         public Text title;
         public InputField info;

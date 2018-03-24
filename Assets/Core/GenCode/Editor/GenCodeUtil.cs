@@ -1,38 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Audio;
-using UnityEngine.Events;
-using UnityEngine.Sprites;
-using UnityEngine.Scripting;
-using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
-using UnityEngine.Assertions.Must;
-using UnityEngine.Assertions.Comparers;
-using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEditor;
 using System.CodeDom;
-using System.Linq;
 using BridgeUI.Model;
 using System.Reflection;
 
 
 namespace BridgeUI
 {
+
     public static class GenCodeUtil
     {
-        /// <summary>
-        /// 按顺序加载组件
-        /// </summary>
-        /// <param name="target"></param>
-        /// <returns></returns>
-        public static Model.TypeRecod[] SortComponent(GameObject target)
-        {
-            var components = new List<Component>();
-            components.AddRange(target.GetComponents<Component>());
-            var list = new List<Model.TypeRecod>();
-            var types = new System.Type[] {
+        public static Type[] supportControls = new Type[] {
                 typeof(ScrollRect),
                 typeof(InputField),
                 typeof(Dropdown),
@@ -47,6 +28,37 @@ namespace BridgeUI
                 typeof(RectTransform),
                 typeof(GameObject),
             };
+
+        public static string[] supportBaseTypes;
+
+        private static Dictionary<Type, ComponentCode> componentCoder;
+        static GenCodeUtil()
+        {
+            supportBaseTypes = LoadAllBasePanels();
+            componentCoder = CreateCoderDic();
+        }
+        /// <summary>
+        /// 创建编码字典
+        /// </summary>
+        /// <returns></returns>
+        private static Dictionary<Type, ComponentCode> CreateCoderDic()
+        {
+            var dic = new Dictionary<Type, ComponentCode>();
+            dic.Add(typeof(Button),new ButtonCode());
+            return dic;
+        }
+
+        /// <summary>
+        /// 按顺序加载组件
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static Model.TypeRecod[] SortComponent(GameObject target)
+        {
+            var components = new List<Component>();
+            components.AddRange(target.GetComponents<Component>());
+            var list = new List<Model.TypeRecod>();
+            var types = supportControls;
             for (int i = 0; i < types.Length; i++)
             {
                 var type = types[i];
@@ -58,8 +70,28 @@ namespace BridgeUI
             return list.ToArray();
         }
 
+        /// <summary>
+        /// 所有支持的父级
+        /// </summary>
+        /// <returns></returns>
+        public static string[] LoadAllBasePanels()
+        {
+            var types = typeof(PanelBase).Assembly.GetTypes();
+            var support = new List<string>() { typeof(PanelBase).FullName, typeof(SinglePanel).FullName, typeof(GroupPanel).FullName, typeof(SingleCloseAblePanel).FullName };
+            foreach (var item in types)
+            {
+                if (typeof(PanelBase).IsAssignableFrom(item) && !item.IsSealed)
+                {
+                    if (!support.Contains(item.FullName))
+                    {
+                        support.Add(item.FullName);
+                    }
+                }
+            }
+            return support.ToArray();
+        }
 
-        public static UICoder LoadUICoder(GameObject prefab)
+        public static UICoder LoadUICoder(GameObject prefab, GenCodeRule rule)
         {
             UICoder coder = new UICoder();
             var oldScript = prefab.GetComponent<PanelBase>();
@@ -68,25 +100,48 @@ namespace BridgeUI
                 var path = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(oldScript));
                 coder.Load(System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8));
             }
-            var nameSpace = TryAddNameSpace(coder.unit);
-            CodeTypeDeclaration classItem = TryInitClass(nameSpace, prefab);
+            var nameSpace = TryAddNameSpace(coder.unit, rule);
+            CodeTypeDeclaration classItem = TryInitClass(nameSpace, prefab, rule);
+            TryCreateMethods(classItem,rule);
             return coder;
         }
 
-        private static CodeTypeDeclaration TryInitClass(CodeNamespace nameSpace, GameObject prefab)
+        /// <summary>
+        /// 定义一些模板方法
+        /// </summary>
+        /// <param name="classItem"></param>
+        /// <param name="rule"></param>
+        private static void TryCreateMethods(CodeTypeDeclaration classItem, GenCodeRule rule)
         {
-            var className = prefab.name;
+            
+        }
+
+        private static CodeTypeDeclaration TryInitClass(CodeNamespace nameSpace, GameObject prefab, GenCodeRule rule)
+        {
+            //var className = prefab.name;
+            CodeTypeDeclaration type = null;
             if (nameSpace.Types.Count == 0)
             {
-                var type = new CodeTypeDeclaration(prefab.name);
+                type = new CodeTypeDeclaration(prefab.name);
+
                 type.IsPartial = true;
-                type.BaseTypes.Add(new CodeTypeReference("PanelBase"));
                 nameSpace.Types.Add(type);
             }
+            else
+            {
+                type = nameSpace.Types[0];
+            }
+
+            if (!rule.canInherit)
+                type.TypeAttributes |= TypeAttributes.Sealed;
+
+            type.BaseTypes.Clear();
+            var baseType = GenCodeUtil.supportBaseTypes[ rule.baseTypeIndex];
+            type.BaseTypes.Add(new CodeTypeReference(baseType));
             return nameSpace.Types[0];
         }
 
-        private static CodeNamespace TryAddNameSpace(CodeCompileUnit unit)
+        private static CodeNamespace TryAddNameSpace(CodeCompileUnit unit, GenCodeRule rule)
         {
             if (unit.Namespaces.Count == 0)
             {
@@ -97,29 +152,31 @@ namespace BridgeUI
                 unit.Namespaces[0].Name = "";
             }
 
-            string[] assebles = {
-                "UnityEngine",
-                "UnityEngine.UI",
-                "System.Collections",
-                "System.Collections.Generic",
-                "BridgeUI"
-            };
+            //string[] assebles = {
+            //    "BridgeUI",
+            //    "UnityEngine",
+            //    "UnityEngine.UI",
+            //     "System.Collections",
+            //    "System.Collections.Generic",
+            //};
 
-            foreach (var item in assebles)
-            {
-                unit.Namespaces[0].Imports.Add(new CodeNamespaceImport(item));
-            }
+            //foreach (var item in assebles)
+            //{
+            //    unit.Namespaces[0].Imports.Add(new CodeNamespaceImport(item));
+            //}
 
             return unit.Namespaces[0];
 
         }
-        public static void CreateComponent(GameObject go, List<ComponentItem> components, UICoder uiCoder)
+        public static void CreateScript(GameObject go, List<ComponentItem> components, UICoder uiCoder, GenCodeRule rule)
         {
-            TryAddInfoToUnit(uiCoder.unit.Namespaces[0].Types[0], components);
-            var path = AssetDatabase.GetAssetPath(go);
-            var scriptPath = path.Replace(".prefab", ".cs");
+            var baseType = GenCodeUtil.supportBaseTypes[rule.baseTypeIndex];
+
+            var needAdd = FilterExisField(baseType, components);
+            TryAddInfoToUnit(uiCoder.unit.Namespaces[0].Types[0], needAdd);
+
+            var scriptPath = GetScriptPath(go);
             System.IO.File.WriteAllText(scriptPath, uiCoder.Compile());
-            AssetDatabase.Refresh();
             string className = go.name;
             var type = typeof(BridgeUI.PanelBase).Assembly.GetType(className);
             if (type != null)
@@ -129,9 +186,44 @@ namespace BridgeUI
                     go.AddComponent(type);
                 }
             }
+            EditorApplication.delayCall += () =>
+            {
+                AssetDatabase.Refresh();
+            };
+        }
+        private static string GetScriptPath(GameObject go)
+        {
+            var path = AssetDatabase.GetAssetPath(go).Replace(".prefab", ".cs");
+            return path;
+        }
+        /// <summary>
+        /// 过虑已经存在的变量
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="components"></param>
+        /// <returns></returns>
+        private static ComponentItem[] FilterExisField(string typeName, List<ComponentItem> components)
+        {
+            var type = typeof(PanelBase).Assembly.GetType(typeName);
+            var list = new List<ComponentItem>();
+            if (type != null)
+            {
+                foreach (var item in components)
+                {
+                    if (type.GetField("m_" + item.name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetField) == null)
+                    {
+                        list.Add(item);
+                    }
+                }
+                return list.ToArray();
+            }
+            else
+            {
+                return components.ToArray();
+            }
         }
 
-        private static void TryAddInfoToUnit(CodeTypeDeclaration codeClass, List<ComponentItem> components)
+        private static void TryAddInfoToUnit(CodeTypeDeclaration codeClass, ComponentItem[] components)
         {
             foreach (var item in components)
             {
@@ -140,12 +232,13 @@ namespace BridgeUI
                 if (field == null)
                 {
                     field = new CodeMemberField();
+                    field.Attributes = MemberAttributes.Private;
                     codeClass.Members.Add(field);
                 }
                 field.Type = new CodeTypeReference(item.componentType, CodeTypeReferenceOptions.GenericTypeParameter);
-                field.Attributes = MemberAttributes.Private;
-                if (field.CustomAttributes.SuarchAttribute("SerializeField") == null) {
-                    field.CustomAttributes.Add(new CodeAttributeDeclaration("SerializeField"));
+                if (field.CustomAttributes.SuarchAttribute("SerializeField") == null)
+                {
+                    field.CustomAttributes.Add(new CodeAttributeDeclaration("UnityEngine.SerializeField"));
                 }
                 field.Name = fieldName;
             }
@@ -174,7 +267,7 @@ namespace BridgeUI
         public static void AnalysisComponent(GameObject prefab, List<ComponentItem> components)
         {
             var component = prefab.GetComponent<PanelBase>();
-            if(component == null)
+            if (component == null)
             {
                 EditorApplication.Beep();
                 return;
@@ -183,19 +276,20 @@ namespace BridgeUI
             var fields = component.GetType().GetFields(BindingFlags.GetField | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             foreach (var field in fields)
             {
-                if(typeof(MonoBehaviour).IsAssignableFrom(field.FieldType))
+                if (typeof(MonoBehaviour).IsAssignableFrom(field.FieldType))
                 {
                     var compItem = components.Find(x => "m_" + x.name == field.Name || x.name == field.Name);
 
-                    if (compItem == null) {
+                    if (compItem == null)
+                    {
                         compItem = new ComponentItem();
-                        compItem.name = field.Name.Replace("m_","");
+                        compItem.name = field.Name.Replace("m_", "");
                         components.Add(compItem);
                     }
                     var value = field.GetValue(component);
                     if (value != null)
                     {
-                        if(field.FieldType == typeof(GameObject))
+                        if (field.FieldType == typeof(GameObject))
                         {
                             compItem.target = value as GameObject;
                         }
@@ -203,7 +297,8 @@ namespace BridgeUI
                         {
                             compItem.target = (value as MonoBehaviour).gameObject;
                         }
-                        compItem.Update();
+
+                        compItem.components = SortComponent(compItem.target);
                     }
                 }
             }
@@ -237,7 +332,7 @@ namespace BridgeUI
         /// <param name="components"></param>
         public static void BindingUI(GameObject go, List<ComponentItem> components)
         {
-            if(go == null || go.GetComponent<PanelBase>() == null)
+            if (go == null || go.GetComponent<PanelBase>() == null)
             {
                 EditorApplication.Beep();
                 return;
@@ -247,7 +342,7 @@ namespace BridgeUI
             {
                 var filedName = "m_" + item.name;
                 UnityEngine.Object obj = item.target;
-                if(item.componentType != typeof(GameObject))
+                if (item.componentType != typeof(GameObject))
                 {
                     obj = item.target.GetComponent(item.componentType);
                 }

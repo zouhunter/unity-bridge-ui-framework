@@ -16,7 +16,7 @@ namespace BridgeUI.Common
     /// <summary>
     ///利用按扭打开其他面板
     /// </summary>
-    public class ButtonOpenPanel : SinglePanel
+    public sealed class ButtonOpenPanel : SinglePanel
     {
         [System.Serializable]
         public class Holder

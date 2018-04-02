@@ -16,6 +16,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
+using BridgeUI.Binding;
+
 namespace BridgeUI
 {
     /// <summary>
@@ -26,5 +28,6 @@ namespace BridgeUI
         [SerializeField]
         private Transform content;
         public override Transform Content { get { return content == null ? Group.Trans : content; } }
+
     }
 }

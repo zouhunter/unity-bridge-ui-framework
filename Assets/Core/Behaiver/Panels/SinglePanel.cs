@@ -17,6 +17,8 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System;
+using BridgeUI.Binding;
+
 namespace BridgeUI
 {
     /// <summary>
@@ -25,5 +27,6 @@ namespace BridgeUI
     public class SinglePanel : PanelBase
     {
         public override Transform Content { get { return Root; } }
+
     }
 }

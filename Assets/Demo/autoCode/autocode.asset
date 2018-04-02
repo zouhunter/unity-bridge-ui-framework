@@ -63,7 +63,7 @@ MonoBehaviour:
   description: "\u63A7\u4EF6\u9762\u677F"
   assetName: MyPanel
   style: 7
-  nodeType: 30
+  nodeType: 31
   rule:
     baseTypeIndex: 3
     canInherit: 0

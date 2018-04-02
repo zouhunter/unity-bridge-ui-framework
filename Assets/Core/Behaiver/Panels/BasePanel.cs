@@ -47,7 +47,6 @@ namespace BridgeUI
                 return childPanels;
             }
         }
-
         public bool IsShowing
         {
             get
@@ -84,11 +83,11 @@ namespace BridgeUI
         public event UnityAction<IPanelBase> onDelete;
         private bool _isShowing = true;
         private bool _isAlive = true;
-        protected virtual bool AutoCharge { get { return false; } }
         private Dictionary<object, PropertyInfo> propDic;
         private IAnimPlayer _animPlayer;
-        protected UnityAction onChargeComplete { get; set; }
-
+        protected readonly Binding.PropertyBinder Binder = new Binding.PropertyBinder();
+        protected readonly Binding.BindableProperty<Binding.ViewModelBase> ViewModelProperty = new Binding.BindableProperty<Binding.ViewModelBase>();
+        private bool _isInitialized;
         protected override void Awake()
         {
             base.Awake();
@@ -120,7 +119,29 @@ namespace BridgeUI
                 onDelete.Invoke(this);
             }
         }
-
+        public Binding.ViewModelBase BindingContext
+        {
+            get { return ViewModelProperty.Value; }
+            set
+            {
+                if (!_isInitialized)
+                {
+                    OnInitialize();
+                    _isInitialized = true;
+                }
+                //触发OnValueChanged事件
+                ViewModelProperty.Value = value;
+            }
+        }
+        protected virtual void OnInitialize()
+        {
+            ViewModelProperty.OnValueChanged += OnBindingContextChanged;
+        }
+        public virtual void OnBindingContextChanged(Binding.ViewModelBase oldValue, Binding.ViewModelBase newValue)
+        {
+            Binder.Unbind(oldValue);
+            Binder.Bind(newValue);
+        }
         public void SetParent(Transform Trans)
         {
             Utility.SetTranform(transform, UType.layer, UType.layerIndex, Trans);
@@ -160,7 +181,7 @@ namespace BridgeUI
 
         protected virtual void HandleData(object data)
         {
-            if (data is IDictionary && AutoCharge)
+            if (data is IDictionary && propDic != null)
             {
                 LoadData(data as IDictionary);
             }
@@ -168,9 +189,9 @@ namespace BridgeUI
 
         private void InitChargeDic()
         {
-            if (propDic == null && AutoCharge)
+            if (propDic == null && BindingContext != null)
             {
-                var props = this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic| BindingFlags.GetProperty);
+                var props = BindingContext.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic| BindingFlags.GetProperty);
                 Debug.Log(props.Length);
                 var obj = from prop in props
                           let atts = prop.GetCustomAttributes(typeof(Charge), true)

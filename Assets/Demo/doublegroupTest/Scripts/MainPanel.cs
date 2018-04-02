@@ -11,6 +11,17 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using BridgeUI;
+using BridgeUI.Binding;
+
+public class MainPanelViewModel : BridgeUI.Binding.ViewModelBase
+{
+   
+    public void OpenPanel01()
+    {
+
+    }
+
+}
 
 public class MainPanel : GroupPanel
 {
@@ -24,11 +35,7 @@ public class MainPanel : GroupPanel
     private Button m_openPanel03;
     [SerializeField]
     private Text m_title;
-
-    [Charge]
-    private string title { get { return m_title.text; } set { m_title.text = value; } }
-    protected override bool AutoCharge { get { return true; } }
-
+    
     protected override void Awake()
     {
         base.Awake();
@@ -36,5 +43,9 @@ public class MainPanel : GroupPanel
         m_openPanel02.onClick.AddListener(() => this.Open(PanelNames.Panel02));
         m_openPanel03.onClick.AddListener(() => this.Open(PanelNames.Panel03));
         m_close.onClick.AddListener(Close);
+
+
+        Binder.Add<string>("Title", (old,ne)=> { m_title.text = ne; });
+
     }
 }

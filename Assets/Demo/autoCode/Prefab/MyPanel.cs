@@ -11,20 +11,21 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine;
-
 public sealed partial class MyPanel : BridgeUI.SingleCloseAblePanel {
-    
+
     [UnityEngine.SerializeField()]
     private UnityEngine.UI.Image m_head;
-    
+
     [UnityEngine.SerializeField()]
     private UnityEngine.UI.Text m_title;
-    
+
     [UnityEngine.SerializeField()]
     private UnityEngine.UI.Text m_info;
-    
+
     [UnityEngine.SerializeField()]
     private UnityEngine.UI.Slider m_slider;
+
+    public BridgeUI.Binding.ViewModelBase model = new MyPanelModel();
 
     private void Set_Head_Image(Sprite sprite)
     {

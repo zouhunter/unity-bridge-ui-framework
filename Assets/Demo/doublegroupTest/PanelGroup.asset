@@ -260,6 +260,10 @@ MonoBehaviour:
   assetName: Panel01
   style: 1
   nodeType: 31
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+  components: []
   nodeInfo:
     uiType:
       layerIndex: 0
@@ -287,6 +291,10 @@ MonoBehaviour:
   assetName: Panel03
   style: 1
   nodeType: 31
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+  components: []
   nodeInfo:
     uiType:
       layerIndex: 0
@@ -314,6 +322,10 @@ MonoBehaviour:
   assetName: MainPanel
   style: 1
   nodeType: 31
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+  components: []
   nodeInfo:
     uiType:
       layerIndex: 0
@@ -407,6 +419,10 @@ MonoBehaviour:
   assetName: Panel02
   style: 1
   nodeType: 31
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+  components: []
   nodeInfo:
     uiType:
       layerIndex: 0
@@ -452,6 +468,10 @@ MonoBehaviour:
   assetName: Panel04
   style: 1
   nodeType: 31
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+  components: []
   nodeInfo:
     uiType:
       layerIndex: 0

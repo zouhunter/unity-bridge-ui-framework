@@ -18,21 +18,27 @@ public class doubleGroup : MonoBehaviour
 {
     private const string pane01 = "Panel01";
     private IUIFacade uiFacade;
+    private MainPanelViewModel mainViewModel;
     private void Awake()
     {
         uiFacade = UIFacade.Instence;
+        mainViewModel = new MainPanelViewModel();
     }
     private void OnGUI()
     {
         if (GUILayout.Button("Open:MainPanel"))
         {
-            var dic = new Dictionary<string,object>();
+            var dic = new Dictionary<string, object>();
             dic["title"] = "我是主面板";
             uiFacade.Open(PanelNames.MainPanel, dic);
         }
+        if (GUILayout.Button("Open:MainPanel with viewModel"))
+        {
+            uiFacade.Open(PanelNames.MainPanel, mainViewModel);
+        }
         for (int i = 0; i < 2; i++)
         {
-            if(GUILayout.Button("Open:Panel01  " + i))
+            if (GUILayout.Button("Open:Panel01  " + i))
             {
                 OpenPanel01(i);
             }
@@ -45,6 +51,11 @@ public class doubleGroup : MonoBehaviour
         {
             uiFacade.Hide(pane01);
         }
+    }
+
+    private void Update()
+    {
+        mainViewModel.title.Value = UnityEngine.Random.Range(0, 100).ToString();
     }
 
     private void OpenPanel01(int index)

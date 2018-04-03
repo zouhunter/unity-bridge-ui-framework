@@ -39,7 +39,6 @@ namespace BridgeUI
         public virtual Transform Content { get { return transform; } }
         public Transform Root { get { return transform.parent.parent; } }
         public UIType UType { get; set; }
-
         public List<IPanelBase> ChildPanels
         {
             get
@@ -77,7 +76,6 @@ namespace BridgeUI
 
             }
         }
-
         protected Bridge bridge;
         protected List<IPanelBase> childPanels;
         public event UnityAction<IPanelBase> onDelete;
@@ -87,33 +85,17 @@ namespace BridgeUI
         private IAnimPlayer _animPlayer;
         protected readonly Binding.PropertyBinder Binder = new Binding.PropertyBinder();
         protected readonly Binding.BindableProperty<Binding.ViewModelBase> ViewModelProperty = new Binding.BindableProperty<Binding.ViewModelBase>();
-        protected Binding.ViewModelBase defultViewModel;
         private bool _isInitialized;
-
-        protected override void Start()
+        private Binding.ViewModelBase _defultViewModel;
+        protected Binding.ViewModelBase defultViewModel
         {
-            base.Start();
-            if (bridge != null){
-                bridge.OnCreatePanel(this);
-            }
-            AppendComponentsByType();
-            OnOpenInternal();
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            _isAlive = false;
-            _isShowing = false;
-
-            if (bridge != null)
+            get
             {
-                bridge.Release();
-            }
-
-            if (onDelete != null)
-            {
-                onDelete.Invoke(this);
+                if(_defultViewModel == null)
+                {
+                    _defultViewModel = new Binding.ViewModelBase();
+                }
+                return _defultViewModel;
             }
         }
         public Binding.ViewModelBase BindingContext
@@ -130,9 +112,35 @@ namespace BridgeUI
                 ViewModelProperty.Value = value;
             }
         }
+        protected override void Start()
+        {
+            base.Start();
+            if (bridge != null){
+                bridge.OnCreatePanel(this);
+            }
+            AppendComponentsByType();
+            OnOpenInternal();
+        }
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            _isAlive = false;
+            _isShowing = false;
+
+            if (bridge != null)
+            {
+                bridge.Release();
+            }
+
+            if (onDelete != null)
+            {
+                onDelete.Invoke(this);
+            }
+        }
+      
         protected virtual void OnInitialize()
         {
-            ViewModelProperty.OnValueChanged += OnBindingContextChanged;
+            ViewModelProperty.OnValueChangedFrom += OnBindingContextChanged;
         }
         public virtual void OnBindingContextChanged(Binding.ViewModelBase oldValue, Binding.ViewModelBase newValue)
         {
@@ -150,7 +158,6 @@ namespace BridgeUI
                 bridge.CallBack(this, data);
             }
         }
-
         public void HandleData(Bridge bridge)
         {
             this.bridge = bridge;
@@ -160,7 +167,6 @@ namespace BridgeUI
                 bridge.onGet = HandleData;
             }
         }
-
         protected void HandleData(Queue<object> dataQueue)
         {
             if (dataQueue != null)
@@ -175,7 +181,6 @@ namespace BridgeUI
                 }
             }
         }
-
         protected virtual void HandleData(object data)
         {
             if (data is IDictionary)
@@ -187,31 +192,9 @@ namespace BridgeUI
                 BindingContext = data as Binding.ViewModelBase;
             }
         }
-
-        //private void InitChargeDic()
-        //{
-        //    if (propDic == null && BindingContext != null)
-        //    {
-        //        var props = BindingContext.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic| BindingFlags.GetProperty);
-        //        Debug.Log(props.Length);
-        //        var obj = from prop in props
-        //                  let atts = prop.GetCustomAttributes(typeof(Charge), true)
-        //                  where atts.Length > 0
-        //                  let defultKey = (atts[0] as Charge).key
-        //                  let key = defultKey == null ? prop.Name : defultKey
-        //                  select new KeyValuePair<object, PropertyInfo>(key, prop);
-
-        //        propDic = obj.ToDictionary(x => x.Key, x => x.Value);
-        //    }
-        //}
-
         private void LoadIDictionary(IDictionary data)
         {
-            if(defultViewModel == null){
-                defultViewModel = new Binding.ViewModelBase();
-                BindingContext = defultViewModel;
-            }
-
+            BindingContext = defultViewModel;
             foreach (var item in data.Keys)
             {
                 var key = item.ToString();
@@ -221,7 +204,6 @@ namespace BridgeUI
                 }
             }
         }
-
         public virtual void Hide()
         {
             _isShowing = false;
@@ -254,7 +236,6 @@ namespace BridgeUI
             _isShowing = true;
             OnOpenInternal();
         }
-
         public virtual void Close()
         {
             if (IsShowing && UType.quitAnim != UIAnimType.NoAnim)
@@ -271,7 +252,6 @@ namespace BridgeUI
                 CloseInternal();
             }
         }
-
         private void CloseInternal()
         {
             _isShowing = false;
@@ -294,7 +274,6 @@ namespace BridgeUI
                     break;
             }
         }
-
         public void RecordChild(IPanelBase childPanel)
         {
             if (childPanels == null)
@@ -308,7 +287,6 @@ namespace BridgeUI
             }
             childPanel.Parent = this;
         }
-
         private void AppendComponentsByType()
         {
             if (UType.form == UIFormType.DragAble)
@@ -332,7 +310,6 @@ namespace BridgeUI
             img.color = new Color(0, 0, 0, 0.01f);
             img.raycastTarget = true;
         }
-
         private void OnRemoveChild(IPanelBase childPanel)
         {
             if (childPanels != null && childPanels.Contains(childPanel))
@@ -368,6 +345,5 @@ namespace BridgeUI
                 canvasGroup.blocksRaycasts = true;
             }
         }
-
     }
 }

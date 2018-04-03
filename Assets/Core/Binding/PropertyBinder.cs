@@ -12,11 +12,12 @@ namespace BridgeUI.Binding
         private readonly List<BindHandler> _binders = new List<BindHandler>();
         private readonly List<UnBindHandler> _unbinders = new List<UnBindHandler>();
 
-        public void Add<T>(string name, ValueChangedHandler<T> valueChangedHandler)
+        public void Add<T>(string name, ValueChangedHandler1<T> valueChangedHandler)
         {
             _binders.Add(viewModel =>
             {
                 var prop = viewModel.GetBindableProperty<T>(name);
+                valueChangedHandler.Invoke(prop.Value);
                 prop.OnValueChanged += valueChangedHandler;
             });
 
@@ -27,7 +28,6 @@ namespace BridgeUI.Binding
             });
 
         }
-
         public void Bind(ViewModelBase viewmodel)
         {
             if (viewmodel != null)
@@ -38,7 +38,6 @@ namespace BridgeUI.Binding
                 }
             }
         }
-
         public void Unbind(ViewModelBase viewmodel)
         {
             if (viewmodel != null)
@@ -49,6 +48,5 @@ namespace BridgeUI.Binding
                 }
             }
         }
-
     }
 }

@@ -575,7 +575,7 @@ namespace AssetBundleReference.Tuples
     /// Represents a tuple of length 1
     /// </summary>
     /// <typeparam name="T1">Type of the tuple's Element1</typeparam>
-    [DataContract]
+    
     public class Tuple<T1> : ICollection, IEnumerable, IEnumerable<Object>,
         IEquatable<Tuple<T1>>, IComparable<Tuple<T1>>
     {
@@ -1683,7 +1683,7 @@ namespace AssetBundleReference.Tuples
         /// <summary>
         /// Gets the element of the tuple at position 1.
         /// </summary>
-        [DataMember]
+        
         public T1 Element1 { get; set; }
 
 
@@ -1718,7 +1718,7 @@ namespace AssetBundleReference.Tuples
     /// </summary>
     /// <typeparam name="T1">Type of the tuple's Element1</typeparam>
     /// <typeparam name="T2">Type of the tuple's Element2</typeparam>
-    [DataContract]
+    
     public class Tuple<T1, T2> : ICollection, IEnumerable, IEnumerable<Object>,
         IEquatable<Tuple<T1, T2>>, IComparable<Tuple<T1, T2>>
     {
@@ -2747,13 +2747,13 @@ namespace AssetBundleReference.Tuples
         /// <summary>
         /// Gets the element of the tuple at position 1.
         /// </summary>
-        [DataMember]
+        
         public T1 Element1 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 2.
         /// </summary>
-        [DataMember]
+        
         public T2 Element2 { get; set; }
 
 
@@ -2815,7 +2815,7 @@ namespace AssetBundleReference.Tuples
     /// <typeparam name="T1">Type of the tuple's Element1</typeparam>
     /// <typeparam name="T2">Type of the tuple's Element2</typeparam>
     /// <typeparam name="T3">Type of the tuple's Element3</typeparam>
-    [DataContract]
+    
     public class Tuple<T1, T2, T3> : ICollection, IEnumerable, IEnumerable<Object>,
         IEquatable<Tuple<T1, T2, T3>>, IComparable<Tuple<T1, T2, T3>>
     {
@@ -3769,19 +3769,19 @@ namespace AssetBundleReference.Tuples
         /// <summary>
         /// Gets the element of the tuple at position 1.
         /// </summary>
-        [DataMember]
+        
         public T1 Element1 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 2.
         /// </summary>
-        [DataMember]
+        
         public T2 Element2 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 3.
         /// </summary>
-        [DataMember]
+        
         public T3 Element3 { get; set; }
 
 
@@ -3856,7 +3856,7 @@ namespace AssetBundleReference.Tuples
     /// <typeparam name="T2">Type of the tuple's Element2</typeparam>
     /// <typeparam name="T3">Type of the tuple's Element3</typeparam>
     /// <typeparam name="T4">Type of the tuple's Element4</typeparam>
-    [DataContract]
+    
     public class Tuple<T1, T2, T3, T4> : ICollection, IEnumerable, IEnumerable<Object>,
         IEquatable<Tuple<T1, T2, T3, T4>>, IComparable<Tuple<T1, T2, T3, T4>>
     {
@@ -4739,25 +4739,25 @@ namespace AssetBundleReference.Tuples
         /// <summary>
         /// Gets the element of the tuple at position 1.
         /// </summary>
-        [DataMember]
+        
         public T1 Element1 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 2.
         /// </summary>
-        [DataMember]
+        
         public T2 Element2 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 3.
         /// </summary>
-        [DataMember]
+        
         public T3 Element3 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 4.
         /// </summary>
-        [DataMember]
+        
         public T4 Element4 { get; set; }
 
 
@@ -4845,7 +4845,7 @@ namespace AssetBundleReference.Tuples
     /// <typeparam name="T3">Type of the tuple's Element3</typeparam>
     /// <typeparam name="T4">Type of the tuple's Element4</typeparam>
     /// <typeparam name="T5">Type of the tuple's Element5</typeparam>
-    [DataContract]
+    
     public class Tuple<T1, T2, T3, T4, T5> : ICollection, IEnumerable, IEnumerable<Object>,
         IEquatable<Tuple<T1, T2, T3, T4, T5>>, IComparable<Tuple<T1, T2, T3, T4, T5>>
     {
@@ -5661,31 +5661,31 @@ namespace AssetBundleReference.Tuples
         /// <summary>
         /// Gets the element of the tuple at position 1.
         /// </summary>
-        [DataMember]
+        
         public T1 Element1 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 2.
         /// </summary>
-        [DataMember]
+        
         public T2 Element2 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 3.
         /// </summary>
-        [DataMember]
+        
         public T3 Element3 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 4.
         /// </summary>
-        [DataMember]
+        
         public T4 Element4 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 5.
         /// </summary>
-        [DataMember]
+        
         public T5 Element5 { get; set; }
 
 
@@ -5786,7 +5786,7 @@ namespace AssetBundleReference.Tuples
     /// <typeparam name="T4">Type of the tuple's Element4</typeparam>
     /// <typeparam name="T5">Type of the tuple's Element5</typeparam>
     /// <typeparam name="T6">Type of the tuple's Element6</typeparam>
-    [DataContract]
+    
     public class Tuple<T1, T2, T3, T4, T5, T6> : ICollection, IEnumerable, IEnumerable<Object>,
         IEquatable<Tuple<T1, T2, T3, T4, T5, T6>>, IComparable<Tuple<T1, T2, T3, T4, T5, T6>>
     {
@@ -6539,37 +6539,37 @@ namespace AssetBundleReference.Tuples
         /// <summary>
         /// Gets the element of the tuple at position 1.
         /// </summary>
-        [DataMember]
+        
         public T1 Element1 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 2.
         /// </summary>
-        [DataMember]
+        
         public T2 Element2 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 3.
         /// </summary>
-        [DataMember]
+        
         public T3 Element3 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 4.
         /// </summary>
-        [DataMember]
+        
         public T4 Element4 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 5.
         /// </summary>
-        [DataMember]
+        
         public T5 Element5 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 6.
         /// </summary>
-        [DataMember]
+        
         public T6 Element6 { get; set; }
 
 
@@ -6683,7 +6683,7 @@ namespace AssetBundleReference.Tuples
     /// <typeparam name="T5">Type of the tuple's Element5</typeparam>
     /// <typeparam name="T6">Type of the tuple's Element6</typeparam>
     /// <typeparam name="T7">Type of the tuple's Element7</typeparam>
-    [DataContract]
+    
     public class Tuple<T1, T2, T3, T4, T5, T6, T7> : ICollection, IEnumerable, IEnumerable<Object>,
         IEquatable<Tuple<T1, T2, T3, T4, T5, T6, T7>>, IComparable<Tuple<T1, T2, T3, T4, T5, T6, T7>>
     {
@@ -7377,43 +7377,43 @@ namespace AssetBundleReference.Tuples
         /// <summary>
         /// Gets the element of the tuple at position 1.
         /// </summary>
-        [DataMember]
+        
         public T1 Element1 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 2.
         /// </summary>
-        [DataMember]
+        
         public T2 Element2 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 3.
         /// </summary>
-        [DataMember]
+        
         public T3 Element3 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 4.
         /// </summary>
-        [DataMember]
+        
         public T4 Element4 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 5.
         /// </summary>
-        [DataMember]
+        
         public T5 Element5 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 6.
         /// </summary>
-        [DataMember]
+        
         public T6 Element6 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 7.
         /// </summary>
-        [DataMember]
+        
         public T7 Element7 { get; set; }
 
 
@@ -7540,7 +7540,7 @@ namespace AssetBundleReference.Tuples
     /// <typeparam name="T6">Type of the tuple's Element6</typeparam>
     /// <typeparam name="T7">Type of the tuple's Element7</typeparam>
     /// <typeparam name="T8">Type of the tuple's Element8</typeparam>
-    [DataContract]
+    
     public class Tuple<T1, T2, T3, T4, T5, T6, T7, T8> : ICollection, IEnumerable, IEnumerable<Object>,
         IEquatable<Tuple<T1, T2, T3, T4, T5, T6, T7, T8>>, IComparable<Tuple<T1, T2, T3, T4, T5, T6, T7, T8>>
     {
@@ -8179,49 +8179,49 @@ namespace AssetBundleReference.Tuples
         /// <summary>
         /// Gets the element of the tuple at position 1.
         /// </summary>
-        [DataMember]
+        
         public T1 Element1 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 2.
         /// </summary>
-        [DataMember]
+        
         public T2 Element2 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 3.
         /// </summary>
-        [DataMember]
+        
         public T3 Element3 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 4.
         /// </summary>
-        [DataMember]
+        
         public T4 Element4 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 5.
         /// </summary>
-        [DataMember]
+        
         public T5 Element5 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 6.
         /// </summary>
-        [DataMember]
+        
         public T6 Element6 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 7.
         /// </summary>
-        [DataMember]
+        
         public T7 Element7 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 8.
         /// </summary>
-        [DataMember]
+        
         public T8 Element8 { get; set; }
 
 
@@ -8361,7 +8361,7 @@ namespace AssetBundleReference.Tuples
     /// <typeparam name="T7">Type of the tuple's Element7</typeparam>
     /// <typeparam name="T8">Type of the tuple's Element8</typeparam>
     /// <typeparam name="T9">Type of the tuple's Element9</typeparam>
-    [DataContract]
+    
     public class Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9> : ICollection, IEnumerable, IEnumerable<Object>,
         IEquatable<Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9>>, IComparable<Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9>>
     {
@@ -8949,55 +8949,55 @@ namespace AssetBundleReference.Tuples
         /// <summary>
         /// Gets the element of the tuple at position 1.
         /// </summary>
-        [DataMember]
+        
         public T1 Element1 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 2.
         /// </summary>
-        [DataMember]
+        
         public T2 Element2 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 3.
         /// </summary>
-        [DataMember]
+        
         public T3 Element3 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 4.
         /// </summary>
-        [DataMember]
+        
         public T4 Element4 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 5.
         /// </summary>
-        [DataMember]
+        
         public T5 Element5 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 6.
         /// </summary>
-        [DataMember]
+        
         public T6 Element6 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 7.
         /// </summary>
-        [DataMember]
+        
         public T7 Element7 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 8.
         /// </summary>
-        [DataMember]
+        
         public T8 Element8 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 9.
         /// </summary>
-        [DataMember]
+        
         public T9 Element9 { get; set; }
 
 
@@ -9150,7 +9150,7 @@ namespace AssetBundleReference.Tuples
     /// <typeparam name="T8">Type of the tuple's Element8</typeparam>
     /// <typeparam name="T9">Type of the tuple's Element9</typeparam>
     /// <typeparam name="T10">Type of the tuple's Element10</typeparam>
-    [DataContract]
+    
     public class Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : ICollection, IEnumerable, IEnumerable<Object>,
         IEquatable<Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>>, IComparable<Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>>
     {
@@ -9690,61 +9690,61 @@ namespace AssetBundleReference.Tuples
         /// <summary>
         /// Gets the element of the tuple at position 1.
         /// </summary>
-        [DataMember]
+        
         public T1 Element1 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 2.
         /// </summary>
-        [DataMember]
+        
         public T2 Element2 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 3.
         /// </summary>
-        [DataMember]
+        
         public T3 Element3 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 4.
         /// </summary>
-        [DataMember]
+        
         public T4 Element4 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 5.
         /// </summary>
-        [DataMember]
+        
         public T5 Element5 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 6.
         /// </summary>
-        [DataMember]
+        
         public T6 Element6 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 7.
         /// </summary>
-        [DataMember]
+        
         public T7 Element7 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 8.
         /// </summary>
-        [DataMember]
+        
         public T8 Element8 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 9.
         /// </summary>
-        [DataMember]
+        
         public T9 Element9 { get; set; }
 
         /// <summary>
         /// Gets the element of the tuple at position 10.
         /// </summary>
-        [DataMember]
+        
         public T10 Element10 { get; set; }
 
 

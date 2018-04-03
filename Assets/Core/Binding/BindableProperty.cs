@@ -13,7 +13,8 @@ namespace BridgeUI.Binding
 
     public class BindableProperty<T> : IBindableProperty
     {
-        public event ValueChangedHandler<T> OnValueChanged;
+        public event ValueChangedHandler1<T> OnValueChanged;
+        public event ValueChangedHandler2<T> OnValueChangedFrom;
         private T _value;
         public T Value
         {
@@ -27,7 +28,7 @@ namespace BridgeUI.Binding
                 {
                     T old = _value;
                     _value = value;
-                    ValueChanged(old, _value);
+                    ValueChanged(old,_value);
                 }
             }
         }
@@ -38,16 +39,25 @@ namespace BridgeUI.Binding
             set { Value = (T)value; }
         }
 
-        private void ValueChanged(T oldValue, T newValue)
+        private void ValueChanged(T oldValue,T newValue)
         {
             if (OnValueChanged != null)
             {
-                OnValueChanged(oldValue, newValue);
+                OnValueChanged(newValue);
+            }
+            if(OnValueChangedFrom != null)
+            {
+                OnValueChangedFrom(oldValue, newValue);
             }
         }
         public override string ToString()
         {
             return (Value != null ? Value.ToString() : "null");
+        }
+
+        public void Clear()
+        {
+            _value = default(T);
         }
     }
 

@@ -39,9 +39,21 @@ namespace BridgeUI.Binding
         {
             if(this[name] == null || !(this[name] is BindableProperty<T>))
             {
-                this[name] = new BindableProperty<T>();
+                this[name] = GetDefultChildProperty(name);
+                if(this[name] == null){
+                    this[name] = new BindableProperty<T>();
+                }
             }
             return this[name] as BindableProperty<T>;
+        }
+        private IBindableProperty GetDefultChildProperty(string name)
+        {
+            var field = this.GetType().GetField(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.GetField | System.Reflection.BindingFlags.Instance);
+            if(field != null)
+            {
+               return field.GetValue(this) as IBindableProperty;
+            }
+            return null;
         }
     }
 

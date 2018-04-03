@@ -27,14 +27,14 @@ namespace BridgeUI.Common
         protected override void Awake()
         {
             base.Awake();
-            Binder.Add<string>("title", (x, y) => { m_title.text = y; });
-            Binder.Add<Sprite>("sprite", (x, y) => { m_image.sprite = y; });
+            Binder.Add<string>("title", (y) => { m_title.text = y; });
+            Binder.Add<Sprite>("sprite", (y) => { m_image.sprite = y; });
         }
 
         protected override void HandleData(object data)
         {
             base.HandleData(data);
-            if(m_image.sprite != null)
+            if (m_image.sprite != null)
             {
                 m_image.GetComponent<LayoutElement>().preferredHeight = m_image.GetComponent<LayoutElement>().preferredWidth / ((float)m_image.sprite.texture.width / m_image.sprite.texture.height);
             }

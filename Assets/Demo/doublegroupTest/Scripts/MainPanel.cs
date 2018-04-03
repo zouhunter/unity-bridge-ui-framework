@@ -17,13 +17,7 @@ using BridgeUI.Binding;
 /// </summary>
 public class MainPanelViewModel : BridgeUI.Binding.ViewModelBase
 {
-    public BindableProperty<string> Title { get { return GetBindableProperty<string>("Title"); } }
-    public void OpenPanel01()
-    {
-        var md = new MainPanelViewModel();
-        Title.Value = "你好，viewModel";
-    }
-
+    public readonly BindableProperty<string> title = new BindableProperty<string>();
 }
 
 public class MainPanel : GroupPanel
@@ -47,6 +41,6 @@ public class MainPanel : GroupPanel
         m_openPanel03.onClick.AddListener(() => this.Open(PanelNames.Panel03));
         m_close.onClick.AddListener(Close);
 
-        Binder.Add<string>("title", (old,ne)=> { m_title.text = ne; });
+        Binder.Add<string>("title", (title)=> { m_title.text = title; });
     }
 }

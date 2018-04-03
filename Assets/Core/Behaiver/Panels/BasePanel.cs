@@ -83,16 +83,13 @@ namespace BridgeUI
         public event UnityAction<IPanelBase> onDelete;
         private bool _isShowing = true;
         private bool _isAlive = true;
-        private Dictionary<object, PropertyInfo> propDic;
+        //private Dictionary<object, PropertyInfo> propDic;
         private IAnimPlayer _animPlayer;
         protected readonly Binding.PropertyBinder Binder = new Binding.PropertyBinder();
         protected readonly Binding.BindableProperty<Binding.ViewModelBase> ViewModelProperty = new Binding.BindableProperty<Binding.ViewModelBase>();
+        protected Binding.ViewModelBase defultViewModel;
         private bool _isInitialized;
-        protected override void Awake()
-        {
-            base.Awake();
-            InitChargeDic();
-        }
+
         protected override void Start()
         {
             base.Start();
@@ -181,44 +178,48 @@ namespace BridgeUI
 
         protected virtual void HandleData(object data)
         {
-            if (data is IDictionary && propDic != null)
+            if (data is IDictionary)
             {
-                LoadData(data as IDictionary);
+                LoadIDictionary(data as IDictionary);
+            }
+            else if(data is Binding.ViewModelBase)
+            {
+                BindingContext = data as Binding.ViewModelBase;
             }
         }
 
-        private void InitChargeDic()
-        {
-            if (propDic == null && BindingContext != null)
-            {
-                var props = BindingContext.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic| BindingFlags.GetProperty);
-                Debug.Log(props.Length);
-                var obj = from prop in props
-                          let atts = prop.GetCustomAttributes(typeof(Charge), true)
-                          where atts.Length > 0
-                          let defultKey = (atts[0] as Charge).key
-                          let key = defultKey == null ? prop.Name : defultKey
-                          select new KeyValuePair<object, PropertyInfo>(key, prop);
+        //private void InitChargeDic()
+        //{
+        //    if (propDic == null && BindingContext != null)
+        //    {
+        //        var props = BindingContext.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic| BindingFlags.GetProperty);
+        //        Debug.Log(props.Length);
+        //        var obj = from prop in props
+        //                  let atts = prop.GetCustomAttributes(typeof(Charge), true)
+        //                  where atts.Length > 0
+        //                  let defultKey = (atts[0] as Charge).key
+        //                  let key = defultKey == null ? prop.Name : defultKey
+        //                  select new KeyValuePair<object, PropertyInfo>(key, prop);
 
-                propDic = obj.ToDictionary(x => x.Key, x => x.Value);
+        //        propDic = obj.ToDictionary(x => x.Key, x => x.Value);
+        //    }
+        //}
+
+        private void LoadIDictionary(IDictionary data)
+        {
+            if(defultViewModel == null){
+                defultViewModel = new Binding.ViewModelBase();
+                BindingContext = defultViewModel;
             }
-        }
 
-        private void LoadData(IDictionary data)
-        {
-            if (propDic != null)
+            foreach (var item in data.Keys)
             {
-                foreach (var item in data.Keys)
+                var key = item.ToString();
+                if (BindingContext[key] != null)
                 {
-                    var key = item;
-                    if (propDic.ContainsKey(key))
-                    {
-                        var prop = propDic[key];
-                        prop.SetValue(this, data[item], new object[0]);
-                    }
+                    BindingContext[key].Value = data[item];
                 }
             }
-
         }
 
         public virtual void Hide()

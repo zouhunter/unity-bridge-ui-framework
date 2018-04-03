@@ -12,13 +12,16 @@ using System.Collections;
 using System.Collections.Generic;
 using BridgeUI;
 using BridgeUI.Binding;
-
+/// <summary>
+/// 用于写逻辑代码
+/// </summary>
 public class MainPanelViewModel : BridgeUI.Binding.ViewModelBase
 {
-   
+    public BindableProperty<string> Title { get { return GetBindableProperty<string>("Title"); } }
     public void OpenPanel01()
     {
-
+        var md = new MainPanelViewModel();
+        Title.Value = "你好，viewModel";
     }
 
 }
@@ -44,8 +47,6 @@ public class MainPanel : GroupPanel
         m_openPanel03.onClick.AddListener(() => this.Open(PanelNames.Panel03));
         m_close.onClick.AddListener(Close);
 
-
-        Binder.Add<string>("Title", (old,ne)=> { m_title.text = ne; });
-
+        Binder.Add<string>("title", (old,ne)=> { m_title.text = ne; });
     }
 }

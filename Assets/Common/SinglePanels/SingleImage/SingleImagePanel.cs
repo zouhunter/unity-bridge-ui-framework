@@ -24,10 +24,12 @@ namespace BridgeUI.Common
         [SerializeField]
         private Text m_title;
 
-        [Charge]
-        private string title { set { m_title.text = value; } }
-        [Charge]
-        private Sprite sprite { set { m_image.sprite = value; } }
+        protected override void Awake()
+        {
+            base.Awake();
+            Binder.Add<string>("title", (x, y) => { m_title.text = y; });
+            Binder.Add<Sprite>("sprite", (x, y) => { m_image.sprite = y; });
+        }
 
         protected override void HandleData(object data)
         {

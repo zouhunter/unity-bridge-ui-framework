@@ -8,10 +8,10 @@ namespace BridgeUI.Binding
 {
     public interface IBindableProperty
     {
-
+        object Value { get; set; }
     }
 
-    public class BindableProperty<T>: IBindableProperty
+    public class BindableProperty<T> : IBindableProperty
     {
         public event ValueChangedHandler<T> OnValueChanged;
         private T _value;
@@ -31,6 +31,13 @@ namespace BridgeUI.Binding
                 }
             }
         }
+
+        object IBindableProperty.Value
+        {
+            get { return Value; }
+            set { Value = (T)value; }
+        }
+
         private void ValueChanged(T oldValue, T newValue)
         {
             if (OnValueChanged != null)
@@ -43,5 +50,5 @@ namespace BridgeUI.Binding
             return (Value != null ? Value.ToString() : "null");
         }
     }
-  
+
 }

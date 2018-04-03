@@ -21,16 +21,12 @@ namespace BridgeUI.Common
         [SerializeField]
         private Text m_title;
 
-        [Charge]
-        private bool cansaleAble { set { m_close.interactable = value; } }
-
-        [Charge]
-        private string title { set { m_title.text = value; } }
-
         protected override void Awake()
         {
             base.Awake();
             m_close.interactable = false;
+            Binder.Add<bool>("cansaleAble", (x, y) => { m_close.interactable = y; });
+            Binder.Add<string>("title", (x, y) => { m_title.text = y; });
         }
     }
 }

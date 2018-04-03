@@ -83,10 +83,12 @@ namespace BridgeUI
         private bool _isAlive = true;
         //private Dictionary<object, PropertyInfo> propDic;
         private IAnimPlayer _animPlayer;
-        protected readonly Binding.PropertyBinder Binder = new Binding.PropertyBinder();
+        protected readonly Binding.PropertyBinder PropBinder = new Binding.PropertyBinder();
         protected readonly Binding.BindableProperty<Binding.ViewModelBase> ViewModelProperty = new Binding.BindableProperty<Binding.ViewModelBase>();
         private bool _isInitialized;
         private Binding.ViewModelBase _defultViewModel;
+        protected Binding.ModelReflector ModelContext;
+
         protected Binding.ViewModelBase defultViewModel
         {
             get
@@ -144,8 +146,11 @@ namespace BridgeUI
         }
         public virtual void OnBindingContextChanged(Binding.ViewModelBase oldValue, Binding.ViewModelBase newValue)
         {
-            Binder.Unbind(oldValue);
-            Binder.Bind(newValue);
+            PropBinder.Unbind(oldValue);
+            PropBinder.Bind(newValue);
+            if (ModelContext == null || ModelContext.Instance != newValue){
+                ModelContext = new Binding.ModelReflector(newValue);
+            }
         }
         public void SetParent(Transform Trans)
         {

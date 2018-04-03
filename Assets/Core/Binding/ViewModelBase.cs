@@ -49,12 +49,13 @@ namespace BridgeUI.Binding
         private IBindableProperty GetDefultChildProperty(string name)
         {
             var field = this.GetType().GetField(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.GetField | System.Reflection.BindingFlags.Instance);
-            if(field != null)
+            if(field != null && typeof(IBindableProperty).IsAssignableFrom(field.FieldType))
             {
                return field.GetValue(this) as IBindableProperty;
             }
             return null;
         }
+        protected virtual void HandleButtonEvnet(Button sender) { }
     }
 
 }

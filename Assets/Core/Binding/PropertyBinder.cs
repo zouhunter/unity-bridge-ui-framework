@@ -12,7 +12,7 @@ namespace BridgeUI.Binding
         private readonly List<BindHandler> _binders = new List<BindHandler>();
         private readonly List<UnBindHandler> _unbinders = new List<UnBindHandler>();
 
-        public void Add<T>(string name, ValueChangedHandler1<T> valueChangedHandler)
+        public void Record<T>(string name, ValueChangedHandler1<T> valueChangedHandler)
         {
             _binders.Add(viewModel =>
             {

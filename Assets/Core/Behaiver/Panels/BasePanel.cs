@@ -83,13 +83,12 @@ namespace BridgeUI
         private bool _isAlive = true;
         //private Dictionary<object, PropertyInfo> propDic;
         private IAnimPlayer _animPlayer;
-        protected readonly Binding.PropertyBinder PropBinder = new Binding.PropertyBinder();
-        protected readonly Binding.BindableProperty<Binding.ViewModelBase> ViewModelProperty = new Binding.BindableProperty<Binding.ViewModelBase>();
+        protected Binding.PropertyBinder Binder;
+        protected Binding.BindableProperty<Binding.ViewModelBase> ViewModelProperty = new Binding.BindableProperty<Binding.ViewModelBase>();
         private bool _isInitialized;
-        private Binding.ViewModelBase _defultViewModel;
-        protected Binding.ModelReflector ModelContext;
+        protected Binding.ViewModelBase _defultViewModel;
 
-        protected Binding.ViewModelBase defultViewModel
+        protected virtual Binding.ViewModelBase defultViewModel
         {
             get
             {
@@ -113,6 +112,11 @@ namespace BridgeUI
                 //触发OnValueChanged事件
                 ViewModelProperty.Value = value;
             }
+        }
+        protected override void Awake()
+        {
+            base.Awake();
+            Binder = new Binding.PropertyBinder(this);
         }
         protected override void Start()
         {
@@ -146,11 +150,8 @@ namespace BridgeUI
         }
         public virtual void OnBindingContextChanged(Binding.ViewModelBase oldValue, Binding.ViewModelBase newValue)
         {
-            PropBinder.Unbind(oldValue);
-            PropBinder.Bind(newValue);
-            if (ModelContext == null || ModelContext.Instance != newValue){
-                ModelContext = new Binding.ModelReflector(newValue);
-            }
+            Binder.Unbind(oldValue);
+            Binder.Bind(newValue);
         }
         public void SetParent(Transform Trans)
         {

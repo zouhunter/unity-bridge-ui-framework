@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace BridgeUI.Binding
 {
-    public interface IBindableProperty
+    public interface IBindableProperty: IPropertyChanged
     {
         object Value { get; set; }
     }
@@ -15,6 +15,8 @@ namespace BridgeUI.Binding
     {
         public event ValueChangedHandler1<T> OnValueChanged;
         public event ValueChangedHandler2<T> OnValueChangedFrom;
+        public event PropertyChanged OnPropertyChanged;
+
         private T _value;
         public T Value
         {

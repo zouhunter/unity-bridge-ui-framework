@@ -14,9 +14,12 @@ using System.Collections.Generic;
 namespace BridgeUI.Binding
 {
 
-    public class ViewModelBase
+    public class ViewModelBase: IPropertyChanged
     {
+        public PropertyBinder PropBinder;
         protected readonly Dictionary<string, IBindableProperty> bindingPropertyDic = new Dictionary<string, BridgeUI.Binding.IBindableProperty>();
+
+        public event PropertyChanged OnPropertyChanged;
         public IBindableProperty this[string name]
         {
             get

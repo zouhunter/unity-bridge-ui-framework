@@ -20,8 +20,10 @@ using System.Reflection;
 public class MainPanelViewModel : BridgeUI.Binding.ViewModelBase
 {
     public readonly BindableProperty<string> title = new BindableProperty<string>();
-    public void OpenPanel01(PanelBase panel)
+
+    public void OpenPanel01(object sender, RoutedEventArgs args)
     {
+        var panel = args.OriginalSource as PanelBase;
         panel.Open(PanelNames.Panel01);
     }
 }
@@ -43,24 +45,12 @@ public class MainPanel : GroupPanel
     protected override void Awake()
     {
         base.Awake();
-        m_openPanel01.onClick.AddListener(Call);
         m_openPanel02.onClick.AddListener(() => this.Open(PanelNames.Panel02));
         m_openPanel03.onClick.AddListener(() => this.Open(PanelNames.Panel03));
         m_close.onClick.AddListener(Close);
 
-        PropBinder.Record<string>("title", SetTitle);
+        Binder.BindingText(m_title, "title");
+        Binder.BindingButton(m_openPanel01, "OpenPanel01");
     }
 
-    private void Call()
-    {
-        if (ModelContext == null)
-            return;
-
-        ModelContext.Invoke("OpenPanel01",this);
-    }
-
-    private void SetTitle(string title)
-    {
-        m_title.text = title;
-    }
 }

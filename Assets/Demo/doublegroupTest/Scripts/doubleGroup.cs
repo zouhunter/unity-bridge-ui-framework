@@ -51,11 +51,16 @@ public class doubleGroup : MonoBehaviour
         {
             uiFacade.Hide(pane01);
         }
+
+
     }
 
     private void Update()
     {
-        mainViewModel.title.Value = UnityEngine.Random.Range(0, 100).ToString();
+        if(Input.GetMouseButtonDown(1)){
+            mainViewModel.switcher.Value = !mainViewModel.switcher.Value;
+        }
+        mainViewModel.title.Value = UnityEngine.Random.Range(0,100).ToString();
     }
 
     private void OpenPanel01(int index)

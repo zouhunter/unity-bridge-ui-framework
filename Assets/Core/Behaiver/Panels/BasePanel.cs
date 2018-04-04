@@ -21,10 +21,11 @@ using BridgeUI.Model;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
+using BridgeUI.Binding;
 
 namespace BridgeUI
 {
-    public abstract class PanelBase : UIBehaviour, IPanelBase
+    public abstract class PanelBase : UIBehaviour, IPanelBase,Binding.IPropertyChanged
     {
         public int InstenceID
         {
@@ -79,11 +80,13 @@ namespace BridgeUI
         protected Bridge bridge;
         protected List<IPanelBase> childPanels;
         public event UnityAction<IPanelBase> onDelete;
+        public event PropertyChangedHand onPropertyChanged;
+
         private bool _isShowing = true;
         private bool _isAlive = true;
         //private Dictionary<object, PropertyInfo> propDic;
         private IAnimPlayer _animPlayer;
-        protected Binding.PropertyBinder Binder;
+        protected Binding.PanelBaseBinder Binder;
         protected Binding.BindableProperty<Binding.ViewModelBase> ViewModelProperty = new Binding.BindableProperty<Binding.ViewModelBase>();
         private bool _isInitialized;
         protected Binding.ViewModelBase _defultViewModel;
@@ -116,7 +119,7 @@ namespace BridgeUI
         protected override void Awake()
         {
             base.Awake();
-            Binder = new Binding.PropertyBinder(this);
+            Binder = new Binding.PanelBaseBinder(this);
         }
         protected override void Start()
         {
@@ -146,11 +149,17 @@ namespace BridgeUI
       
         protected virtual void OnInitialize()
         {
-            ViewModelProperty.OnValueChangedFrom += OnBindingContextChanged;
+            ViewModelProperty.onValueChanged += OnBindingContextChanged;
         }
-        public virtual void OnBindingContextChanged(Binding.ViewModelBase oldValue, Binding.ViewModelBase newValue)
+        protected void OnPropertyChanged(string memberName)
         {
-            Binder.Unbind(oldValue);
+            if (onPropertyChanged != null)
+                onPropertyChanged.Invoke(memberName);
+        }
+
+        public virtual void OnBindingContextChanged(Binding.ViewModelBase newValue)
+        {
+            Binder.Unbind();
             Binder.Bind(newValue);
         }
         public void SetParent(Transform Trans)

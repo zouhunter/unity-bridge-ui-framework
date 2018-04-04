@@ -1,17 +1,12 @@
-
+﻿using System.Collections.Generic;
+using UnityEngine;
 namespace BridgeUI.Binding
 {
-    /// <summary>
-    /// Action
-    /// </summary>
-    /// <param name="memberName"></param>
-    public delegate void PropertyChanged(string memberName);
+    public delegate void PropertyChangedHand(string propertyName);
 
-    /// <summary>
-    /// Property Change observation
-    /// </summary>
     public interface IPropertyChanged
     {
-        event PropertyChanged OnPropertyChanged;
+        event PropertyChangedHand onPropertyChanged;
     }
+
 }

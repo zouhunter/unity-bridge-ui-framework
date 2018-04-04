@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEditor;
+using UnityEngine.Events;
 
 namespace BridgeUI.Binding
 {
-    public interface IBindableProperty: IPropertyChanged
+    public interface IBindableProperty
     {
         object Value { get; set; }
+        void Notify();
     }
 
     public class BindableProperty<T> : IBindableProperty
     {
-        public event ValueChangedHandler1<T> OnValueChanged;
-        public event ValueChangedHandler2<T> OnValueChangedFrom;
-        public event PropertyChanged OnPropertyChanged;
+        public event UnityAction<T> onValueChanged = delegate { };
 
-        private T _value;
+        private T _value = default(T);
         public T Value
         {
             get
@@ -30,7 +30,7 @@ namespace BridgeUI.Binding
                 {
                     T old = _value;
                     _value = value;
-                    ValueChanged(old,_value);
+                    ValueChanged(_value);
                 }
             }
         }
@@ -40,17 +40,22 @@ namespace BridgeUI.Binding
             get { return Value; }
             set { Value = (T)value; }
         }
-
-        private void ValueChanged(T oldValue,T newValue)
+        private void ValueChanged(T value)
         {
-            if (OnValueChanged != null)
-            {
-                OnValueChanged(newValue);
-            }
-            if(OnValueChangedFrom != null)
-            {
-                OnValueChangedFrom(oldValue, newValue);
-            }
+            if (onValueChanged != null)
+                onValueChanged.Invoke(value);
+        }
+        public void RegistValueChanged(UnityAction<T> OnValueChanged)
+        {
+            this.onValueChanged += OnValueChanged;
+        }
+        public void RemoveValueChanged(UnityAction<T> OnValueChanged)
+        {
+            this.onValueChanged -= OnValueChanged;
+        }
+        public void Notify()
+        {
+            ValueChanged(Value);
         }
         public override string ToString()
         {
@@ -61,6 +66,8 @@ namespace BridgeUI.Binding
         {
             _value = default(T);
         }
+
+      
     }
 
 }

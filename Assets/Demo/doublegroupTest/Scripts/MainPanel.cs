@@ -14,12 +14,27 @@ using BridgeUI;
 using BridgeUI.Binding;
 using System;
 using System.Reflection;
+
+public class BindAttribute : Attribute
+{
+    public string key;
+    public bool get;
+    public bool set;
+    public BindAttribute(string key, bool get = true, bool set = true)
+    {
+        this.key = key;
+        this.get = get;
+        this.set = set;
+    }
+}
+
 /// <summary>
 /// 用于写逻辑代码
 /// </summary>
 public class MainPanelViewModel : BridgeUI.Binding.ViewModelBase
 {
     public readonly BindableProperty<string> title = new BindableProperty<string>();
+    public readonly BindableProperty<bool> switcher = new BindableProperty<bool>();
 
     public void OpenPanel01(object sender, RoutedEventArgs args)
     {
@@ -28,7 +43,7 @@ public class MainPanelViewModel : BridgeUI.Binding.ViewModelBase
     }
 }
 
-public class MainPanel : GroupPanel
+public class MainPanel : GroupPanel, IPropertyChanged
 {
     [SerializeField]
     private Button m_close;
@@ -40,17 +55,32 @@ public class MainPanel : GroupPanel
     private Button m_openPanel03;
     [SerializeField]
     private Text m_title;
-
-
+    [SerializeField]
+    private Text m_info;
+    [SerializeField]
+    private Toggle m_switch;
+ 
     protected override void Awake()
     {
         base.Awake();
-        m_openPanel02.onClick.AddListener(() => this.Open(PanelNames.Panel02));
-        m_openPanel03.onClick.AddListener(() => this.Open(PanelNames.Panel03));
         m_close.onClick.AddListener(Close);
 
-        Binder.BindingText(m_title, "title");
-        Binder.BindingButton(m_openPanel01, "OpenPanel01");
+        m_openPanel02.onClick.AddListener(() => this.Open(PanelNames.Panel02));
+        m_openPanel03.onClick.AddListener(() => this.Open(PanelNames.Panel03));
+
+        Binder.AddValue<bool>("switcher","m_switch.isOn");
+        Binder.AddValue<string>("title", "m_title.text");
+        Binder.AddValue<string>("info", "m_info.text");
+        Binder.AddButton(m_openPanel01, "OpenPanel01");
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            Binder["m_switch.isOn"].Value = !m_switch.isOn;
+        }
+        //Binder.Set<string>("info", UnityEngine.Random.Range(0, 100).ToString());
+
+    }
 }

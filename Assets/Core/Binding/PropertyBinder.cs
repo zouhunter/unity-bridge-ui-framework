@@ -1,141 +1,260 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using UnityEditor;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace BridgeUI.Binding
 {
-    public class PropertyBinder: IPropertyChanged
+    public enum Direction
     {
-        public object Context { get; private set; }
-        public object Target { get; private set; }
-        private readonly List<BindHandler> _binders = new List<BindHandler>();
-        private readonly List<UnBindHandler> _unbinders = new List<UnBindHandler>();
-        public event PropertyChanged OnPropertyChanged = delegate { };
+        ViewToModel,
+        ModelToView,
+        Bidirection
+    }
 
-        public PropertyBinder(PanelBase context)
+    public class PropertyBinder
+    {
+        public IPropertyChanged Context { get; private set; }
+        public ViewModelBase viewModel { get; private set; }
+
+        protected event UnityAction<ViewModelBase> binders;
+        protected event UnityAction<ViewModelBase> unbinders;
+        protected readonly Dictionary<string, IBindableProperty> bindingPropertyDic = new Dictionary<string, BridgeUI.Binding.IBindableProperty>();
+        public IBindableProperty this[string name]
+        {
+            get
+            {
+                if (bindingPropertyDic.ContainsKey(name))
+                {
+                    return bindingPropertyDic[name];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            private set
+            {
+                bindingPropertyDic[name] = value;
+            }
+        }
+        public BindableProperty<T> GetBindableProperty<T>(string name)
+        {
+            if (this[name] == null || !(this[name] is BindableProperty<T>))
+            {
+                this[name] = new BindableProperty<T>();
+            }
+            return this[name] as BindableProperty<T>;
+        }
+
+        public PropertyBinder(IPropertyChanged context)
         {
             this.Context = context;
+            context.onPropertyChanged += OnContextPropertyChanged;
         }
 
-        public void Bind(ViewModelBase viewmodel)
+        private void OnContextPropertyChanged(string propertyName)
         {
-            this.Target = viewmodel;
-            if (viewmodel != null)
+            var prop = this[propertyName];
+            if (prop != null)
             {
-                for (int i = 0; i < _binders.Count; i++){
-                    _binders[i](viewmodel);
-                }
-                ((IPropertyChanged)Target).OnPropertyChanged += RaiseEvent;
-            }
-        }
-        public void Unbind(ViewModelBase viewmodel)
-        {
-            this.Target = null;
-            if (viewmodel != null)
-            {
-                for (int i = 0; i < _unbinders.Count; i++){
-                    _unbinders[i](viewmodel);
-                }
-                ((IPropertyChanged)Target).OnPropertyChanged -= RaiseEvent;
+                prop.Notify();
             }
         }
 
-        public void Record<T>(string name, ValueChangedHandler1<T> valueChangedHandler)
+        public void Bind(ViewModelBase viewModel)
         {
-            _binders.Add(viewModel =>
-            {
-                var prop = viewModel.GetBindableProperty<T>(name);
-                valueChangedHandler.Invoke(prop.Value);
-                prop.OnValueChanged += valueChangedHandler;
-            });
-
-            _unbinders.Add(viewModel =>
-            {
-                var prop = viewModel.GetBindableProperty<T>(name);
-                prop.OnValueChanged -= valueChangedHandler;
-            });
-
+            Debug.Log("Bind:" + viewModel);
+            this.viewModel = viewModel;
+            
+            if (viewModel != null && binders != null)
+                binders.Invoke(viewModel);
         }
 
-        public void Record(UIBehaviour behaviour,string name)
+        public void Unbind()
         {
-
+            if (viewModel != null && unbinders != null){
+                unbinders.Invoke(viewModel);
+            }
+            this.viewModel = null;
         }
 
-        public void BindingText(Text m_title, string name)
+        public void AddValue<T>(string sourceName, string target, Direction direction = Direction.Bidirection)
         {
-            Record<string>(name, (value) => { m_title.text = value; });
-        }
-        public void BindingButton(Button button, string methodName)
-        {
-            UnityAction action = ()=> { Invoke(methodName, button, new RoutedEventArgs(Context)); };
-           
-            _binders.Add(viewModel =>
+            if (direction == Direction.ModelToView || direction == Direction.Bidirection)
             {
-                button.onClick.AddListener(action);
-            });
+                object root = Context;
+                var member = GetDeepMember(ref root, target);
+                UnityAction<T> onViewModelChanged = (value) =>
+                {
+                    Set<T>(root, member, value);
+                };
+                AddToModel(sourceName, onViewModelChanged);
+            }
 
-            _unbinders.Add(viewModel =>
+            if (direction == Direction.ViewToModel || direction == Direction.Bidirection)
             {
-                button.onClick.RemoveListener(action);
-            });
+                UnityAction<T> onViewChanged = (value) =>
+                {
+                    if (viewModel != null)
+                    {
+                        viewModel.GetBindableProperty<T>(sourceName).Value = value;
+                        UnityEngine.Debug.Log(viewModel);
+                    }
+                };
+                var prop = GetBindableProperty<T>(target);
+                prop.RegistValueChanged(onViewChanged);
+            }
         }
-        public T Get<T>(string memberName)
+
+
+        public void AddToModel<T>(string sourceName, UnityAction<T> onViewModelChanged)
         {
-            //TODO sanity
-            //TODO Cache Reflection
-            //TODO Conversion
-            var temps = Target.GetType().GetMember(memberName);
-            var temp = temps[0];
+            binders += (viewModel) =>
+            {
+                var prop = viewModel.GetBindableProperty<T>(sourceName);
+                if (prop != null)
+                {
+                    onViewModelChanged.Invoke(prop.Value);
+                    prop.RegistValueChanged(onViewModelChanged);
+                }
+            };
+
+            unbinders += (viewModel) =>
+            {
+                var prop = viewModel.GetBindableProperty<T>(sourceName);
+                if (prop != null)
+                {
+                    prop.RemoveValueChanged(onViewModelChanged);
+                }
+            };
+        }
+
+
+
+        /// <summary>
+        /// Get Member Value
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="memberName"></param>
+        /// <returns></returns>
+        protected static T Get<T>(object Instance, MemberInfo temp)
+        {
+            if (temp == null)
+            {
+                return default(T);
+            }
+
             if (temp is FieldInfo)
             {
-                return (T)(temp as FieldInfo).GetValue(Target);
+                return (T)(temp as FieldInfo).GetValue(Instance);
             }
             else if (temp is PropertyInfo)
             {
-                return (T)(temp as PropertyInfo).GetValue(Target, null);
+                return (T)(temp as PropertyInfo).GetValue(Instance, null);
             }
             else
             {
-                return (T)(temp as MethodInfo).Invoke(Target, null);
+                return (T)(temp as MethodInfo).Invoke(Instance, null);
             }
         }
-        public void Set<T>(string memberName, T value)
+
+        /// <summary>
+        /// Set Member Value
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="memberName"></param>
+        /// <param name="value"></param>
+        protected static void Set<T>(object Instance, MemberInfo temp, T value)
         {
-            var temps = Target.GetType().GetMember(memberName);
-            var temp = temps[0];
+            if (temp == null)
+            {
+                return;
+            }
+
             if (temp is FieldInfo)
             {
-                (temp as FieldInfo).SetValue(Target, value);
+                (temp as FieldInfo).SetValue(Instance, value);
             }
             else if (temp is PropertyInfo)
             {
-                (temp as PropertyInfo).SetValue(Target, value, null);
+                (temp as PropertyInfo).SetValue(Instance, value, null);
             }
             else
             {
-                (temp as MethodInfo).Invoke(Target, new object[] { value });
+                UnityEngine.Debug.Log(value);
+
+                (temp as MethodInfo).Invoke(Instance, new object[] { value });
             }
         }
-        public void Invoke(string memberName, params object[] value)
+
+        /// <summary>
+        /// Invoke Method Value
+        /// </summary>
+        /// <param name="memberName"></param>
+        protected static void Invoke(object Instance, string memberName, params object[] value)
         {
-            var temps = Target.GetType().GetMember(memberName);
+            var temps = Instance.GetType().GetMember(memberName);
             var temp = temps[0];
             if (temp is MethodInfo)
             {
-                (temp as MethodInfo).Invoke(Target, value);
+                (temp as MethodInfo).Invoke(Instance, value);
             }
         }
-        private void RaiseEvent(string memberName)
+
+        protected void Invoke(string memberName, params object[] value)
         {
-            OnPropertyChanged(memberName);
+            var temps = viewModel.GetType().GetMember(memberName);
+            var temp = temps[0];
+            if (temp is MethodInfo)
+            {
+                (temp as MethodInfo).Invoke(viewModel, value);
+            }
         }
+
+
+        private static MemberInfo GetDeepMember(ref object Instance, string memberName)
+        {
+            var names = memberName.Split(new char[] { '.' });
+            Type type = Instance.GetType();
+            MemberInfo member = null;
+            for (int i = 0; i < names.Length; i++)
+            {
+                var members = type.GetMember(names[i], BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                if (members == null || members.Length == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    member = members[0];
+
+                    if (member is FieldInfo)
+                    {
+                        var fieldInfo = (member as FieldInfo);
+                        type = fieldInfo.FieldType;
+
+                        if (i < names.Length - 1)
+                        {
+                            Instance = fieldInfo.GetValue(Instance);
+                        }
+                    }
+                    else if (member is PropertyInfo)
+                    {
+                        var propertyInfo = (member as PropertyInfo);
+                        type = propertyInfo.PropertyType;
+
+                        if (i < names.Length - 1)
+                        {
+                            Instance = propertyInfo.GetValue(Instance, null);
+                        }
+                    }
+                }
+            }
+            return member;
+        }
+
 
     }
 }

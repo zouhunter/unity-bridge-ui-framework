@@ -68,6 +68,13 @@ namespace BridgeUI
                 CodeDomVisitor visit = new CodeDomVisitor();
                 visit.VisitCompilationUnit(parser.CompilationUnit, null);
                 unit = visit.codeCompileUnit;
+
+                //CodeMemberMethod method = unit.Namespaces[0].Types[0].Members[7] as CodeMemberMethod;
+
+                //Debug.Log(method.Name);
+                //CodeExpressionStatement state = method.Statements[2] as CodeExpressionStatement;
+                //CodeMethodInvokeExpression exp = state.Expression as CodeMethodInvokeExpression;
+                //Debug.Log(exp.Parameters[0]);
             }
         }
         /// <summary>

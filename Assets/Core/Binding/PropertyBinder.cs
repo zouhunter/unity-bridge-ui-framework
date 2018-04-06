@@ -74,6 +74,7 @@ namespace BridgeUI.Binding
 
         public void Unbind()
         {
+            Debug.Log("UnBind:" + viewModel);
             if (viewModel != null && unbinders != null){
                 unbinders.Invoke(viewModel);
             }
@@ -196,20 +197,13 @@ namespace BridgeUI.Binding
         protected static void Invoke(object Instance, string memberName, params object[] value)
         {
             var temps = Instance.GetType().GetMember(memberName);
-            var temp = temps[0];
-            if (temp is MethodInfo)
+            if(temps.Length > 0)
             {
-                (temp as MethodInfo).Invoke(Instance, value);
-            }
-        }
-
-        protected void Invoke(string memberName, params object[] value)
-        {
-            var temps = viewModel.GetType().GetMember(memberName);
-            var temp = temps[0];
-            if (temp is MethodInfo)
-            {
-                (temp as MethodInfo).Invoke(viewModel, value);
+                var temp = temps[0];
+                if (temp is MethodInfo)
+                {
+                    (temp as MethodInfo).Invoke(Instance, value);
+                }
             }
         }
 

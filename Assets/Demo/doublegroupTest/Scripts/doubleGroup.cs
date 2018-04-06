@@ -60,7 +60,7 @@ public class doubleGroup : MonoBehaviour
         if(Input.GetMouseButtonDown(1)){
             mainViewModel.switcher.Value = !mainViewModel.switcher.Value;
         }
-        mainViewModel.title.Value = UnityEngine.Random.Range(0,100).ToString();
+        mainViewModel.info.Value = UnityEngine.Random.Range(0,100).ToString();
     }
 
     private void OpenPanel01(int index)

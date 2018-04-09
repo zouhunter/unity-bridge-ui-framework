@@ -150,6 +150,7 @@ namespace BridgeUI
         protected virtual void OnInitialize()
         {
             ViewModelProperty.onValueChanged += OnBindingContextChanged;
+            OnBindingContextChanged(defultViewModel);
         }
         protected void OnPropertyChanged(string memberName)
         {

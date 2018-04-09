@@ -146,38 +146,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!1 &166058310
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 224: {fileID: 166058311}
-  m_Layer: 0
-  m_Name: 0|[B]
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &166058311
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 166058310}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 891393615}
-  m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &772941634
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,8 +319,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 166058311}
+  m_Children: []
   m_Father: {fileID: 1983326111}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
@@ -379,7 +346,7 @@ MonoBehaviour:
   loadType: 2
   b_nodes:
   - panelName: MainPanel
-    instanceID: -18376
+    instanceID: -8946
     type:
       layerIndex: 0
       form: 0
@@ -393,7 +360,7 @@ MonoBehaviour:
     good: 1
     bundleName: bridgeui/panels/mainpanel
   - panelName: Panel04
-    instanceID: 0
+    instanceID: -7458
     type:
       layerIndex: 0
       form: 0

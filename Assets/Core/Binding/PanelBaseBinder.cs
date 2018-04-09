@@ -17,12 +17,10 @@ namespace BridgeUI.Binding
     public class PanelBaseBinder : PropertyBinder
     {
         public PanelBaseBinder(PanelBase panel) : base(panel) { }
-
         public void AddText(Text text, string name)
         {
             AddToModel<string>(name, (value) => { text.text = value; });
         }
-
         public void AddButton(Button button, string methodName)
         {
             UnityAction action = () => { Invoke(methodName, button, new RoutedEventArgs(Context)); };

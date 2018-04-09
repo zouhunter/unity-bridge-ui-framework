@@ -46,6 +46,10 @@ namespace BridgeUIEditor
         {
             Rect btnRect = new Rect(position.xMin, position.yMin, position.width * 0.9f, singleHeight);
             GUI.contentColor = Color.green;
+            if (property.isExpanded && (instanceIDProp.intValue == 0 || EditorUtility.InstanceIDToObject(instanceIDProp.intValue) == null))
+            {
+                property.isExpanded = false;
+            }
             if (GUI.Button(btnRect, panelNameProp.stringValue, EditorStyles.toolbarDropDown))
             {
                 ResetBuildInfoOnOpen();
@@ -54,7 +58,7 @@ namespace BridgeUIEditor
 
                 if (property.isExpanded)
                 {
-                    if (instanceIDProp.intValue == 0)
+                    if (instanceIDProp.intValue == 0 || EditorUtility.InstanceIDToObject(instanceIDProp.intValue) == null)
                     {
                         var gopfb = GetPrefabItem();
                         if (gopfb != null)

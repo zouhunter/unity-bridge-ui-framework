@@ -51,16 +51,6 @@ namespace BridgeUI.Binding
         public PropertyBinder(IPropertyChanged context)
         {
             this.Context = context;
-            context.onPropertyChanged += OnContextPropertyChanged;
-        }
-
-        private void OnContextPropertyChanged(string propertyName)
-        {
-            var prop = this[propertyName];
-            if (prop != null)
-            {
-                prop.Notify();
-            }
         }
 
         public void Bind(ViewModelBase viewModel)
@@ -206,10 +196,13 @@ namespace BridgeUI.Binding
         protected void Invoke(string memberName, params object[] value)
         {
             var temps = viewModel.GetType().GetMember(memberName);
-            var temp = temps[0];
-            if (temp is MethodInfo)
+            if(temps != null && temps.Length > 0)
             {
-                (temp as MethodInfo).Invoke(viewModel, value);
+                var temp = temps[0];
+                if (temp is MethodInfo)
+                {
+                    (temp as MethodInfo).Invoke(viewModel, value);
+                }
             }
         }
 

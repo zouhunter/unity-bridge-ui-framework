@@ -263,7 +263,27 @@ MonoBehaviour:
   rule:
     baseTypeIndex: 0
     canInherit: 0
-  components: []
+  components:
+  - name: subBtn
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    target: {fileID: 194424, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
+  - name: close
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    target: {fileID: 102998, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
   nodeInfo:
     uiType:
       layerIndex: 0

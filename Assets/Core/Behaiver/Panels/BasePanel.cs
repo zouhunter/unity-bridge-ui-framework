@@ -77,6 +77,8 @@ namespace BridgeUI
 
             }
         }
+
+
         protected Bridge bridge;
         protected List<IPanelBase> childPanels;
         public event UnityAction<IPanelBase> onDelete;
@@ -89,9 +91,8 @@ namespace BridgeUI
         protected Binding.PanelBaseBinder Binder;
         protected Binding.BindableProperty<Binding.ViewModelBase> ViewModelProperty = new Binding.BindableProperty<Binding.ViewModelBase>();
         private bool _isInitialized;
-        protected Binding.ViewModelBase _defultViewModel;
-
-        protected virtual Binding.ViewModelBase defultViewModel
+        private Binding.ViewModelBase _defultViewModel;
+        private Binding.ViewModelBase defultViewModel
         {
             get
             {
@@ -104,7 +105,9 @@ namespace BridgeUI
         }
         public Binding.ViewModelBase BindingContext
         {
-            get { return ViewModelProperty.Value; }
+            get {
+                return ViewModelProperty.Value;
+            }
             set
             {
                 if (!_isInitialized)
@@ -120,6 +123,7 @@ namespace BridgeUI
         {
             base.Awake();
             Binder = new Binding.PanelBaseBinder(this);
+            InitComponent();
         }
         protected override void Start()
         {
@@ -146,7 +150,13 @@ namespace BridgeUI
                 onDelete.Invoke(this);
             }
         }
-      
+
+        protected virtual void Binding() { }
+
+        protected virtual void InitComponent()
+        {
+            Binding();
+        }
         protected virtual void OnInitialize()
         {
             ViewModelProperty.onValueChanged += OnBindingContextChanged;
@@ -199,18 +209,20 @@ namespace BridgeUI
         }
         protected virtual void HandleData(object data)
         {
-            if (data is IDictionary)
-            {
-                LoadIDictionary(data as IDictionary);
-            }
-            else if(data is Binding.ViewModelBase)
+            if (data is Binding.ViewModelBase)
             {
                 BindingContext = data as Binding.ViewModelBase;
+            }
+            else
+            {
+                if (data is IDictionary)
+                {
+                    LoadIDictionary(data as IDictionary);
+                }
             }
         }
         private void LoadIDictionary(IDictionary data)
         {
-            BindingContext = defultViewModel;
             foreach (var item in data.Keys)
             {
                 var key = item.ToString();

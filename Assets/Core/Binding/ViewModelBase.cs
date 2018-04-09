@@ -21,7 +21,7 @@ namespace BridgeUI.Binding
         {
             get
             {
-                if(bindingPropertyDic.ContainsKey(name))
+                if (bindingPropertyDic.ContainsKey(name))
                 {
                     return bindingPropertyDic[name];
                 }
@@ -37,10 +37,11 @@ namespace BridgeUI.Binding
         }
         public BindableProperty<T> GetBindableProperty<T>(string name)
         {
-            if(this[name] == null || !(this[name] is BindableProperty<T>))
+            if (this[name] == null || !(this[name] is BindableProperty<T>))
             {
                 this[name] = GetDefultChildProperty(name);
-                if(this[name] == null){
+                if (this[name] == null)
+                {
                     this[name] = new BindableProperty<T>();
                 }
             }
@@ -49,9 +50,9 @@ namespace BridgeUI.Binding
         private IBindableProperty GetDefultChildProperty(string name)
         {
             var field = this.GetType().GetField(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.GetField | System.Reflection.BindingFlags.Instance);
-            if(field != null && typeof(IBindableProperty).IsAssignableFrom(field.FieldType))
+            if (field != null && typeof(IBindableProperty).IsAssignableFrom(field.FieldType))
             {
-               return field.GetValue(this) as IBindableProperty;
+                return field.GetValue(this) as IBindableProperty;
             }
             return null;
         }

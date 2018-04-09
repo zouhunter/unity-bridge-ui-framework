@@ -57,10 +57,12 @@ public class doubleGroup : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(1)){
+        if (Input.GetMouseButtonDown(1))
+        {
             mainViewModel.switcher.Value = !mainViewModel.switcher.Value;
         }
-        mainViewModel.title.Value = UnityEngine.Random.Range(0,100).ToString();
+        mainViewModel.info.Value = UnityEngine.Random.Range(0, 100).ToString();
+        if (mainViewModel["keyword"] != null) mainViewModel["keyword"].Value = UnityEngine.Random.Range(0, 100).ToString();
     }
 
     private void OpenPanel01(int index)

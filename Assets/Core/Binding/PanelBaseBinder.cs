@@ -10,6 +10,7 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace BridgeUI.Binding
 {
@@ -17,13 +18,23 @@ namespace BridgeUI.Binding
     public class PanelBaseBinder : PropertyBinder
     {
         public PanelBaseBinder(PanelBase panel) : base(panel) { }
-        public void AddText(Text text, string name)
+        /// <summary>
+        /// 接收文字显示
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="name"></param>
+        internal void AddText(Text text, string name)
         {
             AddToModel<string>(name, (value) => { text.text = value; });
         }
-        public void AddButton(Button button, string methodName)
+        /// <summary>
+        /// 接收按扭点击事件
+        /// </summary>
+        /// <param name="button"></param>
+        /// <param name="methodName"></param>
+        internal void AddButton(Button button, string methodName)
         {
-            UnityAction action = () => { Invoke(methodName, button, new RoutedEventArgs(Context)); };
+            UnityAction action = () => { Invoke(Context,methodName, button, new RoutedEventArgs(Context)); };
 
             binders += viewModel =>
             {
@@ -34,6 +45,29 @@ namespace BridgeUI.Binding
             {
                 button.onClick.RemoveListener(action);
             };
+        }
+
+        internal void AddToggle(Toggle toggle, string methodName)
+        {
+            UnityAction<bool> action = (isOn) =>
+            {
+                Invoke(Context, methodName, toggle, new RoutedEventArgs(Context));
+            };
+
+            binders += viewModel =>
+            {
+                toggle.onValueChanged.AddListener(action);
+            };
+
+            unbinders += viewModel =>
+            {
+                toggle.onValueChanged.RemoveListener(action);
+            };
+        }
+
+        internal void AddSlider(Slider m_slider, string v)
+        {
+
         }
     }
 

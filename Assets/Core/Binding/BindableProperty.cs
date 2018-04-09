@@ -28,7 +28,6 @@ namespace BridgeUI.Binding
             {
                 if (!Equals(_value, value))
                 {
-                    T old = _value;
                     _value = value;
                     ValueChanged(_value);
                 }

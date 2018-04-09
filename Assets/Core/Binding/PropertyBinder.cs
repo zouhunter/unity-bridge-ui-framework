@@ -51,6 +51,16 @@ namespace BridgeUI.Binding
         public PropertyBinder(IPropertyChanged context)
         {
             this.Context = context;
+            context.onPropertyChanged += OnContextPropertyChanged;
+        }
+
+        private void OnContextPropertyChanged(string propertyName)
+        {
+            var prop = this[propertyName];
+            if (prop != null)
+            {
+                prop.Notify();
+            }
         }
 
         public void Bind(ViewModelBase viewModel)
@@ -64,13 +74,17 @@ namespace BridgeUI.Binding
 
         public void Unbind()
         {
+            Debug.Log("UnBind:" + viewModel);
             if (viewModel != null && unbinders != null){
                 unbinders.Invoke(viewModel);
             }
             this.viewModel = null;
         }
-
-        public void AddValue<T>(string sourceName, string target, Direction direction = Direction.Bidirection)
+        public void AddValue(string target, string sourceName, Direction direction = Direction.Bidirection)
+        {
+            AddValue<object>(sourceName, target, direction);
+        }
+        public void AddValue<T>(string target, string sourceName, Direction direction = Direction.Bidirection)
         {
             if (direction == Direction.ModelToView || direction == Direction.Bidirection)
             {
@@ -78,6 +92,7 @@ namespace BridgeUI.Binding
                 var member = GetDeepMember(ref root, target);
                 UnityAction<T> onViewModelChanged = (value) =>
                 {
+                    Debug.Log(value);
                     Set<T>(root, member, value);
                 };
                 AddToModel(sourceName, onViewModelChanged);
@@ -186,22 +201,12 @@ namespace BridgeUI.Binding
         protected static void Invoke(object Instance, string memberName, params object[] value)
         {
             var temps = Instance.GetType().GetMember(memberName);
-            var temp = temps[0];
-            if (temp is MethodInfo)
-            {
-                (temp as MethodInfo).Invoke(Instance, value);
-            }
-        }
-
-        protected void Invoke(string memberName, params object[] value)
-        {
-            var temps = viewModel.GetType().GetMember(memberName);
-            if(temps != null && temps.Length > 0)
+            if(temps.Length > 0)
             {
                 var temp = temps[0];
                 if (temp is MethodInfo)
                 {
-                    (temp as MethodInfo).Invoke(viewModel, value);
+                    (temp as MethodInfo).Invoke(Instance, value);
                 }
             }
         }

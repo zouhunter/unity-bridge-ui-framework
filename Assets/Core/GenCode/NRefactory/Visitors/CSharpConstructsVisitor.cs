@@ -1,11 +1,4 @@
-﻿// <file>
-//     <copyright see="prj:///doc/copyright.txt"/>
-//     <license see="prj:///doc/license.txt"/>
-//     <owner name="Daniel Grunwald" email="daniel@danielgrunwald.de"/>
-//     <version>$Revision: 2035 $</version>
-// </file>
-
-using System;
+﻿using System;
 using BridgeUI.NRefactory.Ast;
 
 namespace BridgeUI.NRefactory.Visitors

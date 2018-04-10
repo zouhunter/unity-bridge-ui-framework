@@ -15,19 +15,41 @@ using System.IO;
 using System.Text;
 using System.CodeDom.Compiler;
 
-public class CodeTest {
+public class CodeTest
+{
 
+    string code = @"using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+public class NewBehaviourScript : MonoBehaviour {
+    public List<string> texts = new List<string>();
+	// Use this for initialization
+	void Start () {
+        Test<string>(" + "\"哈哈\"" + @");
+        Test(1);
+}
+
+[UnityEditor.MenuItem("+ "\"menu01\"" + @")]
+void Initial()
+{
+
+}
+
+void Test<T>(T a,out int a,ref int b)
+{
+    Debug.Log(a);
+}
+}
+";
     [Test]
     public void CompileUnitTest()
     {
         CodeCompileUnit unit = new CodeCompileUnit();
-        var path = @"E:\Github\BridgeUI\Assets\Extend\Editor\NewBehaviourScript.cs";
-        var text = System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8);
-        using (var reader = new System.IO.StringReader(text))
+        using (var reader = new System.IO.StringReader(code))
         {
             IParser parser = ParserFactory.CreateParser(reader);
             parser.Parse();
-            
+
             CodeDomVisitor visit = new CodeDomVisitor();
             visit.VisitCompilationUnit(parser.CompilationUnit, null);
             unit = visit.codeCompileUnit;
@@ -40,9 +62,10 @@ public class CodeTest {
             {
                 provider.GenerateCodeFromCompileUnit(unit, sw, option);
                 Debug.Log(sw.ToString())
-;            }
+;
+            }
         }
-       
-        
+
+
     }
 }

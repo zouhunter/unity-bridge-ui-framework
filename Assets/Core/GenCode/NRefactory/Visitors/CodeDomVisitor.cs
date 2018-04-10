@@ -23,7 +23,7 @@ namespace BridgeUI.NRefactory.Visitors
 		List<CodeVariableDeclarationStatement> variables = new List<CodeVariableDeclarationStatement>();
         List<CodeParameterDeclarationExpression> parameters = new List<CodeParameterDeclarationExpression>();
         Stack<Breakable> breakableStack = new Stack<Breakable>();
-		
+        List<CodeAttributeDeclaration> attributes = new List<CodeAttributeDeclaration>();
 		TypeDeclaration currentTypeDeclaration = null;
 		
 		IEnvironmentInformationProvider environmentInformationProvider = new DummyEnvironmentInformationProvider();
@@ -76,6 +76,7 @@ namespace BridgeUI.NRefactory.Visitors
             Breakable.NextId = 0;
             variables.Clear();
             parameters.Clear();
+            attributes.Clear();
         }
 
 		CodeTypeReference ConvType(TypeReference type)
@@ -148,7 +149,7 @@ namespace BridgeUI.NRefactory.Visitors
 			if (compilationUnit == null) {
 				throw new ArgumentNullException("compilationUnit");
 			}
-            CodeNamespace globalNamespace = new CodeNamespace("Global");
+            CodeNamespace globalNamespace = new CodeNamespace();
             //namespaces.Add(globalNamespace);
 			namespaceDeclarations.Push(globalNamespace);
 			compilationUnit.AcceptChildren(this, data);
@@ -308,14 +309,53 @@ namespace BridgeUI.NRefactory.Visitors
 			codeStack.Push(memberMethod.Statements);
 			
 			typeDeclarations.Peek().Members.Add(memberMethod);
-			
-			// Add Method Parameters
+
+            // Add Method Parameters
             parameters.Clear();
 
-			foreach (ParameterDeclarationExpression parameter in methodDeclaration.Parameters)
+            foreach (ParameterDeclarationExpression parameter in methodDeclaration.Parameters)
 			{
-				memberMethod.Parameters.Add((CodeParameterDeclarationExpression)VisitParameterDeclarationExpression(parameter, data));
+                var methodParam = (CodeParameterDeclarationExpression)VisitParameterDeclarationExpression(parameter, data);
+                switch (parameter.ParamModifier)
+                {
+                    case ParameterModifiers.None:
+                        break;
+                    case ParameterModifiers.In:
+                        break;
+                    case ParameterModifiers.Out:
+                        methodParam.Direction = System.CodeDom.FieldDirection.Out;
+                        break;
+                    case ParameterModifiers.Ref:
+                        methodParam.Direction = System.CodeDom.FieldDirection.Ref;
+                        break;
+                    case ParameterModifiers.Params:
+                        break;
+                    case ParameterModifiers.Optional:
+                        break;
+                    default:
+                        break;
+                }
+
+                memberMethod.Parameters.Add(methodParam);
 			}
+
+            // Add Method Attribute
+            foreach (AttributeSection attribute in methodDeclaration.Attributes)
+            {
+                foreach (var item in attribute.Attributes)
+                {
+                    if (!string.IsNullOrEmpty(item.Name))
+                    {
+                        CodeAttributeDeclaration methodAttribute = new CodeAttributeDeclaration(item.Name);
+                        foreach (var arg in item.PositionalArguments)
+                        {
+                            PrimitiveExpression argItem = arg as PrimitiveExpression;
+                            methodAttribute.Arguments.Add(new CodeAttributeArgument(new CodePrimitiveExpression(argItem.Value)));
+                        }
+                        memberMethod.CustomAttributes.Add(methodAttribute);
+                    }
+                }
+            }
 
             usingId = 0; // RG
             foreachId = 0;

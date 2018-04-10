@@ -11,14 +11,14 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
-using ICSharpCode;
-using ICSharpCode.NRefactory;
-using ICSharpCode.NRefactory.Ast;
-using ICSharpCode.NRefactory.AstBuilder;
-using ICSharpCode.NRefactory.Parser;
-using ICSharpCode.NRefactory.Parser.CSharp;
-using ICSharpCode.NRefactory.PrettyPrinter;
-using ICSharpCode.NRefactory.Visitors;
+using BridgeUI;
+using BridgeUI.NRefactory;
+using BridgeUI.NRefactory.Ast;
+//using BridgeUI.NRefactory.AstBuilder;
+using BridgeUI.NRefactory.Parser;
+using BridgeUI.NRefactory.Parser.CSharp;
+using BridgeUI.NRefactory.PrettyPrinter;
+using BridgeUI.NRefactory.Visitors;
 using System.IO;
 using System.Text;
 using System.CodeDom;
@@ -63,7 +63,7 @@ namespace BridgeUI
         {
             using (var reader = new StringReader(script))
             {
-                IParser parser = ParserFactory.CreateParser(SupportedLanguage.CSharp, reader);
+                IParser parser = ParserFactory.CreateParser( reader);
                 parser.Parse();
                 CodeDomVisitor visit = new CodeDomVisitor();
                 visit.VisitCompilationUnit(parser.CompilationUnit, null);

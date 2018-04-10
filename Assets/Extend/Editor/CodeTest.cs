@@ -4,13 +4,13 @@ using NUnit.Framework;
 using System;
 using System.CodeDom;
 using Microsoft.CSharp;
-using ICSharpCode.NRefactory;
-using ICSharpCode.NRefactory.Ast;
-using ICSharpCode.NRefactory.AstBuilder;
-using ICSharpCode.NRefactory.Parser;
-using ICSharpCode.NRefactory.Parser.CSharp;
-using ICSharpCode.NRefactory.PrettyPrinter;
-using ICSharpCode.NRefactory.Visitors;
+using BridgeUI.NRefactory;
+using BridgeUI.NRefactory.Ast;
+//using BridgeUI.NRefactory.AstBuilder;
+using BridgeUI.NRefactory.Parser;
+using BridgeUI.NRefactory.Parser.CSharp;
+using BridgeUI.NRefactory.PrettyPrinter;
+using BridgeUI.NRefactory.Visitors;
 using System.IO;
 using System.Text;
 using System.CodeDom.Compiler;
@@ -25,7 +25,7 @@ public class CodeTest {
         var text = System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8);
         using (var reader = new System.IO.StringReader(text))
         {
-            IParser parser = ParserFactory.CreateParser(SupportedLanguage.CSharp, reader);
+            IParser parser = ParserFactory.CreateParser(reader);
             parser.Parse();
             
             CodeDomVisitor visit = new CodeDomVisitor();

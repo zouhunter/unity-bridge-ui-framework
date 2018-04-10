@@ -24,6 +24,7 @@ namespace BridgeUI
     /// <summary>
     /// 单一面板[不包含容器]
     /// </summary>
+    [PanelParent]
     public class SinglePanel : PanelBase
     {
         public override Transform Content { get { return Root; } }

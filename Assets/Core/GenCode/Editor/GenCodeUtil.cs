@@ -77,10 +77,11 @@ namespace BridgeUI
         public static string[] LoadAllBasePanels()
         {
             var types = typeof(PanelBase).Assembly.GetTypes();
-            var support = new List<string>() { typeof(PanelBase).FullName, typeof(SinglePanel).FullName, typeof(GroupPanel).FullName, typeof(SingleCloseAblePanel).FullName };
+            var support = new List<string>();
             foreach (var item in types)
             {
-                if (typeof(PanelBase).IsAssignableFrom(item) && !item.IsSealed)
+                var attributes = item.GetCustomAttributes(false);
+                if(Array.Find(attributes,x=>x is PanelParentAttribute) != null)
                 {
                     if (!support.Contains(item.FullName))
                     {

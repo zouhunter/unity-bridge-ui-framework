@@ -12,6 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 namespace BridgeUI
 {
+    [PanelParent]
     public class SingleCloseAblePanel : SinglePanel
     {
         [SerializeField]

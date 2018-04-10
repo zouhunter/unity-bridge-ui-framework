@@ -23,6 +23,7 @@ namespace BridgeUI
     /// <summary>
     /// 组面板[包含容器]
     /// </summary>
+    [PanelParent]
     public class GroupPanel : PanelBase
     {
         [SerializeField]

@@ -17,11 +17,12 @@ using System.CodeDom.Compiler;
 
 public class CodeTest
 {
-
     string code = @"using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+[InitializeOnLoad]
 public class NewBehaviourScript : MonoBehaviour {
+    [SerializeField]
     public List<string> texts = new List<string>();
 	// Use this for initialization
 	void Start () {
@@ -35,10 +36,11 @@ void Initial()
 
 }
 
-void Test<T>(T a,out int a,ref int b)
-{
-    Debug.Log(a);
-}
+      void Test<T>(T a, out int b, ref int c,int d = 20, params int[] e)
+    {
+        b = 0;
+        Debug.Log(a);
+    }
 }
 ";
     [Test]

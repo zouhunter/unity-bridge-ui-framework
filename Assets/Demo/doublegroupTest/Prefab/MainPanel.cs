@@ -1,9 +1,7 @@
 /*************************************************************************************   
     * 作    者：       DefaultCompany
-    * 时    间：       2018-04-15 03:55:28
+    * 时    间：       2018-04-15 04:09:46
     * 说    明：       1.本脚本由电脑自动生成
-                       2.请尽量不要在其中写代码
-                       3.更无法使用协程及高版本特性
 * ************************************************************************************/
 using BridgeUI;
 using UnityEngine;
@@ -28,14 +26,10 @@ class MainPanel : BridgeUI.PanelBase
 	[SerializeField]
 	UnityEngine.UI.Text m_title;
 
+	string a;
+
 	void Awake ()
 	{
 		base.Awake ();
-		StartCoroutine (TestCoroutine ());
-	}
-
-	IEnumerator TestCoroutine ()
-	{
-		yield return null;
 	}
 }

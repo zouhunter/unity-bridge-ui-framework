@@ -130,12 +130,13 @@ namespace BridgeUI
 
         private static TypeDeclaration CompleteClass(SyntaxTree tree, GameObject prefab, GenCodeRule rule)
         {
-            var classNode = new TypeDeclaration();
+            TypeDeclaration classNode = null;
             var className = prefab.name;
             if (tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).Count() == 0)
             {
+                classNode = new TypeDeclaration();
                 classNode.Name = className;
-                classNode.Modifiers = Modifiers.Public;
+                classNode.Modifiers |= Modifiers.Public;
                 var baseType = GenCodeUtil.supportBaseTypes[rule.baseTypeIndex];
                 classNode.BaseTypes.Add(new SimpleType(baseType));
 
@@ -146,6 +147,10 @@ namespace BridgeUI
                 comment = new Comment("<summary>", CommentType.Documentation);
                 tree.AddChild(comment, Roles.Comment);
                 tree.AddChild(classNode, Roles.TypeMemberRole);
+            }
+            else
+            {
+                classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
             }
             return classNode;
         }

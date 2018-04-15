@@ -25,7 +25,7 @@ namespace BridgeUI
         {
             get
             {
-                return CalculateHead(Application.companyName, System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),"本脚本由电脑自动生成","请尽量不要在其中写代码","更无法使用协程及高版本特性");
+                return CalculateHead(Application.companyName, System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),"本脚本由电脑自动生成");
             }
         }
         public SyntaxTree tree { get; private set; }
@@ -41,8 +41,11 @@ namespace BridgeUI
         public void Load(string script)
         {
             CompilerSettings setting = new CompilerSettings();
+            setting.LanguageVersion = new System.Version(2,0,0,0);
             CSharpParser cpaser = new CSharpParser(setting);
+            Debug.Log(script);
             tree = cpaser.Parse(script);
+            Debug.Log(tree.ToString());
         }
         /// <summary>
         /// 编译代码

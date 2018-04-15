@@ -80,10 +80,10 @@ namespace BridgeUI.Binding
             }
             this.viewModel = null;
         }
-        public void AddValue(string target, string sourceName, Direction direction = Direction.Bidirection)
-        {
-            AddValue<object>(sourceName, target, direction);
-        }
+        //public void AddValue(string target, string sourceName, Direction direction = Direction.Bidirection)
+        //{
+        //    AddValue<object>(sourceName, target, direction);
+        //}
         public void AddValue<T>(string target, string sourceName, Direction direction = Direction.Bidirection)
         {
             if (direction == Direction.ModelToView || direction == Direction.Bidirection)

@@ -29,9 +29,11 @@ namespace BridgeUI
             }
         }
         public SyntaxTree tree { get; private set; }
-
-        public UICoder()
+        public string className { get; private set; }
+        public UICoder(string className)
         {
+            this.className = className;
+            tree = new SyntaxTree();
         }
         /// <summary>
         /// 从旧的脚本加载

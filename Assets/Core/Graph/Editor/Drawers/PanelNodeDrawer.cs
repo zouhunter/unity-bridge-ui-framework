@@ -14,7 +14,11 @@ public class PanelNodeInfoDrawer : Editor
     private PanelNodeBase panelNode;
     public NodeType nodeType { get { return panelNode.nodeType; } set { panelNode.nodeType = value; } }
     private NodeInfo nodeInfo { get { if (panelNode == null) return null; return panelNode.nodeInfo; } }
-
+    private int selected
+    {
+        get { return panelNode.selected; }
+        set { panelNode.selected = value; }
+    }
     private const int lableWidth = 60;
     private PanelBase _panelCompnent;
     private PanelBase panelCompnent
@@ -40,7 +44,6 @@ public class PanelNodeInfoDrawer : Editor
         }
     }
     private string[] options = { "参数配制", "控件指定", "面板脚本", "显示效果" };
-    private static int selected;
     private GenCodeRule rule { get { if (panelNode == null) return default(GenCodeRule); return panelNode.rule; } }
     private System.Collections.Generic.List<ComponentItem> components { get { if (panelNode == null) return null; return panelNode.components; } }
     private void OnEnable()
@@ -221,7 +224,7 @@ public class PanelNodeInfoDrawer : Editor
 
         }
 
-       if(preComponentList != null)  preComponentList.DoLayoutList();
+        if (preComponentList != null) preComponentList.DoLayoutList();
         var addRect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
 
         if (addRect.Contains(Event.current.mousePosition))

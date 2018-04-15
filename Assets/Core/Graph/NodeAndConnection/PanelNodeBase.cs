@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public abstract class PanelNodeBase : Node, IPanelInfoHolder
 {
+    public int selected;
     public int instenceID;
     public string description;
     public string assetName;

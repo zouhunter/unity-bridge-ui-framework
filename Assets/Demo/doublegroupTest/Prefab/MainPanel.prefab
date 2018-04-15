@@ -79,7 +79,7 @@ GameObject:
   - 224: {fileID: 22472242}
   - 222: {fileID: 22298048}
   - 114: {fileID: 11467958}
-  - 114: {fileID: 11447820}
+  - 114: {fileID: 11471346}
   m_Layer: 5
   m_Name: MainPanel
   m_TagString: Untagged
@@ -708,26 +708,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: close
---- !u!114 &11447820
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 129970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5c88102759461546ae22eeb89e23dfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  content: {fileID: 22449686}
-  m_close: {fileID: 11470084}
-  m_openPanel01: {fileID: 11415130}
-  m_openPanel02: {fileID: 11427200}
-  m_openPanel03: {fileID: 11455050}
-  m_title: {fileID: 11479890}
-  m_info: {fileID: 11429890}
-  m_switch: {fileID: 11418272}
-  m_slider: {fileID: 11499644}
 --- !u!114 &11448058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -998,6 +978,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Toggle
+--- !u!114 &11471346
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c1317736ad31c348b93070709bc862f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_close: {fileID: 0}
+  m_openPanel01: {fileID: 0}
+  m_openPanel02: {fileID: 0}
+  m_openPanel03: {fileID: 0}
+  m_title: {fileID: 0}
 --- !u!114 &11474550
 MonoBehaviour:
   m_ObjectHideFlags: 1

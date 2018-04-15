@@ -25,14 +25,16 @@ namespace BridgeUI
         {
             get
             {
-                return CalculateHead(Application.companyName, System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),"本脚本由电脑自动生成");
+                return CalculateHead(Application.companyName, System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),"本脚本由电脑自动生成","尽量使用MVVM模式");
             }
         }
         public SyntaxTree tree { get; private set; }
         public string className { get; private set; }
+        private bool firstCreate { get; set; }
         public UICoder(string className)
         {
             this.className = className;
+            firstCreate = true;
             tree = new SyntaxTree();
         }
         /// <summary>
@@ -43,9 +45,8 @@ namespace BridgeUI
             CompilerSettings setting = new CompilerSettings();
             setting.LanguageVersion = new System.Version(2,0,0,0);
             CSharpParser cpaser = new CSharpParser(setting);
-            Debug.Log(script);
             tree = cpaser.Parse(script);
-            Debug.Log(tree.ToString());
+            firstCreate = false;
         }
         /// <summary>
         /// 编译代码
@@ -54,7 +55,14 @@ namespace BridgeUI
         public string Compile()
         {
             if (tree == null) return null;
-            return head + tree.ToString();
+            if(firstCreate)
+            {
+                return head + tree.ToString();
+            }
+            else
+            {
+                return tree.ToString();
+            }
         }
 
         private string CalculateHead(string author, string time, params string[] detailInfo)

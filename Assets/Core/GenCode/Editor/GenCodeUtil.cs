@@ -3,7 +3,8 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
 using UnityEditor;
-using System.CodeDom;
+using ICSharpCode.NRefactory;
+using ICSharpCode.NRefactory.CSharp;
 using BridgeUI.Model;
 using System.Reflection;
 
@@ -95,16 +96,25 @@ namespace BridgeUI
         public static UICoder LoadUICoder(GameObject prefab, GenCodeRule rule)
         {
             UICoder coder = new UICoder();
+            //加载已经存在的脚本
+            LoadOldScript(prefab, coder);
+            //添加命名空间和引用
+            CompleteNameSpace(coder.tree, rule);
+            //添加类
+            CompleteClass(coder.tree, prefab, rule);
+            //完善方法
+            TryCreateMethods(coder.tree, rule);
+            return coder;
+        }
+
+        private static void LoadOldScript(GameObject prefab,UICoder coder)
+        {
             var oldScript = prefab.GetComponent<PanelBase>();
             if (oldScript != null)
             {
                 var path = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(oldScript));
                 coder.Load(System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8));
             }
-            var nameSpace = TryAddNameSpace(coder.unit, rule);
-            CodeTypeDeclaration classItem = TryInitClass(nameSpace, prefab, rule);
-            TryCreateMethods(classItem,rule);
-            return coder;
         }
 
         /// <summary>
@@ -112,46 +122,46 @@ namespace BridgeUI
         /// </summary>
         /// <param name="classItem"></param>
         /// <param name="rule"></param>
-        private static void TryCreateMethods(CodeTypeDeclaration classItem, GenCodeRule rule)
+        private static void TryCreateMethods(SyntaxTree tree, GenCodeRule rule)
         {
             
         }
 
-        private static CodeTypeDeclaration TryInitClass(CodeNamespace nameSpace, GameObject prefab, GenCodeRule rule)
+        private static void CompleteClass(SyntaxTree tree, GameObject prefab, GenCodeRule rule)
         {
             //var className = prefab.name;
-            CodeTypeDeclaration type = null;
-            if (nameSpace.Types.Count == 0)
-            {
-                type = new CodeTypeDeclaration(prefab.name);
+            //CodeTypeDeclaration type = null;
+            //if (nameSpace.Types.Count == 0)
+            //{
+            //    type = new CodeTypeDeclaration(prefab.name);
 
-                type.IsPartial = true;
-                nameSpace.Types.Add(type);
-            }
-            else
-            {
-                type = nameSpace.Types[0];
-            }
+            //    type.IsPartial = true;
+            //    nameSpace.Types.Add(type);
+            //}
+            //else
+            //{
+            //    type = nameSpace.Types[0];
+            //}
 
-            if (!rule.canInherit)
-                type.TypeAttributes |= TypeAttributes.Sealed;
+            //if (!rule.canInherit)
+            //    type.TypeAttributes |= TypeAttributes.Sealed;
 
-            type.BaseTypes.Clear();
-            var baseType = GenCodeUtil.supportBaseTypes[ rule.baseTypeIndex];
-            type.BaseTypes.Add(new CodeTypeReference(baseType));
-            return nameSpace.Types[0];
+            //type.BaseTypes.Clear();
+            //var baseType = GenCodeUtil.supportBaseTypes[ rule.baseTypeIndex];
+            //type.BaseTypes.Add(new CodeTypeReference(baseType));
+            //return nameSpace.Types[0];
         }
 
-        private static CodeNamespace TryAddNameSpace(CodeCompileUnit unit, GenCodeRule rule)
+        private static void CompleteNameSpace(SyntaxTree unit, GenCodeRule rule)
         {
-            if (unit.Namespaces.Count == 0)
-            {
-                unit.Namespaces.Add(new CodeNamespace(""));
-            }
-            else
-            {
-                unit.Namespaces[0].Name = "";
-            }
+            //if (unit.Namespaces.Count == 0)
+            //{
+            //    unit.Namespaces.Add(new CodeNamespace(""));
+            //}
+            //else
+            //{
+            //    unit.Namespaces[0].Name = "";
+            //}
 
             //string[] assebles = {
             //    "BridgeUI",
@@ -166,15 +176,17 @@ namespace BridgeUI
             //    unit.Namespaces[0].Imports.Add(new CodeNamespaceImport(item));
             //}
 
-            return unit.Namespaces[0];
+            //return unit.Namespaces[0];
 
         }
+
         public static void CreateScript(GameObject go, List<ComponentItem> components, UICoder uiCoder, GenCodeRule rule)
         {
             var baseType = GenCodeUtil.supportBaseTypes[rule.baseTypeIndex];
 
             var needAdd = FilterExisField(baseType, components);
-            TryAddInfoToUnit(uiCoder.unit.Namespaces[0].Types[0], needAdd);
+
+            TryAddInfoToUnit(uiCoder.tree, needAdd);
 
             var scriptPath = GetScriptPath(go);
             System.IO.File.WriteAllText(scriptPath, uiCoder.Compile());
@@ -192,6 +204,7 @@ namespace BridgeUI
                 AssetDatabase.Refresh();
             };
         }
+
         private static string GetScriptPath(GameObject go)
         {
             var path = AssetDatabase.GetAssetPath(go).Replace(".prefab", ".cs");
@@ -224,25 +237,25 @@ namespace BridgeUI
             }
         }
 
-        private static void TryAddInfoToUnit(CodeTypeDeclaration codeClass, ComponentItem[] components)
+        private static void TryAddInfoToUnit(SyntaxTree codeClass, ComponentItem[] components)
         {
-            foreach (var item in components)
-            {
-                var fieldName = string.Format("m_" + item.name);
-                var field = SuarchField(codeClass.Members, fieldName);
-                if (field == null)
-                {
-                    field = new CodeMemberField();
-                    field.Attributes = MemberAttributes.Private;
-                    codeClass.Members.Add(field);
-                }
-                field.Type = new CodeTypeReference(item.componentType, CodeTypeReferenceOptions.GenericTypeParameter);
-                if (field.CustomAttributes.SuarchAttribute("SerializeField") == null)
-                {
-                    field.CustomAttributes.Add(new CodeAttributeDeclaration("UnityEngine.SerializeField"));
-                }
-                field.Name = fieldName;
-            }
+            //foreach (var item in components)
+            //{
+            //    var fieldName = string.Format("m_" + item.name);
+            //    var field = SuarchField(codeClass.Members, fieldName);
+            //    if (field == null)
+            //    {
+            //        field = new CodeMemberField();
+            //        field.Attributes = MemberAttributes.Private;
+            //        codeClass.Members.Add(field);
+            //    }
+            //    field.Type = new CodeTypeReference(item.componentType, CodeTypeReferenceOptions.GenericTypeParameter);
+            //    if (field.CustomAttributes.SuarchAttribute("SerializeField") == null)
+            //    {
+            //        field.CustomAttributes.Add(new CodeAttributeDeclaration("UnityEngine.SerializeField"));
+            //    }
+            //    field.Name = fieldName;
+            //}
         }
         /// <summary>
         /// 查看字段
@@ -250,20 +263,20 @@ namespace BridgeUI
         /// <param name="collection"></param>
         /// <param name="Name"></param>
         /// <returns></returns>
-        private static CodeMemberField SuarchField(this CodeTypeMemberCollection collection, string Name)
-        {
-            foreach (var item in collection)
-            {
-                if (item is CodeMemberField)
-                {
-                    if ((item as CodeMemberField).Name == Name)
-                    {
-                        return (item as CodeMemberField);
-                    }
-                }
-            }
-            return null;
-        }
+        //private static CodeMemberField SuarchField(this CodeTypeMemberCollection collection, string Name)
+        //{
+        //    foreach (var item in collection)
+        //    {
+        //        if (item is CodeMemberField)
+        //        {
+        //            if ((item as CodeMemberField).Name == Name)
+        //            {
+        //                return (item as CodeMemberField);
+        //            }
+        //        }
+        //    }
+        //    return null;
+        //}
 
         public static void AnalysisComponent(GameObject prefab, List<ComponentItem> components)
         {
@@ -311,20 +324,20 @@ namespace BridgeUI
         /// <param name="collection"></param>
         /// <param name="Name"></param>
         /// <returns></returns>
-        private static CodeAttributeDeclaration SuarchAttribute(this CodeAttributeDeclarationCollection collection, string Name)
-        {
-            foreach (var item in collection)
-            {
-                if (item is CodeAttributeDeclaration)
-                {
-                    if ((item as CodeAttributeDeclaration).Name == Name)
-                    {
-                        return (item as CodeAttributeDeclaration);
-                    }
-                }
-            }
-            return null;
-        }
+        //private static CodeAttributeDeclaration SuarchAttribute(this CodeAttributeDeclarationCollection collection, string Name)
+        //{
+        //    foreach (var item in collection)
+        //    {
+        //        if (item is CodeAttributeDeclaration)
+        //        {
+        //            if ((item as CodeAttributeDeclaration).Name == Name)
+        //            {
+        //                return (item as CodeAttributeDeclaration);
+        //            }
+        //        }
+        //    }
+        //    return null;
+        //}
 
         /// <summary>
         /// 快速进行控件绑定

@@ -34,7 +34,6 @@ public class PanelNodeInfoDrawer : Editor
     }
     private Editor panelDrawer;
     private ReorderableList preComponentList;
-    private UICoder uiCoder;
     private bool showRule;
     private string HeadInfo
     {
@@ -66,7 +65,7 @@ public class PanelNodeInfoDrawer : Editor
         if (nodeInfo.prefab != null)
         {
             panelNode.assetName = nodeInfo.prefab.name;
-            uiCoder = GenCodeUtil.LoadUICoder(nodeInfo.prefab, rule);
+            //uiCoder = GenCodeUtil.LoadUICoder(nodeInfo.prefab, rule);
         }
     }
 
@@ -186,15 +185,15 @@ public class PanelNodeInfoDrawer : Editor
 
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
+          
+            showRule = GUILayout.Toggle(showRule, new GUIContent("⇆", "生成脚本"), EditorStyles.miniButton);
+            GUILayout.FlexibleSpace();
+
             if (GUILayout.Button(new GUIContent("←", "快速解析"), EditorStyles.miniButton))
             {
                 //从旧的脚本解析出
                 GenCodeUtil.AnalysisComponent(nodeInfo.prefab, components);
             }
-            GUILayout.FlexibleSpace();
-            showRule = GUILayout.Toggle(showRule, new GUIContent("⇆", "生成脚本"), EditorStyles.miniButton);
-            GUILayout.FlexibleSpace();
-
             if (GUILayout.Button(new GUIContent("→", "快速绑定"), EditorStyles.miniButton))
             {
                 GenCodeUtil.BindingUI(nodeInfo.prefab, components);
@@ -214,11 +213,9 @@ public class PanelNodeInfoDrawer : Editor
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button(new GUIContent("update", "更新脚本控件信息"), EditorStyles.miniButton, GUILayout.Width(60)))
                 {
-                    if (uiCoder != null)
-                    {
-                        var go = nodeInfo.prefab;
-                        GenCodeUtil.CreateScript(go, components, uiCoder, rule);
-                    }
+                    var go = nodeInfo.prefab;
+                    var uiCoder = GenCodeUtil.LoadUICoder(go, rule);
+                    GenCodeUtil.CreateScript(go, components, uiCoder, rule);
                 }
             }
 

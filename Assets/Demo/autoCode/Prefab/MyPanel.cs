@@ -11,7 +11,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine;
-public sealed partial class MyPanel : BridgeUI.SingleCloseAblePanel {
+public sealed class MyPanel : BridgeUI.SingleCloseAblePanel {
 
     [UnityEngine.SerializeField()]
     private UnityEngine.UI.Image m_head;

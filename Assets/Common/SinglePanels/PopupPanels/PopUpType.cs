@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine;
 namespace BridgeUI.Common
 {
-    public enum PopUpType : int
+    public enum PopUpType 
     {
         OnNetError = 1,//网络出错
         OnNetExit = 2,//网络断开

@@ -9,7 +9,7 @@ namespace BridgeUI
 #if UNITY_EDITOR
     using UnityEditor;
     using System;
-    public static partial class BridgeEditorUtility
+    public static class BridgeEditorUtility
     {
         public static void ApplyPrefab(GameObject gitem)
         {

@@ -4,7 +4,7 @@ using BridgeUI.Model;
 using UnityEngine.Events;
 namespace BridgeUI
 {
-    public static partial class Utility
+    public static class Utility
     {
         public static IUIHandle Open(this IPanelBase parentPanel, string panelName, object data = null)
         {

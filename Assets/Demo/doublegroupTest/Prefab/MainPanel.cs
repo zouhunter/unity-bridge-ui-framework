@@ -12,11 +12,8 @@ using System.Collections.Generic;
 ///<summary>
 ///[代码说明信息]
 ///<summary>
-public class MainPanel : BridgeUI.PanelBase
+public class MainPanel : BridgeUI.SingleCloseAblePanel
 {
-	[SerializeField]
-	private UnityEngine.UI.Button m_close;
-
 	[SerializeField]
 	private UnityEngine.UI.Button m_openPanel01;
 

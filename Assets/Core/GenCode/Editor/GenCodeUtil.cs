@@ -137,9 +137,7 @@ namespace BridgeUI
                 classNode = new TypeDeclaration();
                 classNode.Name = className;
                 classNode.Modifiers |= Modifiers.Public;
-                var baseType = GenCodeUtil.supportBaseTypes[rule.baseTypeIndex];
-                classNode.BaseTypes.Add(new SimpleType(baseType));
-
+              
                 var comment = new Comment("<summary>", CommentType.Documentation);
                 tree.AddChild(comment, Roles.Comment);
                 comment = new Comment("[代码说明信息]", CommentType.Documentation);
@@ -151,6 +149,13 @@ namespace BridgeUI
             else
             {
                 classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
+                var baseType = GenCodeUtil.supportBaseTypes[rule.baseTypeIndex];
+                var basePanels = LoadAllBasePanels();
+                var bs = classNode.BaseTypes.Where(x => Array.Find(basePanels, y => x.ToString() == y) != null).FirstOrDefault();
+                if(bs != null) {
+                    classNode.BaseTypes.Remove(bs);
+                }
+                classNode.BaseTypes.Add(new SimpleType(baseType));
             }
             return classNode;
         }

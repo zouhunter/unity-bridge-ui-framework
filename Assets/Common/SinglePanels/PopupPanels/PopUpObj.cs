@@ -7,7 +7,7 @@ using System;
 namespace BridgeUI.Common
 {
     [CreateAssetMenu(menuName = "CustomAsset/PopUpObj")]
-    public partial class PopUpObj : ScriptableObject
+    public class PopUpObj : ScriptableObject
     {
         [System.Serializable]
         public class PopData

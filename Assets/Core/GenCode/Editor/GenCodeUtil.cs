@@ -32,12 +32,12 @@ namespace BridgeUI
 
         public static string[] supportBaseTypes;
 
-        private static Dictionary<Type, ComponentCode> componentCoder;
+        //private static Dictionary<Type, ComponentCode> componentCoder;
 
         static GenCodeUtil()
         {
             supportBaseTypes = LoadAllBasePanels();
-            componentCoder = CreateCoderDic();
+            //componentCoder = CreateCoderDic();
         }
         /// <summary>
         /// 创建编码字典

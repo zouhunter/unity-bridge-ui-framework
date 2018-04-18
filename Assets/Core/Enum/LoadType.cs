@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using BridgeUI.Model;
 namespace BridgeUI
 {
+    [System.Flags]
     public enum LoadType
     {
         Prefab = 1,

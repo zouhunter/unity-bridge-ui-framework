@@ -3,11 +3,11 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-namespace BridgeUI.Common
+namespace BridgeUI.Common.Tree
 {
 
     [System.Serializable]
-    public class TreeSelectRule
+    public class LineTreeRule
     {
         public int deepth = 0;
         public int fontSize = 18;
@@ -22,13 +22,13 @@ namespace BridgeUI.Common
         public bool childCloseAble;
         public bool makeGroup;
 
-        public TreeSelectRule()
+        public LineTreeRule()
         {
             fontColor_normal = Color.white;
         }
-        public TreeSelectRule CreateCopy(int deepth)
+        public LineTreeRule CreateCopy(int deepth)
         {
-            var rule = new TreeSelectRule();
+            var rule = new LineTreeRule();
             rule.deepth = deepth;
             rule.fontColor_normal = fontColor_normal;
             rule.horizontal = horizontal;

@@ -5,9 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-namespace BridgeUI.Common
+namespace BridgeUI.Common.Tree
 {
-    public class TreeSelectItem : MonoBehaviour
+    public class LineTreeItem : MonoBehaviour
     {
         [SerializeField]
         private Toggle toggle;
@@ -15,12 +15,12 @@ namespace BridgeUI.Common
         private LayoutElement layout;
 
         private Transform childContent;
-        private TreeSelectRule rule;
+        private LineTreeRule rule;
         private TreeNode node;
-        private TreeNodeCreater creater;
+        private LineTreeItemCreater creater;
 
         public UnityAction<List<string>> onSelection { get; set; }
-        public TreeNodeCreater Creater { get { return creater; } }
+        public LineTreeItemCreater Creater { get { return creater; } }
         private bool settingToggle;//防止设置toggle值时回调
         private Text title;
         void Awake()
@@ -31,7 +31,7 @@ namespace BridgeUI.Common
         {
             toggle.group = group;
         }
-        public void InitTreeSelecter(int deepth, TreeNode node, TreeOption option)
+        public void InitTreeSelecter(int deepth, TreeNode node, LineTreeOption option)
         {
             this.node = node;
             var ruleget = option.ruleGetter;
@@ -40,7 +40,7 @@ namespace BridgeUI.Common
             if (node.childern != null && node.childern.Count > 0)
             {
                 InitContent(option.axisType);
-                creater = new TreeNodeCreater(deepth, childContent, option);
+                creater = new LineTreeItemCreater(deepth, childContent, option);
                 var items = creater.CreateTreeSelectItems(node.childern.ToArray());
                 foreach (var item in items)
                 {
@@ -89,6 +89,7 @@ namespace BridgeUI.Common
             title = (toggle.GetComponentInChildren<Text>());
             title.text = node.name;
             title.fontSize = rule.fontSize;
+            title.color = toggle.isOn ? rule.fontColor_mask : rule.fontColor_normal;
             if (rule.font) title.font = rule.font;
             layout.preferredWidth = rule.horizontal;
             layout.preferredHeight = rule.vertical;
@@ -128,7 +129,7 @@ namespace BridgeUI.Common
 
             if (creater != null && creater.Group != null && creater.Group.AnyTogglesOn())
             {
-                TreeSelectItem item = creater.Group.ActiveToggles().First().GetComponentInParent<TreeSelectItem>();
+                LineTreeItem item = creater.Group.ActiveToggles().First().GetComponentInParent<LineTreeItem>();
                 item.SetToggleForce(isOn);
             }
         }

@@ -8,7 +8,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-
 ///<summary>
 ///[代码说明信息]
 ///<summary>
@@ -35,7 +34,7 @@ public class MainPanel : BridgeUI.SingleCloseAblePanel
 	[SerializeField]
 	private UnityEngine.UI.Slider m_slider;
 
-	private string m_keyword;
+	public string m_keyword;
 
 	protected override void Awake ()
 	{

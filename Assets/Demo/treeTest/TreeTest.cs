@@ -1,31 +1,47 @@
 ﻿using UnityEngine;
-using System.Collections;
-using BridgeUI.Common;
+using System.Collections.Generic;
+using BridgeUI.Common.Tree;
 using System;
 
 public class TreeTest : MonoBehaviour {
     public TreeNode1 node;
-    public TreeSelector selector;
+    public List<TreeSelector> selectors;
 	// Use this for initialization
 	void Start () {
-        selector.CreateTree(node);
-        selector.onSelect = OnSelect;
-        selector.onSelectID = OnSelectId;
+
+        foreach (var selector in selectors)
+        {
+            selector.onSelect = OnSelect;
+            selector.onSelectID = OnSelectId;
+            selector.CreateTree(node);
+        }
+        
+    }
+    void OnGUI()
+    {
+        if (GUILayout.Button("Set:0/1"))
+        {
+            foreach (var selector in selectors)
+            {
+                selector.SetSelect(0, 1);// = OnSelect;
+            }
+        }
+        if (GUILayout.Button("AutoSelectFirset"))
+        {
+            foreach (var selector in selectors)
+            {
+                selector.AutoSelectFirst();// = OnSelect;
+            }
+        }
     }
 
-    private void OnSelectId(int[] arg0)
+    private void OnSelectId(int[] path)
     {
-        foreach (var item in arg0)
-        {
-            print(item);
-        }
+        Debug.Log("selectedID:" + string.Join("/",Array.ConvertAll<int,string>( path,x=>x.ToString())));
     }
 
     // Update is called once per frame
     void OnSelect (string[] path) {
-        foreach (var item in path)
-        {
-            print(item);
-        }
-	}
+        Debug.Log("selected:" + string.Join("/",path));
+    }
 }

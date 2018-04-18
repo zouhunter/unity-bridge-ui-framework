@@ -3,6 +3,7 @@ namespace BridgeUI
 {/// <summary>
  /// 基本的窗口类型（觉得能否多开）
  /// </summary>
+    [System.Flags]
     public enum UIFormType
     {
         Fixed = 0,//固定窗口(只能打开单个)
@@ -12,6 +13,7 @@ namespace BridgeUI
     /// <summary>
     /// 基本层级类型（绝对层级）
     /// </summary>
+    [System.Flags]
     public enum UILayerType
     {
         Base = 0,//最低层，可以被任何界面复盖
@@ -20,6 +22,7 @@ namespace BridgeUI
     }
 
     //显示时的动画类型
+    [System.Flags]
     public enum UIAnimType
     {
         NoAnim = 0,
@@ -28,6 +31,7 @@ namespace BridgeUI
         RotatePanel = 3,
     }
 
+    [System.Flags]
     public enum HideRule
     {
         HideGameObject = 0,//直接隐藏自己
@@ -35,6 +39,7 @@ namespace BridgeUI
     }
 
 
+    [System.Flags]
     public enum CloseRule
     {
         DestroyNoraml = 0,//普通销毁

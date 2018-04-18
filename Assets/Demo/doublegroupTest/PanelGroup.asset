@@ -339,14 +339,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 2
+  selected: 1
   instenceID: 0
   description: 
   assetName: MainPanel
   style: 1
   nodeType: 31
   rule:
-    baseTypeIndex: 0
+    baseTypeIndex: 2
     canInherit: 0
   components:
   - name: close

@@ -14,7 +14,7 @@ namespace BridgeUI.Common.Tree
         [SerializeField]
         private LayoutElement layout;
 
-        private Transform childContent;
+        public Transform childContent { get; private set; }
         private LineTreeRule rule;
         private TreeNode node;
         private LineTreeItemCreater creater;
@@ -59,6 +59,9 @@ namespace BridgeUI.Common.Tree
         {
             if (triggerInfo)
             {
+                if(toggle.isOn == v){
+                    toggle.isOn = !v;
+                }
                 toggle.isOn = v;
             }
             else

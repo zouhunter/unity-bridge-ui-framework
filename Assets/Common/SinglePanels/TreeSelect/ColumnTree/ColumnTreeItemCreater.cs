@@ -10,6 +10,8 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+
 namespace BridgeUI.Common.Tree
 {
     public class ColumnTreeItemCreater 
@@ -107,6 +109,19 @@ namespace BridgeUI.Common.Tree
         /// <param name="selectables"></param>
         private void CreateUIList(string[] selectables)
         {
+            Clear();
+            for (int i = 0; i < selectables.Length; i++)
+            {
+                var go = gameObjectPool.GetPoolObject(m_prefab.gameObject, m_parent, false);
+                var item = go.GetComponent<ColumnItem>();
+                var type = selectables[i];
+                item.Init(type, group, (x) => { if (!stopEvent && x) OnSelect(type); });
+                createdDic.Add(type, item);
+            }
+        }
+
+        internal void Clear()
+        {
             if (createdDic == null)
             {
                 createdDic = new Dictionary<string, ColumnItem>();
@@ -121,16 +136,6 @@ namespace BridgeUI.Common.Tree
                 }
                 createdDic.Clear();
             }
-
-            for (int i = 0; i < selectables.Length; i++)
-            {
-                var go = gameObjectPool.GetPoolObject(m_prefab.gameObject, m_parent, false);
-                var item = go.GetComponent<ColumnItem>();
-                var type = selectables[i];
-                item.Init(type, group, (x) => { if (!stopEvent && x) OnSelect(type); });
-                createdDic.Add(type, item);
-            }
         }
-
     }
 }

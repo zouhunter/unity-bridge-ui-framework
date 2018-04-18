@@ -74,7 +74,6 @@ namespace BridgeUI.Common.Tree
             for (int i = 0; i < creaters.Length; i++)
             {
                 var creater = creaters[i];
-                var array = new string[i + 1];
                 var node = GetTreeNode(rootNode, path,i);
                 var options = node.childern.ConvertAll<string>(x => x.name).ToArray();
                 creater.OpenSelect(options);
@@ -149,6 +148,14 @@ namespace BridgeUI.Common.Tree
                 root = root.childern[selection[i]];
             }
             return root;
+        }
+
+        public override void ClearTree()
+        {
+            foreach (var item in creaters)
+            {
+                item.Clear();
+            }
         }
     }
 

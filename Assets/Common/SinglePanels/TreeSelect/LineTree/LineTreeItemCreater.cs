@@ -75,6 +75,23 @@ namespace BridgeUI.Common.Tree
             //group.allowSwitchOff = true;
             return group;
         }
+
+        internal void Clear()
+        {
+            if (created != null)
+            {
+                foreach (var item in created)
+                {
+                    if (item.Creater != null)
+                        item.Creater.Clear();
+
+                    UIFacade.PanelPool.SavePoolObject(item.gameObject, false);
+
+                    if (item.childContent != null)
+                        UnityEngine.Object.DestroyImmediate(item.childContent.gameObject);
+                }
+            }
+        }
     }
 
 }

@@ -10,6 +10,8 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+
 namespace BridgeUI.Common.Tree
 {
     public abstract class TreeSelector : UIBehaviour
@@ -49,6 +51,8 @@ namespace BridgeUI.Common.Tree
             }
             return idList.ToArray();
         }
+
+        public abstract void ClearTree();
     }
 
 }

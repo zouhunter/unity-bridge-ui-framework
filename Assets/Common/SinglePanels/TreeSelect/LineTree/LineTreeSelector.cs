@@ -69,6 +69,14 @@ namespace BridgeUI.Common.Tree
             var list = new List<int>(path);
             creater.SetChildActive(list);
         }
+        public override void ClearTree()
+        {
+            if (creater != null)
+            {
+                creater.Clear();
+            }
+        }
+
 
         public override void AutoSelectFirst()
         {

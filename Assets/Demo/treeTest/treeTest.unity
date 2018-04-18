@@ -165,15 +165,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.74264705, g: 0.6935013, b: 0.6935013, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -392,6 +392,7 @@ MonoBehaviour:
           _childNodes: []
   selectors:
   - {fileID: 1727745630}
+  - {fileID: 763397434}
 --- !u!224 &87723030
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1066,6 +1067,18 @@ MonoBehaviour:
     spacing: 0
     fontColor_normal: {r: 0, g: 1, b: 1, a: 1}
     fontColor_mask: {r: 0.77931035, g: 1, b: 0, a: 1}
+    font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    normal: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+    mask: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    childCloseAble: 1
+    makeGroup: 1
+  - deepth: 3
+    fontSize: 16
+    horizontal: 200
+    vertical: 20
+    spacing: 0
+    fontColor_normal: {r: 0.8825438, g: 0.38213664, b: 0.9117647, a: 1}
+    fontColor_mask: {r: 0.184429, g: 0.7647059, b: 0.039359853, a: 1}
     font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     normal: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
     mask: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
@@ -1921,7 +1934,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2562,7 +2575,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2109788606}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 2109663825, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Script: {fileID: 11500000, guid: f8a78ca44c73010438daed5c9b605a07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:

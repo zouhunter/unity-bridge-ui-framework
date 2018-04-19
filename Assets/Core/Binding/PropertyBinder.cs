@@ -200,6 +200,7 @@ namespace BridgeUI.Binding
         /// <param name="memberName"></param>
         protected static void Invoke(object Instance, string memberName, params object[] value)
         {
+            Debug.Log(Instance + ":" + memberName);
             var temps = Instance.GetType().GetMember(memberName);
             if(temps.Length > 0)
             {

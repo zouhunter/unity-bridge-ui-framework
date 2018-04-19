@@ -1,0 +1,21 @@
+ManifestFileVersion: 0
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: bridgeui/panels/panel04
+      Dependencies: {}
+    Info_1:
+      Name: bridgeui/panels/mainpanel
+      Dependencies: {}
+    Info_2:
+      Name: bridgeui/panels/panel01
+      Dependencies: {}
+    Info_3:
+      Name: bridgeui/panels/panel02
+      Dependencies: {}
+    Info_4:
+      Name: bridgeui/panels/panel03
+      Dependencies: {}
+    Info_5:
+      Name: firstpanelgroup
+      Dependencies: {}

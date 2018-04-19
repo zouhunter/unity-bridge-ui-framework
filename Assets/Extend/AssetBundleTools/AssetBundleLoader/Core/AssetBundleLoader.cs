@@ -10,7 +10,18 @@ using AssetBundleReference.Tuples;
 
 public class AssetBundleLoader :MonoBehaviour
 {
-    private const string defultMenu = "AssetBundle";
+    public static readonly string defultMenu = "";
+
+    static AssetBundleLoader()
+    {
+#if UNITY_WEBGL
+        defultMenu = "WebGL";
+#elif UNITY_STANDALONE
+        defultMenu = "Windows";
+#else
+        defultMenu = "AssetBundle";
+#endif
+    }
 #if UNITY_EDITOR
     //private static int m_SimulateAssetBundleInEditor;
     private static string kSimulateAssetBundles = "simulateinEditor";
@@ -38,27 +49,32 @@ public class AssetBundleLoader :MonoBehaviour
         {
             if (defult == null)
             {
-                lock (lockHelper)
-                {
-                    if (defult == null && !isQuit)
-                    {
-                        GameObject go = new GameObject(defultMenu);
-                        defult = go.AddComponent<AssetBundleLoader>();
-                        var url =
+                var url =
 #if UNITY_STANDALONE || UNITY_EDITOR
-                           "file://" + Application.streamingAssetsPath + "/" + defultMenu;
-#else
-                            Application.streamingAssetsPath + "/" + defultMenu;
+                           "file:///" +
 #endif
-                        loaderDic.Add(url, defult);
-                        defult.Init(url, defultMenu);
+                            Application.streamingAssetsPath + "/" + defultMenu;
+
+                if (!loaderDic.TryGetValue(url, out defult))
+                {
+                    lock (lockHelper)
+                    {
+
+                        if (defult == null && !isQuit)
+                        {
+                            GameObject go = new GameObject();
+                            defult = go.AddComponent<AssetBundleLoader>();
+
+                            go.name = "[defult] :" + url;
+                            loaderDic.Add(url, defult);
+                            defult.Init(url, defultMenu);
+                        }
                     }
                 }
             }
             return defult;
         }
     }
-    protected AssetBundleLoader() { }
     public static AssetBundleLoader GetInstance(string url,string menu)
     {
         AssetBundleLoader instance = null;
@@ -105,7 +121,8 @@ public class AssetBundleLoader :MonoBehaviour
 
 #if UNITY_EDITOR
         canSimulation = url.Contains(Application.streamingAssetsPath + "/" + defultMenu);
-        if(canSimulation) simuationLoader = new SimulationLoader(this);
+        if(canSimulation)
+            simuationLoader = new SimulationLoader(this);
 #endif
     }
     void Update()

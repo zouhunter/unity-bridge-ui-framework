@@ -10,8 +10,7 @@ using BridgeUI.Model;
 namespace BridgeUIEditor
 {
     using AssetBundle = UnityEngine.AssetBundle;
-    [CustomEditor(typeof(PanelGroup)), CanEditMultipleObjects]
-    public class PanelGroupDrawer : Editor
+    public abstract class PanelGroupBaseDrawer:Editor
     {
         protected SerializedProperty script;
         protected SerializedProperty bridgesProp;
@@ -27,11 +26,11 @@ namespace BridgeUIEditor
         private SerializedProperty prefabsPropWorp;
         private SerializedProperty bundlesPropWorp;
         protected const float widthBt = 20;
-
+        protected abstract bool drawScript { get; }
 #if AssetBundleTools
-        protected string[] option = new string[] { "预制体", "资源包" };
+        protected string[] option = { "预制体", "资源包" };
 #else
-    protected string[] option = new string[] { "预制"};
+    protected string[] option =  { "预制"};
 #endif
         public enum SortType
         {
@@ -51,7 +50,7 @@ namespace BridgeUIEditor
             defultTypeProp = serializedObject.FindProperty("loadType");
             resetMenuProp = serializedObject.FindProperty("resetMenu");
             menuProp = serializedObject.FindProperty("menu");
-            var sobj = new SerializedObject(PanelGroupObj.CreateInstance<PanelGroupObj>());
+            var sobj = new SerializedObject(ScriptableObject.CreateInstance<PanelGroupObj>());
             prefabsPropWorp = sobj.FindProperty("p_nodes");
             bundlesPropWorp = sobj.FindProperty("b_nodes");
         }
@@ -59,7 +58,7 @@ namespace BridgeUIEditor
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            DrawScript();
+            if(drawScript) DrawScript();
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 DrawOption();
@@ -228,7 +227,7 @@ namespace BridgeUIEditor
                     if (assetNameProp.stringValue.ToLower().Contains(query.ToLower()))
                     {
                         targetProperty.InsertArrayElementAtIndex(0);
-                       BridgeEditorUtility.CopyPropertyValue(targetProperty.GetArrayElementAtIndex(0), property.GetArrayElementAtIndex(i));
+                        BridgeEditorUtility.CopyPropertyValue(targetProperty.GetArrayElementAtIndex(0), property.GetArrayElementAtIndex(i));
                     }
                 }
             }
@@ -666,9 +665,15 @@ namespace BridgeUIEditor
             }
             return true;
         }
-
+    }
+    [CustomEditor(typeof(PanelGroup)), CanEditMultipleObjects]
+    public class PanelGroupDrawer : PanelGroupBaseDrawer
+    {
+        protected override bool drawScript { get { return true; } }
     }
 
-    [CustomEditor(typeof(PanelGroupObj))]
-    public class PanelGroupObjDrawer : PanelGroupDrawer { }
+    [CustomEditor(typeof(PanelGroupObj)), CanEditMultipleObjects]
+    public class PanelGroupObjDrawer : PanelGroupBaseDrawer {
+        protected override bool drawScript { get { return false; } }
+    }
 }

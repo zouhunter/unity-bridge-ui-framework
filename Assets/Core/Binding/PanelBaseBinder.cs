@@ -34,7 +34,7 @@ namespace BridgeUI.Binding
         /// <param name="methodName"></param>
         internal void AddButton(Button button, string methodName)
         {
-            UnityAction action = () => { Invoke(Context,methodName, button, new RoutedEventArgs(Context)); };
+            UnityAction action = () => { Invoke(viewModel, methodName, button, new RoutedEventArgs(Context)); };
 
             binders += viewModel =>
             {
@@ -51,7 +51,7 @@ namespace BridgeUI.Binding
         {
             UnityAction<bool> action = (isOn) =>
             {
-                Invoke(Context, methodName, toggle, new RoutedEventArgs(Context));
+                Invoke(viewModel, methodName, toggle, new RoutedEventArgs(Context));
             };
 
             binders += viewModel =>

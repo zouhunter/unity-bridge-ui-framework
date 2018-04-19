@@ -1,0 +1,38 @@
+ManifestFileVersion: 0
+CRC: 2178402045
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 83b81e703811580f3a59fe3b8c1cf8f0
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2964bd79e266d5395bf99433d8ec677d
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: deab3f43bc5c98348b6a3810184c5243, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c0ab937343daf7d42922d61fec8492c7, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/Demo/luaandruntime/panelgroup.asset
+Dependencies: []

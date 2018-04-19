@@ -95,9 +95,9 @@ namespace BridgeUIEditor
                 bundleNameProp.stringValue = importer.assetBundleName;
             }
         }
-        protected override void InstantiatePrefab(GameObject gopfb)
+        protected override void InstantiatePrefab(GameObject gopfb,Transform parent)
         {
-            base.InstantiatePrefab(gopfb);
+            base.InstantiatePrefab(gopfb,parent);
             var path = AssetDatabase.GetAssetPath(gopfb);
             guidProp.stringValue = AssetDatabase.AssetPathToGUID(path);
         }

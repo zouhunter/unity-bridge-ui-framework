@@ -95,8 +95,8 @@ MonoBehaviour:
       type: bridge
   - m_name: Panel01
     m_id: b466d963-5827-446a-8216-e8316c3da397
-    m_x: 432
-    m_y: 156
+    m_x: 492
+    m_y: 84
     m_node: {fileID: 11417738}
     m_inputPoints:
     - id: b9bfd877-4f23-41ad-8d07-ec3c6730a1f2
@@ -126,8 +126,8 @@ MonoBehaviour:
       type: bridge
   - m_name: Panel02
     m_id: 6b442bd8-0cfe-4fc1-b4f1-83f81eaab21d
-    m_x: 432
-    m_y: 228
+    m_x: 480
+    m_y: 240
     m_node: {fileID: 11481208}
     m_inputPoints:
     - id: 8b80bc82-4821-4d7c-9db5-5cae4f68d9e2

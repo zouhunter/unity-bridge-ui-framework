@@ -63,7 +63,7 @@ namespace BridgeUIEditor
                         var gopfb = GetPrefabItem();
                         if (gopfb != null)
                         {
-                            InstantiatePrefab(gopfb);
+                            InstantiatePrefab(gopfb, GetParent());
                         }
                         else
                         {
@@ -187,33 +187,39 @@ namespace BridgeUIEditor
 
         protected abstract GameObject GetPrefabItem();
 
-        protected virtual void InstantiatePrefab(GameObject gopfb)
+        protected virtual void InstantiatePrefab(GameObject gopfb, Transform parent)
         {
             if (gopfb != null)
             {
                 GameObject go = PrefabUtility.InstantiatePrefab(gopfb) as GameObject;
-                PanelGroup uigroup = null;
-                if (serializedObject.targetObject is PanelGroup)
-                {
-                    uigroup = serializedObject.targetObject as PanelGroup;
-                }
-                else
-                {
-                    uigroup = Object.FindObjectOfType<PanelGroup>();
-                }
-                if (uigroup != null)
-                {
-                    Utility.SetTranform(go.transform, (UILayerType)layerProp.intValue, layerIndexProp.intValue, uigroup.transform);
-                }
-                else
-                {
-                    go.transform.SetParent(null);
-                }
-
+                Utility.SetTranform(go.transform, (UILayerType)layerProp.intValue, layerIndexProp.intValue, parent);
                 instanceIDProp.intValue = go.GetInstanceID();
             }
         }
 
+        protected Transform GetParent()
+        {
+            PanelGroup uigroup = null;
+            if (serializedObject.targetObject is PanelGroup)
+            {
+                uigroup = serializedObject.targetObject as PanelGroup;
+            }
+            else
+            {
+                uigroup = Object.FindObjectOfType<PanelGroup>();
+            }
+            if (uigroup != null)
+            {
+                return uigroup.transform;
+            }
+
+            RuntimePanelGroup runtimeGroup = Object.FindObjectOfType<RuntimePanelGroup>();
+            if (runtimeGroup != null)
+            {
+                return runtimeGroup.transform;
+            }
+            return null;
+        }
 
         protected virtual void Worning(Rect rect, string info)
         {

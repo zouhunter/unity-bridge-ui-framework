@@ -71,4 +71,10 @@ public class PanelNames {
             return "RadiaMenuPanel";
         }
     }
+    
+    public static string LuaPanel {
+        get {
+            return "LuaPanel";
+        }
+    }
 }

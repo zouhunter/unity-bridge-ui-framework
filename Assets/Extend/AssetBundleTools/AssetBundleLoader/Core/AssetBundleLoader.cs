@@ -58,6 +58,7 @@ public class AssetBundleLoader :MonoBehaviour
             return defult;
         }
     }
+    protected AssetBundleLoader() { }
     public static AssetBundleLoader GetInstance(string url,string menu)
     {
         AssetBundleLoader instance = null;

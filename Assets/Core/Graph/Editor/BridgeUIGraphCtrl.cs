@@ -44,8 +44,26 @@ namespace BridgeUI
             TryRecoredGraphGUID(group);
             EditorUtility.SetDirty(group);
         }
+        /// <summary>
+        /// 将信息到保存到PanelGroup
+        /// </summary>
+        /// <param name="group"></param>
+        private void StoreInfoOfPanel(PanelGroupObj group)
+        {
+            InsertBridges(group.bridges, GetBridges());
+            if (group.loadType == LoadType.Prefab)
+            {
+                InsertPrefabinfo(group.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
+            }
+            else if (group.loadType == LoadType.Bundle)
+            {
+                InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
+            }
+            TryRecoredGraphGUID(group);
+            EditorUtility.SetDirty(group);
+        }
 
-        private void TryRecoredGraphGUID(PanelGroup group)
+        private void TryRecoredGraphGUID(UnityEngine.Object group)
         {
             var path = AssetDatabase.GetAssetPath(TargetGraph);
             var guid = AssetDatabase.AssetPathToGUID(path);
@@ -63,10 +81,25 @@ namespace BridgeUI
                     record.graphName = TargetGraph.name;
                 }
             }
+            else if (group is PanelGroupObj)
+            {
+                var panelGroup = group as PanelGroupObj;
+                var record = panelGroup.graphList.Find(x => x.guid == guid);
+                if (record == null)
+                {
+                    var item = new GraphWorp(TargetGraph.name, guid);
+                    panelGroup.graphList.Add(item);
+                }
+                else
+                {
+                    record.graphName = TargetGraph.name;
+                }
+            }
         }
 
         private void InsertBridges(List<BridgeInfo> source, List<BridgeInfo> newBridges)
         {
+            if (source == null) return;
             if (newBridges == null) return;
             foreach (var item in newBridges)
             {
@@ -232,7 +265,8 @@ namespace BridgeUI
             if (node.Data.Object is IPanelInfoHolder)
             {
                 var nodeItem = node.Data.Object as IPanelInfoHolder;
-                if (nodeItem.Info.prefab == null){
+                if (nodeItem.Info.prefab == null)
+                {
                     node.ResetErrorStatus();
                     changed = true;
                 }
@@ -267,6 +301,14 @@ namespace BridgeUI
                     StoreInfoOfPanel(panelGroup);
                 }
             }
+            if (Selection.activeObject != null && Selection.activeObject is PanelGroupObj)
+            {
+                var panelGroup = Selection.activeObject as PanelGroupObj;
+                if (panelGroup != null)
+                {
+                    StoreInfoOfPanel(panelGroup);
+                }
+            }
             UpdateScriptOfPanelNames(m_targetGraph.Nodes.FindAll(x => x.Object is PanelNodeBase).ConvertAll<string>(x => x.Name));
         }
         private void UpdateScriptOfPanelNames(List<string> list)
@@ -279,7 +321,7 @@ namespace BridgeUI
             {
                 path = AssetDatabase.GUIDToAssetPath(guid);
 
-                if(string.IsNullOrEmpty(path))
+                if (string.IsNullOrEmpty(path))
                 {
                     needOpenSelect = true;
                 }
@@ -306,7 +348,7 @@ namespace BridgeUI
                 path = EditorUtility.SaveFilePanel("请选择PanelNames.cs保存路径", directory, "PanelNames", "cs");
                 if (!string.IsNullOrEmpty(path))
                 {
-                    var relePath = path.Replace("\\", "/").Replace(Application.dataPath, "Assets") ;
+                    var relePath = path.Replace("\\", "/").Replace(Application.dataPath, "Assets");
                     Debug.Log(relePath);
                     guid = AssetDatabase.AssetPathToGUID(relePath);
                     PlayerPrefs.SetString(prefer_script_guid, guid);
@@ -392,9 +434,14 @@ namespace BridgeUI
                     else if (obj is GameObject)
                     {
                         panelNode = ScriptableObject.CreateInstance<PanelNode>();
-                        panelNode.Info.prefab = obj as GameObject;
+                        var prefab = PrefabUtility.GetPrefabParent(obj);
+                        if (prefab == null)
+                        {
+                            prefab = obj;
+                        }
+                        panelNode.Info.prefab = prefab as GameObject;
                         panelNode.name = typeof(PanelNode).FullName;
-                        nodeList.Add(new KeyValuePair<string, Node>(obj.name, panelNode));
+                        nodeList.Add(new KeyValuePair<string, Node>(prefab.name, panelNode));
                     }
                 }
             }

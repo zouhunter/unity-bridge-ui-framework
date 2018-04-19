@@ -668,4 +668,7 @@ namespace BridgeUIEditor
         }
 
     }
+
+    [CustomEditor(typeof(PanelGroupObj))]
+    public class PanelGroupObjDrawer : PanelGroupDrawer { }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEditor;
 namespace AssetBundleBuilder
 {
-    [CreateAssetMenu(menuName = "ScriptableObjects/ConfigBuildObj")]
+    //[CreateAssetMenu(menuName = "ScriptableObjects/ConfigBuildObj")]
     public class ConfigBuildObj : ScriptableObject
     {
         [System.Serializable]

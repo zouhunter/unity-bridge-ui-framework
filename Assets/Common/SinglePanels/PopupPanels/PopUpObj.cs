@@ -6,7 +6,7 @@ using UnityEngine;
 using System;
 namespace BridgeUI.Common
 {
-    [CreateAssetMenu(menuName = "CustomAsset/PopUpObj")]
+    //[CreateAssetMenu(menuName = "CustomAsset/PopUpObj")]
     public class PopUpObj : ScriptableObject
     {
         [System.Serializable]

@@ -7,6 +7,7 @@
 local speed = 10
 local lightCpnt = nil
 local image = nil
+
 function start()
 	print("lua start...")
 	print("injected object", lightObject)

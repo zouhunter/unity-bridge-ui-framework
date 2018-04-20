@@ -4,7 +4,6 @@
 
 	<assembly fullname="Assembly-CSharp">
 	    <type fullname="BridgeUI.LuaPanel" preserve="all"/>
-		<type fullname="LuaRuntimePanel" preserve="all"/>
 		
 	</assembly>
 

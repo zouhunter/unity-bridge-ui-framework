@@ -48,11 +48,7 @@ namespace BridgeUI
 
         private void Awake()
         {
-            InitCreater();
-            RegistUINodes();
-            RegistBridgePool();
-            TryAutoOpen(Trans);
-            RegistUIEvents();
+            LunchPanelGroupSystem();
         }
     }
 }

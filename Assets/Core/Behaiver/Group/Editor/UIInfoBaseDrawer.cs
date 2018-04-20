@@ -212,12 +212,13 @@ namespace BridgeUIEditor
             {
                 return uigroup.transform;
             }
-
+#if AssetBundleTools
             RuntimePanelGroup runtimeGroup = Object.FindObjectOfType<RuntimePanelGroup>();
             if (runtimeGroup != null)
             {
                 return runtimeGroup.transform;
             }
+#endif
             return null;
         }
 

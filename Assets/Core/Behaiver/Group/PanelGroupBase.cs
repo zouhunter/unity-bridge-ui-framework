@@ -62,6 +62,15 @@ namespace BridgeUI
             UIFacade.UnRegistGroup(this);
         }
 
+        protected void LunchPanelGroupSystem()
+        {
+            InitCreater();
+            RegistUINodes();
+            RegistBridgePool();
+            TryAutoOpen(Trans);
+            RegistUIEvents();
+        }
+
         public Bridge InstencePanel(IPanelBase parentPanel, string panelName, Transform root)
         {
             Bridge bridge = null;
@@ -98,6 +107,9 @@ namespace BridgeUI
 
         #region protected Functions
 
+        /// <summary>
+        /// 初始化面板创建器
+        /// </summary>
         protected void InitCreater()
         {
             if (ResetMenu && LoadType == LoadType.Bundle)
@@ -110,6 +122,11 @@ namespace BridgeUI
             }
 
         }
+        /// <summary>
+        /// 处理面板打开规则
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="bridge"></param>
         protected void HandBridgeOptions(IPanelBase panel, Bridge bridge)
         {
             TryChangeParentState(panel, bridge.Info);
@@ -196,6 +213,12 @@ namespace BridgeUI
             }
         }
 
+        /// <summary>
+        /// 判断面板的父子关系
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
         protected bool IsChildOfPanel(IPanelBase current, IPanelBase target)
         {
             if (current.Parent == null)
@@ -268,8 +291,8 @@ namespace BridgeUI
         /// 按规则设置面板及父亲面板的状态
         /// </summary>
         /// <param name="panel"></param>
-        /// <param name="root"></param>
         /// <param name="bridge"></param>
+        /// <param name="uiNode"></param>
         protected void InitPanel(IPanelBase panel, Bridge bridge, UIInfoBase uiNode)
         {
             panel.UType = uiNode.type;
@@ -323,7 +346,7 @@ namespace BridgeUI
         /// <summary>
         /// 找到信息源和bridge
         /// </summary>
-        /// <param name="parentName"></param>
+        /// <param name="parentPanel"></param>
         /// <param name="panelName"></param>
         /// <param name="bridgeObj"></param>
         /// <param name="uiNode"></param>
@@ -363,7 +386,7 @@ namespace BridgeUI
         /// <summary>
         /// 获取可用的bridge
         /// </summary>
-        /// <param name="parentName"></param>
+        /// <param name="parentPanel"></param>
         /// <param name="panelName"></param>
         /// <returns></returns>
         protected Bridge GetBridgeClamp(IPanelBase parentPanel, string panelName)
@@ -456,6 +479,11 @@ namespace BridgeUI
                 TryOpenPanels(mayactive.ToArray());
             }
         }
+        /// <summary>
+        /// 尝试打开隐藏的面板
+        /// （如果没有被占用，则可以打开）
+        /// </summary>
+        /// <param name="panels"></param>
         protected void TryOpenPanels(IPanelBase[] panels)
         {
             bool canActive = true;

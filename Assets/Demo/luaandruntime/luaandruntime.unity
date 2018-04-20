@@ -131,11 +131,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   graphList: []
   groupGuid: 50bfe5f291f1ef74c857699bcddb814c
-  url: Windows
   menu: Windows
-  urlType: 2
-  asssetbundle: firstpanelgroup
+  assetbundle: firstpanelgroup
   groupasset: panelgroup
+  resetMenu: 0
 --- !u!1 &983688373
 GameObject:
   m_ObjectHideFlags: 0

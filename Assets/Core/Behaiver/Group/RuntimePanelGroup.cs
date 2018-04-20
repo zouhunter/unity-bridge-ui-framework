@@ -11,8 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using BridgeUI.Model;
-#if AssetBundleTools
-using AssetBundles;
+
 namespace BridgeUI
 {
     /// <summary>
@@ -21,24 +20,16 @@ namespace BridgeUI
     /// </summary>
     public class RuntimePanelGroup : PanelGroupBase
     {
-        public enum BundleUrl
-        {
-            Defult,
-            HttpOrFile,
-            StreamingFolder,
-        }
         //面板组的guid
         public string groupGuid;
-        //加载路径
-        public string url;
         //加载目录
         public string menu;
-        //资源加载类型
-        public BundleUrl urlType;
         //资源包名
-        public string asssetbundle;
+        public string assetbundle;
         //资源名
         public string groupasset;
+        //重置menu
+        public bool resetMenu;
 
         private AssetBundleLoader loader;
         private PanelGroupObj groupObj;
@@ -64,44 +55,37 @@ namespace BridgeUI
 
         private void LoadPanelGroupAsync()
         {
-            loader = AssetBundleLoader.GetInstance(ClampUrl(), menu);
-            loader.LoadAssetFromUrlAsync<Model.PanelGroupObj>(asssetbundle, groupasset, OnLoad);
+            if(resetMenu)
+            {
+                loader = AssetBundleLoader.GetInstance(GetUrl(), menu);
+            }
+            else
+            {
+                loader = AssetBundleLoader.Instence;
+            }
+            loader.LoadAssetFromUrlAsync<Model.PanelGroupObj>(assetbundle, groupasset, OnLoad);
         }
 
-        private string ClampUrl()
+        private string GetUrl()
         {
-            switch (urlType)
-            {
-                case BundleUrl.HttpOrFile:
-                    return url;
-                case BundleUrl.StreamingFolder:
-                    var newurl =
-
+            string url =
 #if UNITY_EDITOR || UNITY_STANDALONE
-                  "file:///" +
+            "file:///" +
 #endif
-                Application.streamingAssetsPath + "/" + url;
-                    return newurl;
-                default:
-                    return url;
-            }
+                Application.streamingAssetsPath + "/" + menu;
+            return url;
 
         }
 
         void OnLoad(Model.PanelGroupObj obj)
         {
             this.groupObj = obj;
-            if(obj)
+            if (obj)
             {
                 Debug.Log("onLoad:" + obj);
-                InitCreater();
-                RegistUINodes();
-                RegistBridgePool();
-                TryAutoOpen(Trans);
-                RegistUIEvents();
+                LunchPanelGroupSystem();
             }
         }
 
     }
 }
-#endif

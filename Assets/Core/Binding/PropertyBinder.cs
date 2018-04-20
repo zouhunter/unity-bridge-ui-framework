@@ -6,13 +6,6 @@ using UnityEngine.Events;
 
 namespace BridgeUI.Binding
 {
-    public enum Direction
-    {
-        ViewToModel,
-        ModelToView,
-        Bidirection
-    }
-
     public class PropertyBinder
     {
         public IPropertyChanged Context { get; private set; }
@@ -20,54 +13,17 @@ namespace BridgeUI.Binding
 
         protected event UnityAction<ViewModelBase> binders;
         protected event UnityAction<ViewModelBase> unbinders;
-        protected readonly Dictionary<string, IBindableProperty> bindingPropertyDic = new Dictionary<string, BridgeUI.Binding.IBindableProperty>();
-        public IBindableProperty this[string name]
-        {
-            get
-            {
-                if (bindingPropertyDic.ContainsKey(name))
-                {
-                    return bindingPropertyDic[name];
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            private set
-            {
-                bindingPropertyDic[name] = value;
-            }
-        }
-        public BindableProperty<T> GetBindableProperty<T>(string name)
-        {
-            if (this[name] == null || !(this[name] is BindableProperty<T>))
-            {
-                this[name] = new BindableProperty<T>();
-            }
-            return this[name] as BindableProperty<T>;
-        }
 
         public PropertyBinder(IPropertyChanged context)
         {
             this.Context = context;
-            context.onPropertyChanged += OnContextPropertyChanged;
-        }
-
-        private void OnContextPropertyChanged(string propertyName)
-        {
-            var prop = this[propertyName];
-            if (prop != null)
-            {
-                prop.Notify();
-            }
         }
 
         public void Bind(ViewModelBase viewModel)
         {
             Debug.Log("Bind:" + viewModel);
             this.viewModel = viewModel;
-            
+
             if (viewModel != null && binders != null)
                 binders.Invoke(viewModel);
         }
@@ -75,51 +31,40 @@ namespace BridgeUI.Binding
         public void Unbind()
         {
             Debug.Log("UnBind:" + viewModel);
-            if (viewModel != null && unbinders != null){
+            if (viewModel != null && unbinders != null)
+            {
                 unbinders.Invoke(viewModel);
             }
             this.viewModel = null;
         }
-        //public void AddValue(string target, string sourceName, Direction direction = Direction.Bidirection)
-        //{
-        //    AddValue<object>(sourceName, target, direction);
-        //}
-        public void AddValue<T>(string target, string sourceName, Direction direction = Direction.Bidirection)
+        /// <summary>
+        /// 利用反射自动完成绑定
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="memberPath"></param>
+        /// <param name="sourceName"></param>
+        public void RegistMember<T>(string memberPath, string sourceName)
         {
-            if (direction == Direction.ModelToView || direction == Direction.Bidirection)
-            {
-                object root = Context;
-                var member = GetDeepMember(ref root, target);
-                UnityAction<T> onViewModelChanged = (value) =>
-                {
-                    Debug.Log(value);
-                    Set<T>(root, member, value);
-                };
-                AddToModel(sourceName, onViewModelChanged);
-            }
-
-            if (direction == Direction.ViewToModel || direction == Direction.Bidirection)
-            {
-                UnityAction<T> onViewChanged = (value) =>
-                {
-                    if (viewModel != null)
-                    {
-                        viewModel.GetBindableProperty<T>(sourceName).Value = value;
-                        UnityEngine.Debug.Log(viewModel);
-                    }
-                };
-                var prop = GetBindableProperty<T>(target);
-                prop.RegistValueChanged(onViewChanged);
-            }
+            object root = Context;
+            var member = GetDeepMember(ref root, memberPath);
+            UnityAction<T> onViewModelChanged = (value) =>{
+                SetMemberValue<T>(root, member, value);
+            };
+            RegistValueCharge(onViewModelChanged, sourceName);
         }
 
-
-        public void AddToModel<T>(string sourceName, UnityAction<T> onViewModelChanged)
+        /// <summary>
+        /// 手动指定绑定事件
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sourceName"></param>
+        /// <param name="onViewModelChanged"></param>
+        public void RegistValueCharge<T>(UnityAction<T> onViewModelChanged, string sourceName)
         {
             binders += (viewModel) =>
             {
                 var prop = viewModel.GetBindableProperty<T>(sourceName);
-                if (prop != null)
+                if (onViewModelChanged != null)
                 {
                     onViewModelChanged.Invoke(prop.Value);
                     prop.RegistValueChanged(onViewModelChanged);
@@ -129,22 +74,21 @@ namespace BridgeUI.Binding
             unbinders += (viewModel) =>
             {
                 var prop = viewModel.GetBindableProperty<T>(sourceName);
-                if (prop != null)
+                if (onViewModelChanged != null)
                 {
                     prop.RemoveValueChanged(onViewModelChanged);
                 }
             };
         }
 
-
-
         /// <summary>
-        /// Get Member Value
+        ///  Get Member Value
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="memberName"></param>
+        /// <param name="Instance"></param>
+        /// <param name="temp"></param>
         /// <returns></returns>
-        protected static T Get<T>(object Instance, MemberInfo temp)
+        protected static T GetMemberValue<T>(object Instance, MemberInfo temp)
         {
             if (temp == null)
             {
@@ -169,9 +113,10 @@ namespace BridgeUI.Binding
         /// Set Member Value
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="memberName"></param>
+        /// <param name="Instance"></param>
+        /// <param name="temp"></param>
         /// <param name="value"></param>
-        protected static void Set<T>(object Instance, MemberInfo temp, T value)
+        protected static void SetMemberValue<T>(object Instance, MemberInfo temp, T value)
         {
             if (temp == null)
             {
@@ -188,8 +133,6 @@ namespace BridgeUI.Binding
             }
             else
             {
-                UnityEngine.Debug.Log(value);
-
                 (temp as MethodInfo).Invoke(Instance, new object[] { value });
             }
         }
@@ -198,11 +141,11 @@ namespace BridgeUI.Binding
         /// Invoke Method Value
         /// </summary>
         /// <param name="memberName"></param>
-        protected static void Invoke(object Instance, string memberName, params object[] value)
+        protected static void InvokeMethod(object Instance, string memberName, params object[] value)
         {
             Debug.Log(Instance + ":" + memberName);
             var temps = Instance.GetType().GetMember(memberName);
-            if(temps.Length > 0)
+            if (temps.Length > 0)
             {
                 var temp = temps[0];
                 if (temp is MethodInfo)
@@ -212,7 +155,12 @@ namespace BridgeUI.Binding
             }
         }
 
-
+        /// <summary>
+        /// 深度获取对象
+        /// </summary>
+        /// <param name="Instance"></param>
+        /// <param name="memberName"></param>
+        /// <returns></returns>
         private static MemberInfo GetDeepMember(ref object Instance, string memberName)
         {
             var names = memberName.Split(new char[] { '.' });
@@ -253,7 +201,5 @@ namespace BridgeUI.Binding
             }
             return member;
         }
-
-
     }
 }

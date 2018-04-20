@@ -10,7 +10,6 @@ namespace BridgeUI.Binding
     public interface IBindableProperty
     {
         object Value { get; set; }
-        void Notify();
     }
 
     public class BindableProperty<T> : IBindableProperty
@@ -48,14 +47,12 @@ namespace BridgeUI.Binding
         {
             this.onValueChanged += OnValueChanged;
         }
+
         public void RemoveValueChanged(UnityAction<T> OnValueChanged)
         {
             this.onValueChanged -= OnValueChanged;
         }
-        public void Notify()
-        {
-            ValueChanged(Value);
-        }
+
         public override string ToString()
         {
             return (Value != null ? Value.ToString() : "null");
@@ -66,7 +63,7 @@ namespace BridgeUI.Binding
             _value = default(T);
         }
 
-      
+
     }
 
 }

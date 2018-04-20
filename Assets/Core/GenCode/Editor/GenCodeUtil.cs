@@ -8,13 +8,14 @@ using ICSharpCode.NRefactory.CSharp;
 using BridgeUI.Model;
 using System.Reflection;
 using System.Linq;
+using PrimitiveType = ICSharpCode.NRefactory.CSharp.PrimitiveType;
 
 namespace BridgeUI
 {
 
     public static class GenCodeUtil
     {
-        public static Type[] supportControls = new Type[] {
+        public static Type[] supportControls =  {
                 typeof(ScrollRect),
                 typeof(InputField),
                 typeof(Dropdown),
@@ -29,15 +30,17 @@ namespace BridgeUI
                 typeof(RectTransform),
                 typeof(GameObject),
             };
-
+        public static List<string> InnerFunctions = new List<string>()
+        {
+            "Close",
+        };
         public static string[] supportBaseTypes;
-
-        //private static Dictionary<Type, ComponentCode> componentCoder;
+        private const string initcomponentMethod = "InitComponents";
+        private const string propbindingsMethod = "PropBindings";
 
         static GenCodeUtil()
         {
             supportBaseTypes = LoadAllBasePanels();
-            //componentCoder = CreateCoderDic();
         }
         /// <summary>
         /// 创建编码字典
@@ -46,7 +49,7 @@ namespace BridgeUI
         private static Dictionary<Type, ComponentCode> CreateCoderDic()
         {
             var dic = new Dictionary<Type, ComponentCode>();
-            dic.Add(typeof(Button),new ButtonCode());
+            dic.Add(typeof(Button), new ButtonCode());
             return dic;
         }
 
@@ -83,7 +86,7 @@ namespace BridgeUI
             foreach (var item in types)
             {
                 var attributes = item.GetCustomAttributes(false);
-                if(Array.Find(attributes,x=>x is PanelParentAttribute) != null)
+                if (Array.Find(attributes, x => x is PanelParentAttribute) != null)
                 {
                     if (!support.Contains(item.FullName))
                     {
@@ -102,13 +105,11 @@ namespace BridgeUI
             //添加命名空间和引用
             CompleteNameSpace(coder.tree, rule);
             //添加类
-            var classNode = CompleteClass(coder.tree, prefab, rule);
-            //完善方法
-            TryCreateMethods(classNode, rule);
+            CompleteClass(coder.tree, prefab, rule);
             return coder;
         }
 
-        private static void LoadOldScript(GameObject prefab,UICoder coder)
+        private static void LoadOldScript(GameObject prefab, UICoder coder)
         {
             var oldScript = prefab.GetComponent<PanelBase>();
             if (oldScript != null)
@@ -119,13 +120,34 @@ namespace BridgeUI
         }
 
         /// <summary>
-        /// 定义一些模板方法
+        /// 完善方法
         /// </summary>
-        /// <param name="classItem"></param>
+        /// <param name="classNode"></param>
         /// <param name="rule"></param>
-        private static void TryCreateMethods(TypeDeclaration classNode, GenCodeRule rule)
+        private static void CompleteMethods(TypeDeclaration classNode, GenCodeRule rule)
         {
-            
+            var InitComponentsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == initcomponentMethod).FirstOrDefault();
+            var PropBindingsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == propbindingsMethod).FirstOrDefault();
+
+            if (InitComponentsNode == null)
+            {
+                InitComponentsNode = new MethodDeclaration();
+                InitComponentsNode.Name = initcomponentMethod;
+                InitComponentsNode.Modifiers |= Modifiers.Protected | Modifiers.Override;
+                InitComponentsNode.ReturnType = new ICSharpCode.NRefactory.CSharp.PrimitiveType("void");
+                InitComponentsNode.Body = new BlockStatement();
+                classNode.AddChild(InitComponentsNode, Roles.TypeMemberRole);
+            }
+
+            if (PropBindingsNode == null)
+            {
+                PropBindingsNode = new MethodDeclaration();
+                PropBindingsNode.Name = propbindingsMethod;
+                PropBindingsNode.Modifiers |= Modifiers.Protected | Modifiers.Override;
+                PropBindingsNode.ReturnType = new ICSharpCode.NRefactory.CSharp.PrimitiveType("void");
+                PropBindingsNode.Body = new BlockStatement();
+                classNode.AddChild(PropBindingsNode, Roles.TypeMemberRole);
+            }
         }
 
         private static TypeDeclaration CompleteClass(SyntaxTree tree, GameObject prefab, GenCodeRule rule)
@@ -137,7 +159,7 @@ namespace BridgeUI
                 classNode = new TypeDeclaration();
                 classNode.Name = className;
                 classNode.Modifiers |= Modifiers.Public;
-              
+
                 var comment = new Comment("<summary>", CommentType.Documentation);
                 tree.AddChild(comment, Roles.Comment);
                 comment = new Comment("[代码说明信息]", CommentType.Documentation);
@@ -146,17 +168,17 @@ namespace BridgeUI
                 tree.AddChild(comment, Roles.Comment);
                 tree.AddChild(classNode, Roles.TypeMemberRole);
             }
-            else
+
+            classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
+            var baseType = GenCodeUtil.supportBaseTypes[rule.baseTypeIndex];
+            var basePanels = LoadAllBasePanels();
+            var bs = classNode.BaseTypes.Where(x => Array.Find(basePanels, y => x.ToString() == y) != null).FirstOrDefault();
+            if (bs != null)
             {
-                classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
-                var baseType = GenCodeUtil.supportBaseTypes[rule.baseTypeIndex];
-                var basePanels = LoadAllBasePanels();
-                var bs = classNode.BaseTypes.Where(x => Array.Find(basePanels, y => x.ToString() == y) != null).FirstOrDefault();
-                if(bs != null) {
-                    classNode.BaseTypes.Remove(bs);
-                }
-                classNode.BaseTypes.Add(new SimpleType(baseType));
+                classNode.BaseTypes.Remove(bs);
             }
+            classNode.BaseTypes.Add(new SimpleType(baseType));
+
             return classNode;
         }
 
@@ -184,11 +206,16 @@ namespace BridgeUI
 
             var needAdd = FilterExisField(baseType, components);
 
-            TryAddInfoToUnit(uiCoder, needAdd);
+            var tree = uiCoder.tree;
+            var className = uiCoder.className;
+            var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
+
+            TryAddInfoToUnit(classNode, needAdd);
+            CompleteMethods(classNode, rule);
+            BindingInfoToUnit(classNode, needAdd);
 
             var scriptPath = GetScriptPath(go);
             System.IO.File.WriteAllText(scriptPath, uiCoder.Compile());
-            string className = go.name;
             var type = typeof(BridgeUI.PanelBase).Assembly.GetType(className);
             if (type != null)
             {
@@ -208,6 +235,7 @@ namespace BridgeUI
             var path = AssetDatabase.GetAssetPath(go).Replace(".prefab", ".cs");
             return path;
         }
+
         /// <summary>
         /// 过虑已经存在的变量
         /// </summary>
@@ -235,12 +263,8 @@ namespace BridgeUI
             }
         }
 
-        private static void TryAddInfoToUnit(UICoder coder, ComponentItem[] components)
+        private static void TryAddInfoToUnit(TypeDeclaration classNode, ComponentItem[] components)
         {
-            var tree = coder.tree;
-            var className = coder.className;
-            var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
-
             foreach (var item in components)
             {
                 var fieldName = string.Format("m_" + item.name);
@@ -256,53 +280,152 @@ namespace BridgeUI
                     field.Attributes.Add(new AttributeSection(att));
                     classNode.AddChild(field, Roles.TypeMemberRole);
                 }
+            }
+        }
 
-                //var fieldName = string.Format("m_" + item.name);
-                //var field = SuarchField(codeClass.Members, fieldName);
-                //if (field == null)
-                //{
-                //    field = new CodeMemberField();
-                //    field.Attributes = MemberAttributes.Private;
-                //    codeClass.Members.Add(field);
-                //}
-                //field.Type = new CodeTypeReference(item.componentType, CodeTypeReferenceOptions.GenericTypeParameter);
-                //if (field.CustomAttributes.SuarchAttribute("SerializeField") == null)
-                //{
-                //    field.CustomAttributes.Add(new CodeAttributeDeclaration("UnityEngine.SerializeField"));
-                //}
-                //field.Name = fieldName;
+        private static void BindingInfoToUnit(TypeDeclaration classNode, ComponentItem[] components)
+        {
+            var InitComponentsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == initcomponentMethod).FirstOrDefault();
+            var PropBindingsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == propbindingsMethod).FirstOrDefault();
+
+            foreach (var component in components)
+            {
+                if (!component.binding)
+                {
+                    var invocations = InitComponentsNode.Body.Descendants.OfType<InvocationExpression>();
+                    var invocation = invocations.Where(x => x.Target.ToString().Contains("m_" + component.name) && x.Arguments.Where(ag => ag.ToString() == component.sourceName) != null).FirstOrDefault();
+                    var methodName = GetMethodName_InitComponentsNode(component.componentType);
+                    if (invocation == null && !string.IsNullOrEmpty(methodName) && !string.IsNullOrEmpty(component.sourceName))
+                    {
+                        invocation = new InvocationExpression();
+                        invocation.Target = new MemberReferenceExpression(new MemberReferenceExpression(new IdentifierExpression("m_" + component.name), methodName, new AstType[0]), "AddListener", new AstType[0]);
+                        invocation.Arguments.Add(new IdentifierExpression(component.sourceName));
+                        InitComponentsNode.Body.Add(invocation);
+                        CompleteMethod(classNode, component);
+                    }
+                }
+                else
+                {
+                    var invocations = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
+                    var invocation = invocations.Where(x => x.Target.ToString().Contains("Binder") && x.Arguments.Count > 0 && x.Arguments.First().ToString().Contains("m_" + component.name)).FirstOrDefault();
+                    if (invocation == null)
+                    {
+                        var methodName = GetMethodNameFromComponent(component.componentType);
+                        if (!string.IsNullOrEmpty(methodName))
+                        {
+                            invocation = new InvocationExpression();
+                            invocation.Target = new MemberReferenceExpression(new IdentifierExpression("Binder"), methodName, new AstType[0]);
+                            invocation.Arguments.Add(new IdentifierExpression("m_" + component.name));
+                            invocation.Arguments.Add(new PrimitiveExpression(component.sourceName));
+                            PropBindingsNode.Body.Add(invocation);
+                        }
+
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 完善方法
+        /// </summary>
+        /// <param name="classNode"></param>
+        /// <param name="item"></param>
+        private static void CompleteMethod(TypeDeclaration classNode, ComponentItem item)
+        {
+            var funcNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == item.sourceName).FirstOrDefault();
+            if (funcNode == null)
+            {
+                var argument = GetArgument_InitComponentsNode(item.componentType);
+                if (argument != null && !InnerFunctions.Contains(item.sourceName))
+                {
+                    funcNode = new MethodDeclaration();
+                    funcNode.Name = item.sourceName;
+                    funcNode.Modifiers |= Modifiers.Protected;
+                    funcNode.ReturnType = new ICSharpCode.NRefactory.CSharp.PrimitiveType("void");
+                    funcNode.Parameters.Add(argument);
+                    funcNode.Body = new BlockStatement();
+                    classNode.AddChild(funcNode, Roles.TypeMemberRole);
+                }
+
             }
         }
         /// <summary>
-        /// 查看字段
+        /// 获取
         /// </summary>
-        /// <param name="collection"></param>
-        /// <param name="Name"></param>
+        /// <param name=""></param>
         /// <returns></returns>
-        //private static CodeMemberField SuarchField(this CodeTypeMemberCollection collection, string Name)
-        //{
-        //    foreach (var item in collection)
-        //    {
-        //        if (item is CodeMemberField)
-        //        {
-        //            if ((item as CodeMemberField).Name == Name)
-        //            {
-        //                return (item as CodeMemberField);
-        //            }
-        //        }
-        //    }
-        //    return null;
-        //}
-
-        public static void AnalysisComponent(GameObject prefab, List<ComponentItem> components)
+        private static string GetMethodName_InitComponentsNode(Type componentType)
         {
-            var component = prefab.GetComponent<PanelBase>();
-            if (component == null)
+            if (componentType == typeof(Button))
             {
-                EditorApplication.Beep();
-                return;
+                return "onClick";
             }
+            else if (componentType == typeof(Toggle))
+            {
+                return "onValueChanged";
+            }
+            else if (componentType == typeof(Slider))
+            {
+                return "onValueChanged";
+            }
+            else
+            {
+                return "";
+            }
+        }
+        private static ParameterDeclaration GetArgument_InitComponentsNode(Type componentType)
+        {
+            if (componentType == typeof(Button))
+            {
+                return new ParameterDeclaration();
+            }
+            else if (componentType == typeof(Toggle))
+            {
+                return new ParameterDeclaration(new PrimitiveType("bool"), "isOn");
+            }
+            else if (componentType == typeof(Slider))
+            {
+                return new ParameterDeclaration(new PrimitiveType("float"), "value");
+            }
+            else
+            {
+                return null;
+            }
+        }
+        private static string GetMethodNameFromComponent(Type componentType)
+        {
+            if (componentType == typeof(Button))
+            {
+                return "RegistButtonEvent";
+            }
+            else if (componentType == typeof(Toggle))
+            {
+                return "RegistToggleEvent";
+            }
+            else if (componentType == typeof(Slider))
+            {
+                return "RegistSliderEvent";
+            }
+            else if (componentType == typeof(Image))
+            {
+                return "RegistImageView";
+            }
+            else if (componentType == typeof(RawImage))
+            {
+                return "RegistRawImageView";
+            }
+            else if (componentType == typeof(Text))
+            {
+                return "RegistTextView";
+            }
+            else
+            {
+                return "";
+            }
+        }
 
+        public static void AnalysisComponent(PanelBase component, List<ComponentItem> components)
+        {
             var fields = component.GetType().GetFields(BindingFlags.GetField | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             foreach (var field in fields)
             {
@@ -316,6 +439,7 @@ namespace BridgeUI
                         compItem.name = field.Name.Replace("m_", "");
                         components.Add(compItem);
                     }
+
                     var value = field.GetValue(component);
                     if (value != null)
                     {
@@ -332,28 +456,49 @@ namespace BridgeUI
                     }
                 }
             }
+            AnalysisBindings(component, components);
         }
 
-        /// <summary>
-        /// 查找属性
-        /// </summary>
-        /// <param name="collection"></param>
-        /// <param name="Name"></param>
-        /// <returns></returns>
-        //private static CodeAttributeDeclaration SuarchAttribute(this CodeAttributeDeclarationCollection collection, string Name)
-        //{
-        //    foreach (var item in collection)
-        //    {
-        //        if (item is CodeAttributeDeclaration)
-        //        {
-        //            if ((item as CodeAttributeDeclaration).Name == Name)
-        //            {
-        //                return (item as CodeAttributeDeclaration);
-        //            }
-        //        }
-        //    }
-        //    return null;
-        //}
+        private static void AnalysisBindings(PanelBase component, List<ComponentItem> components)
+        {
+            var script = MonoScript.FromMonoBehaviour(component).text;
+            var tree = new CSharpParser().Parse(script);
+
+            var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == component.GetType().Name).First();
+            if (classNode != null)
+            {
+                var InitComponentsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == initcomponentMethod).First();
+                if (InitComponentsNode != null)
+                {
+                    var invctions = InitComponentsNode.Body.Descendants.OfType<InvocationExpression>();
+                    foreach (var item in invctions)
+                    {
+                        var com = components.Find(x => item.Target.ToString().Contains("m_" + x.name));
+                        if (com != null)
+                        {
+                            com.sourceName = item.Arguments.First().ToString();
+                            com.binding = false;
+                        }
+
+                    }
+                }
+                var PropBindingsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == propbindingsMethod).First();
+                if (PropBindingsNode != null)
+                {
+                    var invctions = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
+                    foreach (var item in invctions)
+                    {
+                        var com = components.Find(x => item.Arguments.Count > 1 && item.Arguments.First().ToString().Contains("m_" + x.name));
+                        if (com != null)
+                        {
+                            var at = item.Arguments.ToArray();
+                            com.sourceName = at[1].ToString().Replace("\"", "");
+                            com.binding = true;
+                        }
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// 快速进行控件绑定
@@ -382,13 +527,6 @@ namespace BridgeUI
                                 BindingFlags.NonPublic,
                                 null, behaiver, new object[] { obj }, null, null, null);
             }
-        }
-
-
-        [InitializeOnLoadMethod]
-        public static void HandleOnReImport()
-        {
-
         }
 
     }

@@ -25,8 +25,8 @@ namespace BridgeUI.Common
         {
             base.Awake();
             m_close.interactable = false;
-            Binder.AddToModel<bool>("cansaleAble", (y) => { m_close.interactable = y; });
-            Binder.AddToModel<string>("title", (y) => { m_title.text = y; });
+            Binder.RegistValueCharge<bool>((y) => { m_close.interactable = y; }, "cansaleAble");
+            Binder.RegistValueCharge<string>((y) => { m_title.text = y; }, "title");
         }
     }
 }

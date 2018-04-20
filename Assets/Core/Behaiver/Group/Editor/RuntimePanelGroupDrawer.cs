@@ -89,9 +89,9 @@ namespace BridgeUIEditor
                 EditorGUILayout.LabelField("[Bundle] =", EditorStyles.label, GUILayout.Width(70));
                 if (resetMenuProp.boolValue)
                 {
-                    EditorGUI.BeginChangeCheck();
                     assetbundleProp.stringValue = EditorGUILayout.TextField(assetbundleProp.stringValue);
-                    if (EditorGUI.EndChangeCheck() && importer != null)
+
+                    if (GUILayout.Button("r",GUILayout.Width(20)) && importer != null)
                     {
                         importer.assetBundleName = assetbundleProp.stringValue;
                         EditorUtility.SetDirty(importer);
@@ -119,7 +119,6 @@ namespace BridgeUIEditor
 
             if (groupObj != null && importer != null)
             {
-                Debug.Log(importer.assetBundleName);
                 assetbundleProp.stringValue = importer.assetBundleName;
             }
             serializedObject.ApplyModifiedProperties();
@@ -127,6 +126,9 @@ namespace BridgeUIEditor
 
         private bool CheckMenu()
         {
+#if AssetBundleTools
+            if (!resetMenuProp.boolValue) menuProp.stringValue = AssetBundleLoader.defultMenu;
+#endif
             return !menuProp.stringValue.Contains("/")
                 && !menuProp.stringValue.Contains("\\")
                 && System.IO.Directory.Exists(Application.streamingAssetsPath + "/" + menuProp.stringValue);

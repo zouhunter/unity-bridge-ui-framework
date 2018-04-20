@@ -25,7 +25,7 @@ public class PanelNodeInfoDrawer : Editor
     {
         get
         {
-            if (_panelCompnent == null)
+            if (_panelCompnent == null && panelNode.Info.prefab != null)
             {
                 _panelCompnent = panelNode.Info.prefab.GetComponent<PanelBase>();
             }
@@ -35,6 +35,8 @@ public class PanelNodeInfoDrawer : Editor
     private Editor panelDrawer;
     private ReorderableList preComponentList;
     private bool showRule;
+    private Color fieldColor = new Color(0.1f, 0.1f, 0.1f, 0.1f);
+
     private string HeadInfo
     {
         get
@@ -74,6 +76,7 @@ public class PanelNodeInfoDrawer : Editor
         if (preComponentList == null)
         {
             preComponentList = new ReorderableList(components, typeof(ComponentItem));
+            preComponentList.elementHeight = 3f * EditorGUIUtility.singleLineHeight;
             preComponentList.drawHeaderCallback = DrawComponetHeader;
             preComponentList.drawElementCallback = DrawComponetItem;
         }
@@ -106,25 +109,36 @@ public class PanelNodeInfoDrawer : Editor
     }
     private void DrawComponetHeader(Rect rect)
     {
-        rect = new Rect(rect.x + rect.width * 0.03f, rect.y, rect.width, rect.height);
+        var innerRect = new Rect(rect.x + 40, rect.y, rect.width - 40, rect.height);
         var height = EditorGUIUtility.singleLineHeight;
-        var compRect = new Rect(rect.x, rect.y, rect.width * 0.2f, height);
-        var nameRect = new Rect(rect.x + rect.width * 0.25f, rect.y, rect.width * 0.25f, height);
-        var typeRect = new Rect(rect.x + rect.width * 0.5f, rect.y, rect.width * 0.5f, height);
-
-        EditorGUI.LabelField(compRect, "对象");
-        EditorGUI.LabelField(nameRect, "名称");
-        EditorGUI.LabelField(typeRect, "组件");
+        var nameRect = new Rect(innerRect.x, innerRect.y, innerRect.width * 0.28f, height);
+        var sourceRect = new Rect(innerRect.x + innerRect.width * 0.3f, innerRect.y, innerRect.width * 0.7f, height);
+        EditorGUI.LabelField(rect, "[列表]");
+        EditorGUI.LabelField(nameRect, "对象{Target}");
+        EditorGUI.LabelField(sourceRect, "源{Source}");
     }
 
     private void DrawComponetItem(Rect rect, int index, bool isActive, bool isFocused)
     {
+        var padding = 3;
+        var innerRect1 = new Rect(rect.x + padding, rect.y + padding, rect.width - 2 * padding, rect.height - 2 * padding);
+        GUI.color = fieldColor;
+        GUI.Box(innerRect1, "");
+        GUI.color = Color.white;
+        padding = 5;
+        var innerRect = new Rect(rect.x + padding + 20, rect.y + padding, rect.width - 2 * padding - 20, rect.height - 2 * padding);
+
         var height = EditorGUIUtility.singleLineHeight;
         var item = components[index];
+        var indexRect = new Rect(rect.x + padding, rect.y + EditorGUIUtility.singleLineHeight, 20, EditorGUIUtility.singleLineHeight);
+        var nameRect = new Rect(innerRect.x, innerRect.y, innerRect.width * 0.28f, height);
+        var sourceRect = new Rect(innerRect.x + innerRect.width * 0.3f, innerRect.y, innerRect.width * 0.7f, height);
+        var compRect = new Rect(nameRect.x, nameRect.y + EditorGUIUtility.singleLineHeight + 5, nameRect.width, nameRect.height);
+        var typeRect = new Rect(sourceRect.x, sourceRect.y + EditorGUIUtility.singleLineHeight + 5, sourceRect.width, sourceRect.height);
+        sourceRect.width *= 0.5f;
+        var bindingRect = new Rect(sourceRect.x + sourceRect.width, sourceRect.y, sourceRect.width, sourceRect.height);
 
-        var compRect = new Rect(rect.x, rect.y, rect.width * 0.2f, height);
-        var nameRect = new Rect(rect.x + rect.width * 0.25f, rect.y, rect.width * 0.25f, height);
-        var typeRect = new Rect(rect.x + rect.width * 0.5f, rect.y, rect.width * 0.5f, height);
+        EditorGUI.LabelField(indexRect, index.ToString());
 
         EditorGUI.BeginChangeCheck();
         item.target = EditorGUI.ObjectField(compRect, item.target, item.componentType, true) as GameObject;
@@ -142,6 +156,7 @@ public class PanelNodeInfoDrawer : Editor
             item.components = GenCodeUtil.SortComponent(item.target as GameObject);
         }
 
+        item.sourceName = EditorGUI.TextField(sourceRect, item.sourceName);
 
         EditorGUI.BeginChangeCheck();
         item.name = EditorGUI.TextField(nameRect, item.name);
@@ -155,6 +170,7 @@ public class PanelNodeInfoDrawer : Editor
             item.componentID = EditorGUI.Popup(typeRect, item.componentID, item.componentStrs);
         }
 
+        item.binding = EditorGUI.ToggleLeft(bindingRect, "binding", item.binding);
     }
 
 
@@ -185,14 +201,23 @@ public class PanelNodeInfoDrawer : Editor
 
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-          
+
             showRule = GUILayout.Toggle(showRule, new GUIContent("⇆", "生成脚本"), EditorStyles.miniButton);
             GUILayout.FlexibleSpace();
 
             if (GUILayout.Button(new GUIContent("←", "快速解析"), EditorStyles.miniButton))
             {
-                //从旧的脚本解析出
-                GenCodeUtil.AnalysisComponent(nodeInfo.prefab, components);
+                var component = nodeInfo.prefab.GetComponent<PanelBase>();
+                if (component == null)
+                {
+                    EditorApplication.Beep();
+                }
+                else
+                {
+                    //从旧的脚本解析出
+                    GenCodeUtil.AnalysisComponent(component, components);
+                }
+               
             }
             if (GUILayout.Button(new GUIContent("→", "快速绑定"), EditorStyles.miniButton))
             {

@@ -18,6 +18,8 @@ namespace BridgeUI.Model
     {
         public string name;
         public int componentID;
+        public string sourceName;
+        public bool binding;
         public TypeRecod[] components;
         public GameObject target;
 

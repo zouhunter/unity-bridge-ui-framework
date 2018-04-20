@@ -13,8 +13,8 @@ using System.Collections.Generic;
 using System;
 
 
-namespace BridgeUI.Binding
-{
+//namespace BridgeUI.Binding
+//{
     public delegate void RoutedEventHandler(object sender, RoutedEventArgs e);
     public class EventArgs
     {
@@ -37,4 +37,4 @@ namespace BridgeUI.Binding
             this.OriginalSource = originalSource;
         }
     }
-}
+//}

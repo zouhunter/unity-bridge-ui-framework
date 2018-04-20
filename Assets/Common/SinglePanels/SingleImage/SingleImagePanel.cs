@@ -27,8 +27,8 @@ namespace BridgeUI.Common
         protected override void Awake()
         {
             base.Awake();
-            Binder.AddToModel<string>("title", (y) => { m_title.text = y; });
-            Binder.AddToModel<Sprite>("sprite", (y) => { m_image.sprite = y; });
+            Binder.RegistTextView(m_title,"title");
+            Binder.RegistImageView(m_image, "sprite");
         }
 
         protected override void HandleData(object data)

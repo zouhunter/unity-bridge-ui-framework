@@ -82,7 +82,6 @@ namespace BridgeUI
             this.groupObj = obj;
             if (obj)
             {
-                Debug.Log("onLoad:" + obj);
                 LunchPanelGroupSystem();
             }
         }

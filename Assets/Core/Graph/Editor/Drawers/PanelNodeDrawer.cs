@@ -201,11 +201,8 @@ public class PanelNodeInfoDrawer : Editor
 
         using (var hor = new EditorGUILayout.HorizontalScope())
         {
-
-            showRule = GUILayout.Toggle(showRule, new GUIContent("⇆", "生成脚本"), EditorStyles.miniButton);
             GUILayout.FlexibleSpace();
-
-            if (GUILayout.Button(new GUIContent("←", "快速解析"), EditorStyles.miniButton))
+            if (GUILayout.Button(new GUIContent("←", "快速解析"), EditorStyles.toolbarButton, GUILayout.Width(20)))
             {
                 var component = nodeInfo.prefab.GetComponent<PanelBase>();
                 if (component == null)
@@ -217,34 +214,25 @@ public class PanelNodeInfoDrawer : Editor
                     //从旧的脚本解析出
                     GenCodeUtil.AnalysisComponent(component, components);
                 }
-               
             }
-            if (GUILayout.Button(new GUIContent("→", "快速绑定"), EditorStyles.miniButton))
-            {
-                GenCodeUtil.BindingUI(nodeInfo.prefab, components);
-            }
+
         }
 
-        if (showRule)
+        //if (showRule)
+        //{
+        using (var hor = new EditorGUILayout.HorizontalScope())
         {
-            using (var hor = new EditorGUILayout.HorizontalScope())
+            EditorGUILayout.LabelField("BaseType:", GUILayout.Width(lableWidth));
+            rule.baseTypeIndex = EditorGUILayout.Popup(rule.baseTypeIndex, GenCodeUtil.supportBaseTypes);
+            if (GUILayout.Button(new GUIContent("update", "更新脚本控件信息"), EditorStyles.miniButton, GUILayout.Width(60)))
             {
-                EditorGUILayout.LabelField("BaseType:", GUILayout.Width(lableWidth));
-                rule.baseTypeIndex = EditorGUILayout.Popup(rule.baseTypeIndex, GenCodeUtil.supportBaseTypes);
+                var go = nodeInfo.prefab;
+                var uiCoder = GenCodeUtil.LoadUICoder(go, rule);
+                GenCodeUtil.CreateScript(go, components, uiCoder, rule);
             }
-
-            using (var hor = new EditorGUILayout.HorizontalScope())
-            {
-                GUILayout.FlexibleSpace();
-                if (GUILayout.Button(new GUIContent("update", "更新脚本控件信息"), EditorStyles.miniButton, GUILayout.Width(60)))
-                {
-                    var go = nodeInfo.prefab;
-                    var uiCoder = GenCodeUtil.LoadUICoder(go, rule);
-                    GenCodeUtil.CreateScript(go, components, uiCoder, rule);
-                }
-            }
-
         }
+
+        //}
 
         if (preComponentList != null) preComponentList.DoLayoutList();
         var addRect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
@@ -278,7 +266,7 @@ public class PanelNodeInfoDrawer : Editor
                             if (parent)
                             {
                                 var c_item = new ComponentItem(parent as GameObject);
-                                c_item.components = GenCodeUtil.SortComponent(target as GameObject);
+                                c_item.components = GenCodeUtil.SortComponent(parent as GameObject);
                                 components.Add(c_item);
                             }
                         }
@@ -288,6 +276,7 @@ public class PanelNodeInfoDrawer : Editor
 
             }
         }
+
 
     }
 
@@ -499,6 +488,14 @@ public class PanelNodeInfoDrawer : Editor
     {
         if (!panelCompnent) return;
 
+        using (var hor = new EditorGUILayout.HorizontalScope())
+        {
+            if (GUILayout.Button(new GUIContent("→", "快速绑定"), EditorStyles.toolbarButton, GUILayout.Width(20)))
+            {
+                GenCodeUtil.BindingUI(nodeInfo.prefab, components);
+            }
+        }
+
         GUILayout.Space(5);
 
         if (panelDrawer == null && panelCompnent != null)
@@ -510,6 +507,8 @@ public class PanelNodeInfoDrawer : Editor
         {
             panelDrawer.OnInspectorGUI();
         }
+
+
     }
     /// <summary>
     /// 切换面板的打开状态

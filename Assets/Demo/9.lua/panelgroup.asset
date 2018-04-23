@@ -13,10 +13,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   graphList:
   - graphName: graph
-    guid: a5979b5bc8abc6f41b1da8e4925ed2d1
+    guid: 927e0bdb67c403e4c9a7856d70693c81
   resetMenu: 0
   menu: 
-  loadType: 1
+  loadType: 2
   b_nodes:
   - panelName: LuaPanel
     instanceID: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
       quitAnim: 0
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 142688, guid: 0c54352030a7ca1498b5fa2fcace5d7f, type: 2}
+    prefab: {fileID: 0}
   bridges:
   - inNode: 
     index: 0

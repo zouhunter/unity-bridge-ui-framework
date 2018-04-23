@@ -21,7 +21,7 @@ namespace BridgeUI.Binding
 
         public void Bind(ViewModelBase viewModel)
         {
-            Debug.Log("Bind:" + viewModel);
+            //Debug.Log("Bind:" + viewModel);
             this.viewModel = viewModel;
 
             if (viewModel != null && binders != null)
@@ -30,7 +30,7 @@ namespace BridgeUI.Binding
 
         public void Unbind()
         {
-            Debug.Log("UnBind:" + viewModel);
+            //Debug.Log("UnBind:" + viewModel);
             if (viewModel != null && unbinders != null)
             {
                 unbinders.Invoke(viewModel);

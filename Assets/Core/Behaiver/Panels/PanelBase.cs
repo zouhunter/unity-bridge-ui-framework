@@ -89,7 +89,18 @@ namespace BridgeUI
         private bool _isAlive = true;
         //private Dictionary<object, PropertyInfo> propDic;
         private IAnimPlayer _animPlayer;
-        protected Binding.PanelBaseBinder Binder;
+        private Binding.PanelBaseBinder _binder;
+        protected virtual Binding.PanelBaseBinder Binder
+        {
+            get
+            {
+                if(_binder == null)
+                {
+                    _binder = new Binding.PanelBaseBinder(this);
+                }
+                return _binder;
+            }
+        }
         private Binding.ViewModelBase _viewModel;
         public Binding.ViewModelBase BindingContext
         {
@@ -111,7 +122,6 @@ namespace BridgeUI
         protected override void Awake()
         {
             base.Awake();
-            Binder = new Binding.PanelBaseBinder(this);
             InitComponents();
             PropBindings();
         }
@@ -214,7 +224,7 @@ namespace BridgeUI
                 var key = item.ToString();
                 if (BindingContext[key] != null)
                 {
-                    BindingContext[key].Value = data[item];
+                    BindingContext[key].ValueBoxed = data[item];
                 }
             }
         }

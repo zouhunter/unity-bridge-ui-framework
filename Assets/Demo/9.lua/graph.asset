@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Name: graph
   m_EditorClassIdentifier: 
   m_allNodes:
-  - m_name: Luncher
+  - m_name: AnyState
     m_id: 397922e7-d54d-445d-9ad3-2a81f5a70283
-    m_x: 310
-    m_y: 174
+    m_x: 60
+    m_y: 72
     m_node: {fileID: 11480364}
     m_inputPoints: []
     m_outputPoints:
@@ -31,10 +31,10 @@ MonoBehaviour:
         height: 23
       max: 100
       type: bridge
-  - m_name: LuaPanel
+  - m_name: LuaPanel01
     m_id: 998f26f7-0dd2-4f36-81e9-4a51c573ff05
-    m_x: 528
-    m_y: 300
+    m_x: 240
+    m_y: 156
     m_node: {fileID: 11457308}
     m_inputPoints:
     - id: 9eaf3da9-f56f-474d-8cb9-423531bd6237
@@ -103,16 +103,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 2
+  selected: 1
   instenceID: 0
   description: 
-  assetName: LuaPanel
+  assetName: LuaPanel01
   style: 1
   nodeType: 31
   rule:
-    baseTypeIndex: 0
+    baseTypeIndex: 4
     canInherit: 0
-  components: []
+  components:
+  - name: Button
+    componentID: 0
+    sourceName: on_button_clicked
+    binding: 1
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    target: {fileID: 107120, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
   nodeInfo:
     uiType:
       layerIndex: 0
@@ -123,7 +135,7 @@ MonoBehaviour:
       quitAnim: 0
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 142688, guid: 0c54352030a7ca1498b5fa2fcace5d7f, type: 2}
+    prefab: {fileID: 142688, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
 --- !u!114 &11480364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -135,4 +147,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
   m_Name: Luncher
   m_EditorClassIdentifier: 
-  a: 0

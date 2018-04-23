@@ -9,7 +9,7 @@ namespace BridgeUI.Binding
 {
     public interface IBindableProperty
     {
-        object Value { get; set; }
+        object ValueBoxed { get; set; }
     }
 
     public class BindableProperty<T> : IBindableProperty
@@ -33,7 +33,7 @@ namespace BridgeUI.Binding
             }
         }
 
-        object IBindableProperty.Value
+        public object ValueBoxed
         {
             get { return Value; }
             set { Value = (T)value; }

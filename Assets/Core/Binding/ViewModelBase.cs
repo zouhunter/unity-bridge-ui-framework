@@ -35,7 +35,8 @@ namespace BridgeUI.Binding
                 bindingPropertyDic[name] = value;
             }
         }
-        public BindableProperty<T> GetBindableProperty<T>(string name)
+
+        public virtual BindableProperty<T> GetBindableProperty<T>(string name)
         {
             if (this[name] == null || !(this[name] is BindableProperty<T>))
             {

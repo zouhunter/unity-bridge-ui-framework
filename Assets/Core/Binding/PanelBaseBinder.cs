@@ -23,7 +23,7 @@ namespace BridgeUI.Binding
         /// </summary>
         /// <param name="text"></param>
         /// <param name="sourceName"></param>
-        internal void RegistTextView(Text text, string sourceName)
+        internal virtual void RegistTextView(Text text, string sourceName)
         {
             RegistValueCharge<string>((value) => { text.text = value; }, sourceName);
         }
@@ -33,7 +33,7 @@ namespace BridgeUI.Binding
         /// </summary>
         /// <param name="image"></param>
         /// <param name="sourceName"></param>
-        internal void RegistImageView(Image image, string sourceName)
+        internal virtual void RegistImageView(Image image, string sourceName)
         {
             RegistValueCharge<Sprite>((value) => { image.sprite = value; }, sourceName);
         }
@@ -43,7 +43,7 @@ namespace BridgeUI.Binding
         /// </summary>
         /// <param name="image"></param>
         /// <param name="sourceName"></param>
-        internal void RegistRawImageView(RawImage image, string sourceName)
+        internal virtual void RegistRawImageView(RawImage image, string sourceName)
         {
             RegistValueCharge<Texture>((value) => { image.texture = value; }, sourceName);
         }
@@ -52,54 +52,76 @@ namespace BridgeUI.Binding
         /// </summary>
         /// <param name="button"></param>
         /// <param name="methodName"></param>
-        internal void RegistButtonEvent(Button button, string methodName, params object[] args)
+        internal virtual void RegistButtonEvent(Button button, string methodName, params object[] args)
         {
             UnityAction action = () =>
             {
-                if (viewModel[methodName] != null && viewModel[methodName].Value is ButtonEvent)
+                var prop = viewModel.GetBindableProperty<ButtonEvent>(methodName);
+                if (prop.Value != null)
                 {
-                    var func = (ButtonEvent)viewModel[methodName].Value;
+                    var func = prop.Value;
                     func.Invoke((PanelBase)Context, button, args);
                 }
             };
 
             binders += viewModel =>
             {
-                viewModel.GetBindableProperty<ButtonEvent>(methodName);
                 button.onClick.AddListener(action);
             };
 
             unbinders += viewModel =>
             {
-                viewModel.GetBindableProperty<ButtonEvent>(methodName);
                 button.onClick.RemoveListener(action);
             };
         }
+
+        internal virtual void RegistNormalEvent(UnityEvent uEvent, string methodName)
+        {
+            UnityAction action = () =>
+            {
+                var prop = viewModel.GetBindableProperty<UnityAction>(methodName);
+                if (prop.Value != null)
+                {
+                    var func = prop.Value;
+                    func.Invoke();
+                }
+            };
+
+            binders += viewModel =>
+            {
+                uEvent.AddListener(action);
+            };
+
+            unbinders += viewModel =>
+            {
+                uEvent.RemoveListener(action);
+            };
+        }
+
         /// <summary>
         /// 注册toggle事件
         /// </summary>
         /// <param name="toggle"></param>
         /// <param name="methodName"></param>
-        internal void RegistToggleEvent(Toggle toggle, string methodName, params object[] args)
+        internal virtual void RegistToggleEvent(Toggle toggle, string methodName, params object[] args)
         {
             UnityAction<bool> action = (isOn) =>
             {
-                if (viewModel[methodName] != null && viewModel[methodName].Value is ToggleEvent)
+                var prop = viewModel.GetBindableProperty<ToggleEvent>(methodName);
+                if (prop.Value != null)
                 {
-                    var func = (ToggleEvent)viewModel[methodName].Value;
+                    var func = prop.Value;
                     func.Invoke((PanelBase)Context, toggle, args);
                 }
             };
 
             binders += viewModel =>
             {
-                viewModel.GetBindableProperty<ToggleEvent>(methodName);
                 toggle.onValueChanged.AddListener(action);
             };
 
             unbinders += viewModel =>
             {
-                viewModel.GetBindableProperty<ToggleEvent>(methodName);
                 toggle.onValueChanged.RemoveListener(action);
             };
         }
@@ -110,26 +132,25 @@ namespace BridgeUI.Binding
         /// <param name="slider"></param>
         /// <param name="methodName"></param>
         /// <param name="args"></param>
-        internal void RegistSliderEvent(Slider slider, string methodName, params object[] args)
+        internal virtual void RegistSliderEvent(Slider slider, string methodName, params object[] args)
         {
             UnityAction<float> action = (isOn) =>
             {
-                if (viewModel[methodName] != null && viewModel[methodName].Value is SliderEvent)
+                var prop = viewModel.GetBindableProperty<SliderEvent>(methodName);
+                if (prop.Value != null)
                 {
-                    var func = (SliderEvent)viewModel[methodName].Value;
+                    var func = prop.Value;
                     func.Invoke((PanelBase)Context, slider, args);
                 }
             };
 
             binders += viewModel =>
             {
-                viewModel.GetBindableProperty<SliderEvent>(methodName);
                 slider.onValueChanged.AddListener(action);
             };
 
             unbinders += viewModel =>
             {
-                viewModel.GetBindableProperty<SliderEvent>(methodName);
                 slider.onValueChanged.RemoveListener(action);
             };
         }

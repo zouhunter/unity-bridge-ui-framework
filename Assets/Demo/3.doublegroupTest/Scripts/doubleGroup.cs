@@ -77,7 +77,7 @@ public class doubleGroup : MonoBehaviour
         }
         mainViewModel.info.Value = UnityEngine.Random.Range(0, 100).ToString();
         if (mainViewModel["keyword"] != null)
-            mainViewModel["keyword"].Value = UnityEngine.Random.Range(0, 100).ToString();
+            mainViewModel["keyword"].ValueBoxed = UnityEngine.Random.Range(0, 100).ToString();
     }
 
     private void OpenPanel01(int index)

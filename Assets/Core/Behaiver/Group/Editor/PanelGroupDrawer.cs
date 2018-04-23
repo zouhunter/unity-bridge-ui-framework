@@ -64,13 +64,13 @@ namespace BridgeUIEditor
         {
             serializedObject.Update();
             if (drawScript) DrawScript();
+            DrawGroupList();
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 DrawOption();
                 DrawToolButtons();
             }
             TryDrawMenu();
-            DrawGroupList();
             DrawRuntimeItems();
             serializedObject.ApplyModifiedProperties();
         }
@@ -79,7 +79,7 @@ namespace BridgeUIEditor
         {
             if (groupList == null)
             {
-                groupList = new ReorderableList(serializedObject, graphListProp, true, true, false, true);
+                groupList = new ReorderableList(serializedObject, graphListProp, true, true, true, true);
                 groupList.drawHeaderCallback = (rect) =>
                 {
                     EditorGUI.LabelField(rect, "界面配制图表");
@@ -89,7 +89,7 @@ namespace BridgeUIEditor
                     var prop = graphListProp.GetArrayElementAtIndex(index);
                     var key = prop.FindPropertyRelative("graphName");
                     var guid = prop.FindPropertyRelative("guid");
-                    var btnRect = new Rect(rect.x, rect.y, rect.width - 30, EditorGUIUtility.singleLineHeight);
+                    var btnRect = new Rect(rect.x, rect.y + 2, rect.width - 30, EditorGUIUtility.singleLineHeight);
                     if (GUI.Button(btnRect, key.stringValue, EditorStyles.miniButton))
                     {
                         var path = AssetDatabase.GUIDToAssetPath(guid.stringValue);
@@ -99,7 +99,7 @@ namespace BridgeUIEditor
                             AssetDatabase.OpenAsset(graph);
                         }
                     }
-                    btnRect = new Rect(rect.x + rect.width - 30, rect.y, rect.width, EditorGUIUtility.singleLineHeight);
+                    btnRect = new Rect(rect.x + rect.width - 30, rect.y + 2, rect.width, EditorGUIUtility.singleLineHeight);
                     if (GUI.Button(btnRect, " ", EditorStyles.objectFieldMiniThumb))
                     {
                         var path = AssetDatabase.GUIDToAssetPath(guid.stringValue);
@@ -108,11 +108,45 @@ namespace BridgeUIEditor
                             EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.NodeGraphObj>(path));
                         }
                     }
+                    DragGroupObj(btnRect, prop);
                 };
             }
             groupList.DoLayoutList();
         }
 
+        protected virtual void DragGroupObj(Rect acceptRect,SerializedProperty prop)
+        {
+          
+            switch (Event.current.type)
+            {
+                case EventType.DragUpdated:
+                    if (acceptRect.Contains(Event.current.mousePosition))
+                    {
+                        DragAndDrop.visualMode = DragAndDropVisualMode.Move;
+                    }
+                    break;
+                case EventType.DragPerform:
+                    if (acceptRect.Contains(Event.current.mousePosition))
+                    {
+                        if (DragAndDrop.objectReferences.Length > 0)
+                        {
+                            var obj = DragAndDrop.objectReferences[0];
+                            if (obj is NodeGraph.DataModel.NodeGraphObj)
+                            {
+                                var path = AssetDatabase.GetAssetPath(obj);
+                                var guid = AssetDatabase.AssetPathToGUID(path);
+                                var keyProp = prop.FindPropertyRelative("graphName");
+                                var guidProp = prop.FindPropertyRelative("guid");
+                                guidProp.stringValue = guid;
+                                keyProp.stringValue = obj.name;
+                            }
+                        }
+                        DragAndDrop.AcceptDrag();
+                        Event.current.Use();
+                    }
+                    break;
+            }
+        }
         private void TryDrawMenu()
         {
             if (defultTypeProp.enumValueIndex == 1 && resetMenuProp.boolValue)
@@ -480,6 +514,7 @@ namespace BridgeUIEditor
                 var guid = graphListProp.GetArrayElementAtIndex(i).FindPropertyRelative("guid").stringValue;
                 var path = AssetDatabase.GUIDToAssetPath(guid);
                 var graph = AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.NodeGraphObj>(path);
+
                 if (graph != null)
                 {
                     NodeGraph.NodeGraphController controller = new BridgeUIGraphCtrl();

@@ -25,7 +25,7 @@ MonoBehaviour:
       isInput: 0
       buttonRect:
         serializedVersion: 2
-        x: 95
+        x: 111
         y: 21.5
         width: 10
         height: 23
@@ -56,7 +56,7 @@ MonoBehaviour:
       isInput: 0
       buttonRect:
         serializedVersion: 2
-        x: 100
+        x: 111
         y: 21.5
         width: 10
         height: 23
@@ -87,7 +87,7 @@ MonoBehaviour:
       isInput: 0
       buttonRect:
         serializedVersion: 2
-        x: 88
+        x: 111
         y: 21.5
         width: 10
         height: 23
@@ -118,7 +118,7 @@ MonoBehaviour:
       isInput: 0
       buttonRect:
         serializedVersion: 2
-        x: 88
+        x: 111
         y: 21.5
         width: 10
         height: 23
@@ -149,7 +149,7 @@ MonoBehaviour:
       isInput: 0
       buttonRect:
         serializedVersion: 2
-        x: 88
+        x: 111
         y: 21.5
         width: 10
         height: 23
@@ -180,7 +180,7 @@ MonoBehaviour:
       isInput: 0
       buttonRect:
         serializedVersion: 2
-        x: 88
+        x: 111
         y: 21.5
         width: 10
         height: 23
@@ -343,12 +343,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 3
   instenceID: -286214
   description: 
   assetName: MainPanel
   style: 1
-  nodeType: 31
+  nodeType: 0
   rule:
     baseTypeIndex: 0
     canInherit: 0
@@ -450,7 +450,7 @@ MonoBehaviour:
       enterAnim: 0
       quitAnim: 0
       closeRule: 0
-      hideRule: 0
+      hideRule: 1
     prefab: {fileID: 129970, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
 --- !u!114 &11454764
 MonoBehaviour:

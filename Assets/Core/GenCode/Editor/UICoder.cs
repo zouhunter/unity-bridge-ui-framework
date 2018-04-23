@@ -25,7 +25,7 @@ namespace BridgeUI
         {
             get
             {
-                return CalculateHead(Application.companyName, System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),"本脚本由电脑自动生成","尽量使用MVVM模式");
+                return CalculateHead(Application.companyName, System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), "部分代码自动生成", "尽量使用MVVM模式");
             }
         }
         public SyntaxTree tree { get; private set; }
@@ -43,7 +43,7 @@ namespace BridgeUI
         public void Load(string script)
         {
             CompilerSettings setting = new CompilerSettings();
-            setting.LanguageVersion = new System.Version(2,0,0,0);
+            setting.LanguageVersion = new System.Version(2, 0, 0, 0);
             CSharpParser cpaser = new CSharpParser(setting);
             tree = cpaser.Parse(script);
             firstCreate = false;
@@ -55,9 +55,9 @@ namespace BridgeUI
         public string Compile()
         {
             if (tree == null) return null;
-            if(firstCreate)
+            if (firstCreate)
             {
-                return head + tree.ToString();
+                return head + "\r\n" + tree.ToString();
             }
             else
             {
@@ -70,7 +70,7 @@ namespace BridgeUI
             var str1 =
                "/*************************************************************************************   \r\n" +
                "    * 作    者：       {0}\r\n" +
-               "    * 时    间：       {1}\r\n" +
+               "    * 创建时间：       {1}\r\n" +
                "    * 说    明：       ";
             var str2 = "\r\n                       ";
             var str3 = "\r\n* ************************************************************************************/\r\n";

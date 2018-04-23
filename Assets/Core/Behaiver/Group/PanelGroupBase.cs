@@ -20,7 +20,7 @@ namespace BridgeUI
     public abstract class PanelGroupBase : MonoBehaviour, IPanelGroup
     {
 #if UNITY_EDITOR
-        public List<GraphWorp> graphList;
+        public List<GraphWorp> graphList = new List<GraphWorp>();
 #endif
         public Transform Trans { get { return transform; } }
         public List<UIInfoBase> Nodes { get { return activeNodes; } }

@@ -15,7 +15,7 @@ namespace BridgeUIEditor
         protected SerializedProperty guidProp;
         protected SerializedProperty bundleNameProp;
 
-        protected const int ht = 3;
+        protected const int ht = 2;
 
         protected override void InitPropertys(SerializedProperty property)
         {
@@ -26,7 +26,7 @@ namespace BridgeUIEditor
         }
         protected override float GetInfoItemHeight()
         {
-            return ht * EditorGUIUtility.singleLineHeight;
+            return ht * ( EditorGUIUtility.singleLineHeight);
         }
 
         protected override void DragAndDrapAction(Rect acceptRect)
@@ -78,7 +78,7 @@ namespace BridgeUIEditor
 
         protected override void WorningIfNotRight(Rect rect)
         {
-            if (!goodProp.boolValue)
+            if (goodProp != null && !goodProp.boolValue)
             {
                 Worning(rect, panelNameProp.stringValue + " Changed！!!");
             }

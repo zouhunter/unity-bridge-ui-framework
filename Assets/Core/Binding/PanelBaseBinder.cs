@@ -103,14 +103,35 @@ namespace BridgeUI.Binding
                 toggle.onValueChanged.RemoveListener(action);
             };
         }
+
         /// <summary>
         /// 注册slider事件
         /// </summary>
-        /// <param name="m_slider"></param>
-        /// <param name="v"></param>
-        internal void RegistSliderEvent(Slider m_slider, string methodName)
+        /// <param name="slider"></param>
+        /// <param name="methodName"></param>
+        /// <param name="args"></param>
+        internal void RegistSliderEvent(Slider slider, string methodName, params object[] args)
         {
+            UnityAction<float> action = (isOn) =>
+            {
+                if (viewModel[methodName] != null && viewModel[methodName].Value is SliderEvent)
+                {
+                    var func = (SliderEvent)viewModel[methodName].Value;
+                    func.Invoke((PanelBase)Context, slider, args);
+                }
+            };
 
+            binders += viewModel =>
+            {
+                viewModel.GetBindableProperty<SliderEvent>(methodName);
+                slider.onValueChanged.AddListener(action);
+            };
+
+            unbinders += viewModel =>
+            {
+                viewModel.GetBindableProperty<SliderEvent>(methodName);
+                slider.onValueChanged.RemoveListener(action);
+            };
         }
     }
 

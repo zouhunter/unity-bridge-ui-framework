@@ -30,7 +30,7 @@ namespace BridgeUI
         /// 将信息到保存到PanelGroup
         /// </summary>
         /// <param name="group"></param>
-        private void StoreInfoOfPanel(PanelGroup group)
+        private void StoreInfoOfPanelGroup(PanelGroup group)
         {
             InsertBridges(group.bridges, GetBridges());
             if (group.loadType == LoadType.Prefab)
@@ -48,7 +48,7 @@ namespace BridgeUI
         /// 将信息到保存到PanelGroup
         /// </summary>
         /// <param name="group"></param>
-        private void StoreInfoOfPanel(PanelGroupObj group)
+        private void StoreInfoOfPanelGroup(PanelGroupObj group)
         {
             InsertBridges(group.bridges, GetBridges());
             if (group.loadType == LoadType.Prefab)
@@ -298,15 +298,28 @@ namespace BridgeUI
                 var panelGroup = Selection.activeGameObject.GetComponent<PanelGroup>();
                 if (panelGroup != null)
                 {
-                    StoreInfoOfPanel(panelGroup);
+                    StoreInfoOfPanelGroup(panelGroup);
                 }
             }
             if (Selection.activeObject != null && Selection.activeObject is PanelGroupObj)
             {
-                var panelGroup = Selection.activeObject as PanelGroupObj;
-                if (panelGroup != null)
+                var groupObj = Selection.activeObject as PanelGroupObj;
+                if (groupObj != null)
                 {
-                    StoreInfoOfPanel(panelGroup);
+                    StoreInfoOfPanelGroup(groupObj);
+                }
+            }
+            if (Selection.activeGameObject != null)
+            {
+                var runtimePanelGroup = Selection.activeGameObject.GetComponent<RuntimePanelGroup>();
+                if(runtimePanelGroup != null && !string.IsNullOrEmpty(runtimePanelGroup.groupGuid))
+                {
+                    var path = AssetDatabase.GUIDToAssetPath(runtimePanelGroup.groupGuid);
+                    if (!string.IsNullOrEmpty(path))
+                    {
+                        var groupObj = AssetDatabase.LoadAssetAtPath<PanelGroupObj>(path);
+                        StoreInfoOfPanelGroup(groupObj);
+                    }
                 }
             }
             UpdateScriptOfPanelNames(m_targetGraph.Nodes.FindAll(x => x.Object is PanelNodeBase).ConvertAll<string>(x => x.Name));

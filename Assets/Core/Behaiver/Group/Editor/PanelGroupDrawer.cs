@@ -7,14 +7,15 @@ using System;
 using UnityEngine.Serialization;
 using BridgeUI;
 using BridgeUI.Model;
+using UnityEditorInternal;
 namespace BridgeUIEditor
 {
     using AssetBundle = UnityEngine.AssetBundle;
-    public abstract class PanelGroupBaseDrawer:Editor
+    public abstract class PanelGroupBaseDrawer : Editor
     {
         protected SerializedProperty script;
         protected SerializedProperty bridgesProp;
-        protected SerializedProperty groupObjsProp;
+        //protected SerializedProperty groupObjsProp;
         protected SerializedProperty resetMenuProp;
         protected SerializedProperty menuProp;
         protected SerializedProperty bundlesProp;
@@ -25,6 +26,11 @@ namespace BridgeUIEditor
         private string query;
         private SerializedProperty prefabsPropWorp;
         private SerializedProperty bundlesPropWorp;
+        private ReorderableList groupList;
+        private ReorderableList prefabsList;
+        private ReorderableList bundlesList;
+        private ReorderableList prefabsWorpList;
+        private ReorderableList bundlesWorpList;
         protected const float widthBt = 20;
         protected abstract bool drawScript { get; }
 #if AssetBundleTools
@@ -46,7 +52,6 @@ namespace BridgeUIEditor
             bundlesProp = serializedObject.FindProperty("b_nodes");
             prefabsProp = serializedObject.FindProperty("p_nodes");
             graphListProp = serializedObject.FindProperty("graphList");
-            groupObjsProp = serializedObject.FindProperty("subGroups");
             defultTypeProp = serializedObject.FindProperty("loadType");
             resetMenuProp = serializedObject.FindProperty("resetMenu");
             menuProp = serializedObject.FindProperty("menu");
@@ -58,16 +63,54 @@ namespace BridgeUIEditor
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            if(drawScript) DrawScript();
+            if (drawScript) DrawScript();
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 DrawOption();
                 DrawToolButtons();
             }
             TryDrawMenu();
-            DrawGraphItems();
+            DrawGroupList();
             DrawRuntimeItems();
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void DrawGroupList()
+        {
+            if (groupList == null)
+            {
+                groupList = new ReorderableList(serializedObject, graphListProp, true, true, false, true);
+                groupList.drawHeaderCallback = (rect) =>
+                {
+                    EditorGUI.LabelField(rect, "界面配制图表");
+                };
+                groupList.drawElementCallback = (rect, index, isActive, isFocused) =>
+                {
+                    var prop = graphListProp.GetArrayElementAtIndex(index);
+                    var key = prop.FindPropertyRelative("graphName");
+                    var guid = prop.FindPropertyRelative("guid");
+                    var btnRect = new Rect(rect.x, rect.y, rect.width - 30, EditorGUIUtility.singleLineHeight);
+                    if (GUI.Button(btnRect, key.stringValue, EditorStyles.miniButton))
+                    {
+                        var path = AssetDatabase.GUIDToAssetPath(guid.stringValue);
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            NodeGraph.DataModel.NodeGraphObj graph = AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.NodeGraphObj>(path);
+                            AssetDatabase.OpenAsset(graph);
+                        }
+                    }
+                    btnRect = new Rect(rect.x + rect.width - 30, rect.y, rect.width, EditorGUIUtility.singleLineHeight);
+                    if (GUI.Button(btnRect, " ", EditorStyles.objectFieldMiniThumb))
+                    {
+                        var path = AssetDatabase.GUIDToAssetPath(guid.stringValue);
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.NodeGraphObj>(path));
+                        }
+                    }
+                };
+            }
+            groupList.DoLayoutList();
         }
 
         private void TryDrawMenu()
@@ -91,6 +134,7 @@ namespace BridgeUIEditor
         }
         protected void DrawListProperty(SerializedProperty listProperty, bool editable)
         {
+            float height = 10 + EditorGUIUtility.singleLineHeight;
             var lastRect = GUILayoutUtility.GetLastRect();
             if (listProperty.arraySize == 0)
             {
@@ -106,7 +150,7 @@ namespace BridgeUIEditor
                     var property = listProperty.GetArrayElementAtIndex(i);
                     if (editable)
                     {
-                        var rect = GUILayoutUtility.GetRect(lastRect.width, EditorGUIUtility.singleLineHeight);
+                        var rect = GUILayoutUtility.GetRect(lastRect.width, height);
                         var good = AddArrayTools(rect, property);
                         if (good)
                         {
@@ -129,53 +173,131 @@ namespace BridgeUIEditor
             }
 
         }
-        protected virtual void DrawRuntimeItems()
+
+        private void DrawMatchField(Rect rect)
         {
             EditorGUI.BeginChangeCheck();
-            query = EditorGUILayout.TextField(query);
+            var fieldRect = new Rect(rect.x, rect.y + 2, rect.width, rect.height);
+            query = EditorGUI.TextField(fieldRect, query,EditorStyles.miniTextField);
             if (EditorGUI.EndChangeCheck())
             {
                 MarchList();
             }
-            if (string.IsNullOrEmpty(query))
-            {
-                switch (EnumIndexToLoadType(defultTypeProp.enumValueIndex))
-                {
-                    case LoadType.Prefab:
-                        GUI.backgroundColor = Color.yellow;
-                        EditorGUILayout.LabelField("预制体动态加载资源信息列表", EditorStyles.helpBox);
-                        GUI.backgroundColor = Color.white;
-                        DrawListProperty(prefabsProp, false);
-                        break;
-                    case LoadType.Bundle:
-                        GUI.backgroundColor = Color.yellow;
-                        EditorGUILayout.LabelField("资源包动态加载资源信息列表", EditorStyles.helpBox);
-                        GUI.backgroundColor = Color.white;
-                        DrawListProperty(bundlesProp, false);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-            else
-            {
-                EditorGUILayout.LabelField("[March]", EditorStyles.toolbarPopup);
-
-                switch (EnumIndexToLoadType(defultTypeProp.enumValueIndex))
-                {
-                    case LoadType.Prefab:
-                        DrawListProperty(prefabsPropWorp, false);
-                        break;
-                    case LoadType.Bundle:
-                        DrawListProperty(bundlesPropWorp, false);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
         }
+        protected void DrawPrefabList()
+        {
+            if (prefabsList == null)
+            {
+                prefabsList = new ReorderableList(serializedObject, prefabsProp,true,true,false,false);
+                prefabsList.drawHeaderCallback = DrawElementHead;
+                prefabsList.elementHeightCallback = (index) =>
+                {
+                    var prop = prefabsProp.GetArrayElementAtIndex(index);
+                    return EditorGUI.GetPropertyHeight(prop);
+                };
+                prefabsList.drawElementCallback = (rect, index, isActive, isFocused) =>
+                {
+                    var prop = prefabsProp.GetArrayElementAtIndex(index);
+                    EditorGUI.PropertyField(rect, prop);
+                };
+            }
+            prefabsList.DoLayoutList();
+        }
+        protected void DrawPrefabWorpList()
+        {
+            if (prefabsWorpList == null)
+            {
+                prefabsWorpList = new ReorderableList(serializedObject, prefabsPropWorp, true, true, false, false);
+                prefabsWorpList.drawHeaderCallback = DrawElementHead;
+
+                prefabsWorpList.elementHeightCallback = (index) =>
+                {
+                    var prop = prefabsPropWorp.GetArrayElementAtIndex(index);
+                    return EditorGUI.GetPropertyHeight(prop);
+                };
+                prefabsWorpList.drawElementCallback = (rect, index, isActive, isFocused) =>
+                {
+                    var prop = prefabsPropWorp.GetArrayElementAtIndex(index);
+                    EditorGUI.PropertyField(rect, prop);
+                };
+            }
+            prefabsWorpList.DoLayoutList();
+        }
+        protected void DrawBundleList()
+        {
+            if (bundlesList == null)
+            {
+                bundlesList = new ReorderableList(serializedObject, bundlesProp, true, true, false, false);
+                bundlesList.drawHeaderCallback = DrawElementHead;
+                bundlesList.elementHeightCallback = (index) =>
+                {
+                    var prop = bundlesProp.GetArrayElementAtIndex(index);
+                    return EditorGUI.GetPropertyHeight(prop);
+                };
+                bundlesList.drawElementCallback = (rect, index, isActive, isFocused) =>
+                {
+                    var prop = bundlesProp.GetArrayElementAtIndex(index);
+                    EditorGUI.PropertyField(rect, prop);
+                };
+            }
+            bundlesList.DoLayoutList();
+        }
+        protected void DrawBundleWorpList()
+        {
+            if (bundlesWorpList == null)
+            {
+                bundlesWorpList = new ReorderableList(serializedObject, bundlesPropWorp, true, true, false, false);
+                bundlesWorpList.drawHeaderCallback = DrawElementHead;
+                bundlesWorpList.elementHeightCallback = (index) =>
+                {
+                    var prop = bundlesPropWorp.GetArrayElementAtIndex(index);
+                    return EditorGUI.GetPropertyHeight(prop);
+                };
+                bundlesWorpList.drawElementCallback = (rect, index, isActive, isFocused) =>
+                {
+                    var prop = bundlesPropWorp.GetArrayElementAtIndex(index);
+                    EditorGUI.PropertyField(rect, prop);
+                };
+            }
+            bundlesWorpList.DoLayoutList();
+        }
+
+        protected void DrawElementHead(Rect rect)
+        {
+            EditorGUI.LabelField(rect,"[面板列表]");
+            var surchField = new Rect(rect.x + rect.width * 0.7f, rect.y, rect.width * 0.3f, EditorGUIUtility.singleLineHeight);
+            DrawMatchField(surchField);
+        }
+
+        protected virtual void DrawRuntimeItems()
+        {
+            switch (EnumIndexToLoadType(defultTypeProp.enumValueIndex))
+            {
+                case LoadType.Prefab:
+                    if (string.IsNullOrEmpty(query))
+                    {
+                        DrawPrefabList();
+                    }
+                    else
+                    {
+                        DrawPrefabWorpList();
+                    }
+                    break;
+                case LoadType.Bundle:
+                    if (string.IsNullOrEmpty(query))
+                    {
+                        DrawBundleList();
+                    }
+                    else
+                    {
+                        DrawBundleWorpList();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
         protected virtual void DrawGraphItems()
         {
             GUI.backgroundColor = Color.yellow;
@@ -673,7 +795,8 @@ namespace BridgeUIEditor
     }
 
     [CustomEditor(typeof(PanelGroupObj)), CanEditMultipleObjects]
-    public class PanelGroupObjDrawer : PanelGroupBaseDrawer {
+    public class PanelGroupObjDrawer : PanelGroupBaseDrawer
+    {
         protected override bool drawScript { get { return false; } }
     }
 }

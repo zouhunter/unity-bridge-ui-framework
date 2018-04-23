@@ -11,7 +11,7 @@ namespace BridgeUIEditor
         protected SerializedProperty formProp;
         protected SerializedProperty layerIndexProp;
         protected SerializedProperty instanceIDProp;
-        protected SerializedObject serializedObject;
+        protected SerializedObject serializedObject; 
         protected const float widthBt = 20;
         protected float singleHeight;
 
@@ -20,19 +20,19 @@ namespace BridgeUIEditor
             singleHeight = EditorGUIUtility.singleLineHeight;
             this.serializedObject = property.serializedObject;
             InitPropertys(property);
-            if (!property.isExpanded)
-            {
-                return EditorGUIUtility.singleLineHeight;
+            typeProp = property.FindPropertyRelative("type");
+            var height = EditorGUIUtility.singleLineHeight + 10 ;
+            if (property.isExpanded){
+                height += EditorGUI.GetPropertyHeight(typeProp);
+                height += GetInfoItemHeight();
             }
-            else
-            {
-                return GetInfoItemHeight();
-            }
+            return height;
+
         }
         protected virtual void InitPropertys(SerializedProperty property)
         {
             panelNameProp = property.FindPropertyRelative("panelName");
-            typeProp = property.FindPropertyRelative("type"); ;
+            typeProp = property.FindPropertyRelative("type");
             formProp = typeProp.FindPropertyRelative("form");
             layerProp = typeProp.FindPropertyRelative("layer");
             layerIndexProp = typeProp.FindPropertyRelative("layerIndex");
@@ -44,13 +44,15 @@ namespace BridgeUIEditor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            Rect btnRect = new Rect(position.xMin, position.yMin, position.width * 0.9f, singleHeight);
+            InitPropertys(property);
+
+            Rect btnRect = new Rect(position.xMin, position.yMin + 2f, position.width * 0.9f, singleHeight);
             GUI.contentColor = Color.green;
             if (property.isExpanded && (instanceIDProp.intValue == 0 || EditorUtility.InstanceIDToObject(instanceIDProp.intValue) == null))
             {
                 property.isExpanded = false;
             }
-            if (GUI.Button(btnRect, panelNameProp.stringValue, EditorStyles.toolbarDropDown))
+            if (panelNameProp != null && GUI.Button(btnRect, panelNameProp.stringValue,EditorStyles.toolbarDropDown))
             {
                 ResetBuildInfoOnOpen();
 
@@ -86,7 +88,7 @@ namespace BridgeUIEditor
 
             InformationShow(btnRect);
 
-            Rect acceptRect = new Rect(position.max.x - position.width * 0.1f, position.yMin, position.width * 0.1f, singleHeight);
+            Rect acceptRect = new Rect(position.max.x - position.width * 0.1f, position.yMin + 2f, position.width * 0.1f, singleHeight);
 
             //DragAndDrapAction(acceptRect);
 
@@ -97,6 +99,12 @@ namespace BridgeUIEditor
                 Rect opendRect = new Rect(position.xMin, position.yMin + singleHeight, position.width, position.height - singleHeight);
                 DrawExpanded(opendRect);
             }
+        }
+
+        protected Rect GetPaddingRect(Rect rect, float padding)
+        {
+            var newRect = new Rect(rect.x + padding, rect.y + padding, rect.width - padding * 2, rect.height - padding * 2);
+            return newRect;
         }
 
         protected virtual void InformationShow(Rect rect)
@@ -110,6 +118,8 @@ namespace BridgeUIEditor
             infoRect.x += 50;
             infoRect.width = 50;
             GUI.color = new Color(0.8f, 0.8f, 0.4f);
+
+            if (layerProp == null) return;//??
             string str = Utility.LayerToString((UILayerType)layerProp.intValue, false);// LayerToString();
             EditorGUI.SelectableLabel(infoRect, string.Format("{0} {1}", str, layerIndexProp.intValue));
             GUI.color = Color.white;

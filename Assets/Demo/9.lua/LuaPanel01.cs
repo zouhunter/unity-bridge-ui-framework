@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+#if xLua
 
 ///<summary>
 ///[代码说明信息]
@@ -23,7 +24,7 @@ public class LuaPanel01 : BridgeUI.LuaPanel
 
 	protected override void PropBindings ()
 	{
-		Binder.RegistButtonEvent (m_Button, "on_button_clicked");
+		Binder.RegistButtonEvent (m_Button, "on_button_clicked","我是一个按扭");
 	}
 
     protected override void Update()
@@ -35,3 +36,4 @@ public class LuaPanel01 : BridgeUI.LuaPanel
         }
     }
 }
+#endif

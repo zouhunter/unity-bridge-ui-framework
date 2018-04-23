@@ -10,6 +10,8 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+#if xLua
+
 using XLua;
 using System;
 using BridgeUI.Binding;
@@ -133,3 +135,4 @@ namespace BridgeUI
     }
 
 }
+#endif

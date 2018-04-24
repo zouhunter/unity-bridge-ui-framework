@@ -1,10 +1,22 @@
 fileFormatVersion: 2
 guid: d4e20549bea19bf4b845e37999ee7928
-timeCreated: 1524449226
+timeCreated: 1524546590
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - luaScript: {fileID: 4900000, guid: 3c2404cfe788cfe468fca98f8aa4c91e, type: 3}
+  - m_Button: {instanceID: 0}
+  - m_ScrollView: {instanceID: 0}
+  - m_Image: {instanceID: 0}
+  - m_RawImage: {instanceID: 0}
+  - m_Text: {instanceID: 0}
+  - m_InputField: {instanceID: 0}
+  - m_Dropdown: {instanceID: 0}
+  - m_Toggle: {instanceID: 0}
+  - m_Slider: {instanceID: 0}
+  - obj: {instanceID: 0}
+  - luaAsset: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

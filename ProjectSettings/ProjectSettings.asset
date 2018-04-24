@@ -331,7 +331,7 @@ PlayerSettings:
   psmSplashimage: {fileID: 0}
   spritePackerPolicy: 
   scriptingDefineSymbols:
-    1: AssetBundleTools
+    1: AssetBundleTools;xLua
     13: AssetBundleTools
   metroPackageName: FlexibleUI
   metroPackageVersion: 

@@ -391,6 +391,10 @@ namespace BridgeUI
             {
                 return "onValueChanged";
             }
+            else if (componentType == typeof(Dropdown))
+            {
+                return "onValueChanged";
+            }
             else
             {
                 return "";
@@ -415,6 +419,10 @@ namespace BridgeUI
             {
                 return new ParameterDeclaration(new PrimitiveType("float"), "value");
             }
+            else if(componentType == typeof(Dropdown))
+            {
+                return new ParameterDeclaration(new PrimitiveType("float"), "value");
+            }
             else
             {
                 return null;
@@ -435,6 +443,10 @@ namespace BridgeUI
             {
                 return "RegistToggleEvent";
             }
+            else if (componentType == typeof(Dropdown))
+            {
+                return "RegistDropdownEvent";
+            }
             else if (componentType == typeof(Slider))
             {
                 return "RegistSliderEvent";
@@ -447,6 +459,7 @@ namespace BridgeUI
             {
                 return "RegistRawImageView";
             }
+           
             else if (componentType == typeof(Text))
             {
                 return "RegistTextView";

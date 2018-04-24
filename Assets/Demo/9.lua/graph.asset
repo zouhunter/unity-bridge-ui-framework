@@ -33,8 +33,8 @@ MonoBehaviour:
       type: bridge
   - m_name: LuaPanel01
     m_id: 998f26f7-0dd2-4f36-81e9-4a51c573ff05
-    m_x: 240
-    m_y: 156
+    m_x: 252
+    m_y: 84
     m_node: {fileID: 11457308}
     m_inputPoints:
     - id: 9eaf3da9-f56f-474d-8cb9-423531bd6237
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Name: PanelNode
   m_EditorClassIdentifier: 
   selected: 1
-  instenceID: 0
+  instenceID: -46422
   description: 
   assetName: LuaPanel01
   style: 1
@@ -125,6 +125,90 @@ MonoBehaviour:
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
     target: {fileID: 107120, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - name: Slider
+    componentID: 0
+    sourceName: on_slider_changed
+    binding: 1
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Slider
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    target: {fileID: 196244, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - name: Toggle
+    componentID: 0
+    sourceName: on_toggle_switched
+    binding: 1
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Toggle
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    target: {fileID: 134786, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - name: Dropdown
+    componentID: 0
+    sourceName: on_dropdown_switched
+    binding: 1
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Dropdown
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    target: {fileID: 100574, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - name: InputField
+    componentID: 0
+    sourceName: on_inputfield_endedit
+    binding: 1
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.InputField
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    target: {fileID: 193656, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - name: Text
+    componentID: 0
+    sourceName: text
+    binding: 1
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Text
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    target: {fileID: 170722, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - name: RawImage
+    componentID: 0
+    sourceName: rawimage
+    binding: 1
+    components:
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    target: {fileID: 129336, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - name: Image
+    componentID: 0
+    sourceName: image
+    binding: 1
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    target: {fileID: 197918, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - name: ScrollView
+    componentID: 0
+    sourceName: scrollview
+    binding: 1
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.ScrollRect
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    target: {fileID: 157362, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
   nodeInfo:
     uiType:
       layerIndex: 0

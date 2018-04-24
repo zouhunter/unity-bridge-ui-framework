@@ -17,7 +17,7 @@ namespace BridgeUI.Binding
     public class ViewModelBase
     {
         protected readonly Dictionary<string, IBindableProperty> bindingPropertyDic = new Dictionary<string, BridgeUI.Binding.IBindableProperty>();
-        protected IBindableProperty this[string name]
+        public IBindableProperty this[string name]
         {
             get
             {
@@ -47,7 +47,6 @@ namespace BridgeUI.Binding
             }
             return this[name] as BindableProperty<T>;
         }
-
         public virtual IBindableProperty GetBindableProperty(string name,System.Type type)
         {
             var fullType = typeof(BindableProperty<>).MakeGenericType(type);

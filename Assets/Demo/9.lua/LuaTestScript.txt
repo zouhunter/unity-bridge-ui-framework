@@ -1,5 +1,4 @@
-
-local Debug = CS.UnityEngine.Debug;
+local Debug = CS.UnityEngine.Debug
 
 function printprogress(f)
 	print(f)
@@ -10,6 +9,7 @@ function start()
 	slider_trans = self.transform:Find("Slider")
 	slider = slider_trans:GetComponent(typeof(CS.UnityEngine.UI.Slider))
 	slider.onValueChanged:AddListener(printprogress)
+	self:SetValue("text","我是从lua中生成的文字")
 end
 
 function update()
@@ -21,11 +21,21 @@ function ondestroy()
 end
 
 
-
 function on_button_clicked()
 	print("lua on_button_clicked...")
 	Debug.Log("(debug:)lua on_button_clicked...")
 end
+
+function on_toggle_switched(panel,toggle)
+	print("lua on_toggle_switched...",toggle.isOn)
+end
+
+--下拉框
+function on_dropdown_switched(panel,dropdown)
+	print("lua on_dropdown_switched...",dropdown.value)
+end
+
+
 
 function handle_data(data)
 	print(data)

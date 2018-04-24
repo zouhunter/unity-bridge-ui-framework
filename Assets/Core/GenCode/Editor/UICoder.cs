@@ -25,7 +25,7 @@ namespace BridgeUI
         {
             get
             {
-                return CalculateHead(Application.companyName, System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), "部分代码自动生成", "尽量使用MVVM模式");
+                return CalculateHead(Application.companyName, System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), "部分代码自动生成", "尽量使用MVVM模式","宏定义内会读成注释");
             }
         }
         public SyntaxTree tree { get; private set; }

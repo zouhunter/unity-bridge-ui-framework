@@ -47,6 +47,37 @@ namespace BridgeUI.Binding
         {
             RegistValueCharge<Texture>((value) => { image.texture = value; }, sourceName);
         }
+
+
+        /// <summary>
+        /// 下拉框事件
+        /// </summary>
+        /// <param name="dropdown"></param>
+        /// <param name="methodName"></param>
+        /// <param name="args"></param>
+        internal void RegistDropdownEvent(Dropdown dropdown, string methodName, params object[] args)
+        {
+            UnityAction<int> action = (idex) =>
+            {
+                var prop = viewModel.GetBindableProperty<DropdownEvent>(methodName);
+                if (prop.Value != null)
+                {
+                    var func = prop.Value;
+                    func.Invoke((PanelBase)Context, dropdown, args);
+                }
+            };
+
+            binders += viewModel =>
+            {
+                dropdown.onValueChanged.AddListener(action);
+            };
+
+            unbinders += viewModel =>
+            {
+                dropdown.onValueChanged.RemoveListener(action);
+            };
+        }
+
         /// <summary>
         /// 接收按扭点击事件
         /// </summary>

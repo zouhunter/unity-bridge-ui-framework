@@ -95,6 +95,18 @@ namespace BridgeUI
             scriptEnv.Dispose();
         }
 
+        [LuaCallCSharp]
+        public void SetValue(string key, object value)
+        {
+            if (luaViewModel != null)
+            {
+                var prop = luaViewModel.GetBindableProperty(key, value.GetType());
+                if (prop != null)
+                {
+                    prop.ValueBoxed = value;
+                }
+            }
+        }
         private void InitScritEnv()
         {
             scriptEnv = luaEnv.NewTable();
@@ -105,7 +117,7 @@ namespace BridgeUI
             meta.Dispose();
 
             scriptEnv.Set("self", this);
-            luaEnv.DoString(luaScript.text, "LuaPanel", scriptEnv);
+            luaEnv.DoString(luaScript.text, name, scriptEnv);
         }
 
         private void RegistBaseAction()

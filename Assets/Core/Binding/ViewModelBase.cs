@@ -17,7 +17,7 @@ namespace BridgeUI.Binding
     public class ViewModelBase
     {
         protected readonly Dictionary<string, IBindableProperty> bindingPropertyDic = new Dictionary<string, BridgeUI.Binding.IBindableProperty>();
-        public IBindableProperty this[string name]
+        protected IBindableProperty this[string name]
         {
             get
             {
@@ -35,7 +35,6 @@ namespace BridgeUI.Binding
                 bindingPropertyDic[name] = value;
             }
         }
-
         public virtual BindableProperty<T> GetBindableProperty<T>(string name)
         {
             if (this[name] == null || !(this[name] is BindableProperty<T>))
@@ -47,6 +46,20 @@ namespace BridgeUI.Binding
                 }
             }
             return this[name] as BindableProperty<T>;
+        }
+
+        public virtual IBindableProperty GetBindableProperty(string name,System.Type type)
+        {
+            var fullType = typeof(BindableProperty<>).MakeGenericType(type);
+            if (this[name] == null || !(this[name].GetType() == fullType))
+            {
+                this[name] = GetDefultChildProperty(name);
+            }
+            if (this[name] == null)
+            {
+                this[name] = System.Activator.CreateInstance(fullType) as IBindableProperty;
+            }
+            return this[name] as IBindableProperty;
         }
         private IBindableProperty GetDefultChildProperty(string name)
         {

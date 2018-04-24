@@ -223,9 +223,10 @@ namespace BridgeUI
             foreach (var item in data.Keys)
             {
                 var key = item.ToString();
-                if (BindingContext[key] != null)
+                var prop = BindingContext.GetBindableProperty(key, data[item].GetType());
+                if (prop != null)
                 {
-                    BindingContext[key].ValueBoxed = data[item];
+                    prop.ValueBoxed = data[item];
                 }
             }
         }

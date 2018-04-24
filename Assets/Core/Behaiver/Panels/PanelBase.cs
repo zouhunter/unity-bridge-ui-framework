@@ -139,7 +139,6 @@ namespace BridgeUI
             base.OnDestroy();
             _isAlive = false;
             _isShowing = false;
-
             if (bridge != null)
             {
                 bridge.Release();
@@ -149,6 +148,8 @@ namespace BridgeUI
             {
                 onDelete.Invoke(this);
             }
+
+            Binder.Unbind();
         }
         protected virtual void InitComponents()
         {

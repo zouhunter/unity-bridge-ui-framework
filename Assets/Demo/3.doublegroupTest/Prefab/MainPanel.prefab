@@ -674,7 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1317736ad31c348b93070709bc862f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  content: {fileID: 0}
+  content: {fileID: 22435888}
   m_openPanel01: {fileID: 11415130}
   m_openPanel02: {fileID: 11427200}
   m_openPanel03: {fileID: 11455050}
@@ -1662,9 +1662,9 @@ RectTransform:
   - {fileID: 22497888}
   m_Father: {fileID: 22472242}
   m_RootOrder: 8
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -184, y: -214}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 96, y: 21.75}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22496096

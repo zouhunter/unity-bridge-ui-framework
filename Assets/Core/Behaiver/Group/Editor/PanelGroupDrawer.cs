@@ -668,14 +668,14 @@ namespace BridgeUIEditor
                 var itemProp = property.GetArrayElementAtIndex(i);
                 var innode = itemProp.FindPropertyRelative("inNode");
                 var outnode = itemProp.FindPropertyRelative("outNode");
-                var showmodle = itemProp.FindPropertyRelative("showModel");
-                var key = innode.stringValue + showmodle.intValue + outnode.stringValue;
+                var key = innode.stringValue + outnode.stringValue;//输入和输出只有一组
                 if (!temp.Contains(key))
                 {
                     temp.Add(key);
                 }
                 else
                 {
+                    Debug.LogFormat("remove bridge:{0}-{1}", innode.stringValue,outnode.stringValue);
                     property.DeleteArrayElementAtIndex(i);
                     goto compair;
                 }

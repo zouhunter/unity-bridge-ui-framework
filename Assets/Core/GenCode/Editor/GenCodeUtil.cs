@@ -213,6 +213,7 @@ namespace BridgeUI
             TryAddInfoToUnit(classNode, needAdd);
             CompleteMethods(classNode, rule);
             BindingInfoToUnit(classNode, needAdd);
+            SortClassMembers(classNode);
 
             var scriptPath = GetScriptPath(go);
             System.IO.File.WriteAllText(scriptPath, uiCoder.Compile());
@@ -236,6 +237,24 @@ namespace BridgeUI
             return path;
         }
 
+        /// <summary>
+        /// 对类中的元素进行一定的排序
+        /// </summary>
+        /// <returns></returns>
+        private static void SortClassMembers(TypeDeclaration classNode)
+        {
+            var fields = classNode.Descendants.OfType<FieldDeclaration>().ToArray();
+            var first = fields.FirstOrDefault();
+            foreach (var item in fields)
+            {
+                if(item != first)
+                {
+                    classNode.Members.Remove(item);
+                    classNode.InsertChildAfter(first, item, Roles.TypeMemberRole);
+                }
+
+            }
+        }
         /// <summary>
         /// 过虑已经存在的变量
         /// </summary>
@@ -282,7 +301,11 @@ namespace BridgeUI
                 }
             }
         }
-
+        /// <summary>
+        /// 绑定方法体
+        /// </summary>
+        /// <param name="classNode"></param>
+        /// <param name="components"></param>
         private static void BindingInfoToUnit(TypeDeclaration classNode, ComponentItem[] components)
         {
             var InitComponentsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == initcomponentMethod).FirstOrDefault();
@@ -350,7 +373,7 @@ namespace BridgeUI
             }
         }
         /// <summary>
-        /// 获取
+        /// 获取不同组件的事件名
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>
@@ -373,6 +396,11 @@ namespace BridgeUI
                 return "";
             }
         }
+        /// <summary>
+        /// 不同的组件参数不同
+        /// </summary>
+        /// <param name="componentType"></param>
+        /// <returns></returns>
         private static ParameterDeclaration GetArgument_InitComponentsNode(Type componentType)
         {
             if (componentType == typeof(Button))
@@ -392,6 +420,11 @@ namespace BridgeUI
                 return null;
             }
         }
+        /// <summary>
+        /// 不同的组件注册方法名不同
+        /// </summary>
+        /// <param name="componentType"></param>
+        /// <returns></returns>
         private static string GetMethodNameFromComponent(Type componentType)
         {
             if (componentType == typeof(Button))
@@ -423,7 +456,11 @@ namespace BridgeUI
                 return "";
             }
         }
-
+        /// <summary>
+        /// 分析代码的的组件信息
+        /// </summary>
+        /// <param name="component"></param>
+        /// <param name="components"></param>
         public static void AnalysisComponent(PanelBase component, List<ComponentItem> components)
         {
             var fields = component.GetType().GetFields(BindingFlags.GetField | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -458,16 +495,20 @@ namespace BridgeUI
             }
             AnalysisBindings(component, components);
         }
-
+        /// <summary>
+        /// 分析组件的绑定信息
+        /// </summary>
+        /// <param name="component"></param>
+        /// <param name="components"></param>
         private static void AnalysisBindings(PanelBase component, List<ComponentItem> components)
         {
             var script = MonoScript.FromMonoBehaviour(component).text;
             var tree = new CSharpParser().Parse(script);
 
-            var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == component.GetType().Name).First();
+            var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == component.GetType().Name).FirstOrDefault();
             if (classNode != null)
             {
-                var InitComponentsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == initcomponentMethod).First();
+                var InitComponentsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == initcomponentMethod).FirstOrDefault();
                 if (InitComponentsNode != null)
                 {
                     var invctions = InitComponentsNode.Body.Descendants.OfType<InvocationExpression>();

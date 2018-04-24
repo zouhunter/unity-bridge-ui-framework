@@ -262,7 +262,6 @@ public class PanelNodeInfoDrawer : Editor
                         {
                             var obj = item as GameObject;
                             var parent = PrefabUtility.GetPrefabParent(obj);
-                            Debug.Log(parent);
                             if (parent)
                             {
                                 var c_item = new ComponentItem(parent as GameObject);

@@ -1,4 +1,6 @@
 
+local Debug = CS.UnityEngine.Debug;
+
 function printprogress(f)
 	print(f)
 	end
@@ -22,7 +24,7 @@ end
 
 function on_button_clicked()
 	print("lua on_button_clicked...")
-	CS.Debug:Log("¹þ¹þ")
+	Debug.Log("(debug:)lua on_button_clicked...")
 end
 
 function handle_data(data)

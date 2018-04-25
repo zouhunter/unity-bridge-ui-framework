@@ -105,7 +105,11 @@ namespace BridgeUI.Binding
                 button.onClick.RemoveListener(action);
             };
         }
-
+        /// <summary>
+        /// 注册通用事件
+        /// </summary>
+        /// <param name="uEvent"></param>
+        /// <param name="methodName"></param>
         internal virtual void RegistNormalEvent(UnityEvent uEvent, string methodName)
         {
             UnityAction action = () =>
@@ -128,7 +132,6 @@ namespace BridgeUI.Binding
                 uEvent.RemoveListener(action);
             };
         }
-
         /// <summary>
         /// 注册toggle事件
         /// </summary>
@@ -183,6 +186,35 @@ namespace BridgeUI.Binding
             unbinders += viewModel =>
             {
                 slider.onValueChanged.RemoveListener(action);
+            };
+        }
+
+        /// <summary>
+        /// 注册inputfield事件
+        /// </summary>
+        /// <param name="inputfield"></param>
+        /// <param name="methodName"></param>
+        /// <param name="args"></param>
+        internal virtual void RegistInputFieldEvent(InputField inputfield, string methodName, params object[] args)
+        {
+            UnityAction<string> action = (isOn) =>
+            {
+                var prop = viewModel.GetBindableProperty<InputFieldEvent>(methodName);
+                if (prop.Value != null)
+                {
+                    var func = prop.Value;
+                    func.Invoke((PanelBase)Context, inputfield, args);
+                }
+            };
+
+            binders += viewModel =>
+            {
+                inputfield.onValueChanged.AddListener(action);
+            };
+
+            unbinders += viewModel =>
+            {
+                inputfield.onValueChanged.RemoveListener(action);
             };
         }
     }

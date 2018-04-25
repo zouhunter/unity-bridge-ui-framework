@@ -2076,14 +2076,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   luaScript: {fileID: 4900000, guid: 3c2404cfe788cfe468fca98f8aa4c91e, type: 3}
   m_Button: {fileID: 11486740}
-  m_ScrollView: {fileID: 11480996}
-  m_Image: {fileID: 11407188}
-  m_RawImage: {fileID: 22442856}
-  m_Text: {fileID: 11476222}
-  m_InputField: {fileID: 11487788}
-  m_Dropdown: {fileID: 11486882}
-  m_Toggle: {fileID: 11438080}
   m_Slider: {fileID: 11424038}
+  m_Toggle: {fileID: 11438080}
+  m_Dropdown: {fileID: 11486882}
+  m_InputField: {fileID: 11487788}
+  m_Text: {fileID: 11476222}
+  m_RawImage: {fileID: 22442856}
+  m_Image: {fileID: 11407188}
+  m_ScrollView: {fileID: 11480996}
 --- !u!114 &11498886
 MonoBehaviour:
   m_ObjectHideFlags: 1

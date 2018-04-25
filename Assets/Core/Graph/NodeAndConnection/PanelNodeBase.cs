@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using NodeGraph.DataModel;
 using BridgeUI.Model;
-using BridgeUI;
+using BridgeUI.CodeGen;
 using System.Collections.Generic;
 
 public abstract class PanelNodeBase : Node, IPanelInfoHolder

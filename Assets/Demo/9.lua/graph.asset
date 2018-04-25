@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Name: PanelNode
   m_EditorClassIdentifier: 
   selected: 1
-  instenceID: -46422
+  instenceID: -50136
   description: 
   assetName: LuaPanel01
   style: 1
@@ -113,10 +113,9 @@ MonoBehaviour:
     baseTypeIndex: 4
     canInherit: 0
   components:
-  - name: Button
-    componentID: 0
-    sourceName: on_button_clicked
-    binding: 1
+  - open: 1
+    name: btnPic
+    componentID: 1
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Button
@@ -124,91 +123,52 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Image
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems: []
     target: {fileID: 107120, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
-  - name: Slider
+  - open: 0
+    name: Button
     componentID: 0
-    sourceName: on_slider_changed
-    binding: 1
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems: []
+    target: {fileID: 0}
+  - open: 0
+    name: Slider
+    componentID: 0
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Slider
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems: []
     target: {fileID: 196244, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
-  - name: Toggle
+  - open: 0
+    name: Text
     componentID: 0
-    sourceName: on_toggle_switched
-    binding: 1
-    components:
-    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.UI.Toggle
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.RectTransform
-    target: {fileID: 134786, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
-  - name: Dropdown
-    componentID: 0
-    sourceName: on_dropdown_switched
-    binding: 1
-    components:
-    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.UI.Dropdown
-    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.RectTransform
-    target: {fileID: 100574, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
-  - name: InputField
-    componentID: 0
-    sourceName: on_inputfield_endedit
-    binding: 1
-    components:
-    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.UI.InputField
-    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.RectTransform
-    target: {fileID: 193656, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
-  - name: Text
-    componentID: 0
-    sourceName: text
-    binding: 1
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems: []
     target: {fileID: 170722, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
-  - name: RawImage
-    componentID: 0
-    sourceName: rawimage
-    binding: 1
-    components:
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.RectTransform
-    target: {fileID: 129336, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
-  - name: Image
-    componentID: 0
-    sourceName: image
-    binding: 1
-    components:
-    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.RectTransform
-    target: {fileID: 197918, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
-  - name: ScrollView
-    componentID: 0
-    sourceName: scrollview
-    binding: 1
-    components:
-    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.UI.ScrollRect
-    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.RectTransform
-    target: {fileID: 157362, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
   nodeInfo:
     uiType:
       layerIndex: 0

@@ -11,7 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace BridgeUI.Model
+namespace BridgeUI.CodeGen
 {
 
     [System.Serializable]

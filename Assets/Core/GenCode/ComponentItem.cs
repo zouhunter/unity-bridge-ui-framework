@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using System.Collections.Generic;
 using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityEngine.Sprites;
@@ -11,19 +11,20 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using Object = UnityEngine.Object;
 
-namespace BridgeUI.Model
+namespace BridgeUI.CodeGen
 {
     [System.Serializable]
     public class ComponentItem
     {
+        public bool open;
         public string name;
         public int componentID;
-        public string sourceName;
-        public bool binding;
-        public TypeRecod[] components;
+        public TypeInfo[] components;
+        public List<BindingShow> viewItems = new List<BindingShow>();
+        public List<BindingEvent> eventItems = new List<BindingEvent>();
         public GameObject target;
 
-        public string[] componentStrs { get { return System.Array.ConvertAll<TypeRecod, string>(components, x => x.typeName); } }
+        public string[] componentStrs { get { return System.Array.ConvertAll<TypeInfo, string>(components, x => x.typeName); } }
         public System.Type componentType
         {
             get
@@ -44,18 +45,5 @@ namespace BridgeUI.Model
         }
     }
 
-    [System.Serializable]
-    public struct TypeRecod
-    {
-        public System.Reflection.Assembly assemble { get { return System.Reflection.Assembly.Load(assembleName); } }
-        public System.Type type { get { return assemble.GetType(typeName); } }
-
-        public string assembleName;
-        public string typeName;
-        public TypeRecod(System.Type type)
-        {
-            this.assembleName = type.Assembly.ToString();
-            this.typeName = type.FullName;
-        }
-    }
+  
 }

@@ -9,15 +9,16 @@ using UnityEngine.EventSystems;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
-using System.Collections.Generic;
-using System.CodeDom;
-using BridgeUI.Model;
-using ICSharpCode.NRefactory.CSharp;
+using Object = UnityEngine.Object;
 
 namespace BridgeUI.CodeGen
 {
-    public class ButtonCode : ComponentCode
+    [System.Serializable]
+    public class BindingShow
     {
-       
+        public string bindingSource;
+        public string bindingTarget;
+        public int bindingTargetIndex;
+        public TypeInfo bindingTargetType;
     }
 }

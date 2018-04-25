@@ -51,6 +51,7 @@ public class LuaPanel01 : BridgeUI.LuaPanel
 		Binder.RegistButtonEvent (m_Button, "on_button_clicked", "我是一个按扭");
 		Binder.RegistSliderEvent (m_Slider, "on_slider_changed");
 		Binder.RegistToggleEvent (m_Toggle, "on_toggle_switched");
+        //Binder.RegistToggleView(m_Toggle)
 		Binder.RegistTextView (m_Text, "text");
 		Binder.RegistImageView (m_Image, "image");
 		Binder.RegistDropdownEvent (m_Dropdown, "on_dropdown_switched");

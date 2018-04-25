@@ -52,7 +52,33 @@ namespace BridgeUI.Binding
             };
             RegistValueCharge(onViewModelChanged, sourceName);
         }
+        /// <summary>
+        /// 注册通用事件
+        /// </summary>
+        /// <param name="uEvent"></param>
+        /// <param name="methodName"></param>
+        public virtual void RegistNormalEvent(UnityEvent uEvent, string methodName,params object[] arguments)
+        {
+            UnityAction action = () =>
+            {
+                var prop = viewModel.GetBindableProperty<BaseEvent>(methodName);
+                if (prop.Value != null)
+                {
+                    var func = prop.Value;
+                    func.Invoke(Context as PanelBase,arguments);
+                }
+            };
 
+            binders += viewModel =>
+            {
+                uEvent.AddListener(action);
+            };
+
+            unbinders += viewModel =>
+            {
+                uEvent.RemoveListener(action);
+            };
+        }
         /// <summary>
         /// 手动指定绑定事件
         /// </summary>
@@ -64,7 +90,7 @@ namespace BridgeUI.Binding
             binders += (viewModel) =>
             {
                 var prop = viewModel.GetBindableProperty<T>(sourceName);
-                if (onViewModelChanged != null)
+                if (onViewModelChanged != null && prop != null)
                 {
                     onViewModelChanged.Invoke(prop.Value);
                     prop.RegistValueChanged(onViewModelChanged);
@@ -74,7 +100,7 @@ namespace BridgeUI.Binding
             unbinders += (viewModel) =>
             {
                 var prop = viewModel.GetBindableProperty<T>(sourceName);
-                if (onViewModelChanged != null)
+                if (onViewModelChanged != null && prop != null)
                 {
                     prop.RemoveValueChanged(onViewModelChanged);
                 }
@@ -161,7 +187,7 @@ namespace BridgeUI.Binding
         /// <param name="Instance"></param>
         /// <param name="memberName"></param>
         /// <returns></returns>
-        private static MemberInfo GetDeepMember(ref object Instance, string memberName)
+        protected static MemberInfo GetDeepMember(ref object Instance, string memberName)
         {
             var names = memberName.Split(new char[] { '.' });
             Type type = Instance.GetType();

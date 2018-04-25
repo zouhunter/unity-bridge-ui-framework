@@ -37,7 +37,18 @@ namespace BridgeUIEditor
         private MemberViewer viewMemberViewer = new MemberViewer();
         private MemberViewer eventMemberViewer = new MemberViewer();
         public static Dictionary<Type, Texture> previewIcons = new Dictionary<Type, Texture>();
-
+        private static List<Type> supportedTypes = new List<Type>()
+        {
+            typeof(Single),
+            typeof(Int32),
+            typeof(String),
+            typeof(Vector2),
+            typeof(Vector3),
+            typeof(Sprite),
+            typeof(Texture),
+            typeof(Texture2D),
+            typeof(Color),
+        };
         static ComponentItemDrawer()
         {
             InitPreviewIcons();
@@ -262,7 +273,7 @@ namespace BridgeUIEditor
                     {
                         case MemberTypes.Field:
                             var field = member as FieldInfo;
-                            if(field.FieldType.IsValueType || field.FieldType == typeof(string))
+                            if(supportedTypes.Contains(field.FieldType))
                             {
                                 typeList.Add(field.FieldType);
                                 nameList.Add(field.Name);
@@ -270,7 +281,7 @@ namespace BridgeUIEditor
                             break;
                         case MemberTypes.Property:
                             var prop = member as PropertyInfo;
-                            if (prop.PropertyType.IsValueType || prop.PropertyType == typeof(string))
+                            if (supportedTypes.Contains(prop.PropertyType))
                             {
                                 typeList.Add(prop.PropertyType);
                                 nameList.Add(prop.Name);
@@ -285,7 +296,7 @@ namespace BridgeUIEditor
                                 !methodInfo.Name.StartsWith("set_")) 
                             {
                                 var parmeter = parmeters[0];
-                                if(parmeter.ParameterType.IsValueType || parmeter.ParameterType == typeof(string)){
+                                if(supportedTypes.Contains(parmeter.ParameterType)){
                                     typeList.Add(parmeter.ParameterType);
                                     nameList.Add(methodInfo.Name);
                                 }

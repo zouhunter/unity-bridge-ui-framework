@@ -91,7 +91,10 @@ namespace BridgeUIEditor
                 };
                 preComponentList.drawElementBackgroundCallback += (rect, index, isFocused, isActive) =>
                 {
-                    itemDrawer.DrawBackground(rect, isFocused, components[index]);
+                    if(components.Count > index && index >= 0)
+                    {
+                        itemDrawer.DrawBackground(rect, isFocused, components[index]);
+                    }
                 };
 
             }

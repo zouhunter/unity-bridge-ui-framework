@@ -11,6 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Reflection;
 
 namespace BridgeUI.Binding
 {
@@ -18,6 +19,7 @@ namespace BridgeUI.Binding
     public class PanelBaseBinder : PropertyBinder
     {
         public PanelBaseBinder(PanelBase panel) : base(panel) { }
+
         /// <summary>
         /// 接收文字显示
         /// </summary>
@@ -39,15 +41,78 @@ namespace BridgeUI.Binding
         }
 
         /// <summary>
-        /// 接收图片显示
+        /// 注册事件
         /// </summary>
-        /// <param name="image"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="memberPath"></param>
         /// <param name="sourceName"></param>
-        internal virtual void RegistRawImageView(RawImage image, string sourceName)
+        /// <param name="arguments"></param>
+        internal virtual void RegistEvent<T>(string memberPath, string sourceName, params object[] arguments)
         {
-            RegistValueCharge<Texture>((value) => { image.texture = value; }, sourceName);
+            object root = Context;
+            MemberInfo member = GetDeepMember(ref root, memberPath);
+            Debug.Assert(member != null && (member.MemberType == MemberTypes.Field || member.MemberType == MemberTypes.Property));
+            Type eventType = null;
+            object eventValue = null;
+            switch (member.MemberType)
+            {
+                case MemberTypes.Field:
+                    eventType = (member as FieldInfo).FieldType;
+                    eventValue = (member as FieldInfo).GetValue(root);
+                    break;
+                case MemberTypes.Property:
+                    eventType = (member as PropertyInfo).PropertyType;
+                    eventValue = (member as PropertyInfo).GetValue(root, null);
+                    break;
+            }
+
+            MethodInfo addListener = eventType.GetMethod("AddListener");
+            MethodInfo removeListener = eventType.GetMethod("RemoveListener");
+
+            ParameterInfo argType = addListener.GetParameters()[0];
+            ComponentData<T> data = new ComponentData<T>()
+            {
+                sourceName = sourceName,
+                args = arguments,
+                sender = root,
+                panelBinder = this,
+            };
+            var argumentLength = argType.ParameterType.GetGenericArguments().Length;
+            MethodInfo method = this.GetType().GetMethod("InvokeAction" + argumentLength);
+
+            Delegate dele = Delegate.CreateDelegate(argType.ParameterType, data, method.MakeGenericMethod(typeof(T)));
+
+            binders += viewModel =>
+            {
+                addListener.Invoke(eventValue, new object[] { dele });
+            };
+
+            unbinders += viewModel =>
+            {
+                removeListener.Invoke(eventValue, new object[] { dele });
+            };
         }
 
+        public static void InvokeAction0<T>(ComponentData<T> data)
+        {
+            var viewModel = data.panelBinder.viewModel;
+            var prop = viewModel.GetBindableProperty<T>(data.sourceName);
+
+            if (prop.ValueBoxed != null)
+            {
+                typeof(T).GetMethod("Invoke").Invoke(prop.ValueBoxed, new object[] { data.panelBinder.Context, data.sender, data.args });
+            }
+        }
+
+        public static void InvokeAction1<T>(ComponentData<T> data,object arg1)
+        {
+            var viewModel = data.panelBinder.viewModel;
+            var prop = viewModel.GetBindableProperty<T>(data.sourceName);
+            if (prop.ValueBoxed != null)
+            {
+                typeof(T).GetMethod("Invoke").Invoke(prop.ValueBoxed, new object[] { data.panelBinder.Context, data.sender, data.args });
+            }
+        }
 
         /// <summary>
         /// 下拉框事件
@@ -77,7 +142,6 @@ namespace BridgeUI.Binding
                 dropdown.onValueChanged.RemoveListener(action);
             };
         }
-
         /// <summary>
         /// 接收按扭点击事件
         /// </summary>
@@ -105,33 +169,7 @@ namespace BridgeUI.Binding
                 button.onClick.RemoveListener(action);
             };
         }
-        /// <summary>
-        /// 注册通用事件
-        /// </summary>
-        /// <param name="uEvent"></param>
-        /// <param name="methodName"></param>
-        internal virtual void RegistNormalEvent(UnityEvent uEvent, string methodName)
-        {
-            UnityAction action = () =>
-            {
-                var prop = viewModel.GetBindableProperty<UnityAction>(methodName);
-                if (prop.Value != null)
-                {
-                    var func = prop.Value;
-                    func.Invoke();
-                }
-            };
 
-            binders += viewModel =>
-            {
-                uEvent.AddListener(action);
-            };
-
-            unbinders += viewModel =>
-            {
-                uEvent.RemoveListener(action);
-            };
-        }
         /// <summary>
         /// 注册toggle事件
         /// </summary>

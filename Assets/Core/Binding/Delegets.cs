@@ -18,6 +18,16 @@ namespace BridgeUI.Binding
     public delegate void BindHandler(IPropertyChanged source);
     public delegate void UnBindHandler(IPropertyChanged source);
 
+    public class ComponentData<T> {
+        public string sourceName;
+        public object sender;
+        public object[] args;
+        public PanelBaseBinder panelBinder;
+    }
+#if xLua
+    [XLua.CSharpCallLua]
+#endif
+    public delegate void BaseEvent(PanelBase panel, params object[] args);
 #if xLua
     [XLua.CSharpCallLua]
 #endif

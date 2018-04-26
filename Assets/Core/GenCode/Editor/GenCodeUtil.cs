@@ -76,7 +76,6 @@ namespace BridgeUI.CodeGen
         /// <param name="components"></param>
         public static void AnalysisComponent(PanelBase component, List<ComponentItem> components)
         {
-        
             var fields = component.GetType().GetFields(BindingFlags.GetField | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
             foreach (var field in fields)
@@ -172,6 +171,8 @@ namespace BridgeUI.CodeGen
                     list.Add(new TypeInfo(type));
                 }
             }
+            var endList = components.Where(x => !supportControls.Contains(x.GetType())).Select(x=> new TypeInfo(x.GetType()));
+            list.AddRange(endList);
             return list.ToArray();
         }
 
@@ -381,10 +382,19 @@ namespace BridgeUI.CodeGen
             foreach (var item in components)
             {
                 var fieldName = string.Format("m_" + item.name);
+                var field = classNode.Descendants.OfType<FieldDeclaration>().Where(x => x.Variables.Where(y => y.Name == fieldName).Count() > 0).FirstOrDefault();
 
-                if (classNode.Descendants.OfType<FieldDeclaration>().Where(x => x.Variables.Where(y => y.Name == fieldName).Count() > 0).Count() == 0)
+                Debug.Log((field.ReturnType).ToString());
+                Debug.Log(item.componentType.Name);
+                if (field != null && (field.ReturnType).ToString() != item.componentType.Name)
                 {
-                    var field = new FieldDeclaration();
+                    classNode.Members.Remove(field);
+                    field = null;
+                }
+
+                if (field == null)
+                {
+                    field = new FieldDeclaration();
                     field.Modifiers = Modifiers.Private;
                     field.ReturnType = new ICSharpCode.NRefactory.CSharp.PrimitiveType(item.componentType.FullName);
                     field.Variables.Add(new VariableInitializer(fieldName));

@@ -21,4 +21,8 @@ AssetBundleManifest:
       Dependencies: {}
     Info_6:
       Name: firstpanelgroup
+      Dependencies:
+        Dependency_0: bridgeui/panels/runtimepanel
+    Info_7:
+      Name: bridgeui/panels/runtimepanel
       Dependencies: {}

@@ -23,6 +23,7 @@ namespace BridgeUI.Common
             popEnumProp = serializedObject.FindProperty("popEnum");
             selectedProp = serializedObject.FindProperty("selected");
             enumTypeProp = serializedObject.FindProperty("enumType");
+            UpdateOptions();
         }
         public override void OnInspectorGUI()
         {

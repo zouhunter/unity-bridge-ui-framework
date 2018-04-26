@@ -1,44 +1,21 @@
 ManifestFileVersion: 0
-CRC: 4101634678
+CRC: 3415256514
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a86b2cae0a270b5d6e27b3a27bc6004a
+    Hash: b6f1be3226f632226d9a3e3b114b0d19
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c1377208308025806189c50e980f8055
+    Hash: 508959941234ddd0f02caa39e7ef7d8e
 HashAppended: 0
 ClassTypes:
 - Class: 1
   Script: {instanceID: 0}
-- Class: 21
-  Script: {instanceID: 0}
-- Class: 28
-  Script: {instanceID: 0}
-- Class: 48
-  Script: {instanceID: 0}
-- Class: 114
-  Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-- Class: 114
-  Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-- Class: 114
-  Script: {fileID: -113659843, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-- Class: 114
-  Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: deab3f43bc5c98348b6a3810184c5243, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 4744a7bad62bee844a1aa0dc6189202f, type: 3}
 - Class: 115
-  Script: {instanceID: 0}
-- Class: 128
-  Script: {instanceID: 0}
-- Class: 213
-  Script: {instanceID: 0}
-- Class: 222
-  Script: {instanceID: 0}
-- Class: 224
   Script: {instanceID: 0}
 Assets:
 - Assets/Demo/4.runtime/panelgroup.asset
-Dependencies: []
+Dependencies:
+- E:/GitHub/unity-bridge-ui-framework/Assets/StreamingAssets/WebGL/bridgeui/panels/runtimepanel

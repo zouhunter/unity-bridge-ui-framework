@@ -37,18 +37,6 @@ namespace BridgeUIEditor
         private MemberViewer viewMemberViewer = new MemberViewer();
         private MemberViewer eventMemberViewer = new MemberViewer();
         public static Dictionary<Type, Texture> previewIcons = new Dictionary<Type, Texture>();
-        private static List<Type> supportedTypes = new List<Type>()
-        {
-            typeof(Single),
-            typeof(Int32),
-            typeof(String),
-            typeof(Vector2),
-            typeof(Vector3),
-            typeof(Sprite),
-            typeof(Texture),
-            typeof(Texture2D),
-            typeof(Color),
-        };
         static ComponentItemDrawer()
         {
             InitPreviewIcons();
@@ -265,7 +253,7 @@ namespace BridgeUIEditor
                     {
                         case MemberTypes.Field:
                             var field = member as FieldInfo;
-                            if(supportedTypes.Contains(field.FieldType))
+                            if(IsMemberSupported(field.FieldType))
                             {
                                 typeList.Add(field.FieldType);
                                 nameList.Add(field.Name);
@@ -273,7 +261,7 @@ namespace BridgeUIEditor
                             break;
                         case MemberTypes.Property:
                             var prop = member as PropertyInfo;
-                            if (supportedTypes.Contains(prop.PropertyType))
+                            if (IsMemberSupported(prop.PropertyType))
                             {
                                 typeList.Add(prop.PropertyType);
                                 nameList.Add(prop.Name);
@@ -288,7 +276,7 @@ namespace BridgeUIEditor
                                 !methodInfo.Name.StartsWith("set_")) 
                             {
                                 var parmeter = parmeters[0];
-                                if(supportedTypes.Contains(parmeter.ParameterType)){
+                                if(IsMemberSupported(parmeter.ParameterType)){
                                     typeList.Add(parmeter.ParameterType);
                                     nameList.Add(methodInfo.Name);
                                 }
@@ -311,6 +299,16 @@ namespace BridgeUIEditor
             viewMemberViewer.currentNames = viewMemberViewer.memberNameDic[type];
             viewMemberViewer.currentTypes = viewMemberViewer.memberTypeDic[type];
             viewMemberViewer.currentViewNames = viewMemberViewer.memberViewNameDic[type];
+        }
+
+        private bool IsMemberSupported(System.Type type)
+        {
+            var attributes = type.GetCustomAttributes(true);
+            if(attributes.Where(x=>x is System.ObsoleteAttribute).Count() > 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         private void UpdateEventByType(System.Type type)

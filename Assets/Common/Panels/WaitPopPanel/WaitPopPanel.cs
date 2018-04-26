@@ -24,9 +24,8 @@ namespace BridgeUI.Common
         protected override void Awake()
         {
             base.Awake();
-            m_close.interactable = false;
-            Binder.RegistValueCharge<bool>((y) => { m_close.interactable = y; }, "cansaleAble");
-            Binder.RegistValueCharge<string>((y) => { m_title.text = y; }, "title");
+            Binder.RegistMember<bool>("m_close.interactable", "cansaleAble");
+            Binder.RegistMember<string>("m_title.text", "title");
         }
     }
 }

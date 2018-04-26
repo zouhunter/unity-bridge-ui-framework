@@ -90,6 +90,7 @@ namespace BridgeUIEditor
                     var key = prop.FindPropertyRelative("graphName");
                     var guid = prop.FindPropertyRelative("guid");
                     var btnRect = new Rect(rect.x, rect.y + 2, rect.width - 30, EditorGUIUtility.singleLineHeight);
+
                     if (GUI.Button(btnRect, key.stringValue, EditorStyles.miniButton))
                     {
                         var path = AssetDatabase.GUIDToAssetPath(guid.stringValue);
@@ -100,6 +101,8 @@ namespace BridgeUIEditor
                         }
                     }
                     btnRect = new Rect(rect.x + rect.width - 30, rect.y + 2, rect.width, EditorGUIUtility.singleLineHeight);
+                    DragGroupObj(btnRect, prop);
+
                     if (GUI.Button(btnRect, " ", EditorStyles.objectFieldMiniThumb))
                     {
                         var path = AssetDatabase.GUIDToAssetPath(guid.stringValue);
@@ -108,7 +111,6 @@ namespace BridgeUIEditor
                             EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.NodeGraphObj>(path));
                         }
                     }
-                    DragGroupObj(btnRect, prop);
                 };
             }
             groupList.DoLayoutList();
@@ -116,7 +118,6 @@ namespace BridgeUIEditor
 
         protected virtual void DragGroupObj(Rect acceptRect,SerializedProperty prop)
         {
-          
             switch (Event.current.type)
             {
                 case EventType.DragUpdated:

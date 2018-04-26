@@ -265,10 +265,9 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
   components:
-  - name: subBtn
+  - open: 0
+    name: subBtn
     componentID: 0
-    sourceName: 
-    binding: 0
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Button
@@ -276,11 +275,12 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Image
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    viewItems: []
+    eventItems: []
     target: {fileID: 194424, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
-  - name: close
+  - open: 0
+    name: close
     componentID: 0
-    sourceName: 
-    binding: 0
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Button
@@ -288,6 +288,8 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Image
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    viewItems: []
+    eventItems: []
     target: {fileID: 102998, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
   nodeInfo:
     uiType:
@@ -343,7 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 3
+  selected: 0
   instenceID: -286214
   description: 
   assetName: MainPanel
@@ -353,10 +355,9 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
   components:
-  - name: close
+  - open: 0
+    name: close
     componentID: 0
-    sourceName: Close
-    binding: 0
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Button
@@ -364,11 +365,20 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Image
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - runtime: 0
+      bindingSource: Close
+      bindingTarget: onClick
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Button+ButtonClickedEvent
     target: {fileID: 102998, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
-  - name: openPanel01
+  - open: 0
+    name: openPanel01
     componentID: 0
-    sourceName: OpenPanel01
-    binding: 1
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Button
@@ -376,11 +386,20 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Image
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - runtime: 1
+      bindingSource: OpenPanel01
+      bindingTarget: onClick
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Button+ButtonClickedEvent
     target: {fileID: 198838, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
-  - name: openPanel02
+  - open: 0
+    name: openPanel02
     componentID: 0
-    sourceName: OpenPanel02
-    binding: 1
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Button
@@ -388,11 +407,20 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Image
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - runtime: 1
+      bindingSource: OpenPanel02
+      bindingTarget: onClick
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Button+ButtonClickedEvent
     target: {fileID: 179416, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
-  - name: openPanel03
+  - open: 0
+    name: openPanel03
     componentID: 0
-    sourceName: OpenPanel03
-    binding: 1
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Button
@@ -400,46 +428,90 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Image
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - runtime: 1
+      bindingSource: OpenPanel03
+      bindingTarget: onClick
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Button+ButtonClickedEvent
     target: {fileID: 174836, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
-  - name: title
+  - open: 0
+    name: title
     componentID: 0
-    sourceName: title
-    binding: 1
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems:
+    - bindingSource: title
+      bindingTarget: text
+      bindingTargetType:
+        assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        typeName: System.String
+    eventItems: []
     target: {fileID: 105326, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
-  - name: info
+  - open: 0
+    name: info
     componentID: 0
-    sourceName: info
-    binding: 1
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems:
+    - bindingSource: info
+      bindingTarget: text
+      bindingTargetType:
+        assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        typeName: System.String
+    eventItems: []
     target: {fileID: 104276, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
-  - name: switch
+  - open: 0
+    name: switch
     componentID: 0
-    sourceName: OnSwitch
-    binding: 0
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Toggle
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - runtime: 1
+      bindingSource: OnSwitch
+      bindingTarget: onValueChanged
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Toggle+ToggleEvent
     target: {fileID: 173578, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
-  - name: slider
+  - open: 1
+    name: slider
     componentID: 0
-    sourceName: OnSliderChange
-    binding: 0
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Slider
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - runtime: 1
+      bindingSource: OnSliderChange
+      bindingTarget: onValueChanged
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Slider+SliderEvent
     target: {fileID: 154974, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
   nodeInfo:
     uiType:

@@ -37,9 +37,9 @@ public class MainPanel : BridgeUI.GroupPanel
 
 	protected override void PropBindings ()
 	{
-		Binder.RegistEvent (m_openPanel01.onClick, "OpenPanel01");
-		Binder.RegistEvent(m_openPanel02.onClick, "OpenPanel02");
-		Binder.RegistEvent(m_openPanel03.onClick, "OpenPanel03");
+		Binder.RegistEvent (m_openPanel01.onClick, "OpenPanel01", m_openPanel01);
+		Binder.RegistEvent(m_openPanel02.onClick, "OpenPanel02", m_openPanel02);
+		Binder.RegistEvent(m_openPanel03.onClick, "OpenPanel03", m_openPanel03);
 		Binder.RegistMember<string> ("m_title.text", "title");
 		Binder.RegistMember<string>("m_info.text", "info");
 		Binder.RegistEvent (m_switch.onValueChanged, "OnSwitch");

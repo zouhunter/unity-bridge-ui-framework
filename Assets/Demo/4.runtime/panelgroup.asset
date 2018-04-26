@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Name: panelgroup
   m_EditorClassIdentifier: 
   graphList:
-  - graphName: autocode
-    guid: 85f6191e52eedf142955820394e342e8
+  - graphName: runtimeGraph
+    guid: ebb950b8ba4b31942871d319b26a98a8
   resetMenu: 0
   menu: 
   loadType: 1
@@ -33,7 +33,7 @@ MonoBehaviour:
     good: 1
     bundleName: bridgeui/panels/luapanel
   p_nodes:
-  - panelName: MyPanel
+  - panelName: Panel
     instanceID: 0
     type:
       layerIndex: 0
@@ -44,14 +44,5 @@ MonoBehaviour:
       quitAnim: 0
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 146968, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
-  bridges:
-  - inNode: 
-    index: 0
-    showModel:
-      auto: 1
-      mutex: 0
-      cover: 0
-      baseShow: 0
-      single: 0
-    outNode: MyPanel
+    prefab: {fileID: 179648, guid: 9df3bf47de3451444bf0b545a4bdf473, type: 2}
+  bridges: []

@@ -417,7 +417,7 @@ MonoBehaviour:
     bundleName: bridgeui/panels/panel03
   p_nodes:
   - panelName: MainPanel
-    instanceID: -24542
+    instanceID: -36384
     type:
       layerIndex: 0
       form: 0

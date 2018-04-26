@@ -130,13 +130,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphList:
-  - graphName: graph
-    guid: 927e0bdb67c403e4c9a7856d70693c81
+  - graphName: runtimeGraph
+    guid: ebb950b8ba4b31942871d319b26a98a8
   resetMenu: 0
   menu: 
   loadType: 2
   b_nodes:
-  - panelName: LuaPanel01
+  - panelName: RuntimePanel
     instanceID: 0
     type:
       layerIndex: 0
@@ -147,9 +147,9 @@ MonoBehaviour:
       quitAnim: 0
       closeRule: 0
       hideRule: 0
-    guid: f50a6668e2769894289e06d5debd5b8f
+    guid: 9df3bf47de3451444bf0b545a4bdf473
     good: 1
-    bundleName: bridgeui/panels/luapanel01
+    bundleName: bridgeui/panels/runtimepanel
   p_nodes:
   - panelName: LuaPanel01
     instanceID: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
       cover: 0
       baseShow: 0
       single: 0
-    outNode: LuaPanel01
+    outNode: RuntimePanel
 --- !u!1 &983688373
 GameObject:
   m_ObjectHideFlags: 0

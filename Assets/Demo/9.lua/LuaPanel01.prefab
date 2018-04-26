@@ -996,7 +996,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22400364}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2095,6 +2095,7 @@ MonoBehaviour:
   m_RawImage: {fileID: 22442856}
   m_Image: {fileID: 11407188}
   m_ScrollView: {fileID: 11480996}
+  m_btnPic: {fileID: 11482716}
 --- !u!114 &11498886
 MonoBehaviour:
   m_ObjectHideFlags: 1

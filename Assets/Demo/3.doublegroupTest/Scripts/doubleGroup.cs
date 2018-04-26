@@ -36,8 +36,10 @@ public class doubleGroup : MonoBehaviour
             dic["method"] = "可以向方法传递一个参数";
             dic["ondestroy"] = new Action<string>((x)=> { Debug.Log(x); });
             dic["OpenPanel01"]= dic["OpenPanel02"]= dic["OpenPanel03"] = new PanelEvent((x,z) => {
-                Debug.Log(z + ": onClicked");
-                //x.Open(PanelNames.Panel01);
+                if(z.Length > 0)
+                {
+                    Debug.Log(z[0] + ": onClicked");
+                }
             });
       
 

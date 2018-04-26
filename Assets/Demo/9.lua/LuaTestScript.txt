@@ -12,6 +12,7 @@ end
 
 function update()
 	print("lua update...")
+	self:SetValue("btn_color",CS.UnityEngine.Color(CS.UnityEngine.Time.time % 1,0.5,0.1,1))
 end
 
 function ondestroy()

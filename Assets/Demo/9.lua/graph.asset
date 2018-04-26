@@ -128,11 +128,27 @@ MonoBehaviour:
     viewItems:
     - bindingSource: btn_color
       bindingTarget: color
-      bindingTargetIndex: 19
       bindingTargetType:
         assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.Color
-    eventItems: []
+    - bindingSource: btn_color1
+      bindingTarget: color
+      bindingTargetType:
+        assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.Color
+    eventItems:
+    - runtime: 0
+      bindingSource: on_cull_statechanged
+      bindingTarget: onCullStateChanged
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent
+    - runtime: 1
+      bindingSource: on_cull_statechanged
+      bindingTarget: onCullStateChanged
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent
     target: {fileID: 107120, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
   - open: 0
     name: Slider
@@ -149,14 +165,18 @@ MonoBehaviour:
     - runtime: 1
       bindingSource: on_slider_switched
       bindingTarget: onValueChanged
-      bindingTargetIndex: 0
       bindingTargetType:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Slider+SliderEvent
     - runtime: 0
       bindingSource: on_slider_switched
       bindingTarget: onValueChanged
-      bindingTargetIndex: 0
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Slider+SliderEvent
+    - runtime: 0
+      bindingSource: on_slider_switched1
+      bindingTarget: onValueChanged
       bindingTargetType:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Slider+SliderEvent
@@ -178,11 +198,145 @@ MonoBehaviour:
     - runtime: 0
       bindingSource: on_button_clicked
       bindingTarget: onClick
-      bindingTargetIndex: 0
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Button+ButtonClickedEvent
+    - runtime: 1
+      bindingSource: on_button_clicked
+      bindingTarget: onClick
       bindingTargetType:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Button+ButtonClickedEvent
     target: {fileID: 107120, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - open: 0
+    name: Toggle
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Toggle
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - runtime: 1
+      bindingSource: on_toggle_switched
+      bindingTarget: onValueChanged
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Toggle+ToggleEvent
+    target: {fileID: 134786, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - open: 0
+    name: Dropdown
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Dropdown
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - runtime: 1
+      bindingSource: on_dropdown_switched
+      bindingTarget: onValueChanged
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Dropdown+DropdownEvent
+    target: {fileID: 100574, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - open: 0
+    name: InputField
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.InputField
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - runtime: 1
+      bindingSource: on_inputfield_edited
+      bindingTarget: onEndEdit
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.InputField+SubmitEvent
+    - runtime: 1
+      bindingSource: on_inputfield_edited1
+      bindingTarget: onEndEdit
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.InputField+SubmitEvent
+    target: {fileID: 193656, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - open: 0
+    name: Text
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Text
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems:
+    - bindingSource: text
+      bindingTarget: text
+      bindingTargetType:
+        assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        typeName: System.String
+    eventItems: []
+    target: {fileID: 170722, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - open: 0
+    name: Image
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems:
+    - bindingSource: image
+      bindingTarget: sprite
+      bindingTargetType:
+        assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.Sprite
+    - bindingSource: image_color
+      bindingTarget: color
+      bindingTargetType:
+        assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.Color
+    eventItems: []
+    target: {fileID: 197918, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - open: 0
+    name: ScrollView
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.ScrollRect
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - runtime: 1
+      bindingSource: on_scrollview_changed
+      bindingTarget: onValueChanged
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.ScrollRect+ScrollRectEvent
+    target: {fileID: 157362, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
   nodeInfo:
     uiType:
       layerIndex: 0

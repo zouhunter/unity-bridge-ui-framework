@@ -51,10 +51,8 @@ public class LuaPanel01 : BridgeUI.LuaPanel
 	{
 		m_Button.onClick.AddListener (on_button_clicked);
 		m_Slider.onValueChanged.AddListener (on_slider_switched);
-	}
-
-	private void on_button_clicked ()
-	{
+		m_Slider.onValueChanged.AddListener (on_slider_switched1);
+		m_btnPic.onCullStateChanged.AddListener (on_cull_statechanged);
 	}
 
 	protected override void PropBindings ()
@@ -65,7 +63,12 @@ public class LuaPanel01 : BridgeUI.LuaPanel
 		Binder.RegistEvent (m_Toggle.onValueChanged, "on_toggle_switched", "我是一个Toggle");
 		Binder.RegistEvent (m_Slider.onValueChanged, "on_slider_switched");
 		Binder.RegistMember<UnityEngine.Color> ("m_btnPic.color", "btn_color");
+		Binder.RegistEvent (m_InputField.onEndEdit, "on_inputfield_edited");
+		Binder.RegistEvent (m_InputField.onEndEdit, "on_inputfield_edited1");
+		Binder.RegistMember<UnityEngine.Color> ("m_btnPic.color", "btn_color1");
+		Binder.RegistEvent (m_btnPic.onCullStateChanged, "on_cull_statechanged");
 	}
+
 
 	protected override void Update ()
 	{
@@ -75,7 +78,19 @@ public class LuaPanel01 : BridgeUI.LuaPanel
 		}
 	}
 
-	protected void on_slider_switched (Single arg0)
+    private void on_button_clicked()
+    {
+    }
+
+    protected void on_slider_switched (Single arg0)
+	{
+	}
+
+	protected void on_slider_switched1 (Single arg0)
+	{
+	}
+
+	protected void on_cull_statechanged (Boolean arg0)
 	{
 	}
 }

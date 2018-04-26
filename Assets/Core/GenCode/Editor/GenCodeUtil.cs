@@ -323,16 +323,25 @@ namespace BridgeUI.CodeGen
         private static void SortClassMembers(TypeDeclaration classNode)
         {
             var fields = classNode.Descendants.OfType<FieldDeclaration>().ToArray();
-            var first = fields.FirstOrDefault();
+            AstNode keyNode = fields.FirstOrDefault();
             foreach (var item in fields)
             {
-                if (item != first)
+                if (item != keyNode)
                 {
                     classNode.Members.Remove(item);
-                    classNode.InsertChildAfter(first, item, Roles.TypeMemberRole);
+                    classNode.InsertChildAfter(keyNode, item, Roles.TypeMemberRole);
+                    keyNode = item;
                 }
-
             }
+            var InitComponentsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == initcomponentMethod).FirstOrDefault();
+            var PropBindingsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == propbindingsMethod).FirstOrDefault();
+
+            classNode.Members.Remove(InitComponentsNode);
+            classNode.InsertChildAfter(keyNode, InitComponentsNode, Roles.TypeMemberRole);
+            keyNode = InitComponentsNode;
+
+            classNode.Members.Remove(PropBindingsNode);
+            classNode.InsertChildAfter(keyNode, PropBindingsNode, Roles.TypeMemberRole);
         }
 
         /// <summary>

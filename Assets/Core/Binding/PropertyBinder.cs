@@ -82,6 +82,7 @@ namespace BridgeUI.Binding
 
         /// <summary>
         /// 注册事件
+        /// (其中arguments中的参数只能是引用类型,否则无法正常显示)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="uEvent"></param>

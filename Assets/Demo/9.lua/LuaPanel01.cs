@@ -60,15 +60,17 @@ public class LuaPanel01 : BridgeUI.LuaPanel
 		Binder.RegistMember<Sprite> ("m_Image.sprite", "image");
 		Binder.RegistMember<string> ("m_Text.text", "text");
 		Binder.RegistEvent (m_Button.onClick, "on_button_clicked", "我是一个按扭");
-		Binder.RegistEvent (m_Toggle.onValueChanged, "on_toggle_switched", "我是一个Toggle");
+		Binder.RegistEvent (m_Toggle.onValueChanged, "on_toggle_switched", m_Toggle);
 		Binder.RegistEvent (m_Slider.onValueChanged, "on_slider_switched");
 		Binder.RegistMember<UnityEngine.Color> ("m_btnPic.color", "btn_color");
-		Binder.RegistEvent (m_InputField.onEndEdit, "on_inputfield_edited");
+		Binder.RegistEvent (m_InputField.onEndEdit, "on_inputfield_edited", m_InputField);
 		Binder.RegistEvent (m_InputField.onEndEdit, "on_inputfield_edited1");
 		Binder.RegistMember<UnityEngine.Color> ("m_btnPic.color", "btn_color1");
 		Binder.RegistEvent (m_btnPic.onCullStateChanged, "on_cull_statechanged");
+		Binder.RegistEvent (m_Dropdown.onValueChanged, "on_dropdown_switched", m_Dropdown);
+		Binder.RegistEvent (m_ScrollView.onValueChanged, "on_scrollview_changed");
+		Binder.RegistMember<UnityEngine.Color> ("m_Image.color", "image_color");
 	}
-
 
 	protected override void Update ()
 	{
@@ -78,11 +80,11 @@ public class LuaPanel01 : BridgeUI.LuaPanel
 		}
 	}
 
-    private void on_button_clicked()
-    {
-    }
+	private void on_button_clicked ()
+	{
+	}
 
-    protected void on_slider_switched (Single arg0)
+	protected void on_slider_switched (Single arg0)
 	{
 	}
 

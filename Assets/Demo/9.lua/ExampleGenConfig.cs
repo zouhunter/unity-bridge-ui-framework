@@ -63,7 +63,7 @@ public static class ExampleGenConfig
                 typeof(Action<double>),
                 typeof(UnityEngine.Events.UnityAction),
                 typeof(System.Collections.IEnumerator),
-
+                typeof(Vector2),
 
                 typeof(UnityEngine.Events.UnityAction<object>),
                 typeof(UnityEngine.Events.UnityAction<float>),

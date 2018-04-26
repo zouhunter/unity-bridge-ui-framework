@@ -206,12 +206,12 @@ namespace BridgeUIEditor
                     UpdateMemberByType(item.componentType);
                     EditorGUI.BeginChangeCheck();
                     viewItem.bindingTargetIndex = EditorGUI.Popup(targetRect, viewItem.bindingTargetIndex, viewMemberViewer.currentViewNames);
+                    viewItem.bindingSource = EditorGUI.TextArea(sourceRect, viewItem.bindingSource);
                     if(EditorGUI.EndChangeCheck())
                     {
                         viewItem.bindingTargetType = new TypeInfo(viewMemberViewer.currentTypes[viewItem.bindingTargetIndex]);
                         viewItem.bindingTarget = viewMemberViewer.currentNames[viewItem.bindingTargetIndex];
                     }
-                    viewItem.bindingSource = EditorGUI.TextArea(sourceRect, viewItem.bindingSource);
                     EditorGUI.BeginDisabledGroup(true);
                     EditorGUI.Toggle(enableRect, true);
                     EditorGUI.EndDisabledGroup();
@@ -244,12 +244,12 @@ namespace BridgeUIEditor
 
                     EditorGUI.BeginChangeCheck();
                     eventItem.bindingTargetIndex = EditorGUI.Popup(targetRect, eventItem.bindingTargetIndex, eventMemberViewer.currentViewNames);
+                    eventItem.bindingSource = EditorGUI.TextArea(sourceRect, eventItem.bindingSource);
                     if (EditorGUI.EndChangeCheck())
                     {
                         eventItem.bindingTargetType = new TypeInfo(eventMemberViewer.currentTypes[eventItem.bindingTargetIndex]);
                         eventItem.bindingTarget = eventMemberViewer.currentNames[eventItem.bindingTargetIndex];
                     }
-                    eventItem.bindingSource = EditorGUI.TextArea(sourceRect, eventItem.bindingSource);
                     eventItem.runtime = EditorGUI.Toggle(enableRect, eventItem.runtime);
                 };
             }

@@ -66,7 +66,6 @@ public static class ExampleGenConfig
 
 
                 typeof(UnityEngine.Events.UnityAction<object>),
-                typeof(BridgeUI.Binding.ButtonEvent),
                 typeof(UnityEngine.Events.UnityAction<float>),
 
             };

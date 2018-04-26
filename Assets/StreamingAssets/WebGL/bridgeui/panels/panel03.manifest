@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 609633637
+CRC: 644613693
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 86eb2daff1cb7ca531897a25e952c608
+    Hash: 98d4326a7ca258aa21fc21a6758d4ff7
   TypeTreeHash:
     serializedVersion: 2
     Hash: 406866fe9c74dc280bb3412fb19f9a8b
@@ -36,5 +36,5 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
-- Assets/Demo/doublegroupTest/Prefab/Panel03.prefab
+- Assets/Demo/3.doublegroupTest/Prefab/Panel03.prefab
 Dependencies: []

@@ -17,5 +17,8 @@ AssetBundleManifest:
       Name: bridgeui/panels/panel03
       Dependencies: {}
     Info_5:
+      Name: bridgeui/panels/luapanel01
+      Dependencies: {}
+    Info_6:
       Name: firstpanelgroup
       Dependencies: {}

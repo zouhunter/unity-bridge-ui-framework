@@ -125,9 +125,42 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    viewItems: []
+    viewItems:
+    - bindingSource: btn_color
+      bindingTarget: color
+      bindingTargetIndex: 19
+      bindingTargetType:
+        assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.Color
     eventItems: []
     target: {fileID: 107120, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - open: 0
+    name: Slider
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Slider
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - runtime: 1
+      bindingSource: on_slider_switched
+      bindingTarget: onValueChanged
+      bindingTargetIndex: 0
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Slider+SliderEvent
+    - runtime: 0
+      bindingSource: on_slider_switched
+      bindingTarget: onValueChanged
+      bindingTargetIndex: 0
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Slider+SliderEvent
+    target: {fileID: 196244, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
   - open: 0
     name: Button
     componentID: 0
@@ -141,34 +174,15 @@ MonoBehaviour:
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems: []
-    eventItems: []
-    target: {fileID: 0}
-  - open: 0
-    name: Slider
-    componentID: 0
-    components:
-    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.UI.Slider
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.GameObject
-    viewItems: []
-    eventItems: []
-    target: {fileID: 196244, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
-  - open: 0
-    name: Text
-    componentID: 0
-    components:
-    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.UI.Text
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.GameObject
-    viewItems: []
-    eventItems: []
-    target: {fileID: 170722, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+    eventItems:
+    - runtime: 0
+      bindingSource: on_button_clicked
+      bindingTarget: onClick
+      bindingTargetIndex: 0
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Button+ButtonClickedEvent
+    target: {fileID: 107120, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
   nodeInfo:
     uiType:
       layerIndex: 0

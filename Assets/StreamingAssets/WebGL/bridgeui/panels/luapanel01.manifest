@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2736083627
+CRC: 691678220
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ae15a4f7ffadee82c7f4bda97e0c33a9
+    Hash: 3204ea5f6fd871cf23c5be5487186bb1
   TypeTreeHash:
     serializedVersion: 2
-    Hash: eee28e516d8beece208a5591f8a3a4bc
+    Hash: f495a0fac739fc1717bb13bacc9bd9b7
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -17,10 +17,24 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
 - Class: 114
   Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 - Class: 114
+  Script: {fileID: 853051423, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
   Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 575553740, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: -1200242548, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: -2061169968, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 1367256648, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 - Class: 114
   Script: {fileID: -113659843, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 - Class: 114
@@ -28,7 +42,7 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 2109663825, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 2c1317736ad31c348b93070709bc862f, type: 3}
+  Script: {fileID: 11500000, guid: d4e20549bea19bf4b845e37999ee7928, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -40,5 +54,5 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
-- Assets/Demo/3.doublegroupTest/Prefab/MainPanel.prefab
+- Assets/Demo/9.lua/LuaPanel01.prefab
 Dependencies: []

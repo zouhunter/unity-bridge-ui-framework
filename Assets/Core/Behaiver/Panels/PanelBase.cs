@@ -89,14 +89,14 @@ namespace BridgeUI
         private bool _isAlive = true;
         //private Dictionary<object, PropertyInfo> propDic;
         private IAnimPlayer _animPlayer;
-        private Binding.PanelBaseBinder _binder;
-        protected virtual Binding.PanelBaseBinder Binder
+        private Binding.PropertyBinder _binder;
+        protected virtual Binding.PropertyBinder Binder
         {
             get
             {
                 if(_binder == null)
                 {
-                    _binder = new Binding.PanelBaseBinder(this);
+                    _binder = new Binding.PropertyBinder(this);
                 }
                 return _binder;
             }

@@ -122,12 +122,12 @@ namespace BridgeUI
 
         private void RegistBaseAction()
         {
-            Binder.RegistNormalEvent(luaAwake, "awake");
-            Binder.RegistNormalEvent(luaOnEnable, "onenable");
-            Binder.RegistNormalEvent(luaStart, "start");
-            Binder.RegistNormalEvent(luaUpdate,"update");
-            Binder.RegistNormalEvent(luaOnDisable, "ondisable");
-            Binder.RegistNormalEvent(luaOnDestroy, "ondestroy");
+            Binder.RegistEvent(luaAwake, "awake");
+            Binder.RegistEvent(luaOnEnable, "onenable");
+            Binder.RegistEvent(luaStart, "start");
+            Binder.RegistEvent(luaUpdate,"update");
+            Binder.RegistEvent(luaOnDisable, "ondisable");
+            Binder.RegistEvent(luaOnDestroy, "ondestroy");
         }
 
         protected override void HandleData(object data)

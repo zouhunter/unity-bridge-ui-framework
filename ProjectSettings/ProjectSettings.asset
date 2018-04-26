@@ -332,7 +332,7 @@ PlayerSettings:
   spritePackerPolicy: 
   scriptingDefineSymbols:
     1: AssetBundleTools;xLua
-    13: AssetBundleTools
+    13: AssetBundleTools;xLua
   metroPackageName: FlexibleUI
   metroPackageVersion: 
   metroCertificatePath: 

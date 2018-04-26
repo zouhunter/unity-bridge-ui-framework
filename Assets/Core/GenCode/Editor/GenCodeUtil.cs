@@ -34,14 +34,12 @@ namespace BridgeUI.CodeGen
             "Close",
         };
         public static string[] supportBaseTypes;
-
-        private const string initcomponentMethod = "InitComponents";
-        private const string propbindingsMethod = "PropBindings";
-        private static Dictionary<Type, ComponentCode> coderDic = new Dictionary<Type, ComponentCode>();
+        public const string initcomponentMethod = "InitComponents";
+        public const string propbindingsMethod = "PropBindings";
+        public static ComponentCoder componentCoder = new ComponentCoder();
         static GenCodeUtil()
         {
             supportBaseTypes = LoadAllBasePanels();
-            coderDic = CreateCoderDic();
         }
         /// <summary>
         /// 快速进行控件绑定
@@ -134,7 +132,8 @@ namespace BridgeUI.CodeGen
             BindingInfoMethods(classNode, needAdd);
             SortClassMembers(classNode);
 
-            var scriptPath = GetScriptPath(go);
+            var scriptPath = AssetDatabase.GetAssetPath(go).Replace(".prefab", ".cs");
+
             System.IO.File.WriteAllText(scriptPath, uiCoder.Compile());
             var type = typeof(BridgeUI.PanelBase).Assembly.GetType(className);
             if (type != null)
@@ -175,16 +174,7 @@ namespace BridgeUI.CodeGen
         }
 
         #region private functions
-        /// <summary>
-        /// 创建编码字典
-        /// </summary>
-        /// <returns></returns>
-        private static Dictionary<Type, ComponentCode> CreateCoderDic()
-        {
-            var dic = new Dictionary<Type, ComponentCode>();
-            dic.Add(typeof(Button), new ButtonCode());
-            return dic;
-        }
+
 
      
 
@@ -209,9 +199,6 @@ namespace BridgeUI.CodeGen
             }
             return support.ToArray();
         }
-
-   
-
 
         private static UICoder LoadUICoder(GameObject prefab, GenCodeRule rule)
         {
@@ -265,6 +252,13 @@ namespace BridgeUI.CodeGen
             }
         }
 
+        /// <summary>
+        /// 完善类名
+        /// </summary>
+        /// <param name="tree"></param>
+        /// <param name="prefab"></param>
+        /// <param name="rule"></param>
+        /// <returns></returns>
         private static TypeDeclaration CompleteClass(SyntaxTree tree, GameObject prefab, GenCodeRule rule)
         {
             TypeDeclaration classNode = null;
@@ -297,6 +291,11 @@ namespace BridgeUI.CodeGen
             return classNode;
         }
 
+        /// <summary>
+        /// 完善命名空间
+        /// </summary>
+        /// <param name="tree"></param>
+        /// <param name="rule"></param>
         private static void CompleteNameSpace(SyntaxTree tree, GenCodeRule rule)
         {
             string[] usingDeclarations = {
@@ -313,12 +312,6 @@ namespace BridgeUI.CodeGen
                     tree.AddChild<AstNode>(new UsingDeclaration(item), Roles.Root);
                 }
             }
-        }
-
-        private static string GetScriptPath(GameObject go)
-        {
-            var path = AssetDatabase.GetAssetPath(go).Replace(".prefab", ".cs");
-            return path;
         }
 
         /// <summary>
@@ -339,6 +332,7 @@ namespace BridgeUI.CodeGen
 
             }
         }
+
         /// <summary>
         /// 过虑已经存在的变量
         /// </summary>
@@ -366,6 +360,11 @@ namespace BridgeUI.CodeGen
             }
         }
 
+        /// <summary>
+        /// 创建字段列表
+        /// </summary>
+        /// <param name="classNode"></param>
+        /// <param name="components"></param>
         private static void CreateMemberFields(TypeDeclaration classNode, ComponentItem[] components)
         {
             foreach (var item in components)
@@ -385,118 +384,18 @@ namespace BridgeUI.CodeGen
                 }
             }
         }
+        
         /// <summary>
-        /// 绑定方法体
+        /// 完善方法内容
         /// </summary>
         /// <param name="classNode"></param>
         /// <param name="components"></param>
         private static void BindingInfoMethods(TypeDeclaration classNode, ComponentItem[] components)
         {
-            var InitComponentsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == initcomponentMethod).FirstOrDefault();
-            var PropBindingsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == propbindingsMethod).FirstOrDefault();
-
+            componentCoder.SetContext(classNode);
             foreach (var component in components)
             {
-                coderDic[component.componentType].BindingInvocation(classNode, component);
-            }
-        }
-
-
-        /// <summary>
-        /// 获取不同组件的事件名
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns></returns>
-        private static string GetMethodName_InitComponentsNode(Type componentType)
-        {
-            if (componentType == typeof(Button))
-            {
-                return "onClick";
-            }
-            else if (componentType == typeof(Toggle))
-            {
-                return "onValueChanged";
-            }
-            else if (componentType == typeof(Slider))
-            {
-                return "onValueChanged";
-            }
-            else if (componentType == typeof(Dropdown))
-            {
-                return "onValueChanged";
-            }
-            else
-            {
-                return "";
-            }
-        }
-        /// <summary>
-        /// 不同的组件参数不同
-        /// </summary>
-        /// <param name="componentType"></param>
-        /// <returns></returns>
-        private static ParameterDeclaration GetArgument_InitComponentsNode(Type componentType)
-        {
-            if (componentType == typeof(Button))
-            {
-                return new ParameterDeclaration();
-            }
-            else if (componentType == typeof(Toggle))
-            {
-                return new ParameterDeclaration(new PrimitiveType("bool"), "isOn");
-            }
-            else if (componentType == typeof(Slider))
-            {
-                return new ParameterDeclaration(new PrimitiveType("float"), "value");
-            }
-            else if (componentType == typeof(Dropdown))
-            {
-                return new ParameterDeclaration(new PrimitiveType("float"), "value");
-            }
-            else
-            {
-                return null;
-            }
-        }
-        /// <summary>
-        /// 不同的组件注册方法名不同
-        /// </summary>
-        /// <param name="componentType"></param>
-        /// <returns></returns>
-        private static string GetMethodNameFromComponent(Type componentType)
-        {
-            if (componentType == typeof(Button))
-            {
-                return "RegistButtonEvent";
-            }
-            else if (componentType == typeof(Toggle))
-            {
-                return "RegistToggleEvent";
-            }
-            else if (componentType == typeof(Dropdown))
-            {
-                return "RegistDropdownEvent";
-            }
-            else if (componentType == typeof(Slider))
-            {
-                return "RegistSliderEvent";
-            }
-            else if (componentType == typeof(Image))
-            {
-                return "RegistImageView";
-            }
-            else if (componentType == typeof(RawImage))
-            {
-                return "RegistRawImageView";
-            }
-
-            else if (componentType == typeof(Text))
-            {
-                return "RegistTextView";
-            }
-            else
-            {
-                return "";
+                componentCoder.CompleteCode(component);
             }
         }
 

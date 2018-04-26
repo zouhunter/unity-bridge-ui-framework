@@ -18,7 +18,7 @@ namespace BridgeUI.CodeGen
     {
         public string bindingSource;
         public string bindingTarget;
-        public int bindingTargetIndex;
+        public int bindingTargetIndex = -1;
         public TypeInfo bindingTargetType;
     }
 }

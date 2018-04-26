@@ -33,9 +33,9 @@ public class MyPanel : BridgeUI.SingleCloseAblePanel
 
 	protected override void PropBindings ()
 	{
-		Binder.RegistImageView (m_head, "head");
-		Binder.RegistTextView (m_title, "title");
-		Binder.RegistTextView (m_info, "info");
+		Binder.RegistMember<Sprite> ("m_head.sprite", "head");
+		Binder.RegistMember<Text>("m_title.text", "title");
+		Binder.RegistMember<Text>("m_info.text", "info");
 	}
 
 	protected void OnSlider (float value)

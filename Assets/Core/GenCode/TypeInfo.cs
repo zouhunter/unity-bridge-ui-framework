@@ -27,5 +27,10 @@ namespace BridgeUI.CodeGen
             this.assembleName = type.Assembly.ToString();
             this.typeName = type.FullName;
         }
+        public void Update(System.Type type)
+        {
+            this.assembleName = type.Assembly.ToString();
+            this.typeName = type.FullName;
+        }
     }
 }

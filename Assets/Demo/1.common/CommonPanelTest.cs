@@ -12,12 +12,37 @@ using System.Collections;
 using System.Collections.Generic;
 using BridgeUI;
 
-public class CommonPanelTest : MonoBehaviour {
+public class CommonPanelTest : MonoBehaviour
+{
     private void OnGUI()
     {
-        if(GUILayout.Button("PopUpPanel"))
+        using (var hor = new GUILayout.HorizontalScope())
         {
-            UIFacade.Instence.Open(PanelNames.PopUpPanel, new string[] { "你好", "这是一个提示面板!" });
+            if (GUILayout.Button("PopUpPanel -string[]"))
+            {
+               UIFacade.Instence.Open(PanelNames.PopUpPanel, new string[] { "你好", "这是一个提示面板!" });
+            }
+            if (GUILayout.Button("PopUpPanel -enum network"))
+            {
+                var handle = UIFacade.Instence.Open(PanelNames.PopUpPanel, NetWorkInfos.OnNetError);
+                handle.RegistCallBack((panel, data) =>
+                {
+                    Debug.Log("call back :" + data);
+                });
+            }
+            if (GUILayout.Button("PopUpPanel -enum file"))
+            {
+                UIFacade.Instence.Open(PanelNames.PopUpPanel, FileInfos.FileAlreadyExists);
+            }
+            if (GUILayout.Button("PopUpPanel -dic"))
+            {
+                var table = new Hashtable();
+                table["title"] = "标题 - HashTable";
+                table["info"] = "信息 - HashTable";
+                table["donthide"] = false;
+                UIFacade.Instence.Open(PanelNames.PopUpPanel, table);
+            }
         }
+
     }
 }

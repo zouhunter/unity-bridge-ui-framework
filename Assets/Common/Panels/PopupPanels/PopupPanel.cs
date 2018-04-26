@@ -22,42 +22,16 @@ namespace BridgeUI.Common
     /// </summary>
     public class PopupPanel : SingleCloseAblePanel
     {
-        [System.Serializable]
-        public class PopData
-        {
-            public int typeInt;
-            public string typeName;
-            public string title;
-            [Multiline(2)]
-            public string info;
-
-            public PopData(int typeInt, string typeName)
-            {
-                this.typeInt = typeInt;
-                this.typeName = typeName;
-            }
-        }
-
         public Text title;
         public Text info;
-        private bool donthide = false;
+        public string defultTitle = "温馨提示";
         public InputField.OnChangeEvent onGet;
+        public List<PopDataObj> popDatas = new List<PopDataObj>();
+
+        protected bool callBack;
+        private bool donthide = false;
         private Queue<KeyValuePair<string, string>> valueQueue = new Queue<KeyValuePair<string, string>>();
         private bool isShowing;
-        protected bool callBack;
-
-#if UNITY_EDITOR
-        [HideInInspector]
-        public UnityEditor.MonoScript popEnum;
-#endif
-        [HideInInspector]
-        public List<PopData> popDatas = new List<PopData>();
-
-        public PopData GetPopData(int typeInt)
-        {
-            var item = popDatas.Find(x => x.typeInt == typeInt);
-            return item;
-        }
 
         public override void Close()
         {
@@ -68,16 +42,74 @@ namespace BridgeUI.Common
             else
             {
                 isShowing = false;
-                if (!donthide)
-                {
-                    CallBack(callBack);
+                CallBack(callBack);
+                if (!donthide){
                     base.Close();
                 }
             }
 
         }
 
-        void OnMessageRecevie(string arg0, string arg1)
+        protected override void HandleData(object data)
+        {
+            base.HandleData(data);
+            if(data is Enum)
+            {
+                HandleEnum(data as Enum);
+            }
+            else if (data is string)
+            {
+                HandleString(data as string);
+            }
+            else if (data is string[])
+            {
+                HandleArray(data as string[]);
+            }
+            else if (data is IDictionary)
+            {
+                HandleIDictionary(data as IDictionary);
+            }
+        }
+
+        #region 支持多种数据类型
+        private void HandleEnum(Enum data)
+        {
+            var typeName = data.GetType().FullName;
+            var dataSource = popDatas.Find(x => x.enumType == typeName);
+            if (dataSource != null)
+            {
+                int typeInt = (int)System.Convert.ChangeType(data, typeof(int));
+                var popData = dataSource.GetPopData(typeInt);
+                donthide = popData.donthide;
+                OnMessageRecevie(popData.title, popData.info);
+            }
+        }
+        private void HandleString(string value)
+        {
+            OnMessageRecevie(defultTitle, value);
+        }
+        private void HandleArray(string[] array)
+        {
+            if (array.Length > 1)
+            {
+                OnMessageRecevie(array[0], array[1]);
+            }
+            else if (array.Length > 0)
+            {
+                OnMessageRecevie(defultTitle, array[0]);
+            }
+        }
+        private void HandleIDictionary(IDictionary dic)
+        {
+            var titleText = dic["title"] != null ? (string)dic["title"] : defultTitle;
+            var infoText = dic["info"] != null ? dic["info"] as string : "";
+            donthide = dic["donthide"] != null ? (bool)dic["donthide"] : false;
+            OnMessageRecevie(titleText, infoText);
+        }
+        #endregion
+
+
+        private void OnMessageRecevie(string arg0, string arg1)
         {
             if (string.IsNullOrEmpty(arg0) && string.IsNullOrEmpty(arg1))
             {
@@ -92,8 +124,6 @@ namespace BridgeUI.Common
                     ShowAnItem();
                 }
             }
-
-
         }
 
         private void ShowAnItem()
@@ -103,55 +133,6 @@ namespace BridgeUI.Common
             title.text = item.Key;
             info.text = item.Value;
             onGet.Invoke(item.Key + item.Value);
-        }
-        protected override void HandleData(object obj)
-        {
-            base.HandleData(obj);
-            if (obj is string)
-            {
-                OnMessageRecevie("温馨提示", (string)obj);
-            }
-            else if (obj is string[])
-            {
-                var strs = (string[])obj;
-                if (strs.Length > 1)
-                {
-                    var title = strs[0];
-                    var info = strs[1];
-                    OnMessageRecevie(title, info);
-                }
-                else if (strs.Length > 0)
-                {
-                    var title = "温馨提示";
-                    var info = strs[0];
-                    OnMessageRecevie(title, info);
-                }
-            }
-            else if (obj is Hashtable)
-            {
-                var dic = obj as Hashtable;
-                if (dic["popInfo"] != null)
-                {
-                    int typeIndex = (int)dic["popInfo"];
-                    donthide = dic["closeAble"] != null ? (bool)dic["closeAble"] : false;
-                    var data = GetPopData(typeIndex);
-                    if (data != null)
-                    {
-                        OnMessageRecevie(data.title, data.info);
-                    }
-                    else
-                    {
-                        Debug.Log("Empty::" + typeIndex);
-                    }
-                }
-                else
-                {
-                    var title = dic["title"] != null ? (string)dic["title"] : "温馨提示";
-                    var info = dic["info"] != null ? dic["info"] as string : "";
-                    donthide = dic["closeAble"] != null ? (bool)dic["closeAble"] : false;
-                    OnMessageRecevie(title, info);
-                }
-            }
         }
     }
 }

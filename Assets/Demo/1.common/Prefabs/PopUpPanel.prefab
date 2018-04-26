@@ -101,12 +101,14 @@ MonoBehaviour:
   m_close: {fileID: 11430100}
   title: {fileID: 11407468}
   info: {fileID: 11451738}
-  popUpObj: {fileID: 0}
   onGet:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.InputField+OnChangeEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  popDatas:
+  - {fileID: 11400000, guid: b334b5a4dc632eb4b8b13d7bfa0e3caa, type: 2}
+  - {fileID: 11400000, guid: cb63fc8455712ae4382bc3b5ca3dcea8, type: 2}
 --- !u!114 &11404860
 MonoBehaviour:
   m_ObjectHideFlags: 1

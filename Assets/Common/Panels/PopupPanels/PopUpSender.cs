@@ -3,27 +3,28 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine;
+using System.Linq;
 using BridgeUI;
 namespace BridgeUI.Common
 {
     public class PopUpSender : MonoBehaviour
     {
-        public PopUpType popType;
+        public string enumType;
+#if UNITY_EDITOR
+        public UnityEditor.MonoScript popEnum;
+#endif
+        public string selected;
         private Hashtable node = new Hashtable();
         private bool isCallBack;
-        public void SendPopInfo(bool donHide)
+        public void SendPopInfo()
         {
-            Debug.Log("SendPopInfo");
-            node["popInfo"] = (int)popType;
-            node["closeAble"] = !donHide;
-            UIFacade.Instence.Open("PopupPanel", node);
+            Debug.Log("Send!" + GetCurrentEnumValue().GetType());
+            UIFacade.Instence.Open("PopUpPanel", GetCurrentEnumValue());
             isCallBack = false;
         }
         public void SendFunctionPopInfo(UnityAction<bool> callBack)
         {
-            Debug.Log("SendFunctionPopInfo");
-            node["popInfo"] = (int)popType;
-            UIFacade.Instence.Open("FunctionPopupPanel", new UnityAction<object>((x) => { if (callBack != null) callBack.Invoke((bool)x); }), node);
+            UIFacade.Instence.Open("FunctionPopupPanel", new UnityAction<object>((x) => { if (callBack != null) callBack.Invoke((bool)x); }), GetCurrentEnumValue());
             isCallBack = true;
         }
         public void ClosePopUpPanel()
@@ -36,6 +37,12 @@ namespace BridgeUI.Common
             {
                 UIFacade.Instence.Close("PopupPanel");
             }
+        }
+
+
+        private object GetCurrentEnumValue()
+        {
+            return System.Enum.Parse(System.Type.GetType(enumType), selected);
         }
     }
 }

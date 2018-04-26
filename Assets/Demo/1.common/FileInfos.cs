@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine;
-namespace BridgeUI.Common
+public enum FileInfos
 {
-    [System.Serializable]
-    public class CallBackEvent : UnityEvent<UnityAction<bool>>
-    {
-
-    }
+    FileNotExit = 1,//文件?
+    FileAlreadyExists = 2,//引导结束
 }

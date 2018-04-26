@@ -20,9 +20,9 @@ namespace BridgeUI.CodeGen
 {
     public class ComponentCoder
     {
-        protected  MethodDeclaration InitComponentsNode;
-        protected  MethodDeclaration PropBindingsNode;
-        protected  TypeDeclaration classNode;
+        protected MethodDeclaration InitComponentsNode;
+        protected MethodDeclaration PropBindingsNode;
+        protected TypeDeclaration classNode;
 
         public void SetContext(TypeDeclaration classNode)
         {
@@ -46,11 +46,11 @@ namespace BridgeUI.CodeGen
             {
                 if (item.runtime)
                 {
-                    BindingInvocations(component.name,item);
+                    BindingInvocations(component.name, item);
                 }
                 else
                 {
-                    LocalInvocations(component.name,item);
+                    LocalInvocations(component.name, item);
                 }
             }
 
@@ -90,7 +90,7 @@ namespace BridgeUI.CodeGen
         /// <summary>
         /// 远端关联
         /// </summary>
-        protected virtual void BindingInvocations(string name,BindingShow bindingInfo)
+        protected virtual void BindingInvocations(string name, BindingShow bindingInfo)
         {
             var invocations = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
             var arg0_name = "m_" + name + "." + bindingInfo.bindingTarget;
@@ -98,7 +98,7 @@ namespace BridgeUI.CodeGen
             if (invocation == null)
             {
                 var typeName = bindingInfo.bindingTargetType.typeName;
-                var methodName = string.Format( "RegistMember<{0}>",typeName);
+                var methodName = string.Format("RegistMember<{0}>", typeName);
                 if (!string.IsNullOrEmpty(methodName))
                 {
                     invocation = new InvocationExpression();
@@ -183,6 +183,122 @@ namespace BridgeUI.CodeGen
                 }
 
             }
+        }
+
+        /// <summary>
+        /// 分析代码中的绑定关系
+        /// </summary>
+        /// <param name="components"></param>
+        internal void AnalysisBinding(List<ComponentItem> components)
+        {
+            if (classNode != null)
+            {
+                if (InitComponentsNode != null)
+                {
+                    var invctions = InitComponentsNode.Body.Descendants.OfType<InvocationExpression>();
+                    foreach (var item in invctions)
+                    {
+                        AnalysisLoaclInvocation(item, components);
+                    }
+                }
+                if (PropBindingsNode != null)
+                {
+                    var invctions = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
+                    foreach (var item in invctions)
+                    {
+                        if (item.Target.ToString().Contains("RegistMember"))
+                        {
+                            AnalysisBindingMembers(item, components);
+                        }
+                        else if (item.Target.ToString().Contains("RegistEvent"))
+                        {
+                            AnalysisBindingEvents(item, components);
+                        }
+
+                    }
+                }
+            }
+        }
+
+        protected virtual void AnalysisLoaclInvocation(InvocationExpression invocation, List<ComponentItem> components)
+        {
+            var component = components.Find(x => invocation.Target.ToString().Contains("m_" + x.name));
+            if (component != null)
+            {
+                string bindingSource = invocation.Arguments.First().ToString();
+                var info = component.eventItems.Find(x => invocation.Target.ToString().Contains("m_" + component.name + "." + x.bindingTarget) && !x.runtime && x.bindingSource == bindingSource);
+
+                if (info == null)
+                {
+                    var express = invocation.Target as MemberReferenceExpression;
+                    var target = (express.Target as MemberReferenceExpression).MemberNameToken.Name;
+                    Type infoType = GetTypeClamp(component.componentType, target);
+                    info = new BindingEvent();
+                    info.runtime = false;
+                    info.bindingSource = bindingSource;
+                    info.bindingTarget = target;
+                    info.bindingTargetType.Update(infoType);
+                    component.eventItems.Add(info);
+                }
+            }
+        }
+
+        protected virtual void AnalysisBindingMembers(InvocationExpression invocation, List<ComponentItem> components)
+        {
+            var component = components.Find(x => invocation.Arguments.Count > 1 && invocation.Arguments.First().ToString().Contains("m_" + x.name));
+            if (component != null)
+            {
+                var source = invocation.Arguments.ToArray()[1].ToString().Replace("\"", "");
+                var info = component.viewItems.Find(x => x.bindingSource == source);
+                if (info == null)
+                {
+                    info = new BindingShow();
+                    info.bindingSource = source;
+                    var arg0 = invocation.Arguments.First().ToString().Replace("\"", "");
+                    var targetName = arg0.Substring(arg0.IndexOf(".") + 1);
+                    var type = component.componentType.GetProperty(targetName);
+                    info.bindingTarget = targetName;
+                    info.bindingTargetType.Update(type.PropertyType);
+                    component.viewItems.Add(info);
+                }
+            }
+        }
+
+        protected virtual void AnalysisBindingEvents(InvocationExpression invocation, List<ComponentItem> components)
+        {
+            var component = components.Find(x => invocation.Arguments.Count > 1 && invocation.Arguments.First().ToString().Contains("m_" + x.name));
+            if (component != null)
+            {
+                var source = invocation.Arguments.ToArray()[1].ToString().Replace("\"", "");
+                var info = component.eventItems.Find(x => x.bindingSource == source && x.runtime);
+                if (info == null)
+                {
+                    info = new BindingEvent();
+                    info.bindingSource = source;
+                    var arg0 = invocation.Arguments.First().ToString();
+                    var targetName = arg0.Substring(arg0.IndexOf(".") + 1);
+                    Type infoType = GetTypeClamp(component.componentType,targetName);
+                    info.runtime = true;
+                    info.bindingTarget = targetName;
+                    info.bindingTargetType.Update(infoType);
+                    component.eventItems.Add(info);
+                }
+            }
+        }
+        private Type GetTypeClamp(Type baseType,string membername)
+        {
+            Type infoType = null;
+            var prop = baseType.GetProperty(membername);
+            if (prop != null)
+            {
+                infoType = prop.PropertyType;
+            }
+            var field = baseType.GetField(membername);
+            if (field != null)
+            {
+                infoType = field.FieldType;
+            }
+            return infoType;
         }
     }
 }

@@ -71,16 +71,6 @@ namespace BridgeUIEditor
             previewIcons.Add(typeof(GridLayoutGroup), EditorGUIUtility.IconContent("GridLayoutGroup Icon").image);
         }
 
-        private static List<Type> supportedMembers = new List<Type>()
-        {
-            typeof(int),
-            typeof(float),
-            typeof(byte),
-            typeof(string),
-            typeof(Sprite),
-            typeof(Texture),
-        };
-
         public float GetItemHeight(ComponentItem item)
         {
             UpdateHeights(item);
@@ -205,12 +195,13 @@ namespace BridgeUIEditor
                     }
                     UpdateMemberByType(item.componentType);
                     EditorGUI.BeginChangeCheck();
-                    viewItem.bindingTargetIndex = EditorGUI.Popup(targetRect, viewItem.bindingTargetIndex, viewMemberViewer.currentViewNames);
+                    var viewNameIndex = Array.IndexOf(viewMemberViewer.currentNames, viewItem.bindingTarget);
+                    viewNameIndex = EditorGUI.Popup(targetRect, viewNameIndex, viewMemberViewer.currentViewNames);
                     viewItem.bindingSource = EditorGUI.TextArea(sourceRect, viewItem.bindingSource);
                     if(EditorGUI.EndChangeCheck())
                     {
-                        viewItem.bindingTargetType = new TypeInfo(viewMemberViewer.currentTypes[viewItem.bindingTargetIndex]);
-                        viewItem.bindingTarget = viewMemberViewer.currentNames[viewItem.bindingTargetIndex];
+                        viewItem.bindingTargetType = new TypeInfo(viewMemberViewer.currentTypes[viewNameIndex]);
+                        viewItem.bindingTarget = viewMemberViewer.currentNames[viewNameIndex];
                     }
                     EditorGUI.BeginDisabledGroup(true);
                     EditorGUI.Toggle(enableRect, true);
@@ -243,12 +234,13 @@ namespace BridgeUIEditor
                     }
 
                     EditorGUI.BeginChangeCheck();
-                    eventItem.bindingTargetIndex = EditorGUI.Popup(targetRect, eventItem.bindingTargetIndex, eventMemberViewer.currentViewNames);
+                    var viewNameIndex = Array.IndexOf(eventMemberViewer.currentNames, eventItem.bindingTarget);
+                    viewNameIndex = EditorGUI.Popup(targetRect, viewNameIndex, eventMemberViewer.currentViewNames);
                     eventItem.bindingSource = EditorGUI.TextArea(sourceRect, eventItem.bindingSource);
                     if (EditorGUI.EndChangeCheck())
                     {
-                        eventItem.bindingTargetType = new TypeInfo(eventMemberViewer.currentTypes[eventItem.bindingTargetIndex]);
-                        eventItem.bindingTarget = eventMemberViewer.currentNames[eventItem.bindingTargetIndex];
+                        eventItem.bindingTargetType = new TypeInfo(eventMemberViewer.currentTypes[viewNameIndex]);
+                        eventItem.bindingTarget = eventMemberViewer.currentNames[viewNameIndex];
                     }
                     eventItem.runtime = EditorGUI.Toggle(enableRect, eventItem.runtime);
                 };
@@ -331,9 +323,21 @@ namespace BridgeUIEditor
                     System.Reflection.BindingFlags.Public |
                     System.Reflection.BindingFlags.Instance |
                     System.Reflection.BindingFlags.GetProperty);
+
                 var goodProps = props.Where(x => typeof(UnityEngine.Events.UnityEventBase).IsAssignableFrom(x.PropertyType));
                 typeList.AddRange(goodProps.Select(x => x.PropertyType).ToArray());
                 nameList.AddRange(goodProps.Select(x => x.Name).ToArray());
+
+
+                var fields = type.GetFields(
+                  System.Reflection.BindingFlags.Public |
+                  System.Reflection.BindingFlags.Instance |
+                  System.Reflection.BindingFlags.GetField);
+
+                var goodFields = fields.Where(x => typeof(UnityEngine.Events.UnityEventBase).IsAssignableFrom(x.FieldType));
+                typeList.AddRange(goodFields.Select(x => x.FieldType).ToArray());
+                nameList.AddRange(goodFields.Select(x => x.Name).ToArray());
+
 
                 eventMemberViewer.memberTypeDic[type] = typeList.ToArray();
                 eventMemberViewer.memberNameDic[type] = nameList.ToArray();

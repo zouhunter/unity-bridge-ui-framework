@@ -76,7 +76,9 @@ namespace BridgeUI.CodeGen
         /// <param name="components"></param>
         public static void AnalysisComponent(PanelBase component, List<ComponentItem> components)
         {
+        
             var fields = component.GetType().GetFields(BindingFlags.GetField | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
             foreach (var field in fields)
             {
                 if (typeof(MonoBehaviour).IsAssignableFrom(field.FieldType))
@@ -408,41 +410,9 @@ namespace BridgeUI.CodeGen
         {
             var script = MonoScript.FromMonoBehaviour(component).text;
             var tree = new CSharpParser().Parse(script);
-
             var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == component.GetType().Name).FirstOrDefault();
-            if (classNode != null)
-            {
-                var InitComponentsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == initcomponentMethod).FirstOrDefault();
-                if (InitComponentsNode != null)
-                {
-                    var invctions = InitComponentsNode.Body.Descendants.OfType<InvocationExpression>();
-                    foreach (var item in invctions)
-                    {
-                        var com = components.Find(x => item.Target.ToString().Contains("m_" + x.name));
-                        if (com != null)
-                        {
-                            //com.sourceName = item.Arguments.First().ToString();
-                            //com.binding = false;
-                        }
-
-                    }
-                }
-                var PropBindingsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == propbindingsMethod).First();
-                if (PropBindingsNode != null)
-                {
-                    var invctions = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
-                    foreach (var item in invctions)
-                    {
-                        var com = components.Find(x => item.Arguments.Count > 1 && item.Arguments.First().ToString().Contains("m_" + x.name));
-                        if (com != null)
-                        {
-                            var at = item.Arguments.ToArray();
-                            //com.sourceName = at[1].ToString().Replace("\"", "");
-                            //com.binding = true;
-                        }
-                    }
-                }
-            }
+            componentCoder.SetContext(classNode);
+            componentCoder.AnalysisBinding(components);
         }
 
         #endregion

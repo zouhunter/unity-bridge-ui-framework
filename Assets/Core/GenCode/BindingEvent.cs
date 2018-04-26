@@ -19,7 +19,6 @@ namespace BridgeUI.CodeGen
         public bool runtime;
         public string bindingSource;
         public string bindingTarget;
-        public int bindingTargetIndex;
         public TypeInfo bindingTargetType;
     }
 }

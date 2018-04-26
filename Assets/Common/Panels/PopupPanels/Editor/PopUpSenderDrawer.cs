@@ -15,7 +15,7 @@ namespace BridgeUI.Common
             {
                 var path = AssetDatabase.GUIDToAssetPath(guid);
                 Debug.Assert(!string.IsNullOrEmpty((path)));
-                var obj = AssetDatabase.LoadAssetAtPath<PopUpObj>(path);
+                var obj = AssetDatabase.LoadAssetAtPath<PopupPanel>(path);
                 Debug.Assert(obj != null);
                 EditorGUIUtility.PingObject(obj);
             }

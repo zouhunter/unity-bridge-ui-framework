@@ -15,7 +15,7 @@ using BridgeUI;
 public class CommonPanelTest : MonoBehaviour {
     private void OnGUI()
     {
-        if(GUILayout.Button("open popop"))
+        if(GUILayout.Button("PopUpPanel"))
         {
             UIFacade.Instence.Open(PanelNames.PopUpPanel, new string[] { "你好", "这是一个提示面板!" });
         }

@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Name: common
   m_EditorClassIdentifier: 
   m_allNodes:
-  - m_name: PopUpPanel
-    m_id: ea5a0ba1-7e92-4bd1-ac94-fc00e266aa0e
-    m_x: 408
-    m_y: 84
-    m_node: {fileID: 11441238}
+  - m_name: ButtonOpenPanel
+    m_id: fae30cf6-ed0d-46c6-bffd-35dfea55ec0a
+    m_x: 84
+    m_y: 72
+    m_node: {fileID: 11409300}
     m_inputPoints:
-    - id: bb38aa36-5db7-46a7-9f75-8dc551901778
+    - id: eedd3895-fa08-4cee-ad44-1ce0d2510c23
       label: 
-      parentId: ea5a0ba1-7e92-4bd1-ac94-fc00e266aa0e
+      parentId: fae30cf6-ed0d-46c6-bffd-35dfea55ec0a
       isInput: 1
       buttonRect:
         serializedVersion: 2
@@ -31,27 +31,120 @@ MonoBehaviour:
       max: 100
       type: bridge
     m_outputPoints:
-    - id: 913135a0-b4da-4a8e-b414-d2ab1a32001f
+    - id: 53f58f6a-9a62-42c5-8b95-256ce005c08a
       label: 
-      parentId: ea5a0ba1-7e92-4bd1-ac94-fc00e266aa0e
+      parentId: fae30cf6-ed0d-46c6-bffd-35dfea55ec0a
       isInput: 0
       buttonRect:
         serializedVersion: 2
-        x: 110
+        x: 141
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  - m_name: ButtonsPanel
+    m_id: 0e8f09d6-56c1-4b9e-aff8-d2368e93c4bf
+    m_x: 108
+    m_y: 132
+    m_node: {fileID: 11410418}
+    m_inputPoints:
+    - id: b5371d58-9f44-4724-9857-e1ef937a4ce0
+      label: 
+      parentId: 0e8f09d6-56c1-4b9e-aff8-d2368e93c4bf
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints:
+    - id: 861de14d-dbc3-4034-963f-49e820b5adc6
+      label: 
+      parentId: 0e8f09d6-56c1-4b9e-aff8-d2368e93c4bf
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 117
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  - m_name: InputPanel
+    m_id: e6e89bc9-6f93-4272-9535-ac7cc9ce1dcf
+    m_x: 96
+    m_y: 204
+    m_node: {fileID: 11444604}
+    m_inputPoints:
+    - id: f9f90d99-dd92-423a-ae0a-26d59caf1650
+      label: 
+      parentId: e6e89bc9-6f93-4272-9535-ac7cc9ce1dcf
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints:
+    - id: 7ffa79e9-4e96-47bd-9a18-4966225c6ec5
+      label: 
+      parentId: e6e89bc9-6f93-4272-9535-ac7cc9ce1dcf
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  - m_name: PopUpPanel
+    m_id: 821487a1-7e3f-4f6c-a747-726d3015aa50
+    m_x: 120
+    m_y: 264
+    m_node: {fileID: 11469332}
+    m_inputPoints:
+    - id: 124596b1-fec7-4c6c-88e0-36dbda3c58a7
+      label: 
+      parentId: 821487a1-7e3f-4f6c-a747-726d3015aa50
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints:
+    - id: 74dd0b82-b27e-4a76-a052-d2e712a7a43f
+      label: 
+      parentId: 821487a1-7e3f-4f6c-a747-726d3015aa50
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
         y: 21.5
         width: 10
         height: 23
       max: 100
       type: bridge
   - m_name: RadiaMenuPanel
-    m_id: 9f622a59-067a-41b6-bd83-37518e36f1a6
-    m_x: 408
-    m_y: 216
-    m_node: {fileID: 11437974}
+    m_id: 5b22c67a-6c33-4dc1-94b0-b2a71216690a
+    m_x: 132
+    m_y: 324
+    m_node: {fileID: 11439136}
     m_inputPoints:
-    - id: 1dad0d28-105a-4be4-9f95-038c2679e248
+    - id: ecd0daa9-86c7-4ee9-bccf-aa7d21794f34
       label: 
-      parentId: 9f622a59-067a-41b6-bd83-37518e36f1a6
+      parentId: 5b22c67a-6c33-4dc1-94b0-b2a71216690a
       isInput: 1
       buttonRect:
         serializedVersion: 2
@@ -62,9 +155,9 @@ MonoBehaviour:
       max: 100
       type: bridge
     m_outputPoints:
-    - id: c9303c71-88bb-4ac0-880e-34e1c8cac26c
+    - id: d9860585-5bbd-4dca-9eb3-af9a908faad5
       label: 
-      parentId: 9f622a59-067a-41b6-bd83-37518e36f1a6
+      parentId: 5b22c67a-6c33-4dc1-94b0-b2a71216690a
       isInput: 0
       buttonRect:
         serializedVersion: 2
@@ -74,12 +167,296 @@ MonoBehaviour:
         height: 23
       max: 100
       type: bridge
+  - m_name: SingleImagePanel
+    m_id: 60f1efeb-d8a7-4f4c-b5e7-4a6c36d392b3
+    m_x: 288
+    m_y: 96
+    m_node: {fileID: 11401830}
+    m_inputPoints:
+    - id: 5ee886e3-6123-4ef2-b27a-18dc49fcd57b
+      label: 
+      parentId: 60f1efeb-d8a7-4f4c-b5e7-4a6c36d392b3
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints:
+    - id: e299e09b-492e-4a0b-81a8-0f9dceca6bb7
+      label: 
+      parentId: 60f1efeb-d8a7-4f4c-b5e7-4a6c36d392b3
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 146
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  - m_name: TextInfoPanel
+    m_id: 6a0caabf-0088-4d78-b8e5-5c373681569e
+    m_x: 348
+    m_y: 168
+    m_node: {fileID: 11431614}
+    m_inputPoints:
+    - id: 3b637e19-ab40-41b3-a690-764799b47664
+      label: 
+      parentId: 6a0caabf-0088-4d78-b8e5-5c373681569e
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints:
+    - id: 82bc80bd-493a-41fd-8683-6820aad360cb
+      label: 
+      parentId: 6a0caabf-0088-4d78-b8e5-5c373681569e
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 122
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  - m_name: TipInfomation
+    m_id: 566ae713-94ec-402f-96b2-a35ac9f75900
+    m_x: 336
+    m_y: 240
+    m_node: {fileID: 11431910}
+    m_inputPoints:
+    - id: a1aadc2e-1864-4ffd-80e0-0e1c9361d49f
+      label: 
+      parentId: 566ae713-94ec-402f-96b2-a35ac9f75900
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints:
+    - id: eacdb20a-f0b1-4e33-a0c6-90d4d1993e18
+      label: 
+      parentId: 566ae713-94ec-402f-96b2-a35ac9f75900
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 122
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  - m_name: WaitPopPanel
+    m_id: bc855942-b6a3-41cc-b27a-e90402e3efc6
+    m_x: 372
+    m_y: 312
+    m_node: {fileID: 11451530}
+    m_inputPoints:
+    - id: 384459cb-bde3-499a-9070-8e5260139ae6
+      label: 
+      parentId: bc855942-b6a3-41cc-b27a-e90402e3efc6
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints:
+    - id: e2b0ee3b-a216-4cb9-8625-856d6ba99d77
+      label: 
+      parentId: bc855942-b6a3-41cc-b27a-e90402e3efc6
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 120
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
   m_allConnections: []
-  m_lastModified: 131687042183303844
+  m_lastModified: 131692293805314042
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
   m_panelNamePath: 
---- !u!114 &11437974
+--- !u!114 &11401830
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: PanelNode
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  description: 
+  assetName: SingleImagePanel
+  style: 1
+  nodeType: 31
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: 0
+      quitAnim: 0
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 116676, guid: adec64d1277f9724681a8cc49e0f22c0, type: 2}
+--- !u!114 &11409300
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: PanelNode
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  description: 
+  assetName: ButtonOpenPanel
+  style: 1
+  nodeType: 31
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: 0
+      quitAnim: 0
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 146722, guid: 5e7386df05c992344b12b73fd369f769, type: 2}
+--- !u!114 &11410418
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: PanelNode
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  description: 
+  assetName: ButtonsPanel
+  style: 1
+  nodeType: 31
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: 0
+      quitAnim: 0
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 194692, guid: dc1d8fe9ec7dc05469a37934506728ef, type: 2}
+--- !u!114 &11431614
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: PanelNode
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  description: 
+  assetName: TextInfoPanel
+  style: 1
+  nodeType: 31
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: 0
+      quitAnim: 0
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 187264, guid: 98d3bb1d8972a2446a2c848086c35db9, type: 2}
+--- !u!114 &11431910
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: PanelNode
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  description: 
+  assetName: TipInfomation
+  style: 1
+  nodeType: 31
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: 0
+      quitAnim: 0
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 161224, guid: 553df631d6856cc41a803f413fcae974, type: 2}
+--- !u!114 &11439136
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -111,7 +488,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 139136, guid: 8e5c8944d260fa34aad17f09bbbbbb23, type: 2}
---- !u!114 &11441238
+--- !u!114 &11444604
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -122,8 +499,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 3
-  instenceID: -306270
+  selected: 0
+  instenceID: 0
+  description: 
+  assetName: InputPanel
+  style: 1
+  nodeType: 31
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: 0
+      quitAnim: 0
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 120502, guid: a41db1c1d5f30cc40a374e0694970cbb, type: 2}
+--- !u!114 &11451530
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: PanelNode
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  description: 
+  assetName: WaitPopPanel
+  style: 1
+  nodeType: 31
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: 0
+      quitAnim: 0
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 195084, guid: 18a7e6dbfc818c0459f38e3317513bb4, type: 2}
+--- !u!114 &11469332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: PanelNode
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
   description: 
   assetName: PopUpPanel
   style: 1
@@ -143,39 +584,3 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 132216, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}
---- !u!114 &11447432
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
-  m_Name: BridgeConnection
-  m_EditorClassIdentifier: 
-  index: 0
-  show:
-    auto: 0
-    mutex: 0
-    cover: 0
-    baseShow: 0
-    single: 0
---- !u!114 &11494092
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
-  m_Name: BridgeConnection
-  m_EditorClassIdentifier: 
-  index: 0
-  show:
-    auto: 0
-    mutex: 0
-    cover: 0
-    baseShow: 0
-    single: 0

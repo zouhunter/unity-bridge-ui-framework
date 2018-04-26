@@ -77,4 +77,46 @@ public class PanelNames {
             return "LuaPanel";
         }
     }
+    
+    public static string ButtonOpenPanel {
+        get {
+            return "ButtonOpenPanel";
+        }
+    }
+    
+    public static string ButtonsPanel {
+        get {
+            return "ButtonsPanel";
+        }
+    }
+    
+    public static string InputPanel {
+        get {
+            return "InputPanel";
+        }
+    }
+    
+    public static string SingleImagePanel {
+        get {
+            return "SingleImagePanel";
+        }
+    }
+    
+    public static string TextInfoPanel {
+        get {
+            return "TextInfoPanel";
+        }
+    }
+    
+    public static string TipInfomation {
+        get {
+            return "TipInfomation";
+        }
+    }
+    
+    public static string WaitPopPanel {
+        get {
+            return "WaitPopPanel";
+        }
+    }
 }

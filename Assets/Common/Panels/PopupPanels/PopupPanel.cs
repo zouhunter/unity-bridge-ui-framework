@@ -22,14 +22,42 @@ namespace BridgeUI.Common
     /// </summary>
     public class PopupPanel : SingleCloseAblePanel
     {
+        [System.Serializable]
+        public class PopData
+        {
+            public int typeInt;
+            public string typeName;
+            public string title;
+            [Multiline(2)]
+            public string info;
+
+            public PopData(int typeInt, string typeName)
+            {
+                this.typeInt = typeInt;
+                this.typeName = typeName;
+            }
+        }
+
         public Text title;
         public Text info;
-        public PopUpObj popUpObj;
         private bool donthide = false;
         public InputField.OnChangeEvent onGet;
         private Queue<KeyValuePair<string, string>> valueQueue = new Queue<KeyValuePair<string, string>>();
         private bool isShowing;
         protected bool callBack;
+
+#if UNITY_EDITOR
+        [HideInInspector]
+        public UnityEditor.MonoScript popEnum;
+#endif
+        [HideInInspector]
+        public List<PopData> popDatas = new List<PopData>();
+
+        public PopData GetPopData(int typeInt)
+        {
+            var item = popDatas.Find(x => x.typeInt == typeInt);
+            return item;
+        }
 
         public override void Close()
         {
@@ -104,18 +132,16 @@ namespace BridgeUI.Common
                 var dic = obj as Hashtable;
                 if (dic["popInfo"] != null)
                 {
-                    PopUpType type = (PopUpType)dic["popInfo"];
+                    int typeIndex = (int)dic["popInfo"];
                     donthide = dic["closeAble"] != null ? (bool)dic["closeAble"] : false;
-                    var data = popUpObj.GetPopData(type);
+                    var data = GetPopData(typeIndex);
                     if (data != null)
                     {
-                        var title = data.title;
-                        var info = data.info;
-                        OnMessageRecevie(title, info);
+                        OnMessageRecevie(data.title, data.info);
                     }
                     else
                     {
-                        Debug.Log("Empty::" + type);
+                        Debug.Log("Empty::" + typeIndex);
                     }
                 }
                 else

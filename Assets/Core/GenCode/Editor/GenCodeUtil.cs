@@ -9,7 +9,6 @@ using BridgeUI.Model;
 using System.Reflection;
 using System.Linq;
 using PrimitiveType = ICSharpCode.NRefactory.CSharp.PrimitiveType;
-
 namespace BridgeUI.CodeGen
 {
     public static class GenCodeUtil
@@ -262,7 +261,7 @@ namespace BridgeUI.CodeGen
         /// <param name="prefab"></param>
         /// <param name="rule"></param>
         /// <returns></returns>
-        private static TypeDeclaration CompleteClass(SyntaxTree tree, GameObject prefab, GenCodeRule rule)
+        private static TypeDeclaration CompleteClass(ICSharpCode.NRefactory.CSharp.SyntaxTree tree, GameObject prefab, GenCodeRule rule)
         {
             TypeDeclaration classNode = null;
             var className = prefab.name;
@@ -299,7 +298,7 @@ namespace BridgeUI.CodeGen
         /// </summary>
         /// <param name="tree"></param>
         /// <param name="rule"></param>
-        private static void CompleteNameSpace(SyntaxTree tree, GenCodeRule rule)
+        private static void CompleteNameSpace(ICSharpCode.NRefactory.CSharp.SyntaxTree tree, GenCodeRule rule)
         {
             string[] usingDeclarations = {
                 "BridgeUI",

@@ -28,14 +28,14 @@ namespace BridgeUI
                 return CalculateHead(Application.companyName, System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), "部分代码自动生成", "尽量使用MVVM模式","宏定义内会读成注释");
             }
         }
-        public SyntaxTree tree { get; private set; }
+        public ICSharpCode.NRefactory.CSharp.SyntaxTree tree { get; private set; }
         public string className { get; private set; }
         private bool firstCreate { get; set; }
         public UICoder(string className)
         {
             this.className = className;
             firstCreate = true;
-            tree = new SyntaxTree();
+            tree = new ICSharpCode.NRefactory.CSharp.SyntaxTree();
         }
         /// <summary>
         /// 从旧的脚本加载

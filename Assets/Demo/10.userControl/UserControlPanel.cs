@@ -19,7 +19,7 @@ public class UserControlPanel : BridgeUI.SinglePanel
 	private ButtonList m_List;
 
 	[SerializeField]
-	private ButtonItem m_buttonItem;
+	private UnityEngine.RectTransform m_buttonItem;
 
 	protected override void InitComponents ()
 	{

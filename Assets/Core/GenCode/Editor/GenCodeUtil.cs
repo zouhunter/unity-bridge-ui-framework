@@ -383,9 +383,7 @@ namespace BridgeUI.CodeGen
             {
                 var fieldName = string.Format("m_" + item.name);
                 var field = classNode.Descendants.OfType<FieldDeclaration>().Where(x => x.Variables.Where(y => y.Name == fieldName).Count() > 0).FirstOrDefault();
-
-                Debug.Log((field.ReturnType).ToString());
-                Debug.Log(item.componentType.Name);
+               
                 if (field != null && (field.ReturnType).ToString() != item.componentType.Name)
                 {
                     classNode.Members.Remove(field);

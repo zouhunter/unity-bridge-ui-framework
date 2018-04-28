@@ -417,7 +417,7 @@ MonoBehaviour:
     bundleName: bridgeui/panels/panel03
   p_nodes:
   - panelName: MainPanel
-    instanceID: -36384
+    instanceID: 0
     type:
       layerIndex: 0
       form: 0
@@ -476,16 +476,19 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: cdb2321ece873174fbc0719e07c1d664, type: 2}
+  - panelName: TestPanel
+    instanceID: 0
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: 0
+      quitAnim: 0
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 176264, guid: e81f34da375d4134d9eadb1bb8d1544a, type: 2}
   bridges:
-  - inNode: 
-    index: 0
-    showModel:
-      auto: 1
-      mutex: 0
-      cover: 0
-      baseShow: 0
-      single: 0
-    outNode: MainPanel
   - inNode: MainPanel
     index: 0
     showModel:
@@ -522,6 +525,24 @@ MonoBehaviour:
       baseShow: 0
       single: 0
     outNode: Panel04
+  - inNode: 
+    index: 0
+    showModel:
+      auto: 1
+      mutex: 0
+      cover: 0
+      baseShow: 0
+      single: 0
+    outNode: TestPanel
+  - inNode: TestPanel
+    index: 0
+    showModel:
+      auto: 0
+      mutex: 0
+      cover: 0
+      baseShow: 0
+      single: 0
+    outNode: Panel01
 --- !u!222 &891393617
 CanvasRenderer:
   m_ObjectHideFlags: 0

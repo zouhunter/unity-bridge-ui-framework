@@ -119,4 +119,10 @@ public class PanelNames {
             return "WaitPopPanel";
         }
     }
+    
+    public static string TestPanel {
+        get {
+            return "TestPanel";
+        }
+    }
 }

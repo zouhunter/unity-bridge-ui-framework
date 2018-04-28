@@ -110,7 +110,6 @@ namespace BridgeUI
         }
         private void InsertPrefabinfo(List<PrefabUIInfo> source, List<PrefabUIInfo> newInfo)
         {
-            if (newInfo == null || source == null) return;
             foreach (var item in newInfo)
             {
                 var old = source.Find(x => x.panelName == item.panelName);
@@ -384,7 +383,6 @@ namespace BridgeUI
                 {
                     path = GetInstenceObjectPath(obj as GameObject);
                 }
-
 
                 if (!string.IsNullOrEmpty(path))
                 {

@@ -31,9 +31,9 @@ namespace BridgeUI
         public bool resetMenu;
         public string menu;
         public LoadType loadType = LoadType.Prefab;
-        public List<BundleUIInfo> b_nodes;
-        public List<PrefabUIInfo> p_nodes;
-        public List<BridgeInfo> bridges;
+        public List<BundleUIInfo> b_nodes = new List<BundleUIInfo>();
+        public List<PrefabUIInfo> p_nodes = new List<PrefabUIInfo>();
+        public List<BridgeInfo> bridges = new List<BridgeInfo>();
 
         public override string Menu { get { return menu; } }
 

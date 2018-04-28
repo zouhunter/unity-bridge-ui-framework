@@ -7,13 +7,13 @@ namespace BridgeUI.Model
     public class PanelGroupObj : ScriptableObject
     {
 #if UNITY_EDITOR
-        public List<GraphWorp> graphList;
+        public List<GraphWorp> graphList = new List<GraphWorp>();
 #endif
         public bool resetMenu;
         public string menu;
         public LoadType loadType = LoadType.Prefab;
-        public List<BundleUIInfo> b_nodes;
-        public List<PrefabUIInfo> p_nodes;
-        public List<BridgeInfo> bridges;
+        public List<BundleUIInfo> b_nodes = new List<BundleUIInfo>();
+        public List<PrefabUIInfo> p_nodes = new List<PrefabUIInfo>();
+        public List<BridgeInfo> bridges = new List<BridgeInfo>();
     }
 }

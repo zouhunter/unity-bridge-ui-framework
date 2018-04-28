@@ -126,53 +126,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 483449751}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48a446361ce6ee24b882cbda2d44a3a2, type: 3}
+  m_Script: {fileID: 11500000, guid: 26ac89f5cec498f4f954538fae4a4bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphList:
-  - graphName: runtimeGraph
-    guid: ebb950b8ba4b31942871d319b26a98a8
+  graphList: []
+  groupGuid: 14fa8d58de0a3c3408c547fccb0c91b5
+  menu: WebGL
+  assetbundle: 
+  groupasset: panelgroup
   resetMenu: 0
-  menu: 
-  loadType: 2
-  b_nodes:
-  - panelName: RuntimePanel
-    instanceID: 0
-    type:
-      layerIndex: 0
-      form: 0
-      layer: 0
-      hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
-      closeRule: 0
-      hideRule: 0
-    guid: 9df3bf47de3451444bf0b545a4bdf473
-    good: 1
-    bundleName: bridgeui/panels/runtimepanel
-  p_nodes:
-  - panelName: LuaPanel01
-    instanceID: 0
-    type:
-      layerIndex: 0
-      form: 0
-      layer: 0
-      hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
-      closeRule: 0
-      hideRule: 0
-    prefab: {fileID: 142688, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
-  bridges:
-  - inNode: 
-    index: 0
-    showModel:
-      auto: 1
-      mutex: 0
-      cover: 0
-      baseShow: 0
-      single: 0
-    outNode: RuntimePanel
 --- !u!1 &983688373
 GameObject:
   m_ObjectHideFlags: 0

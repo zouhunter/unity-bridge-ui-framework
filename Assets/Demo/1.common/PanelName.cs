@@ -125,4 +125,10 @@ public class PanelNames {
             return "TestPanel";
         }
     }
+    
+    public static string RuntimePanel {
+        get {
+            return "RuntimePanel";
+        }
+    }
 }

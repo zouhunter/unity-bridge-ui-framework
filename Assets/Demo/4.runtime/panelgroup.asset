@@ -16,9 +16,9 @@ MonoBehaviour:
     guid: ebb950b8ba4b31942871d319b26a98a8
   resetMenu: 0
   menu: 
-  loadType: 1
+  loadType: 2
   b_nodes:
-  - panelName: LuaPanel
+  - panelName: RuntimePanel
     instanceID: 0
     type:
       layerIndex: 0
@@ -29,20 +29,17 @@ MonoBehaviour:
       quitAnim: 0
       closeRule: 0
       hideRule: 0
-    guid: 0c54352030a7ca1498b5fa2fcace5d7f
+    guid: 9df3bf47de3451444bf0b545a4bdf473
     good: 1
-    bundleName: bridgeui/panels/luapanel
-  p_nodes:
-  - panelName: Panel
-    instanceID: 0
-    type:
-      layerIndex: 0
-      form: 0
-      layer: 0
-      hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
-      closeRule: 0
-      hideRule: 0
-    prefab: {fileID: 179648, guid: 9df3bf47de3451444bf0b545a4bdf473, type: 2}
-  bridges: []
+    bundleName: bridgeui/panels/runtimepanel
+  p_nodes: []
+  bridges:
+  - inNode: 
+    index: 0
+    showModel:
+      auto: 1
+      mutex: 0
+      cover: 0
+      baseShow: 0
+      single: 0
+    outNode: RuntimePanel

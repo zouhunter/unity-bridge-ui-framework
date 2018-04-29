@@ -113,7 +113,7 @@ MonoBehaviour:
     baseTypeIndex: 4
     canInherit: 0
   components:
-  - open: 1
+  - open: 0
     name: btnPic
     componentID: 1
     components:
@@ -125,6 +125,8 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
     viewItems:
     - bindingSource: btn_color
       bindingTarget: color
@@ -193,6 +195,8 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems:
     - runtime: 0
@@ -239,6 +243,8 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems:
     - runtime: 1
@@ -260,6 +266,8 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems:
     - runtime: 1
@@ -276,24 +284,6 @@ MonoBehaviour:
         typeName: UnityEngine.UI.InputField+SubmitEvent
     target: {fileID: 193656, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
   - open: 0
-    name: Text
-    componentID: 0
-    components:
-    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.UI.Text
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.GameObject
-    viewItems:
-    - bindingSource: text
-      bindingTarget: text
-      bindingTargetType:
-        assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-        typeName: System.String
-    eventItems: []
-    target: {fileID: 170722, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
-  - open: 0
     name: Image
     componentID: 0
     components:
@@ -303,6 +293,8 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
     viewItems:
     - bindingSource: image
       bindingTarget: sprite
@@ -316,6 +308,26 @@ MonoBehaviour:
         typeName: UnityEngine.Color
     eventItems: []
     target: {fileID: 197918, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  - open: 1
+    name: Text
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Text
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
+    viewItems:
+    - bindingSource: text
+      bindingTarget: text
+      bindingTargetType:
+        assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        typeName: System.String
+    eventItems: []
+    target: {fileID: 170722, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
   - open: 0
     name: ScrollView
     componentID: 0
@@ -328,6 +340,8 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems:
     - runtime: 1

@@ -67,12 +67,6 @@ public class doubleGroup : MonoBehaviour
 
 
     }
-    public void OpenPanel01(object sender, RoutedEventArgs args)
-    {
-        var panel = args.OriginalSource as PanelBase;
-        panel.Open(PanelNames.Panel01);
-    }
-
     private void Update()
     {
         if (Input.GetMouseButtonDown(1)){

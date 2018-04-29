@@ -15,7 +15,7 @@ using System;
 ///<summary>
 ///[代码说明信息]
 ///<summary>
-public class LuaPanel01 : BridgeUI.LuaPanel
+public class LuaPanel01 : BridgeUI.Common.LuaPanel
 {
 	[SerializeField]
 	private UnityEngine.UI.Button m_Button;

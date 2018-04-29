@@ -14,7 +14,6 @@ namespace BridgeUI.Common
         public UnityEditor.MonoScript popEnum;
 #endif
         public string selected;
-        private Hashtable node = new Hashtable();
         private bool isCallBack;
         public void SendPopInfo()
         {

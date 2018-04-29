@@ -33,8 +33,8 @@ MonoBehaviour:
       type: bridge
   - m_name: LuaPanel01
     m_id: 998f26f7-0dd2-4f36-81e9-4a51c573ff05
-    m_x: 252
-    m_y: 84
+    m_x: 288
+    m_y: 144
     m_node: {fileID: 11457308}
     m_inputPoints:
     - id: 9eaf3da9-f56f-474d-8cb9-423531bd6237
@@ -63,35 +63,17 @@ MonoBehaviour:
       max: 100
       type: bridge
   m_allConnections:
-  - m_id: a5eec199-e172-420d-b058-a03cf221d857
+  - m_id: 47e3541b-0936-46d7-81f7-7b2d4afbcf93
     m_fromNodeId: 397922e7-d54d-445d-9ad3-2a81f5a70283
     m_fromNodeConnectionPointId: c1ae44e6-5709-4cb6-ac43-72c8ef5b26e3
     m_toNodeId: 998f26f7-0dd2-4f36-81e9-4a51c573ff05
     m_toNodeConnectionPoiontId: 9eaf3da9-f56f-474d-8cb9-423531bd6237
     m_type: bridge
-    m_connection: {fileID: 11427992}
-  m_lastModified: 131686253922799653
+    m_connection: {fileID: 11491268}
+  m_lastModified: 131694767415757109
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
   m_panelNamePath: 
---- !u!114 &11427992
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
-  m_Name: BridgeConnection
-  m_EditorClassIdentifier: 
-  index: 0
-  show:
-    auto: 1
-    mutex: 0
-    cover: 0
-    baseShow: 0
-    single: 0
 --- !u!114 &11457308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -308,7 +290,7 @@ MonoBehaviour:
         typeName: UnityEngine.Color
     eventItems: []
     target: {fileID: 197918, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
-  - open: 1
+  - open: 0
     name: Text
     componentID: 0
     components:
@@ -373,3 +355,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
   m_Name: Luncher
   m_EditorClassIdentifier: 
+--- !u!114 &11491268
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeConnection
+  m_EditorClassIdentifier: 
+  index: 0
+  show:
+    auto: 1
+    mutex: 0
+    cover: 0
+    baseShow: 0
+    single: 0

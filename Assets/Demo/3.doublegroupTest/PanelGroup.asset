@@ -186,37 +186,6 @@ MonoBehaviour:
         height: 23
       max: 100
       type: bridge
-  - m_name: TestPanel
-    m_id: d5f35199-c4ed-4875-8e1d-ea8aeaee5f98
-    m_x: 252
-    m_y: 36
-    m_node: {fileID: 11423284}
-    m_inputPoints:
-    - id: 25700e28-d3fc-451a-8900-4e1861294797
-      label: 
-      parentId: d5f35199-c4ed-4875-8e1d-ea8aeaee5f98
-      isInput: 1
-      buttonRect:
-        serializedVersion: 2
-        x: 0
-        y: 18.5
-        width: 21
-        height: 29
-      max: 100
-      type: bridge
-    m_outputPoints:
-    - id: 6ba57249-41ad-4be7-9bc5-b0a4ac4bb088
-      label: 
-      parentId: d5f35199-c4ed-4875-8e1d-ea8aeaee5f98
-      isInput: 0
-      buttonRect:
-        serializedVersion: 2
-        x: 111
-        y: 21.5
-        width: 10
-        height: 23
-      max: 100
-      type: bridge
   m_allConnections:
   - m_id: 874904e0-d0a4-4a5f-86b6-73a84f4bc6e2
     m_fromNodeId: 94b22b79-efb9-49ad-b88a-9dd99edc1b88
@@ -246,13 +215,6 @@ MonoBehaviour:
     m_toNodeConnectionPoiontId: 8d85ca59-b13e-458e-88ec-4f27846dbd01
     m_type: bridge
     m_connection: {fileID: 11489588}
-  - m_id: c8ea6dd4-5372-4620-b41d-052a69615b5c
-    m_fromNodeId: d5f35199-c4ed-4875-8e1d-ea8aeaee5f98
-    m_fromNodeConnectionPointId: 6ba57249-41ad-4be7-9bc5-b0a4ac4bb088
-    m_toNodeId: b466d963-5827-446a-8216-e8316c3da397
-    m_toNodeConnectionPoiontId: b9bfd877-4f23-41ad-8d07-ec3c6730a1f2
-    m_type: bridge
-    m_connection: {fileID: 11471924}
   - m_id: d540dd8b-7ef5-44a3-8858-c1568d47e570
     m_fromNodeId: 9f8fa5e6-a53d-4bcd-a689-3b6b4f5abdc2
     m_fromNodeConnectionPointId: 9faad0db-7c58-4588-82ee-657592f3184f
@@ -260,7 +222,7 @@ MonoBehaviour:
     m_toNodeConnectionPoiontId: 72d19e01-0881-4949-a9ec-109075618618
     m_type: bridge
     m_connection: {fileID: 11426346}
-  m_lastModified: 131693833461201436
+  m_lastModified: 131697346400278003
   m_graphDescription: "\u8FD9\u662F\u4E00\u4E2A\u8BB0\u5F55\u7A0B\u5E8F\u754C\u9762\u4E00\u4E2A\u8282\u70B9\u63A7\u5236\u5668"
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
   m_panelNamePath: 
@@ -275,7 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeConnection
   m_EditorClassIdentifier: 
-  index: 0
+  index: 1
   show:
     auto: 0
     mutex: 1
@@ -348,38 +310,6 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
---- !u!114 &11423284
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
-  m_Name: PanelNode
-  m_EditorClassIdentifier: 
-  selected: 1
-  instenceID: 0
-  description: 
-  assetName: TestPanel
-  style: 1
-  nodeType: 31
-  rule:
-    baseTypeIndex: 1
-    canInherit: 0
-  components: []
-  nodeInfo:
-    uiType:
-      layerIndex: 0
-      form: 0
-      layer: 0
-      hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
-      closeRule: 0
-      hideRule: 0
-    prefab: {fileID: 176264, guid: e81f34da375d4134d9eadb1bb8d1544a, type: 2}
 --- !u!114 &11426346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -441,8 +371,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 0
-  instenceID: -286214
+  selected: 1
+  instenceID: -36600
   description: 
   assetName: MainPanel
   style: 1
@@ -602,7 +532,7 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Toggle+ToggleEvent
     target: {fileID: 173578, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
-  - open: 1
+  - open: 0
     name: slider
     componentID: 0
     components:
@@ -672,28 +602,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeConnection
   m_EditorClassIdentifier: 
-  index: 0
+  index: 2
   show:
     auto: 0
     mutex: 1
-    cover: 0
-    baseShow: 0
-    single: 0
---- !u!114 &11471924
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
-  m_Name: BridgeConnection
-  m_EditorClassIdentifier: 
-  index: 0
-  show:
-    auto: 0
-    mutex: 0
     cover: 0
     baseShow: 0
     single: 0
@@ -740,7 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeConnection
   m_EditorClassIdentifier: 
-  index: 0
+  index: 3
   show:
     auto: 0
     mutex: 1

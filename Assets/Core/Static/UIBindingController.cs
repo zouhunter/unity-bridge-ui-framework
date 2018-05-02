@@ -17,15 +17,11 @@ namespace BridgeUI
 
     public class UIBindingController
     {
-        private Dictionary<string, Dictionary<int, UIBindingItem>> panelEventDic;
+        private Dictionary<string, Dictionary<int, UIBindingItem>> panelEventDic = new Dictionary<string, Dictionary<int, UIBindingItem>>();
         public void RegistPanelEvent(string parentPanel, int key, UIBindingItem onOpen)
         {
             if (onOpen != null && !string.IsNullOrEmpty(parentPanel))
             {
-                if (panelEventDic == null)
-                {
-                    panelEventDic = new Dictionary<string, Dictionary<int, UIBindingItem>>();
-                }
                 if (!panelEventDic.ContainsKey(parentPanel))
                 {
                     panelEventDic[parentPanel] = new Dictionary<int, UIBindingItem>();

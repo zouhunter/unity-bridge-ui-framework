@@ -1,4 +1,5 @@
-﻿using UnityEngine.Events;
+﻿using System;
+using UnityEngine.Events;
 
 namespace BridgeUI.Binding
 {
@@ -57,8 +58,6 @@ namespace BridgeUI.Binding
         {
             _value = default(T);
         }
-
-
     }
 
 }

@@ -99,6 +99,7 @@ namespace BridgeUI.CodeGen
                     invocation.Target = new MemberReferenceExpression(new IdentifierExpression("Binder"), methodName, new AstType[0]);
                     invocation.Arguments.Add(new IdentifierExpression(arg0_name));
                     invocation.Arguments.Add(new PrimitiveExpression(bindingInfo.bindingSource));
+                    invocation.Arguments.Add(new IdentifierExpression("m_" + name));
                     PropBindingsNode.Body.Add(invocation);
                 }
 

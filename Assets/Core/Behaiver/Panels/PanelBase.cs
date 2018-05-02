@@ -26,7 +26,7 @@ using BridgeUI.Binding;
 namespace BridgeUI
 {
     [PanelParent]
-    public abstract class PanelBase : UIBehaviour, IPanelBase,Binding.IPropertyChanged
+    public abstract class PanelBase : UIBehaviour, IPanelBase, Binding.IPropertyChanged
     {
         public int InstenceID
         {
@@ -87,14 +87,13 @@ namespace BridgeUI
 
         private bool _isShowing = true;
         private bool _isAlive = true;
-        //private Dictionary<object, PropertyInfo> propDic;
         private IAnimPlayer _animPlayer;
         private Binding.PropertyBinder _binder;
         protected virtual Binding.PropertyBinder Binder
         {
             get
             {
-                if(_binder == null)
+                if (_binder == null)
                 {
                     _binder = new Binding.PropertyBinder(this);
                 }
@@ -102,14 +101,19 @@ namespace BridgeUI
             }
         }
         private Binding.ViewModelBase _viewModel;
+        private Binding.ViewModelBase _defultViewModel;
+        protected Binding.ViewModelBase defultViewModel
+        {
+            get
+            {
+                if (_defultViewModel == null) _defultViewModel = new ViewModelBase();
+                return _defultViewModel;
+            }
+        }
         public Binding.ViewModelBase BindingContext
         {
-            get {
-                if(_viewModel == null)
-                {
-                    _viewModel = new ViewModelBase();
-                    OnBindingContextChanged(_viewModel);
-                }
+            get
+            {
                 return _viewModel;
             }
             set
@@ -128,7 +132,8 @@ namespace BridgeUI
         protected override void Start()
         {
             base.Start();
-            if (bridge != null){
+            if (bridge != null)
+            {
                 bridge.OnCreatePanel(this);
             }
             AppendComponentsByType();
@@ -220,6 +225,7 @@ namespace BridgeUI
         }
         private void LoadIDictionary(IDictionary data)
         {
+            BindingContext = defultViewModel;
             foreach (var item in data.Keys)
             {
                 var key = item.ToString();

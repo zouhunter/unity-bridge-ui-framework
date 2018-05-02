@@ -30,7 +30,7 @@ namespace BridgeUI.Binding
                     return null;
                 }
             }
-            private set
+            protected set
             {
                 bindingPropertyDic[name] = value;
             }

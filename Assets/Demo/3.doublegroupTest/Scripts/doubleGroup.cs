@@ -20,11 +20,14 @@ public class doubleGroup : MonoBehaviour
     private const string pane01 = "Panel01";
     private IUIFacade uiFacade;
     private MainPanelViewModel mainViewModel;
+    private MainPanelViewModel_with_ID mainViewModel_withID;
     private void Awake()
     {
         uiFacade = UIFacade.Instence;
         mainViewModel = new MainPanelViewModel();
-        mainViewModel.title.Value = "我是主面板";
+        mainViewModel_withID = new MainPanelViewModel_with_ID();
+        mainViewModel.title.Value = "我是:MainPanelViewModel";
+        mainViewModel_withID.title.Value = "我是:MainPanelViewModel_with_ID";
     }
     private void OnGUI()
     {
@@ -48,6 +51,10 @@ public class doubleGroup : MonoBehaviour
         if (GUILayout.Button("Open:MainPanel with viewModel"))
         {
             uiFacade.Open(PanelNames.MainPanel, mainViewModel);
+        }
+        if (GUILayout.Button("Open:MainPanel with viewModel with id"))
+        {
+            uiFacade.Open(PanelNames.MainPanel, mainViewModel_withID);
         }
         for (int i = 0; i < 2; i++)
         {

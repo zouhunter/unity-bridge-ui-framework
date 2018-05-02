@@ -334,11 +334,11 @@ namespace BridgeUI.CodeGen
                 }
             }
 
-            string[] ennerFuncs =  { "OnDestroy", "OnDisable", "LateUpdate", "Update", "FixedUpdate", "Start", "OnEnable", "Awake"  };
+            string[] ennerFuncs = { "OnDestroy", "OnDisable", "LateUpdate", "Update", "FixedUpdate", "Start", "OnEnable", "Awake" };
             for (int i = 0; i < ennerFuncs.Length; i++)
             {
                 var innerNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == ennerFuncs[i]).FirstOrDefault();
-                if(innerNode != null)
+                if (innerNode != null)
                 {
                     keyNode = innerNode;
                     break;
@@ -391,12 +391,20 @@ namespace BridgeUI.CodeGen
         private static void CreateMemberFields(TypeDeclaration classNode, ComponentItem[] components)
         {
             var fields = classNode.Descendants.OfType<FieldDeclaration>();
-            var lastOne = fields.Last();
+            FieldDeclaration lastOne = null;
+            if (fields != null && fields.Count() > 0)
+            {
+                lastOne = fields.Last();
+            }
 
             foreach (var item in components)
             {
                 var fieldName = string.Format("m_" + item.name);
-                var field = fields.Where(x => x.Variables.Where(y => y.Name == fieldName).Count() > 0).FirstOrDefault();
+                FieldDeclaration field = null;
+                if (fields != null)
+                {
+                    field = fields.Where(x => x.Variables.Where(y => y.Name == fieldName).Count() > 0).FirstOrDefault();
+                }
 
                 if (field != null && (field.ReturnType).ToString() != item.componentType.Name)
                 {

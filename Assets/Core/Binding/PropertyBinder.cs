@@ -48,6 +48,7 @@ namespace BridgeUI.Binding
             object root = Context;
             var member = GetDeepMember(ref root, memberPath);
             UnityAction<T> onViewModelChanged = (value) =>{
+                Debug.Log("onViewModelChanged:" + value);
                 SetMemberValue<T>(root, member, value);
             };
             RegistValueCharge(onViewModelChanged, sourceName);
@@ -126,6 +127,7 @@ namespace BridgeUI.Binding
                 if (onViewModelChanged != null && prop != null)
                 {
                     onViewModelChanged.Invoke(prop.Value);
+                    Debug.Log(viewModel + "RegistValueChanged:" + sourceName);
                     prop.RegistValueChanged(onViewModelChanged);
                 }
             };
@@ -135,6 +137,7 @@ namespace BridgeUI.Binding
                 var prop = viewModel.GetBindableProperty<T>(sourceName);
                 if (onViewModelChanged != null && prop != null)
                 {
+                    Debug.Log("RemoveValueChanged");
                     prop.RemoveValueChanged(onViewModelChanged);
                 }
             };

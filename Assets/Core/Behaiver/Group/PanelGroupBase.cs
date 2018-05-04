@@ -85,8 +85,7 @@ namespace BridgeUI
                     if (panel != null)
                     {
                         createdPanels.Add(panel);
-                        if (parentPanel != null)
-                        {
+                        if (parentPanel != null){
                             parentPanel.RecordChild(panel);
                         }
                         bridgeDic.Add(panel, bridge);

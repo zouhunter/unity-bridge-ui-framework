@@ -26,7 +26,7 @@ using BridgeUI.Binding;
 namespace BridgeUI
 {
     [PanelParent]
-    public abstract class PanelBase : UIBehaviour, IPanelBase, Binding.IPropertyChanged
+    public abstract class PanelBase : UIBehaviour, IPanelBase, Binding.BindingContext
     {
         public int InstenceID
         {
@@ -106,7 +106,8 @@ namespace BridgeUI
         {
             get
             {
-                if (_defultViewModel == null) _defultViewModel = new ViewModelBase();
+                if (_defultViewModel == null)
+                    _defultViewModel = new ViewModelBase();
                 return _defultViewModel;
             }
         }

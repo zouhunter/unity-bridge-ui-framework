@@ -69,6 +69,8 @@ namespace BridgeUI.Binding
             }
             return null;
         }
+        public virtual void OnBinding(BindingContext context) { }
+        public virtual void OnUnBinding(BindingContext context) { }
     }
 
 }

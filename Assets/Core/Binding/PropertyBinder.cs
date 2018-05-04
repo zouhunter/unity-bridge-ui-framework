@@ -8,13 +8,13 @@ namespace BridgeUI.Binding
 {
     public class PropertyBinder
     {
-        public IPropertyChanged Context { get; private set; }
+        public BindingContext Context { get; private set; }
         public ViewModelBase viewModel { get; private set; }
 
         protected event UnityAction<ViewModelBase> binders;
         protected event UnityAction<ViewModelBase> unbinders;
 
-        public PropertyBinder(IPropertyChanged context)
+        public PropertyBinder(BindingContext context)
         {
             this.Context = context;
         }
@@ -25,7 +25,10 @@ namespace BridgeUI.Binding
             this.viewModel = viewModel;
 
             if (viewModel != null && binders != null)
+            {
                 binders.Invoke(viewModel);
+                viewModel.OnBinding(Context);
+            }
         }
 
         public void Unbind()
@@ -34,6 +37,7 @@ namespace BridgeUI.Binding
             if (viewModel != null && unbinders != null)
             {
                 unbinders.Invoke(viewModel);
+                viewModel.OnUnBinding(Context);
             }
             this.viewModel = null;
         }
@@ -48,7 +52,6 @@ namespace BridgeUI.Binding
             object root = Context;
             var member = GetDeepMember(ref root, memberPath);
             UnityAction<T> onViewModelChanged = (value) =>{
-                Debug.Log("onViewModelChanged:" + value);
                 SetMemberValue<T>(root, member, value);
             };
             RegistValueCharge(onViewModelChanged, sourceName);
@@ -127,7 +130,6 @@ namespace BridgeUI.Binding
                 if (onViewModelChanged != null && prop != null)
                 {
                     onViewModelChanged.Invoke(prop.Value);
-                    Debug.Log(viewModel + "RegistValueChanged:" + sourceName);
                     prop.RegistValueChanged(onViewModelChanged);
                 }
             };
@@ -137,7 +139,6 @@ namespace BridgeUI.Binding
                 var prop = viewModel.GetBindableProperty<T>(sourceName);
                 if (onViewModelChanged != null && prop != null)
                 {
-                    Debug.Log("RemoveValueChanged");
                     prop.RemoveValueChanged(onViewModelChanged);
                 }
             };

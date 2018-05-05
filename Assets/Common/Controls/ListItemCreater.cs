@@ -27,18 +27,19 @@ namespace BridgeUI.Common
     /// 建议数量 < 100
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ListItemCreater<T> where T : MonoBehaviour, IListItem
+    public class ListItemCreater<T>  : MonoBehaviour where T : MonoBehaviour, IListItem
     {
+        public Transform parent;
+        public T pfb;
         public List<T> CreatedItems { get { return createdItems; } }
-        Transform parent { get; set; }
-        T pfb { get; set; }
+
+
         private GameObjectPool objectPool;
         private bool isword;
         List<T> createdItems = new List<T>();
-        public ListItemCreater(Transform parent, T pfb)
+
+        private void Awake()
         {
-            this.parent = parent;
-            this.pfb = pfb;
             pfb.gameObject.SetActive(false);
             objectPool = UIFacade.PanelPool;
             isword = !parent.GetComponent<RectTransform>();

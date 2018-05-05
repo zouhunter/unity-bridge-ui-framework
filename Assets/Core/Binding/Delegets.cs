@@ -15,8 +15,8 @@ namespace BridgeUI.Binding
 {
     public delegate void ValueChangedHandler1<T>(T newValue);
     public delegate void ValueChangedHandler2<T>(T oldValue,T newValue);
-    public delegate void BindHandler(BindingContext source);
-    public delegate void UnBindHandler(BindingContext source);
+    public delegate void BindHandler(IPropertyChanged source);
+    public delegate void UnBindHandler(IPropertyChanged source);
 
     public class ComponentData<T> {
         public string sourceName;

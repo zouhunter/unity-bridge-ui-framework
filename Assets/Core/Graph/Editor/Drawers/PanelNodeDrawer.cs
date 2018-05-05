@@ -19,14 +19,14 @@ namespace BridgeUIEditor
             set { panelNode.selected = value; }
         }
         private const int lableWidth = 60;
-        private PanelBase _panelCompnent;
-        private PanelBase panelCompnent
+        private MonoBehaviour _panelCompnent;
+        private MonoBehaviour panelCompnent
         {
             get
             {
                 if (_panelCompnent == null && panelNode.Info.prefab != null)
                 {
-                    _panelCompnent = panelNode.Info.prefab.GetComponent<PanelBase>();
+                    _panelCompnent = panelNode.Info.prefab.GetComponent<MonoBehaviour>();
                 }
                 return _panelCompnent;
             }
@@ -40,6 +40,13 @@ namespace BridgeUIEditor
             get
             {
                 return "Panel Node : record panel load type and other rule";
+            }
+        }
+        private bool BindingAble
+        {
+            get
+            {
+                return panelCompnent is PanelBase;
             }
         }
         private string[] options = { "参数配制", "控件指定", "面板脚本", "显示效果" };
@@ -83,17 +90,17 @@ namespace BridgeUIEditor
                 preComponentList.elementHeightCallback += (index) =>
                 {
                     var prop = components[index];
-                    return itemDrawer.GetItemHeight(prop);
+                    return itemDrawer.GetItemHeight(prop, BindingAble);
                 };
                 preComponentList.drawElementCallback += (rect, index, isFocused, isActive) =>
                 {
-                    itemDrawer.DrawItemOnRect(rect, index, components[index]);
+                    itemDrawer.DrawItemOnRect(rect, index, components[index], BindingAble);
                 };
                 preComponentList.drawElementBackgroundCallback += (rect, index, isFocused, isActive) =>
                 {
                     if(components.Count > index && index >= 0)
                     {
-                        itemDrawer.DrawBackground(rect, isFocused, components[index]);
+                        itemDrawer.DrawBackground(rect, isFocused, components[index],BindingAble);
                     }
                 };
 
@@ -162,7 +169,7 @@ namespace BridgeUIEditor
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button(new GUIContent("←", "快速解析"), EditorStyles.toolbarButton, GUILayout.Width(20)))
                 {
-                    var component = nodeInfo.prefab.GetComponent<PanelBase>();
+                    var component = nodeInfo.prefab.GetComponent<MonoBehaviour>();
                     if (component == null)
                     {
                         EditorApplication.Beep();
@@ -206,7 +213,7 @@ namespace BridgeUIEditor
                     {
                         foreach (var item in DragAndDrop.objectReferences)
                         {
-                            if (item is GameObject)
+                            if (item is GameObject || item is ScriptableObject)
                             {
                                 DragAndDrop.visualMode = DragAndDropVisualMode.Move;
                             }
@@ -229,6 +236,13 @@ namespace BridgeUIEditor
                                     c_item.components = GenCodeUtil.SortComponent(parent as GameObject);
                                     components.Add(c_item);
                                 }
+                            }
+
+                            else if(item is ScriptableObject)
+                            {
+                                var c_item = new ComponentItem(item as ScriptableObject);
+                                components.Add(c_item);
+                                Debug.Log(c_item);
                             }
                         }
                         DragAndDrop.AcceptDrag();

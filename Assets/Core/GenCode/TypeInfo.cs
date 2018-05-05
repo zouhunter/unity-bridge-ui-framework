@@ -22,7 +22,6 @@ namespace BridgeUI.CodeGen
 
         public string assembleName;
         public string typeName;
-
         public TypeInfo(System.Type type)
         {
             this.assembleName = type.Assembly.ToString();

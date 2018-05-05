@@ -8,13 +8,13 @@ namespace BridgeUI.Binding
 {
     public class PropertyBinder
     {
-        public BindingContext Context { get; private set; }
+        public IPropertyChanged Context { get; private set; }
         public ViewModelBase viewModel { get; private set; }
 
         protected event UnityAction<ViewModelBase> binders;
         protected event UnityAction<ViewModelBase> unbinders;
 
-        public PropertyBinder(BindingContext context)
+        public PropertyBinder(IPropertyChanged context)
         {
             this.Context = context;
         }
@@ -25,10 +25,7 @@ namespace BridgeUI.Binding
             this.viewModel = viewModel;
 
             if (viewModel != null && binders != null)
-            {
                 binders.Invoke(viewModel);
-                viewModel.OnBinding(Context);
-            }
         }
 
         public void Unbind()
@@ -37,7 +34,6 @@ namespace BridgeUI.Binding
             if (viewModel != null && unbinders != null)
             {
                 unbinders.Invoke(viewModel);
-                viewModel.OnUnBinding(Context);
             }
             this.viewModel = null;
         }

@@ -10,6 +10,7 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using Object = UnityEngine.Object;
+using System;
 
 namespace BridgeUI.CodeGen
 {
@@ -23,7 +24,8 @@ namespace BridgeUI.CodeGen
         public List<BindingShow> viewItems = new List<BindingShow>();
         public List<BindingEvent> eventItems = new List<BindingEvent>();
         public GameObject target;
-
+        public ScriptableObject scriptTarget;
+        public bool isScriptComponent;
         public string[] componentStrs { get { return System.Array.ConvertAll<TypeInfo, string>(components, x => x.typeName); } }
         public System.Type componentType
         {
@@ -43,7 +45,20 @@ namespace BridgeUI.CodeGen
             this.name = target.name;
             this.target = target;
         }
+        public ComponentItem(ScriptableObject target)
+        {
+            UpdateAsScriptObject(target);
+        }
+
+        public void UpdateAsScriptObject(ScriptableObject target)
+        {
+            this.name = target.name;
+            this.scriptTarget = target;
+            this.isScriptComponent = true;
+            this.componentID = 0;
+            this.components = new TypeInfo[] { new TypeInfo(target.GetType()) };
+        }
     }
 
-  
+
 }

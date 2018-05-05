@@ -7,16 +7,37 @@ namespace BridgeUI.CodeGen
 {
     public class ComponentCoder
     {
-        protected MethodDeclaration InitComponentsNode;
-        protected MethodDeclaration PropBindingsNode;
+        private MethodDeclaration _initComponentNode;
+        private MethodDeclaration _propBindingsNode;
+        protected MethodDeclaration InitComponentsNode
+        {
+            get
+            {
+                if(_initComponentNode == null)
+                {
+                    _initComponentNode = GenCodeUtil.GetInitComponentMethod(classNode);
+                }
+                return _initComponentNode;
+            }
+        }
+        protected MethodDeclaration PropBindingsNode
+        {
+            get
+            {
+                if(_propBindingsNode ==null)
+                {
+                    _propBindingsNode = GenCodeUtil.GetPropBindingMethod(classNode);
+                }
+                return _propBindingsNode;
+            }
+        }
         protected TypeDeclaration classNode;
 
         public void SetContext(TypeDeclaration classNode)
         {
             this.classNode = classNode;
-            InitComponentsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == GenCodeUtil.initcomponentMethod).FirstOrDefault();
-            PropBindingsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == GenCodeUtil.propbindingsMethod).FirstOrDefault();
-        }
+            _initComponentNode = null;
+            _propBindingsNode = null;}
 
         /// <summary>
         /// Binding关联
@@ -59,23 +80,8 @@ namespace BridgeUI.CodeGen
 
             if (invocation == null)
             {
-                string methodName = "";
-                if (!bindingInfo.bindingTargetType.type.IsGenericType)
-                {
-                    var typeName = bindingInfo.bindingTargetType.typeName;
-                    methodName = string.Format("RegistMember<{0}>", typeName);
-                }
-                else
-                {
-                    var type = bindingInfo.bindingTargetType.type;
-                    var baseName = type.Name.Remove(type.Name.IndexOf("`"));
-                    var arguments = type.GetGenericArguments();
-                    baseName += "<";
-                    baseName += string.Join(",", Array.ConvertAll<Type, string>(arguments, x => x.FullName));
-                    baseName += ">";
-                    methodName = string.Format("RegistMember<{0}>", baseName);
-                }
-               
+                var typeName = bindingInfo.bindingTargetType.typeName;
+                var methodName = string.Format("RegistMember<{0}>", typeName);
                 if (!string.IsNullOrEmpty(methodName))
                 {
                     invocation = new InvocationExpression();
@@ -114,7 +120,6 @@ namespace BridgeUI.CodeGen
                     invocation.Target = new MemberReferenceExpression(new IdentifierExpression("Binder"), methodName, new AstType[0]);
                     invocation.Arguments.Add(new IdentifierExpression(arg0_name));
                     invocation.Arguments.Add(new PrimitiveExpression(bindingInfo.bindingSource));
-                    invocation.Arguments.Add(new IdentifierExpression("m_" + name));
                     PropBindingsNode.Body.Add(invocation);
                 }
 

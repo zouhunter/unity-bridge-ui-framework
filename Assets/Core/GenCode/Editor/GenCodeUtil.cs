@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System;
 using UnityEditor;
@@ -13,6 +14,8 @@ namespace BridgeUI.CodeGen
 {
     public static class GenCodeUtil
     {
+       
+
         public static Type[] supportControls =  {
                 typeof(ScrollRect),
                 typeof(InputField),
@@ -47,20 +50,22 @@ namespace BridgeUI.CodeGen
         /// <param name="components"></param>
         public static void BindingUI(GameObject go, List<ComponentItem> components)
         {
-            if (go == null || go.GetComponent<PanelBase>() == null)
+            if (go == null || go.GetComponent<MonoBehaviour>() == null)
             {
                 EditorApplication.Beep();
                 return;
             }
-            var behaiver = go.GetComponent<PanelBase>();
+            var behaiver = go.GetComponent<MonoBehaviour>();
+
             foreach (var item in components)
             {
                 var filedName = "m_" + item.name;
-                UnityEngine.Object obj = item.target;
-                if (item.componentType != typeof(GameObject))
+                UnityEngine.Object obj = item.isScriptComponent ? item.scriptTarget as UnityEngine.Object: item.target;
+                if (item.componentType != typeof(GameObject) && !typeof(ScriptableObject).IsAssignableFrom(item.componentType))
                 {
                     obj = item.target.GetComponent(item.componentType);
                 }
+
                 behaiver.GetType().InvokeMember(filedName,
                                 BindingFlags.SetField |
                                 BindingFlags.Instance |
@@ -73,13 +78,13 @@ namespace BridgeUI.CodeGen
         /// </summary>
         /// <param name="component"></param>
         /// <param name="components"></param>
-        public static void AnalysisComponent(PanelBase component, List<ComponentItem> components)
+        public static void AnalysisComponent(MonoBehaviour component, List<ComponentItem> components)
         {
             var fields = component.GetType().GetFields(BindingFlags.GetField | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
             foreach (var field in fields)
             {
-                if (typeof(MonoBehaviour).IsAssignableFrom(field.FieldType))
+                if (typeof(UnityEngine.Object).IsAssignableFrom(field.FieldType))
                 {
                     var compItem = components.Find(x => "m_" + x.name == field.Name || x.name == field.Name);
 
@@ -91,18 +96,23 @@ namespace BridgeUI.CodeGen
                     }
 
                     var value = field.GetValue(component);
+
                     if (value != null)
                     {
                         if (field.FieldType == typeof(GameObject))
                         {
                             compItem.target = value as GameObject;
+                            compItem.components = SortComponent(compItem.target);
+                        }
+                        else if(typeof(ScriptableObject).IsAssignableFrom(field.FieldType))
+                        {
+                            compItem.UpdateAsScriptObject(value as ScriptableObject);
                         }
                         else
                         {
                             compItem.target = (value as MonoBehaviour).gameObject;
+                            compItem.components = SortComponent(compItem.target);
                         }
-
-                        compItem.components = SortComponent(compItem.target);
                     }
                 }
             }
@@ -128,11 +138,13 @@ namespace BridgeUI.CodeGen
             var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
 
             CreateMemberFields(classNode, needAdd);
-            CompleteBaseMethods(classNode, rule);
             BindingInfoMethods(classNode, needAdd);
             SortClassMembers(classNode);
 
-            var scriptPath = AssetDatabase.GetAssetPath(go).Replace(".prefab", ".cs");
+            var prefabPath = AssetDatabase.GetAssetPath(go);
+            var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
+            var scriptPath = string.Format( "{0}/{1}.cs",folder,go.name);
+            Debug.Log(scriptPath);
 
             System.IO.File.WriteAllText(scriptPath, uiCoder.Compile());
             var type = typeof(BridgeUI.PanelBase).Assembly.GetType(className);
@@ -170,7 +182,7 @@ namespace BridgeUI.CodeGen
                     list.Add(new TypeInfo(type));
                 }
             }
-            var endList = components.Where(x => !supportControls.Contains(x.GetType())).Select(x => new TypeInfo(x.GetType()));
+            var endList = components.Where(x => !supportControls.Contains(x.GetType())).Select(x=> new TypeInfo(x.GetType()));
             list.AddRange(endList);
             return list.ToArray();
         }
@@ -178,7 +190,7 @@ namespace BridgeUI.CodeGen
         #region private functions
 
 
-
+     
 
         /// <summary>
         /// 所有支持的父级
@@ -187,20 +199,21 @@ namespace BridgeUI.CodeGen
         private static string[] LoadAllBasePanels()
         {
             var types = typeof(PanelBase).Assembly.GetTypes();
-            var support = new List<string>();
+            var support = new List<Type>();
             foreach (var item in types)
             {
                 var attributes = item.GetCustomAttributes(false);
                 if (Array.Find(attributes, x => x is PanelParentAttribute) != null)
                 {
-                    if (!support.Contains(item.FullName))
-                    {
-                        support.Add(item.FullName);
-                    }
+                    support.Add(item);
                 }
             }
-            return support.ToArray();
+            support.Sort(new ComparePanelParentType());
+            support.Add(typeof(MonoBehaviour));
+            support.Add(typeof(UIBehaviour));
+            return support.ConvertAll(x=>x.FullName).ToArray();
         }
+
 
         private static UICoder LoadUICoder(GameObject prefab, GenCodeRule rule)
         {
@@ -215,7 +228,7 @@ namespace BridgeUI.CodeGen
         }
         private static void LoadOldScript(GameObject prefab, UICoder coder)
         {
-            var oldScript = prefab.GetComponent<PanelBase>();
+            var oldScript = prefab.GetComponent<MonoBehaviour>();
             if (oldScript != null)
             {
                 var path = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(oldScript));
@@ -224,14 +237,12 @@ namespace BridgeUI.CodeGen
         }
 
         /// <summary>
-        /// 完善方法
+        /// 初始化方法
         /// </summary>
         /// <param name="classNode"></param>
-        /// <param name="rule"></param>
-        private static void CompleteBaseMethods(TypeDeclaration classNode, GenCodeRule rule)
+        public static MethodDeclaration GetInitComponentMethod(TypeDeclaration classNode)
         {
             var InitComponentsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == initcomponentMethod).FirstOrDefault();
-            var PropBindingsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == propbindingsMethod).FirstOrDefault();
 
             if (InitComponentsNode == null)
             {
@@ -242,6 +253,15 @@ namespace BridgeUI.CodeGen
                 InitComponentsNode.Body = new BlockStatement();
                 classNode.AddChild(InitComponentsNode, Roles.TypeMemberRole);
             }
+            return InitComponentsNode;
+        }
+        /// <summary>
+        /// 代码绑定方法
+        /// </summary>
+        /// <param name="classNode"></param>
+        public static MethodDeclaration GetPropBindingMethod(TypeDeclaration classNode)
+        {
+            var PropBindingsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == propbindingsMethod).FirstOrDefault();
 
             if (PropBindingsNode == null)
             {
@@ -252,6 +272,7 @@ namespace BridgeUI.CodeGen
                 PropBindingsNode.Body = new BlockStatement();
                 classNode.AddChild(PropBindingsNode, Roles.TypeMemberRole);
             }
+            return PropBindingsNode;
         }
 
         /// <summary>
@@ -333,18 +354,6 @@ namespace BridgeUI.CodeGen
                     keyNode = item;
                 }
             }
-
-            string[] ennerFuncs = { "OnDestroy", "OnDisable", "LateUpdate", "Update", "FixedUpdate", "Start", "OnEnable", "Awake" };
-            for (int i = 0; i < ennerFuncs.Length; i++)
-            {
-                var innerNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == ennerFuncs[i]).FirstOrDefault();
-                if (innerNode != null)
-                {
-                    keyNode = innerNode;
-                    break;
-                }
-            }
-
             var InitComponentsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == initcomponentMethod).FirstOrDefault();
             var PropBindingsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == propbindingsMethod).FirstOrDefault();
 
@@ -390,22 +399,11 @@ namespace BridgeUI.CodeGen
         /// <param name="components"></param>
         private static void CreateMemberFields(TypeDeclaration classNode, ComponentItem[] components)
         {
-            var fields = classNode.Descendants.OfType<FieldDeclaration>();
-            FieldDeclaration lastOne = null;
-            if (fields != null && fields.Count() > 0)
-            {
-                lastOne = fields.Last();
-            }
-
             foreach (var item in components)
             {
                 var fieldName = string.Format("m_" + item.name);
-                FieldDeclaration field = null;
-                if (fields != null)
-                {
-                    field = fields.Where(x => x.Variables.Where(y => y.Name == fieldName).Count() > 0).FirstOrDefault();
-                }
-
+                var field = classNode.Descendants.OfType<FieldDeclaration>().Where(x => x.Variables.Where(y => y.Name == fieldName).Count() > 0).FirstOrDefault();
+               
                 if (field != null && (field.ReturnType).ToString() != item.componentType.Name)
                 {
                     classNode.Members.Remove(field);
@@ -421,18 +419,11 @@ namespace BridgeUI.CodeGen
                     var att = new ICSharpCode.NRefactory.CSharp.Attribute();
                     att.Type = new SimpleType("SerializeField");
                     field.Attributes.Add(new AttributeSection(att));
-                    if (lastOne != null)
-                    {
-                        classNode.InsertChildAfter(lastOne, field, Roles.TypeMemberRole);
-                    }
-                    else
-                    {
-                        classNode.AddChild(field, Roles.TypeMemberRole);
-                    }
+                    classNode.AddChild(field, Roles.TypeMemberRole);
                 }
             }
         }
-
+        
         /// <summary>
         /// 完善方法内容
         /// </summary>
@@ -452,7 +443,7 @@ namespace BridgeUI.CodeGen
         /// </summary>
         /// <param name="component"></param>
         /// <param name="components"></param>
-        private static void AnalysisBindings(PanelBase component, List<ComponentItem> components)
+        private static void AnalysisBindings(MonoBehaviour component, List<ComponentItem> components)
         {
             var script = MonoScript.FromMonoBehaviour(component).text;
             var tree = new CSharpParser().Parse(script);

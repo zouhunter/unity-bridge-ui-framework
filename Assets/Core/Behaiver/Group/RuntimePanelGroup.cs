@@ -30,8 +30,9 @@ namespace BridgeUI
         public string groupasset;
         //重置menu
         public bool resetMenu;
-
+#if AssetBundleTools
         private AssetBundleLoader loader;
+#endif
         private PanelGroupObj groupObj;
         public override string Menu { get { return groupObj.menu; } }
 
@@ -55,6 +56,7 @@ namespace BridgeUI
 
         private void LoadPanelGroupAsync()
         {
+#if AssetBundleTools
             if(resetMenu)
             {
                 loader = AssetBundleLoader.GetInstance(GetUrl(), menu);
@@ -64,6 +66,7 @@ namespace BridgeUI
                 loader = AssetBundleLoader.Instence;
             }
             loader.LoadAssetFromUrlAsync<Model.PanelGroupObj>(assetbundle, groupasset, OnLoad);
+#endif
         }
 
         private string GetUrl()

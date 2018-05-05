@@ -248,12 +248,14 @@ namespace BridgeUIEditor
             {
                 formTypes = System.Enum.GetNames(typeof(UIFormType));
             }
+
+            formSelected = System.Array.IndexOf(formTypes,nodeInfo.uiType.form.ToString());
+
             for (int i = 0; i < formTypes.Length; i++)
             {
                 var isOn = EditorGUILayout.ToggleLeft(string.Format("{0}--{1}", formTypes[i], formTypesNotice[i]), formSelected == i);
                 if (isOn)
                 {
-                    formSelected = i;
                     nodeInfo.uiType.form = (UIFormType)i;
                 }
             }
@@ -268,12 +270,14 @@ namespace BridgeUIEditor
             {
                 layerTypes = System.Enum.GetNames(typeof(UILayerType));
             }
+
+            layerSelected = System.Array.IndexOf(layerTypes, nodeInfo.uiType.layer.ToString());
+
             for (int i = 0; i < layerTypes.Length; i++)
             {
                 var isOn = EditorGUILayout.ToggleLeft(string.Format("{0}--{1}", layerTypes[i], layerTypesNotice[i]), layerSelected == i);
                 if (isOn)
                 {
-                    layerSelected = i;
                     nodeInfo.uiType.layer = (UILayerType)i;
                 }
             }
@@ -297,12 +301,13 @@ namespace BridgeUIEditor
             {
                 closeRule = System.Enum.GetNames(typeof(CloseRule));
             }
+            closeRuleSelected = System.Array.IndexOf(closeRule, nodeInfo.uiType.closeRule.ToString());
+
             for (int i = 0; i < closeRule.Length; i++)
             {
                 var isOn = EditorGUILayout.ToggleLeft(string.Format("{0}--{1}", closeRule[i], closeRuleNotice[i]), closeRuleSelected == i);
                 if (isOn)
                 {
-                    closeRuleSelected = i;
                     nodeInfo.uiType.closeRule = (CloseRule)i;
                 }
             }
@@ -317,12 +322,14 @@ namespace BridgeUIEditor
             {
                 hideRule = System.Enum.GetNames(typeof(HideRule));
             }
+
+            hideRuleSelected = System.Array.IndexOf(hideRule, nodeInfo.uiType.hideRule.ToString());
+
             for (int i = 0; i < hideRule.Length; i++)
             {
                 var isOn = EditorGUILayout.ToggleLeft(string.Format("{0}--{1}", hideRule[i], hideRuleNotice[i]), hideRuleSelected == i);
                 if (isOn)
                 {
-                    hideRuleSelected = i;
                     nodeInfo.uiType.hideRule = (HideRule)i;
                 }
             }

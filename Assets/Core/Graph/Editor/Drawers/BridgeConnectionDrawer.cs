@@ -69,12 +69,14 @@ public class BridgeConnectionDrawer : Editor
         {
             mutexRules = System.Enum.GetNames(typeof(MutexRule));
         }
+
+        mutexRulesSelected = System.Array.IndexOf(mutexRules, connecton.show.mutex.ToString());
+
         for (int i = 0; i < mutexRules.Length; i++)
         {
             var isOn = EditorGUILayout.ToggleLeft(string.Format("{0}--{1}", mutexRules[i], mutexRulesNotice[i]), mutexRulesSelected == i);
             if (isOn)
             {
-                mutexRulesSelected = i;
                 connecton.show.mutex = (MutexRule)i;
             }
         }
@@ -90,12 +92,14 @@ public class BridgeConnectionDrawer : Editor
         {
             baseShows = System.Enum.GetNames(typeof(BaseShow));
         }
+
+        baseShowsSelected = System.Array.IndexOf(baseShows, connecton.show.baseShow.ToString());
+
         for (int i = 0; i < mutexRules.Length; i++)
         {
             var isOn = EditorGUILayout.ToggleLeft(string.Format("{0} --{1}", baseShows[i], baseShowsNotice[i]), baseShowsSelected == i);
             if (isOn)
             {
-                baseShowsSelected = i;
                 connecton.show.baseShow = (BaseShow)i;
             }
         }

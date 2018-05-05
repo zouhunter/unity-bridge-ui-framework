@@ -19,26 +19,29 @@ using UnityEngine.Internal;
 
 namespace BridgeUI.Common
 {
-    public interface IListItem {
+    public interface IListItem
+    {
         void Revert();
     }
+
     /// <summary>
+    /// /// <summary>
     /// 这是一个列表创建器（用于快速创建一组对象）
-    /// 建议数量 < 100
-    /// </summary>
+    /// 建议数量100</summary>
     /// <typeparam name="T"></typeparam>
-    public class ListItemCreater<T> where T : MonoBehaviour, IListItem
+    public class ListItemCreater<T> : MonoBehaviour where T : MonoBehaviour, IListItem
     {
         public List<T> CreatedItems { get { return createdItems; } }
-        Transform parent { get; set; }
-        T pfb { get; set; }
+        [SerializeField]
+        private Transform parent;
+        [SerializeField]
+        private T pfb;
         private GameObjectPool objectPool;
         private bool isword;
-        List<T> createdItems = new List<T>();
-        public ListItemCreater(Transform parent, T pfb)
+        private List<T> createdItems = new List<T>();
+
+        private void Awake()
         {
-            this.parent = parent;
-            this.pfb = pfb;
             pfb.gameObject.SetActive(false);
             objectPool = UIFacade.PanelPool;
             isword = !parent.GetComponent<RectTransform>();

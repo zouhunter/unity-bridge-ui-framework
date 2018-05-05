@@ -17,48 +17,37 @@ using System;
 namespace BridgeUI.Common
 {
     [System.Serializable]
-    public class ToggleListSelector:MonoBehaviour
+    public class ButtonListSelector : MonoBehaviour
     {
         [SerializeField]
         private Transform m_parent;
         [SerializeField]
-        private GameObject m_prefab;
-        [SerializeField]
-        private Button m_Select;
+        private Button m_prefab;
         private string selected;
         private UnityAction<string> onChoise;
-        private Dictionary<string, Toggle> createdDic;
-        private ToggleGroup group;
-        private bool quick;
+        private Dictionary<string, Button> createdDic;
         private string[] options;
-        public bool AnyToggleOn { get { return group.AnyTogglesOn(); } }
-        private bool stopEvent;
         private GameObjectPool gameObjectPool;
+
         /// <summary>
         /// 调用其他方法时，先进行初始化
         /// </summary>
-        private void Awake()
+        public void Awake()
         {
             gameObjectPool = UIFacade.PanelPool;
-            if (m_Select) m_Select.onClick.AddListener(TrySelectItem);
-            group = m_parent.GetComponentInChildren<ToggleGroup>();
-            if (group == null)
-                group = m_parent.gameObject.AddComponent<ToggleGroup>();
         }
 
-        public void OpenSelect(string[] selectables, UnityAction<string> onChoise, bool quick = false)
+        public void OpenSelect(string[] selectables, UnityAction<string> onChoise)
         {
             this.options = selectables;
-            this.quick = quick;
             this.onChoise = onChoise;
             CreateUIList(selectables);
         }
 
-       
-        public void OpenSelect(string[] selectables, UnityAction<int> onChoise, bool quick = false)
+
+        public void OpenSelect(string[] selectables, UnityAction<int> onChoise)
         {
             this.options = selectables;
-            this.quick = quick;
             this.onChoise = (x) =>
             {
                 if (onChoise != null)
@@ -69,21 +58,9 @@ namespace BridgeUI.Common
             };
             CreateUIList(selectables);
         }
-
-        public void SetActiveItem(string key)
-        {
-            stopEvent = true;
-
-            if (createdDic.ContainsKey(key))
-            {
-                createdDic[key].isOn = true;
-            }
-            stopEvent = false;
-        }
         void TrySelectItem()
         {
-            if (this.onChoise != null)
-            {
+            if (this.onChoise != null){
                 this.onChoise.Invoke(selected);
             }
 
@@ -91,23 +68,21 @@ namespace BridgeUI.Common
         void OnSelect(string type)
         {
             selected = type;
-            if (quick)
-            {
-                TrySelectItem();
-            }
+            TrySelectItem();
         }
+
         void CreateUIList(string[] selectables)
         {
             if (createdDic == null)
             {
-                createdDic = new Dictionary<string, Toggle>();
+                createdDic = new Dictionary<string, Button>();
             }
             else
             {
                 foreach (var item in createdDic)
                 {
-                    var toggle = item.Value;
-                    toggle.onValueChanged.RemoveAllListeners();
+                    var button = item.Value;
+                    button.onClick.RemoveAllListeners();
                     gameObjectPool.SavePoolObject(item.Value.gameObject, false);
                 }
                 createdDic.Clear();
@@ -115,15 +90,15 @@ namespace BridgeUI.Common
 
             for (int i = 0; i < selectables.Length; i++)
             {
-                //Debug.Log(SceneMain.Current);
                 var item = gameObjectPool.GetPoolObject(m_prefab.gameObject, m_parent, false);
                 var type = selectables[i];
                 item.GetComponentInChildren<Text>().text = type;
-                var toggle = item.GetComponentInChildren<Toggle>();
-                Debug.Assert(toggle, "预制体或子物体上没有toggle组件");
-                toggle.group = group;
-                toggle.onValueChanged.AddListener((x) => { if (!stopEvent) OnSelect(type); });
-                createdDic.Add(type, toggle);
+                var button = item.GetComponentInChildren<Button>();
+                Debug.Assert(button, "预制体或子物体上没有button组件");
+                button.onClick.AddListener(() => {
+                        OnSelect(type);
+                });
+                createdDic.Add(type, button);
             }
         }
     }

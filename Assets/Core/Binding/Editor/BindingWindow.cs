@@ -37,7 +37,8 @@ namespace BridgeUIEditor
             {
                 if (_panelCompnent == null && prefab != null)
                 {
-                    _panelCompnent = prefab.GetComponent<MonoBehaviour>();
+                    _panelCompnent = GenCodeUtil.GetUserMonobehaiver(prefab);
+
                 }
                 return _panelCompnent;
             }

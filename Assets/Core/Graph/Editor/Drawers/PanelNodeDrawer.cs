@@ -25,8 +25,9 @@ namespace BridgeUIEditor
             {
                 if (_panelCompnent == null && panelNode.Info.prefab != null)
                 {
-                    _panelCompnent = panelNode.Info.prefab.GetComponent<MonoBehaviour>();
+                    _panelCompnent = GenCodeUtil.GetUserMonobehaiver(nodeInfo.prefab);
                 }
+
                 return _panelCompnent;
             }
         }

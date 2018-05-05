@@ -14,8 +14,6 @@ namespace BridgeUI.CodeGen
 {
     public static class GenCodeUtil
     {
-       
-
         public static Type[] supportControls =  {
                 typeof(ScrollRect),
                 typeof(InputField),
@@ -31,6 +29,20 @@ namespace BridgeUI.CodeGen
                 typeof(RectTransform),
                 typeof(GameObject),
             };
+
+        internal static MonoBehaviour GetUserMonobehaiver(GameObject prefab)
+        {
+            var monobehaivers = prefab.GetComponents<MonoBehaviour>();
+            foreach (var item in monobehaivers)
+            {
+                if (item.GetType().Namespace != "UnityEngine.UI")
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
         public static List<string> InnerFunctions = new List<string>()
         {
             "Close",
@@ -84,7 +96,7 @@ namespace BridgeUI.CodeGen
 
             foreach (var field in fields)
             {
-                if (typeof(UnityEngine.Object).IsAssignableFrom(field.FieldType))
+                if (typeof(UnityEngine.MonoBehaviour).IsAssignableFrom(field.FieldType)||typeof(ScriptableObject).IsAssignableFrom(field.FieldType))
                 {
                     var compItem = components.Find(x => "m_" + x.name == field.Name || x.name == field.Name);
 

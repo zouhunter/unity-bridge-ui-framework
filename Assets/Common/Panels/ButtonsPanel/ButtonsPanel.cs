@@ -28,7 +28,7 @@ namespace BridgeUI.Common
                 var index = i;
                 btns[index].onClick.AddListener(() =>
                 {
-                    this.OpenSubPanel(index);
+                    this.Open(index);
                 });
             }
         }

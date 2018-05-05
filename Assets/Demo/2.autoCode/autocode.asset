@@ -113,50 +113,53 @@ MonoBehaviour:
     baseTypeIndex: 2
     canInherit: 0
   components:
-  - name: head
+  - open: 0
+    name: head
     componentID: 0
-    sourceName: head
-    binding: 1
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    viewItems: []
+    eventItems: []
     target: {fileID: 102654, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
-  - name: title
+  - open: 0
+    name: title
     componentID: 0
-    sourceName: title
-    binding: 1
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    viewItems: []
+    eventItems: []
     target: {fileID: 190396, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
-  - name: info
+  - open: 0
+    name: info
     componentID: 0
-    sourceName: info
-    binding: 1
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    viewItems: []
+    eventItems: []
     target: {fileID: 185602, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
-  - name: slider
+  - open: 0
+    name: slider
     componentID: 0
-    sourceName: OnSlider
-    binding: 0
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Slider
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    viewItems: []
+    eventItems: []
     target: {fileID: 125884, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
-  - name: close
+  - open: 0
+    name: close
     componentID: 0
-    sourceName: Close
-    binding: 0
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Button
@@ -164,6 +167,8 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Image
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    viewItems: []
+    eventItems: []
     target: {fileID: 172462, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
   nodeInfo:
     uiType:

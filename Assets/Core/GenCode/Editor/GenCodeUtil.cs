@@ -170,7 +170,7 @@ namespace BridgeUI.CodeGen
                     list.Add(new TypeInfo(type));
                 }
             }
-            var endList = components.Where(x => !supportControls.Contains(x.GetType())).Select(x=> new TypeInfo(x.GetType()));
+            var endList = components.Where(x => !supportControls.Contains(x.GetType())).Select(x => new TypeInfo(x.GetType()));
             list.AddRange(endList);
             return list.ToArray();
         }
@@ -178,7 +178,7 @@ namespace BridgeUI.CodeGen
         #region private functions
 
 
-     
+
 
         /// <summary>
         /// 所有支持的父级
@@ -333,6 +333,18 @@ namespace BridgeUI.CodeGen
                     keyNode = item;
                 }
             }
+
+            string[] ennerFuncs = { "OnDestroy", "OnDisable", "LateUpdate", "Update", "FixedUpdate", "Start", "OnEnable", "Awake" };
+            for (int i = 0; i < ennerFuncs.Length; i++)
+            {
+                var innerNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == ennerFuncs[i]).FirstOrDefault();
+                if (innerNode != null)
+                {
+                    keyNode = innerNode;
+                    break;
+                }
+            }
+
             var InitComponentsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == initcomponentMethod).FirstOrDefault();
             var PropBindingsNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == propbindingsMethod).FirstOrDefault();
 
@@ -378,11 +390,22 @@ namespace BridgeUI.CodeGen
         /// <param name="components"></param>
         private static void CreateMemberFields(TypeDeclaration classNode, ComponentItem[] components)
         {
+            var fields = classNode.Descendants.OfType<FieldDeclaration>();
+            FieldDeclaration lastOne = null;
+            if (fields != null && fields.Count() > 0)
+            {
+                lastOne = fields.Last();
+            }
+
             foreach (var item in components)
             {
                 var fieldName = string.Format("m_" + item.name);
-                var field = classNode.Descendants.OfType<FieldDeclaration>().Where(x => x.Variables.Where(y => y.Name == fieldName).Count() > 0).FirstOrDefault();
-               
+                FieldDeclaration field = null;
+                if (fields != null)
+                {
+                    field = fields.Where(x => x.Variables.Where(y => y.Name == fieldName).Count() > 0).FirstOrDefault();
+                }
+
                 if (field != null && (field.ReturnType).ToString() != item.componentType.Name)
                 {
                     classNode.Members.Remove(field);
@@ -398,11 +421,18 @@ namespace BridgeUI.CodeGen
                     var att = new ICSharpCode.NRefactory.CSharp.Attribute();
                     att.Type = new SimpleType("SerializeField");
                     field.Attributes.Add(new AttributeSection(att));
-                    classNode.AddChild(field, Roles.TypeMemberRole);
+                    if (lastOne != null)
+                    {
+                        classNode.InsertChildAfter(lastOne, field, Roles.TypeMemberRole);
+                    }
+                    else
+                    {
+                        classNode.AddChild(field, Roles.TypeMemberRole);
+                    }
                 }
             }
         }
-        
+
         /// <summary>
         /// 完善方法内容
         /// </summary>

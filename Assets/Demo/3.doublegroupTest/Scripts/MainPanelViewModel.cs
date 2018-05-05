@@ -20,7 +20,7 @@ public class MainPanelViewModel : BridgeUI.Binding.ViewModelBase
     public readonly BindableProperty<bool> switcher = new BindableProperty<bool>();
     public readonly BindableProperty<PanelEvent> OpenPanel01 = new BindableProperty<PanelEvent>();
     public readonly BindableProperty<PanelEvent> OpenPanel02 = new BindableProperty<PanelEvent>();
-    public readonly BindableProperty<PanelEvent> OpenPanel03 = new BindableProperty<PanelEvent>();
+    //public readonly BindableProperty<PanelEvent> OpenPanel03 = new BindableProperty<PanelEvent>();
 
     public MainPanelViewModel()
     {
@@ -30,8 +30,47 @@ public class MainPanelViewModel : BridgeUI.Binding.ViewModelBase
         OpenPanel02.Value = (panel, z) => {
             panel.Open(PanelNames.Panel02);
         };
-        OpenPanel03.Value = (panel, z) => {
+        //OpenPanel03.Value = (panel, z) => {
+        //    panel.Open(PanelNames.Panel03);
+        //};
+        this["OpenPanel03"] = new BindableProperty<PanelEvent>((panel, z) => {
             panel.Open(PanelNames.Panel03);
+        });
+    }
+}
+
+/// <summary>
+/// 用于写逻辑代码
+/// </summary>
+public class MainPanelViewModel_with_ID : BridgeUI.Binding.ViewModelBase
+{
+    public readonly BindableProperty<string> title = new BindableProperty<string>();
+    public readonly BindableProperty<string> info = new BindableProperty<string>();
+    public readonly BindableProperty<bool> switcher = new BindableProperty<bool>();
+    public readonly BindableProperty<PanelEvent> OpenPanel01 = new BindableProperty<PanelEvent>();
+    public readonly BindableProperty<PanelEvent> OpenPanel02 = new BindableProperty<PanelEvent>();
+    //public readonly BindableProperty<PanelEvent> OpenPanel03 = new BindableProperty<PanelEvent>();
+
+    public MainPanelViewModel_with_ID()
+    {
+        OpenPanel01.Value = (panel, z) => {
+            if(!panel.IsOpen(0))
+            {
+                panel.Open(0);
+            }
+            else
+            {
+                panel.Close(0);
+            }
         };
+        OpenPanel02.Value = (panel, z) => {
+            panel.Open(1);
+        };
+        //OpenPanel03.Value = (panel, z) => {
+        //    panel.Open(PanelNames.Panel03);
+        //};
+        this["OpenPanel03"] = new BindableProperty<PanelEvent>((panel, z) => {
+            panel.Open(2);
+        });
     }
 }

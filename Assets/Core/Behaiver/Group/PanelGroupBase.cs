@@ -32,7 +32,7 @@ namespace BridgeUI
         protected List<UIInfoBase> activeNodes;
         protected IPanelCreater creater;
         protected event UnityAction onDestroy;
-
+        public UIBindingController bindingCtrl { get; private set; }
         public abstract string Menu { get; }
         public abstract bool ResetMenu { get; }
         public abstract LoadType LoadType { get; }
@@ -85,8 +85,7 @@ namespace BridgeUI
                     if (panel != null)
                     {
                         createdPanels.Add(panel);
-                        if (parentPanel != null)
-                        {
+                        if (parentPanel != null){
                             parentPanel.RecordChild(panel);
                         }
                         bridgeDic.Add(panel, bridge);
@@ -511,25 +510,46 @@ namespace BridgeUI
         /// </summary>
         protected void RegistUIEvents()
         {
+            if (bindingCtrl == null) bindingCtrl = new UIBindingController();
             foreach (var item in Bridges)
             {
                 var bridgeInfo = item;
 
                 if (!string.IsNullOrEmpty(bridgeInfo.inNode) && !string.IsNullOrEmpty(bridgeInfo.outNode))
                 {
-                    System.Func<PanelBase, object, IUIHandle> action = (x, y) =>
+                    UIBindingItem bindingItem = new UIBindingItem();
+
+                    bindingItem.openAction = (x, y) =>
                     {
                         var parentPanel = x;
                         var panelName = bridgeInfo.outNode;
                         return UIFacade.Instence.Open(parentPanel, panelName, y);
                     };
 
-                    UIBindingController.RegistPanelEvent(bridgeInfo.inNode, bridgeInfo.index, action);
+                    bindingItem.closeAction = () =>
+                    {
+                        var panelName = bridgeInfo.outNode;
+                        UIFacade.Instence.Close(this,panelName);
+                    };
+
+                    bindingItem.hideAction = () =>
+                    {
+                        var panelName = bridgeInfo.outNode;
+                        UIFacade.Instence.Hide(this,panelName);
+                    };
+
+                    bindingItem.isOpenAction = () =>
+                    {
+                        var panelName = bridgeInfo.outNode;
+                        return UIFacade.Instence.IsPanelOpen(this,panelName);
+                    };
+
+                    bindingCtrl.RegistPanelEvent(bridgeInfo.inNode, bridgeInfo.index, bindingItem);
 
                     this.onDestroy += () =>
                     {
                         //在本组合关闭时销毁事件
-                        UIBindingController.RemovePanelEvent(bridgeInfo.inNode, bridgeInfo.index, action);
+                        bindingCtrl.RemovePanelEvent(bridgeInfo.inNode, bridgeInfo.index, bindingItem);
                     };
                 }
 

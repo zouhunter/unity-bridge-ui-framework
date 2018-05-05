@@ -13,7 +13,7 @@ namespace BridgeUI.CodeGen
         {
             get
             {
-                if(_initComponentNode == null)
+                if (_initComponentNode == null)
                 {
                     _initComponentNode = GenCodeUtil.GetInitComponentMethod(classNode);
                 }
@@ -24,26 +24,41 @@ namespace BridgeUI.CodeGen
         {
             get
             {
-                if(_propBindingsNode ==null)
+                if (_propBindingsNode == null)
                 {
                     _propBindingsNode = GenCodeUtil.GetPropBindingMethod(classNode);
                 }
                 return _propBindingsNode;
             }
         }
+
+        private MethodDeclaration _awakeNode;
+        protected MethodDeclaration AwakeNode
+        {
+            get
+            {
+                if (_awakeNode == null)
+                {
+                    _awakeNode = GenCodeUtil.GetAwakeMethod(classNode);
+                }
+                return _awakeNode;
+            }
+        }
+
         protected TypeDeclaration classNode;
 
         public void SetContext(TypeDeclaration classNode)
         {
             this.classNode = classNode;
             _initComponentNode = null;
-            _propBindingsNode = null;}
+            _propBindingsNode = null;
+        }
 
         /// <summary>
         /// Binding关联
         /// </summary>
         /// <returns></returns>
-        public virtual void CompleteCode(ComponentItem component)
+        public virtual void CompleteCode(ComponentItem component, bool bindingAble)
         {
             foreach (var item in component.viewItems)
             {
@@ -58,7 +73,7 @@ namespace BridgeUI.CodeGen
                 }
                 else
                 {
-                    LocalEventInvocations(component.name, item);
+                    LocalEventInvocations(component.name, item, bindingAble);
                 }
             }
         }
@@ -71,9 +86,9 @@ namespace BridgeUI.CodeGen
             var invocations = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
             var arg0_name = "m_" + name + "." + bindingInfo.bindingTarget;
             var arg0 = string.Format("\"{0}\"", arg0_name);
-            var arg1 = string.Format("\"{0}\"",bindingInfo.bindingSource);
+            var arg1 = string.Format("\"{0}\"", bindingInfo.bindingSource);
             var invocation = invocations.Where(
-                x => x.Target.ToString().Contains("Binder") && 
+                x => x.Target.ToString().Contains("Binder") &&
                 x.Arguments.Count > 0 &&
                 x.Arguments.First().ToString() == arg0 &&
                 x.Arguments.ToArray()[1].ToString() == arg1).FirstOrDefault();
@@ -93,6 +108,7 @@ namespace BridgeUI.CodeGen
 
             }
         }
+
         /// <summary>
         /// 远端关联事件
         /// </summary>
@@ -103,7 +119,7 @@ namespace BridgeUI.CodeGen
         {
             var invocations = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
             var arg0_name = "m_" + name + "." + bindingInfo.bindingTarget;
-            var arg1_name = string.Format("\"{0}\"",bindingInfo.bindingSource);
+            var arg1_name = string.Format("\"{0}\"", bindingInfo.bindingSource);
 
             var invocation = invocations.Where(
                 x => x.Target.ToString().Contains("Binder") &&
@@ -129,9 +145,11 @@ namespace BridgeUI.CodeGen
         /// <summary>
         /// 本地事件关联
         /// </summary>
-        protected virtual void LocalEventInvocations(string name, BindingEvent bindingInfo)
+        protected virtual void LocalEventInvocations(string name, BindingEvent bindingInfo, bool bindingAble)
         {
-            var invocations = InitComponentsNode.Body.Descendants.OfType<InvocationExpression>();
+            var node = bindingAble ? InitComponentsNode : AwakeNode;
+            var invocations = node.Body.Descendants.OfType<InvocationExpression>();
+
             var targetName = "m_" + name;
             var invocation = invocations.Where(x =>
             x.Target.ToString().Contains(targetName) &&
@@ -143,7 +161,7 @@ namespace BridgeUI.CodeGen
                 invocation = new InvocationExpression();
                 invocation.Target = new MemberReferenceExpression(new MemberReferenceExpression(new IdentifierExpression("m_" + name), eventName, new AstType[0]), "AddListener", new AstType[0]);
                 invocation.Arguments.Add(new IdentifierExpression(bindingInfo.bindingSource));
-                InitComponentsNode.Body.Add(invocation);
+                node.Body.Add(invocation);
                 CompleteMethod(bindingInfo);
             }
         }

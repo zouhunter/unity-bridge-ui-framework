@@ -47,7 +47,7 @@ namespace BridgeUIEditor
         private GenCodeRule rule = new GenCodeRule();
         private System.Collections.Generic.List<ComponentItem> components = new List<ComponentItem>();
         private ReorderableList preComponentList;
-        private ComponentItemDrawer itemDrawer;
+        private ComponentItemDrawer itemDrawer = new ComponentItemDrawer();
         private bool BindingAble
         {
             get
@@ -60,9 +60,9 @@ namespace BridgeUIEditor
         {
             this.prefab = prefab;
             InitPanelNode();
-            itemDrawer = new ComponentItemDrawer();
-            if(panelCompnent)
+            if (panelCompnent){
                 GenCodeUtil.AnalysisComponent(panelCompnent, components);
+            }
         }
 
         private void OnGUI()
@@ -112,6 +112,11 @@ namespace BridgeUIEditor
                     }
                 });
             }
+
+            if (panelCompnent)
+            {
+                GenCodeUtil.AnalysisComponent(panelCompnent, components);
+            }
         }
         private void DrawComponetHeader(Rect rect)
         {
@@ -120,9 +125,13 @@ namespace BridgeUIEditor
         private void SwitchDrawOption()
         {
             selected = GUILayout.Toolbar(selected, options);
-
+            if (prefab == null) return;
+            
             if (selected == 0)
             {
+                if(preComponentList == null){
+                    InitPanelNode();
+                }
                 DrawPreComponents();
             }
             else if (selected == 1)
@@ -215,8 +224,6 @@ namespace BridgeUIEditor
         }
         private void DrawPreComponents()
         {
-            if (prefab == null) return;
-
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 GUILayout.FlexibleSpace();
@@ -245,16 +252,15 @@ namespace BridgeUIEditor
                 if (GUILayout.Button(new GUIContent("update", "更新脚本控件信息"), EditorStyles.miniButton, GUILayout.Width(60)))
                 {
                     var go = prefab;
+                    rule.bindingAble = BindingAble;
                     GenCodeUtil.CreateScript(go, components, rule);
                 }
             }
 
             //}
 
-            if (preComponentList != null)
-            {
-                preComponentList.DoLayoutList();
-            }
+
+            preComponentList.DoLayoutList();
 
             var addRect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
 
@@ -303,6 +309,8 @@ namespace BridgeUIEditor
 
                 }
             }
+
+
 
 
         }

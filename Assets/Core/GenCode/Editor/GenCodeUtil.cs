@@ -43,6 +43,7 @@ namespace BridgeUI.CodeGen
             return null;
         }
 
+
         public static List<string> InnerFunctions = new List<string>()
         {
             "Close",
@@ -72,7 +73,7 @@ namespace BridgeUI.CodeGen
             foreach (var item in components)
             {
                 var filedName = "m_" + item.name;
-                UnityEngine.Object obj = item.isScriptComponent ? item.scriptTarget as UnityEngine.Object: item.target;
+                UnityEngine.Object obj = item.isScriptComponent ? item.scriptTarget as UnityEngine.Object : item.target;
                 if (item.componentType != typeof(GameObject) && !typeof(ScriptableObject).IsAssignableFrom(item.componentType))
                 {
                     obj = item.target.GetComponent(item.componentType);
@@ -96,7 +97,7 @@ namespace BridgeUI.CodeGen
 
             foreach (var field in fields)
             {
-                if (typeof(UnityEngine.MonoBehaviour).IsAssignableFrom(field.FieldType)||typeof(ScriptableObject).IsAssignableFrom(field.FieldType))
+                if (typeof(UnityEngine.MonoBehaviour).IsAssignableFrom(field.FieldType) || typeof(ScriptableObject).IsAssignableFrom(field.FieldType))
                 {
                     var compItem = components.Find(x => "m_" + x.name == field.Name || x.name == field.Name);
 
@@ -116,7 +117,7 @@ namespace BridgeUI.CodeGen
                             compItem.target = value as GameObject;
                             compItem.components = SortComponent(compItem.target);
                         }
-                        else if(typeof(ScriptableObject).IsAssignableFrom(field.FieldType))
+                        else if (typeof(ScriptableObject).IsAssignableFrom(field.FieldType))
                         {
                             compItem.UpdateAsScriptObject(value as ScriptableObject);
                         }
@@ -150,13 +151,12 @@ namespace BridgeUI.CodeGen
             var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
 
             CreateMemberFields(classNode, needAdd);
-            BindingInfoMethods(classNode, needAdd);
+            BindingInfoMethods(classNode, needAdd, rule.bindingAble);
             SortClassMembers(classNode);
 
             var prefabPath = AssetDatabase.GetAssetPath(go);
             var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
-            var scriptPath = string.Format( "{0}/{1}.cs",folder,go.name);
-            Debug.Log(scriptPath);
+            var scriptPath = string.Format("{0}/{1}.cs", folder, go.name);
 
             System.IO.File.WriteAllText(scriptPath, uiCoder.Compile());
             var type = typeof(BridgeUI.PanelBase).Assembly.GetType(className);
@@ -194,59 +194,11 @@ namespace BridgeUI.CodeGen
                     list.Add(new TypeInfo(type));
                 }
             }
-            var endList = components.Where(x => !supportControls.Contains(x.GetType())).Select(x=> new TypeInfo(x.GetType()));
+            var endList = components.Where(x => !supportControls.Contains(x.GetType())).Select(x => new TypeInfo(x.GetType()));
             list.AddRange(endList);
             return list.ToArray();
         }
 
-        #region private functions
-
-
-     
-
-        /// <summary>
-        /// 所有支持的父级
-        /// </summary>
-        /// <returns></returns>
-        private static string[] LoadAllBasePanels()
-        {
-            var types = typeof(PanelBase).Assembly.GetTypes();
-            var support = new List<Type>();
-            foreach (var item in types)
-            {
-                var attributes = item.GetCustomAttributes(false);
-                if (Array.Find(attributes, x => x is PanelParentAttribute) != null)
-                {
-                    support.Add(item);
-                }
-            }
-            support.Sort(new ComparePanelParentType());
-            support.Add(typeof(MonoBehaviour));
-            support.Add(typeof(UIBehaviour));
-            return support.ConvertAll(x=>x.FullName).ToArray();
-        }
-
-
-        private static UICoder LoadUICoder(GameObject prefab, GenCodeRule rule)
-        {
-            UICoder coder = new UICoder(prefab.name);
-            //加载已经存在的脚本
-            LoadOldScript(prefab, coder);
-            //添加命名空间和引用
-            CompleteNameSpace(coder.tree, rule);
-            //添加类
-            CompleteClass(coder.tree, prefab, rule);
-            return coder;
-        }
-        private static void LoadOldScript(GameObject prefab, UICoder coder)
-        {
-            var oldScript = prefab.GetComponent<MonoBehaviour>();
-            if (oldScript != null)
-            {
-                var path = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(oldScript));
-                coder.Load(System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8));
-            }
-        }
 
         /// <summary>
         /// 初始化方法
@@ -267,6 +219,59 @@ namespace BridgeUI.CodeGen
             }
             return InitComponentsNode;
         }
+
+        public static MethodDeclaration GetAwakeMethod(TypeDeclaration classNode)
+        {
+            var awakeNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == "Awake").FirstOrDefault();
+
+            if (awakeNode == null)
+            {
+                var type = typeof(PanelBase).Assembly.GetType(classNode.Name);
+                awakeNode = new MethodDeclaration();
+                awakeNode.Name = "Awake";
+                awakeNode.ReturnType = new ICSharpCode.NRefactory.CSharp.PrimitiveType("void");
+                awakeNode.Body = new BlockStatement();
+
+                if (type != null)
+                {
+                    //&& type.GetMethod("Awake")
+                    var method = type.GetMethod("Awake", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                    if (method != null)
+                    {
+                        awakeNode.Modifiers |= Modifiers.Override;
+
+                        if (method.IsVirtual)
+                        {
+                            var invocation = new InvocationExpression();
+                            invocation.Target = new MemberReferenceExpression(new BaseReferenceExpression(), "Awake", new AstType[0]);
+                            awakeNode.Body.Add(invocation);
+                        }
+                   
+                        if(method.IsPublic)
+                        {
+                            awakeNode.Modifiers |= Modifiers.Public;
+                        }
+
+                        else if (method.IsPrivate)
+                        {
+                            awakeNode.Modifiers |= Modifiers.Private;
+                        }
+                        else
+                        {
+                            awakeNode.Modifiers |= Modifiers.Protected;
+                        }
+                    }
+                }
+                else
+                {
+                    awakeNode.Modifiers = Modifiers.Private;
+                }
+
+                classNode.AddChild(awakeNode, Roles.TypeMemberRole);
+            }
+            return awakeNode;
+        }
+
         /// <summary>
         /// 代码绑定方法
         /// </summary>
@@ -285,6 +290,50 @@ namespace BridgeUI.CodeGen
                 classNode.AddChild(PropBindingsNode, Roles.TypeMemberRole);
             }
             return PropBindingsNode;
+        }
+        #region private functions
+        /// <summary>
+        /// 所有支持的父级
+        /// </summary>
+        /// <returns></returns>
+        private static string[] LoadAllBasePanels()
+        {
+            var types = typeof(PanelBase).Assembly.GetTypes();
+            var support = new List<Type>();
+            foreach (var item in types)
+            {
+                var attributes = item.GetCustomAttributes(false);
+                if (Array.Find(attributes, x => x is PanelParentAttribute) != null)
+                {
+                    support.Add(item);
+                }
+            }
+            support.Sort(new ComparePanelParentType());
+            support.Add(typeof(MonoBehaviour));
+            support.Add(typeof(UIBehaviour));
+            return support.ConvertAll(x => x.FullName).ToArray();
+        }
+
+
+        private static UICoder LoadUICoder(GameObject prefab, GenCodeRule rule)
+        {
+            UICoder coder = new UICoder(prefab.name);
+            //加载已经存在的脚本
+            LoadOldScript(prefab, coder);
+            //添加命名空间和引用
+            CompleteNameSpace(coder.tree, rule);
+            //添加类
+            CompleteClass(coder.tree, prefab, rule);
+            return coder;
+        }
+        private static void LoadOldScript(GameObject prefab, UICoder coder)
+        {
+            var oldScript = GetUserMonobehaiver(prefab);
+            if (oldScript != null)
+            {
+                var path = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(oldScript));
+                coder.Load(System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8));
+            }
         }
 
         /// <summary>
@@ -415,7 +464,7 @@ namespace BridgeUI.CodeGen
             {
                 var fieldName = string.Format("m_" + item.name);
                 var field = classNode.Descendants.OfType<FieldDeclaration>().Where(x => x.Variables.Where(y => y.Name == fieldName).Count() > 0).FirstOrDefault();
-               
+
                 if (field != null && (field.ReturnType).ToString() != item.componentType.Name)
                 {
                     classNode.Members.Remove(field);
@@ -435,18 +484,18 @@ namespace BridgeUI.CodeGen
                 }
             }
         }
-        
+
         /// <summary>
         /// 完善方法内容
         /// </summary>
         /// <param name="classNode"></param>
         /// <param name="components"></param>
-        private static void BindingInfoMethods(TypeDeclaration classNode, ComponentItem[] components)
+        private static void BindingInfoMethods(TypeDeclaration classNode, ComponentItem[] components, bool bindingAble)
         {
             componentCoder.SetContext(classNode);
             foreach (var component in components)
             {
-                componentCoder.CompleteCode(component);
+                componentCoder.CompleteCode(component, bindingAble);
             }
         }
 

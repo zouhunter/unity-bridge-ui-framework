@@ -40,11 +40,13 @@ namespace BridgeUI.CodeGen
             }
         }
         public ComponentItem() { }
+
         public ComponentItem(GameObject target)
         {
             this.name = target.name;
             this.target = target;
         }
+
         public ComponentItem(ScriptableObject target)
         {
             UpdateAsScriptObject(target);

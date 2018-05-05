@@ -264,7 +264,7 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
   components:
-  - open: 1
+  - open: 0
     name: subBtn
     componentID: 0
     components:
@@ -346,7 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 1
   instenceID: 0
   description: 
   assetName: Panel03
@@ -354,7 +354,45 @@ MonoBehaviour:
   rule:
     baseTypeIndex: 0
     canInherit: 0
-  components: []
+  components:
+  - open: 0
+    name: subBtn
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
+    viewItems: []
+    eventItems: []
+    target: {fileID: 119706, guid: cdb2321ece873174fbc0719e07c1d664, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
+    name: close
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
+    viewItems: []
+    eventItems: []
+    target: {fileID: 130358, guid: cdb2321ece873174fbc0719e07c1d664, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   nodeInfo:
     uiType:
       layerIndex: 0
@@ -649,7 +687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 1
   instenceID: 0
   description: 
   assetName: Panel02
@@ -657,7 +695,45 @@ MonoBehaviour:
   rule:
     baseTypeIndex: 0
     canInherit: 0
-  components: []
+  components:
+  - open: 0
+    name: subBtn
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
+    viewItems: []
+    eventItems: []
+    target: {fileID: 135014, guid: ba16a0659248e00479962ae1a0bf4624, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
+    name: close
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
+    viewItems: []
+    eventItems: []
+    target: {fileID: 172160, guid: ba16a0659248e00479962ae1a0bf4624, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   nodeInfo:
     uiType:
       layerIndex: 0
@@ -702,7 +778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 1
   instenceID: 0
   description: 
   assetName: Panel04
@@ -710,7 +786,45 @@ MonoBehaviour:
   rule:
     baseTypeIndex: 0
     canInherit: 0
-  components: []
+  components:
+  - open: 0
+    name: subBtn
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
+    viewItems: []
+    eventItems: []
+    target: {fileID: 194424, guid: 1172f1b2f39183747ab91057b53a70cd, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
+    name: close
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
+    viewItems: []
+    eventItems: []
+    target: {fileID: 102998, guid: 1172f1b2f39183747ab91057b53a70cd, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   nodeInfo:
     uiType:
       layerIndex: 0

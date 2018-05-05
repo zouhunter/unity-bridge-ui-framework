@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 1
   instenceID: -31432
   description: "\u63A7\u4EF6\u9762\u677F"
   assetName: MyPanel
@@ -113,7 +113,7 @@ MonoBehaviour:
     baseTypeIndex: 2
     canInherit: 0
   components:
-  - open: 0
+  - open: 1
     name: head
     componentID: 0
     components:
@@ -121,6 +121,10 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Image
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 102654, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
@@ -132,6 +136,10 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Text
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 190396, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
@@ -143,6 +151,10 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Text
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 185602, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
@@ -154,6 +166,8 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Slider
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
     viewItems: []
     eventItems: []
     target: {fileID: 125884, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
@@ -167,6 +181,10 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Image
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 172462, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}

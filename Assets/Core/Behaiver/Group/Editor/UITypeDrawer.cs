@@ -48,8 +48,8 @@ namespace BridgeUIEditor
             layerProp = property.FindPropertyRelative("layer");
             layerIndexProp = property.FindPropertyRelative("layerIndex");
             hideAlaphProp = property.FindPropertyRelative("hideAlaph");
-            enterAnimProp = property.FindPropertyRelative("enterAnim");
-            quitAnimProp = property.FindPropertyRelative("quitAnim");
+            enterAnimProp = property.FindPropertyRelative("enterAnim").FindPropertyRelative("typeName");
+            quitAnimProp = property.FindPropertyRelative("quitAnim").FindPropertyRelative("typeName");
             hideRuleProp = property.FindPropertyRelative("hideRule");
             closeRuleProp = property.FindPropertyRelative("closeRule");
         }
@@ -93,59 +93,13 @@ namespace BridgeUIEditor
             rect.y += EditorGUIUtility.singleLineHeight;
             DrawGroup(rect, "出场动画:", (r) =>
             {
-                enterAnimProp.enumValueIndex = (int)(UIAnimType)EditorGUI.EnumPopup(r, (UIAnimType)enterAnimProp.enumValueIndex);
+                EditorGUI.LabelField(r,enterAnimProp.stringValue);
             });
             rect.y += EditorGUIUtility.singleLineHeight;
             DrawGroup(rect, "闭场动画:", (r) =>
             {
-                quitAnimProp.enumValueIndex = (int)(UIAnimType)EditorGUI.EnumPopup(r, (UIAnimType)quitAnimProp.enumValueIndex);
+                EditorGUI.LabelField(r, quitAnimProp.stringValue);
             });
-            //using (var hor = new EditorGUILayout.HorizontalScope())
-            //{
-            //    EditorGUILayout.LabelField("可移动机制:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            //    formProp.enumValueIndex = (int)(UIFormType)EditorGUILayout.EnumPopup((UIFormType)(formProp.enumValueIndex));
-            //}
-            //using (var hor = new EditorGUILayout.HorizontalScope())
-            //{
-            //    EditorGUILayout.LabelField("绝对显示层:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            //    layerProp.enumValueIndex = (int)(UILayerType)EditorGUILayout.EnumPopup((UILayerType)layerProp.enumValueIndex);
-            //}
-            //using (var hor = new EditorGUILayout.HorizontalScope())
-            //{
-            //    EditorGUILayout.LabelField("相对优先级:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            //    layerIndexProp.intValue = EditorGUILayout.IntField(layerIndexProp.intValue);
-            //}
-            //using (var hor = new EditorGUILayout.HorizontalScope())
-            //{
-            //    EditorGUILayout.LabelField("隐藏方式:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            //    hideRuleProp.enumValueIndex = (int)(HideRule)EditorGUILayout.EnumPopup((HideRule)hideRuleProp.enumValueIndex);
-            //}
-
-            //if ((HideRule)hideRuleProp.enumValueIndex == HideRule.AlaphGameObject)
-            //{
-            //    using (var hor = new EditorGUILayout.HorizontalScope())
-            //    {
-            //        EditorGUILayout.LabelField("隐藏透明度:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            //        hideAlaphProp.floatValue = EditorGUILayout.Slider(hideAlaphProp.floatValue, 0, 1);
-            //    }
-            //}
-
-            //using (var hor = new EditorGUILayout.HorizontalScope())
-            //{
-            //    EditorGUILayout.LabelField("关闭方式:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            //    closeRuleProp.enumValueIndex = (int)(CloseRule)EditorGUILayout.EnumPopup((CloseRule)closeRuleProp.enumValueIndex);
-            //}
-
-            //using (var hor = new EditorGUILayout.HorizontalScope())
-            //{
-            //    EditorGUILayout.LabelField("出场动画组:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            //    enterAnimProp.enumValueIndex = (int)(UIAnimType)EditorGUILayout.EnumPopup((UIAnimType)enterAnimProp.enumValueIndex);
-            //}
-            //using (var hor = new EditorGUILayout.HorizontalScope())
-            //{
-            //    EditorGUILayout.LabelField("闭场动画组:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-            //    quitAnimProp.enumValueIndex = (int)(UIAnimType)EditorGUILayout.EnumPopup((UIAnimType)quitAnimProp.enumValueIndex);
-            //}
         }
 
         private void DrawGroup(Rect rect, string label, UnityAction<Rect> drawBody)

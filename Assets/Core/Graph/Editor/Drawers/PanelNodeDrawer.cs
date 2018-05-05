@@ -11,7 +11,6 @@ namespace BridgeUIEditor
     public class PanelNodeInfoDrawer : Editor
     {
         private PanelNodeBase panelNode;
-        public NodeType nodeType { get { return panelNode.nodeType; } set { panelNode.nodeType = value; } }
         private NodeInfo nodeInfo { get { if (panelNode == null) return null; return panelNode.nodeInfo; } }
         private int selected
         {
@@ -42,18 +41,11 @@ namespace BridgeUIEditor
                 return "Panel Node : record panel load type and other rule";
             }
         }
-        private bool BindingAble
-        {
-            get
-            {
-                return panelCompnent is PanelBase;
-            }
-        }
         private string[] options = { "参数配制", "控件指定", "面板脚本", "显示效果" };
         private GenCodeRule rule { get { if (panelNode == null) return default(GenCodeRule); return panelNode.rule; } }
         private System.Collections.Generic.List<ComponentItem> components { get { if (panelNode == null) return null; return panelNode.components; } }
         private ComponentItemDrawer itemDrawer;
-
+        private bool BindingAble { get { return panelCompnent is PanelBase; } }
         private void OnEnable()
         {
             panelNode = target as PanelNodeBase;
@@ -94,13 +86,13 @@ namespace BridgeUIEditor
                 };
                 preComponentList.drawElementCallback += (rect, index, isFocused, isActive) =>
                 {
-                    itemDrawer.DrawItemOnRect(rect, index, components[index], BindingAble);
+                    itemDrawer.DrawItemOnRect(rect, index, components[index],BindingAble);
                 };
                 preComponentList.drawElementBackgroundCallback += (rect, index, isFocused, isActive) =>
                 {
-                    if(components.Count > index && index >= 0)
+                    if (components.Count > index && index >= 0)
                     {
-                        itemDrawer.DrawBackground(rect, isFocused, components[index],BindingAble);
+                        itemDrawer.DrawBackground(rect, isFocused, components[index], BindingAble);
                     }
                 };
 
@@ -169,7 +161,7 @@ namespace BridgeUIEditor
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button(new GUIContent("←", "快速解析"), EditorStyles.toolbarButton, GUILayout.Width(20)))
                 {
-                    var component = nodeInfo.prefab.GetComponent<MonoBehaviour>();
+                    var component = nodeInfo.prefab.GetComponent<PanelBase>();
                     if (component == null)
                     {
                         EditorApplication.Beep();
@@ -213,7 +205,7 @@ namespace BridgeUIEditor
                     {
                         foreach (var item in DragAndDrop.objectReferences)
                         {
-                            if (item is GameObject || item is ScriptableObject)
+                            if (item is GameObject)
                             {
                                 DragAndDrop.visualMode = DragAndDropVisualMode.Move;
                             }
@@ -237,13 +229,6 @@ namespace BridgeUIEditor
                                     components.Add(c_item);
                                 }
                             }
-
-                            else if(item is ScriptableObject)
-                            {
-                                var c_item = new ComponentItem(item as ScriptableObject);
-                                components.Add(c_item);
-                                Debug.Log(c_item);
-                            }
                         }
                         DragAndDrop.AcceptDrag();
                     }
@@ -253,37 +238,99 @@ namespace BridgeUIEditor
 
 
         }
-
+        string[] formTypes;
+        string[] formTypesNotice = { "固定窗口(只能打开单个)", "可拖拽(可以打开多个小窗体)", "没有关闭按扭(只有场景跳转时关闭)" };
+        int formSelected;
         private void DrawFormType()
         {
-            using (var hor = new EditorGUILayout.HorizontalScope())
+            if (formTypes == null)
             {
-                EditorGUILayout.LabelField("移动机制:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-                nodeInfo.uiType.form = (UIFormType)EditorGUILayout.EnumPopup(nodeInfo.uiType.form);
+                formTypes = System.Enum.GetNames(typeof(UIFormType));
             }
-        }
-        private void DrawLayerType()
-        {
-            using (var hor = new EditorGUILayout.HorizontalScope())
+            for (int i = 0; i < formTypes.Length; i++)
             {
-                EditorGUILayout.LabelField("绝对显示:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-                nodeInfo.uiType.layer = (UILayerType)EditorGUILayout.EnumPopup(nodeInfo.uiType.layer);
-            }
-            using (var hor = new EditorGUILayout.HorizontalScope())
-            {
-                EditorGUILayout.LabelField("相对优先:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-                nodeInfo.uiType.layerIndex = EditorGUILayout.IntField(nodeInfo.uiType.layerIndex);
+                var isOn = EditorGUILayout.ToggleLeft(string.Format("{0}--{1}", formTypes[i], formTypesNotice[i]), formSelected == i);
+                if (isOn)
+                {
+                    formSelected = i;
+                    nodeInfo.uiType.form = (UIFormType)i;
+                }
             }
         }
 
-        private void DrawHideType()
+        string[] layerTypes;
+        string[] layerTypesNotice = { "最低层，可以被任何界面复盖", "自动关闭的小提示（自动关，所以可以高点）", "用于程序状态警告（不可以被其他层级掩盖）" };
+        int layerSelected;
+        private void DrawLayerType()
+        {
+            if (layerTypes == null)
+            {
+                layerTypes = System.Enum.GetNames(typeof(UILayerType));
+            }
+            for (int i = 0; i < layerTypes.Length; i++)
+            {
+                var isOn = EditorGUILayout.ToggleLeft(string.Format("{0}--{1}", layerTypes[i], layerTypesNotice[i]), layerSelected == i);
+                if (isOn)
+                {
+                    layerSelected = i;
+                    nodeInfo.uiType.layer = (UILayerType)i;
+                }
+            }
+            DrawLayerIndex();
+        }
+        private void DrawLayerIndex()
         {
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                EditorGUILayout.LabelField("隐藏方式:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-                nodeInfo.uiType.hideRule = (HideRule)EditorGUILayout.EnumPopup(nodeInfo.uiType.hideRule);
+                nodeInfo.uiType.layerIndex = (int)EditorGUILayout.Slider(nodeInfo.uiType.layerIndex, 0, 100);
+                EditorGUILayout.LabelField("(相对)", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
             }
         }
+
+        string[] closeRule;
+        string[] closeRuleNotice = { "普通销毁", "快速销毁(从内存中清除)", "延迟(一帧)销毁", "隐藏(缓存文件),仅当场景切换时销毁" };
+        int closeRuleSelected;
+        private void DrawCloseRule()
+        {
+            if (closeRule == null)
+            {
+                closeRule = System.Enum.GetNames(typeof(CloseRule));
+            }
+            for (int i = 0; i < closeRule.Length; i++)
+            {
+                var isOn = EditorGUILayout.ToggleLeft(string.Format("{0}--{1}", closeRule[i], closeRuleNotice[i]), closeRuleSelected == i);
+                if (isOn)
+                {
+                    closeRuleSelected = i;
+                    nodeInfo.uiType.closeRule = (CloseRule)i;
+                }
+            }
+        }
+
+        string[] hideRule;
+        string[] hideRuleNotice = { "直接隐藏自身", "隐藏自己的可见物体" };
+        int hideRuleSelected;
+        private void DrawHideType()
+        {
+            if (hideRule == null)
+            {
+                hideRule = System.Enum.GetNames(typeof(HideRule));
+            }
+            for (int i = 0; i < hideRule.Length; i++)
+            {
+                var isOn = EditorGUILayout.ToggleLeft(string.Format("{0}--{1}", hideRule[i], hideRuleNotice[i]), hideRuleSelected == i);
+                if (isOn)
+                {
+                    hideRuleSelected = i;
+                    nodeInfo.uiType.hideRule = (HideRule)i;
+                }
+            }
+            if (nodeInfo.uiType.hideRule == HideRule.AlaphGameObject)
+            {
+                DrawHideAlaph();
+            }
+        }
+
         private void DrawHideAlaph()
         {
             using (var hor = new EditorGUILayout.HorizontalScope())
@@ -292,26 +339,45 @@ namespace BridgeUIEditor
                 nodeInfo.uiType.hideAlaph = EditorGUILayout.Slider(nodeInfo.uiType.hideAlaph, 0, 1);
             }
         }
-        private void DrawCloseRule()
-        {
-            using (var hor = new EditorGUILayout.HorizontalScope())
-            {
-                EditorGUILayout.LabelField("关闭方式:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-                nodeInfo.uiType.closeRule = (CloseRule)EditorGUILayout.EnumPopup(nodeInfo.uiType.closeRule);
-            }
-        }
+
+        MonoScript enterAnim;
+        MonoScript quitAnim;
         private void DrawAnim()
         {
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("出场动画:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-                nodeInfo.uiType.enterAnim = (UIAnimType)EditorGUILayout.EnumPopup(nodeInfo.uiType.enterAnim);
+                nodeInfo.uiType.enterAnim = DrawAnimField(ref enterAnim, nodeInfo.uiType.enterAnim);
             }
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("关闭动画:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-                nodeInfo.uiType.quitAnim = (UIAnimType)EditorGUILayout.EnumPopup(nodeInfo.uiType.quitAnim);
+                nodeInfo.uiType.quitAnim = DrawAnimField(ref quitAnim, nodeInfo.uiType.quitAnim);
             }
+        }
+
+        private TypeInfo DrawAnimField(ref MonoScript animScript, TypeInfo typeInfo)
+        {
+            var entertype = typeInfo.type;
+            if (entertype != null && animScript == null)
+            {
+                var temp = new GameObject("temp", entertype).GetComponent(entertype);
+                animScript = MonoScript.FromMonoBehaviour(temp as MonoBehaviour);
+                DestroyImmediate(temp.gameObject);
+            }
+            var newMonoScript = EditorGUILayout.ObjectField(animScript, typeof(MonoScript), false) as MonoScript;
+            if (newMonoScript != animScript)
+            {
+                if (newMonoScript != null)
+                {
+                    if (typeof(IAnimPlayer).IsAssignableFrom(newMonoScript.GetClass()) && typeof(MonoBehaviour).IsAssignableFrom(newMonoScript.GetClass()))
+                    {
+                        typeInfo = new TypeInfo(newMonoScript.GetClass());
+                        animScript = newMonoScript;
+                    }
+                }
+            }
+            return typeInfo;
         }
 
         private bool ChangeCheckField(UnityAction func)
@@ -323,125 +389,28 @@ namespace BridgeUIEditor
         }
         private void DrawInforamtion()
         {
-            DrawOption("窗体类型", () =>
-             {
-                 DrawToggleFromNodeType(NodeType.Fixed, nodeInfo.uiType.form.ToString());
-             }, () =>
-             {
-                 if ((nodeType & NodeType.Fixed) == 0)
-                 {
-                     DrawFormType();
-                 }
-                 else
-                 {
-                     nodeInfo.uiType.form = BridgeUI.UIFormType.Fixed;
-                 }
-             });
-
-
-            DrawOption("层级类型", () =>
-             {
-                 DrawToggleFromNodeType(NodeType.ZeroLayer, nodeInfo.uiType.layer.ToString());
-             }, () =>
-             {
-                 if ((nodeType & NodeType.ZeroLayer) == 0)
-                 {
-                     DrawLayerType();
-                 }
-                 else
-                 {
-                     nodeInfo.uiType.layer = BridgeUI.UILayerType.Base;
-                     nodeInfo.uiType.layerIndex = 0;
-                 }
-             });
-
-
-            DrawOption("层级ID", () =>
-            {
-                DrawToggleFromNodeType(NodeType.HideGO, nodeInfo.uiType.hideRule.ToString());
-            }, () =>
-            {
-                if ((nodeType & NodeType.HideGO) == 0)
-                {
-                    DrawHideAlaph();
-                    nodeInfo.uiType.hideRule = BridgeUI.HideRule.AlaphGameObject;
-                }
-                else
-                {
-                    nodeInfo.uiType.hideRule = BridgeUI.HideRule.HideGameObject;
-                }
-            });
-
-
-            DrawOption("关闭规则", () =>
-            {
-                DrawToggleFromNodeType(NodeType.Destroy, nodeInfo.uiType.closeRule.ToString());
-            }, () =>
-            {
-                if ((nodeType & NodeType.Destroy) == 0)
-                {
-                    DrawCloseRule();
-                }
-                else
-                {
-                    nodeInfo.uiType.closeRule = BridgeUI.CloseRule.DestroyNoraml;
-                }
-            });
-
-
-            DrawOption("动画状态", () =>
-            {
-                DrawToggleFromNodeType(NodeType.NoAnim, nodeInfo.uiType.enterAnim.ToString());
-            }, () =>
-            {
-                if ((nodeType & NodeType.NoAnim) == 0)
-                {
-                    DrawAnim();
-                }
-                else
-                {
-                    nodeInfo.uiType.enterAnim = BridgeUI.UIAnimType.NoAnim;
-                    nodeInfo.uiType.quitAnim = BridgeUI.UIAnimType.NoAnim;
-                }
-            });
+            DrawOption("窗体类型", DrawFormType);
+            DrawOption("层级类型", DrawLayerType);
+            DrawOption("关闭规则", DrawCloseRule);
+            DrawOption("隐藏规则", DrawHideType);
+            DrawOption("动画状态", DrawAnim);
         }
 
-        private void DrawOption(string label, UnityAction head, UnityAction body)
+        private void DrawOption(string label, UnityAction body)
         {
             EditorGUILayout.LabelField("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
-            EditorGUILayout.LabelField(string.Format("【{0}】", label), EditorStyles.miniBoldLabel);
-            using (var hor = new EditorGUILayout.HorizontalScope())
+            var rect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.1f);
+            GUI.color = Color.gray;
+            GUI.Box(rect, "", EditorStyles.miniButton);
+            GUI.color = Color.white;
+            EditorGUI.LabelField(rect, string.Format("【{0}】", label), EditorStyles.largeLabel);
+            using (var ver = new EditorGUILayout.VerticalScope())
             {
-                head.Invoke();
-                using (var ver = new EditorGUILayout.VerticalScope())
-                {
-                    body.Invoke();
-                }
-            }
-            GUILayout.Space(20);
-        }
-
-        private void DrawToggleFromNodeType(NodeType model, string title)
-        {
-            var on = (nodeType & model) == model;
-            using (var hor = new EditorGUILayout.HorizontalScope())
-            {
-                var thison = GUILayout.Toggle(on, title, EditorStyles.radioButton, GUILayout.Width(60));
-
-                if (thison != on)
-                {
-                    on = thison;
-                    if (on)
-                    {
-                        nodeType |= model;
-                    }
-                    else
-                    {
-                        nodeType &= ~model;
-                    }
-                }
+                body.Invoke();
             }
         }
+
+
         private void DrawView()
         {
             using (var hor = new EditorGUILayout.HorizontalScope())

@@ -37,6 +37,16 @@ public class MainPanelViewModel : BridgeUI.Binding.ViewModelBase
             panel.Open(PanelNames.Panel03);
         });
     }
+    public override void OnBinding(BindingContext context)
+    {
+        base.OnBinding(context);
+        Debug.Log("绑定到：" + context);
+    }
+    public override void OnUnBinding(BindingContext context)
+    {
+        base.OnUnBinding(context);
+        Debug.Log("解除绑于：" + context);
+    }
 }
 
 /// <summary>
@@ -72,5 +82,15 @@ public class MainPanelViewModel_with_ID : BridgeUI.Binding.ViewModelBase
         this["OpenPanel03"] = new BindableProperty<PanelEvent>((panel, z) => {
             panel.Open(2);
         });
+    }
+    public override void OnBinding(BindingContext context)
+    {
+        base.OnBinding(context);
+        Debug.Log("绑定到：" + context);
+    }
+    public override void OnUnBinding(BindingContext context)
+    {
+        base.OnUnBinding(context);
+        Debug.Log("解除绑于：" + context);
     }
 }

@@ -21,16 +21,6 @@ namespace BridgeUI
         Warning = 2//用于程序状态警告（不可以被其他层级掩盖）
     }
 
-    //显示时的动画类型
-    [System.Flags]
-    public enum UIAnimType
-    {
-        NoAnim = 0,
-        ScalePanel = 1,
-        PosUpPanel = 2,
-        RotatePanel = 3,
-    }
-
     [System.Flags]
     public enum HideRule
     {
@@ -63,9 +53,9 @@ namespace BridgeUI
         //隐藏透明度
         public float hideAlaph;
         //出场动画
-        public UIAnimType enterAnim;
+        public TypeInfo enterAnim;
         //关闭动画
-        public UIAnimType quitAnim;
+        public TypeInfo quitAnim;
         //关闭规则
         public CloseRule closeRule;
         //隐藏规则

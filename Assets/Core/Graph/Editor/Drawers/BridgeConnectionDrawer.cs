@@ -22,44 +22,92 @@ public class BridgeConnectionDrawer : Editor
     public override void OnInspectorGUI()
     {
         connecton = target as BridgeConnection;
-        DrawIndex();
-        connecton.show.auto = DrawToggle(connecton.show.auto, "自动打开");
-        GUILayout.Space(10);
-        connecton.show.mutex = (MutexRule)DrawEnum(connecton.show.mutex, "同级互斥");
-        GUILayout.Space(10);
-        connecton.show.cover = DrawToggle(connecton.show.cover, "界面遮罩");
-        GUILayout.Space(10);
-        connecton.show.baseShow = (BaseShow)DrawEnum(connecton.show.baseShow, "上级状态");
-        GUILayout.Space(10);
-        connecton.show.single = DrawToggle(connecton.show.single, "独立显示");
+        DrawIndex("上一级面板打开本面板的唯一id");
+        DrawHead("自动打开");
+        connecton.show.auto = DrawToggle(connecton.show.auto,"更随上级同步打开");
+        DrawHead("界面遮罩");
+        connecton.show.cover = DrawToggle(connecton.show.cover, "阻止触发在此面板下的UI事件");
+        DrawHead("独立显示");
+        connecton.show.single = DrawToggle(connecton.show.single,"只显示当前界面（关闭其他）");
+        DrawHead("界面互斥");
+        DrawMutexRules();
+        DrawHead("父级变化");
+        DrawBaseShow();
     }
 
-    private void DrawIndex()
+    private void DrawIndex(string tip)
     {
-        using (var hor = new EditorGUILayout.HorizontalScope())
+        var rect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.5f);
+        GUI.color = Color.green;
+        GUI.Box(rect, "", EditorStyles.miniButton);
+        GUI.color = Color.white;
+        EditorGUI.LabelField(rect, string.Format("【{0}】", connecton.name), EditorStyles.largeLabel);
+        DrawHead("界面索引");
+        using (var hor = new EditorGUILayout.VerticalScope())
         {
-            EditorGUILayout.LabelField("Index");
-            connecton.index = EditorGUILayout.IntField(connecton.index);
+            connecton.index =(int) EditorGUILayout.Slider(connecton.index, 0, 100);
+            EditorGUILayout.SelectableLabel("   --" + tip);
         }
     }
 
-    private bool DrawToggle(bool on, string tip)
+    private void DrawHead(string label)
     {
-        using (var hor = new EditorGUILayout.HorizontalScope())
+        EditorGUILayout.LabelField("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+        var rect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.1f);
+        GUI.color = Color.gray;
+        GUI.Box(rect, "", EditorStyles.miniButton);
+        GUI.color = Color.white;
+        EditorGUI.LabelField(rect, string.Format("【{0}】", label), EditorStyles.largeLabel);
+    }
+
+    string[] mutexRules;
+    string[] mutexRulesNotice = { "不排斥", "排斥同父级中的同层级", "排斥同层级" };
+    int mutexRulesSelected;
+    private void DrawMutexRules()
+    {
+        if (mutexRules == null)
         {
-            EditorGUILayout.LabelField(tip, GUILayout.Width(100));
-            on = EditorGUILayout.Toggle(on, EditorStyles.radioButton);
+            mutexRules = System.Enum.GetNames(typeof(MutexRule));
+        }
+        for (int i = 0; i < mutexRules.Length; i++)
+        {
+            var isOn = EditorGUILayout.ToggleLeft(string.Format("{0}--{1}", mutexRules[i], mutexRulesNotice[i]), mutexRulesSelected == i);
+            if (isOn)
+            {
+                mutexRulesSelected = i;
+                connecton.show.mutex = (MutexRule)i;
+            }
+        }
+    }
+
+
+    string[] baseShows;
+    string[] baseShowsNotice = { "不改变父级状态", "隐藏父级(在本面板关闭时打开)", "销毁父级(接管因为父级面关闭的面板)" };
+    int baseShowsSelected;
+    private void DrawBaseShow()
+    {
+        if (baseShows == null)
+        {
+            baseShows = System.Enum.GetNames(typeof(BaseShow));
+        }
+        for (int i = 0; i < mutexRules.Length; i++)
+        {
+            var isOn = EditorGUILayout.ToggleLeft(string.Format("{0} --{1}", baseShows[i], baseShowsNotice[i]), baseShowsSelected == i);
+            if (isOn)
+            {
+                baseShowsSelected = i;
+                connecton.show.baseShow = (BaseShow)i;
+            }
+        }
+    }
+
+    private bool DrawToggle(bool on,string tip)
+    {
+        using (var hor = new EditorGUILayout.HorizontalScope()){
+            on = EditorGUILayout.Toggle(on, EditorStyles.radioButton,GUILayout.Width(20));
+            EditorGUILayout.SelectableLabel(" --" + tip);
         }
         return on;
     }
 
-    private Enum DrawEnum(Enum em, string tip)
-    {
-        using (var hor = new EditorGUILayout.HorizontalScope())
-        {
-            EditorGUILayout.LabelField(tip, GUILayout.Width(100));
-            em = EditorGUILayout.EnumPopup(em);
-        }
-        return em;
-    }
 }

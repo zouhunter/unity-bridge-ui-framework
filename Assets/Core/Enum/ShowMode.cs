@@ -31,10 +31,10 @@ namespace BridgeUI
     public struct ShowMode
     {
         public bool auto;//当上级显示时显示
-        public MutexRule mutex;//排斥有相同类型面版
         public bool cover;//建立遮罩只允许当前面版操作
-        public BaseShow baseShow;//父级的显示状态
         public bool single;//隐藏所有打开的面板
+        public MutexRule mutex;//排斥有相同类型面版
+        public BaseShow baseShow;//父级的显示状态
 
         public ShowMode(bool auto, MutexRule mutex, bool cover, BaseShow baseShow, bool single)
         {

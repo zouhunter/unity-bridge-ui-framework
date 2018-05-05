@@ -26,7 +26,7 @@ using BridgeUI.Binding;
 namespace BridgeUI
 {
     [PanelParent]
-    public abstract class PanelBase : UIBehaviour, IPanelBase,Binding.IPropertyChanged
+    public abstract class PanelBase : UIBehaviour, IPanelBase, Binding.BindingContext
     {
         public int InstenceID
         {
@@ -62,19 +62,45 @@ namespace BridgeUI
                 return _isAlive && !IsDestroyed();
             }
         }
-        protected IAnimPlayer animPlayer
+        private IAnimPlayer _enterAnim;
+        protected IAnimPlayer enterAnim
         {
             get
             {
-                if (_animPlayer == null)
+                if (_enterAnim == null)
                 {
-                    _animPlayer = GetComponent<AnimPlayer>();
-                    if (_animPlayer == null)
-                    {
-                        _animPlayer = gameObject.AddComponent<AnimPlayer>();
+                    var enterAnimType = UType.enterAnim.type;
+                    if (enterAnimType != null) {
+                        _enterAnim = gameObject.GetComponent(enterAnimType) as IAnimPlayer;
+                        if (_enterAnim == null) {
+                            _enterAnim = gameObject.AddComponent(enterAnimType) as IAnimPlayer;
+                        }
                     }
+                   
                 }
-                return _animPlayer;
+                return _enterAnim;
+
+            }
+        }
+        private IAnimPlayer _quitAnim;
+        protected IAnimPlayer quitAnim
+        {
+            get
+            {
+                if (_quitAnim == null)
+                {
+                    var quitAnimType = UType.quitAnim.type;
+                    if (quitAnimType != null)
+                    {
+                        _quitAnim = gameObject.GetComponent(quitAnimType) as IAnimPlayer;
+                        if (_quitAnim == null)
+                        {
+                            _quitAnim = gameObject.AddComponent(quitAnimType) as IAnimPlayer;
+                        }
+                    }
+
+                }
+                return _quitAnim;
 
             }
         }
@@ -87,14 +113,12 @@ namespace BridgeUI
 
         private bool _isShowing = true;
         private bool _isAlive = true;
-        //private Dictionary<object, PropertyInfo> propDic;
-        private IAnimPlayer _animPlayer;
         private Binding.PropertyBinder _binder;
         protected virtual Binding.PropertyBinder Binder
         {
             get
             {
-                if(_binder == null)
+                if (_binder == null)
                 {
                     _binder = new Binding.PropertyBinder(this);
                 }
@@ -102,14 +126,20 @@ namespace BridgeUI
             }
         }
         private Binding.ViewModelBase _viewModel;
+        private Binding.ViewModelBase _defultViewModel;
+        protected Binding.ViewModelBase defultViewModel
+        {
+            get
+            {
+                if (_defultViewModel == null)
+                    _defultViewModel = new ViewModelBase();
+                return _defultViewModel;
+            }
+        }
         public Binding.ViewModelBase BindingContext
         {
-            get {
-                if(_viewModel == null)
-                {
-                    _viewModel = new ViewModelBase();
-                    OnBindingContextChanged(_viewModel);
-                }
+            get
+            {
                 return _viewModel;
             }
             set
@@ -128,7 +158,8 @@ namespace BridgeUI
         protected override void Start()
         {
             base.Start();
-            if (bridge != null){
+            if (bridge != null)
+            {
                 bridge.OnCreatePanel(this);
             }
             AppendComponentsByType();
@@ -220,6 +251,7 @@ namespace BridgeUI
         }
         private void LoadIDictionary(IDictionary data)
         {
+            BindingContext = defultViewModel;
             foreach (var item in data.Keys)
             {
                 var key = item.ToString();
@@ -264,14 +296,9 @@ namespace BridgeUI
         }
         public virtual void Close()
         {
-            if (IsShowing && UType.quitAnim != UIAnimType.NoAnim)
+            if (IsShowing && UType.quitAnim.type != null)
             {
-                var tweenPanel = GetComponent<AnimPlayer>();
-                if (tweenPanel == null)
-                {
-                    tweenPanel = gameObject.AddComponent<AnimPlayer>();
-                }
-                tweenPanel.QuitAnim(UType.quitAnim, CloseInternal);
+                quitAnim.PlayAnim(false,CloseInternal);
             }
             else
             {
@@ -345,9 +372,9 @@ namespace BridgeUI
         }
         private void OnOpenInternal()
         {
-            if (UIAnimType.NoAnim != UType.enterAnim)
+            if (UType.enterAnim.type != null)
             {
-                animPlayer.EnterAnim(UType.enterAnim, null);
+                enterAnim.PlayAnim(true,null);
             }
         }
         private void AlaphGameObject(bool hide)

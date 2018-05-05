@@ -255,7 +255,7 @@ namespace BridgeUIEditor
                     viewItem.bindingSource = EditorGUI.TextArea(sourceRect, viewItem.bindingSource);
                     if(EditorGUI.EndChangeCheck())
                     {
-                        viewItem.bindingTargetType = new TypeInfo(viewMemberViewer.currentTypes[viewNameIndex]);
+                        viewItem.bindingTargetType = new BridgeUI. TypeInfo(viewMemberViewer.currentTypes[viewNameIndex]);
                         viewItem.bindingTarget = viewMemberViewer.currentNames[viewNameIndex];
                     }
                     EditorGUI.BeginDisabledGroup(true);
@@ -294,7 +294,7 @@ namespace BridgeUIEditor
                     eventItem.bindingSource = EditorGUI.TextArea(sourceRect, eventItem.bindingSource);
                     if (EditorGUI.EndChangeCheck())
                     {
-                        eventItem.bindingTargetType = new TypeInfo(eventMemberViewer.currentTypes[viewNameIndex]);
+                        eventItem.bindingTargetType = new BridgeUI.TypeInfo(eventMemberViewer.currentTypes[viewNameIndex]);
                         eventItem.bindingTarget = eventMemberViewer.currentNames[viewNameIndex];
                     }
                     eventItem.runtime = EditorGUI.Toggle(enableRect, bindngAble? eventItem.runtime:false);

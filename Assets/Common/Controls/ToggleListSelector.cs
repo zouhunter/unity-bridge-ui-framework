@@ -17,7 +17,7 @@ using System;
 namespace BridgeUI.Common
 {
     [System.Serializable]
-    public class ToggleListSelector:MonoBehaviour
+    public class ToggleListSelector
     {
         [SerializeField]
         private Transform m_parent;
@@ -38,7 +38,7 @@ namespace BridgeUI.Common
         /// <summary>
         /// 调用其他方法时，先进行初始化
         /// </summary>
-        public void Awake()
+        public void Init()
         {
             gameObjectPool = UIFacade.PanelPool;
             if (m_Select) m_Select.onClick.AddListener(TrySelectItem);

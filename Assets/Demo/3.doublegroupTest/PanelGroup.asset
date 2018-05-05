@@ -240,10 +240,10 @@ MonoBehaviour:
   index: 1
   show:
     auto: 0
-    mutex: 1
     cover: 0
-    baseShow: 0
     single: 0
+    mutex: 1
+    baseShow: 0
 --- !u!114 &11417738
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -255,17 +255,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 1
   instenceID: 0
   description: 
   assetName: Panel01
   style: 1
-  nodeType: 31
   rule:
     baseTypeIndex: 0
     canInherit: 0
   components:
-  - open: 0
+  - open: 1
     name: subBtn
     componentID: 0
     components:
@@ -282,6 +281,8 @@ MonoBehaviour:
     viewItems: []
     eventItems: []
     target: {fileID: 194424, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: close
     componentID: 0
@@ -299,14 +300,20 @@ MonoBehaviour:
     viewItems: []
     eventItems: []
     target: {fileID: 102998, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   nodeInfo:
     uiType:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0.2
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
@@ -324,10 +331,10 @@ MonoBehaviour:
   index: 0
   show:
     auto: 1
-    mutex: 0
     cover: 0
-    baseShow: 0
     single: 0
+    mutex: 0
+    baseShow: 0
 --- !u!114 &11436402
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -344,7 +351,6 @@ MonoBehaviour:
   description: 
   assetName: Panel03
   style: 1
-  nodeType: 31
   rule:
     baseTypeIndex: 0
     canInherit: 0
@@ -355,8 +361,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0.2
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: cdb2321ece873174fbc0719e07c1d664, type: 2}
@@ -371,12 +381,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 0
   instenceID: -36600
   description: 
   assetName: MainPanel
   style: 1
-  nodeType: 0
   rule:
     baseTypeIndex: 0
     canInherit: 0
@@ -404,6 +413,8 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Button+ButtonClickedEvent
     target: {fileID: 102998, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: openPanel01
     componentID: 0
@@ -427,6 +438,8 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Button+ButtonClickedEvent
     target: {fileID: 198838, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: openPanel02
     componentID: 0
@@ -450,6 +463,8 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Button+ButtonClickedEvent
     target: {fileID: 179416, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: openPanel03
     componentID: 0
@@ -473,6 +488,8 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Button+ButtonClickedEvent
     target: {fileID: 174836, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: title
     componentID: 0
@@ -493,6 +510,8 @@ MonoBehaviour:
         typeName: System.String
     eventItems: []
     target: {fileID: 105326, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: info
     componentID: 0
@@ -513,6 +532,8 @@ MonoBehaviour:
         typeName: System.String
     eventItems: []
     target: {fileID: 104276, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: switch
     componentID: 0
@@ -532,6 +553,8 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Toggle+ToggleEvent
     target: {fileID: 173578, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: slider
     componentID: 0
@@ -551,14 +574,20 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Slider+SliderEvent
     target: {fileID: 154974, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   nodeInfo:
     uiType:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0.2
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 1
     prefab: {fileID: 129970, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
@@ -587,10 +616,10 @@ MonoBehaviour:
   index: 0
   show:
     auto: 0
-    mutex: 1
     cover: 0
-    baseShow: 0
     single: 0
+    mutex: 1
+    baseShow: 0
 --- !u!114 &11463304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -605,10 +634,10 @@ MonoBehaviour:
   index: 2
   show:
     auto: 0
-    mutex: 1
     cover: 0
-    baseShow: 0
     single: 0
+    mutex: 1
+    baseShow: 0
 --- !u!114 &11481208
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -625,7 +654,6 @@ MonoBehaviour:
   description: 
   assetName: Panel02
   style: 1
-  nodeType: 31
   rule:
     baseTypeIndex: 0
     canInherit: 0
@@ -636,8 +664,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0.2
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: ba16a0659248e00479962ae1a0bf4624, type: 2}
@@ -655,10 +687,10 @@ MonoBehaviour:
   index: 3
   show:
     auto: 0
-    mutex: 1
     cover: 0
-    baseShow: 0
     single: 0
+    mutex: 1
+    baseShow: 0
 --- !u!114 &11498654
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -675,7 +707,6 @@ MonoBehaviour:
   description: 
   assetName: Panel04
   style: 1
-  nodeType: 31
   rule:
     baseTypeIndex: 0
     canInherit: 0
@@ -686,8 +717,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0.2
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: 1172f1b2f39183747ab91057b53a70cd, type: 2}

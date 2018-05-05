@@ -15,7 +15,6 @@ namespace BridgeUI
 
     public interface IAnimPlayer
     {
-        void EnterAnim(UIAnimType animType, UnityAction onComplete);
-        void QuitAnim(UIAnimType animType, UnityAction onComplete);
+        void PlayAnim(bool isEnter,UnityAction onComplete);
     }
 }

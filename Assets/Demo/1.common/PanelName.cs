@@ -131,4 +131,10 @@ public class PanelNames {
             return "RuntimePanel";
         }
     }
+    
+    public static string AnimTestPanel {
+        get {
+            return "AnimTestPanel";
+        }
+    }
 }

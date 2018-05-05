@@ -1,4 +1,5 @@
-﻿using UnityEngine.Events;
+﻿using System;
+using UnityEngine.Events;
 
 namespace BridgeUI.Binding
 {
@@ -12,6 +13,7 @@ namespace BridgeUI.Binding
         public event UnityAction<T> onValueChanged = delegate { };
 
         private T _value = default(T);
+
         public T Value
         {
             get
@@ -32,6 +34,13 @@ namespace BridgeUI.Binding
         {
             get { return Value; }
             set { Value = (T)value; }
+        }
+        public BindableProperty()
+        {
+        }
+        public BindableProperty(T value)
+        {
+            Value = value;
         }
         private void ValueChanged(T value)
         {
@@ -57,8 +66,6 @@ namespace BridgeUI.Binding
         {
             _value = default(T);
         }
-
-
     }
 
 }

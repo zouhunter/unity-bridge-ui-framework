@@ -79,14 +79,12 @@ public class PanelNodeView : NodeView
         menu.AddItem(new GUIContent("Copy UIType"), false, () =>
         {
             var nodeItem = (target as PanelNode);
-            nodeTypeTemplate = nodeItem.nodeType;
             uiTypeTemplate = nodeItem.nodeInfo.uiType;
         });
         menu.AddItem(new GUIContent("Paste UIType"), false, () =>
         {
             var nodeItem = (target as PanelNode);
             nodeItem.nodeInfo.uiType = (UIType)uiTypeTemplate;
-            nodeItem.nodeType = nodeTypeTemplate;
         });
     }
 }

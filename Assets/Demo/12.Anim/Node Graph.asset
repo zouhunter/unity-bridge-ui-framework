@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
+  m_Name: Node Graph
+  m_EditorClassIdentifier: 
+  m_allNodes:
+  - m_name: AnimTestPanel
+    m_id: 1836ca50-686f-4ec6-a4fc-ba0bbda2c825
+    m_x: 271
+    m_y: 221
+    m_node: {fileID: 11459254}
+    m_inputPoints:
+    - id: 91a24e98-db72-424f-a6df-3e73246101d8
+      label: 
+      parentId: 1836ca50-686f-4ec6-a4fc-ba0bbda2c825
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints:
+    - id: 5d454f5f-2d96-4aa3-a00e-84607e01fec7
+      label: 
+      parentId: 1836ca50-686f-4ec6-a4fc-ba0bbda2c825
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 127
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  - m_name: AnyState
+    m_id: 2c70248c-1f83-4a4f-9f56-e48476fd3897
+    m_x: 84
+    m_y: 108
+    m_node: {fileID: 11409134}
+    m_inputPoints: []
+    m_outputPoints:
+    - id: 156214e2-7553-4426-881e-7faa5c5ed636
+      label: +
+      parentId: 2c70248c-1f83-4a4f-9f56-e48476fd3897
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  m_allConnections:
+  - m_id: b75d7704-a6fe-4562-9810-55b08af1c38f
+    m_fromNodeId: 2c70248c-1f83-4a4f-9f56-e48476fd3897
+    m_fromNodeConnectionPointId: 156214e2-7553-4426-881e-7faa5c5ed636
+    m_toNodeId: 1836ca50-686f-4ec6-a4fc-ba0bbda2c825
+    m_toNodeConnectionPoiontId: 91a24e98-db72-424f-a6df-3e73246101d8
+    m_type: bridge
+    m_connection: {fileID: 11477356}
+  m_lastModified: 131700032613584579
+  m_graphDescription: 
+  m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  m_panelNamePath: 
+--- !u!114 &11409134
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
+  m_Name: Luncher
+  m_EditorClassIdentifier: 
+--- !u!114 &11459254
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: PanelNode
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  description: 
+  assetName: AnimTestPanel
+  style: 1
+  rule:
+    baseTypeIndex: 4
+    canInherit: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim:
+        assembleName: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: PopAnimPlayer
+      quitAnim:
+        assembleName: 
+        typeName: 
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 183666, guid: 9e8dc7a02139fbd4b9bd37fd1b9d0f42, type: 2}
+--- !u!114 &11477356
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeConnection
+  m_EditorClassIdentifier: 
+  index: 0
+  show:
+    auto: 1
+    cover: 0
+    single: 0
+    mutex: 0
+    baseShow: 0

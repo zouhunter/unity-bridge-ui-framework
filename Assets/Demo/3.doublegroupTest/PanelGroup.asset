@@ -65,7 +65,7 @@ MonoBehaviour:
   - m_name: Panel04
     m_id: b23ff885-cf84-4115-9d88-8d92a127f45c
     m_x: 480
-    m_y: 300
+    m_y: 336
     m_node: {fileID: 11498654}
     m_inputPoints:
     - id: 8d85ca59-b13e-458e-88ec-4f27846dbd01
@@ -95,8 +95,8 @@ MonoBehaviour:
       type: bridge
   - m_name: Panel01
     m_id: b466d963-5827-446a-8216-e8316c3da397
-    m_x: 516
-    m_y: 72
+    m_x: 492
+    m_y: 48
     m_node: {fileID: 11417738}
     m_inputPoints:
     - id: b9bfd877-4f23-41ad-8d07-ec3c6730a1f2
@@ -157,8 +157,8 @@ MonoBehaviour:
       type: bridge
   - m_name: Panel03
     m_id: f43dbdec-1340-4cbd-8a6a-171a8942dd1c
-    m_x: 504
-    m_y: 168
+    m_x: 492
+    m_y: 144
     m_node: {fileID: 11436402}
     m_inputPoints:
     - id: 81b51814-cb6a-4645-9837-3198bdbc2b54
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 3
   instenceID: 0
   description: 
   assetName: Panel01
@@ -263,6 +263,7 @@ MonoBehaviour:
   rule:
     baseTypeIndex: 0
     canInherit: 0
+    bindingAble: 0
   components:
   - open: 0
     name: subBtn
@@ -317,6 +318,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
+    discription: "\u9762\u677F\u4E00"
 --- !u!114 &11426346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -346,7 +348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 3
   instenceID: 0
   description: 
   assetName: Panel03
@@ -354,6 +356,7 @@ MonoBehaviour:
   rule:
     baseTypeIndex: 0
     canInherit: 0
+    bindingAble: 0
   components:
   - open: 0
     name: subBtn
@@ -408,6 +411,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: cdb2321ece873174fbc0719e07c1d664, type: 2}
+    discription: "\u8FD9\u662F\u9762\u677F\u4E8C"
 --- !u!114 &11449750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -427,6 +431,7 @@ MonoBehaviour:
   rule:
     baseTypeIndex: 0
     canInherit: 0
+    bindingAble: 0
   components:
   - open: 0
     name: close
@@ -629,6 +634,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 1
     prefab: {fileID: 129970, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
+    discription: 
 --- !u!114 &11461740
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -687,7 +693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 3
   instenceID: 0
   description: 
   assetName: Panel02
@@ -695,6 +701,7 @@ MonoBehaviour:
   rule:
     baseTypeIndex: 0
     canInherit: 0
+    bindingAble: 0
   components:
   - open: 0
     name: subBtn
@@ -749,6 +756,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: ba16a0659248e00479962ae1a0bf4624, type: 2}
+    discription: "\u8FD9\u91CC\u9762\u677F\u4E09"
 --- !u!114 &11489588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -778,7 +786,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 3
   instenceID: 0
   description: 
   assetName: Panel04
@@ -786,6 +794,7 @@ MonoBehaviour:
   rule:
     baseTypeIndex: 0
     canInherit: 0
+    bindingAble: 0
   components:
   - open: 0
     name: subBtn
@@ -840,3 +849,4 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: 1172f1b2f39183747ab91057b53a70cd, type: 2}
+    discription: "\u8FD9\u91CC\u9762\u677F\u56DB"

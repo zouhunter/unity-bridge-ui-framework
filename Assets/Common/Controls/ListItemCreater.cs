@@ -19,27 +19,23 @@ using UnityEngine.Internal;
 
 namespace BridgeUI.Common
 {
-    public interface IListItem
-    {
-        void Revert();
-    }
-
     /// <summary>
     /// /// <summary>
     /// 这是一个列表创建器（用于快速创建一组对象）
     /// 建议数量100</summary>
     /// <typeparam name="T"></typeparam>
-    public class ListItemCreater<T> : MonoBehaviour where T : MonoBehaviour, IListItem
+    public class ListItemCreater : MonoBehaviour
     {
-        public List<T> CreatedItems { get { return createdItems; } }
+        public List<GameObject> CreatedItems { get { return createdItems; } }
         [SerializeField]
         private Transform parent;
         [SerializeField]
-        private T pfb;
+        private GameObject pfb;
         private GameObjectPool objectPool;
         private bool isword;
-        private List<T> createdItems = new List<T>();
-
+        private List<GameObject> createdItems = new List<GameObject>();
+        public  UnityAction<GameObject> onGetFrom { get; set; }
+        public  UnityAction<GameObject> onSaveBack { get; set; }
         private void Awake()
         {
             pfb.gameObject.SetActive(false);
@@ -47,32 +43,33 @@ namespace BridgeUI.Common
             isword = !parent.GetComponent<RectTransform>();
         }
 
-        public T[] CreateItems(int length)
+        public GameObject[] CreateItems(int length)
         {
             ClearOldItems();
-            if (length <= 0) return new T[0];
+            if (length <= 0) return new GameObject[0];
 
             GameObject go;
             for (int i = 0; i < length; i++)
             {
                 go = objectPool.GetPoolObject(pfb.gameObject, parent, isword);
-                T scr = go.GetComponent<T>();
-                createdItems.Add(scr);
+                createdItems.Add(go);
             }
             return createdItems.ToArray();
         }
 
-        public T AddItem()
+        public GameObject AddItem()
         {
             if (pfb == null) return null;
             GameObject go;
             go = objectPool.GetPoolObject(pfb.gameObject, parent, isword);
-            T scr = go.GetComponent<T>();
-            createdItems.Add(scr);
-            return scr;
+            if(onGetFrom != null){
+                onGetFrom.Invoke(go);
+            }
+            createdItems.Add(go);
+            return go;
         }
 
-        public void RemoveItem(T item)
+        public void RemoveItem(GameObject item)
         {
             createdItems.Remove(item);
             objectPool.SavePoolObject(item.gameObject, isword);
@@ -82,6 +79,7 @@ namespace BridgeUI.Common
         {
             foreach (var item in createdItems)
             {
+               if(onSaveBack != null) onSaveBack.Invoke(item);
                 objectPool.SavePoolObject(item.gameObject, isword);
             }
 

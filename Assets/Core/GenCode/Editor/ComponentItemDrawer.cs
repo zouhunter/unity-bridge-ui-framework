@@ -27,7 +27,7 @@ namespace BridgeUIEditor
         Color activeColor = new Color(0.3f, 0.3f, 0.3f, 0.3f);
         Dictionary<ComponentItem, ReorderableList> viewDic = new Dictionary<ComponentItem, ReorderableList>();
         Dictionary<ComponentItem, ReorderableList> eventDic = new Dictionary<ComponentItem, ReorderableList>();
-     
+
         ReorderableList viewList;
         ReorderableList eventList;
         const float padding = 5;
@@ -36,46 +36,55 @@ namespace BridgeUIEditor
         private float eventHeight;
         private MemberViewer viewMemberViewer = new MemberViewer();
         private MemberViewer eventMemberViewer = new MemberViewer();
-        public static Dictionary<Type, Texture> previewIcons = new Dictionary<Type, Texture>();
-        static ComponentItemDrawer()
+        private static Dictionary<Type, Texture> _previewIcons;
+
+        public static Dictionary<Type, Texture> previewIcons
         {
-            InitPreviewIcons();
+            get
+            {
+                if (_previewIcons == null)
+                {
+                    _previewIcons = new Dictionary<Type, Texture>();
+#if UNITY_5_3
+            _previewIcons.Add(typeof(GameObject), EditorGUIUtility.FindTexture("GameObject Icon"));
+#elif UNITY_5_6
+                    _previewIcons.Add(typeof(GameObject), EditorGUIUtility.IconContent("GameObject Icon").image);
+#else
+            _previewIcons.Add(typeof(GameObject), EditorGUIUtility.IconContent("GameObject Icon").image);
+#endif
+                    _previewIcons.Add(typeof(Image), EditorGUIUtility.IconContent("Image Icon").image);
+                    _previewIcons.Add(typeof(Text), EditorGUIUtility.IconContent("Text Icon").image);
+                    _previewIcons.Add(typeof(Button), EditorGUIUtility.IconContent("Button Icon").image);
+                    _previewIcons.Add(typeof(Toggle), EditorGUIUtility.IconContent("Toggle Icon").image);
+                    _previewIcons.Add(typeof(Slider), EditorGUIUtility.IconContent("Slider Icon").image);
+                    _previewIcons.Add(typeof(Scrollbar), EditorGUIUtility.IconContent("Scrollbar Icon").image);
+                    _previewIcons.Add(typeof(Dropdown), EditorGUIUtility.IconContent("Dropdown Icon").image);
+                    _previewIcons.Add(typeof(Canvas), EditorGUIUtility.IconContent("Canvas Icon").image);
+                    _previewIcons.Add(typeof(RawImage), EditorGUIUtility.IconContent("RawImage Icon").image);
+                    _previewIcons.Add(typeof(InputField), EditorGUIUtility.IconContent("InputField Icon").image);
+                    _previewIcons.Add(typeof(ScrollRect), EditorGUIUtility.IconContent("ScrollRect Icon").image);
+                    _previewIcons.Add(typeof(GridLayoutGroup), EditorGUIUtility.IconContent("GridLayoutGroup Icon").image);
+                    _previewIcons.Add(typeof(ScriptableObject), EditorGUIUtility.IconContent("ScriptableObject Icon").image);
+                }
+                return _previewIcons;
+            }
         }
 
-        static void InitPreviewIcons()
+        public float GetItemHeight(ComponentItem item, bool bindingAble)
         {
-            previewIcons.Add(typeof(GameObject), EditorGUIUtility.FindTexture("GameObject Icon"));
-            previewIcons.Add(typeof(Image), EditorGUIUtility.IconContent("Image Icon").image);
-            previewIcons.Add(typeof(Text), EditorGUIUtility.IconContent("Text Icon").image);
-            previewIcons.Add(typeof(Button), EditorGUIUtility.IconContent("Button Icon").image);
-            previewIcons.Add(typeof(Toggle), EditorGUIUtility.IconContent("Toggle Icon").image);
-            previewIcons.Add(typeof(Slider), EditorGUIUtility.IconContent("Slider Icon").image);
-            previewIcons.Add(typeof(Scrollbar), EditorGUIUtility.IconContent("Scrollbar Icon").image);
-            previewIcons.Add(typeof(Dropdown), EditorGUIUtility.IconContent("Dropdown Icon").image);
-            previewIcons.Add(typeof(Canvas), EditorGUIUtility.IconContent("Canvas Icon").image);
-            previewIcons.Add(typeof(RawImage), EditorGUIUtility.IconContent("RawImage Icon").image);
-            previewIcons.Add(typeof(InputField), EditorGUIUtility.IconContent("InputField Icon").image);
-            previewIcons.Add(typeof(ScrollRect), EditorGUIUtility.IconContent("ScrollRect Icon").image);
-            previewIcons.Add(typeof(GridLayoutGroup), EditorGUIUtility.IconContent("GridLayoutGroup Icon").image);
-            previewIcons.Add(typeof(ScriptableObject), EditorGUIUtility.IconContent("ScriptableObject Icon").image);
-            
-        }
-
-        public float GetItemHeight(ComponentItem item,bool bindingAble)
-        {
-            if(item.isScriptComponent)
+            if (item.isScriptComponent)
             {
                 return singleLineHeight;
             }
             else
             {
-                UpdateHeights(item,bindingAble);
-                var height = singleLineHeight + (item.open ? ((bindingAble? viewHeight:0)+ eventHeight) : 0f);
+                UpdateHeights(item, bindingAble);
+                var height = singleLineHeight + (item.open ? ((bindingAble ? viewHeight : 0) + eventHeight) : 0f);
                 return height;
             }
         }
 
-        public void DrawItemOnRect(Rect rect, int index, ComponentItem item,bool bindingAble)
+        public void DrawItemOnRect(Rect rect, int index, ComponentItem item, bool bindingAble)
         {
             rect.height = GetItemHeight(item, bindingAble);
             DrawInfoHead(rect, item);
@@ -88,7 +97,7 @@ namespace BridgeUIEditor
         public void DrawBackground(Rect rect, bool active, ComponentItem item, bool bindingAble)
         {
             item.open = active;
-            rect.height = GetItemHeight(item,bindingAble);
+            rect.height = GetItemHeight(item, bindingAble);
             var innerRect1 = new Rect(rect.x + padding, rect.y + padding, rect.width - 2 * padding, rect.height - 2 * padding);
             GUI.color = active ? activeColor : fieldColor;
             GUI.Box(innerRect1, "");
@@ -130,7 +139,7 @@ namespace BridgeUIEditor
                 EditorGUI.DrawTextureTransparent(iconRect, icon, ScaleMode.ScaleAndCrop);
             }
 
-           
+
         }
 
         private void DrawScriptTarget(Rect targetRect, ComponentItem item)
@@ -150,14 +159,15 @@ namespace BridgeUIEditor
 
             if (EditorGUI.EndChangeCheck() && item.scriptTarget)
             {
-                if (string.IsNullOrEmpty(item.name)){
+                if (string.IsNullOrEmpty(item.name))
+                {
                     item.name = item.scriptTarget.name;
                 }
             }
 
         }
 
-        private void DrawTarget(Rect targetRect,ComponentItem item)
+        private void DrawTarget(Rect targetRect, ComponentItem item)
         {
             EditorGUI.BeginChangeCheck();
             var newTarget = EditorGUI.ObjectField(targetRect, item.target, item.componentType, true);
@@ -165,7 +175,8 @@ namespace BridgeUIEditor
             {
                 var prefabTarget = PrefabUtility.GetPrefabParent(newTarget);
                 Debug.Log(prefabTarget);
-                if (prefabTarget != null) {
+                if (prefabTarget != null)
+                {
                     newTarget = prefabTarget;
                 }
                 item.target = newTarget.GetType().GetProperty("gameObject").GetValue(newTarget, null) as GameObject;
@@ -193,18 +204,18 @@ namespace BridgeUIEditor
             EditorGUI.LabelField(indexRect, index.ToString());
         }
 
-        private void DrawLists(Rect rect, ComponentItem item,bool bindingAble)
+        private void DrawLists(Rect rect, ComponentItem item, bool bindingAble)
         {
-            UpdateHeights(item,bindingAble);
+            UpdateHeights(item, bindingAble);
             var innerRect1 = new Rect(rect.x + padding, rect.y, rect.width - 30, rect.height - 2 * padding);
 
-            if(bindingAble)
+            if (bindingAble)
             {
                 viewList = GetViewList(item);
                 var viewRect = new Rect(innerRect1.x, innerRect1.y + singleLineHeight, innerRect1.width, viewHeight);
                 viewList.DoList(viewRect);
             }
-          
+
             eventList = GetEventList(item, bindingAble);
 
             var eventRect = new Rect(innerRect1.x, innerRect1.y + viewHeight + singleLineHeight, innerRect1.width, eventHeight);
@@ -212,9 +223,9 @@ namespace BridgeUIEditor
             eventList.DoList(eventRect);
         }
 
-        private void UpdateHeights(ComponentItem item,bool bindingAble)
+        private void UpdateHeights(ComponentItem item, bool bindingAble)
         {
-            if(bindingAble)
+            if (bindingAble)
             {
                 viewHeight = EditorGUIUtility.singleLineHeight * (item.viewItems.Count >= 1 ? item.viewItems.Count + 3 : 4);
             }
@@ -253,9 +264,9 @@ namespace BridgeUIEditor
                     var viewNameIndex = Array.IndexOf(viewMemberViewer.currentNames, viewItem.bindingTarget);
                     viewNameIndex = EditorGUI.Popup(targetRect, viewNameIndex, viewMemberViewer.currentViewNames);
                     viewItem.bindingSource = EditorGUI.TextArea(sourceRect, viewItem.bindingSource);
-                    if(EditorGUI.EndChangeCheck())
+                    if (EditorGUI.EndChangeCheck())
                     {
-                        viewItem.bindingTargetType = new BridgeUI. TypeInfo(viewMemberViewer.currentTypes[viewNameIndex]);
+                        viewItem.bindingTargetType = new BridgeUI.TypeInfo(viewMemberViewer.currentTypes[viewNameIndex]);
                         viewItem.bindingTarget = viewMemberViewer.currentNames[viewNameIndex];
                     }
                     EditorGUI.BeginDisabledGroup(true);
@@ -265,7 +276,7 @@ namespace BridgeUIEditor
             }
             return viewDic[item];
         }
-        private ReorderableList GetEventList(ComponentItem item,bool bindngAble)
+        private ReorderableList GetEventList(ComponentItem item, bool bindngAble)
         {
             if (!eventDic.ContainsKey(item) || eventDic[item] == null)
             {
@@ -297,7 +308,7 @@ namespace BridgeUIEditor
                         eventItem.bindingTargetType = new BridgeUI.TypeInfo(eventMemberViewer.currentTypes[viewNameIndex]);
                         eventItem.bindingTarget = eventMemberViewer.currentNames[viewNameIndex];
                     }
-                    eventItem.runtime = EditorGUI.Toggle(enableRect, bindngAble? eventItem.runtime:false);
+                    eventItem.runtime = EditorGUI.Toggle(enableRect, bindngAble ? eventItem.runtime : false);
                 };
             }
             return eventDic[item];
@@ -320,7 +331,7 @@ namespace BridgeUIEditor
                     {
                         case MemberTypes.Field:
                             var field = member as FieldInfo;
-                            if(IsMemberSupported(field.FieldType))
+                            if (IsMemberSupported(field.FieldType))
                             {
                                 typeList.Add(field.FieldType);
                                 nameList.Add(field.Name);
@@ -337,13 +348,14 @@ namespace BridgeUIEditor
                         case MemberTypes.Method:
                             var methodInfo = member as MethodInfo;
                             var parmeters = methodInfo.GetParameters();
-                            if (parmeters.Count() == 1 && 
-                                methodInfo.IsPublic && 
+                            if (parmeters.Count() == 1 &&
+                                methodInfo.IsPublic &&
                                 methodInfo.ReturnType == typeof(void) &&
-                                !methodInfo.Name.StartsWith("set_")) 
+                                !methodInfo.Name.StartsWith("set_"))
                             {
                                 var parmeter = parmeters[0];
-                                if(IsMemberSupported(parmeter.ParameterType)){
+                                if (IsMemberSupported(parmeter.ParameterType))
+                                {
                                     typeList.Add(parmeter.ParameterType);
                                     nameList.Add(methodInfo.Name);
                                 }
@@ -357,8 +369,9 @@ namespace BridgeUIEditor
                 viewMemberViewer.memberNameDic[type] = nameList.ToArray();
 
                 var viewNameList = new List<string>();
-                for (int i = 0; i < typeList.Count; i++){
-                    viewNameList.Add(string.Format("{1} ({0})",typeList[i].Name, nameList[i]));
+                for (int i = 0; i < typeList.Count; i++)
+                {
+                    viewNameList.Add(string.Format("{1} ({0})", typeList[i].Name, nameList[i]));
                 }
                 viewMemberViewer.memberViewNameDic[type] = viewNameList.ToArray();
             }
@@ -371,7 +384,7 @@ namespace BridgeUIEditor
         private bool IsMemberSupported(System.Type type)
         {
             var attributes = type.GetCustomAttributes(true);
-            if(attributes.Where(x=>x is System.ObsoleteAttribute).Count() > 0)
+            if (attributes.Where(x => x is System.ObsoleteAttribute).Count() > 0)
             {
                 return false;
             }

@@ -110,6 +110,7 @@ namespace BridgeUI.Common.Tree
                 group.childForceExpandHeight = false;
                 group.childForceExpandWidth = false;
                 group.spacing = rule.spacing;
+                if (rule.childCloseAble) childContent.gameObject.SetActive(false);
             }
         }
 

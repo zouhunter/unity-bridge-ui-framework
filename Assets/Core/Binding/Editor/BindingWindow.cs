@@ -21,7 +21,9 @@ namespace BridgeUIEditor
             {
                 var window = GetWindow<BindingWindow>();
                 //window.Close();
-                window.OpenWith(prefab);
+                GenCodeUtil.ChoiseAnUserMonobehiver(prefab, v => {
+                    window.OpenWith(v);
+                });
                 return true;
             }
             return false;
@@ -31,19 +33,7 @@ namespace BridgeUIEditor
         private static int instenceID;
         private int selected;
         private string[] options = { "控件管理", "检视面板" };
-        private MonoBehaviour _panelCompnent;
-        private MonoBehaviour panelCompnent
-        {
-            get
-            {
-                if (_panelCompnent == null && prefab != null)
-                {
-                    _panelCompnent = GenCodeUtil.GetUserMonobehaiver(prefab);
-
-                }
-                return _panelCompnent;
-            }
-        }
+        private MonoBehaviour panelCompnent;
         private Editor panelDrawer;
         private GenCodeRule rule = new GenCodeRule();
         private System.Collections.Generic.List<ComponentItem> components = new List<ComponentItem>();
@@ -57,14 +47,12 @@ namespace BridgeUIEditor
             }
         }
         private Vector2 scrollPos;
-        private void OpenWith(GameObject prefab)
+        private void OpenWith(MonoBehaviour behaiver)
         {
-            this.prefab = prefab;
+            this.prefab = behaiver.gameObject;
             InitPanelNode();
-            if (panelCompnent)
-            {
-                GenCodeUtil.AnalysisComponent(panelCompnent, components);
-            }
+            SwitchComponent(behaiver);
+           
         }
 
         private void OnGUI()
@@ -120,6 +108,14 @@ namespace BridgeUIEditor
                 GenCodeUtil.AnalysisComponent(panelCompnent, components);
             }
         }
+        private void SwitchComponent(MonoBehaviour v)
+        {
+            panelCompnent = v;
+            if (panelCompnent != null){
+                panelDrawer = UnityEditor.Editor.CreateEditor(panelCompnent);
+            }
+            GenCodeUtil.AnalysisComponent(panelCompnent, components);
+        }
         private void DrawComponetHeader(Rect rect)
         {
             EditorGUI.LabelField(rect, "[控件列表]");
@@ -155,7 +151,9 @@ namespace BridgeUIEditor
                 prefab = EditorGUILayout.ObjectField(prefab, typeof(GameObject), false) as GameObject;
                 if (EditorGUI.EndChangeCheck())
                 {
-                    OpenWith(prefab);
+                    GenCodeUtil.ChoiseAnUserMonobehiver(prefab, v => {
+                        OpenWith(v);
+                    });
                 }
             }
         }
@@ -212,12 +210,7 @@ namespace BridgeUIEditor
             }
 
             GUILayout.Space(5);
-
-            if (panelDrawer == null && panelCompnent != null)
-            {
-                panelDrawer = UnityEditor.Editor.CreateEditor(panelCompnent);
-            }
-
+            
             if (panelDrawer != null)
             {
                 panelDrawer.OnInspectorGUI();

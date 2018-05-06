@@ -30,20 +30,12 @@ namespace BridgeUI.CodeGen
                 typeof(GameObject),
             };
 
-        internal static MonoBehaviour GetUserMonobehaiver(GameObject prefab)
+        private static List<string> InnerNameSpace = new List<string>()
         {
-            var monobehaivers = prefab.GetComponents<MonoBehaviour>();
-
-            foreach (var item in monobehaivers)
-            {
-                if (item.GetType().Namespace != "UnityEngine.UI")
-                {
-                    return item;
-                }
-            }
-            return null;
-        }
-
+            "UnityEngine.UI",
+            "UnityEngine",
+            "UnityEngine.EventSystems"
+        };
 
         public static List<string> InnerFunctions = new List<string>()
         {
@@ -83,7 +75,7 @@ namespace BridgeUI.CodeGen
                 behaiver.GetType().InvokeMember(filedName,
                                 BindingFlags.SetField |
                                 BindingFlags.Instance |
-                                BindingFlags.NonPublic|
+                                BindingFlags.NonPublic |
                                 BindingFlags.Public,
                                 null, behaiver, new object[] { obj }, null, null, null);
             }
@@ -127,7 +119,7 @@ namespace BridgeUI.CodeGen
                         {
                             compItem.target = (value as MonoBehaviour).gameObject;
                             compItem.components = SortComponent(compItem.target);
-                            compItem.componentID = Array.IndexOf(Array.ConvertAll(compItem.components,x=>x.type), value.GetType());
+                            compItem.componentID = Array.IndexOf(Array.ConvertAll(compItem.components, x => x.type), value.GetType());
                         }
                     }
                 }
@@ -143,37 +135,40 @@ namespace BridgeUI.CodeGen
         /// <param name="rule"></param>
         public static void CreateScript(GameObject go, List<ComponentItem> components, GenCodeRule rule)
         {
-            var uiCoder = GenCodeUtil.LoadUICoder(go, rule);
-
-            var baseType = GenCodeUtil.supportBaseTypes[rule.baseTypeIndex];
-
-            var needAdd = FilterExisField(baseType, components);
-
-            var tree = uiCoder.tree;
-            var className = uiCoder.className;
-            var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
-
-            CreateMemberFields(classNode, needAdd);
-            BindingInfoMethods(classNode, needAdd, rule.bindingAble);
-            SortClassMembers(classNode);
-
-            var prefabPath = AssetDatabase.GetAssetPath(go);
-            var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
-            var scriptPath = string.Format("{0}/{1}.cs", folder, go.name);
-
-            System.IO.File.WriteAllText(scriptPath, uiCoder.Compile());
-            var type = typeof(BridgeUI.PanelBase).Assembly.GetType(className);
-            if (type != null)
+            Action<UICoder> onLoad = (uiCoder) =>
             {
-                if (go.GetComponent(type) == null)
+                var baseType = GenCodeUtil.supportBaseTypes[rule.baseTypeIndex];
+
+                var needAdd = FilterExisField(baseType, components);
+
+                var tree = uiCoder.tree;
+                var className = uiCoder.className;
+                var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
+
+                CreateMemberFields(classNode, needAdd);
+                BindingInfoMethods(classNode, needAdd, rule.bindingAble);
+                SortClassMembers(classNode);
+
+                var prefabPath = AssetDatabase.GetAssetPath(go);
+                var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
+                var scriptPath = string.Format("{0}/{1}.cs", folder, uiCoder.className);
+
+                System.IO.File.WriteAllText(scriptPath, uiCoder.Compile());
+                var type = typeof(BridgeUI.PanelBase).Assembly.GetType(className);
+                if (type != null)
                 {
-                    go.AddComponent(type);
+                    if (go.GetComponent(type) == null)
+                    {
+                        go.AddComponent(type);
+                    }
                 }
-            }
-            EditorApplication.delayCall += () =>
-            {
-                AssetDatabase.Refresh();
+                EditorApplication.delayCall += () =>
+                {
+                    AssetDatabase.Refresh();
+                };
             };
+
+            GenCodeUtil.LoadUICoder(go, rule, onLoad);
         }
 
         /// <summary>
@@ -187,7 +182,6 @@ namespace BridgeUI.CodeGen
             components.Add(target);
             var allComponents = target.GetComponents<Component>();
             var innerComponents = allComponents.Where(x => supportControls.Contains(x.GetType()));
-            var userComponents = allComponents.Where(x => !innerComponents.Contains(x)).Select(x=>new TypeInfo(x.GetType()));
             components.AddRange(innerComponents.ToArray());
 
             var list = new List<TypeInfo>();
@@ -201,10 +195,45 @@ namespace BridgeUI.CodeGen
                 }
             }
 
+            var userComponents = GetUserMonobehaiver(target).Select(x => new TypeInfo(x.GetType()));
             list.InsertRange(0, userComponents);
             return list.ToArray();
         }
 
+
+        internal static MonoBehaviour[] GetUserMonobehaiver(GameObject prefab)
+        {
+            var monobehaivers = prefab.GetComponents<MonoBehaviour>();
+            return monobehaivers.Where(x => !InnerNameSpace.Contains(x.GetType().Namespace)).ToArray();
+        }
+
+        internal static void ChoiseAnUserMonobehiver(GameObject prefab, Action<MonoBehaviour> onChoise)
+        {
+            var behaivers = GetUserMonobehaiver(prefab);
+            if (behaivers != null)
+            {
+                if (behaivers.Count() == 1)
+                {
+                    onChoise(behaivers[0]);
+                }
+                else
+                {
+                    var rect = new Rect(Event.current.mousePosition, new Vector2(0, 0));
+                    var options = Array.ConvertAll<MonoBehaviour, GUIContent>(behaivers, x => new GUIContent(x.GetType().FullName));
+                    EditorUtility.DisplayCustomMenu(rect, options, -1, new EditorUtility.SelectMenuItemFunction((obj, _options, index) =>
+                    {
+                        if (index >= 0)
+                        {
+                            onChoise(behaivers[index]);
+                        }
+                    }), null);
+                }
+            }
+            else
+            {
+                onChoise(null);
+            }
+        }
 
         /// <summary>
         /// 初始化方法
@@ -252,8 +281,8 @@ namespace BridgeUI.CodeGen
                             invocation.Target = new MemberReferenceExpression(new BaseReferenceExpression(), "Awake", new AstType[0]);
                             awakeNode.Body.Add(invocation);
                         }
-                   
-                        if(method.IsPublic)
+
+                        if (method.IsPublic)
                         {
                             awakeNode.Modifiers |= Modifiers.Public;
                         }
@@ -321,25 +350,38 @@ namespace BridgeUI.CodeGen
         }
 
 
-        private static UICoder LoadUICoder(GameObject prefab, GenCodeRule rule)
+        private static void LoadUICoder(GameObject prefab, GenCodeRule rule, Action<UICoder> onLoadCoder)
         {
-            UICoder coder = new UICoder(prefab.name);
             //加载已经存在的脚本
-            LoadOldScript(prefab, coder);
-            //添加命名空间和引用
-            CompleteNameSpace(coder.tree, rule);
-            //添加类
-            CompleteClass(coder.tree, prefab, rule);
-            return coder;
-        }
-        private static void LoadOldScript(GameObject prefab, UICoder coder)
-        {
-            var oldScript = GetUserMonobehaiver(prefab);
-            if (oldScript != null)
+            LoadOldScript(prefab, coder =>
             {
-                var path = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(oldScript));
-                coder.Load(System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8));
-            }
+                //添加命名空间和引用
+                CompleteNameSpace(coder.tree, rule);
+                //添加类
+                CompleteClass(coder.tree, coder.className, rule);
+
+                onLoadCoder.Invoke(coder);
+            });
+
+        }
+        private static void LoadOldScript(GameObject prefab, Action<UICoder> onGet)
+        {
+            ChoiseAnUserMonobehiver(prefab, (x) =>
+            {
+                if(x != null)
+                {
+                    UICoder coder = new UICoder(x.GetType().Name);
+                    var path = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(x));
+                    coder.Load(System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8));
+                    onGet(coder);
+                }
+                else
+                {
+                    UICoder coder = new UICoder(prefab.name);
+                    onGet(coder);
+                }
+
+            });
         }
 
         /// <summary>
@@ -349,10 +391,9 @@ namespace BridgeUI.CodeGen
         /// <param name="prefab"></param>
         /// <param name="rule"></param>
         /// <returns></returns>
-        private static TypeDeclaration CompleteClass(ICSharpCode.NRefactory.CSharp.SyntaxTree tree, GameObject prefab, GenCodeRule rule)
+        private static TypeDeclaration CompleteClass(ICSharpCode.NRefactory.CSharp.SyntaxTree tree, string className, GenCodeRule rule)
         {
             TypeDeclaration classNode = null;
-            var className = prefab.name;
             if (tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).Count() == 0)
             {
                 classNode = new TypeDeclaration();
@@ -371,9 +412,8 @@ namespace BridgeUI.CodeGen
             classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
             var baseType = GenCodeUtil.supportBaseTypes[rule.baseTypeIndex];
             var basePanels = LoadAllBasePanels();
-            var bs = classNode.BaseTypes.Where(x => Array.Find(basePanels, y => x.ToString() == y) != null).FirstOrDefault();
-            if (bs != null)
-            {
+            var bs = classNode.BaseTypes.Where(x => Array.Find(basePanels, y => y.Contains(x.ToString())) != null).FirstOrDefault();
+            if (bs != null){
                 classNode.BaseTypes.Remove(bs);
             }
             classNode.BaseTypes.Add(new SimpleType(baseType));

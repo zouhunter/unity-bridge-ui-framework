@@ -255,9 +255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 3
+  selected: 1
   instenceID: 0
-  description: 
   assetName: Panel01
   style: 1
   rule:
@@ -269,6 +268,8 @@ MonoBehaviour:
     name: subBtn
     componentID: 0
     components:
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Button
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -277,17 +278,17 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 194424, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
     scriptTarget: {fileID: 0}
     isScriptComponent: 0
-  - open: 0
+  - open: 1
     name: close
     componentID: 0
     components:
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.CanvasRenderer
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Button
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -296,8 +297,6 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 102998, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
@@ -350,7 +349,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 3
   instenceID: 0
-  description: 
   assetName: Panel03
   style: 1
   rule:
@@ -425,7 +423,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   instenceID: -36600
-  description: 
   assetName: MainPanel
   style: 1
   rule:
@@ -695,7 +692,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 3
   instenceID: 0
-  description: 
   assetName: Panel02
   style: 1
   rule:
@@ -788,7 +784,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 3
   instenceID: 0
-  description: 
   assetName: Panel04
   style: 1
   rule:

@@ -61,27 +61,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 1
   instenceID: 0
-  description: 
   assetName: UserControlPanel
   style: 1
-  nodeType: 31
   rule:
     baseTypeIndex: 3
     canInherit: 0
+    bindingAble: 0
   components:
-  - open: 1
-    name: List
-    componentID: 2
+  - open: 0
+    name: buttonItem
+    componentID: 0
     components:
+    - assembleName: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: ButtonItem
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems: []
+    target: {fileID: 107708, guid: 8f94f4f9ad4c08943847106091ebd771, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 1
+    name: List
+    componentID: 0
+    components:
     - assembleName: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: ButtonList
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
     viewItems:
-    - bindingSource: list
-      bindingTarget: SetList
+    - bindingSource: infos
+      bindingTarget: infos
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         typeName: System.String[]
@@ -94,27 +108,30 @@ MonoBehaviour:
         typeName: UnityEngine.Events.UnityEvent`1[[System.String, mscorlib, Version=2.0.0.0,
           Culture=neutral, PublicKeyToken=b77a5c561934e089]]
     target: {fileID: 170674, guid: 8f94f4f9ad4c08943847106091ebd771, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
-    name: buttonItem
-    componentID: 2
-    components:
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.GameObject
-    - assembleName: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: ButtonItem
+    name: close
+    componentID: 0
+    components: []
     viewItems: []
     eventItems: []
-    target: {fileID: 107708, guid: 8f94f4f9ad4c08943847106091ebd771, type: 2}
+    target: {fileID: 0}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   nodeInfo:
     uiType:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 166458, guid: 8f94f4f9ad4c08943847106091ebd771, type: 2}
+    discription: 

@@ -210,7 +210,7 @@ namespace BridgeUI.CodeGen
         internal static void ChoiseAnUserMonobehiver(GameObject prefab, Action<MonoBehaviour> onChoise)
         {
             var behaivers = GetUserMonobehaiver(prefab);
-            if (behaivers != null)
+            if (behaivers != null && behaivers.Length > 0)
             {
                 if (behaivers.Count() == 1)
                 {
@@ -229,7 +229,7 @@ namespace BridgeUI.CodeGen
                     }), null);
                 }
             }
-            else
+            else if (behaivers == null || behaivers.Length == 0)
             {
                 onChoise(null);
             }
@@ -368,7 +368,7 @@ namespace BridgeUI.CodeGen
         {
             ChoiseAnUserMonobehiver(prefab, (x) =>
             {
-                if(x != null)
+                if (x != null)
                 {
                     UICoder coder = new UICoder(x.GetType().Name);
                     var path = AssetDatabase.GetAssetPath(MonoScript.FromMonoBehaviour(x));
@@ -413,7 +413,8 @@ namespace BridgeUI.CodeGen
             var baseType = GenCodeUtil.supportBaseTypes[rule.baseTypeIndex];
             var basePanels = LoadAllBasePanels();
             var bs = classNode.BaseTypes.Where(x => Array.Find(basePanels, y => y.Contains(x.ToString())) != null).FirstOrDefault();
-            if (bs != null){
+            if (bs != null)
+            {
                 classNode.BaseTypes.Remove(bs);
             }
             classNode.BaseTypes.Add(new SimpleType(baseType));

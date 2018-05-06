@@ -20,6 +20,7 @@ namespace BridgeUI
     {
         public string panelName;
         public int instanceID;
+        public string discription;
         public abstract string IDName { get; }
         public UIType type;
         public UnityAction<GameObject> OnCreate;

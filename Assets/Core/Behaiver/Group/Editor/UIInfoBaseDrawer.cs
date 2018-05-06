@@ -10,6 +10,7 @@ namespace BridgeUIEditor
         protected SerializedProperty layerProp;
         protected SerializedProperty formProp;
         protected SerializedProperty layerIndexProp;
+        protected SerializedProperty discriptionProp;
         protected SerializedProperty instanceIDProp;
         protected SerializedObject serializedObject; 
         protected const float widthBt = 20;
@@ -32,6 +33,7 @@ namespace BridgeUIEditor
         protected virtual void InitPropertys(SerializedProperty property)
         {
             panelNameProp = property.FindPropertyRelative("panelName");
+            discriptionProp = property.FindPropertyRelative("discription");
             typeProp = property.FindPropertyRelative("type");
             formProp = typeProp.FindPropertyRelative("form");
             layerProp = typeProp.FindPropertyRelative("layer");
@@ -52,7 +54,11 @@ namespace BridgeUIEditor
             {
                 property.isExpanded = false;
             }
-            if (panelNameProp != null && GUI.Button(btnRect, panelNameProp.stringValue,EditorStyles.toolbarDropDown))
+
+            var showName = panelNameProp.stringValue +
+                (string.IsNullOrEmpty(discriptionProp.stringValue) ? "" : (": " + discriptionProp.stringValue));
+
+            if (panelNameProp != null && GUI.Button(btnRect, showName, EditorStyles.toolbarDropDown))
             {
                 ResetBuildInfoOnOpen();
 

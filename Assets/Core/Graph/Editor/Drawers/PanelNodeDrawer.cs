@@ -431,7 +431,7 @@ namespace BridgeUIEditor
                 EditorGUILayout.LabelField("说明:");
                 if (panelNode != null)
                 {
-                    panelNode.description = EditorGUILayout.TextField(panelNode.description);
+                    panelNode.Info.discription = EditorGUILayout.TextField(panelNode.Info.discription);
                 }
             }
         }

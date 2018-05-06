@@ -96,7 +96,7 @@ namespace BridgeUI
                 }
             }
         }
-
+        
         private void InsertBridges(List<BridgeInfo> source, List<BridgeInfo> newBridges)
         {
             if (source == null) return;
@@ -201,6 +201,7 @@ namespace BridgeUI
                 p.type = item.uiType;
                 p.prefab = item.prefab;
                 p.panelName = p.prefab.name;
+                p.discription = item.discription;
                 pinfos.Add(p);
             }
             return pinfos;
@@ -228,6 +229,7 @@ namespace BridgeUI
                 p.type = item.uiType;
                 var path = AssetDatabase.GetAssetPath(item.prefab);
                 p.guid = AssetDatabase.AssetPathToGUID(path);
+                p.discription = item.discription;
                 binfo.Add(p);
             }
             return binfo;

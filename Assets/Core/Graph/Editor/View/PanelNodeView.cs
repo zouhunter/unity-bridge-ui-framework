@@ -41,7 +41,7 @@ public class PanelNodeView : NodeView
     {
         get
         {
-            if (panelNode != null && !string.IsNullOrEmpty(panelNode.description))
+            if (panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription))
             {
                 return EditorGUIUtility.singleLineHeight + 5;
             }
@@ -58,10 +58,10 @@ public class PanelNodeView : NodeView
     public override void OnNodeGUI(Rect position, NodeData data)
     {
         base.OnNodeGUI(position, data);
-        if (panelNode != null && !string.IsNullOrEmpty(panelNode.description))
+        if (panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription))
         {
             var rect = new Rect(position.x + 20, position.y, position.width - 40, EditorGUIUtility.singleLineHeight);
-            EditorGUI.LabelField(rect, panelNode.description);
+            EditorGUI.LabelField(rect, panelNode.Info.discription);
         }
     }
     public override void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result)

@@ -13,13 +13,13 @@ using System.Collections.Generic;
 ///<summary>
 ///[代码说明信息]
 ///<summary>
-public class UserControlPanel : BridgeUI.SinglePanel
+public class UserControlPanel : BridgeUI.SingleCloseAblePanel
 {
 	[SerializeField]
 	private ButtonList m_List;
 
 	[SerializeField]
-	private UnityEngine.RectTransform m_buttonItem;
+	private ButtonItem m_buttonItem;
 
 	protected override void InitComponents ()
 	{
@@ -28,6 +28,6 @@ public class UserControlPanel : BridgeUI.SinglePanel
 	protected override void PropBindings ()
 	{
 		Binder.RegistEvent (m_List.onSelectChanged, "onSelect");
-		Binder.RegistMember<System.String[]> ("m_List.SetList", "list");
+		Binder.RegistMember<System.String[]> ("m_List.infos", "infos");
 	}
 }

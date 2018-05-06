@@ -27,15 +27,7 @@ namespace BridgeUI.Common
         private UnityAction<string> onChoise;
         private Dictionary<string, Button> createdDic;
         private string[] options;
-        private GameObjectPool gameObjectPool;
-
-        /// <summary>
-        /// 调用其他方法时，先进行初始化
-        /// </summary>
-        public void Awake()
-        {
-            gameObjectPool = UIFacade.PanelPool;
-        }
+        private GameObjectPool gameObjectPool { get { return UIFacade.PanelPool; } }
 
         public void OpenSelect(string[] selectables, UnityAction<string> onChoise)
         {

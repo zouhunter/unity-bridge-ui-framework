@@ -214,8 +214,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ee8a109b846e5749b1d9ad4e5959807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_List: {fileID: 0}
-  m_buttonItem: {fileID: 0}
+  resourceType: 0
+  luaScript: {fileID: 0}
+  scriptObj: {fileID: 0}
+  streamingPath: 
+  webUrl: 
+  assetBundleName: 
+  assetName: 
+  menu: 
+  scriptName: 
+  m_List: {fileID: 11405050}
+  m_buttonItem: {fileID: 11498856}
 --- !u!114 &11498856
 MonoBehaviour:
   m_ObjectHideFlags: 1

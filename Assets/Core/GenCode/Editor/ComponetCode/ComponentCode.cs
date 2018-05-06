@@ -277,13 +277,14 @@ namespace BridgeUI.CodeGen
                     info.bindingSource = source;
                     var arg0 = invocation.Arguments.First().ToString().Replace("\"", "");
                     var targetName = arg0.Substring(arg0.IndexOf(".") + 1);
-                    var type = component.componentType.GetProperty(targetName);
+                    var type = GetTypeClamp(component.componentType, targetName);
                     info.bindingTarget = targetName;
-                    info.bindingTargetType.Update(type.PropertyType);
+                    info.bindingTargetType.Update(type);
                     component.viewItems.Add(info);
                 }
             }
         }
+
         /// <summary>
         /// 分析绑定方法
         /// </summary>
@@ -312,16 +313,23 @@ namespace BridgeUI.CodeGen
         }
         protected Type GetTypeClamp(Type baseType, string membername)
         {
+            var flag = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic;
             Type infoType = null;
-            var prop = baseType.GetProperty(membername);
+            var prop = baseType.GetProperty(membername, System.Reflection.BindingFlags.GetProperty | flag);
             if (prop != null)
             {
                 infoType = prop.PropertyType;
             }
-            var field = baseType.GetField(membername);
+            var field = baseType.GetField(membername, System.Reflection.BindingFlags.GetField | flag);
             if (field != null)
             {
                 infoType = field.FieldType;
+            }
+
+            var func = baseType.GetMethod(membername, System.Reflection.BindingFlags.GetField | flag);
+            if(func != null && func.GetParameters().Count() == 1)
+            {
+                infoType = func.GetParameters()[0].ParameterType;
             }
             return infoType;
         }

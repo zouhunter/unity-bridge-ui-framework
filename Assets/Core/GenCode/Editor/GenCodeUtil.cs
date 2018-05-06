@@ -33,6 +33,7 @@ namespace BridgeUI.CodeGen
         internal static MonoBehaviour GetUserMonobehaiver(GameObject prefab)
         {
             var monobehaivers = prefab.GetComponents<MonoBehaviour>();
+
             foreach (var item in monobehaivers)
             {
                 if (item.GetType().Namespace != "UnityEngine.UI")
@@ -82,7 +83,8 @@ namespace BridgeUI.CodeGen
                 behaiver.GetType().InvokeMember(filedName,
                                 BindingFlags.SetField |
                                 BindingFlags.Instance |
-                                BindingFlags.NonPublic,
+                                BindingFlags.NonPublic|
+                                BindingFlags.Public,
                                 null, behaiver, new object[] { obj }, null, null, null);
             }
         }
@@ -109,13 +111,13 @@ namespace BridgeUI.CodeGen
                     }
 
                     var value = field.GetValue(component);
-
                     if (value != null)
                     {
                         if (field.FieldType == typeof(GameObject))
                         {
                             compItem.target = value as GameObject;
                             compItem.components = SortComponent(compItem.target);
+                            compItem.componentID = Array.IndexOf(compItem.components, typeof(GameObject));
                         }
                         else if (typeof(ScriptableObject).IsAssignableFrom(field.FieldType))
                         {
@@ -125,6 +127,7 @@ namespace BridgeUI.CodeGen
                         {
                             compItem.target = (value as MonoBehaviour).gameObject;
                             compItem.components = SortComponent(compItem.target);
+                            compItem.componentID = Array.IndexOf(Array.ConvertAll(compItem.components,x=>x.type), value.GetType());
                         }
                     }
                 }
@@ -182,7 +185,10 @@ namespace BridgeUI.CodeGen
         {
             var components = new List<UnityEngine.Object>();
             components.Add(target);
-            components.AddRange(target.GetComponents<Component>());
+            var allComponents = target.GetComponents<Component>();
+            var innerComponents = allComponents.Where(x => supportControls.Contains(x.GetType()));
+            var userComponents = allComponents.Where(x => !innerComponents.Contains(x)).Select(x=>new TypeInfo(x.GetType()));
+            components.AddRange(innerComponents.ToArray());
 
             var list = new List<TypeInfo>();
             var types = supportControls;
@@ -194,8 +200,8 @@ namespace BridgeUI.CodeGen
                     list.Add(new TypeInfo(type));
                 }
             }
-            var endList = components.Where(x => !supportControls.Contains(x.GetType())).Select(x => new TypeInfo(x.GetType()));
-            list.AddRange(endList);
+
+            list.InsertRange(0, userComponents);
             return list.ToArray();
         }
 

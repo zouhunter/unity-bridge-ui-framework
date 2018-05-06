@@ -20,6 +20,7 @@ namespace BridgeUIEditor
             if (prefab != null && prefab.GetComponent<RectTransform>())
             {
                 var window = GetWindow<BindingWindow>();
+                //window.Close();
                 window.OpenWith(prefab);
                 return true;
             }
@@ -48,7 +49,7 @@ namespace BridgeUIEditor
         private System.Collections.Generic.List<ComponentItem> components = new List<ComponentItem>();
         private ReorderableList preComponentList;
         private ComponentItemDrawer itemDrawer = new ComponentItemDrawer();
-         private bool BindingAble
+        private bool BindingAble
         {
             get
             {
@@ -60,7 +61,8 @@ namespace BridgeUIEditor
         {
             this.prefab = prefab;
             InitPanelNode();
-            if (panelCompnent){
+            if (panelCompnent)
+            {
                 GenCodeUtil.AnalysisComponent(panelCompnent, components);
             }
         }
@@ -126,10 +128,11 @@ namespace BridgeUIEditor
         {
             selected = GUILayout.Toolbar(selected, options);
             if (prefab == null) return;
-            
+
             if (selected == 0)
             {
-                if(preComponentList == null){
+                if (preComponentList == null)
+                {
                     InitPanelNode();
                 }
                 DrawPreComponents();
@@ -289,19 +292,18 @@ namespace BridgeUIEditor
                             {
                                 var obj = item as GameObject;
                                 var parent = PrefabUtility.GetPrefabParent(obj);
-                                if (parent)
-                                {
-                                    var c_item = new ComponentItem(parent as GameObject);
-                                    c_item.components = GenCodeUtil.SortComponent(parent as GameObject);
-                                    components.Add(c_item);
+                                if (parent){
+                                    obj = parent as GameObject;
                                 }
+                                var c_item = new ComponentItem(obj);
+                                c_item.components = GenCodeUtil.SortComponent(obj);
+                                components.Add(c_item);
                             }
 
                             else if (item is ScriptableObject)
                             {
                                 var c_item = new ComponentItem(item as ScriptableObject);
                                 components.Add(c_item);
-                                Debug.Log(c_item);
                             }
                         }
                         DragAndDrop.AcceptDrag();

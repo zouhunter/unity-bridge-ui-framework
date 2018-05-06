@@ -32,7 +32,7 @@ namespace BridgeUI.CodeGen
             get
             {
                 var type = typeof(GameObject);
-                if (components != null && components.Length > componentID)
+                if (components != null && components.Length > componentID && componentID >= 0)
                 {
                     type = components[componentID].type;
                 }
@@ -46,6 +46,7 @@ namespace BridgeUI.CodeGen
             this.name = target.name;
             this.target = target;
         }
+        
 
         public ComponentItem(ScriptableObject target)
         {

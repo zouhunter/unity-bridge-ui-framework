@@ -40,7 +40,8 @@ namespace BridgeUI.Common
         private void Awake()
         {
             gameObjectPool = UIFacade.PanelPool;
-            if (m_Select) m_Select.onClick.AddListener(TrySelectItem);
+            if (m_Select)
+                m_Select.onClick.AddListener(TrySelectItem);
             group = m_parent.GetComponentInChildren<ToggleGroup>();
             if (group == null)
                 group = m_parent.gameObject.AddComponent<ToggleGroup>();

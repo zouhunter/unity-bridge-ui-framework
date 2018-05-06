@@ -231,10 +231,16 @@ namespace BridgeUIEditor
                                 var parent = PrefabUtility.GetPrefabParent(obj);
                                 if (parent)
                                 {
-                                    var c_item = new ComponentItem(parent as GameObject);
-                                    c_item.components = GenCodeUtil.SortComponent(parent as GameObject);
-                                    components.Add(c_item);
+                                    obj = parent as GameObject;
                                 }
+                                var c_item = new ComponentItem(obj);
+                                c_item.components = GenCodeUtil.SortComponent(obj);
+                                components.Add(c_item);
+                            }
+                            else if (item is ScriptableObject)
+                            {
+                                var c_item = new ComponentItem(item as ScriptableObject);
+                                components.Add(c_item);
                             }
                         }
                         DragAndDrop.AcceptDrag();

@@ -48,11 +48,11 @@ namespace BridgeUIEditor
         private System.Collections.Generic.List<ComponentItem> components = new List<ComponentItem>();
         private ReorderableList preComponentList;
         private ComponentItemDrawer itemDrawer = new ComponentItemDrawer();
-        private bool BindingAble
+         private bool BindingAble
         {
             get
             {
-                return panelCompnent is PanelBase;
+                return typeof(PanelBase).IsAssignableFrom(typeof(PanelBase).Assembly.GetType(GenCodeUtil.supportBaseTypes[rule.baseTypeIndex]));
             }
         }
         private Vector2 scrollPos;

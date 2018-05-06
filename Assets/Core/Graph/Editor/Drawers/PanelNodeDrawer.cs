@@ -46,7 +46,13 @@ namespace BridgeUIEditor
         private GenCodeRule rule { get { if (panelNode == null) return default(GenCodeRule); return panelNode.rule; } }
         private System.Collections.Generic.List<ComponentItem> components { get { if (panelNode == null) return null; return panelNode.components; } }
         private ComponentItemDrawer itemDrawer;
-        private bool BindingAble { get { return panelCompnent is PanelBase; } }
+        private bool BindingAble
+        {
+            get
+            {
+                return typeof(PanelBase).IsAssignableFrom(typeof(PanelBase).Assembly.GetType(GenCodeUtil.supportBaseTypes[rule.baseTypeIndex]));
+            }
+        }
         private void OnEnable()
         {
             panelNode = target as PanelNodeBase;

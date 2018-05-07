@@ -49,6 +49,8 @@ namespace BridgeUI
         }
         public void Update(System.Type type)
         {
+            if (type == null) return;
+
             this.assembleName = type.Assembly.ToString();
             this.typeName = type.FullName;
         }

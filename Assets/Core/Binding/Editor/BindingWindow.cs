@@ -19,10 +19,12 @@ namespace BridgeUIEditor
             var prefab = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
             if (prefab != null && prefab.GetComponent<RectTransform>())
             {
-                var window = GetWindow<BindingWindow>();
-                //window.Close();
                 GenCodeUtil.ChoiseAnUserMonobehiver(prefab, v => {
-                    window.OpenWith(v);
+                    if(v)
+                    {
+                        var window = GetWindow<BindingWindow>();
+                        window.OpenWith(v);
+                    }
                 });
                 return true;
             }
@@ -205,7 +207,7 @@ namespace BridgeUIEditor
             {
                 if (GUILayout.Button(new GUIContent("→", "快速绑定"), EditorStyles.toolbarButton, GUILayout.Width(20)))
                 {
-                    BridgeUI.CodeGen.GenCodeUtil.BindingUI(prefab, components);
+                    BridgeUI.CodeGen.GenCodeUtil.BindingUI(panelCompnent, components);
                 }
             }
 

@@ -455,7 +455,7 @@ namespace BridgeUIEditor
             {
                 if (GUILayout.Button(new GUIContent("→", "快速绑定"), EditorStyles.toolbarButton, GUILayout.Width(20)))
                 {
-                    GenCodeUtil.BindingUI(nodeInfo.prefab, components);
+                    GenCodeUtil.BindingUI(panelCompnent, components);
                 }
             }
 

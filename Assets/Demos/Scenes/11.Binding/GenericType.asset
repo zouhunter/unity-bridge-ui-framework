@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: GenericType
   m_EditorClassIdentifier: 
   m_allNodes:
-  - m_name: ListPanel
+  - m_name: GenericTypePanel
     m_id: 55fc6959-1933-41b9-b5b3-6330814cebb6
     m_x: 192
     m_y: 180
@@ -37,7 +37,7 @@ MonoBehaviour:
       isInput: 0
       buttonRect:
         serializedVersion: 2
-        x: 111
+        x: 146
         y: 21.5
         width: 10
         height: 23
@@ -59,26 +59,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 2
   instenceID: 0
-  description: 
-  assetName: ListPanel
+  assetName: GenericTypePanel
   style: 1
-  nodeType: 31
   rule:
     baseTypeIndex: 4
     canInherit: 0
+    bindingAble: 0
   components:
-  - open: 0
+  - open: 1
     name: subcomponent
-    componentID: 2
+    componentID: 0
     components:
+    - assembleName: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: SubComponent
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: SubComponent
     viewItems:
     - bindingSource: array
       bindingTarget: stringTest
@@ -100,14 +99,21 @@ MonoBehaviour:
           mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
     eventItems: []
     target: {fileID: 122034, guid: 333148b58bb87ae40bc3facb420af07e, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   nodeInfo:
     uiType:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 122434, guid: 333148b58bb87ae40bc3facb420af07e, type: 2}
+    discription: 

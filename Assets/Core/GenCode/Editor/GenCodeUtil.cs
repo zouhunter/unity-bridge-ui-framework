@@ -54,14 +54,13 @@ namespace BridgeUI.CodeGen
         /// </summary>
         /// <param name="go"></param>
         /// <param name="components"></param>
-        public static void BindingUI(GameObject go, List<ComponentItem> components)
+        public static void BindingUI(MonoBehaviour behaiver, List<ComponentItem> components)
         {
-            if (go == null || go.GetComponent<MonoBehaviour>() == null)
+            if (behaiver == null)
             {
                 EditorApplication.Beep();
                 return;
             }
-            var behaiver = go.GetComponent<MonoBehaviour>();
 
             foreach (var item in components)
             {
@@ -71,6 +70,9 @@ namespace BridgeUI.CodeGen
                 {
                     obj = item.target.GetComponent(item.componentType);
                 }
+                Debug.Log(filedName);
+                Debug.Log(behaiver);
+                Debug.Log(obj);
 
                 behaiver.GetType().InvokeMember(filedName,
                                 BindingFlags.SetField |

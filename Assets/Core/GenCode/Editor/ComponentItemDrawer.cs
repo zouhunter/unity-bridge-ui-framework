@@ -174,9 +174,7 @@ namespace BridgeUIEditor
             if (newTarget != item.target)
             {
                 var prefabTarget = PrefabUtility.GetPrefabParent(newTarget);
-                Debug.Log(prefabTarget);
-                if (prefabTarget != null)
-                {
+                if (prefabTarget != null){
                     newTarget = prefabTarget;
                 }
                 item.target = newTarget.GetType().GetProperty("gameObject").GetValue(newTarget, null) as GameObject;

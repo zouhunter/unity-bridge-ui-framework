@@ -26,6 +26,7 @@ GameObject:
   - 224: {fileID: 22491552}
   - 222: {fileID: 22271808}
   - 114: {fileID: 11460594}
+  - 114: {fileID: 11459534}
   m_Layer: 5
   m_Name: GenericTypePanel
   m_TagString: Untagged
@@ -46,6 +47,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listTest: []
   stringTest: []
+--- !u!114 &11459534
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a321da4f722515f49a14eb63b4a8c79d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_close: {fileID: 0}
+  m_subcomponent: {fileID: 11456094}
 --- !u!114 &11460594
 MonoBehaviour:
   m_ObjectHideFlags: 1

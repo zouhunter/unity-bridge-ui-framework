@@ -98,12 +98,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   instenceID: 0
-  description: 
   assetName: AnimTestPanel
   style: 1
   rule:
     baseTypeIndex: 4
     canInherit: 0
+    bindingAble: 0
   components: []
   nodeInfo:
     uiType:
@@ -120,6 +120,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 183666, guid: 9e8dc7a02139fbd4b9bd37fd1b9d0f42, type: 2}
+    discription: 
 --- !u!114 &11477356
 MonoBehaviour:
   m_ObjectHideFlags: 1

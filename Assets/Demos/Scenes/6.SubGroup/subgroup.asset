@@ -163,13 +163,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   instenceID: 0
-  description: "\u4E3B\u9762\u677F"
   assetName: SubGroupPanel
   style: 1
-  nodeType: 31
   rule:
     baseTypeIndex: 0
     canInherit: 0
+    bindingAble: 0
   components: []
   nodeInfo:
     uiType:
@@ -177,11 +176,16 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 1
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 122324, guid: 52d079d69fd0f9841b1d3ee41b4cda0c, type: 2}
+    discription: 
 --- !u!114 &11421066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -193,7 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
   m_Name: Luncher
   m_EditorClassIdentifier: 
-  a: 0
 --- !u!114 &11438474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,10 +211,10 @@ MonoBehaviour:
   index: 1
   show:
     auto: 0
-    mutex: 0
     cover: 0
-    baseShow: 0
     single: 0
+    mutex: 0
+    baseShow: 0
 --- !u!114 &11462424
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -226,10 +229,10 @@ MonoBehaviour:
   index: 0
   show:
     auto: 1
-    mutex: 0
     cover: 0
-    baseShow: 0
     single: 0
+    mutex: 0
+    baseShow: 0
 --- !u!114 &11462446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -243,13 +246,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   instenceID: 0
-  description: "\u5B50\u9762\u677Fa"
   assetName: Panel01
   style: 1
-  nodeType: 15
   rule:
     baseTypeIndex: 0
     canInherit: 0
+    bindingAble: 0
   components: []
   nodeInfo:
     uiType:
@@ -257,11 +259,16 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0.2
-      enterAnim: 2
-      quitAnim: 1
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
+    discription: 
 --- !u!114 &11489332
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,13 +282,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   instenceID: 0
-  description: "\u5B50\u9762\u677Fb"
   assetName: Panel02
   style: 1
-  nodeType: 13
   rule:
     baseTypeIndex: 0
     canInherit: 0
+    bindingAble: 0
   components: []
   nodeInfo:
     uiType:
@@ -289,11 +295,16 @@ MonoBehaviour:
       form: 0
       layer: 1
       hideAlaph: 0.2
-      enterAnim: 2
-      quitAnim: 3
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: ba16a0659248e00479962ae1a0bf4624, type: 2}
+    discription: 
 --- !u!114 &11499820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -308,7 +319,7 @@ MonoBehaviour:
   index: 0
   show:
     auto: 0
-    mutex: 0
     cover: 0
-    baseShow: 0
     single: 0
+    mutex: 0
+    baseShow: 0

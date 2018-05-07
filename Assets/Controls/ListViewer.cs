@@ -22,38 +22,59 @@ namespace BridgeUI.Control
     /// <summary>
     /// /// <summary>
     /// 这是一个列表创建器（用于快速创建一组对象）
-    /// 建议数量100</summary>
-    /// <typeparam name="T"></typeparam>
-    public class ListItemCreater : MonoBehaviour
+    /// 建议数量100
+    /// </summary>
+    public class ListViewer : MonoBehaviour
     {
         public List<GameObject> CreatedItems { get { return createdItems; } }
         [SerializeField]
         private Transform parent;
         [SerializeField]
         private GameObject pfb;
-        private GameObjectPool objectPool;
-        private bool isword;
-        private List<GameObject> createdItems = new List<GameObject>();
+        private GameObjectPool _objectPool;
+        protected GameObjectPool objectPool {
+            get
+            {
+                if(_objectPool == null)
+                {
+                    _objectPool = UIFacade.PanelPool;
+                }
+                return _objectPool;
+            }
+        }
+        protected bool isword;
+        protected List<GameObject> createdItems = new List<GameObject>();
+
         public  UnityAction<GameObject> onGetFrom { get; set; }
         public  UnityAction<GameObject> onSaveBack { get; set; }
-        private void Awake()
+
+        protected virtual void Awake()
         {
             pfb.gameObject.SetActive(false);
-            objectPool = UIFacade.PanelPool;
+            _objectPool = UIFacade.PanelPool;
             isword = !parent.GetComponent<RectTransform>();
         }
-
-        public GameObject[] CreateItems(int length)
+        protected virtual void OnDestroy()
         {
-            ClearOldItems();
-            if (length <= 0) return new GameObject[0];
+            if(_objectPool != null)
+            {
+                ClearOldItems();
+            }
+        }
 
-            GameObject go;
+        public GameObject[] CreateItems(int length,bool clean = true)
+        {
+            if(clean){
+                ClearOldItems();
+            }
+
+            GameObject temp;
             for (int i = 0; i < length; i++)
             {
-                go = objectPool.GetPoolObject(pfb.gameObject, parent, isword);
-                createdItems.Add(go);
+                temp = objectPool.GetPoolObject(pfb.gameObject, parent, isword);
+                createdItems.Add(temp);
             }
+
             return createdItems.ToArray();
         }
 

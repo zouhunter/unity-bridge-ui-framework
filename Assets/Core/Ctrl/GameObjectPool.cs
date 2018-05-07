@@ -7,7 +7,7 @@ namespace BridgeUI
     {
         private Dictionary<GameObject, List<GameObject>> poolObjs = new Dictionary<GameObject, List<GameObject>>();
         private Dictionary<GameObject, float> poolObjTimes = new Dictionary<GameObject, float>();
-        private Transform transform;
+        public Transform transform { get; private set; }
 
         public GameObjectPool(Transform parent)
         {

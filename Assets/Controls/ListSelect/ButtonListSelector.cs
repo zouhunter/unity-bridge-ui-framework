@@ -17,81 +17,25 @@ using System;
 namespace BridgeUI.Control
 {
     [System.Serializable]
-    public class ButtonListSelector : MonoBehaviour
+    public class ButtonListSelector : ListSelector
     {
-        [SerializeField]
-        private Transform m_parent;
-        [SerializeField]
-        private Button m_prefab;
-        private string selected;
-        private UnityAction<string> onChoise;
-        private Dictionary<string, Button> createdDic;
-        private string[] options;
-        private GameObjectPool gameObjectPool { get { return UIFacade.PanelPool; } }
-
-        public void OpenSelect(string[] selectables, UnityAction<string> onChoise)
+        protected override void OnCreateItem(int id,GameObject instence)
         {
-            this.options = selectables;
-            this.onChoise = onChoise;
-            CreateUIList(selectables);
-        }
+            base.OnCreateItem(id,instence);
 
-
-        public void OpenSelect(string[] selectables, UnityAction<int> onChoise)
-        {
-            this.options = selectables;
-            this.onChoise = (x) =>
-            {
-                if (onChoise != null)
-                {
-                    var id = System.Array.IndexOf(options, selected);
-                    onChoise.Invoke(id);
-                }
+            var type = options[id];
+            instence.GetComponentInChildren<Text>().text = type;
+            var button = instence.GetComponentInChildren<Button>();
+            UnityAction action = () => {
+                Select(id);
             };
-            CreateUIList(selectables);
-        }
-        void TrySelectItem()
-        {
-            if (this.onChoise != null){
-                this.onChoise.Invoke(selected);
-            }
 
-        }
-        void OnSelect(string type)
-        {
-            selected = type;
-            TrySelectItem();
-        }
+            button.onClick.AddListener(action);
 
-        void CreateUIList(string[] selectables)
-        {
-            if (createdDic == null)
+            onResetEvent += () =>
             {
-                createdDic = new Dictionary<string, Button>();
-            }
-            else
-            {
-                foreach (var item in createdDic)
-                {
-                    var button = item.Value;
-                    button.onClick.RemoveAllListeners();
-                    gameObjectPool.SavePoolObject(item.Value.gameObject, false);
-                }
-                createdDic.Clear();
-            }
-
-            for (int i = 0; i < selectables.Length; i++)
-            {
-                var item = gameObjectPool.GetPoolObject(m_prefab.gameObject, m_parent, false);
-                var type = selectables[i];
-                item.GetComponentInChildren<Text>().text = type;
-                var button = item.GetComponentInChildren<Button>();
-                Debug.Assert(button, "预制体或子物体上没有button组件");
-                button.onClick.AddListener(() => {
-                        OnSelect(type);
-                });
-                createdDic.Add(type, button);
-            }
+                button.onClick.RemoveListener(action);
+            };
         }
     }
 }

@@ -29,7 +29,7 @@ namespace BridgeUI
         {
             get
             {
-                if (_panelPool == null)
+                if (_panelPool == null || !_panelPool.transform)
                 {
                     var gameObjectPool = new GameObject("PanelPool");
                     _panelPool = new GameObjectPool(gameObjectPool.transform);

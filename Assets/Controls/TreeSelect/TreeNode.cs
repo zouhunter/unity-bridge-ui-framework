@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-namespace BridgeUI.Common.Tree
+namespace BridgeUI.Control.Tree
 {
     public abstract class TreeNode
     {

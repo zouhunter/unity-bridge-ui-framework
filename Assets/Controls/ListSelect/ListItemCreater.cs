@@ -17,7 +17,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Internal;
 
-namespace BridgeUI.Common
+namespace BridgeUI.Control
 {
     /// <summary>
     /// /// <summary>

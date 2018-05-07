@@ -13,7 +13,7 @@ using System.Collections.Generic;
 ///<summary>
 ///[代码说明信息]
 ///<summary>
-public class GenericTypePanel : BridgeUI.SingleCloseAblePanel
+public class GenericTypePanel : BridgeUI.GroupPanel
 {
 	[SerializeField]
 	private SubComponent m_subcomponent;
@@ -24,5 +24,8 @@ public class GenericTypePanel : BridgeUI.SingleCloseAblePanel
 
 	protected override void PropBindings ()
 	{
+		Binder.RegistMember<System.String[]> ("m_subcomponent.stringTest", "array");
+		Binder.RegistMember<List<System.String>> ("m_subcomponent.listTest", "list");
+		Binder.RegistMember<Dictionary<System.String,System.String>> ("m_subcomponent.dicTest", "dic");
 	}
 }

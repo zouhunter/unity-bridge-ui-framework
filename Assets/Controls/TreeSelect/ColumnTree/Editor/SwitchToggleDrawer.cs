@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
-namespace BridgeUI.Common.Tree
+namespace BridgeUI.Control.Tree
 {
 
     #region UNITY_EDITOR

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using BridgeUI.Common.Tree;
+using BridgeUI.Control.Tree;
 using System;
 
 public class TreeTest : MonoBehaviour {

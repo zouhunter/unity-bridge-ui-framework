@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 2
+  selected: 1
   instenceID: 0
   assetName: GenericTypePanel
   style: 1
@@ -68,7 +68,7 @@ MonoBehaviour:
     canInherit: 0
     bindingAble: 0
   components:
-  - open: 1
+  - open: 0
     name: subcomponent
     componentID: 0
     components:

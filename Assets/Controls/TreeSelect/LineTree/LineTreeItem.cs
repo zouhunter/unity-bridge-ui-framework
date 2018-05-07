@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-namespace BridgeUI.Common.Tree
+namespace BridgeUI.Control.Tree
 {
     public class LineTreeItem : MonoBehaviour
     {

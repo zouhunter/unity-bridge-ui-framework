@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-namespace BridgeUI.Common.Tree
+namespace BridgeUI.Control.Tree
 {
     public class ColumnTreeSelector : TreeSelector
     {

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-namespace BridgeUI.Common.Tree
+namespace BridgeUI.Control.Tree
 {
     [System.Serializable]
     public struct LineTreeOption

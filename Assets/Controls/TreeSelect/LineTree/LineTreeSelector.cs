@@ -15,7 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BridgeUI.Common.Tree
+namespace BridgeUI.Control.Tree
 {
     /// <summary>
     /// 树形选择器

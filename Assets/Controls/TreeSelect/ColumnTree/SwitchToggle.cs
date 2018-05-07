@@ -11,7 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace BridgeUI.Common.Tree
+namespace BridgeUI.Control.Tree
 {
     [RequireComponent(typeof(Toggle))]
     public class SwitchToggle : MonoBehaviour

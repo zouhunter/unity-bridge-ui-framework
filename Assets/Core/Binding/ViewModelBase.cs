@@ -16,6 +16,8 @@ namespace BridgeUI.Binding
 
     public class ViewModelBase
     {
+        private List<BindingContext> _contexts = new List<BindingContext>();
+        protected List<BindingContext> Contexts { get { return _contexts; } }
         protected readonly Dictionary<string, IBindableProperty> bindingPropertyDic = new Dictionary<string, BridgeUI.Binding.IBindableProperty>();
         public IBindableProperty this[string name]
         {
@@ -69,8 +71,8 @@ namespace BridgeUI.Binding
             }
             return null;
         }
-        public virtual void OnBinding(BindingContext context) { }
-        public virtual void OnUnBinding(BindingContext context) { }
+        public virtual void OnBinding(BindingContext context) { this._contexts.Add(context); }
+        public virtual void OnUnBinding(BindingContext context) { this._contexts.Remove(context); }
     }
 
 }

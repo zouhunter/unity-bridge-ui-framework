@@ -151,6 +151,7 @@ namespace BridgeUI.CodeGen
                     invocation.Target = new MemberReferenceExpression(new IdentifierExpression("Binder"), methodName, new AstType[0]);
                     invocation.Arguments.Add(new IdentifierExpression(arg0_name));
                     invocation.Arguments.Add(new PrimitiveExpression(bindingInfo.bindingSource));
+                    invocation.Arguments.Add(new IdentifierExpression("m_" + name));
                     PropBindingsNode.Body.Add(invocation);
                 }
 
@@ -194,12 +195,39 @@ namespace BridgeUI.CodeGen
                 List<ParameterDeclaration> arguments = new List<ParameterDeclaration>();
                 var parameters = parameter.ParameterType.GetGenericArguments();
                 int count = 0;
-                foreach (var para in parameters)
+                var oldMethod = typeof(PanelBase).Assembly.GetType(classNode.Name).GetMethod(item.bindingSource, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+                System.Reflection.ParameterInfo[] oldParamters = null;
+
+                if (oldMethod != null)
                 {
-                    ParameterDeclaration argument = new ParameterDeclaration(new ICSharpCode.NRefactory.CSharp.PrimitiveType(para.Name), "arg" + count++);
+                    if (parameters.Count() == 0)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        oldParamters = oldMethod.GetParameters();
+                    }
+                }
+
+                bool sameFunc = true;
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    var para = parameters[i];
+                    if (oldParamters != null)
+                    {
+                        var oldParam = oldParamters[i];
+                        if (oldParam.ParameterType.FullName != para.FullName)
+                        {
+                            sameFunc = false;
+                        }
+                    }
+
+                    ParameterDeclaration argument = new ParameterDeclaration(new ICSharpCode.NRefactory.CSharp.PrimitiveType(para.FullName), "arg" + count++);
                     arguments.Add(argument);
                 }
 
+                if (!sameFunc)
                 {
                     funcNode = new MethodDeclaration();
                     funcNode.Name = item.bindingSource;
@@ -209,7 +237,6 @@ namespace BridgeUI.CodeGen
                     funcNode.Body = new BlockStatement();
                     classNode.AddChild(funcNode, Roles.TypeMemberRole);
                 }
-
             }
         }
 
@@ -342,7 +369,7 @@ namespace BridgeUI.CodeGen
             }
 
             var func = baseType.GetMethod(membername, System.Reflection.BindingFlags.GetField | flag);
-            if(func != null && func.GetParameters().Count() == 1)
+            if (func != null && func.GetParameters().Count() == 1)
             {
                 infoType = func.GetParameters()[0].ParameterType;
             }

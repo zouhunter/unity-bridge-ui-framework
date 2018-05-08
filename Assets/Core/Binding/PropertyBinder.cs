@@ -61,15 +61,15 @@ namespace BridgeUI.Binding
         /// </summary>
         /// <param name="uEvent"></param>
         /// <param name="sourceName"></param>
-        public virtual void RegistEvent(UnityEvent uEvent, string sourceName,params object[] arguments)
+        public virtual void RegistEvent<T>(UnityEvent uEvent, string sourceName,T target)
         {
             UnityAction action = () =>
             {
-                var prop = viewModel.GetBindableProperty<PanelEvent>(sourceName);
+                var prop = viewModel.GetBindableProperty<PanelAction<T>>(sourceName);
                 if (prop.Value != null)
                 {
                     var func = prop.Value;
-                    func.Invoke(Context as PanelBase,arguments);
+                    func.Invoke(Context,target);
                 }
             };
 
@@ -91,16 +91,15 @@ namespace BridgeUI.Binding
         /// <typeparam name="T"></typeparam>
         /// <param name="uEvent"></param>
         /// <param name="sourceName"></param>
-        /// <param name="arguments"></param>
-        internal virtual void RegistEvent<T>(UnityEvent<T> uEvent,string sourceName, params object[] arguments)
+        internal virtual void RegistEvent<T,P>(UnityEvent<T> uEvent, string sourceName, P target)
         {
             UnityAction<T> action = (x) =>
             {
-                var prop = viewModel.GetBindableProperty<PanelEvent>(sourceName);
+                var prop = viewModel.GetBindableProperty<PanelAction<P>>(sourceName);
                 if (prop.Value != null)
                 {
                     var func = prop.Value;
-                    func.Invoke(Context as PanelBase, arguments);
+                    func.Invoke(Context,target);
                 }
             };
 
@@ -114,7 +113,6 @@ namespace BridgeUI.Binding
                 uEvent.RemoveListener(action);
             };
         }
-        
 
         /// <summary>
         /// 手动指定绑定事件

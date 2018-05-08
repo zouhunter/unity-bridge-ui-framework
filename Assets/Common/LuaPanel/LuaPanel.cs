@@ -81,9 +81,9 @@ namespace BridgeUI.Common
                     InitScritEnv(luaScript.text);
                     break;
                 case LuaResourceType.StreamingFile:
-                    url = 
-#if UNITY_EDITOR||UNITY_STANDALONE
-                    "file:///" + 
+                    url =
+#if UNITY_EDITOR || UNITY_STANDALONE
+                    "file:///" +
 #endif
                     Application.streamingAssetsPath + "/" + streamingPath;
                     StartCoroutine(LoadScriptFromUrl(url));
@@ -115,9 +115,9 @@ namespace BridgeUI.Common
         {
             WWW www = new WWW(url);
             yield return www;
-            if(www.error == null)
+            if (www.error == null)
             {
-                var scriptText =  WorpScriptString(www.text);
+                var scriptText = WorpScriptString(www.text);
                 InitScritEnv(scriptText);
             }
         }
@@ -142,8 +142,9 @@ namespace BridgeUI.Common
 
                 loader = AssetBundleLoader.GetInstance(url, menu);
             }
-            loader.LoadAssetFromUrlAsync<TextAsset>(assetBundleName, assetName, (asset) => {
-                if(asset != null)
+            loader.LoadAssetFromUrlAsync<TextAsset>(assetBundleName, assetName, (asset) =>
+            {
+                if (asset != null)
                 {
                     InitScritEnv(asset.text);
                 }
@@ -204,9 +205,9 @@ namespace BridgeUI.Common
 
         private void RegistBaseAction()
         {
-            Binder.RegistEvent(luaOnInit, "oninit");
-            Binder.RegistEvent(luaUpdate, "update");
-            Binder.RegistEvent(luaOnDestroy, "ondestroy");
+            Binder.RegistEvent(luaOnInit, "oninit", this);
+            Binder.RegistEvent(luaUpdate, "update", this);
+            Binder.RegistEvent(luaOnDestroy, "ondestroy", this);
         }
         /// <summary>
         /// 直接加载脚本文件不太安全，

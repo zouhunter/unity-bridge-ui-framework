@@ -27,7 +27,7 @@ public class UserControlPanel : BridgeUI.SingleCloseAblePanel
 
 	protected override void PropBindings ()
 	{
-		Binder.RegistEvent (m_List.onSelectChanged, "onSelect");
+		Binder.RegistEvent (m_List.onSelectChanged, "onSelect",m_List);
 		Binder.RegistMember<System.String[]> ("m_List.infos", "infos");
 	}
 }

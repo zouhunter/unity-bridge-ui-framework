@@ -68,4 +68,12 @@ namespace BridgeUI.Binding
         }
     }
 
+    public class BindableAction<T> : BindableProperty<PanelAction<T>>
+    {
+        public BindableAction() { }
+        public BindableAction(PanelAction<T> data)
+        {
+            Value = data;
+        }
+    }
 }

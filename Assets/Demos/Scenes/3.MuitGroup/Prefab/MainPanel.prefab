@@ -675,6 +675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   content: {fileID: 22435888}
+  m_close: {fileID: 11470084}
   m_openPanel01: {fileID: 11415130}
   m_openPanel02: {fileID: 11427200}
   m_openPanel03: {fileID: 11455050}
@@ -682,7 +683,6 @@ MonoBehaviour:
   m_info: {fileID: 11429890}
   m_switch: {fileID: 11418272}
   m_slider: {fileID: 11499644}
-  m_close: {fileID: 11470084}
 --- !u!114 &11441198
 MonoBehaviour:
   m_ObjectHideFlags: 1

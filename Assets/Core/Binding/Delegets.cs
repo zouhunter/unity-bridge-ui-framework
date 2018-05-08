@@ -17,16 +17,8 @@ namespace BridgeUI.Binding
     public delegate void ValueChangedHandler2<T>(T oldValue,T newValue);
     public delegate void BindHandler(BindingContext source);
     public delegate void UnBindHandler(BindingContext source);
-
-    public class ComponentData<T> {
-        public string sourceName;
-        public object sender;
-        public object[] args;
-        public PropertyBinder panelBinder;
-    }
-    
 #if xLua
     [XLua.CSharpCallLua]
 #endif
-    public delegate void PanelEvent(PanelBase panel, params object[] args);
+    public delegate void PanelAction<T>(BindingContext panel,T sender);
 }

@@ -470,7 +470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faaecd3e0b5cce64d89c2e8978118b33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toggleList: {fileID: 0}
+  toggleList: {fileID: 510077477}
   options: []
 --- !u!4 &777232752
 Transform:

@@ -25,6 +25,8 @@ namespace BridgeUI.Control
         public event UnityAction<int> onSelectID;
         public event UnityAction<GameObject> onShow;
         public event UnityAction<GameObject> onHide;
+        public int currentID { get { return _currentID; } }
+        public int[] currentIDs { get { return selecteds.ToArray(); } }
 
         public string[] options
         {
@@ -64,13 +66,16 @@ namespace BridgeUI.Control
                 return _objectPool;
             }
         }
+        private int _currentID;
+
         protected virtual void TriggerID()
         {
             if (selecteds.Count > 0)
             {
                 if (onSelectID != null)
                 {
-                    onSelectID(selecteds[selecteds.Count - 1]);
+                    _currentID = selecteds[selecteds.Count - 1];
+                    onSelectID(_currentID);
                 }
             }
         }

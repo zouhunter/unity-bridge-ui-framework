@@ -66,10 +66,10 @@ namespace BridgeUI.Binding
         {
             UnityAction action = () =>
             {
-                var prop = viewModel.GetBindableProperty<PanelAction>(sourceName);
-                if (prop != null && prop.Value != null)
+                var prop = viewModel.GetUsefulBindTarget<C_PanelAction>(sourceName);
+                if (prop != null && prop.Target != null)
                 {
-                    var func = prop.Value;
+                    var func = prop.Target as PanelAction;
                     func.Invoke(Context);
                 }
                 else
@@ -97,10 +97,10 @@ namespace BridgeUI.Binding
         {
             UnityAction action = () =>
             {
-                var prop = viewModel.GetBindableProperty<CallBack<T>>(sourceName);
-                if (prop != null && prop.Value != null)
+                var prop = viewModel.GetUsefulBindTarget<C_PanelAction<T>>(sourceName);
+                if (prop != null && prop.Target != null)
                 {
-                    var func = prop.Value;
+                    var func = prop.Target as PanelAction<T>;
                     func.Invoke(Context, target);
                 }
                 else
@@ -132,10 +132,10 @@ namespace BridgeUI.Binding
         {
             UnityAction<T> action = (x) =>
             {
-                var prop = viewModel.GetBindableProperty<CallBack<P>>(sourceName);
-                if (prop != null && prop.Value != null)
+                var prop = viewModel.GetUsefulBindTarget<C_PanelAction<P>>(sourceName);
+                if (prop != null && prop.Target != null)
                 {
-                    var func = prop.Value;
+                    var func = prop.Target as PanelAction<P>;
                     func.Invoke(Context, target);
                 }
                 else
@@ -165,7 +165,7 @@ namespace BridgeUI.Binding
         {
             binders += (viewModel) =>
             {
-                var prop = viewModel.GetBindableProperty<T>(sourceName);
+                var prop = viewModel.GetUsefulBindTarget<B_Property<T>>(sourceName);
                 if (onViewModelChanged != null && prop != null)
                 {
                     onViewModelChanged.Invoke(prop.Value);
@@ -175,7 +175,7 @@ namespace BridgeUI.Binding
 
             unbinders += (viewModel) =>
             {
-                var prop = viewModel.GetBindableProperty<T>(sourceName);
+                var prop = viewModel.GetUsefulBindTarget<B_Property<T>>(sourceName);
                 if (onViewModelChanged != null && prop != null)
                 {
                     prop.RemoveValueChanged(onViewModelChanged);

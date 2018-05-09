@@ -20,6 +20,6 @@ namespace BridgeUI.Binding
 #if xLua
     [XLua.CSharpCallLua]
 #endif
-    public delegate void CallBack<T>(IBindingContext panel,T sender);
+    public delegate void PanelAction<T>(IBindingContext panel,T sender);
     public delegate void PanelAction(IBindingContext panel);
 }

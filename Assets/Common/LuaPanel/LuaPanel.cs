@@ -176,10 +176,11 @@ namespace BridgeUI.Common
         {
             if (luaViewModel != null)
             {
-                var prop = luaViewModel.GetBindableProperty(key, value.GetType());
+                var fullType = typeof(B_Property<>).MakeGenericType(value.GetType());
+                var prop = luaViewModel.GetUsefulBindTarget(key, fullType);
                 if (prop != null)
                 {
-                    prop.ValueBoxed = value;
+                    prop.Target = value;
                 }
             }
         }
@@ -231,7 +232,7 @@ namespace BridgeUI.Common
 
             if (luaViewModel != null)
             {
-                var action = luaViewModel.GetBindableProperty<UnityAction<object>>("handle_data");
+                var action = luaViewModel.GetUsefulBindTarget<B_Property<UnityAction<object>>>("handle_data");
                 if (action.Value != null)
                 {
                     action.Value.Invoke(data);

@@ -126,8 +126,8 @@ MonoBehaviour:
       type: bridge
   - m_name: Panel02
     m_id: 6b442bd8-0cfe-4fc1-b4f1-83f81eaab21d
-    m_x: 480
-    m_y: 240
+    m_x: 504
+    m_y: 132
     m_node: {fileID: 11481208}
     m_inputPoints:
     - id: 8b80bc82-4821-4d7c-9db5-5cae4f68d9e2
@@ -158,7 +158,7 @@ MonoBehaviour:
   - m_name: Panel03
     m_id: f43dbdec-1340-4cbd-8a6a-171a8942dd1c
     m_x: 492
-    m_y: 144
+    m_y: 216
     m_node: {fileID: 11436402}
     m_inputPoints:
     - id: 81b51814-cb6a-4645-9837-3198bdbc2b54
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeConnection
   m_EditorClassIdentifier: 
-  index: 1
+  index: 2
   show:
     auto: 0
     cover: 0
@@ -652,7 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeConnection
   m_EditorClassIdentifier: 
-  index: 2
+  index: 1
   show:
     auto: 0
     cover: 0
@@ -691,8 +691,6 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 135014, guid: ba16a0659248e00479962ae1a0bf4624, type: 2}
@@ -710,8 +708,6 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 172160, guid: ba16a0659248e00479962ae1a0bf4624, type: 2}

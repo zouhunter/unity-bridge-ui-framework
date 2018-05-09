@@ -24,12 +24,12 @@ namespace BridgeUI.Common
             this.scriptEnv = scriptEnv;
         }
 
-        public override BindableProperty<T> GetBindableProperty<T>(string name)
+        public override T GetUsefulBindTarget<T>(string name)
         {
-            var prop = base.GetBindableProperty<T>(name);
-            if (prop.ValueBoxed == null)
+            var prop = base.GetUsefulBindTarget<T>(name);
+            if (prop.Target == null && prop is B_Property<T>)
             {
-                prop.Value = scriptEnv.Get<T>(name);
+                prop.Target = scriptEnv.Get<T>(name);
             }
             return prop;
         }

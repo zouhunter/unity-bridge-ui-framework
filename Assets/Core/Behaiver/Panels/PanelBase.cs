@@ -70,13 +70,15 @@ namespace BridgeUI
                 if (_enterAnim == null)
                 {
                     var enterAnimType = UType.enterAnim.type;
-                    if (enterAnimType != null) {
+                    if (enterAnimType != null)
+                    {
                         _enterAnim = gameObject.GetComponent(enterAnimType) as IAnimPlayer;
-                        if (_enterAnim == null) {
+                        if (_enterAnim == null)
+                        {
                             _enterAnim = gameObject.AddComponent(enterAnimType) as IAnimPlayer;
                         }
                     }
-                   
+
                 }
                 return _enterAnim;
 
@@ -255,10 +257,11 @@ namespace BridgeUI
             foreach (var item in data.Keys)
             {
                 var key = item.ToString();
-                var prop = BindingContext.GetBindableProperty(key, data[item].GetType());
+                var fullType = typeof(B_Property<>).MakeGenericType(data[item].GetType());
+                var prop = BindingContext.GetUsefulBindTarget(key, fullType);
                 if (prop != null)
                 {
-                    prop.ValueBoxed = data[item];
+                    prop.Target = data[item];
                 }
             }
         }
@@ -298,7 +301,7 @@ namespace BridgeUI
         {
             if (IsShowing && UType.quitAnim.type != null)
             {
-                quitAnim.PlayAnim(false,CloseInternal);
+                quitAnim.PlayAnim(false, CloseInternal);
             }
             else
             {
@@ -374,7 +377,7 @@ namespace BridgeUI
         {
             if (UType.enterAnim.type != null)
             {
-                enterAnim.PlayAnim(true,null);
+                enterAnim.PlayAnim(true, null);
             }
         }
         private void AlaphGameObject(bool hide)

@@ -34,20 +34,20 @@ public class MainPanelViewModel : BridgeUI.Binding.ViewModelBase
 
     public MainPanelViewModel()
     {
-        OpenPanel01Action.Value = (context) =>
+        OpenPanel01Action.RegistAction((context) =>
         {
             var panel = context as PanelBase;
             panel.Open(PanelNames.Panel01);
-        };
-        OpenPanel02Action.Value = (context, sender) =>
+        });
+        OpenPanel02Action.RegistAction((context, sender) =>
         {
             var panel = context as PanelBase;
             panel.Open(PanelNames.Panel02);
-        };
+        });
         //OpenPanel03.Value = (panel, z) => {
         //    panel.Open(PanelNames.Panel03);
         //};
-        this["OpenPanel03"] = new BindableProperty<CallBack<Button>>((context, sender) =>
+        this["OpenPanel03"] = new C_PanelAction<Button>((context, sender) =>
          {
              var panel = context as PanelBase;
              panel.Open(PanelNames.Panel03);
@@ -71,15 +71,15 @@ public class MainPanelViewModel : BridgeUI.Binding.ViewModelBase
 /// </summary>
 public class MainPanelViewModel_with_ID : BridgeUI.Binding.ViewModelBase
 {
-    public readonly BindableProperty<string> title = new BindableProperty<string>();
-    public readonly BindableProperty<string> info = new BindableProperty<string>();
-    public readonly BindableProperty<bool> switcher = new BindableProperty<bool>();
+    public readonly B_Property<string> title = new B_Property<string>();
+    public readonly B_Property<string> info = new B_Property<string>();
+    public readonly B_Property<bool> switcher = new B_Property<bool>();
     public readonly C_PanelAction<Button> OpenPanel01 = new C_PanelAction<Button>();
     public readonly C_PanelAction<Button> OpenPanel02 = new C_PanelAction<Button>();
-    //public readonly BindableProperty<PanelEvent> OpenPanel03 = new BindableProperty<PanelEvent>();
+    public readonly C_PanelAction<Button> OpenPanel03 = new C_PanelAction<Button>();
     public MainPanelViewModel_with_ID()
     {
-        OpenPanel01.Value = (context, sender) =>
+        OpenPanel01.RegistAction((context, sender) =>
         {
             var panel = context as PanelBase;
 
@@ -91,20 +91,17 @@ public class MainPanelViewModel_with_ID : BridgeUI.Binding.ViewModelBase
             {
                 panel.Close(0);
             }
-        };
-        OpenPanel02.Value = (context, sender) =>
+        });
+        OpenPanel02.RegistAction((context, sender) =>
         {
             var panel = context as PanelBase;
 
             panel.Open(1);
-        };
-        //OpenPanel03.Value = (panel, z) => {
-        //    panel.Open(PanelNames.Panel03);
-        //};
-        this["OpenPanel03"] = new C_PanelAction<Button>((context, sender) =>
+        });
+
+        OpenPanel03.RegistAction((context, z) =>
         {
             var panel = context as PanelBase;
-
             panel.Open(2);
         });
     }

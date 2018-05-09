@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
+  m_Name: innergroup
+  m_EditorClassIdentifier: 
+  m_allNodes:
+  - m_name: PopUpPanel
+    m_id: 4808502d-dd9f-429f-a133-35a1c85a1e0c
+    m_x: 382
+    m_y: 279
+    m_node: {fileID: 11411476}
+    m_inputPoints:
+    - id: 90547d49-91f7-4556-969a-7384d6705c31
+      label: 
+      parentId: 4808502d-dd9f-429f-a133-35a1c85a1e0c
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints:
+    - id: 9de043a0-f272-4a75-bcf6-bce6a771f7fb
+      label: 
+      parentId: 4808502d-dd9f-429f-a133-35a1c85a1e0c
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  m_allConnections: []
+  m_lastModified: 131703768544081871
+  m_graphDescription: 
+  m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  m_panelNamePath: 
+--- !u!114 &11411476
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: PanelNode
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  assetName: 
+  style: 1
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+    bindingAble: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 132216, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}
+    discription: 

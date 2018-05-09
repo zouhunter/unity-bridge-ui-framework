@@ -143,4 +143,10 @@ public class PanelNames {
             return "LuaPanel01";
         }
     }
+    
+    public static string InnerGroupTestPanel {
+        get {
+            return "InnerGroupTestPanel";
+        }
+    }
 }

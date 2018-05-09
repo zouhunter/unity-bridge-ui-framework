@@ -126,7 +126,7 @@ namespace BridgeUI.CodeGen
                     }
                 }
             }
-            AnalysisBindings(component, components);
+            AnalysisBindings(component, components, new GenCodeRule());
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace BridgeUI.CodeGen
                 var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
 
                 CreateMemberFields(classNode, needAdd);
-                BindingInfoMethods(classNode, needAdd, rule.bindingAble);
+                BindingInfoMethods(classNode, needAdd, rule);
                 SortClassMembers(classNode);
 
                 var prefabPath = AssetDatabase.GetAssetPath(go);
@@ -257,13 +257,14 @@ namespace BridgeUI.CodeGen
             return InitComponentsNode;
         }
 
-        public static MethodDeclaration GetAwakeMethod(TypeDeclaration classNode)
+        public static MethodDeclaration GetAwakeMethod(TypeDeclaration classNode,string baseTypeName)
         {
             var awakeNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == "Awake").FirstOrDefault();
 
             if (awakeNode == null)
             {
-                var type = typeof(PanelBase).Assembly.GetType(classNode.Name);
+                var type = typeof(PanelBase).Assembly.GetType(baseTypeName);
+
                 awakeNode = new MethodDeclaration();
                 awakeNode.Name = "Awake";
                 awakeNode.ReturnType = new ICSharpCode.NRefactory.CSharp.PrimitiveType("void");
@@ -539,12 +540,12 @@ namespace BridgeUI.CodeGen
         /// </summary>
         /// <param name="classNode"></param>
         /// <param name="components"></param>
-        private static void BindingInfoMethods(TypeDeclaration classNode, ComponentItem[] components, bool bindingAble)
+        private static void BindingInfoMethods(TypeDeclaration classNode, ComponentItem[] components, GenCodeRule rule)
         {
-            componentCoder.SetContext(classNode);
+            componentCoder.SetContext(classNode,rule);
             foreach (var component in components)
             {
-                componentCoder.CompleteCode(component, bindingAble);
+                componentCoder.CompleteCode(component, rule.bindingAble);
             }
         }
 
@@ -553,12 +554,12 @@ namespace BridgeUI.CodeGen
         /// </summary>
         /// <param name="component"></param>
         /// <param name="components"></param>
-        private static void AnalysisBindings(MonoBehaviour component, List<ComponentItem> components)
+        private static void AnalysisBindings(MonoBehaviour component, List<ComponentItem> components,GenCodeRule rule)
         {
             var script = MonoScript.FromMonoBehaviour(component).text;
             var tree = new CSharpParser().Parse(script);
             var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == component.GetType().Name).FirstOrDefault();
-            componentCoder.SetContext(classNode);
+            componentCoder.SetContext(classNode,rule);
             componentCoder.AnalysisBinding(components);
         }
 

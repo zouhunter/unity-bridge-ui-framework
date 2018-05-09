@@ -39,17 +39,20 @@ namespace BridgeUI.CodeGen
             {
                 if (_awakeNode == null)
                 {
-                    _awakeNode = GenCodeUtil.GetAwakeMethod(classNode);
+                    var baseTypeName = GenCodeUtil.supportBaseTypes[rule.baseTypeIndex];
+                    _awakeNode = GenCodeUtil.GetAwakeMethod(classNode, baseTypeName);
                 }
                 return _awakeNode;
             }
         }
 
         protected TypeDeclaration classNode;
+        protected GenCodeRule rule;
 
-        public void SetContext(TypeDeclaration classNode)
+        public void SetContext(TypeDeclaration classNode,GenCodeRule rule)
         {
             this.classNode = classNode;
+            this.rule = rule;
             _initComponentNode = null;
             _propBindingsNode = null;
         }
@@ -200,7 +203,14 @@ namespace BridgeUI.CodeGen
                 List<ParameterDeclaration> arguments = new List<ParameterDeclaration>();
                 var parameters = parameter.ParameterType.GetGenericArguments();
                 int count = 0;
-                var oldMethod = typeof(PanelBase).Assembly.GetType(classNode.Name).GetMethod(item.bindingSource, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+
+                var oldType = typeof(PanelBase).Assembly.GetType(classNode.Name);
+                System.Reflection.MethodInfo oldMethod = null;
+                if (oldType != null)
+                {
+                    oldMethod = oldType.GetMethod(item.bindingSource, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+                }
+
                 System.Reflection.ParameterInfo[] oldParamters = null;
 
                 if (oldMethod != null)
@@ -215,7 +225,8 @@ namespace BridgeUI.CodeGen
                     }
                 }
 
-                bool sameFunc = true;
+                bool sameFunc = parameters.Length > 0;
+
                 for (int i = 0; i < parameters.Length; i++)
                 {
                     var para = parameters[i];

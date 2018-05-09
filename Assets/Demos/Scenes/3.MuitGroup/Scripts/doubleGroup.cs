@@ -38,8 +38,8 @@ public class doubleGroup : MonoBehaviour
             dic["info"] = "当传入IDictionary时，会自动填充绑定好的字段或属性";
             dic["method"] = "可以向方法传递一个参数";
             dic["ondestroy"] = new Action<string>((x)=> { Debug.Log(x); });
-            dic["OpenPanel01"]= dic["OpenPanel02"]= dic["OpenPanel03"] = new UnityAction(() => {
-                Debug.Log( ": onClicked");
+            dic["OpenPanel01"]= dic["OpenPanel02"]= dic["OpenPanel03"] = new PanelAction<Button>((context,button) => {
+                Debug.Log(button +": onClicked");
             });
       
 

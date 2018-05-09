@@ -231,14 +231,19 @@ MonoBehaviour:
   b_nodes: []
   p_nodes:
   - panelName: LuaPanel01
-    instanceID: -92854
+    instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 142688, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
@@ -246,11 +251,11 @@ MonoBehaviour:
   - inNode: 
     index: 0
     showModel:
-      auto: 1
-      mutex: 0
+      auto: 0
       cover: 0
-      baseShow: 0
       single: 0
+      mutex: 0
+      baseShow: 0
     outNode: LuaPanel01
 --- !u!1 &1533093599
 GameObject:

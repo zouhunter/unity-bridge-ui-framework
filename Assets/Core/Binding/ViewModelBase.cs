@@ -18,8 +18,8 @@ namespace BridgeUI.Binding
     {
         private List<IBindingContext> _contexts = new List<IBindingContext>();
         protected List<IBindingContext> Contexts { get { return _contexts; } }
-        protected readonly Dictionary<string, IBindTarget> bindingPropertyDic = new Dictionary<string, BridgeUI.Binding.IBindTarget>();
-        public IBindTarget this[string name]
+        protected readonly Dictionary<string, IBindableProperty> bindingPropertyDic = new Dictionary<string, BridgeUI.Binding.IBindableProperty>();
+        public IBindableProperty this[string name]
         {
             get
             {
@@ -47,7 +47,7 @@ namespace BridgeUI.Binding
             var fields = this.GetType().GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.GetField | System.Reflection.BindingFlags.Instance);
             foreach (var field in fields)
             {
-                if (field != null && typeof(IBindTarget).IsAssignableFrom(field.FieldType))
+                if (field != null && typeof(IBindableProperty).IsAssignableFrom(field.FieldType))
                 {
                     var customAttributes = field.GetCustomAttributes(false);
                     var bindingProp = customAttributes.Where(x => x.GetType() == typeof(BindingAttribute)).FirstOrDefault();
@@ -55,15 +55,15 @@ namespace BridgeUI.Binding
                     if (bindingProp != null)
                     {
                         var customKey = (bindingProp as BindingAttribute).keyword;
-                        if (!string.IsNullOrEmpty(customKey))
+                        if(!string.IsNullOrEmpty(customKey))
                         {
                             bindingKey = customKey;
                         }
                     }
-                    var value = field.GetValue(this) as IBindTarget;
+                    var value = field.GetValue(this) as IBindableProperty;
                     if (value == null)
                     {
-                        value = System.Activator.CreateInstance(field.FieldType) as IBindTarget;
+                        value = System.Activator.CreateInstance(field.FieldType) as IBindableProperty;
                         field.SetValue(this, value);
                     }
 
@@ -71,25 +71,24 @@ namespace BridgeUI.Binding
                 }
             }
         }
-
-        public virtual T GetUsefulBindTarget<T>(string name) where T : IBindTarget, new()
-        {
-            if (this[name] == null || !(this[name] is T))
-            {
-                this[name] = new T();
-            }
-            return (T)this[name];
-        }
-
-        public virtual IBindTarget GetUsefulBindTarget(string name, System.Type type)
+        public virtual BindableProperty<T> GetBindableProperty<T>(string name)
         {
             if (this[name] == null)
             {
-                this[name] = System.Activator.CreateInstance(type) as IBindTarget;
+                this[name] = new BindableProperty<T>();
             }
-            return this[name] as IBindTarget;
+            return this[name] as BindableProperty<T>;
         }
+        public virtual IBindableProperty GetBindableProperty(string name, System.Type type)
+        {
+            var fullType = typeof(BindableProperty<>).MakeGenericType(type);
 
+            if (this[name] == null)
+            {
+                this[name] = System.Activator.CreateInstance(fullType) as IBindableProperty;
+            }
+            return this[name] as IBindableProperty;
+        }
         public virtual void OnBinding(IBindingContext context) { this._contexts.Add(context); }
         public virtual void OnUnBinding(IBindingContext context) { this._contexts.Remove(context); }
     }

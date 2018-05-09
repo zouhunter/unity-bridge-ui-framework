@@ -26,7 +26,7 @@ using BridgeUI.Binding;
 namespace BridgeUI
 {
     [PanelParent]
-    public abstract class PanelBase : UIBehaviour, IPanelBase, Binding.IBindingContext
+    public abstract class PanelBase : UIBehaviour, IPanelBase, IBindingContext
     {
         public int InstenceID
         {
@@ -70,15 +70,13 @@ namespace BridgeUI
                 if (_enterAnim == null)
                 {
                     var enterAnimType = UType.enterAnim.type;
-                    if (enterAnimType != null)
-                    {
+                    if (enterAnimType != null) {
                         _enterAnim = gameObject.GetComponent(enterAnimType) as IAnimPlayer;
-                        if (_enterAnim == null)
-                        {
+                        if (_enterAnim == null) {
                             _enterAnim = gameObject.AddComponent(enterAnimType) as IAnimPlayer;
                         }
                     }
-
+                   
                 }
                 return _enterAnim;
 
@@ -111,7 +109,6 @@ namespace BridgeUI
         protected Bridge bridge;
         protected List<IPanelBase> childPanels;
         public event UnityAction<IPanelBase> onDelete;
-        public event PropertyChangedHand onPropertyChanged;
 
         private bool _isShowing = true;
         private bool _isAlive = true;
@@ -138,7 +135,7 @@ namespace BridgeUI
                 return _defultViewModel;
             }
         }
-        public Binding.ViewModelBase BindingContext
+        public Binding.ViewModelBase ViewModel
         {
             get
             {
@@ -147,7 +144,7 @@ namespace BridgeUI
             set
             {
                 _viewModel = value;
-                OnBindingContextChanged(_viewModel);
+                OnViewModelChanged(_viewModel);
             }
         }
 
@@ -184,25 +181,27 @@ namespace BridgeUI
 
             Binder.Unbind();
         }
-        protected virtual void InitComponents()
-        {
+        protected virtual void InitComponents() { }
+        protected virtual void PropBindings() { }
 
-        }
-        protected virtual void PropBindings()
-        {
-
-        }
-        protected void OnPropertyChanged(string memberName)
-        {
-            if (onPropertyChanged != null)
-                onPropertyChanged.Invoke(memberName);
-        }
-
-        public virtual void OnBindingContextChanged(Binding.ViewModelBase newValue)
+        public virtual void OnViewModelChanged(Binding.ViewModelBase newValue)
         {
             Binder.Unbind();
             Binder.Bind(newValue);
         }
+
+        protected void UpdateViewModel(string propertyName,object value)
+        {
+            if (ViewModel != null)
+            {
+                var prop = ViewModel.GetBindableProperty(propertyName, value.GetType());
+                if (prop != null)
+                {
+                    prop.ValueBoxed = value;
+                }
+            }
+        }
+
         public void SetParent(Transform Trans)
         {
             Utility.SetTranform(transform, UType.layer, UType.layerIndex, Trans);
@@ -241,7 +240,7 @@ namespace BridgeUI
         {
             if (data is Binding.ViewModelBase)
             {
-                BindingContext = data as Binding.ViewModelBase;
+                ViewModel = data as Binding.ViewModelBase;
             }
             else
             {
@@ -253,15 +252,14 @@ namespace BridgeUI
         }
         private void LoadIDictionary(IDictionary data)
         {
-            BindingContext = defultViewModel;
+            ViewModel = defultViewModel;
             foreach (var item in data.Keys)
             {
                 var key = item.ToString();
-                var fullType = typeof(B_Property<>).MakeGenericType(data[item].GetType());
-                var prop = BindingContext.GetUsefulBindTarget(key, fullType);
+                var prop = ViewModel.GetBindableProperty(key, data[item].GetType());
                 if (prop != null)
                 {
-                    prop.Target = data[item];
+                    prop.ValueBoxed = data[item];
                 }
             }
         }
@@ -301,7 +299,7 @@ namespace BridgeUI
         {
             if (IsShowing && UType.quitAnim.type != null)
             {
-                quitAnim.PlayAnim(false, CloseInternal);
+                quitAnim.PlayAnim(false,CloseInternal);
             }
             else
             {
@@ -377,7 +375,7 @@ namespace BridgeUI
         {
             if (UType.enterAnim.type != null)
             {
-                enterAnim.PlayAnim(true, null);
+                enterAnim.PlayAnim(true,null);
             }
         }
         private void AlaphGameObject(bool hide)

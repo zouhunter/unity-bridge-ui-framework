@@ -38,8 +38,8 @@ public class doubleGroup : MonoBehaviour
             dic["info"] = "当传入IDictionary时，会自动填充绑定好的字段或属性";
             dic["method"] = "可以向方法传递一个参数";
             dic["ondestroy"] = new Action<string>((x)=> { Debug.Log(x); });
-            dic["OpenPanel01"]= dic["OpenPanel02"]= dic["OpenPanel03"] = new PanelAction<Button>((context,x) => {
-                Debug.Log(x + ": onClicked");
+            dic["OpenPanel01"]= dic["OpenPanel02"]= dic["OpenPanel03"] = new UnityAction(() => {
+                Debug.Log( ": onClicked");
             });
       
 
@@ -77,9 +77,9 @@ public class doubleGroup : MonoBehaviour
             mainViewModel.switcherView.Value = !mainViewModel.switcherView.Value;
         }
         mainViewModel.infoStr.Value = UnityEngine.Random.Range(0, 100).ToString();
-        var keywordProp = mainViewModel.GetUsefulBindTarget<B_String>("keyword");
+        var keywordProp = mainViewModel.GetBindableProperty<string>("keyword");
         if (keywordProp != null)
-            keywordProp.Target = UnityEngine.Random.Range(0, 100).ToString();
+            keywordProp.ValueBoxed = UnityEngine.Random.Range(0, 100).ToString();
     }
 
     private void OpenPanel01(int index)

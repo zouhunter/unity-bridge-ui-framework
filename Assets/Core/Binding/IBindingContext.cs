@@ -2,11 +2,10 @@
 using UnityEngine;
 namespace BridgeUI.Binding
 {
-    public delegate void PropertyChangedHand(string propertyName);
-
     public interface IBindingContext
     {
-        event PropertyChangedHand onPropertyChanged;
+        Binding.ViewModelBase ViewModel { get; }
+        void OnViewModelChanged(Binding.ViewModelBase newValue);
     }
 
 }

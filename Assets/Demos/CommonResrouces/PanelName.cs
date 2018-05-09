@@ -137,4 +137,10 @@ public class PanelNames {
             return "AnimTestPanel";
         }
     }
+    
+    public static string LuaPanel01 {
+        get {
+            return "LuaPanel01";
+        }
+    }
 }

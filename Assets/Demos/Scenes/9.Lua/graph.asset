@@ -87,13 +87,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 1
   instenceID: -50136
-  description: 
   assetName: LuaPanel01
   style: 1
-  nodeType: 31
   rule:
     baseTypeIndex: 4
     canInherit: 0
+    bindingAble: 0
   components:
   - open: 0
     name: btnPic
@@ -134,6 +133,8 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent
     target: {fileID: 107120, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: Slider
     componentID: 0
@@ -165,6 +166,8 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Slider+SliderEvent
     target: {fileID: 196244, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: Button
     componentID: 0
@@ -194,6 +197,8 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Button+ButtonClickedEvent
     target: {fileID: 107120, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: Toggle
     componentID: 0
@@ -213,6 +218,8 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Toggle+ToggleEvent
     target: {fileID: 134786, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: Dropdown
     componentID: 0
@@ -236,6 +243,8 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Dropdown+DropdownEvent
     target: {fileID: 100574, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: InputField
     componentID: 0
@@ -265,6 +274,8 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.InputField+SubmitEvent
     target: {fileID: 193656, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: Image
     componentID: 0
@@ -290,6 +301,8 @@ MonoBehaviour:
         typeName: UnityEngine.Color
     eventItems: []
     target: {fileID: 197918, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: Text
     componentID: 0
@@ -310,6 +323,8 @@ MonoBehaviour:
         typeName: System.String
     eventItems: []
     target: {fileID: 170722, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: ScrollView
     componentID: 0
@@ -333,17 +348,24 @@ MonoBehaviour:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.ScrollRect+ScrollRectEvent
     target: {fileID: 157362, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   nodeInfo:
     uiType:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 142688, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+    discription: 
 --- !u!114 &11480364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -368,8 +390,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 0
   show:
-    auto: 1
-    mutex: 0
+    auto: 0
     cover: 0
-    baseShow: 0
     single: 0
+    mutex: 0
+    baseShow: 0

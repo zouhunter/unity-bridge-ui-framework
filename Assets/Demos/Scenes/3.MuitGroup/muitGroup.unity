@@ -348,6 +348,7 @@ MonoBehaviour:
   b_nodes:
   - panelName: MainPanel
     instanceID: -223308
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -366,6 +367,7 @@ MonoBehaviour:
     bundleName: bridgeui/panels/mainpanel
   - panelName: Panel04
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -384,6 +386,7 @@ MonoBehaviour:
     bundleName: bridgeui/panels/panel04
   - panelName: Panel01
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -402,6 +405,7 @@ MonoBehaviour:
     bundleName: bridgeui/panels/panel01
   - panelName: Panel02
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -420,6 +424,7 @@ MonoBehaviour:
     bundleName: bridgeui/panels/panel02
   - panelName: Panel03
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -439,6 +444,7 @@ MonoBehaviour:
   p_nodes:
   - panelName: MainPanel
     instanceID: -150718
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -455,6 +461,7 @@ MonoBehaviour:
     prefab: {fileID: 129970, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
   - panelName: Panel04
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -471,6 +478,7 @@ MonoBehaviour:
     prefab: {fileID: 129970, guid: 1172f1b2f39183747ab91057b53a70cd, type: 2}
   - panelName: Panel01
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -487,6 +495,7 @@ MonoBehaviour:
     prefab: {fileID: 129970, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
   - panelName: Panel02
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -503,6 +512,7 @@ MonoBehaviour:
     prefab: {fileID: 129970, guid: ba16a0659248e00479962ae1a0bf4624, type: 2}
   - panelName: Panel03
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -522,46 +532,46 @@ MonoBehaviour:
     index: 0
     showModel:
       auto: 0
-      mutex: 1
       cover: 0
-      baseShow: 0
       single: 0
+      mutex: 1
+      baseShow: 0
     outNode: Panel01
   - inNode: MainPanel
     index: 2
     showModel:
       auto: 0
-      mutex: 1
       cover: 0
-      baseShow: 0
       single: 0
+      mutex: 1
+      baseShow: 0
     outNode: Panel02
   - inNode: MainPanel
     index: 1
     showModel:
       auto: 0
-      mutex: 1
       cover: 0
-      baseShow: 0
       single: 0
+      mutex: 1
+      baseShow: 0
     outNode: Panel03
   - inNode: MainPanel
     index: 3
     showModel:
       auto: 0
-      mutex: 1
       cover: 0
-      baseShow: 0
       single: 0
+      mutex: 1
+      baseShow: 0
     outNode: Panel04
   - inNode: 
     index: 0
     showModel:
       auto: 1
-      mutex: 0
       cover: 0
-      baseShow: 0
       single: 0
+      mutex: 0
+      baseShow: 0
     outNode: MainPanel
 --- !u!222 &891393617
 CanvasRenderer:
@@ -650,11 +660,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22484450, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22402544, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
@@ -758,6 +768,7 @@ MonoBehaviour:
   b_nodes:
   - panelName: MainPanel
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -776,6 +787,7 @@ MonoBehaviour:
     bundleName: bridgeui/panels/mainpanel
   - panelName: Panel04
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -794,6 +806,7 @@ MonoBehaviour:
     bundleName: bridgeui/panels/panel04
   - panelName: Panel01
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -812,6 +825,7 @@ MonoBehaviour:
     bundleName: bridgeui/panels/panel01
   - panelName: Panel02
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -830,6 +844,7 @@ MonoBehaviour:
     bundleName: bridgeui/panels/panel02
   - panelName: Panel03
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -849,6 +864,7 @@ MonoBehaviour:
   p_nodes:
   - panelName: Panel01
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -865,6 +881,7 @@ MonoBehaviour:
     prefab: {fileID: 129970, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
   - panelName: Panel04
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -881,6 +898,7 @@ MonoBehaviour:
     prefab: {fileID: 129970, guid: 1172f1b2f39183747ab91057b53a70cd, type: 2}
   - panelName: Panel02
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -897,6 +915,7 @@ MonoBehaviour:
     prefab: {fileID: 129970, guid: ba16a0659248e00479962ae1a0bf4624, type: 2}
   - panelName: Panel03
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -913,6 +932,7 @@ MonoBehaviour:
     prefab: {fileID: 129970, guid: cdb2321ece873174fbc0719e07c1d664, type: 2}
   - panelName: MainPanel
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
@@ -932,46 +952,46 @@ MonoBehaviour:
     index: 0
     showModel:
       auto: 0
-      mutex: 1
       cover: 0
-      baseShow: 0
       single: 0
+      mutex: 1
+      baseShow: 0
     outNode: Panel01
   - inNode: MainPanel
     index: 2
     showModel:
       auto: 0
-      mutex: 1
       cover: 0
-      baseShow: 0
       single: 0
+      mutex: 1
+      baseShow: 0
     outNode: Panel02
   - inNode: MainPanel
     index: 1
     showModel:
       auto: 0
-      mutex: 1
       cover: 0
-      baseShow: 0
       single: 0
+      mutex: 1
+      baseShow: 0
     outNode: Panel03
   - inNode: MainPanel
     index: 3
     showModel:
       auto: 0
-      mutex: 1
       cover: 0
-      baseShow: 0
       single: 0
+      mutex: 1
+      baseShow: 0
     outNode: Panel04
   - inNode: 
     index: 0
     showModel:
       auto: 1
-      mutex: 0
       cover: 0
-      baseShow: 0
       single: 0
+      mutex: 0
+      baseShow: 0
     outNode: MainPanel
 --- !u!114 &1513655849
 MonoBehaviour:

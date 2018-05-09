@@ -47,7 +47,7 @@ namespace BridgeUI.Common
         protected UnityEvent luaUpdate = new UnityEvent();
         protected UnityEvent luaOnDestroy = new UnityEvent();
 
-        protected LuaViewModel luaViewModel { get { return BindingContext as LuaViewModel; } }
+        protected LuaViewModel luaViewModel { get { return ViewModel as LuaViewModel; } }
         private LuaTable tableCreated;
 
         protected override void Awake()
@@ -176,11 +176,10 @@ namespace BridgeUI.Common
         {
             if (luaViewModel != null)
             {
-                var fullType = typeof(B_Property<>).MakeGenericType(value.GetType());
-                var prop = luaViewModel.GetUsefulBindTarget(key, fullType);
+                var prop = luaViewModel.GetBindableProperty(key, value.GetType());
                 if (prop != null)
                 {
-                    prop.Target = value;
+                    prop.ValueBoxed = value;
                 }
             }
         }
@@ -199,16 +198,16 @@ namespace BridgeUI.Common
             tableCreated.Set("self", this);
             luaEnv.DoString(text, name, tableCreated);
 
-            BindingContext = new LuaViewModel(this.tableCreated);
+            ViewModel = new LuaViewModel(this.tableCreated);
 
             luaOnInit.Invoke();
         }
 
         private void RegistBaseAction()
         {
-            Binder.RegistEvent(luaOnInit, "oninit", this);
-            Binder.RegistEvent(luaUpdate, "update", this);
-            Binder.RegistEvent(luaOnDestroy, "ondestroy", this);
+            Binder.RegistEvent(luaOnInit, "oninit");
+            Binder.RegistEvent(luaUpdate, "update");
+            Binder.RegistEvent(luaOnDestroy, "ondestroy");
         }
         /// <summary>
         /// 直接加载脚本文件不太安全，
@@ -232,7 +231,7 @@ namespace BridgeUI.Common
 
             if (luaViewModel != null)
             {
-                var action = luaViewModel.GetUsefulBindTarget<B_Property<UnityAction<object>>>("handle_data");
+                var action = luaViewModel.GetBindableProperty<UnityAction<object>>("handle_data");
                 if (action.Value != null)
                 {
                     action.Value.Invoke(data);

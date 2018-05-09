@@ -15,49 +15,61 @@ using BridgeUI.Binding;
 ///<summary>
 public class MainPanel : BridgeUI.GroupPanel
 {
-	protected override void PropBindings ()
-	{
-		Binder.RegistEvent (m_openPanel01.onClick, "OpenPanel01");
-		Binder.RegistEvent (m_openPanel02.onClick, "OpenPanel02", m_openPanel02);
-		Binder.RegistEvent (m_openPanel03.onClick, "OpenPanel03", m_openPanel03);
-		Binder.RegistMember<string> ("m_title.text", "title");
-		Binder.RegistMember<string> ("m_info.text", "info");
-		Binder.RegistEvent (m_switch.onValueChanged, "OnSwitch", m_switch);
-		Binder.RegistEvent (m_slider.onValueChanged, "OnSliderChange", m_slider);
-	}
 
-    protected override void Awake ()
-	{
-		base.Awake ();
-		m_close.onClick.AddListener (Close);
-		m_switch.onValueChanged.AddListener (SetParent);
-	}
+    [SerializeField]
+    private UnityEngine.UI.Button m_close;
 
-	[SerializeField]
-	private UnityEngine.UI.Button m_close;
+    [SerializeField]
+    private UnityEngine.UI.Button m_openPanel01;
 
-	[SerializeField]
-	private UnityEngine.UI.Button m_openPanel01;
+    [SerializeField]
+    private UnityEngine.UI.Button m_openPanel02;
 
-	[SerializeField]
-	private UnityEngine.UI.Button m_openPanel02;
+    [SerializeField]
+    private UnityEngine.UI.Button m_openPanel03;
 
-	[SerializeField]
-	private UnityEngine.UI.Button m_openPanel03;
+    [SerializeField]
+    private UnityEngine.UI.Text m_title;
 
-	[SerializeField]
-	private UnityEngine.UI.Text m_title;
+    [SerializeField]
+    private UnityEngine.UI.Text m_info;
 
-	[SerializeField]
-	private UnityEngine.UI.Text m_info;
+    [SerializeField]
+    private UnityEngine.UI.Toggle m_switch;
 
-	[SerializeField]
-	private UnityEngine.UI.Toggle m_switch;
+    [SerializeField]
+    private UnityEngine.UI.Slider m_slider;
+    protected override void PropBindings()
+    {
+        Binder.RegistEvent<Button>(m_openPanel02.onClick, "OpenPanel02", m_openPanel02);
+        Binder.RegistEvent<Button>(m_openPanel03.onClick, "OpenPanel03", m_openPanel03);
+        Binder.RegistMember<string>("m_title.text", "title");
+        Binder.RegistMember<string>("m_info.text", "info");
+        Binder.RegistEvent<bool, Toggle>(m_switch.onValueChanged, "OnSwitch", m_switch);
+        Binder.RegistEvent<UnityEngine.UI.Button>(m_openPanel01.onClick, "OpenPanel01", m_openPanel01);
+        Binder.RegistEvent(m_slider.onValueChanged, "OnSliderChange", m_slider);
+    }
 
-	[SerializeField]
-	private UnityEngine.UI.Slider m_slider;
+    protected override void Awake()
+    {
+        base.Awake();
+        m_close.onClick.AddListener(Close);
+        m_switch.onValueChanged.AddListener(SetParent);
+    }
 
-	protected void SetParent (System.Boolean arg0)
-	{
-	}
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (ViewModel != null && ViewModel["info"] != null)
+            {
+                ViewModel["info"].ValueBoxed = Random.Range(0, 10).ToString();
+            }
+        }
+    }
+
+    protected void SetParent(System.Boolean arg0)
+    {
+    }
+
 }

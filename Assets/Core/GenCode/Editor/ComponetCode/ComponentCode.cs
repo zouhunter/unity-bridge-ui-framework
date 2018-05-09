@@ -69,11 +69,11 @@ namespace BridgeUI.CodeGen
             {
                 if (item.runtime)
                 {
-                    BindingEventInvocations(component.name, item);
+                    BindingEventInvocations(component.name, component.componentType, item);
                 }
                 else
                 {
-                    LocalEventInvocations(component.name, item, bindingAble);
+                    LocalEventInvocations(component.name,item, bindingAble);
                 }
             }
         }
@@ -130,7 +130,7 @@ namespace BridgeUI.CodeGen
         /// <param name="name"></param>
         /// <param name="bindingInfo"></param>
 
-        protected virtual void BindingEventInvocations(string name, BindingEvent bindingInfo)
+        protected virtual void BindingEventInvocations(string name,Type componentType, BindingEvent bindingInfo)
         {
             var invocations = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
             var arg0_name = "m_" + name + "." + bindingInfo.bindingTarget;
@@ -145,6 +145,11 @@ namespace BridgeUI.CodeGen
             if (invocation == null)
             {
                 var methodName = "RegistEvent";
+                if(typeof(UnityEngine.Events.UnityEvent).IsAssignableFrom(bindingInfo.bindingTargetType.type))
+                {
+                    methodName = string.Format("RegistEvent<{0}>", componentType.FullName);
+                }
+
                 if (!string.IsNullOrEmpty(methodName))
                 {
                     invocation = new InvocationExpression();

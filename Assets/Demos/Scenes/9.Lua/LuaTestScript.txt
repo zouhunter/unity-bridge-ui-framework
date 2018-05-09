@@ -1,6 +1,5 @@
 local Debug = CS.UnityEngine.Debug
 
-
 function oninit()
 	print("lua oninit...")
 	slider_trans = self.transform:Find("Slider")
@@ -11,8 +10,10 @@ function oninit()
 end
 
 function update()
-	print("lua update...")
-	self:SetValue("btn_color",CS.UnityEngine.Color(CS.UnityEngine.Time.time % 1,0.5,0.1,1))
+	if(!buttonClicked) 
+		print("lua update...")
+		self:SetValue("btn_color",CS.UnityEngine.Color(CS.UnityEngine.Time.time % 1,0.5,0.1,1))
+	end
 end
 
 function ondestroy()
@@ -23,7 +24,7 @@ function printprogress(f)
 	print(f)
 	end
 
-function on_button_clicked()
+function on_button_clicked(panel,button)
 	print("lua on_button_clicked...")
 	Debug.Log("(debug:)lua on_button_clicked...")
 end

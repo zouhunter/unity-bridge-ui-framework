@@ -26,7 +26,7 @@ using BridgeUI.Binding;
 namespace BridgeUI
 {
     [PanelParent]
-    public abstract class PanelBase : UIBehaviour, IPanelBase, Binding.BindingContext
+    public abstract class PanelBase : UIBehaviour, IPanelBase, Binding.IBindingContext
     {
         public int InstenceID
         {

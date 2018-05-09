@@ -4,7 +4,7 @@ namespace BridgeUI.Binding
 {
     public delegate void PropertyChangedHand(string propertyName);
 
-    public interface BindingContext
+    public interface IBindingContext
     {
         event PropertyChangedHand onPropertyChanged;
     }

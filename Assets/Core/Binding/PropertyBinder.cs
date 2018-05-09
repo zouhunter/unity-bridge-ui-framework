@@ -8,13 +8,13 @@ namespace BridgeUI.Binding
 {
     public class PropertyBinder
     {
-        public BindingContext Context { get; private set; }
+        public IBindingContext Context { get; private set; }
         public ViewModelBase viewModel { get; private set; }
 
         protected event UnityAction<ViewModelBase> binders;
         protected event UnityAction<ViewModelBase> unbinders;
 
-        public PropertyBinder(BindingContext context)
+        public PropertyBinder(IBindingContext context)
         {
             this.Context = context;
         }
@@ -51,7 +51,8 @@ namespace BridgeUI.Binding
         {
             object root = Context;
             var member = GetDeepMember(ref root, memberPath);
-            UnityAction<T> onViewModelChanged = (value) =>{
+            UnityAction<T> onViewModelChanged = (value) =>
+            {
                 SetMemberValue<T>(root, member, value);
             };
             RegistValueCharge(onViewModelChanged, sourceName);
@@ -61,16 +62,52 @@ namespace BridgeUI.Binding
         /// </summary>
         /// <param name="uEvent"></param>
         /// <param name="sourceName"></param>
-        public virtual void RegistEvent<T>(UnityEvent uEvent, string sourceName,T target)
+        public virtual void RegistEvent(UnityEvent uEvent, string sourceName)
         {
             UnityAction action = () =>
             {
-                var prop = viewModel.GetBindableProperty<PanelAction<T>>(sourceName);
-                if (prop.Value != null)
+                var prop = viewModel.GetBindableProperty<PanelAction>(sourceName);
+                if (prop != null && prop.Value != null)
                 {
                     var func = prop.Value;
-                    func.Invoke(Context,target);
+                    func.Invoke(Context);
                 }
+                else
+                {
+                    Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                }
+            };
+
+            binders += viewModel =>
+            {
+                uEvent.AddListener(action);
+            };
+
+            unbinders += viewModel =>
+            {
+                uEvent.RemoveListener(action);
+            };
+        }
+        /// <summary>
+        /// 注册通用事件
+        /// </summary>
+        /// <param name="uEvent"></param>
+        /// <param name="sourceName"></param>
+        public virtual void RegistEvent<T>(UnityEvent uEvent, string sourceName, T target)
+        {
+            UnityAction action = () =>
+            {
+                var prop = viewModel.GetBindableProperty<CallBack<T>>(sourceName);
+                if (prop != null && prop.Value != null)
+                {
+                    var func = prop.Value;
+                    func.Invoke(Context, target);
+                }
+                else
+                {
+                    Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                }
+
             };
 
             binders += viewModel =>
@@ -91,15 +128,19 @@ namespace BridgeUI.Binding
         /// <typeparam name="T"></typeparam>
         /// <param name="uEvent"></param>
         /// <param name="sourceName"></param>
-        internal virtual void RegistEvent<T,P>(UnityEvent<T> uEvent, string sourceName, P target)
+        public virtual void RegistEvent<T, P>(UnityEvent<T> uEvent, string sourceName, P target)
         {
             UnityAction<T> action = (x) =>
             {
-                var prop = viewModel.GetBindableProperty<PanelAction<P>>(sourceName);
-                if (prop.Value != null)
+                var prop = viewModel.GetBindableProperty<CallBack<P>>(sourceName);
+                if (prop != null && prop.Value != null)
                 {
                     var func = prop.Value;
-                    func.Invoke(Context,target);
+                    func.Invoke(Context, target);
+                }
+                else
+                {
+                    Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                 }
             };
 

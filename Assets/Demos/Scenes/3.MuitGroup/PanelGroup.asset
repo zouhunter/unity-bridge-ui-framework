@@ -268,8 +268,6 @@ MonoBehaviour:
     name: subBtn
     componentID: 0
     components:
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Button
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -283,12 +281,10 @@ MonoBehaviour:
     target: {fileID: 194424, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
     scriptTarget: {fileID: 0}
     isScriptComponent: 0
-  - open: 1
+  - open: 0
     name: close
     componentID: 0
     components:
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Button
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -368,8 +364,6 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 119706, guid: cdb2321ece873174fbc0719e07c1d664, type: 2}
@@ -387,8 +381,6 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 130358, guid: cdb2321ece873174fbc0719e07c1d664, type: 2}
@@ -421,12 +413,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 1
   instenceID: -36600
   assetName: MainPanel
   style: 1
   rule:
-    baseTypeIndex: 0
+    baseTypeIndex: 4
     canInherit: 0
     bindingAble: 0
   components:
@@ -442,8 +434,6 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems:
     - runtime: 0
@@ -467,8 +457,6 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems:
     - runtime: 1
@@ -492,8 +480,6 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems:
     - runtime: 1
@@ -517,8 +503,6 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems:
     - runtime: 1
@@ -540,8 +524,6 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems:
     - bindingSource: title
       bindingTarget: text
@@ -562,8 +544,6 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems:
     - bindingSource: info
       bindingTarget: text
@@ -586,8 +566,8 @@ MonoBehaviour:
       typeName: UnityEngine.GameObject
     viewItems: []
     eventItems:
-    - runtime: 1
-      bindingSource: OnSwitch
+    - runtime: 0
+      bindingSource: SetParent
       bindingTarget: onValueChanged
       bindingTargetType:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null

@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using BridgeUI.Binding;
 
 ///<summary>
 ///[代码说明信息]
@@ -16,7 +17,7 @@ public class MainPanel : BridgeUI.GroupPanel
 {
 	protected override void PropBindings ()
 	{
-		Binder.RegistEvent (m_openPanel01.onClick, "OpenPanel01", m_openPanel01);
+		Binder.RegistEvent (m_openPanel01.onClick, "OpenPanel01");
 		Binder.RegistEvent (m_openPanel02.onClick, "OpenPanel02", m_openPanel02);
 		Binder.RegistEvent (m_openPanel03.onClick, "OpenPanel03", m_openPanel03);
 		Binder.RegistMember<string> ("m_title.text", "title");
@@ -25,7 +26,7 @@ public class MainPanel : BridgeUI.GroupPanel
 		Binder.RegistEvent (m_slider.onValueChanged, "OnSliderChange", m_slider);
 	}
 
-	protected override void Awake ()
+    protected override void Awake ()
 	{
 		base.Awake ();
 		m_close.onClick.AddListener (Close);

@@ -15,10 +15,11 @@ namespace BridgeUI.Binding
 {
     public delegate void ValueChangedHandler1<T>(T newValue);
     public delegate void ValueChangedHandler2<T>(T oldValue,T newValue);
-    public delegate void BindHandler(BindingContext source);
-    public delegate void UnBindHandler(BindingContext source);
+    public delegate void BindHandler(IBindingContext source);
+    public delegate void UnBindHandler(IBindingContext source);
 #if xLua
     [XLua.CSharpCallLua]
 #endif
-    public delegate void PanelAction<T>(BindingContext panel,T sender);
+    public delegate void CallBack<T>(IBindingContext panel,T sender);
+    public delegate void PanelAction(IBindingContext panel);
 }

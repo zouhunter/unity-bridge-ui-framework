@@ -88,10 +88,10 @@ MonoBehaviour:
   index: 0
   show:
     auto: 1
-    mutex: 0
     cover: 0
-    baseShow: 0
     single: 0
+    mutex: 0
+    baseShow: 0
 --- !u!114 &11478004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -105,15 +105,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 1
   instenceID: -31432
-  description: "\u63A7\u4EF6\u9762\u677F"
   assetName: MyPanel
   style: 7
-  nodeType: 31
   rule:
     baseTypeIndex: 2
     canInherit: 0
+    bindingAble: 0
   components:
-  - open: 1
+  - open: 0
     name: head
     componentID: 0
     components:
@@ -123,11 +122,11 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 102654, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: title
     componentID: 0
@@ -138,11 +137,11 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 190396, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: info
     componentID: 0
@@ -153,11 +152,11 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 185602, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: slider
     componentID: 0
@@ -171,6 +170,8 @@ MonoBehaviour:
     viewItems: []
     eventItems: []
     target: {fileID: 125884, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   - open: 0
     name: close
     componentID: 0
@@ -183,22 +184,27 @@ MonoBehaviour:
       typeName: UnityEngine.RectTransform
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems: []
     target: {fileID: 172462, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   nodeInfo:
     uiType:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 146968, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
+    discription: 
 --- !u!114 &11499712
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -26,7 +26,7 @@ public class doubleGroup : MonoBehaviour
         uiFacade = UIFacade.Instence;
         mainViewModel = new MainPanelViewModel();
         mainViewModel_withID = new MainPanelViewModel_with_ID();
-        mainViewModel.title.Value = "我是:MainPanelViewModel";
+        mainViewModel.titleStr.Value = "我是:MainPanelViewModel";
         mainViewModel_withID.title.Value = "我是:MainPanelViewModel_with_ID";
     }
     private void OnGUI()
@@ -38,7 +38,7 @@ public class doubleGroup : MonoBehaviour
             dic["info"] = "当传入IDictionary时，会自动填充绑定好的字段或属性";
             dic["method"] = "可以向方法传递一个参数";
             dic["ondestroy"] = new Action<string>((x)=> { Debug.Log(x); });
-            dic["OpenPanel01"]= dic["OpenPanel02"]= dic["OpenPanel03"] = new PanelAction<Button>((context,x) => {
+            dic["OpenPanel01"]= dic["OpenPanel02"]= dic["OpenPanel03"] = new CallBack<Button>((context,x) => {
                 Debug.Log(x + ": onClicked");
             });
       
@@ -74,9 +74,9 @@ public class doubleGroup : MonoBehaviour
     private void Update()
     {
         if (Input.GetMouseButtonDown(1)){
-            mainViewModel.switcher.Value = !mainViewModel.switcher.Value;
+            mainViewModel.switcherView.Value = !mainViewModel.switcherView.Value;
         }
-        mainViewModel.info.Value = UnityEngine.Random.Range(0, 100).ToString();
+        mainViewModel.infoStr.Value = UnityEngine.Random.Range(0, 100).ToString();
         var keywordProp = mainViewModel.GetBindableProperty<string>("keyword");
         if (keywordProp != null)
             keywordProp.ValueBoxed = UnityEngine.Random.Range(0, 100).ToString();

@@ -14,6 +14,7 @@ namespace BridgeUI.Binding
 {
     public class BindingAttribute : System.Attribute
     {
-
+        public string keyword;
+        public BindingAttribute(string keyword) { this.keyword = keyword; }
     }
 }

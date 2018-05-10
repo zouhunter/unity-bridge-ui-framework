@@ -66,31 +66,14 @@ IUIHandle Send(object data);
 ### 6.定义界面关联与打开时的状态
 ![null](Pics/4.png)
 
-
-## UML设计
-### 1.Facade及生成器
-![这里写图片描述](http://img.blog.csdn.net/20171130154610208?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdGFua2VyaHVudGVy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-### 2.界面类型信息模型
-![这里写图片描述](http://img.blog.csdn.net/20171130153029930?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdGFua2VyaHVudGVy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-### 3.界面类型信息模型
-![这里写图片描述](http://img.blog.csdn.net/20171130153058811?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdGFua2VyaHVudGVy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-### 4.连接器及句柄对象
-![这里写图片描述](http://img.blog.csdn.net/20171130162312690?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdGFua2VyaHVudGVy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-### 5.MonoBehaiver
-![这里写图片描述](http://img.blog.csdn.net/20171130172145613?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdGFua2VyaHVudGVy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-
-
-----------
-## 开发过程
-    实际上正确的流程应该是先设计好类与类之间的关系,然后进行具体的编程,但由于前期制作过了个简单的界面打开关闭的功能,并在实际使用过程中遇到一些急需解决的问题.因此在做这个框架的时候基本上就是想到什么就写什么了.最后才完善的这个UML类图(其实目前还是不能正确的生成脚本).下面是开发的过程,希望引以为戒.
-### 1.找到一个合适的节点连接框架
-    一开始就想设计成一个利于编辑和利用的界面管理器,所以找了不少开源的节点连接的框架,最开始用NodeEditorFrameWork,说真的它还能支持非编辑器模式,我开始幻想以后是不是可以开始一个用户可以指定界面打开规则的框架,然而在使用过程中发现其并不支持对连接线信息的记录和保存功能,而且线还不能点击,所以果断放弃(毕竟实在没兴趣把它改成可以点线...),这时选择了unity日本的一个AssetBundleGraph,这个工具在当时的unity2017大会上有人专门讲过,虽然这个框架写的非常好,基本上涵括了整个开发流程用到的东西,但实际开发中有太多的需要自定义,一直搁置在那没研究,这次倒用上了.
-### 2.保留上一版框架的界面编辑功能
-    虽然有了这样了个可以直观看到的编辑面板加载和关联的信息的壳子,但还是不能满足开发过程中需要时常编辑面板和代码的功能,所以果断把上一版本的绘制脚本拷贝过程改改直接用了.但由于上一板中用的支持多个面板组的功能在这种框架的基础上并没有太多存在的意义,最后就去掉了.同时由于不再需要在这个面板内进行信息修改,所以BridgeInfo的信息也没有绘制出来了.
-### 3.将编辑器状态保存的信息转换到可运行时读取的信息
-    一开始并不打算用两个数据模型来转换,想直接是所见就是所得,但AssetBundleGraph中的数据模型只支持编辑器模式,所以也没有改了(以后到是可以合并下).虽然这样不利也有一些好处,就是改的时候不一定应用,而且支持多个asset信息保存到一个PanelGroup中.
-### 4.Bridge的思路来源
-    上一板资源创建的方式是一开始就注册到事件中,需要创建和销毁的及隐藏的功能都是动态注册的事件,而且边信息传递的方式都是事件.这样的思路个人觉得对性能还是很好的,不应该不用每次创建或者删除都去找到相应的信息再进行操作.但这样也有个程序扩展性不好,可读性不高的问题.这次就直接放弃了这种方式.但如果不用事件系统那么信息传递和保留通道是个问题,最后才想到Bridge(桥)的解决方案,就是在面板打开过程中形成一个动态的Bridge对象,那么就可以通过这个对象进行一系列的操作了.因为这个框架是支持多个PanelGroup的,就是说你可能会同时打开两个一样名称的面板,那么你怎么能同时对两个面板发送信息呢.所以UIFacade中并没有返回Bridge而是返回了一个Handle,通过这个Handle就可以同时和几个Bridge通信了
-
-## 后记
-程序还在更新中，欢迎提意见！
+## 项目引用
+*** AssetBundleTools (可选)
+[AssetBundleTools](https://github.com/zouhunter/unity-assetbundle-tools) 
+（导入后添加"AssetBundleTools宏定义"）
+*** ICSharpCode.NRefactory (代码生成选)
+[ICSharpCode.NRefactory.CSharp](https://github.com/zouhunter/cs-codetree-.net3.5)
+*** NodeGraph （必选）
+[NodeGraph](https://github.com/zouhunter/unity-nodegraph-frame)
+*** XLua (可选)
+[XLua](https://github.com/Tencent/xLua)
+（导入后添加"XLua宏定义"）

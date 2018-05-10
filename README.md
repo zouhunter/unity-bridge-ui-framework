@@ -3,7 +3,7 @@ BridgeUI-综合性UGUI框架
 
 ----基于Unity3d及UGUI,结合编辑器扩展之节点图制作而成的利于编辑,接口简洁的人性化界面框架.
 
-- **从开源项目AssetBundleGraph工程中提取出优异的节点编辑器**
+- **节点编辑器取自AssetBundleGraph**
 - **分离界面自身属性及界面关联属性**
 - **分离属性的设置及预制体的制作**
 - **支持双定义*层级* 即基本层级类型和int型层级**
@@ -11,6 +11,9 @@ BridgeUI-综合性UGUI框架
 - **将游戏自身逻辑完全独立于界面创建和关联的逻辑**
 - **支持同父级面板互斥不同显功能**
 - **支持编辑器模式快速打开面板及批量保存功能**
+- **支持xLua文本各种加载方式**
+- **支持mvvm模式，可动态绑定viewModel**
+- **支持代码生成与更新，解析与重写**
 - **支持unity5.3.4及以上版本
 
 -------------------
@@ -51,44 +54,18 @@ IUIHandle Send(object data);
 ----------
 ## 图形化
 ### 1.利用线来表示界面与界面之间的关系
-![利用线来表示界面与界面之间的关系](Pics/5.png)
+![null](Pics/6.png)
 ### 2.将节点信息记录独立于Prefab
-![将节点信息记录独立于编辑器](Pics/4.png)
+![null](Pics/5.png)
 ### 3.快速展开编辑和快速保存
-![可以选择从资源包加载](Pics/1.png)
+![null](Pics/1.png)
 ### 4.自定义加载菜单
-![支持自定义加载菜单](Pics/2.png)
-### 5.直接从预制体加载
-![也可以直接从预制体加载](Pics/3.png)
-### 6.自动注册子界面通过id打开
-![最新的图形关联子面板功能](Pics/6.png)
-```
-             foreach (var item in bridges)
-            {
-                var bridgeInfo = item;
+![null](Pics/2.png)
+### 5.快速编辑预制体代码
+![null](Pics/3.png)
+### 6.定义界面关联与打开时的状态
+![null](Pics/4.png)
 
-                if(!string.IsNullOrEmpty(bridgeInfo.inNode) && !string.IsNullOrEmpty(bridgeInfo.outNode))
-                {
-                    UnityAction<PanelBase, object> action = (x, y) =>
-                    {
-                        var parentPanel = x;
-                        var panelName = bridgeInfo.outNode;
-                        var Content = parentPanel == null ? null : parentPanel.Content;
-                        var bridge = InstencePanel(parentPanel, panelName, Content);
-                        bridge.Send(y);
-                    };
-
-                    UIBindingUtil.RegistPanelEvent(bridgeInfo.inNode, bridgeInfo.index, action);
-
-                    this.onDestroy += () =>
-                    {
-                        //在本组合关闭时销毁事件
-                        UIBindingUtil.RemovePanelEvent(bridgeInfo.inNode, bridgeInfo.index, action);
-                    };
-                }
-               
-            }
-```
 
 ## UML设计
 ### 1.Facade及生成器

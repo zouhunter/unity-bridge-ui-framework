@@ -11,7 +11,43 @@ namespace BridgeUI.Control.Tree
         public string name;
         public object content;
         public abstract List<TreeNode> childern { get; }
+        public TreeNode ParentItem { get; internal set; }
+        public string[] FullPath
+        {
+            get
+            {
+                var path = CalcutePath();
+                return path;
+            }
+        }
+
         public abstract TreeNode InsetChild();
+
+        public TreeNode GetChildItem(string key)
+        {
+            if (childern == null)
+            {
+                return null;
+            }
+            return childern.Find(x => x.name == key);
+        }
+
+        private string[] CalcutePath()
+        {
+            var list = new List<string>();
+            var item = this;
+            while (item.ParentItem != null)
+            {
+                var nameCurrent = item.name;
+                item = item.ParentItem;
+                if(item != null)
+                {
+                    list.Add(nameCurrent);
+                }
+            }
+            list.Reverse();
+            return list.ToArray();
+        }
     }
 
     public abstract class TreeNode<T> : TreeNode where T : TreeNode, new()

@@ -53,6 +53,11 @@ namespace BridgeUI.Control
 
             stopEvent = false;
         }
+        protected override void OnSaveItem(GameObject instence)
+        {
+            base.OnSaveItem(instence);
+            instence.GetComponent<Toggle>().isOn = false;
+        }
         public void SetSelect(int defultValue, bool trigger = false)
         {
             if (options.Length <= defultValue) return;

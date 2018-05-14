@@ -15,17 +15,33 @@ using BridgeUI.Control.Tree;
 using System;
 
 public class deepselect : MonoBehaviour {
-    public DeepSelector selector;
+    public FolderSelector selector;
     public TreeNode1 rootNode;
     void Start()
     {
         selector.onSelect = OnSelect;
-        selector.Option = rootNode;
+        selector.CreateTree(rootNode);
     }
 
     private void OnSelect(string[] arg0)
     {
         if (arg0 == null) return;
         Debug.Log(string.Join("/", arg0));
+    }
+
+    void OnGUI()
+    {
+        if (GUILayout.Button("0,0"))
+        {
+            selector.SetSelect(0, 0);
+        }
+        if (GUILayout.Button("A/a0"))
+        {
+            selector.SetSelect("A", "a0");
+        }
+        if (GUILayout.Button("Auto First"))
+        {
+            selector.AutoSelectFirst();
+        }
     }
 }

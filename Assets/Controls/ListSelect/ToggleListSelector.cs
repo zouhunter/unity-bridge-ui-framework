@@ -16,7 +16,7 @@ using System;
 
 namespace BridgeUI.Control
 {
-    public class ToggleListSelector:ListSelector
+    public class ToggleListSelector : ListSelector
     {
         [SerializeField]
         private Button m_Select;
@@ -24,8 +24,10 @@ namespace BridgeUI.Control
         private bool stopEvent;
         private Dictionary<string, Toggle> createdDic = new Dictionary<string, Toggle>();
         public bool AnyToggleOn { get { return group.AnyTogglesOn(); } }
-        protected void Awake()
+
+        protected override void Awake()
         {
+            base.Awake();
             if (m_Select)
             {
                 m_Select.onClick.AddListener(TriggerIDs);
@@ -38,24 +40,24 @@ namespace BridgeUI.Control
                 group = m_parent.gameObject.AddComponent<ToggleGroup>();
             }
         }
-        public void SetActiveItem(string key)
+        public void SetSelect(string key, bool trigger = false)
         {
-            stopEvent = true;
+            stopEvent = trigger ? false : true;
 
             if (createdDic.ContainsKey(key))
             {
                 var tog = createdDic[key];
-            tog.isOn = false;
+                tog.isOn = false;
                 tog.isOn = true;
             }
 
             stopEvent = false;
         }
-        public void SetSelect(int defultValue)
+        public void SetSelect(int defultValue, bool trigger = false)
         {
             if (options.Length <= defultValue) return;
             var key = options[defultValue];
-            SetActiveItem(key);
+            SetSelect(key, trigger);
         }
         protected override void OnCreateItem(int id, GameObject instence)
         {
@@ -65,12 +67,14 @@ namespace BridgeUI.Control
             var toggle = instence.GetComponentInChildren<Toggle>();
             Debug.Assert(toggle, "预制体或子物体上没有toggle组件");
 
-            if(singleChoise){
+            if (singleChoise)
+            {
                 toggle.group = group;
             }
 
-            UnityAction<bool> action = (x) => {
-                if(x)
+            UnityAction<bool> action = (x) =>
+            {
+                if (x)
                 {
                     if (!stopEvent) Select(id);
                 }
@@ -80,7 +84,8 @@ namespace BridgeUI.Control
                 }
             };
             toggle.onValueChanged.AddListener(action);
-            onResetEvent += () => {
+            onResetEvent += () =>
+            {
                 toggle.onValueChanged.RemoveListener(action);
             };
             createdDic.Add(type, toggle);

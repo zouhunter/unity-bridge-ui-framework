@@ -67,6 +67,10 @@ namespace BridgeUI.Control
             }
         }
         private int _currentID;
+        protected virtual void Awake()
+        {
+            m_prefab.gameObject.SetActive(false);
+        }
 
         protected virtual void TriggerID()
         {

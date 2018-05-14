@@ -31,7 +31,14 @@ namespace BridgeUI.Control.Tree
             }
             return childern.Find(x => x.name == key);
         }
-
+        public TreeNode GetChildItem(int index)
+        {
+            if (childern == null || childern.Count <= index)
+            {
+                return null;
+            }
+            return childern[index];
+        }
         private string[] CalcutePath()
         {
             var list = new List<string>();

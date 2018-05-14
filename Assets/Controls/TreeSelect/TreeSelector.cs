@@ -10,7 +10,7 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-using System;
+using System.Linq;
 
 namespace BridgeUI.Control.Tree
 {
@@ -23,11 +23,22 @@ namespace BridgeUI.Control.Tree
         public virtual void CreateTree(TreeNode nodeBase)
         {
             this.rootNode = nodeBase;
+            RebuildRelationship(rootNode);
+        }
+        protected virtual void RebuildRelationship(TreeNode item)
+        {
+            if (item == null || item.childern == null) return;
+
+            foreach (var child in item.childern)
+            {
+                child.ParentItem = item;
+                RebuildRelationship(child);
+            }
         }
         public abstract void SetSelect(params string[] path);
         public abstract void SetSelect(params int[] path);
         public abstract void AutoSelectFirst();
-        protected void OnSelectionChanged(List<string> path)
+        protected void OnSelectionChanged(IList<string> path)
         {
             if (onSelect != null)
             {
@@ -39,7 +50,7 @@ namespace BridgeUI.Control.Tree
                 onSelectID(GetIDPath(path));
             }
         }
-        protected int[] GetIDPath(List<string> path)
+        protected int[] GetIDPath(IList<string> path)
         {
             var idList = new List<int>();
             var parent = rootNode;

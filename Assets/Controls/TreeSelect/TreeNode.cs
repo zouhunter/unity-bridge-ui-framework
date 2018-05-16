@@ -9,7 +9,7 @@ namespace BridgeUI.Control.Tree
     public abstract class TreeNode
     {
         public string name;
-        public object content;
+        public object content { get; set; }
         public abstract List<TreeNode> childern { get; }
         public TreeNode ParentItem { get; internal set; }
         public string[] FullPath
@@ -20,9 +20,7 @@ namespace BridgeUI.Control.Tree
                 return path;
             }
         }
-
         public abstract TreeNode InsetChild();
-
         public TreeNode GetChildItem(string key)
         {
             if (childern == null)
@@ -76,41 +74,11 @@ namespace BridgeUI.Control.Tree
             return child;
         }
     }
-    [System.Serializable]
-    public class TreeNode1 : TreeNode<TreeNode2>
-    {
 
-    }
     [System.Serializable]
-    public class TreeNode2 : TreeNode<TreeNode3>
-    {
-
-    }
-    [System.Serializable]
-    public class TreeNode3 : TreeNode<TreeNode4>
-    {
-
-    }
-    [System.Serializable]
-    public class TreeNode4 : TreeNode<TreeNode5>
-    {
-
-    }
-    [System.Serializable]
-    public class TreeNode5 : TreeNode<TreeNode6>
-    {
-
-    }
-    [System.Serializable]
-    public class TreeNode6 : TreeNode<TreeNode7>
-    {
-
-    }
-    [System.Serializable]
-    public class TreeNode7 : TreeNode
+    public class TreeNodeLeaf : TreeNode
     {
         public override List<TreeNode> childern { get { return null; } }
-
         public override TreeNode InsetChild()
         {
             return null;

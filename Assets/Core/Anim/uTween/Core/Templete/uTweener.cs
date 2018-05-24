@@ -150,7 +150,9 @@ namespace BridgeUI.uTween
             else Sample(mFactor, false);
         }
 
-        public void AddOnFinished(UnityAction finishedCallBack) { onFinished += finishedCallBack; }
+        public void AddOnFinished(UnityAction finishedCallBack) {
+            onFinished += finishedCallBack;
+        }
 
         public void RemoveOnFinished(UnityAction finishedCallBack)
         {

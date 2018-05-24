@@ -5,6 +5,10 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
+using System.Linq;
+
+
 namespace BridgeUIEditor
 {
     [CustomEditor(typeof(PanelNode))]
@@ -43,6 +47,7 @@ namespace BridgeUIEditor
             }
         }
         private string[] options = { "参数配制", "控件指定", "面板脚本", "显示效果" };
+        private System.Type[] supportedAnimPlayers;
         private GenCodeRule rule { get { if (panelNode == null) return default(GenCodeRule); return panelNode.rule; } }
         private System.Collections.Generic.List<ComponentItem> components { get { if (panelNode == null) return null; return panelNode.components; } }
         private ComponentItemDrawer itemDrawer;
@@ -57,10 +62,12 @@ namespace BridgeUIEditor
         {
             panelNode = target as PanelNodeBase;
             itemDrawer = new ComponentItemDrawer();
+            InitAnimPlayers();
             OnPrefabChanged();
             InitPanelNode();
         }
 
+      
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
@@ -76,6 +83,10 @@ namespace BridgeUIEditor
                 panelNode.assetName = nodeInfo.prefab.name;
                 //uiCoder = GenCodeUtil.LoadUICoder(nodeInfo.prefab, rule);
             }
+        }
+        private void InitAnimPlayers()
+        {
+            supportedAnimPlayers =  typeof(AnimPlayer).Assembly.GetTypes().Where(x => typeof(AnimPlayer).IsAssignableFrom(x) && !x.IsAbstract).ToArray();
         }
 
         protected virtual void InitPanelNode()
@@ -360,45 +371,66 @@ namespace BridgeUIEditor
             }
         }
 
-        MonoScript enterAnim;
-        MonoScript quitAnim;
         private void DrawAnim()
         {
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("出场动画:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-                nodeInfo.uiType.enterAnim = DrawAnimField(ref enterAnim, nodeInfo.uiType.enterAnim);
+                nodeInfo.uiType.enterAnim = EditorGUILayout.ObjectField(nodeInfo.uiType.enterAnim,typeof(AnimPlayer),false) as AnimPlayer;
+                if (GUILayout.Button("new", GUILayout.Width(60)))
+                {
+                    SelectAnimPlayer((x) => nodeInfo.uiType.enterAnim = x);
+                }
             }
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("关闭动画:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-                nodeInfo.uiType.quitAnim = DrawAnimField(ref quitAnim, nodeInfo.uiType.quitAnim);
-            }
-        }
-
-        private TypeInfo DrawAnimField(ref MonoScript animScript, TypeInfo typeInfo)
-        {
-            var entertype = typeInfo.type;
-            if (entertype != null && animScript == null)
-            {
-                var temp = new GameObject("temp", entertype).GetComponent(entertype);
-                animScript = MonoScript.FromMonoBehaviour(temp as MonoBehaviour);
-                DestroyImmediate(temp.gameObject);
-            }
-            var newMonoScript = EditorGUILayout.ObjectField(animScript, typeof(MonoScript), false) as MonoScript;
-            if (newMonoScript != animScript)
-            {
-                if (newMonoScript != null)
+                nodeInfo.uiType.quitAnim = EditorGUILayout.ObjectField(nodeInfo.uiType.quitAnim, typeof(AnimPlayer), false) as AnimPlayer;
+                if (GUILayout.Button("new",GUILayout.Width(60)))
                 {
-                    if (typeof(IAnimPlayer).IsAssignableFrom(newMonoScript.GetClass()) && typeof(MonoBehaviour).IsAssignableFrom(newMonoScript.GetClass()))
-                    {
-                        typeInfo = new TypeInfo(newMonoScript.GetClass());
-                        animScript = newMonoScript;
-                    }
+                    SelectAnimPlayer((x)=> nodeInfo.uiType.quitAnim = x);
                 }
             }
-            return typeInfo;
         }
+        private void SelectAnimPlayer(UnityAction< AnimPlayer> onSelect)
+        {
+            if (supportedAnimPlayers == null || supportedAnimPlayers.Count() == 0) return;
+
+            var options = supportedAnimPlayers.Select(x => new GUIContent( x.FullName)).ToArray();
+            EditorUtility.DisplayCustomMenu(new Rect(Event.current.mousePosition, Vector2.zero), options, -1, (x, optionKeys, index) => {
+                if (index < options.Length)
+                {
+                    var type = supportedAnimPlayers[index];
+                    var anim = ScriptableObject.CreateInstance(type) as AnimPlayer;
+                    onSelect(anim);
+                    ProjectWindowUtil.CreateAsset(anim, "new " + options[index] + ".asset");
+                }
+
+            }, null);
+        }
+        //private TypeInfo DrawAnimField(ref MonoScript animScript, TypeInfo typeInfo)
+        //{
+        //    var entertype = typeInfo.type;
+        //    if (entertype != null && animScript == null)
+        //    {
+        //        var temp = new GameObject("temp", entertype).GetComponent(entertype);
+        //        animScript = MonoScript.FromMonoBehaviour(temp as MonoBehaviour);
+        //        DestroyImmediate(temp.gameObject);
+        //    }
+        //    var newMonoScript = EditorGUILayout.ObjectField(animScript, typeof(MonoScript), false) as MonoScript;
+        //    if (newMonoScript != animScript)
+        //    {
+        //        if (newMonoScript != null)
+        //        {
+        //            if (typeof(IAnimPlayer).IsAssignableFrom(newMonoScript.GetClass()) && typeof(MonoBehaviour).IsAssignableFrom(newMonoScript.GetClass()))
+        //            {
+        //                typeInfo = new TypeInfo(newMonoScript.GetClass());
+        //                animScript = newMonoScript;
+        //            }
+        //        }
+        //    }
+        //    return typeInfo;
+        //}
 
         private bool ChangeCheckField(UnityAction func)
         {

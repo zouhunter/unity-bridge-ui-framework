@@ -1,20 +1,28 @@
 ﻿using BridgeUI;
 using BridgeUI.uTween;
-
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class PopAnimPlayer : AnimPlayer
 {
+    [SerializeField]
     private float duration = 5;
-    private RectTransform panel;
-    public void Awake()
+    RectTransform childPanel;
+    private Image image;
+    public override void SetContext(PanelBase context)
     {
-        panel = transform.GetChild(0) as RectTransform;
+        base.SetContext(context);
+        childPanel = context.transform.GetChild(0) as RectTransform;
+        image = childPanel.GetComponent<Image>();
     }
-    protected override uTweener CreateTweener(bool isEnter)
+    protected override List<uTweener> CreateTweener(bool isEnter)
     {
-        tween = uTweenScale.Begin(panel, Vector3.one * 0.8f, Vector3.one, duration);
-        return tween;
+        var tweens = new List<uTweener>();
+        tweens.Add(uTweenScale.Begin(childPanel, Vector3.one * 0.8f, Vector3.one, duration));
+        tweens.Add(uTweenColor.Begin(childPanel, Color.red, Color.green, duration, 1));
+        return tweens;
         //tween = uTweenScale.Begin(panel, Vector3.one * 0.8f, Vector3.one, duration);
         //tween = uTweenPosition.Begin(panel, Vector3.left * 200, Vector3.zero, duration);
         //tween = uTweenRotation.Begin(panel, Vector3.up * 30, Vector3.zero, duration);

@@ -62,43 +62,28 @@ namespace BridgeUI
                 return _isAlive && !IsDestroyed();
             }
         }
-        private IAnimPlayer _enterAnim;
-        protected IAnimPlayer enterAnim
+        private AnimPlayer _enterAnim;
+        protected AnimPlayer enterAnim
         {
             get
             {
                 if (_enterAnim == null)
                 {
-                    var enterAnimType = UType.enterAnim.type;
-                    if (enterAnimType != null) {
-                        _enterAnim = gameObject.GetComponent(enterAnimType) as IAnimPlayer;
-                        if (_enterAnim == null) {
-                            _enterAnim = gameObject.AddComponent(enterAnimType) as IAnimPlayer;
-                        }
-                    }
-                   
+                    _enterAnim = UType.enterAnim;
+                    _enterAnim.SetContext(this);
                 }
                 return _enterAnim;
-
             }
         }
-        private IAnimPlayer _quitAnim;
-        protected IAnimPlayer quitAnim
+        private AnimPlayer _quitAnim;
+        protected AnimPlayer quitAnim
         {
             get
             {
                 if (_quitAnim == null)
                 {
-                    var quitAnimType = UType.quitAnim.type;
-                    if (quitAnimType != null)
-                    {
-                        _quitAnim = gameObject.GetComponent(quitAnimType) as IAnimPlayer;
-                        if (_quitAnim == null)
-                        {
-                            _quitAnim = gameObject.AddComponent(quitAnimType) as IAnimPlayer;
-                        }
-                    }
-
+                    _quitAnim = UType.quitAnim;
+                    _quitAnim.SetContext(this);
                 }
                 return _quitAnim;
 
@@ -164,6 +149,7 @@ namespace BridgeUI
             AppendComponentsByType();
             OnOpenInternal();
         }
+
         protected override void OnDestroy()
         {
             base.OnDestroy();
@@ -190,7 +176,7 @@ namespace BridgeUI
             Binder.Bind(newValue);
         }
 
-        protected void UpdateViewModel(string propertyName,object value)
+        protected void UpdateViewModel(string propertyName, object value)
         {
             if (ViewModel != null)
             {
@@ -297,9 +283,9 @@ namespace BridgeUI
         }
         public virtual void Close()
         {
-            if (IsShowing && UType.quitAnim.type != null)
+            if (IsShowing && UType.quitAnim != null)
             {
-                quitAnim.PlayAnim(false,CloseInternal);
+                quitAnim.PlayAnim(false, CloseInternal);
             }
             else
             {
@@ -373,9 +359,9 @@ namespace BridgeUI
         }
         private void OnOpenInternal()
         {
-            if (UType.enterAnim.type != null)
+            if (UType.enterAnim != null)
             {
-                enterAnim.PlayAnim(true,null);
+                enterAnim.PlayAnim(true, null);
             }
         }
         private void AlaphGameObject(bool hide)

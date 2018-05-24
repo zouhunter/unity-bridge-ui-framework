@@ -14,23 +14,85 @@ using System.Collections.Generic;
 using BridgeUI.uTween;
 namespace BridgeUI
 {
-    public abstract class AnimPlayer : MonoBehaviour, IAnimPlayer
+    public abstract class AnimPlayer : ScriptableObject
     {
-        protected uTweener tween;
-        public virtual void Update()
+        [SerializeField]
+        private bool reverse;
+
+        protected List<uTweener> tweens;
+        protected PanelBase panel;
+        protected UnityAction onComplete { get; set; }
+        protected int completedTween;
+
+        public virtual void SetContext(PanelBase context)
         {
-           if(tween != null)
-                tween.Update();
+            panel = context;
+            panel.StartCoroutine(UpdateState());
         }
-        public virtual void PlayAnim(bool isEnter,UnityAction onComplete)
+
+        private IEnumerator UpdateState()
         {
-            tween = CreateTweener(isEnter);
-            if (onComplete != null){
-                tween.AddOnFinished(onComplete);
+            var wait = new WaitForEndOfFrame();
+            while (panel != null)
+            {
+                yield return wait;
+                Update();
             }
-            tween.ResetToBeginning();
-            tween.PlayForward();
         }
-        protected abstract uTweener CreateTweener(bool isEnter);
+        protected virtual void Update()
+        {
+            if (tweens != null)
+            {
+                foreach (var tween in tweens)
+                {
+                    if (tween != null)
+                    {
+                        tween.Update();
+                    }
+                }
+            }
+        }
+        public virtual void PlayAnim(bool isEnter, UnityAction onComplete)
+        {
+            tweens = CreateTweener(isEnter);
+            if (onComplete != null){
+                this.onComplete = onComplete;
+            }
+
+            if (tweens != null)
+            {
+                completedTween = 0;
+
+                foreach (var tween in tweens)
+                {
+                    if(!reverse)
+                    {
+                        tween.ResetToBeginning();
+                        tween.PlayForward();
+                    }
+                    else
+                    {
+                        tween.ResetToComplete();
+                        tween.PlayReverse();
+                    }
+                   
+                    tween.AddOnFinished(CompleteOne);
+                }
+            }
+        }
+
+        protected virtual void CompleteOne()
+        {
+            if (++completedTween  >=  tweens.Count)
+            {
+                completedTween = 0;
+                if(onComplete != null)
+                {
+                    onComplete.Invoke();
+                }
+            }
+        }
+
+        protected abstract List<uTweener> CreateTweener(bool isEnter);
     }
 }

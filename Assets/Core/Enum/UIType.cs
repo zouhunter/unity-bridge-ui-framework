@@ -53,9 +53,9 @@ namespace BridgeUI
         //隐藏透明度
         public float hideAlaph;
         //出场动画
-        public TypeInfo enterAnim;
+        public AnimPlayer enterAnim;
         //关闭动画
-        public TypeInfo quitAnim;
+        public AnimPlayer quitAnim;
         //关闭规则
         public CloseRule closeRule;
         //隐藏规则

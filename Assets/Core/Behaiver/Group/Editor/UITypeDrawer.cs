@@ -48,8 +48,8 @@ namespace BridgeUIEditor
             layerProp = property.FindPropertyRelative("layer");
             layerIndexProp = property.FindPropertyRelative("layerIndex");
             hideAlaphProp = property.FindPropertyRelative("hideAlaph");
-            enterAnimProp = property.FindPropertyRelative("enterAnim").FindPropertyRelative("typeName");
-            quitAnimProp = property.FindPropertyRelative("quitAnim").FindPropertyRelative("typeName");
+            enterAnimProp = property.FindPropertyRelative("enterAnim");
+            quitAnimProp = property.FindPropertyRelative("quitAnim");
             hideRuleProp = property.FindPropertyRelative("hideRule");
             closeRuleProp = property.FindPropertyRelative("closeRule");
         }
@@ -93,12 +93,12 @@ namespace BridgeUIEditor
             rect.y += EditorGUIUtility.singleLineHeight;
             DrawGroup(rect, "出场动画:", (r) =>
             {
-                EditorGUI.LabelField(r,enterAnimProp.stringValue);
+                EditorGUI.ObjectField(r,enterAnimProp.objectReferenceValue,typeof(AnimPlayer),false);
             });
             rect.y += EditorGUIUtility.singleLineHeight;
             DrawGroup(rect, "闭场动画:", (r) =>
             {
-                EditorGUI.LabelField(r, quitAnimProp.stringValue);
+                EditorGUI.ObjectField(r, quitAnimProp.objectReferenceValue, typeof(AnimPlayer), false);
             });
         }
 

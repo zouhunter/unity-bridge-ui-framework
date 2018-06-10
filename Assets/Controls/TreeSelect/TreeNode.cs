@@ -9,7 +9,6 @@ namespace BridgeUI.Control.Tree
     public abstract class TreeNode
     {
         public string name;
-        public object content { get; set; }
         public abstract List<TreeNode> childern { get; }
         public TreeNode ParentItem { get; internal set; }
         public string[] FullPath

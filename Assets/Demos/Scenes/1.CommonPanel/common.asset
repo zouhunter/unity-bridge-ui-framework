@@ -169,8 +169,8 @@ MonoBehaviour:
       type: bridge
   - m_name: SingleImagePanel
     m_id: 60f1efeb-d8a7-4f4c-b5e7-4a6c36d392b3
-    m_x: 288
-    m_y: 96
+    m_x: 300
+    m_y: 90
     m_node: {fileID: 11401830}
     m_inputPoints:
     - id: 5ee886e3-6123-4ef2-b27a-18dc49fcd57b
@@ -200,8 +200,8 @@ MonoBehaviour:
       type: bridge
   - m_name: TextInfoPanel
     m_id: 6a0caabf-0088-4d78-b8e5-5c373681569e
-    m_x: 348
-    m_y: 168
+    m_x: 320
+    m_y: 170
     m_node: {fileID: 11431614}
     m_inputPoints:
     - id: 3b637e19-ab40-41b3-a690-764799b47664
@@ -355,8 +355,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: {fileID: 0}
-      quitAnim: {fileID: 0}
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 116676, guid: adec64d1277f9724681a8cc49e0f22c0, type: 2}
@@ -387,8 +391,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: {fileID: 0}
-      quitAnim: {fileID: 0}
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 146722, guid: 5e7386df05c992344b12b73fd369f769, type: 2}
@@ -419,8 +427,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: {fileID: 0}
-      quitAnim: {fileID: 0}
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 194692, guid: dc1d8fe9ec7dc05469a37934506728ef, type: 2}
@@ -469,8 +481,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: {fileID: 0}
-      quitAnim: {fileID: 0}
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 187264, guid: 98d3bb1d8972a2446a2c848086c35db9, type: 2}
@@ -501,8 +517,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: {fileID: 0}
-      quitAnim: {fileID: 0}
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 161224, guid: 553df631d6856cc41a803f413fcae974, type: 2}
@@ -533,8 +553,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: {fileID: 0}
-      quitAnim: {fileID: 0}
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 139136, guid: 8e5c8944d260fa34aad17f09bbbbbb23, type: 2}
@@ -565,8 +589,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: {fileID: 0}
-      quitAnim: {fileID: 0}
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 120502, guid: a41db1c1d5f30cc40a374e0694970cbb, type: 2}
@@ -597,8 +625,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: {fileID: 0}
-      quitAnim: {fileID: 0}
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 195084, guid: 18a7e6dbfc818c0459f38e3317513bb4, type: 2}
@@ -629,8 +661,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: {fileID: 11400000, guid: fe18e12e7fcd5b341973ff7ceada92e2, type: 2}
-      quitAnim: {fileID: 11400000, guid: fe18e12e7fcd5b341973ff7ceada92e2, type: 2}
+      enterAnim:
+        assembleName: 
+        typeName: 
+      quitAnim:
+        assembleName: 
+        typeName: 
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 132216, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}

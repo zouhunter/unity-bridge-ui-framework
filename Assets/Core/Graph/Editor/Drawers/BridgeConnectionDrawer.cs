@@ -18,7 +18,7 @@ using System;
 public class BridgeConnectionDrawer : Editor
 {
     private BridgeConnection connecton;
-
+    protected const float buttonWidth = 20;
     public override void OnInspectorGUI()
     {
         connecton = target as BridgeConnection;
@@ -37,16 +37,36 @@ public class BridgeConnectionDrawer : Editor
 
     private void DrawIndex(string tip)
     {
-        var rect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.5f);
+        var position = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.5f);
         GUI.color = Color.green;
-        GUI.Box(rect, "", EditorStyles.miniButton);
+        GUI.Box(position, "", EditorStyles.miniButton);
         GUI.color = Color.white;
-        EditorGUI.LabelField(rect, string.Format("【{0}】", connecton.name), EditorStyles.largeLabel);
+        EditorGUI.LabelField(position, string.Format("【{0}】", connecton.name), EditorStyles.largeLabel);
         DrawHead("界面索引");
-        using (var hor = new EditorGUILayout.VerticalScope())
+
+        position = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
+        var fieldRect = new Rect(position.x, position.y, position.width - 2 * buttonWidth, position.height);
+        var btnRect = new Rect(position.x + position.width - 2 * buttonWidth, position.y, buttonWidth, position.height);
+
+        connecton.index = EditorGUI.IntField(fieldRect, connecton.index);
+        btnRect.x -= 1;
+
+        if (GUI.Button(btnRect, "-", EditorStyles.miniButtonLeft))
         {
-            connecton.index =(int) EditorGUILayout.Slider(connecton.index, 0, 100);
-            EditorGUILayout.SelectableLabel("   --" + tip);
+            connecton.index--;
+        }
+        btnRect.x += buttonWidth + 1;
+        if (GUI.Button(btnRect, "+", EditorStyles.miniButtonRight))
+        {
+            connecton.index++;
+        }
+        if (connecton.index < 0)
+        {
+            connecton.index = 0;
+        }
+        if (connecton.index > 100)
+        {
+            connecton.index = 100;
         }
     }
 
@@ -78,6 +98,7 @@ public class BridgeConnectionDrawer : Editor
             if (isOn)
             {
                 connecton.show.mutex = (MutexRule)i;
+                mutexRulesSelected = i;
             }
         }
     }
@@ -101,6 +122,7 @@ public class BridgeConnectionDrawer : Editor
             if (isOn)
             {
                 connecton.show.baseShow = (BaseShow)i;
+                baseShowsSelected = i;
             }
         }
     }

@@ -461,5 +461,12 @@ namespace BridgeUI
             return nodeList;
         }
 
+        public override NodeGraphObj CreateNodeGraphObject(string path)
+        {
+            var obj = ScriptableObject.CreateInstance<NodeGraph.DataModel.NodeGraphObj>();
+            obj.ControllerType = this.GetType().FullName;
+            AssetDatabase.CreateAsset(obj, path);
+            return obj;
+        }
     }
 }

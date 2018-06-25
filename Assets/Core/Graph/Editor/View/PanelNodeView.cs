@@ -14,77 +14,83 @@ using UnityEditor;
 using NodeGraph;
 using NodeGraph.DataModel;
 using BridgeUI;
+using NodeGraph.DefultSkin;
 
-[CustomNodeView(typeof(PanelNode))]
-public class PanelNodeView : NodeView
+namespace BridgeUIEditor
 {
-    protected static UIType? uiTypeTemplate;
-    protected static NodeType nodeTypeTemplate;
+    [CustomNodeView(typeof(PanelNode))]
+    public class PanelNodeView : DefultSkinNodeView
+    {
+        protected static UIType? uiTypeTemplate;
+        protected static NodeType nodeTypeTemplate;
 
-    protected PanelNodeBase panelNode { get { return target as PanelNodeBase; } }
+        protected PanelNodeBase panelNode { get { return target as PanelNodeBase; } }
 
-    public override int Style
-    {
-        get
+        public override int Style
         {
-            return panelNode.style;
+            get
+            {
+                return panelNode.style;
+            }
         }
-    }
-    public override string Category
-    {
-        get
+        public override string Category
         {
-            return "panel";
+            get
+            {
+                return "panel";
+            }
         }
-    }
-    public override float CustomNodeHeight
-    {
-        get
+        public override float CustomNodeHeight
         {
+            get
+            {
+                if (panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription))
+                {
+                    return EditorGUIUtility.singleLineHeight + 5;
+                }
+                return 0;
+            }
+        }
+        public override void OnInspectorGUI(NodeGUI gui)
+        {
+            base.OnInspectorGUI(gui);
+            if (target != null)
+            {
+                gui.Name = (target as PanelNode).assetName;
+            }
+        }
+        public override void OnNodeGUI(Rect position, NodeData data)
+        {
+            base.OnNodeGUI(position, data);
             if (panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription))
             {
-                return EditorGUIUtility.singleLineHeight + 5;
+                var rect = new Rect(position.x + 20, position.y, position.width - 40, EditorGUIUtility.singleLineHeight);
+                EditorGUI.LabelField(rect, panelNode.Info.discription);
             }
-            return 0;
         }
-    }
-    public override void OnInspectorGUI(NodeGUI gui)
-    {
-        base.OnInspectorGUI(gui);
-        if (target != null){
-            gui.Name = (target as PanelNode).assetName;
-        }
-    }
-    public override void OnNodeGUI(Rect position, NodeData data)
-    {
-        base.OnNodeGUI(position, data);
-        if (panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription))
+        public override void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result)
         {
-            var rect = new Rect(position.x + 20, position.y, position.width - 40, EditorGUIUtility.singleLineHeight);
-            EditorGUI.LabelField(rect, panelNode.Info.discription);
+            base.OnClickNodeGUI(nodeGUI, mousePosition, result);
+            if (panelNode == null) return;
+            var nodeInfo = panelNode.nodeInfo;
+            if (nodeInfo.prefab)
+            {
+                EditorGUIUtility.PingObject(nodeInfo.prefab);
+            }
         }
-    }
-    public override void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result)
-    {
-        base.OnClickNodeGUI(nodeGUI, mousePosition, result);
-        if (panelNode == null) return;
-        var nodeInfo = panelNode.nodeInfo;
-        if (nodeInfo.prefab){
-            EditorGUIUtility.PingObject(nodeInfo.prefab);
+        public override void OnContextMenuGUI(GenericMenu menu, NodeGUI gui)
+        {
+            base.OnContextMenuGUI(menu, gui);
+            menu.AddItem(new GUIContent("Copy UIType"), false, () =>
+            {
+                var nodeItem = (target as PanelNode);
+                uiTypeTemplate = nodeItem.nodeInfo.uiType;
+            });
+            menu.AddItem(new GUIContent("Paste UIType"), false, () =>
+            {
+                var nodeItem = (target as PanelNode);
+                nodeItem.nodeInfo.uiType = (UIType)uiTypeTemplate;
+            });
         }
-    }
-    public override void OnContextMenuGUI(GenericMenu menu, NodeGUI gui)
-    {
-        base.OnContextMenuGUI(menu, gui);
-        menu.AddItem(new GUIContent("Copy UIType"), false, () =>
-        {
-            var nodeItem = (target as PanelNode);
-            uiTypeTemplate = nodeItem.nodeInfo.uiType;
-        });
-        menu.AddItem(new GUIContent("Paste UIType"), false, () =>
-        {
-            var nodeItem = (target as PanelNode);
-            nodeItem.nodeInfo.uiType = (UIType)uiTypeTemplate;
-        });
     }
 }

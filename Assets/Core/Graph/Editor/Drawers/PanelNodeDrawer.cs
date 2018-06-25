@@ -280,6 +280,7 @@ namespace BridgeUIEditor
                 if (isOn)
                 {
                     nodeInfo.uiType.form = (UIFormType)i;
+                    formSelected = i;
                 }
             }
         }
@@ -302,6 +303,7 @@ namespace BridgeUIEditor
                 if (isOn)
                 {
                     nodeInfo.uiType.layer = (UILayerType)i;
+                    layerSelected = i;
                 }
             }
             DrawLayerIndex();
@@ -332,6 +334,7 @@ namespace BridgeUIEditor
                 if (isOn)
                 {
                     nodeInfo.uiType.closeRule = (CloseRule)i;
+                    closeRuleSelected = i;
                 }
             }
         }
@@ -354,6 +357,7 @@ namespace BridgeUIEditor
                 if (isOn)
                 {
                     nodeInfo.uiType.hideRule = (HideRule)i;
+                    hideRuleSelected = i;
                 }
             }
             if (nodeInfo.uiType.hideRule == HideRule.AlaphGameObject)

@@ -12,12 +12,12 @@ using System.Collections;
 using System.Collections.Generic;
 using NodeGraph;
 using UnityEditor;
-using NodeGraph.DataModel;
+using NodeGraph.DefultSkin;
 
 namespace BridgeUIEditor
 {
     [CustomNodeView(typeof(Luncher))]
-    public class LuncherView : NodeView
+    public class LuncherView : DefultSkinNodeView
     {
         public override float CustomNodeHeight
         {
@@ -26,6 +26,7 @@ namespace BridgeUIEditor
                 return -EditorGUIUtility.singleLineHeight;
             }
         }
+
         public override void OnInspectorGUI(NodeGUI gui)
         {
             base.OnInspectorGUI(gui);

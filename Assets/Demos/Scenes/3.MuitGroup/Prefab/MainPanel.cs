@@ -45,8 +45,10 @@ public class MainPanel : BridgeUI.GroupPanel
         Binder.RegistEvent<Button>(m_openPanel03.onClick, "OpenPanel03", m_openPanel03);
         Binder.RegistMember<string>("m_title.text", "title");
         Binder.RegistMember<string>("m_info.text", "info");
-        Binder.RegistEvent<bool, Toggle>(m_switch.onValueChanged, "OnSwitch", m_switch);
-        Binder.RegistEvent<UnityEngine.UI.Button>(m_openPanel01.onClick, "OpenPanel01", m_openPanel01);
+        Binder.RegistMember<float>("m_slider.value", "slider_value");
+        Binder.RegistMember<bool>("m_switch.isOn", "switcher");
+        Binder.RegistEvent(m_switch.onValueChanged, "OnSwitch", m_switch);
+        Binder.RegistEvent(m_openPanel01.onClick, "OpenPanel01", m_openPanel01);
         Binder.RegistEvent(m_slider.onValueChanged, "OnSliderChange", m_slider);
     }
 

@@ -42,6 +42,7 @@ namespace BridgeUI.Binding
         {
             Value = value;
         }
+
         private void ValueChanged(T value)
         {
             if (onValueChanged != null)
@@ -61,7 +62,15 @@ namespace BridgeUI.Binding
         {
             return (Value != null ? Value.ToString() : "null");
         }
+        public void SetValueNoTrigger(T value)
+        {
+            _value = value;
+        }
 
+        public void Trigger()
+        {
+            ValueChanged(Value);
+        }
         public void Clear()
         {
             _value = default(T);
@@ -71,7 +80,10 @@ namespace BridgeUI.Binding
     public class B_StringArray : BindableProperty<string[]> { }
     public class B_Int : BindableProperty<int> { }
     public class B_Float : BindableProperty<float> { }
-    public class B_Bool : BindableProperty<bool> { }
+    public class B_Bool : BindableProperty<bool>
+    {
+      
+    }
     public class B_Byte : BindableProperty<byte> { }
     public class B_Long : BindableProperty<long> { }
     public class B_Short : BindableProperty<short> { }
@@ -111,7 +123,10 @@ namespace BridgeUI.Binding
         public C_Button(PanelAction<UnityEngine.UI.Button> panelAction) : base(panelAction) { }
     }
     public class C_Toggle : C_PanelAction<UnityEngine.UI.Toggle> { }
-    public class C_Slider : C_PanelAction<UnityEngine.UI.Slider> { }
+    public class C_Slider : C_PanelAction<UnityEngine.UI.Slider> {
+        public C_Slider() { }
+        public C_Slider(PanelAction<UnityEngine.UI.Slider> panelAction) : base(panelAction) { }
+    }
     public class C_Scrollbar : C_PanelAction<UnityEngine.UI.Scrollbar> { }
     public class C_Dropdown : C_PanelAction<UnityEngine.UI.Dropdown> { }
     public class C_ScrollRect : C_PanelAction<UnityEngine.UI.ScrollRect> { }

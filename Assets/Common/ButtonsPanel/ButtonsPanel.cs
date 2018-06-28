@@ -28,9 +28,18 @@ namespace BridgeUI.Common
                 var index = i;
                 btns[index].onClick.AddListener(() =>
                 {
-                    this.Open(index);
+                    this.Open(index,GetData(index));
                 });
             }
+        }
+
+        public virtual int GetPort(int index)
+        {
+            return index;
+        }
+        public virtual object GetData(int index)
+        {
+            return null;
         }
     }
 }

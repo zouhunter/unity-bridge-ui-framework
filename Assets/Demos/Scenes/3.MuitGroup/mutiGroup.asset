@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
-  m_Name: PanelGroup
+  m_Name: mutiGroup
   m_EditorClassIdentifier: 
   m_allNodes:
   - m_name: AnyState
@@ -33,8 +33,8 @@ MonoBehaviour:
       type: bridge
   - m_name: MainPanel
     m_id: 94b22b79-efb9-49ad-b88a-9dd99edc1b88
-    m_x: 252
-    m_y: 96
+    m_x: 250
+    m_y: 100
     m_node: {fileID: 11449750}
     m_inputPoints:
     - id: 72d19e01-0881-4949-a9ec-109075618618
@@ -64,8 +64,8 @@ MonoBehaviour:
       type: bridge
   - m_name: Panel04
     m_id: b23ff885-cf84-4115-9d88-8d92a127f45c
-    m_x: 492
-    m_y: 264
+    m_x: 490
+    m_y: 280
     m_node: {fileID: 11498654}
     m_inputPoints:
     - id: 8d85ca59-b13e-458e-88ec-4f27846dbd01
@@ -118,7 +118,7 @@ MonoBehaviour:
       isInput: 0
       buttonRect:
         serializedVersion: 2
-        x: 111
+        x: 167
         y: 21.5
         width: 10
         height: 23
@@ -126,8 +126,8 @@ MonoBehaviour:
       type: bridge
   - m_name: Panel02
     m_id: 6b442bd8-0cfe-4fc1-b4f1-83f81eaab21d
-    m_x: 492
-    m_y: 192
+    m_x: 490
+    m_y: 190
     m_node: {fileID: 11481208}
     m_inputPoints:
     - id: 8b80bc82-4821-4d7c-9db5-5cae4f68d9e2
@@ -157,7 +157,7 @@ MonoBehaviour:
       type: bridge
   - m_name: Panel03
     m_id: f43dbdec-1340-4cbd-8a6a-171a8942dd1c
-    m_x: 492
+    m_x: 490
     m_y: 120
     m_node: {fileID: 11436402}
     m_inputPoints:
@@ -225,7 +225,6 @@ MonoBehaviour:
   m_lastModified: 131697346400278003
   m_graphDescription: "\u8FD9\u662F\u4E00\u4E2A\u8BB0\u5F55\u7A0B\u5E8F\u754C\u9762\u4E00\u4E2A\u8282\u70B9\u63A7\u5236\u5668"
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
-  m_panelNamePath: 
 --- !u!114 &11400830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -304,16 +303,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0.2
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
-    discription: "\u9762\u677F\u4E00"
+    discription: "   \u9762\u677F\u4E00 \u9762 \u677F \u4E00"
 --- !u!114 &11426346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -343,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 0
   instenceID: 0
   assetName: Panel03
   style: 1
@@ -392,12 +387,8 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0.2
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: cdb2321ece873174fbc0719e07c1d664, type: 2}
@@ -602,12 +593,8 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0.2
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 1
     prefab: {fileID: 129970, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
@@ -719,16 +706,12 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0.2
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: ba16a0659248e00479962ae1a0bf4624, type: 2}
-    discription: "\u8FD9\u91CC\u9762\u677F\u4E09"
+    discription: "\u8FD9\u91CC\u9762\u677F\u4E09\u677F\u4E09"
 --- !u!114 &11489588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -807,12 +790,8 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0.2
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 129970, guid: 1172f1b2f39183747ab91057b53a70cd, type: 2}

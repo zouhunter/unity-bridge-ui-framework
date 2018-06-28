@@ -73,7 +73,6 @@ MonoBehaviour:
   m_lastModified: 131700032613584579
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
-  m_panelNamePath: 
 --- !u!114 &11409134
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -96,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 2
   instenceID: 0
   assetName: AnimTestPanel
   style: 1

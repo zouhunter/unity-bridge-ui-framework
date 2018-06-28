@@ -78,6 +78,17 @@ namespace BridgeUI.Control.Tree
         }
     }
     [System.Serializable]
+    public class TreeNodeLeaf : TreeNode
+    {
+        public override List<TreeNode> childern { get { return null; } }
+
+        public override TreeNode InsetChild()
+        {
+            return null;
+        }
+    }
+
+    [System.Serializable]
     public class TreeNode1 : TreeNode<TreeNode2>
     {
 
@@ -103,18 +114,9 @@ namespace BridgeUI.Control.Tree
 
     }
     [System.Serializable]
-    public class TreeNode6 : TreeNode<TreeNode7>
+    public class TreeNode6 : TreeNode<TreeNodeLeaf>
     {
 
     }
-    [System.Serializable]
-    public class TreeNode7 : TreeNode
-    {
-        public override List<TreeNode> childern { get { return null; } }
-
-        public override TreeNode InsetChild()
-        {
-            return null;
-        }
-    }
+   
 }

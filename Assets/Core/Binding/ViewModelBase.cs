@@ -55,8 +55,7 @@ namespace BridgeUI.Binding
                     if (bindingProp != null)
                     {
                         var customKey = (bindingProp as BindingAttribute).keyword;
-                        if(!string.IsNullOrEmpty(customKey))
-                        {
+                        if(!string.IsNullOrEmpty(customKey)){
                             bindingKey = customKey;
                         }
                     }

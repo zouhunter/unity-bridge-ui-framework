@@ -32,6 +32,7 @@ namespace BridgeUIEditor
         private ReorderableList prefabsWorpList;
         private ReorderableList bundlesWorpList;
         protected const float widthBt = 20;
+        protected const float padding = 10;
         protected abstract bool drawScript { get; }
 #if AssetBundleTools
         protected string[] option = { "预制体", "资源包" };
@@ -240,14 +241,32 @@ namespace BridgeUIEditor
             {
                 prefabsList = new ReorderableList(serializedObject, prefabsProp,true,true,false,false);
                 prefabsList.drawHeaderCallback = DrawElementHead;
+                prefabsList.drawElementBackgroundCallback = (rect, index, isActive, isFocused) =>
+                {
+                    var prop = prefabsProp.GetArrayElementAtIndex(index);
+                    var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
+                    rect.height = height;
+
+                    if (isFocused)
+                    {
+                        var oldColor = GUI.backgroundColor;
+                        GUI.backgroundColor = Color.yellow;
+                        GUI.Box(rect, "");
+                        GUI.backgroundColor = oldColor;
+                    }
+                };
                 prefabsList.elementHeightCallback = (index) =>
                 {
                     var prop = prefabsProp.GetArrayElementAtIndex(index);
-                    return EditorGUI.GetPropertyHeight(prop);
+                    var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
+                    return height;
                 };
                 prefabsList.drawElementCallback = (rect, index, isActive, isFocused) =>
                 {
                     var prop = prefabsProp.GetArrayElementAtIndex(index);
+                    var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
+                    rect.height = height;
+                    rect = DrawBoxRect(rect, index.ToString());
                     EditorGUI.PropertyField(rect, prop);
                 };
             }
@@ -259,15 +278,32 @@ namespace BridgeUIEditor
             {
                 prefabsWorpList = new ReorderableList(serializedObject, prefabsPropWorp, true, true, false, false);
                 prefabsWorpList.drawHeaderCallback = DrawElementHead;
+                prefabsWorpList.drawElementBackgroundCallback = (rect, index, isActive, isFocused) =>
+                {
+                    var prop = prefabsPropWorp.GetArrayElementAtIndex(index);
+                    var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
+                    rect.height = height;
 
+                    if (isFocused)
+                    {
+                        var oldColor = GUI.backgroundColor;
+                        GUI.backgroundColor = Color.yellow;
+                        GUI.Box(rect, "");
+                        GUI.backgroundColor = oldColor;
+                    }
+                };
                 prefabsWorpList.elementHeightCallback = (index) =>
                 {
                     var prop = prefabsPropWorp.GetArrayElementAtIndex(index);
-                    return EditorGUI.GetPropertyHeight(prop);
+                    var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
+                    return height;
                 };
                 prefabsWorpList.drawElementCallback = (rect, index, isActive, isFocused) =>
                 {
                     var prop = prefabsPropWorp.GetArrayElementAtIndex(index);
+                    var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
+                    rect.height = height;
+                    rect = DrawBoxRect(rect, index.ToString());
                     EditorGUI.PropertyField(rect, prop);
                 };
             }
@@ -279,14 +315,32 @@ namespace BridgeUIEditor
             {
                 bundlesList = new ReorderableList(serializedObject, bundlesProp, true, true, false, false);
                 bundlesList.drawHeaderCallback = DrawElementHead;
+                bundlesList.drawElementBackgroundCallback = (rect, index, isActive, isFocused) =>
+                {
+                    var prop = bundlesProp.GetArrayElementAtIndex(index);
+                    var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
+                    rect.height = height;
+
+                    if (isFocused)
+                    {
+                        var oldColor = GUI.backgroundColor;
+                        GUI.backgroundColor = Color.yellow;
+                        GUI.Box(rect, "");
+                        GUI.backgroundColor = oldColor;
+                    }
+                };
                 bundlesList.elementHeightCallback = (index) =>
                 {
                     var prop = bundlesProp.GetArrayElementAtIndex(index);
-                    return EditorGUI.GetPropertyHeight(prop);
+                    var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
+                    return height;
                 };
                 bundlesList.drawElementCallback = (rect, index, isActive, isFocused) =>
                 {
                     var prop = bundlesProp.GetArrayElementAtIndex(index);
+                    var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
+                    rect.height = height;
+                    rect = DrawBoxRect(rect, index.ToString());
                     EditorGUI.PropertyField(rect, prop);
                 };
             }
@@ -298,14 +352,32 @@ namespace BridgeUIEditor
             {
                 bundlesWorpList = new ReorderableList(serializedObject, bundlesPropWorp, true, true, false, false);
                 bundlesWorpList.drawHeaderCallback = DrawElementHead;
+                bundlesWorpList.drawElementBackgroundCallback = (rect, index, isActive, isFocused) =>
+                {
+                    var prop = bundlesPropWorp.GetArrayElementAtIndex(index);
+                    var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
+                    rect.height = height;
+
+                    if (isFocused)
+                    {
+                        var oldColor = GUI.backgroundColor;
+                        GUI.backgroundColor = Color.yellow;
+                        GUI.Box(rect, "");
+                        GUI.backgroundColor = oldColor;
+                    }
+                };
                 bundlesWorpList.elementHeightCallback = (index) =>
                 {
                     var prop = bundlesPropWorp.GetArrayElementAtIndex(index);
-                    return EditorGUI.GetPropertyHeight(prop);
+                    var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
+                    return height;
                 };
                 bundlesWorpList.drawElementCallback = (rect, index, isActive, isFocused) =>
                 {
                     var prop = bundlesPropWorp.GetArrayElementAtIndex(index);
+                    var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
+                    rect.height = height;
+                    rect = DrawBoxRect(rect, index.ToString());
                     EditorGUI.PropertyField(rect, prop);
                 };
             }
@@ -838,6 +910,21 @@ namespace BridgeUIEditor
             }
             return true;
         }
+        public static Rect DrawBoxRect(Rect orignalRect, string index)
+        {
+            var idRect = new Rect(orignalRect.x - padding, orignalRect.y + padding, 20, 20);
+            EditorGUI.LabelField(idRect, index.ToString());
+            var boxRect = PaddingRect(orignalRect, padding * 0.5f);
+            GUI.Box(boxRect, "");
+            var rect = PaddingRect(orignalRect);
+            return rect;
+        }
+        public static Rect PaddingRect(Rect orignalRect, float padding = padding)
+        {
+            var rect = new Rect(orignalRect.x + padding, orignalRect.y + padding, orignalRect.width - padding * 2, orignalRect.height - padding * 2);
+            return rect;
+        }
+
     }
     [CustomEditor(typeof(PanelGroup)), CanEditMultipleObjects]
     public class PanelGroupDrawer : PanelGroupBaseDrawer

@@ -22,7 +22,7 @@ namespace BridgeUIEditor
             this.serializedObject = property.serializedObject;
             InitPropertys(property);
             typeProp = property.FindPropertyRelative("type");
-            var height = EditorGUIUtility.singleLineHeight + 10 ;
+            var height = EditorGUIUtility.singleLineHeight;
             if (property.isExpanded){
                 height += EditorGUI.GetPropertyHeight(typeProp);
                 height += GetInfoItemHeight();

@@ -83,6 +83,7 @@ namespace BridgeUI.Model
             {
                 onRelease(this);
             }
+
             if(onReleaseFromPool != null)
             {
                 onReleaseFromPool(this);

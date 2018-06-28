@@ -25,6 +25,7 @@ namespace BridgeUI.Common
         public Text title;
         public Text info;
         public string defultTitle = "温馨提示";
+        public bool queue;
         public InputField.OnChangeEvent onGet;
         public List<PopDataObj> popDatas = new List<PopDataObj>();
 
@@ -103,6 +104,7 @@ namespace BridgeUI.Common
         {
             var titleText = dic["title"] != null ? (string)dic["title"] : defultTitle;
             var infoText = dic["info"] != null ? dic["info"] as string : "";
+            queue = dic["queue"] != null ? (bool)dic["queue"] : queue;
             donthide = dic["donthide"] != null ? (bool)dic["donthide"] : false;
             OnMessageRecevie(titleText, infoText);
         }
@@ -119,7 +121,14 @@ namespace BridgeUI.Common
             {
                 valueQueue.Enqueue(new KeyValuePair<string, string>(arg0, arg1));
 
-                if (!isShowing)
+                if (queue)
+                {
+                    if (!isShowing)
+                    {
+                        ShowAnItem();
+                    }
+                }
+                else
                 {
                     ShowAnItem();
                 }

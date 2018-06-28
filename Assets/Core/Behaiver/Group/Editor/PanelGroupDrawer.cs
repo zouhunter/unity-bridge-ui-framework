@@ -100,17 +100,32 @@ namespace BridgeUIEditor
                             AssetDatabase.OpenAsset(graph);
                         }
                     }
-                    btnRect = new Rect(rect.x + rect.width - 30, rect.y + 2, rect.width, EditorGUIUtility.singleLineHeight);
-                    DragGroupObj(btnRect, prop);
+                    btnRect = new Rect(rect.x + rect.width - 30, rect.y + 2, 30, EditorGUIUtility.singleLineHeight);
 
-                    if (GUI.Button(btnRect, " ", EditorStyles.objectFieldMiniThumb))
+                    if(!string.IsNullOrEmpty(guid.stringValue) && !String.IsNullOrEmpty(AssetDatabase.GUIDToAssetPath(guid.stringValue)))
                     {
-                        var path = AssetDatabase.GUIDToAssetPath(guid.stringValue);
-                        if (!string.IsNullOrEmpty(path))
+                        if (GUI.Button(btnRect, " ", EditorStyles.objectFieldMiniThumb))
                         {
-                            EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.NodeGraphObj>(path));
+                            var path = AssetDatabase.GUIDToAssetPath(guid.stringValue);
+                            if (!string.IsNullOrEmpty(path))
+                            {
+                                EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<NodeGraph.DataModel.NodeGraphObj>(path));
+                            }
+                        }
+                        DragGroupObj(btnRect, prop);
+                    }
+                    else
+                    {
+                        var obj = EditorGUI.ObjectField(btnRect, null, typeof(NodeGraph.DataModel.NodeGraphObj), false);
+                        if (obj)
+                        {
+                            var path = AssetDatabase.GetAssetPath(obj);
+                            guid.stringValue = AssetDatabase.AssetPathToGUID(path);
+                            key.stringValue = obj.name;
+                            prop.serializedObject.ApplyModifiedProperties();
                         }
                     }
+
                 };
             }
             groupList.DoLayoutList();

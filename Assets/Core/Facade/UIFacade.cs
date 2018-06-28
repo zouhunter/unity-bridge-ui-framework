@@ -75,7 +75,8 @@ namespace BridgeUI
         }
         public IUIHandle Open(IPanelBase parent, string panelName, UnityAction<object> callBack, object data = null)
         {
-            var handle = handlePool.Allocate();
+            var handle = handlePool.Allocate(panelName);
+
             var currentGroup = parent == null ? null : parent.Group;
 
             if (currentGroup != null)//限制性打开

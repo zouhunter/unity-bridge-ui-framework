@@ -490,109 +490,118 @@ MonoBehaviour:
   p_nodes:
   - panelName: ButtonOpenPanel
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 146722, guid: 5e7386df05c992344b12b73fd369f769, type: 2}
   - panelName: ButtonsPanel
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 194692, guid: dc1d8fe9ec7dc05469a37934506728ef, type: 2}
   - panelName: InputPanel
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 120502, guid: a41db1c1d5f30cc40a374e0694970cbb, type: 2}
   - panelName: PopUpPanel
-    instanceID: -7896
+    instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 132216, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}
   - panelName: RadiaMenuPanel
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 139136, guid: 8e5c8944d260fa34aad17f09bbbbbb23, type: 2}
   - panelName: SingleImagePanel
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 116676, guid: adec64d1277f9724681a8cc49e0f22c0, type: 2}
   - panelName: TextInfoPanel
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 187264, guid: 98d3bb1d8972a2446a2c848086c35db9, type: 2}
   - panelName: TipInfomation
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 161224, guid: 553df631d6856cc41a803f413fcae974, type: 2}
   - panelName: WaitPopPanel
     instanceID: 0
+    discription: 
     type:
       layerIndex: 0
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 195084, guid: 18a7e6dbfc818c0459f38e3317513bb4, type: 2}
@@ -601,19 +610,19 @@ MonoBehaviour:
     index: 0
     showModel:
       auto: 0
-      mutex: 0
       cover: 0
-      baseShow: 2
       single: 0
+      mutex: 0
+      baseShow: 1
     outNode: WaitPopPanel
   - inNode: 
     index: 0
     showModel:
       auto: 1
-      mutex: 0
       cover: 0
-      baseShow: 0
       single: 0
+      mutex: 0
+      baseShow: 0
     outNode: ButtonsPanel
 --- !u!1 &1584348404
 GameObject:

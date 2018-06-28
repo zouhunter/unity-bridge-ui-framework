@@ -21,7 +21,7 @@ namespace BridgeUI
         public BridgePool(BridgeInfo bridgeObj)
         {
             this.bridgePrefab = bridgeObj;
-            innerPool = new ObjectPool<Bridge>(1, CreateInstence);
+            innerPool = new ObjectPool<Bridge>(CreateInstence);
         }
 
         public Bridge CreateInstence()

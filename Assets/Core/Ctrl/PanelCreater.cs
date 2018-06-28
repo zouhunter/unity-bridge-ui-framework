@@ -29,7 +29,7 @@ namespace BridgeUI
 #else
             "file:///" +
 #endif
-                Application.streamingAssetsPath + "/" + menu;
+            Application.streamingAssetsPath + "/" + menu;
 
             assetLoader = AssetBundleLoader.GetInstance(url, menu);
 #endif

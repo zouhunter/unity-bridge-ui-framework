@@ -9,18 +9,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
-  m_Name: innergroup
+  m_Name: poolgraph
   m_EditorClassIdentifier: 
   m_allNodes:
   - m_name: PopUpPanel
-    m_id: 4808502d-dd9f-429f-a133-35a1c85a1e0c
-    m_x: 382
-    m_y: 279
-    m_node: {fileID: 11411476}
+    m_id: b8d99a24-3c69-46d7-9261-8402243c294c
+    m_x: 139
+    m_y: 127
+    m_node: {fileID: 11497368}
     m_inputPoints:
-    - id: 90547d49-91f7-4556-969a-7384d6705c31
+    - id: b4904715-616c-4cfa-a81d-299f6383f5f4
       label: 
-      parentId: 4808502d-dd9f-429f-a133-35a1c85a1e0c
+      parentId: b8d99a24-3c69-46d7-9261-8402243c294c
       isInput: 1
       buttonRect:
         serializedVersion: 2
@@ -31,9 +31,9 @@ MonoBehaviour:
       max: 100
       type: bridge
     m_outputPoints:
-    - id: 9de043a0-f272-4a75-bcf6-bce6a771f7fb
+    - id: 5b1e3542-c4d1-4e49-82c1-95c07a155df7
       label: 
-      parentId: 4808502d-dd9f-429f-a133-35a1c85a1e0c
+      parentId: b8d99a24-3c69-46d7-9261-8402243c294c
       isInput: 0
       buttonRect:
         serializedVersion: 2
@@ -44,10 +44,10 @@ MonoBehaviour:
       max: 100
       type: bridge
   m_allConnections: []
-  m_lastModified: 131703768544081871
+  m_lastModified: 131746704843452562
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
---- !u!114 &11411476
+--- !u!114 &11497368
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   instenceID: 0
-  assetName: 
+  assetName: PopUpPanel
   style: 1
   rule:
     baseTypeIndex: 0

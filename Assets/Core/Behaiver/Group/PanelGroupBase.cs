@@ -426,8 +426,7 @@ namespace BridgeUI
         /// </summary>
         protected virtual void RegistBridgePool()
         {
-            foreach (var item in Bridges)
-            {
+            foreach (var item in Bridges){
                 poolDic[item] = new BridgePool(item);
             }
             defultBridge = new BridgeInfo();

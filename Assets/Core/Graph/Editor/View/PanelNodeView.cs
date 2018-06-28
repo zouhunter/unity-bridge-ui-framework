@@ -25,7 +25,6 @@ namespace BridgeUIEditor
         protected static NodeType nodeTypeTemplate;
 
         protected PanelNodeBase panelNode { get { return target as PanelNodeBase; } }
-
         public override int Style
         {
             get
@@ -40,15 +39,26 @@ namespace BridgeUIEditor
                 return "panel";
             }
         }
-        public override float CustomNodeHeight
+        public override float SuperHeight
         {
             get
             {
                 if (panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription))
                 {
-                    return EditorGUIUtility.singleLineHeight + 5;
+                    return EditorGUIUtility.singleLineHeight + 2;
                 }
                 return 0;
+            }
+        }
+        public override float SuperWidth
+        {
+            get
+            {
+                if(panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription) && panelNode.Info.discription.Length >  7)
+                {
+                    return (panelNode.Info.discription.Length - 7) * EditorGUIUtility.singleLineHeight * 0.7f;
+                }
+                return base.SuperWidth;
             }
         }
         public override void OnInspectorGUI(NodeGUI gui)
@@ -64,7 +74,7 @@ namespace BridgeUIEditor
             base.OnNodeGUI(position, data);
             if (panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription))
             {
-                var rect = new Rect(position.x + 20, position.y, position.width - 40, EditorGUIUtility.singleLineHeight);
+                var rect = new Rect(position.x + 30, position.y + 2 * EditorGUIUtility.singleLineHeight, position.width - 40, EditorGUIUtility.singleLineHeight);
                 EditorGUI.LabelField(rect, panelNode.Info.discription);
             }
         }

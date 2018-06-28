@@ -45,8 +45,8 @@ MonoBehaviour:
       type: bridge
   - m_name: ButtonsPanel
     m_id: 0e8f09d6-56c1-4b9e-aff8-d2368e93c4bf
-    m_x: 96
-    m_y: 132
+    m_x: 120
+    m_y: 140
     m_node: {fileID: 11410418}
     m_inputPoints:
     - id: b5371d58-9f44-4724-9857-e1ef937a4ce0
@@ -76,8 +76,8 @@ MonoBehaviour:
       type: bridge
   - m_name: InputPanel
     m_id: e6e89bc9-6f93-4272-9535-ac7cc9ce1dcf
-    m_x: 96
-    m_y: 204
+    m_x: 120
+    m_y: 200
     m_node: {fileID: 11444604}
     m_inputPoints:
     - id: f9f90d99-dd92-423a-ae0a-26d59caf1650
@@ -107,8 +107,8 @@ MonoBehaviour:
       type: bridge
   - m_name: PopUpPanel
     m_id: 821487a1-7e3f-4f6c-a747-726d3015aa50
-    m_x: 108
-    m_y: 264
+    m_x: 110
+    m_y: 260
     m_node: {fileID: 11469332}
     m_inputPoints:
     - id: 124596b1-fec7-4c6c-88e0-36dbda3c58a7
@@ -138,8 +138,8 @@ MonoBehaviour:
       type: bridge
   - m_name: RadiaMenuPanel
     m_id: 5b22c67a-6c33-4dc1-94b0-b2a71216690a
-    m_x: 108
-    m_y: 336
+    m_x: 100
+    m_y: 320
     m_node: {fileID: 11439136}
     m_inputPoints:
     - id: ecd0daa9-86c7-4ee9-bccf-aa7d21794f34
@@ -169,8 +169,8 @@ MonoBehaviour:
       type: bridge
   - m_name: SingleImagePanel
     m_id: 60f1efeb-d8a7-4f4c-b5e7-4a6c36d392b3
-    m_x: 300
-    m_y: 90
+    m_x: 310
+    m_y: 110
     m_node: {fileID: 11401830}
     m_inputPoints:
     - id: 5ee886e3-6123-4ef2-b27a-18dc49fcd57b
@@ -328,7 +328,6 @@ MonoBehaviour:
   m_lastModified: 131692476682705989
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
-  m_panelNamePath: 
 --- !u!114 &11401830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -355,12 +354,8 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 116676, guid: adec64d1277f9724681a8cc49e0f22c0, type: 2}
@@ -379,7 +374,7 @@ MonoBehaviour:
   selected: 0
   instenceID: 0
   assetName: ButtonOpenPanel
-  style: 1
+  style: 2
   rule:
     baseTypeIndex: 0
     canInherit: 0
@@ -391,12 +386,8 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 146722, guid: 5e7386df05c992344b12b73fd369f769, type: 2}
@@ -427,12 +418,8 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 194692, guid: dc1d8fe9ec7dc05469a37934506728ef, type: 2}
@@ -454,7 +441,7 @@ MonoBehaviour:
     cover: 0
     single: 0
     mutex: 0
-    baseShow: 2
+    baseShow: 1
 --- !u!114 &11431614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -481,12 +468,8 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 187264, guid: 98d3bb1d8972a2446a2c848086c35db9, type: 2}
@@ -517,12 +500,8 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 161224, guid: 553df631d6856cc41a803f413fcae974, type: 2}
@@ -553,12 +532,8 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 139136, guid: 8e5c8944d260fa34aad17f09bbbbbb23, type: 2}
@@ -589,12 +564,8 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 120502, guid: a41db1c1d5f30cc40a374e0694970cbb, type: 2}
@@ -625,12 +596,8 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 195084, guid: 18a7e6dbfc818c0459f38e3317513bb4, type: 2}
@@ -661,12 +628,8 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 132216, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}

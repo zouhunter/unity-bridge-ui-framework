@@ -22,6 +22,7 @@ public class PopAnimPlayer : AnimPlayer
         var tweens = new List<uTweener>();
         tweens.Add(uTweenScale.Begin(childPanel, Vector3.one * 0.8f, Vector3.one, duration));
         tweens.Add(uTweenColor.Begin(childPanel, Color.red, Color.green, duration, 1));
+        tweens.Add(uTweenColor.Begin(image.rectTransform, Color.blue, Color.yellow, duration, 1));
         return tweens;
         //tween = uTweenScale.Begin(panel, Vector3.one * 0.8f, Vector3.one, duration);
         //tween = uTweenPosition.Begin(panel, Vector3.left * 200, Vector3.zero, duration);

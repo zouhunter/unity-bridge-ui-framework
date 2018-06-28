@@ -19,7 +19,7 @@ namespace BridgeUIEditor
     [CustomNodeView(typeof(Luncher))]
     public class LuncherView : DefultSkinNodeView
     {
-        public override float CustomNodeHeight
+        public override float SuperHeight
         {
             get
             {

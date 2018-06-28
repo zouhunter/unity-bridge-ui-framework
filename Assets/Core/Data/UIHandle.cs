@@ -12,21 +12,39 @@ using System.Collections;
 using System.Collections.Generic;
 using BridgeUI.Model;
 using System;
+using System.Linq;
 
 namespace BridgeUI
 {
     public class UIHandle : IUIHandleInternal
     {
-        private List<Bridge> bridges = new List<Bridge>();
-        private UnityAction<IPanelBase, object> onCallBack { get; set; }
-        private UnityAction<IPanelBase> onCreate { get; set; }
-        private UnityAction<IPanelBase> onClose { get; set; }
+        private readonly List<Bridge> bridges = new List<Bridge>();
+        private readonly List<UnityAction<IPanelBase, object>> onCallBack = new List<UnityAction<IPanelBase, object>>();
+        private readonly List<UnityAction<IPanelBase>> onCreate = new List<UnityAction<IPanelBase>>();
+        private readonly List<UnityAction<IPanelBase>> onClose = new List<UnityAction<IPanelBase>>();
         private UnityAction<UIHandle> onRelease { get; set; }
-        public void Reset(UnityAction<UIHandle> onRelease)
+
+        public IPanelBase[] Contexts
         {
+            get
+            {
+                return bridges.Select(x => x.OutPanel).ToArray();
+            }
+        }
+        public bool Active
+        {
+            get
+            {
+                return bridges.Count > 0;
+            }
+        }
+        public string PanelName { get; private set; }
+
+        public void Reset(string panelName, UnityAction<UIHandle> onRelease)
+        {
+            this.PanelName = panelName;
             this.onRelease = onRelease;
         }
-
         public void RegistBridge(Bridge obj)
         {
             if (!bridges.Contains(obj))
@@ -48,31 +66,40 @@ namespace BridgeUI
                 bridges.Remove(obj);
             }
 
-            if (onClose != null)
-            {
-                onClose(obj.OutPanel);
-            }
+            OnCloseCallBack(obj.OutPanel);
 
             if (bridges.Count == 0)
             {
                 Release();
             }
         }
+
+
         private void OnBridgeCallBack(IPanelBase panel, object data)
         {
-            if (onCallBack != null)
+            var array = onCallBack.ToArray();
+            foreach (var item in array)
             {
-                onCallBack.Invoke(panel, data);
+                item.Invoke(panel, data);
+            }
+        }
+        private void OnCloseCallBack(IPanelBase panel)
+        {
+            var array = onClose.ToArray();
+            foreach (var item in array)
+            {
+                item.Invoke(panel);
+            }
+        }
+        private void OnCreatePanel(IPanelBase panel)
+        {
+            var array = onCreate.ToArray();
+            foreach (var item in array)
+            {
+                item.Invoke(panel);
             }
         }
 
-        private void OnCreatePanel(IPanelBase panel)
-        {
-            if (onCreate != null)
-            {
-                onCreate.Invoke(panel);
-            }
-        }
         private void Release()
         {
             if (onRelease != null)
@@ -84,15 +111,14 @@ namespace BridgeUI
 
         private void Clean()
         {
-            this.onCallBack = null;
-            this.onCreate = null;
-            this.onClose = null;
+            this.onCallBack.Clear();
+            this.onCreate.Clear();
+            this.onClose.Clear();
         }
 
         public IUIHandle Send(object data)
         {
-            foreach (var item in bridges)
-            {
+            foreach (var item in bridges){
                 item.Send(data);
             }
             return this;
@@ -100,19 +126,31 @@ namespace BridgeUI
 
         public IUIHandle RegistCallBack(UnityAction<IPanelBase, object> onCallBack)
         {
-            this.onCallBack = onCallBack;
+            if (onCallBack == null) return null;
+            if (!this.onCallBack.Contains(onCallBack))
+            {
+                this.onCallBack.Add(onCallBack);
+            }
             return this;
         }
 
         public IUIHandle RegistCreate(UnityAction<IPanelBase> onCreate)
         {
-            this.onCreate = onCreate;
+            if (onCreate == null) return null;
+            if (!this.onCreate.Contains(onCreate))
+            {
+                this.onCreate.Add(onCreate);
+            }
             return this;
         }
 
         public IUIHandle RegistClose(UnityAction<IPanelBase> onClose)
         {
-            this.onClose = onClose;
+            if (onClose == null) return null;
+            if (!this.onClose.Contains(onClose))
+            {
+                this.onClose.Add(onClose);
+            }
             return this;
         }
     }

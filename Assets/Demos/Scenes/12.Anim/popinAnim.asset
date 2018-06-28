@@ -9,6 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4574a72492e8e4147bfed3ee1a85fb87, type: 3}
-  m_Name: popAnim
+  m_Name: popinAnim
   m_EditorClassIdentifier: 
+  reverse: 0
   duration: 5

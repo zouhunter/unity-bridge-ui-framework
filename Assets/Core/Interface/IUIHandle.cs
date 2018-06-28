@@ -14,18 +14,23 @@ using BridgeUI.Model;
 
 namespace BridgeUI
 {
-    internal interface IUIHandleInternal : IUIHandle
-    {
-        void Reset(UnityAction<UIHandle> onRelease);
-        void RegistBridge(Bridge bridgeObj);
-        void UnRegistBridge(Bridge obj);
-    }
     public interface IUIHandle
     {
+        bool Active { get; }
+        string PanelName { get; }
+        IPanelBase[] Contexts { get; }
         IUIHandle Send(object data);
         IUIHandle RegistCallBack(UnityAction<IPanelBase, object> onCallBack);
         IUIHandle RegistCreate(UnityAction<IPanelBase> onCreate);
         IUIHandle RegistClose(UnityAction<IPanelBase> onClose);
 
     }
+
+    internal interface IUIHandleInternal : IUIHandle
+    {
+        void Reset(string panelName,UnityAction<UIHandle> onRelease);
+        void RegistBridge(Bridge bridgeObj);
+        void UnRegistBridge(Bridge obj);
+    }
+   
 }

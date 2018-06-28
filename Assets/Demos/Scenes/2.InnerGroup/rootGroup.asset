@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Name: rootGroup
   m_EditorClassIdentifier: 
   m_allNodes:
-  - m_name: PopUpPanel
-    m_id: 4808502d-dd9f-429f-a133-35a1c85a1e0c
-    m_x: 382
-    m_y: 279
-    m_node: {fileID: 11411476}
+  - m_name: InnerGroupTestPanel
+    m_id: c37836b2-c4d5-44ed-a47c-c050d34a18b9
+    m_x: 400
+    m_y: 180
+    m_node: {fileID: 11442646}
     m_inputPoints:
-    - id: 90547d49-91f7-4556-969a-7384d6705c31
+    - id: eaee1a81-9443-4445-9cf3-6854c084587f
       label: 
-      parentId: 4808502d-dd9f-429f-a133-35a1c85a1e0c
+      parentId: c37836b2-c4d5-44ed-a47c-c050d34a18b9
       isInput: 1
       buttonRect:
         serializedVersion: 2
@@ -31,9 +31,28 @@ MonoBehaviour:
       max: 100
       type: bridge
     m_outputPoints:
-    - id: 9de043a0-f272-4a75-bcf6-bce6a771f7fb
+    - id: 11f97141-4ff0-4863-9910-cd0f5b05d8bf
       label: 
-      parentId: 4808502d-dd9f-429f-a133-35a1c85a1e0c
+      parentId: c37836b2-c4d5-44ed-a47c-c050d34a18b9
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 164
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  - m_name: AnyState
+    m_id: 3698e90c-15bb-49f4-9c6c-0c0401cc4a26
+    m_x: 123
+    m_y: 152
+    m_node: {fileID: 11429270}
+    m_inputPoints: []
+    m_outputPoints:
+    - id: fa46fff2-f740-4cc0-ae6a-81803777b35e
+      label: +
+      parentId: 3698e90c-15bb-49f4-9c6c-0c0401cc4a26
       isInput: 0
       buttonRect:
         serializedVersion: 2
@@ -43,12 +62,29 @@ MonoBehaviour:
         height: 23
       max: 100
       type: bridge
-  m_allConnections: []
-  m_lastModified: 131703768544081871
+  m_allConnections:
+  - m_id: 1b74419f-156c-4491-a1c6-16e93e678237
+    m_fromNodeId: 3698e90c-15bb-49f4-9c6c-0c0401cc4a26
+    m_fromNodeConnectionPointId: fa46fff2-f740-4cc0-ae6a-81803777b35e
+    m_toNodeId: c37836b2-c4d5-44ed-a47c-c050d34a18b9
+    m_toNodeConnectionPoiontId: eaee1a81-9443-4445-9cf3-6854c084587f
+    m_type: bridge
+    m_connection: {fileID: 11458414}
+  m_lastModified: 131746687678140762
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
-  m_panelNamePath: 
---- !u!114 &11411476
+--- !u!114 &11429270
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
+  m_Name: Luncher
+  m_EditorClassIdentifier: 
+--- !u!114 &11442646
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -60,8 +96,8 @@ MonoBehaviour:
   m_Name: PanelNode
   m_EditorClassIdentifier: 
   selected: 0
-  instenceID: 0
-  assetName: 
+  instenceID: -96188
+  assetName: InnerGroupTestPanel
   style: 1
   rule:
     baseTypeIndex: 0
@@ -74,13 +110,27 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 132216, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}
+    prefab: {fileID: 120522, guid: fa59f46d365c62f48b4013e37ca4cbdd, type: 2}
     discription: 
+--- !u!114 &11458414
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeConnection
+  m_EditorClassIdentifier: 
+  index: 0
+  show:
+    auto: 1
+    cover: 0
+    single: 0
+    mutex: 0
+    baseShow: 0

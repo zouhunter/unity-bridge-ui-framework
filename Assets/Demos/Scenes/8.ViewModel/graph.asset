@@ -9,18 +9,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
-  m_Name: poolgraph
+  m_Name: graph
   m_EditorClassIdentifier: 
   m_allNodes:
-  - m_name: PopUpPanel
-    m_id: b8d99a24-3c69-46d7-9261-8402243c294c
-    m_x: 139
-    m_y: 127
-    m_node: {fileID: 11497368}
+  - m_name: MainPanel
+    m_id: 3d7c98bf-71a0-4dff-837b-962d89bbae5e
+    m_x: 240
+    m_y: 150
+    m_node: {fileID: 11408460}
     m_inputPoints:
-    - id: b4904715-616c-4cfa-a81d-299f6383f5f4
+    - id: 69c03d5a-f5c9-4fc0-973c-722d3f849bea
       label: 
-      parentId: b8d99a24-3c69-46d7-9261-8402243c294c
+      parentId: 3d7c98bf-71a0-4dff-837b-962d89bbae5e
       isInput: 1
       buttonRect:
         serializedVersion: 2
@@ -31,9 +31,9 @@ MonoBehaviour:
       max: 100
       type: bridge
     m_outputPoints:
-    - id: 5b1e3542-c4d1-4e49-82c1-95c07a155df7
+    - id: d477cf20-69e4-4825-ba75-46b7ee1a8a8f
       label: 
-      parentId: b8d99a24-3c69-46d7-9261-8402243c294c
+      parentId: 3d7c98bf-71a0-4dff-837b-962d89bbae5e
       isInput: 0
       buttonRect:
         serializedVersion: 2
@@ -44,10 +44,10 @@ MonoBehaviour:
       max: 100
       type: bridge
   m_allConnections: []
-  m_lastModified: 131746704843452562
+  m_lastModified: 131747565809801899
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
---- !u!114 &11497368
+--- !u!114 &11408460
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   instenceID: 0
-  assetName: PopUpPanel
+  assetName: MainPanel
   style: 1
   rule:
     baseTypeIndex: 0
@@ -75,7 +75,7 @@ MonoBehaviour:
       hideAlaph: 0
       enterAnim: {fileID: 0}
       quitAnim: {fileID: 0}
-      closeRule: 3
+      closeRule: 0
       hideRule: 0
-    prefab: {fileID: 132216, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}
+    prefab: {fileID: 129970, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
     discription: 

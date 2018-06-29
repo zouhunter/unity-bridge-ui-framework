@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a321da4f722515f49a14eb63b4a8c79d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_close: {fileID: 0}
+  content: {fileID: 0}
   m_subcomponent: {fileID: 11456094}
 --- !u!114 &11460594
 MonoBehaviour:

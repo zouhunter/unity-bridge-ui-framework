@@ -33,14 +33,14 @@ public class doubleGroup : MonoBehaviour
     {
         if (GUILayout.Button("Open:MainPanel"))
         {
-            var dic = new Dictionary<string, object>();
-            dic["title"] = "我是主面板";
-            dic["info"] = "当传入IDictionary时，会自动填充绑定好的字段或属性";
-            dic["method"] = "可以向方法传递一个参数";
-            dic["ondestroy"] = new Action<string>((x)=> { Debug.Log(x); });
-            dic["OpenPanel01"]= dic["OpenPanel02"]= dic["OpenPanel03"] = new PanelAction<Button>((context,button) => {
+            var dic = new Dictionary<string, IBindableProperty>();
+            dic["title"] = new B_String( "我是主面板");
+            dic["info"] = new B_String("当传入IDictionary时，会自动填充绑定好的字段或属性");
+            dic["method"] = new B_String("可以向方法传递一个参数");
+            dic["ondestroy"] = new B_Action<string>(new Action<string>((x)=> { Debug.Log(x); }));
+            dic["OpenPanel01"]= dic["OpenPanel02"]= dic["OpenPanel03"] = new C_PanelAction<Button>(new PanelAction<Button>((context,button) => {
                 Debug.Log(button +": onClicked");
-            });
+            }));
       
 
             uiFacade.Open(PanelNames.MainPanel, dic);

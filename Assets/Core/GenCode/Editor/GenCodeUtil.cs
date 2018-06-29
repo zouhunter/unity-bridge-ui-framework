@@ -154,8 +154,11 @@ namespace BridgeUI.CodeGen
                 var prefabPath = AssetDatabase.GetAssetPath(go);
                 var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
                 var scriptPath = string.Format("{0}/{1}.cs", folder, uiCoder.className);
-
-                System.IO.File.WriteAllText(scriptPath, uiCoder.Compile());
+                var scriptValue = uiCoder.Compile();
+                if(rule.generateViewModel){
+                    scriptValue += CreateVMScript(uiCoder.className, components);
+                }
+                System.IO.File.WriteAllText(scriptPath, scriptValue);
                 var type = typeof(BridgeUI.PanelBase).Assembly.GetType(className);
                 if (type != null)
                 {
@@ -202,7 +205,7 @@ namespace BridgeUI.CodeGen
             return list.ToArray();
         }
 
-
+ 
         internal static MonoBehaviour[] GetUserMonobehaiver(GameObject prefab)
         {
             var monobehaivers = prefab.GetComponents<MonoBehaviour>();
@@ -329,6 +332,55 @@ namespace BridgeUI.CodeGen
             }
             return PropBindingsNode;
         }
+
+        /// <summary>
+        /// 生成view model的模板脚本
+        /// </summary>
+        /// <param name="components"></param>
+        /// <returns></returns>
+        public static string CreateVMScript(string panelName ,List<ComponentItem> components)
+        {
+            string template =
+ @"
+public class VM_#panelName# : ViewModelBase
+{
+    #detail#
+}
+";
+            var itemTemplate =
+@"public #type# #name#
+    {
+        get
+        {
+            return GetValue<#type#>(#key#);
+        }
+        set
+        {
+            SetValue<#type#>(#key#, value);
+        }
+    }
+    ";
+            string detail = "";
+            foreach (var component in components)
+            {
+                foreach (var viewItem in component.viewItems)
+                {
+                    var item = itemTemplate.Replace("#type#", viewItem.bindingTargetType.typeName).Replace("#name#", viewItem.bindingSource).Replace("#key#", "\"" + viewItem.bindingSource + "\"");
+                    detail += item;
+                }
+                foreach (var eventItem in component.eventItems)
+                {
+                    var type = component.components[component.componentID];
+                    var typevalue = string.Format("PanelAction<{0}>", type.type.Name);
+                    var item = itemTemplate.Replace("#type#", typevalue).Replace("#name#", eventItem.bindingSource).Replace("#key#", "\"" + eventItem.bindingSource + "\"");
+                    detail += item;
+                }
+            }
+           
+            var script = template.Replace("#detail#", detail).Replace("#panelName#", panelName);
+            return script;
+        }
+
         #region private functions
         /// <summary>
         /// 所有支持的父级
@@ -434,6 +486,7 @@ namespace BridgeUI.CodeGen
         {
             string[] usingDeclarations = {
                 "BridgeUI",
+                "BridgeUI.Binding",
                 "UnityEngine",
                 "UnityEngine.UI",
                  "System.Collections",

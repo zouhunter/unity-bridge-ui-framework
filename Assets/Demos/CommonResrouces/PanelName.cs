@@ -149,4 +149,10 @@ public class PanelNames {
             return "InnerGroupTestPanel";
         }
     }
+    
+    public static string GenericTypePanel {
+        get {
+            return "GenericTypePanel";
+        }
+    }
 }

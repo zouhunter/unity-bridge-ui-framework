@@ -179,18 +179,6 @@ namespace BridgeUI
             Binder.Bind(newValue);
         }
 
-        protected void UpdateViewModel(string propertyName, object value)
-        {
-            if (ViewModel != null)
-            {
-                var prop = ViewModel.GetBindableProperty(propertyName, value.GetType());
-                if (prop != null)
-                {
-                    prop.ValueBoxed = value;
-                }
-            }
-        }
-
         public void SetParent(Transform Trans)
         {
             Utility.SetTranform(transform, UType.layer, UType.layerIndex, Trans);
@@ -227,30 +215,24 @@ namespace BridgeUI
         }
         protected virtual void HandleData(object data)
         {
-            if (data is Binding.ViewModelBase)
+            if (data is IDictionary<string, IBindableProperty>)
             {
-                ViewModel = data as Binding.ViewModelBase;
-            }
-            else
-            {
-                if (data is IDictionary)
+                if (data is Binding.ViewModelBase)
                 {
-                    LoadIDictionary(data as IDictionary);
+                    ViewModel = data as Binding.ViewModelBase;
+                }
+                else
+                {
+                    LoadPropDictionary(data as IDictionary<string, IBindableProperty>);
                 }
             }
         }
-        private void LoadIDictionary(IDictionary data)
+        protected virtual void LoadPropDictionary(IDictionary<string, IBindableProperty> data)
         {
-            ViewModel = defultViewModel;
-            foreach (var item in data.Keys)
-            {
-                var key = item.ToString();
-                var prop = ViewModel.GetBindableProperty(key, data[item].GetType());
-                if (prop != null)
-                {
-                    prop.ValueBoxed = data[item];
-                }
+            foreach (var key in data.Keys){
+                defultViewModel[key] = data[key];
             }
+            ViewModel = defultViewModel;
         }
         public virtual void Hide()
         {

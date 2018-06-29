@@ -158,7 +158,7 @@ MonoBehaviour:
   - m_name: Panel03
     m_id: f43dbdec-1340-4cbd-8a6a-171a8942dd1c
     m_x: 490
-    m_y: 120
+    m_y: 110
     m_node: {fileID: 11436402}
     m_inputPoints:
     - id: 81b51814-cb6a-4645-9837-3198bdbc2b54
@@ -302,11 +302,11 @@ MonoBehaviour:
       layerIndex: 0
       form: 0
       layer: 0
-      hideAlaph: 0.2
+      hideAlaph: 0.485
       enterAnim: {fileID: 0}
       quitAnim: {fileID: 0}
-      closeRule: 0
-      hideRule: 0
+      closeRule: 3
+      hideRule: 1
     prefab: {fileID: 129970, guid: a2f4a391ad632d34a85d997640aa9ef3, type: 2}
     discription: "   \u9762\u677F\u4E00 \u9762 \u677F \u4E00"
 --- !u!114 &11426346
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 0
   instenceID: 0
   assetName: Panel03
   style: 1
@@ -389,7 +389,7 @@ MonoBehaviour:
       hideAlaph: 0.2
       enterAnim: {fileID: 0}
       quitAnim: {fileID: 0}
-      closeRule: 0
+      closeRule: 3
       hideRule: 0
     prefab: {fileID: 129970, guid: cdb2321ece873174fbc0719e07c1d664, type: 2}
     discription: "\u8FD9\u662F\u9762\u677F\u4E8C"
@@ -657,7 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 3
+  selected: 0
   instenceID: 0
   assetName: Panel02
   style: 1
@@ -708,7 +708,7 @@ MonoBehaviour:
       hideAlaph: 0.2
       enterAnim: {fileID: 0}
       quitAnim: {fileID: 0}
-      closeRule: 0
+      closeRule: 3
       hideRule: 0
     prefab: {fileID: 129970, guid: ba16a0659248e00479962ae1a0bf4624, type: 2}
     discription: "\u8FD9\u91CC\u9762\u677F\u4E09\u677F\u4E09"
@@ -741,7 +741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 3
+  selected: 0
   instenceID: 0
   assetName: Panel04
   style: 1
@@ -792,7 +792,7 @@ MonoBehaviour:
       hideAlaph: 0.2
       enterAnim: {fileID: 0}
       quitAnim: {fileID: 0}
-      closeRule: 0
+      closeRule: 3
       hideRule: 0
     prefab: {fileID: 129970, guid: 1172f1b2f39183747ab91057b53a70cd, type: 2}
     discription: "\u8FD9\u91CC\u9762\u677F\u56DB"

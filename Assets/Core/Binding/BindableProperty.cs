@@ -6,6 +6,8 @@ namespace BridgeUI.Binding
     public interface IBindableProperty
     {
         object ValueBoxed { get; set; }
+
+        void Trigger();
     }
 
     public class BindableProperty<T> : IBindableProperty
@@ -62,6 +64,7 @@ namespace BridgeUI.Binding
         {
             return (Value != null ? Value.ToString() : "null");
         }
+
         public void SetValueNoTrigger(T value)
         {
             _value = value;
@@ -75,22 +78,47 @@ namespace BridgeUI.Binding
         {
             _value = default(T);
         }
+
+        public static implicit operator T(BindableProperty<T> target){
+            return target.Value;
+        }
     }
-    public class B_String : BindableProperty<string> { }
+
+    public class B_String : BindableProperty<string> {
+        public B_String() { }
+        public B_String(string value)
+        {
+            Value = value;
+        }
+        public static implicit operator string(B_String target){
+            return target.Value;
+        }
+    }
     public class B_StringArray : BindableProperty<string[]> { }
     public class B_Int : BindableProperty<int> { }
     public class B_Float : BindableProperty<float> { }
-    public class B_Bool : BindableProperty<bool>
-    {
-      
-    }
+    public class B_Bool : BindableProperty<bool> { }
     public class B_Byte : BindableProperty<byte> { }
     public class B_Long : BindableProperty<long> { }
     public class B_Short : BindableProperty<short> { }
     public class B_Sprite : BindableProperty<UnityEngine.Sprite> { }
+    public class B_Color : BindableProperty<UnityEngine.Color> { }
     public class B_Texture : BindableProperty<UnityEngine.Texture> { }
-    public class B_Action : BindableProperty<System.Action> { }
-    public class B_Action<T> : BindableProperty<System.Action<T>> { }
+    public class B_Action : BindableProperty<System.Action>
+    {
+        public B_Action(){}
+        public B_Action(Action action)
+        {
+            this.Value = action;
+        }
+    }
+    public class B_Action<T> : BindableProperty<System.Action<T>> {
+        public B_Action(){}
+        public B_Action(Action<T> action)
+        {
+            this.Value = action;
+        }
+    }
     public class B_UnityAction : BindableProperty<UnityEngine.Events.UnityAction> { }
     public class B_UnityAction<T> : BindableProperty<UnityEngine.Events.UnityAction> { }
     public class B_Func<T> : BindableProperty<System.Func<T>> { }

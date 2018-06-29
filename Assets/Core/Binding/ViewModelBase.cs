@@ -14,37 +14,24 @@ using System.Linq;
 
 namespace BridgeUI.Binding
 {
-    public class ViewModelBase
+    public class ViewModelBase: Dictionary<string, IBindableProperty>
     {
         private List<IBindingContext> _contexts = new List<IBindingContext>();
         protected List<IBindingContext> Contexts { get { return _contexts; } }
-        protected readonly Dictionary<string, IBindableProperty> bindingPropertyDic = new Dictionary<string, BridgeUI.Binding.IBindableProperty>();
-        public IBindableProperty this[string name]
-        {
-            get
-            {
-                if (bindingPropertyDic.ContainsKey(name))
-                {
-                    return bindingPropertyDic[name];
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            protected set
-            {
-                bindingPropertyDic[name] = value;
-            }
-        }
 
         public ViewModelBase()
         {
             RegistPropertys();
         }
+
         private void RegistPropertys()
         {
-            var fields = this.GetType().GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.GetField | System.Reflection.BindingFlags.Instance);
+            var fields = this.GetType().GetFields(
+                System.Reflection.BindingFlags.Public |
+                System.Reflection.BindingFlags.NonPublic |
+                System.Reflection.BindingFlags.GetField |
+                System.Reflection.BindingFlags.Instance);
+
             foreach (var field in fields)
             {
                 if (field != null && typeof(IBindableProperty).IsAssignableFrom(field.FieldType))
@@ -66,27 +53,38 @@ namespace BridgeUI.Binding
                         field.SetValue(this, value);
                     }
 
-                    bindingPropertyDic[bindingKey] = value;
+                    this[bindingKey] = value;
                 }
             }
         }
+
         public virtual BindableProperty<T> GetBindableProperty<T>(string name)
         {
-            if (this[name] == null)
+            if (!ContainsKey(name) || !(this[name] is BindableProperty<T>))
             {
                 this[name] = new BindableProperty<T>();
             }
             return this[name] as BindableProperty<T>;
         }
+
         public virtual IBindableProperty GetBindableProperty(string name, System.Type type)
         {
             var fullType = typeof(BindableProperty<>).MakeGenericType(type);
 
-            if (this[name] == null)
+            if (!ContainsKey(name) || this[name].GetType() != fullType)
             {
                 this[name] = System.Activator.CreateInstance(fullType) as IBindableProperty;
             }
             return this[name] as IBindableProperty;
+        }
+
+        protected virtual T GetValue<T>(string key)
+        {
+            return GetBindableProperty<T>(key).Value;
+        }
+        protected virtual void SetValue<T>(string key,T value)
+        {
+            GetBindableProperty<T>(key).Value = value;
         }
         public virtual void OnBinding(IBindingContext context) { this._contexts.Add(context); }
         public virtual void OnUnBinding(IBindingContext context) { this._contexts.Remove(context); }

@@ -20,5 +20,6 @@ namespace BridgeUI.CodeGen
         public int baseTypeIndex;
         public bool canInherit;
         public bool bindingAble;
+        public bool generateViewModel;
     }
 }

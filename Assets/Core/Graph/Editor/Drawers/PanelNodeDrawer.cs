@@ -46,7 +46,7 @@ namespace BridgeUIEditor
                 return "Panel Node : record panel load type and other rule";
             }
         }
-        private string[] options = { "参数配制", "控件指定", "面板脚本", "显示效果" };
+        private string[] options = { "参数配制", "控件指定", "面板脚本", "辅助内容" };
         private System.Type[] supportedAnimPlayers;
         private GenCodeRule rule { get { if (panelNode == null) return default(GenCodeRule); return panelNode.rule; } }
         private System.Collections.Generic.List<ComponentItem> components { get { if (panelNode == null) return null; return panelNode.components; } }
@@ -193,20 +193,18 @@ namespace BridgeUIEditor
 
             }
 
-            //if (showRule)
-            //{
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("BaseType:", GUILayout.Width(lableWidth));
                 rule.baseTypeIndex = EditorGUILayout.Popup(rule.baseTypeIndex, GenCodeUtil.supportBaseTypes);
+                panelNode.Info.vm_script = EditorGUILayout.Toggle(panelNode.Info.vm_script,GUILayout.Width(20));
                 if (GUILayout.Button(new GUIContent("update", "更新脚本控件信息"), EditorStyles.miniButton, GUILayout.Width(60)))
                 {
                     var go = nodeInfo.prefab;
+                    rule.generateViewModel = nodeInfo.vm_script;
                     GenCodeUtil.CreateScript(go, components, rule);
                 }
             }
-
-            //}
 
             if (preComponentList != null)
             {

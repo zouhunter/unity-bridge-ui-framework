@@ -243,6 +243,8 @@ namespace BridgeUIEditor
                 prefabsList.drawHeaderCallback = DrawElementHead;
                 prefabsList.drawElementBackgroundCallback = (rect, index, isActive, isFocused) =>
                 {
+                    if (prefabsProp.arraySize <= index || index <0) return;
+
                     var prop = prefabsProp.GetArrayElementAtIndex(index);
                     var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
                     rect.height = height;
@@ -317,6 +319,7 @@ namespace BridgeUIEditor
                 bundlesList.drawHeaderCallback = DrawElementHead;
                 bundlesList.drawElementBackgroundCallback = (rect, index, isActive, isFocused) =>
                 {
+                    if (bundlesProp.arraySize <= index || index < 0) return;
                     var prop = bundlesProp.GetArrayElementAtIndex(index);
                     var height = EditorGUI.GetPropertyHeight(prop, null, true) + padding * 2;
                     rect.height = height;

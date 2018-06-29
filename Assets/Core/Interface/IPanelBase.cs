@@ -28,7 +28,7 @@ namespace BridgeUI
         Transform Root { get; }
         List<IPanelBase> ChildPanels { get; }
 
-        event UnityAction<IPanelBase> onDelete;
+        event PanelCloseEvent onDelete;
         UIType UType { get; set; }
         bool IsShowing { get; }
         bool IsAlive { get; }

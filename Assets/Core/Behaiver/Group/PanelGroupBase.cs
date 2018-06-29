@@ -56,7 +56,8 @@ namespace BridgeUI
         }
         protected virtual void OnDestroy()
         {
-            if (onDestroy != null){
+            if (onDestroy != null)
+            {
                 onDestroy.Invoke();
             }
             UIFacade.UnRegistGroup(this);
@@ -85,7 +86,8 @@ namespace BridgeUI
                     if (panel != null)
                     {
                         createdPanels.Add(panel);
-                        if (parentPanel != null){
+                        if (parentPanel != null)
+                        {
                             parentPanel.RecordChild(panel);
                         }
                         bridgeDic.Add(panel, bridge);
@@ -426,7 +428,8 @@ namespace BridgeUI
         /// </summary>
         protected virtual void RegistBridgePool()
         {
-            foreach (var item in Bridges){
+            foreach (var item in Bridges)
+            {
                 poolDic[item] = new BridgePool(item);
             }
             defultBridge = new BridgeInfo();
@@ -437,30 +440,37 @@ namespace BridgeUI
         /// 当删除一个面板时触发一些事
         /// </summary>
         /// <param name="panel"></param>
-        protected void OnDeletePanel(IPanelBase panel)
+        protected void OnDeletePanel(IPanelBase panel, bool remove)
         {
-            if (createdPanels.Contains(panel))
+            if (remove)
             {
-                createdPanels.Remove(panel);
-            }
-
-            if (bridgeDic.ContainsKey(panel))
-            {
-                bridgeDic.Remove(panel);
-            }
-
-            if (panel.ChildPanels != null)
-            {
-                var childs = panel.ChildPanels.ToArray();
-                foreach (var item in childs)
+                //从缓存中移除
+                if (createdPanels.Contains(panel))
                 {
-                    if (item.IsAlive)
+                    createdPanels.Remove(panel);
+                }
+
+                //移除连通器
+                if (bridgeDic.ContainsKey(panel))
+                {
+                    bridgeDic.Remove(panel);
+                }
+
+                //关闭子面板
+                if (panel.ChildPanels != null)
+                {
+                    var childs = panel.ChildPanels.ToArray();
+                    foreach (var item in childs)
                     {
-                        item.Close();
+                        if (item.IsAlive)
+                        {
+                            item.Close();
+                        }
                     }
                 }
             }
 
+            //显示隐藏面板
             if (hidedPanelStack.ContainsKey(panel))
             {
                 var mayactive = new List<IPanelBase>();
@@ -528,19 +538,19 @@ namespace BridgeUI
                     bindingItem.closeAction = () =>
                     {
                         var panelName = bridgeInfo.outNode;
-                        UIFacade.Instence.Close(this,panelName);
+                        UIFacade.Instence.Close(this, panelName);
                     };
 
                     bindingItem.hideAction = () =>
                     {
                         var panelName = bridgeInfo.outNode;
-                        UIFacade.Instence.Hide(this,panelName);
+                        UIFacade.Instence.Hide(this, panelName);
                     };
 
                     bindingItem.isOpenAction = () =>
                     {
                         var panelName = bridgeInfo.outNode;
-                        return UIFacade.Instence.IsPanelOpen(this,panelName);
+                        return UIFacade.Instence.IsPanelOpen(this, panelName);
                     };
 
                     bindingCtrl.RegistPanelEvent(bridgeInfo.inNode, bridgeInfo.index, bindingItem);

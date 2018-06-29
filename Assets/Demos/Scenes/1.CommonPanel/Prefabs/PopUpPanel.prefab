@@ -102,6 +102,7 @@ MonoBehaviour:
   title: {fileID: 11407468}
   info: {fileID: 11451738}
   defultTitle: "\u6E29\u99A8\u63D0\u793A"
+  queue: 0
   onGet:
     m_PersistentCalls:
       m_Calls: []

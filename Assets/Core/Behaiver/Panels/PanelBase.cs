@@ -93,7 +93,7 @@ namespace BridgeUI
 
         protected Bridge bridge;
         protected List<IPanelBase> childPanels;
-        public event UnityAction<IPanelBase> onDelete;
+        public event PanelCloseEvent onDelete;
 
         private bool _isShowing = true;
         private bool _isAlive = true;
@@ -149,12 +149,14 @@ namespace BridgeUI
             AppendComponentsByType();
             OnOpenInternal();
         }
-
         protected override void OnDestroy()
         {
             base.OnDestroy();
+
             _isAlive = false;
+
             _isShowing = false;
+
             if (bridge != null)
             {
                 bridge.Release();
@@ -162,12 +164,13 @@ namespace BridgeUI
 
             if (onDelete != null)
             {
-                onDelete.Invoke(this);
+                onDelete.Invoke(this,true);
             }
 
             Binder.Unbind();
         }
         protected virtual void InitComponents() { }
+
         protected virtual void PropBindings() { }
 
         public virtual void OnViewModelChanged(Binding.ViewModelBase newValue)
@@ -264,6 +267,16 @@ namespace BridgeUI
                     break;
             }
         }
+
+        public virtual void OnDestroyHide()
+        {
+            _isShowing = false;
+            gameObject.SetActive(false);
+            if (onDelete != null){
+                onDelete.Invoke(this,false);
+            }
+        }
+
         public virtual void UnHide()
         {
             switch (UType.hideRule)
@@ -308,7 +321,7 @@ namespace BridgeUI
                     Destroy(gameObject);
                     break;
                 case CloseRule.HideGameObject:
-                    Hide();
+                    OnDestroyHide();
                     break;
                 default:
                     break;
@@ -350,9 +363,9 @@ namespace BridgeUI
             img.color = new Color(0, 0, 0, 0.01f);
             img.raycastTarget = true;
         }
-        private void OnRemoveChild(IPanelBase childPanel)
+        private void OnRemoveChild(IPanelBase childPanel,bool remove)
         {
-            if (childPanels != null && childPanels.Contains(childPanel))
+            if (childPanels != null && childPanels.Contains(childPanel) && remove)
             {
                 childPanels.Remove(childPanel);
             }

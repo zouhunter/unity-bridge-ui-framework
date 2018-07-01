@@ -54,7 +54,6 @@ namespace BridgeUIEditor
             this.prefab = behaiver.gameObject;
             InitPanelNode();
             SwitchComponent(behaiver);
-           
         }
 
         private void OnGUI()
@@ -105,10 +104,6 @@ namespace BridgeUIEditor
                 });
             }
 
-            if (panelCompnent)
-            {
-                GenCodeUtil.AnalysisComponent(panelCompnent, components);
-            }
         }
         private void SwitchComponent(MonoBehaviour v)
         {
@@ -116,8 +111,32 @@ namespace BridgeUIEditor
             if (panelCompnent != null){
                 panelDrawer = UnityEditor.Editor.CreateEditor(panelCompnent);
             }
+            InitPanelBase(v);
             GenCodeUtil.AnalysisComponent(panelCompnent, components);
         }
+
+        private void InitPanelBase(MonoBehaviour v)
+        {
+            if (v is PanelBase)
+            {
+                var type = v.GetType();
+                var find = false;
+                while (!find && type.BaseType != typeof(object))
+                {
+                    type = type.BaseType;
+                    for (int i = 0; i < GenCodeUtil.supportBaseTypes.Length; i++)
+                    {
+                        if(type.FullName == GenCodeUtil.supportBaseTypes[i])
+                        {
+                            rule.baseTypeIndex = i;
+                            find = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         private void DrawComponetHeader(Rect rect)
         {
             EditorGUI.LabelField(rect, "[控件列表]");
@@ -252,6 +271,7 @@ namespace BridgeUIEditor
                     var go = prefab;
                     rule.bindingAble = BindingAble;
                     GenCodeUtil.CreateScript(go, components, rule);
+                    GenCodeUtil.CreateVMScript(go, components);
                 }
             }
 

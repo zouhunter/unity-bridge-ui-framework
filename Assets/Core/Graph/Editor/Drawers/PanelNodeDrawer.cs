@@ -197,12 +197,11 @@ namespace BridgeUIEditor
             {
                 EditorGUILayout.LabelField("BaseType:", GUILayout.Width(lableWidth));
                 rule.baseTypeIndex = EditorGUILayout.Popup(rule.baseTypeIndex, GenCodeUtil.supportBaseTypes);
-                panelNode.Info.vm_script = EditorGUILayout.Toggle(panelNode.Info.vm_script,GUILayout.Width(20));
                 if (GUILayout.Button(new GUIContent("update", "更新脚本控件信息"), EditorStyles.miniButton, GUILayout.Width(60)))
                 {
                     var go = nodeInfo.prefab;
-                    rule.generateViewModel = nodeInfo.vm_script;
                     GenCodeUtil.CreateScript(go, components, rule);
+                    GenCodeUtil.CreateVMScript(go, components);
                 }
             }
 
@@ -263,6 +262,7 @@ namespace BridgeUIEditor
         string[] formTypes;
         string[] formTypesNotice = { "固定窗口(只能打开单个)", "可拖拽(可以打开多个小窗体)", "没有关闭按扭(只有场景跳转时关闭)" };
         int formSelected;
+      
         private void DrawFormType()
         {
             if (formTypes == null)

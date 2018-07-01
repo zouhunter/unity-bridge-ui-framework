@@ -18,6 +18,5 @@ namespace BridgeUI.Model
         public UIType uiType = new UIType();
         public GameObject prefab;
         public string discription;
-        public bool vm_script;
     }
 }

@@ -16,9 +16,9 @@ namespace BridgeUI
 {
     public interface IUIHandle
     {
-        bool Active { get; }
         string PanelName { get; }
         IPanelBase[] Contexts { get; }
+        bool Active { get; }
         IUIHandle Send(object data);
         IUIHandle RegistCallBack(UnityAction<IPanelBase, object> onCallBack);
         IUIHandle RegistCreate(UnityAction<IPanelBase> onCreate);

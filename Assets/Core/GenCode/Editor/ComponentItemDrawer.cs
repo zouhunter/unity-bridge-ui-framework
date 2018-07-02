@@ -226,13 +226,14 @@ namespace BridgeUIEditor
         {
             if (bindingAble)
             {
-                viewHeight = EditorGUIUtility.singleLineHeight * (item.viewItems.Count >= 1 ? item.viewItems.Count + 3 : 4);
+                viewHeight = (EditorGUIUtility.singleLineHeight + padding) * (item.viewItems.Count >= 1 ? item.viewItems.Count + 2 : 3);
             }
             else
             {
                 viewHeight = 0;
             }
-            eventHeight = EditorGUIUtility.singleLineHeight * (item.eventItems.Count >= 1 ? item.eventItems.Count + 3 : 4);
+
+            eventHeight = (EditorGUIUtility.singleLineHeight + padding) * (item.eventItems.Count >= 1 ? item.eventItems.Count + 2 :3);
         }
 
 

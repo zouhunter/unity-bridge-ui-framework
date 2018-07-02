@@ -370,15 +370,31 @@ public class VM_#panelName# : ViewModelBase
             {
                 foreach (var viewItem in component.viewItems)
                 {
-                    var item = itemTemplate.Replace("#type#", viewItem.bindingTargetType.type.FullName).Replace("#name#", viewItem.bindingSource).Replace("#key#", "\"" + viewItem.bindingSource + "\"");
-                    detail += item;
+                    if(viewItem.bindingTargetType.type != null)
+                    {
+                        var item = itemTemplate.Replace("#type#", viewItem.bindingTargetType.type.FullName).Replace("#name#", viewItem.bindingSource).Replace("#key#", "\"" + viewItem.bindingSource + "\"");
+                        detail += item;
+                    }
+                    else
+                    {
+                        Debug.LogError(viewItem.bindingSource+":type NULL");
+                    }
+                   
                 }
                 foreach (var eventItem in component.eventItems)
                 {
                     var type = component.components[component.componentID];
-                    var typevalue = string.Format("PanelAction<{0}>", type.type.FullName);
-                    var item = itemTemplate.Replace("#type#", typevalue).Replace("#name#", eventItem.bindingSource).Replace("#key#", "\"" + eventItem.bindingSource + "\"");
-                    detail += item;
+                    if(type.type != null)
+                    {
+                        var typevalue = string.Format("PanelAction<{0}>", type.type.FullName);
+                        var item = itemTemplate.Replace("#type#", typevalue).Replace("#name#", eventItem.bindingSource).Replace("#key#", "\"" + eventItem.bindingSource + "\"");
+                        detail += item;
+                    }
+                    else
+                    {
+                        Debug.LogError(eventItem.bindingSource + ":type NULL");
+                    }
+                   
                 }
             }
             detail += "\n#endregion";
@@ -498,7 +514,6 @@ public class VM_#panelName# : ViewModelBase
         {
             string[] usingDeclarations = {
                 "BridgeUI",
-                "BridgeUI.Binding",
                 "UnityEngine",
                 "UnityEngine.UI",
                  "System.Collections",

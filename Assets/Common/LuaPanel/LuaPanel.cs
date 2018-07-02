@@ -47,7 +47,7 @@ namespace BridgeUI.Common
         protected UnityEvent luaUpdate = new UnityEvent();
         protected UnityEvent luaOnDestroy = new UnityEvent();
 
-        protected LuaViewModel luaViewModel { get { return ViewModel as LuaViewModel; } }
+        protected LuaViewModel luaViewModel { get { return ViewModel as LuaViewModel; }  }
         private LuaTable tableCreated;
 
         protected override void Awake()
@@ -176,7 +176,7 @@ namespace BridgeUI.Common
         {
             if (luaViewModel != null)
             {
-                var prop = luaViewModel.GetBindableProperty(key, value.GetType());
+                var prop = luaViewModel.GetBindablePropertySelfty(key, value.GetType());
                 if (prop != null)
                 {
                     prop.ValueBoxed = value;
@@ -198,8 +198,9 @@ namespace BridgeUI.Common
             tableCreated.Set("self", this);
             luaEnv.DoString(text, name, tableCreated);
 
-            ViewModel = new LuaViewModel(this.tableCreated);
-
+            var model = LuaViewModel.CreateInstance<LuaViewModel>();
+            model.Init(this.tableCreated);
+            ViewModel = model;
             luaOnInit.Invoke();
         }
 
@@ -231,7 +232,7 @@ namespace BridgeUI.Common
 
             if (luaViewModel != null)
             {
-                var action = luaViewModel.GetBindableProperty<UnityAction<object>>("handle_data");
+                var action = luaViewModel.GetBindablePropertySelfty<UnityAction<object>>("handle_data");
                 if (action.Value != null)
                 {
                     action.Value.Invoke(data);

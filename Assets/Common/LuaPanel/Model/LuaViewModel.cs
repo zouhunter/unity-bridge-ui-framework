@@ -19,14 +19,14 @@ namespace BridgeUI.Common
     {
         protected LuaTable scriptEnv;
 
-        public LuaViewModel(LuaTable scriptEnv)
+        public void Init(LuaTable scriptEnv)
         {
             this.scriptEnv = scriptEnv;
         }
 
         public override BindableProperty<T> GetBindableProperty<T>(string name)
         {
-            var prop = base.GetBindableProperty<T>(name);
+            var prop = base.GetBindablePropertySelfty<T>(name);
             if (prop.ValueBoxed == null)
             {
                 prop.Value = scriptEnv.Get<T>(name);

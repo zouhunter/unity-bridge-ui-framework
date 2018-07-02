@@ -66,7 +66,7 @@ namespace BridgeUI.Binding
         {
             UnityAction action = () =>
             {
-                var prop = viewModel.GetBindableProperty<PanelAction>(sourceName);
+                var prop = viewModel.GetBindableProperty< PanelAction>(sourceName);
                 if (prop != null && prop.Value != null)
                 {
                     var func = prop.Value;
@@ -98,6 +98,7 @@ namespace BridgeUI.Binding
             UnityAction action = () =>
             {
                 var prop = viewModel.GetBindableProperty<PanelAction<T>>(sourceName);
+
                 if (prop != null && prop.Value != null)
                 {
                     var func = prop.Value;
@@ -133,6 +134,7 @@ namespace BridgeUI.Binding
             UnityAction<T> action = (x) =>
             {
                 var prop = viewModel.GetBindableProperty<PanelAction<P>>(sourceName);
+
                 if (prop != null && prop.Value != null)
                 {
                     var func = prop.Value;
@@ -166,16 +168,22 @@ namespace BridgeUI.Binding
             binders += (viewModel) =>
             {
                 var prop = viewModel.GetBindableProperty<T>(sourceName);
+
                 if (onViewModelChanged != null && prop != null)
                 {
                     onViewModelChanged.Invoke(prop.Value);
                     prop.RegistValueChanged(onViewModelChanged);
+                }
+                else
+                {
+                    Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                 }
             };
 
             unbinders += (viewModel) =>
             {
                 var prop = viewModel.GetBindableProperty<T>(sourceName);
+
                 if (onViewModelChanged != null && prop != null)
                 {
                     prop.RemoveValueChanged(onViewModelChanged);

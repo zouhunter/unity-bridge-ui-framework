@@ -161,4 +161,10 @@ public class PanelNames {
             return "VMUsePanel";
         }
     }
+    
+    public static string ControlPanel {
+        get {
+            return "ControlPanel";
+        }
+    }
 }

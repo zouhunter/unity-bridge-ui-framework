@@ -11,6 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace BridgeUI.Binding
 {
@@ -19,7 +20,7 @@ namespace BridgeUI.Binding
         private List<IBindingContext> _contexts = new List<IBindingContext>();
         protected List<IBindingContext> Contexts { get { return _contexts; } }
         private readonly Dictionary<string, IBindableProperty> innerDic = new Dictionary<string, IBindableProperty>();
-        public IBindableProperty this[string key]
+        protected IBindableProperty this[string key]
         {
             get
             {
@@ -34,49 +35,45 @@ namespace BridgeUI.Binding
                 innerDic[key] = value;
             }
         }
+
         public ViewModel()
         {
-            RegistPropertys();
+            InitPropertys();
         }
+
         public bool ContainsKey(string key)
         {
             return innerDic.ContainsKey(key);
         }
-        private void RegistPropertys()
+
+        protected virtual void InitPropertys() { }
+
+        public virtual void SetBindableProperty(string key, IBindableProperty value)
         {
-            var fields = this.GetType().GetFields(
-                System.Reflection.BindingFlags.Public |
-                System.Reflection.BindingFlags.NonPublic |
-                System.Reflection.BindingFlags.GetField |
-                System.Reflection.BindingFlags.Instance);
-
-            foreach (var field in fields)
+            if(this[name] == null)
             {
-                if (field != null && typeof(IBindableProperty).IsAssignableFrom(field.FieldType))
-                {
-                    var customAttributes = field.GetCustomAttributes(false);
-                    var bindingProp = customAttributes.Where(x => x.GetType() == typeof(BindingAttribute)).FirstOrDefault();
-                    string bindingKey = field.Name;
-                    if (bindingProp != null)
-                    {
-                        var customKey = (bindingProp as BindingAttribute).keyword;
-                        if(!string.IsNullOrEmpty(customKey)){
-                            bindingKey = customKey;
-                        }
-                    }
-                    var value = field.GetValue(this) as IBindableProperty;
-                    if (value == null)
-                    {
-                        value = System.Activator.CreateInstance(field.FieldType) as IBindableProperty;
-                        field.SetValue(this, value);
-                    }
-
-                    this[bindingKey] = value;
-                }
+                this[name] = value;
+            }
+            else if(this[name] == value)
+            {
+                this[name].ValueBoxed = value.ValueBoxed;
+            }
+            else
+            {
+                this[name] = value;
             }
         }
 
         public virtual BindableProperty<T> GetBindableProperty<T>(string name)
+        {
+            if (ContainsKey(name) && this[name] is BindableProperty<T>)
+            {
+                return this[name] as BindableProperty<T>;
+            }
+            return null;
+        }
+
+        public virtual BindableProperty<T> GetBindablePropertySelfty<T>(string name)
         {
             if (!ContainsKey(name) || !(this[name] is BindableProperty<T>))
             {
@@ -85,7 +82,7 @@ namespace BridgeUI.Binding
             return this[name] as BindableProperty<T>;
         }
 
-        public virtual IBindableProperty GetBindableProperty(string name, System.Type type)
+        public virtual IBindableProperty GetBindablePropertySelfty(string name, System.Type type)
         {
             var fullType = typeof(BindableProperty<>).MakeGenericType(type);
 
@@ -98,14 +95,15 @@ namespace BridgeUI.Binding
 
         protected virtual T GetValue<T>(string key)
         {
-            return GetBindableProperty<T>(key).Value;
+            return GetBindablePropertySelfty<T>(key).Value;
         }
         protected virtual void SetValue<T>(string key,T value)
         {
-            GetBindableProperty<T>(key).Value = value;
+            GetBindablePropertySelfty<T>(key).Value = value;
         }
         public virtual void OnBinding(IBindingContext context) { this._contexts.Add(context); }
         public virtual void OnUnBinding(IBindingContext context) { this._contexts.Remove(context); }
+   
     }
 
 }

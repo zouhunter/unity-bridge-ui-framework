@@ -118,7 +118,6 @@ namespace BridgeUI
             {
                 if (_defultViewModel == null)
                 {
-                    Debug.Log("create defult view model");
                     _defultViewModel = ScriptableObject.CreateInstance<ViewModel>();
                 }
                 return _defultViewModel;
@@ -227,18 +226,30 @@ namespace BridgeUI
             {
                 ViewModel = data as Binding.ViewModel;
             }
-            else if (data is IEnumerable<KeyValuePair<string, IBindableProperty>>)
+            else if (data is IDictionary)
             {
-                LoadPropDictionary(data as IEnumerable<KeyValuePair<string, IBindableProperty>>);
+                if(ViewModel == null) {
+                    ViewModel = defultViewModel;
+                }
+
+                LoadPropDictionary(data as IDictionary);
             }
         }
-        protected virtual void LoadPropDictionary(IEnumerable<KeyValuePair<string, IBindableProperty>> iterator)
+        protected virtual void LoadPropDictionary(IDictionary dataDic)
         {
-            foreach (var item in iterator)
+            var keys = dataDic.Keys;
+            foreach (var key in keys)
             {
-                defultViewModel[item.Key] = item.Value;
+                var value = dataDic[key];
+                if(value != null)
+                {
+                    var prop = ViewModel.GetBindablePropertySelfty(key.ToString(), value.GetType());
+                    if(prop != null)
+                    {
+                        prop.ValueBoxed = value;
+                    }
+                }
             }
-            ViewModel = defultViewModel;
         }
         public virtual void Hide()
         {

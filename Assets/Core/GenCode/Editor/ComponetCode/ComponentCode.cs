@@ -99,6 +99,7 @@ namespace BridgeUI.CodeGen
             if (invocation == null)
             {
                 string methodName = "";
+                UnityEngine.Debug.Assert(bindingInfo.bindingTargetType.type != null , name + ":" + bindingInfo.bindingSource +" type Null!");
                 if (!bindingInfo.bindingTargetType.type.IsGenericType)
                 {
                     var typeName = bindingInfo.bindingTargetType.typeName;
@@ -324,7 +325,7 @@ namespace BridgeUI.CodeGen
         /// <param name="components"></param>
         protected virtual void AnalysisBindingMembers(InvocationExpression invocation, List<ComponentItem> components)
         {
-            var component = components.Find(x => invocation.Arguments.Count > 1 && invocation.Arguments.First().ToString().Contains("m_" + x.name));
+            var component = components.Find(x => invocation.Arguments.Count > 1 && invocation.Arguments.First().ToString().Contains(string.Format("m_{0}.",x.name)));
             if (component != null)
             {
                 var source = invocation.Arguments.ToArray()[1].ToString().Replace("\"", "");

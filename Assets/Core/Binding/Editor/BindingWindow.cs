@@ -235,6 +235,7 @@ namespace BridgeUIEditor
             if (panelDrawer != null)
             {
                 panelDrawer.OnInspectorGUI();
+                EditorUtility.SetDirty(panelDrawer.target);
             }
 
 
@@ -270,8 +271,8 @@ namespace BridgeUIEditor
                 {
                     var go = prefab;
                     rule.bindingAble = BindingAble;
-                    GenCodeUtil.CreateScript(go, components, rule);
                     GenCodeUtil.CreateVMScript(go, components);
+                    GenCodeUtil.CreateScript(go, components, rule);
                 }
             }
 

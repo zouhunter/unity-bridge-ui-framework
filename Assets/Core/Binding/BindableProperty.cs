@@ -9,7 +9,6 @@ namespace BridgeUI.Binding
 
         void Trigger();
     }
-
     public class BindableProperty<T> : IBindableProperty
     {
         public event UnityAction<T> onValueChanged = delegate { };
@@ -83,80 +82,4 @@ namespace BridgeUI.Binding
             return target.Value;
         }
     }
-
-    public class B_String : BindableProperty<string> {
-        public B_String() { }
-        public B_String(string value)
-        {
-            Value = value;
-        }
-        public static implicit operator string(B_String target){
-            return target.Value;
-        }
-    }
-    public class B_StringArray : BindableProperty<string[]> { }
-    public class B_Int : BindableProperty<int> { }
-    public class B_Float : BindableProperty<float> { }
-    public class B_Bool : BindableProperty<bool> { }
-    public class B_Byte : BindableProperty<byte> { }
-    public class B_Long : BindableProperty<long> { }
-    public class B_Short : BindableProperty<short> { }
-    public class B_Sprite : BindableProperty<UnityEngine.Sprite> { }
-    public class B_Color : BindableProperty<UnityEngine.Color> { }
-    public class B_Texture : BindableProperty<UnityEngine.Texture> { }
-    public class B_Action : BindableProperty<System.Action>
-    {
-        public B_Action(){}
-        public B_Action(Action action)
-        {
-            this.Value = action;
-        }
-    }
-    public class B_Action<T> : BindableProperty<System.Action<T>> {
-        public B_Action(){}
-        public B_Action(Action<T> action)
-        {
-            this.Value = action;
-        }
-    }
-    public class B_UnityAction : BindableProperty<UnityEngine.Events.UnityAction> { }
-    public class B_UnityAction<T> : BindableProperty<UnityEngine.Events.UnityAction> { }
-    public class B_Func<T> : BindableProperty<System.Func<T>> { }
-    public class C_PanelAction : BindableProperty<PanelAction>
-    {
-        public C_PanelAction() { }
-        public C_PanelAction(PanelAction panelAction)
-        {
-            RegistAction(panelAction);
-        }
-        public void RegistAction(PanelAction panelAction)
-        {
-            Value = panelAction;
-        }
-    }
-    public class C_PanelAction<T> : BindableProperty<PanelAction<T>>
-    {
-        public C_PanelAction() { }
-        public C_PanelAction(PanelAction<T> panelAction)
-        {
-            RegistAction(panelAction);
-        }
-        public void RegistAction(PanelAction<T> panelAction)
-        {
-            Value = panelAction;
-        }
-    }
-    public class C_Button : C_PanelAction<UnityEngine.UI.Button> {
-        public C_Button() { }
-        public C_Button(PanelAction<UnityEngine.UI.Button> panelAction) : base(panelAction) { }
-    }
-    public class C_Toggle : C_PanelAction<UnityEngine.UI.Toggle> { }
-    public class C_Slider : C_PanelAction<UnityEngine.UI.Slider> {
-        public C_Slider() { }
-        public C_Slider(PanelAction<UnityEngine.UI.Slider> panelAction) : base(panelAction) { }
-    }
-    public class C_Scrollbar : C_PanelAction<UnityEngine.UI.Scrollbar> { }
-    public class C_Dropdown : C_PanelAction<UnityEngine.UI.Dropdown> { }
-    public class C_ScrollRect : C_PanelAction<UnityEngine.UI.ScrollRect> { }
-    public class C_InputField : C_PanelAction<UnityEngine.UI.InputField> { }
 }

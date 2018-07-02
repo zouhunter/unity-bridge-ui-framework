@@ -23,19 +23,18 @@ namespace BridgeUI
         private readonly List<UnityAction<IPanelBase>> onCreate = new List<UnityAction<IPanelBase>>();
         private readonly List<UnityAction<IPanelBase>> onClose = new List<UnityAction<IPanelBase>>();
         private UnityAction<UIHandle> onRelease { get; set; }
-
-        public IPanelBase[] Contexts
-        {
-            get
-            {
-                return bridges.Select(x => x.OutPanel).ToArray();
-            }
-        }
         public bool Active
         {
             get
             {
                 return bridges.Count > 0;
+            }
+        }
+        public IPanelBase[] Contexts
+        {
+            get
+            {
+                return bridges.Select(x => x.OutPanel).ToArray();
             }
         }
         public string PanelName { get; private set; }

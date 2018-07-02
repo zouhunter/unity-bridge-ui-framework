@@ -86,7 +86,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &149786
 GameObject:
   m_ObjectHideFlags: 1
@@ -674,7 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1317736ad31c348b93070709bc862f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defultViewModel: {fileID: 0}
+  _viewModel: {fileID: 0}
   content: {fileID: 22435888}
   m_close: {fileID: 11470084}
   m_openPanel01: {fileID: 11415130}
@@ -1339,7 +1339,7 @@ RectTransform:
   m_Father: {fileID: 22497888}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1593,8 +1593,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000064373}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 109, y: -0.0000064373}
+  m_SizeDelta: {x: -240, y: -8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22484450
 RectTransform:
@@ -1609,7 +1609,7 @@ RectTransform:
   m_Father: {fileID: 22491704}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

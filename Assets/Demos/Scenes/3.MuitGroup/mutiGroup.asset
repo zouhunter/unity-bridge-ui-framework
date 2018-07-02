@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 3
   instenceID: 0
   assetName: Panel01
   style: 1
@@ -262,6 +262,7 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components:
   - open: 0
     name: subBtn
@@ -346,6 +347,7 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components:
   - open: 0
     name: subBtn
@@ -412,6 +414,7 @@ MonoBehaviour:
     baseTypeIndex: 4
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components:
   - open: 0
     name: close
@@ -665,6 +668,7 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components:
   - open: 0
     name: subBtn
@@ -749,6 +753,7 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components:
   - open: 0
     name: subBtn

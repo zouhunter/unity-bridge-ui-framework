@@ -192,6 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a84c3a071d26ca149b6a6519811fd6c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewModel: {fileID: 0}
   holders:
   - panelName: Panel01
     button: {fileID: 11466086}

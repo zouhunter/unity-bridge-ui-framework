@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c361eb06e4cfa74b8cd9d71fb3f17c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewModel: {fileID: 0}
   m_close: {fileID: 11470084}
   subPanelName: Panel02
   subBtn: {fileID: 11458254}

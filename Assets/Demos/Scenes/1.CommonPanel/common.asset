@@ -347,6 +347,7 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components: []
   nodeInfo:
     uiType:
@@ -379,6 +380,7 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components: []
   nodeInfo:
     uiType:
@@ -411,6 +413,7 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components: []
   nodeInfo:
     uiType:
@@ -461,6 +464,7 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components: []
   nodeInfo:
     uiType:
@@ -493,6 +497,7 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components: []
   nodeInfo:
     uiType:
@@ -525,6 +530,7 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components: []
   nodeInfo:
     uiType:
@@ -557,11 +563,12 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components: []
   nodeInfo:
     uiType:
       layerIndex: 0
-      form: 0
+      form: 2
       layer: 0
       hideAlaph: 0
       enterAnim: {fileID: 0}
@@ -589,6 +596,7 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components: []
   nodeInfo:
     uiType:
@@ -621,6 +629,7 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
+    generateViewModel: 0
   components: []
   nodeInfo:
     uiType:

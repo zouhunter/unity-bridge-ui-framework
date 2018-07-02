@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79223c38988cb9a47ab76059557930c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewModel: {fileID: 0}
   onGetText:
     m_PersistentCalls:
       m_Calls: []

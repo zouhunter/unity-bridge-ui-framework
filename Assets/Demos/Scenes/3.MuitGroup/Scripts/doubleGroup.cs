@@ -24,8 +24,8 @@ public class doubleGroup : MonoBehaviour
     private void Awake()
     {
         uiFacade = UIFacade.Instence;
-        mainViewModel = new MainPanelViewModel();
-        mainViewModel_withID = new MainPanelViewModel_with_ID();
+        mainViewModel = ScriptableObject.CreateInstance< MainPanelViewModel>();
+        mainViewModel_withID = ScriptableObject.CreateInstance<MainPanelViewModel_with_ID>();
         mainViewModel.titleStr.Value = "我是:MainPanelViewModel";
         mainViewModel_withID.title.Value = "我是:MainPanelViewModel_with_ID";
     }

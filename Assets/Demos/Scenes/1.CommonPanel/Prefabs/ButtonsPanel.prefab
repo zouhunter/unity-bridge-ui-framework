@@ -159,6 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e483c645aa29554ab66cc295ed52e83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewModel: {fileID: 0}
   btns:
   - {fileID: 11463326}
 --- !u!114 &11492522

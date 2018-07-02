@@ -21,7 +21,7 @@ namespace BridgeUIEditor
     [CustomNodeView(typeof(PanelNode))]
     public class PanelNodeView : DefultSkinNodeView
     {
-        protected static UIType? uiTypeTemplate;
+        protected static UIType uiTypeTemplate;
         protected static NodeType nodeTypeTemplate;
 
         protected PanelNodeBase panelNode { get { return target as PanelNodeBase; } }

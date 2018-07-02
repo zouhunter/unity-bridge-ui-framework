@@ -268,18 +268,10 @@ namespace BridgeUI
 
         public virtual void UnHide()
         {
-            switch (UType.hideRule)
-            {
-                case HideRule.AlaphGameObject:
-                    AlaphGameObject(false);
-                    break;
-                case HideRule.HideGameObject:
-                    gameObject.SetActive(true);
-                    break;
-                default:
-                    break;
+            gameObject.SetActive(true);
+            if(UType.hideRule == HideRule.AlaphGameObject) {
+                AlaphGameObject(false);
             }
-
             _isShowing = true;
             OnOpenInternal();
         }

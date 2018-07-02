@@ -25,11 +25,6 @@ namespace BridgeUI
                 return "BridgeUI";
             }
         }
-
-        /// <summary>
-        /// 将信息到保存到PanelGroup
-        /// </summary>
-        /// <param name="group"></param>
         private void StoreInfoOfPanelGroup(PanelGroup group)
         {
             InsertBridges(group.bridges, GetBridges());
@@ -44,10 +39,6 @@ namespace BridgeUI
             TryRecoredGraphGUID(group);
             EditorUtility.SetDirty(group);
         }
-        /// <summary>
-        /// 将信息到保存到PanelGroup
-        /// </summary>
-        /// <param name="group"></param>
         private void StoreInfoOfPanelGroup(PanelGroupObj group)
         {
             InsertBridges(group.bridges, GetBridges());
@@ -62,7 +53,6 @@ namespace BridgeUI
             TryRecoredGraphGUID(group);
             EditorUtility.SetDirty(group);
         }
-
         private void TryRecoredGraphGUID(UnityEngine.Object group)
         {
             var path = AssetDatabase.GetAssetPath(TargetGraph);
@@ -96,7 +86,6 @@ namespace BridgeUI
                 }
             }
         }
-        
         private void InsertBridges(List<BridgeInfo> source, List<BridgeInfo> newBridges)
         {
             if (source == null) return;
@@ -176,7 +165,6 @@ namespace BridgeUI
             }
             return bridges;
         }
-
         private List<NodeInfo> GetNodeInfos()
         {
             var nodeInfos = new List<NodeInfo>();
@@ -191,7 +179,6 @@ namespace BridgeUI
             }
             return nodeInfos;
         }
-
         private List<PrefabUIInfo> GetPrefabUIInfos(List<NodeInfo> infos)
         {
             var pinfos = new List<PrefabUIInfo>();
@@ -206,7 +193,6 @@ namespace BridgeUI
             }
             return pinfos;
         }
-
         private GameObject LoadPrefabFromGUID(string guid)
         {
             var path = AssetDatabase.GUIDToAssetPath(guid);
@@ -219,7 +205,6 @@ namespace BridgeUI
                 return null;
             }
         }
-
         private List<BundleUIInfo> GetBundleUIInfos(List<NodeInfo> infos)
         {
             var binfo = new List<BundleUIInfo>();
@@ -234,7 +219,6 @@ namespace BridgeUI
             }
             return binfo;
         }
-
         private void CompleteBundleUIInfo(BundleUIInfo binfo)
         {
             if (string.IsNullOrEmpty(binfo.guid))
@@ -259,7 +243,6 @@ namespace BridgeUI
                 }
             }
         }
-
         internal override void Validate(NodeGUI node)
         {
             var changed = false;
@@ -291,7 +274,6 @@ namespace BridgeUI
                 }
             }
         }
-
         protected override void BuildFromGraph(NodeGraphObj m_targetGraph)
         {
             if (Selection.activeGameObject != null)
@@ -374,7 +356,6 @@ namespace BridgeUI
                 new PanelNameGenerater(path).GenerateParcialPanelName(list.ToArray());
             }
         }
-
         internal override void OnDragUpdated()
         {
             base.OnDragUpdated();
@@ -403,7 +384,6 @@ namespace BridgeUI
                 }
             }
         }
-
         protected static string GetInstenceObjectPath(GameObject instenceObj)
         {
             var pfbTrans = PrefabUtility.GetPrefabParent(instenceObj);
@@ -460,7 +440,6 @@ namespace BridgeUI
             }
             return nodeList;
         }
-
         public override NodeGraphObj CreateNodeGraphObject(string path)
         {
             var obj = ScriptableObject.CreateInstance<NodeGraph.DataModel.NodeGraphObj>();

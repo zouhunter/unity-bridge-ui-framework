@@ -300,6 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f6c897d912e1543b503d3d794a4eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewModel: {fileID: 0}
   m_close: {fileID: 11445034}
   m_title: {fileID: 11461404}
 --- !u!222 &22202208

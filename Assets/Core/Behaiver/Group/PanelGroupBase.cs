@@ -356,7 +356,7 @@ namespace BridgeUI
         {
             uiNode = Nodes.Find(x => x.panelName == panelName);
 
-            if (uiNode != null)// && uiNode.type.form == UIFormType.Fixed
+            if (uiNode != null)
             {
                 if (uiNode.type.form == UIFormType.Fixed)
                 {

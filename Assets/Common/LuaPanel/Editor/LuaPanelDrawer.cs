@@ -14,6 +14,7 @@ using UnityEditor;
 
 namespace BridgeUI.Common
 {
+#if xLua
 
     [CanEditMultipleObjects]
     [CustomEditor(typeof(LuaPanel), editorForChildClasses: true)]
@@ -121,4 +122,5 @@ namespace BridgeUI.Common
             }
         }
     }
+#endif
 }

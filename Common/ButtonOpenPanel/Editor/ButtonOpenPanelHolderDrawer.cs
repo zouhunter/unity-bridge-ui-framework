@@ -18,7 +18,9 @@ namespace BridgeUI.Common
 
         public HolderDrawer()
         {
-            var fields = typeof(PanelNames).GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.GetProperty);
+            var type = typeof(PanelBase).Assembly.GetType("PanelNames");
+            if (type == null) return;
+            var fields = type.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.GetProperty);
             panelNames = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {

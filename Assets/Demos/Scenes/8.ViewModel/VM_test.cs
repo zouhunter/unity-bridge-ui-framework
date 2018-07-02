@@ -14,33 +14,46 @@ using BridgeUI;
 
 public class VM_test : MonoBehaviour
 {
-    ViewModel001 vmData = new ViewModel001();
-    Dictionary<string, BridgeUI.Binding.IBindableProperty> vmData1;
+    public ViewModel001 vmData;
+    Dictionary<string, BridgeUI.Binding.IBindableProperty> vmDic;
     BridgeUI.Binding.B_String title = new BridgeUI.Binding.B_String("runtimme title");
 
     private void Awake()
     {
-        vmData1 = new Dictionary<string, BridgeUI.Binding.IBindableProperty>();
-        vmData1["title"] = title;
-        vmData1["OpenPanel01"] = new BridgeUI.Binding.C_Button((panel, sender) =>
+        if (vmData == null)
+            vmData = ScriptableObject.CreateInstance<ViewModel001>();
+
+        vmDic = new Dictionary<string, BridgeUI.Binding.IBindableProperty>();
+        vmDic["title"] = title;
+        vmDic["OpenPanel01"] = new BridgeUI.Binding.C_Button((panel, sender) =>
         {
             Debug.Log("OpenPanel01");
             title.Value = "panel:" + panel;
-            vmData1["info"].ValueBoxed = "sender:" + sender;
+            vmDic["info"].ValueBoxed = "sender:" + sender;
         });
-        vmData1["info"] = new BridgeUI.Binding.B_String("runtimme info");
+        vmDic["info"] = new BridgeUI.Binding.B_String("runtimme info");
+    }
+
+    private void Update()
+    {
+        vmData.fontSize = (int)Mathf.Lerp(10, 20, Time.time % 1);
     }
 
     private void OnGUI()
     {
-        if (GUILayout.Button("打开主界面-viewmodel001"))
+        if (GUILayout.Button("打开VMUsePanel"))
         {
-            UIFacade.Instence.Open(PanelNames.MainPanel, vmData);
+            UIFacade.Instence.Open(PanelNames.VMUsePanel);
         }
 
-        if (GUILayout.Button("打开主界面-viewmodel dic"))
+        if (GUILayout.Button("打开VMUsePanel -viewmodel001"))
         {
-            UIFacade.Instence.Open(PanelNames.MainPanel, vmData1);
+            UIFacade.Instence.Open(PanelNames.VMUsePanel, vmData);
+        }
+
+        if (GUILayout.Button("打开VMUsePanel -viewmodel dic"))
+        {
+            UIFacade.Instence.Open(PanelNames.VMUsePanel, vmDic);
         }
 
         if (GUILayout.Button("更新标题"))

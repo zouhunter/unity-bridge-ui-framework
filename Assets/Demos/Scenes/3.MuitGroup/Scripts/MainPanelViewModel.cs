@@ -14,7 +14,7 @@ using BridgeUI.Binding;
 /// <summary>
 /// 用于写逻辑代码
 /// </summary>
-public class MainPanelViewModel : BridgeUI.Binding.ViewModelBase
+public class MainPanelViewModel : BridgeUI.Binding.ViewModel
 {
     [Binding("title")]
     public readonly B_String titleStr;
@@ -90,7 +90,7 @@ public class MainPanelViewModel : BridgeUI.Binding.ViewModelBase
 /// <summary>
 /// 用于写逻辑代码
 /// </summary>
-public class MainPanelViewModel_with_ID : BridgeUI.Binding.ViewModelBase
+public class MainPanelViewModel_with_ID : BridgeUI.Binding.ViewModel
 {
     public readonly BindableProperty<string> title;
     public readonly BindableProperty<string> info;

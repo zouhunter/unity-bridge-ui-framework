@@ -155,4 +155,10 @@ public class PanelNames {
             return "GenericTypePanel";
         }
     }
+    
+    public static string VMUsePanel {
+        get {
+            return "VMUsePanel";
+        }
+    }
 }

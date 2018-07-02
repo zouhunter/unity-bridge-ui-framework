@@ -13,12 +13,65 @@ using System.Collections.Generic;
 using BridgeUI.Binding;
 using System;
 
-public class ViewModel001 : VM_VMUsePanel
+public class ViewModel001 : ViewModel
 {
-    public ViewModel001()
+    #region 属性列表
+    public PanelAction<UnityEngine.UI.Button> onClick
     {
-        title = "defult title";
-        info = "defult info";
+        get
+        {
+            return GetValue<PanelAction<UnityEngine.UI.Button>>("onClick");
+        }
+        set
+        {
+            SetValue<PanelAction<UnityEngine.UI.Button>>("onClick", value);
+        }
+    }
+    public System.String title
+    {
+        get
+        {
+            return GetValue<System.String>("title");
+        }
+        set
+        {
+            SetValue<System.String>("title", value);
+        }
+    }
+    public System.Int32 fontSize
+    {
+        get
+        {
+            return GetValue<System.Int32>("fontSize");
+        }
+        set
+        {
+            SetValue<System.Int32>("fontSize", value);
+        }
+    }
+    public System.String info
+    {
+        get
+        {
+            return GetValue<System.String>("info");
+        }
+        set
+        {
+            SetValue<System.String>("info", value);
+        }
+    }
+
+    #endregion
+
+   [SerializeField] private string _title;
+   [SerializeField] private string _info;
+   [SerializeField] private int _fontSize;
+
+    private void OnEnable()
+    {
+        title = _title;
+        info = _info;
+        fontSize = _fontSize;
         onClick = OpenPanel01;
     }
 

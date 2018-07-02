@@ -338,10 +338,10 @@ namespace BridgeUI.CodeGen
         /// <returns></returns>
         public static void CreateVMScript(GameObject go ,List<ComponentItem> components)
         {
-            var prefabPath = AssetDatabase.GetAssetPath(go);
-            var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
-            var scriptPath = string.Format("{0}/VM_{1}.cs", folder, go.name);
-           
+            //var prefabPath = AssetDatabase.GetAssetPath(go);
+            //var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
+            //var scriptPath = string.Format("{0}/VM_{1}.cs", folder, go.name);
+            var scriptName = go.name;
             string template =
  @"using BridgeUI.Binding;
 /// <summary>
@@ -365,7 +365,7 @@ public class VM_#panelName# : ViewModelBase
         }
     }
     ";
-            string detail = "";
+            string detail = "#region 属性列表\n";
             foreach (var component in components)
             {
                 foreach (var viewItem in component.viewItems)
@@ -381,9 +381,16 @@ public class VM_#panelName# : ViewModelBase
                     detail += item;
                 }
             }
-           
-            var script = template.Replace("#detail#", detail).Replace("#panelName#", go.name);
-            System.IO.File.WriteAllText(scriptPath, script);
+            detail += "\n#endregion";
+            var script = detail;//template.Replace("#detail#", detail).Replace("#panelName#", scriptName);
+            TextEditor te = new TextEditor();
+            te.text = script;
+            te.SelectAll();
+            te.Copy();
+            Debug.Log("The view model propertys has been copied. You can paste it with Ctrl + v.");
+            Debug.Log(template.Replace("#detail#", detail).Replace("#panelName#", scriptName));
+            Debug.Log(detail);
+            //System.IO.File.WriteAllText(scriptPath, script);
         }
 
         #region private functions

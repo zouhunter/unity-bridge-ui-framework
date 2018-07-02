@@ -15,7 +15,7 @@ namespace BridgeUI.Common
     /// <summary>
     /// 类
     /// <summary>
-    public class LuaViewModel : Binding.ViewModelBase
+    public class LuaViewModel : Binding.ViewModel
     {
         protected LuaTable scriptEnv;
 

@@ -14,16 +14,34 @@ using System.Linq;
 
 namespace BridgeUI.Binding
 {
-    public class ViewModelBase: Dictionary<string, IBindableProperty>
+    public class ViewModel : ScriptableObject
     {
         private List<IBindingContext> _contexts = new List<IBindingContext>();
         protected List<IBindingContext> Contexts { get { return _contexts; } }
-
-        public ViewModelBase()
+        private readonly Dictionary<string, IBindableProperty> innerDic = new Dictionary<string, IBindableProperty>();
+        public IBindableProperty this[string key]
+        {
+            get
+            {
+                if(innerDic.ContainsKey(key))
+                {
+                    return innerDic[key];
+                }
+                return null;
+            }
+            set
+            {
+                innerDic[key] = value;
+            }
+        }
+        public ViewModel()
         {
             RegistPropertys();
         }
-
+        public bool ContainsKey(string key)
+        {
+            return innerDic.ContainsKey(key);
+        }
         private void RegistPropertys()
         {
             var fields = this.GetType().GetFields(

@@ -23,8 +23,8 @@ namespace BridgeUIEditor
 
     public class ComponentItemDrawer
     {
-        Color fieldColor = new Color(0.1f, 0.1f, 0.1f, 0.1f);
-        Color activeColor = new Color(0.3f, 0.3f, 0.3f, 0.3f);
+        Color fieldColor = new Color(.2f, 1f,.5f, 1f);
+        Color activeColor = new Color(.2f,.5f, 1f, 1f);
         Dictionary<ComponentItem, ReorderableList> viewDic = new Dictionary<ComponentItem, ReorderableList>();
         Dictionary<ComponentItem, ReorderableList> eventDic = new Dictionary<ComponentItem, ReorderableList>();
 
@@ -99,9 +99,10 @@ namespace BridgeUIEditor
             item.open = active;
             rect.height = GetItemHeight(item, bindingAble);
             var innerRect1 = new Rect(rect.x + padding, rect.y + padding, rect.width - 2 * padding, rect.height - 2 * padding);
-            GUI.color = active ? activeColor : fieldColor;
+            var color = GUI.backgroundColor;
+            GUI.backgroundColor = active ? activeColor : fieldColor;
             GUI.Box(innerRect1, "");
-            GUI.color = Color.white;
+            GUI.backgroundColor = color;
         }
         private void DrawInfoHead(Rect rect, ComponentItem item)
         {

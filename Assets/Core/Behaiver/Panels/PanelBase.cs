@@ -109,18 +109,22 @@ namespace BridgeUI
                 return _binder;
             }
         }
-        private Binding.ViewModelBase _viewModel;
-        private Binding.ViewModelBase _defultViewModel;
-        protected Binding.ViewModelBase defultViewModel
+        [SerializeField, DefultViewModel]
+        private Binding.ViewModel _viewModel;
+        private Binding.ViewModel _defultViewModel;
+        protected Binding.ViewModel defultViewModel
         {
             get
             {
                 if (_defultViewModel == null)
-                    _defultViewModel = new ViewModelBase();
+                {
+                    Debug.Log("create defult view model");
+                    _defultViewModel = ScriptableObject.CreateInstance<ViewModel>();
+                }
                 return _defultViewModel;
             }
         }
-        public Binding.ViewModelBase ViewModel
+        public Binding.ViewModel ViewModel
         {
             get
             {
@@ -138,6 +142,10 @@ namespace BridgeUI
             base.Awake();
             InitComponents();
             PropBindings();
+
+            if (_viewModel != null){
+                OnViewModelChanged(_viewModel);
+            }
         }
         protected override void Start()
         {
@@ -164,7 +172,7 @@ namespace BridgeUI
 
             if (onDelete != null)
             {
-                onDelete.Invoke(this,true);
+                onDelete.Invoke(this, true);
             }
 
             Binder.Unbind();
@@ -173,7 +181,7 @@ namespace BridgeUI
 
         protected virtual void PropBindings() { }
 
-        public virtual void OnViewModelChanged(Binding.ViewModelBase newValue)
+        public virtual void OnViewModelChanged(Binding.ViewModel newValue)
         {
             Binder.Unbind();
             Binder.Bind(newValue);
@@ -215,22 +223,20 @@ namespace BridgeUI
         }
         protected virtual void HandleData(object data)
         {
-            if (data is IDictionary<string, IBindableProperty>)
+            if (data is Binding.ViewModel)
             {
-                if (data is Binding.ViewModelBase)
-                {
-                    ViewModel = data as Binding.ViewModelBase;
-                }
-                else
-                {
-                    LoadPropDictionary(data as IDictionary<string, IBindableProperty>);
-                }
+                ViewModel = data as Binding.ViewModel;
+            }
+            else if (data is IEnumerable<KeyValuePair<string, IBindableProperty>>)
+            {
+                LoadPropDictionary(data as IEnumerable<KeyValuePair<string, IBindableProperty>>);
             }
         }
-        protected virtual void LoadPropDictionary(IDictionary<string, IBindableProperty> data)
+        protected virtual void LoadPropDictionary(IEnumerable<KeyValuePair<string, IBindableProperty>> iterator)
         {
-            foreach (var key in data.Keys){
-                defultViewModel[key] = data[key];
+            foreach (var item in iterator)
+            {
+                defultViewModel[item.Key] = item.Value;
             }
             ViewModel = defultViewModel;
         }
@@ -254,8 +260,9 @@ namespace BridgeUI
         {
             _isShowing = false;
             gameObject.SetActive(false);
-            if (onDelete != null){
-                onDelete.Invoke(this,false);
+            if (onDelete != null)
+            {
+                onDelete.Invoke(this, false);
             }
         }
 
@@ -345,7 +352,7 @@ namespace BridgeUI
             img.color = new Color(0, 0, 0, 0.01f);
             img.raycastTarget = true;
         }
-        private void OnRemoveChild(IPanelBase childPanel,bool remove)
+        private void OnRemoveChild(IPanelBase childPanel, bool remove)
         {
             if (childPanels != null && childPanels.Contains(childPanel) && remove)
             {

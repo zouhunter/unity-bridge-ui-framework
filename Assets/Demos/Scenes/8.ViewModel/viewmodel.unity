@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c330830ecd850e043911a909d64b1246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vmData: {fileID: 11400000, guid: b4f0af250b7687544b96f253d4bad035, type: 2}
 --- !u!4 &19805186
 Transform:
   m_ObjectHideFlags: 0
@@ -124,6 +125,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!1 &441721034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 441721035}
+  m_Layer: 0
+  m_Name: 0|[B]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &441721035
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 441721034}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2141094365}
+  m_RootOrder: 0
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1186770659
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,7 +482,8 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 441721035}
   m_Father: {fileID: 1483972535}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
@@ -476,8 +510,8 @@ MonoBehaviour:
   loadType: 1
   b_nodes: []
   p_nodes:
-  - panelName: MainPanel
-    instanceID: 0
+  - panelName: VMUsePanel
+    instanceID: -123082
     discription: 
     type:
       layerIndex: 0
@@ -488,5 +522,5 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 129970, guid: 9a21f546a47677b47b8c04207b469285, type: 2}
+    prefab: {fileID: 100746, guid: 2067d2deffeb5534a8c7b64163ff03ad, type: 2}
   bridges: []

@@ -6,7 +6,7 @@ using System;
 using BridgeUI;
 using BridgeUI.Binding;
 
-public class MyPanelModel: ViewModelBase
+public class MyPanelModel: ViewModel
 {
 
 }

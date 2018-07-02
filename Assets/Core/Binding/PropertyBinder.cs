@@ -9,17 +9,17 @@ namespace BridgeUI.Binding
     public class PropertyBinder
     {
         public IBindingContext Context { get; private set; }
-        public ViewModelBase viewModel { get; private set; }
+        public ViewModel viewModel { get; private set; }
 
-        protected event UnityAction<ViewModelBase> binders;
-        protected event UnityAction<ViewModelBase> unbinders;
+        protected event UnityAction<ViewModel> binders;
+        protected event UnityAction<ViewModel> unbinders;
 
         public PropertyBinder(IBindingContext context)
         {
             this.Context = context;
         }
 
-        public void Bind(ViewModelBase viewModel)
+        public void Bind(ViewModel viewModel)
         {
             //Debug.Log("Bind:" + viewModel);
             this.viewModel = viewModel;

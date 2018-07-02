@@ -20,8 +20,8 @@ public class VMUsePanel : BridgeUI.SinglePanel
 	{
 		Binder.RegistEvent<UnityEngine.UI.Button> (m_click.onClick, "onClick", m_click);
 		Binder.RegistMember<System.String> ("m_title.text", "title");
+		Binder.RegistMember<System.Int32> ("m_title.fontSize", "fontSize");
 		Binder.RegistMember<System.String> ("m_info.text", "info");
-		Binder.RegistMember<UnityEngine.Font> ("m_info.font", "font_size");
 	}
 
 	[SerializeField]

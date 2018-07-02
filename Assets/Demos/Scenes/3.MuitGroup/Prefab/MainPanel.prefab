@@ -674,6 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1317736ad31c348b93070709bc862f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _defultViewModel: {fileID: 0}
   content: {fileID: 22435888}
   m_close: {fileID: 11470084}
   m_openPanel01: {fileID: 11415130}

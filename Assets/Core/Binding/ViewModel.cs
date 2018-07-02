@@ -36,17 +36,12 @@ namespace BridgeUI.Binding
             }
         }
 
-        public ViewModel()
-        {
-            InitPropertys();
-        }
 
         public bool ContainsKey(string key)
         {
             return innerDic.ContainsKey(key);
         }
 
-        protected virtual void InitPropertys() { }
 
         public virtual void SetBindableProperty(string key, IBindableProperty value)
         {

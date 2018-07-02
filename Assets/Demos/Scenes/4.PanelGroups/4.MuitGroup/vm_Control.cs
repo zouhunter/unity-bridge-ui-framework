@@ -106,18 +106,28 @@ public class vm_Control : ViewModel
     }
 
     #endregion
-    public GameObject m_prefab;
-    private GameObject instence;
 
-    protected override void InitPropertys()
+    [SerializeField]
+    private GameObject m_prefab;
+    [SerializeField]
+    private bool startActive;
+    [SerializeField]
+    private float minScale;
+    [SerializeField]
+    private float maxScale;
+    [SerializeField]
+    private float currentScale;
+
+    private GameObject instence { get; set; }
+   
+    void OnEnable()
     {
-        base.InitPropertys();
-        show = true;
-        show_title = "隐藏";
-        scale = 1;
-        min_scale = 0.5f;
-        max_scale = 2f;
+        show = startActive;
+        scale = currentScale;
+        min_scale = minScale;
+        max_scale = maxScale;
         current_scale = "";
+        UpdateShowText();
         on_scale_changed = SetGameObjectScale;
         on_show_changed = SetGameObjectVisiable;
     }
@@ -129,15 +139,32 @@ public class vm_Control : ViewModel
         if (instence == null && m_prefab != null)
         {
             instence = Instantiate(m_prefab);
+            instence.SetActive(startActive);
+        }
+    }
+    public override void OnUnBinding(IBindingContext context)
+    {
+        base.OnUnBinding(context);
+        if(Contexts.Count == 0)
+        {
+            if (instence)
+            {
+                Destroy(instence);
+            }
         }
     }
 
     private void SetGameObjectVisiable(IBindingContext panel, Toggle sender)
     {
         show = sender.isOn;
-        show_title = show ? "隐藏" : "显示";
+        UpdateShowText();
         if (instence)
             instence.gameObject.SetActive(sender.isOn);
+    }
+
+    private void UpdateShowText()
+    {
+        show_title = show ? "隐藏" : "显示";
     }
 
     private void SetGameObjectScale(IBindingContext panel, Slider sender)
@@ -145,13 +172,5 @@ public class vm_Control : ViewModel
         scale = sender.value;
         current_scale = string.Format("当前cube 尺寸：" + scale.ToString("0.0"));
         if (instence) instence.gameObject.transform.localScale = Vector3.one * sender.value;
-    }
-
-    private void OnDestroy()
-    {
-        if (instence)
-        {
-            Destroy(instence);
-        }
     }
 }

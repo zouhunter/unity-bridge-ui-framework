@@ -167,4 +167,10 @@ public class PanelNames {
             return "ControlPanel";
         }
     }
+    
+    public static string ControlPanel_B {
+        get {
+            return "ControlPanel_B";
+        }
+    }
 }

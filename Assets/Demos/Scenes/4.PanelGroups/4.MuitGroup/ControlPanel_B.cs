@@ -1,6 +1,6 @@
 /*************************************************************************************   
     * 作    者：       zouhunter
-    * 创建时间：       2018-07-02 02:20:02
+    * 创建时间：       2018-07-02 04:19:02
     * 说    明：       1.部分代码自动生成
                        2.尽量使用MVVM模式
                        3.宏定义内会读成注释
@@ -13,19 +13,19 @@ using System.Collections.Generic;
 ///<summary>
 ///[代码说明信息]
 ///<summary>
-public class ControlPanel : BridgeUI.SinglePanel
+public class ControlPanel_B : BridgeUI.SinglePanel
 {
 	protected override void PropBindings ()
 	{
 		Binder.RegistMember<System.Boolean> ("m_show.isOn", "show");
 		Binder.RegistEvent (m_show.onValueChanged, "on_show_changed", m_show);
 		Binder.RegistMember<System.Single> ("m_scale.value", "scale");
-		Binder.RegistEvent (m_scale.onValueChanged, "on_scale_changed", m_scale);
-		Binder.RegistMember<System.String> ("m_show_title.text", "show_title");
 		Binder.RegistMember<System.Single> ("m_scale.minValue", "min_scale");
 		Binder.RegistMember<System.Single> ("m_scale.maxValue", "max_scale");
+		Binder.RegistEvent (m_scale.onValueChanged, "on_scale_changed", m_scale);
 		Binder.RegistMember<System.String> ("m_current.text", "current_scale");
-		Binder.RegistEvent<UnityEngine.UI.Button> (m_red.onClick, "turn_red", m_red);
+		Binder.RegistEvent (m_green.onClick, "turn_green", m_green);
+		Binder.RegistMember<System.String> ("m_show_title.text", "show_title");
 	}
 
 	[SerializeField]
@@ -35,11 +35,11 @@ public class ControlPanel : BridgeUI.SinglePanel
 	private UnityEngine.UI.Slider m_scale;
 
 	[SerializeField]
-	private UnityEngine.UI.Text m_show_title;
-
-	[SerializeField]
 	private UnityEngine.UI.Text m_current;
 
 	[SerializeField]
-	private UnityEngine.UI.Button m_red;
+	private UnityEngine.UI.Button m_green;
+
+	[SerializeField]
+	private UnityEngine.UI.Text m_show_title;
 }

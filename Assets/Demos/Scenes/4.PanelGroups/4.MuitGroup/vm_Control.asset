@@ -9,6 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0341816802611b49b62b3b16d63c0b7, type: 3}
-  m_Name: new viewModel
+  m_Name: vm_Control
   m_EditorClassIdentifier: 
   m_prefab: {fileID: 139874, guid: 4ea529af93d6ce94a87cd7a0b62f3911, type: 2}
+  startActive: 1
+  minScale: 0.2
+  maxScale: 2
+  currentScale: 0.3

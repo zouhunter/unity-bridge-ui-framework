@@ -200,8 +200,7 @@ namespace BridgeUIEditor
                 if (GUILayout.Button(new GUIContent("update", "更新脚本控件信息"), EditorStyles.miniButton, GUILayout.Width(60)))
                 {
                     var go = nodeInfo.prefab;
-                    GenCodeUtil.CreateVMScript(go, components);
-                    GenCodeUtil.CreateScript(go, components, rule);
+                    GenCodeUtil.UpdateScripts(go,components,rule);
                 }
             }
 

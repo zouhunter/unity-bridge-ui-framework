@@ -121,7 +121,6 @@ MonoBehaviour:
     baseTypeIndex: 1
     canInherit: 0
     bindingAble: 0
-    generateViewModel: 0
   components:
   - open: 0
     name: show
@@ -149,7 +148,7 @@ MonoBehaviour:
     target: {fileID: 119542, guid: eb2899fc77c698848addee82857de3de, type: 2}
     scriptTarget: {fileID: 0}
     isScriptComponent: 0
-  - open: 0
+  - open: 1
     name: scale
     componentID: 0
     components:

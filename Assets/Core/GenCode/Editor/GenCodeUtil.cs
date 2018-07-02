@@ -130,12 +130,35 @@ namespace BridgeUI.CodeGen
         }
 
         /// <summary>
+        /// 更新View 和 ViewModel的脚本
+        /// </summary>
+        /// <param name="go"></param>
+        /// <param name="components"></param>
+        /// <param name="rule"></param>
+        public static void UpdateScripts(GameObject go, List<ComponentItem> components, GenCodeRule rule)
+        {
+            GenCodeUtil.CreateVMScript(go, components);
+            rule.onGenerated = (viewScript) =>
+            {
+                if (viewScript is PanelBase)
+                {
+                    var viewModel = (viewScript as PanelBase).ViewModel;
+                    if (viewModel)
+                    {
+                        GenCodeUtil.UpdateViewModelScript(viewModel, components);
+                    }
+                }
+            };
+            GenCodeUtil.CreateViewScript(go, components, rule);
+        }
+
+        /// <summary>
         /// 创建代码
         /// </summary>
         /// <param name="go"></param>
         /// <param name="components"></param>
         /// <param name="rule"></param>
-        public static void CreateScript(GameObject go, List<ComponentItem> components, GenCodeRule rule)
+        public static void CreateViewScript(GameObject go, List<ComponentItem> components, GenCodeRule rule)
         {
             Action<UICoder> onLoad = (uiCoder) =>
             {
@@ -155,24 +178,139 @@ namespace BridgeUI.CodeGen
                 var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
                 var scriptPath = string.Format("{0}/{1}.cs", folder, uiCoder.className);
                 var scriptValue = uiCoder.Compile();
-               
+
                 System.IO.File.WriteAllText(scriptPath, scriptValue);
-                var type = typeof(BridgeUI.PanelBase).Assembly.GetType(className);
-                if (type != null)
-                {
-                    if (go.GetComponent(type) == null)
-                    {
-                        go.AddComponent(type);
-                    }
-                }
+                AssetDatabase.Refresh();
+
                 EditorApplication.delayCall += () =>
                 {
+                    var type = typeof(BridgeUI.PanelBase).Assembly.GetType(className);
+                    if (type != null)
+                    {
+                        var script = go.GetComponent(type);
+                        if (script == null)
+                        {
+                            go.AddComponent(type);
+                        }
+                        if (rule.onGenerated != null)
+                        {
+                            rule.onGenerated.Invoke(script);
+                        }
+                        EditorApplication.update = null;
+                    }
                     AssetDatabase.Refresh();
                 };
             };
 
             GenCodeUtil.LoadViewScriptCoder(go, rule, onLoad);
         }
+
+        /// <summary>
+        /// 更新viewModelScript
+        /// </summary>
+        /// <param name="script"></param>
+        /// <param name="components"></param>
+        public static void UpdateViewModelScript(Binding.ViewModel viewModel, List<ComponentItem> components)
+        {
+            var monoScript = MonoScript.FromScriptableObject(viewModel);
+            var className = monoScript.GetClass().Name;
+            UICoder oldViewModel = new UICoder(className);
+            oldViewModel.Load(monoScript.text);
+            var tree = oldViewModel.tree;
+            var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
+            AstNode lastNode = classNode.Descendants.OfType<PreProcessorDirective>().FirstOrDefault();
+            if(lastNode == null){
+                lastNode = classNode.Descendants.OfType<PropertyDeclaration>().FirstOrDefault();
+            }
+
+            foreach (var component in components)
+            {
+                foreach (var viewItem in component.viewItems)
+                {
+                    if (viewItem.bindingTargetType.type != null)
+                    {
+                        lastNode = InsertPropertyToClassNode(viewItem.bindingTargetType.type, viewItem.bindingSource, lastNode, classNode);
+                    }
+                    else
+                    {
+                        Debug.LogError(viewItem.bindingSource + ":type NULL");
+                    }
+
+                }
+                foreach (var eventItem in component.eventItems)
+                {
+                    var type = component.components[component.componentID];
+                    if (type.type != null)
+                    {
+                        var typevalue = typeof(Binding.PanelAction<>).MakeGenericType(type.type);
+                        lastNode = InsertPropertyToClassNode(typevalue, eventItem.bindingSource, lastNode, classNode);
+                    }
+                    else
+                    {
+                        Debug.LogError(eventItem.bindingSource + ":type NULL");
+                    }
+                }
+            }
+            var scriptValue = oldViewModel.Compile();
+            var scriptPath = AssetDatabase.GetAssetPath(monoScript); 
+            System.IO.File.WriteAllText(scriptPath, scriptValue);
+        }
+
+        private static AstNode InsertPropertyToClassNode(Type type, string source, AstNode beforeNode, TypeDeclaration classNode)
+        {
+            var child = classNode.Descendants.OfType<PropertyDeclaration>().Where(x => x.Name == source).FirstOrDefault();
+            if (child != null)
+            {
+                classNode.Members.Remove(child);
+            }
+
+            var typeName = TypeStringName(type);
+
+            child = new PropertyDeclaration();
+            child.Modifiers = Modifiers.Public;
+            child.ReturnType = new PrimitiveType(string.Format("{0}.{1}",type.Namespace, typeName));
+            child.Name = source;
+            #region Getter
+            var accessor = child.Getter = new Accessor();
+            var body = accessor.Body = new BlockStatement();
+            var expression = new IdentifierExpression("GetValue");
+            var typeArguement = new MemberType(new SimpleType(type.Namespace), typeName);
+            expression.TypeArguments.Add(typeArguement);
+            Statement statement = new ReturnStatement(new InvocationExpression(expression, new PrimitiveExpression(source)));
+            body.Add(statement);
+            #endregion
+            #region Setter
+            accessor = child.Setter = new Accessor();
+            body = accessor.Body = new BlockStatement();
+            expression = new IdentifierExpression("SetValue");
+            typeArguement = new MemberType(new SimpleType(type.Namespace), typeName); 
+            expression.TypeArguments.Add(typeArguement);
+            statement = new ExpressionStatement(new InvocationExpression(expression,new PrimitiveExpression(source),new IdentifierExpression("value")));
+            body.Add(statement);
+            #endregion
+            classNode.InsertChildAfter(beforeNode, child, Roles.TypeMemberRole);
+            return child;
+        }
+
+        /// <summary>
+        /// 将类型转换为人可读的字符串
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string TypeStringName(Type type)
+        {
+            var typeName = type.Name;
+            if (type.IsGenericType)
+            {
+                typeName = type.Name.Remove(type.Name.IndexOf("`"));
+                var arguments = type.GetGenericArguments();
+                typeName += "<";
+                typeName += string.Join(",", Array.ConvertAll<Type, string>(arguments, x => x.FullName));
+                typeName += ">";
+            }
+            return typeName;
+        }
+
 
         /// <summary>
         /// 按顺序加载组件
@@ -203,11 +341,11 @@ namespace BridgeUI.CodeGen
             return list.ToArray();
         }
 
- 
+
         internal static MonoBehaviour[] GetUserMonobehaiver(GameObject prefab)
         {
             var monobehaivers = prefab.GetComponents<MonoBehaviour>();
-            return monobehaivers.Where(x => !InnerNameSpace.Contains(x.GetType().Namespace)).ToArray();
+            return monobehaivers.Where(x => x != null && !InnerNameSpace.Contains(x.GetType().Namespace)).ToArray();
         }
 
         internal static void ChoiseAnUserMonobehiver(GameObject prefab, Action<MonoBehaviour> onChoise)
@@ -258,7 +396,7 @@ namespace BridgeUI.CodeGen
             return InitComponentsNode;
         }
 
-        public static MethodDeclaration GetAwakeMethod(TypeDeclaration classNode,string baseTypeName)
+        public static MethodDeclaration GetAwakeMethod(TypeDeclaration classNode, string baseTypeName)
         {
             var awakeNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == "Awake").FirstOrDefault();
 
@@ -336,7 +474,7 @@ namespace BridgeUI.CodeGen
         /// </summary>
         /// <param name="components"></param>
         /// <returns></returns>
-        public static void CreateVMScript(GameObject go ,List<ComponentItem> components)
+        public static void CreateVMScript(GameObject go, List<ComponentItem> components)
         {
             //var prefabPath = AssetDatabase.GetAssetPath(go);
             //var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
@@ -370,21 +508,21 @@ public class VM_#panelName# : ViewModelBase
             {
                 foreach (var viewItem in component.viewItems)
                 {
-                    if(viewItem.bindingTargetType.type != null)
+                    if (viewItem.bindingTargetType.type != null)
                     {
                         var item = itemTemplate.Replace("#type#", viewItem.bindingTargetType.type.FullName).Replace("#name#", viewItem.bindingSource).Replace("#key#", "\"" + viewItem.bindingSource + "\"");
                         detail += item;
                     }
                     else
                     {
-                        Debug.LogError(viewItem.bindingSource+":type NULL");
+                        Debug.LogError(viewItem.bindingSource + ":type NULL");
                     }
-                   
+
                 }
                 foreach (var eventItem in component.eventItems)
                 {
                     var type = component.components[component.componentID];
-                    if(type.type != null)
+                    if (type.type != null)
                     {
                         var typevalue = string.Format("PanelAction<{0}>", type.type.FullName);
                         var item = itemTemplate.Replace("#type#", typevalue).Replace("#name#", eventItem.bindingSource).Replace("#key#", "\"" + eventItem.bindingSource + "\"");
@@ -394,7 +532,7 @@ public class VM_#panelName# : ViewModelBase
                     {
                         Debug.LogError(eventItem.bindingSource + ":type NULL");
                     }
-                   
+
                 }
             }
             detail += "\n#endregion";
@@ -622,7 +760,7 @@ public class VM_#panelName# : ViewModelBase
         /// <param name="components"></param>
         private static void BindingInfoMethods(TypeDeclaration classNode, ComponentItem[] components, GenCodeRule rule)
         {
-            componentCoder.SetContext(classNode,rule);
+            componentCoder.SetContext(classNode, rule);
             foreach (var component in components)
             {
                 componentCoder.CompleteCode(component, rule.bindingAble);
@@ -634,12 +772,12 @@ public class VM_#panelName# : ViewModelBase
         /// </summary>
         /// <param name="component"></param>
         /// <param name="components"></param>
-        private static void AnalysisBindings(MonoBehaviour component, List<ComponentItem> components,GenCodeRule rule)
+        private static void AnalysisBindings(MonoBehaviour component, List<ComponentItem> components, GenCodeRule rule)
         {
             var script = MonoScript.FromMonoBehaviour(component).text;
             var tree = new CSharpParser().Parse(script);
             var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == component.GetType().Name).FirstOrDefault();
-            componentCoder.SetContext(classNode,rule);
+            componentCoder.SetContext(classNode, rule);
             componentCoder.AnalysisBinding(components);
         }
 

@@ -261,8 +261,6 @@ namespace BridgeUIEditor
 
             }
 
-            //if (showRule)
-            //{
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("BaseType:", GUILayout.Width(lableWidth));
@@ -271,12 +269,9 @@ namespace BridgeUIEditor
                 {
                     var go = prefab;
                     rule.bindingAble = BindingAble;
-                    GenCodeUtil.CreateVMScript(go, components);
-                    GenCodeUtil.CreateScript(go, components, rule);
+                    GenCodeUtil.UpdateScripts(go, components, rule);
                 }
             }
-
-            //}
 
 
             preComponentList.DoLayoutList();

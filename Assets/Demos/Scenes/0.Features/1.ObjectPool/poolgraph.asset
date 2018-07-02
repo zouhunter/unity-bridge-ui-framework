@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 2
   instenceID: 0
   assetName: PopUpPanel
   style: 1

@@ -15,98 +15,97 @@ using System;
 
 public class vm_Control : ViewModel
 {
-    #region 属性列表
-    public System.Boolean show
+	public System.Boolean show {
+		get {
+			return GetValue<System.Boolean> ("show");
+		}
+		set {
+			SetValue<System.Boolean> ("show", value);
+		}
+	}
+
+	public BridgeUI.Binding.PanelAction<UnityEngine.UI.Toggle> on_show_changed {
+		get {
+			return GetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Toggle>> ("on_show_changed");
+		}
+		set {
+			SetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Toggle>> ("on_show_changed", value);
+		}
+	}
+
+	public System.Single scale {
+		get {
+			return GetValue<System.Single> ("scale");
+		}
+		set {
+			SetValue<System.Single> ("scale", value);
+		}
+	}
+
+	public System.Single min_scale {
+		get {
+			return GetValue<System.Single> ("min_scale");
+		}
+		set {
+			SetValue<System.Single> ("min_scale", value);
+		}
+	}
+
+	public System.Single max_scale {
+		get {
+			return GetValue<System.Single> ("max_scale");
+		}
+		set {
+			SetValue<System.Single> ("max_scale", value);
+		}
+	}
+
+	public BridgeUI.Binding.PanelAction<UnityEngine.UI.Slider> on_scale_changed {
+		get {
+			return GetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Slider>> ("on_scale_changed");
+		}
+		set {
+			SetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Slider>> ("on_scale_changed", value);
+		}
+	}
+
+	public System.String current_scale {
+		get {
+			return GetValue<System.String> ("current_scale");
+		}
+		set {
+			SetValue<System.String> ("current_scale", value);
+		}
+	}
+
+	public BridgeUI.Binding.PanelAction<UnityEngine.UI.Button> turn_green {
+		get {
+			return GetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Button>> ("turn_green");
+		}
+		set {
+			SetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Button>> ("turn_green", value);
+		}
+	}
+    public BridgeUI.Binding.PanelAction<UnityEngine.UI.Button> turn_red
     {
         get
         {
-            return GetValue<System.Boolean>("show");
+            return GetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Button>>("turn_red");
         }
         set
         {
-            SetValue<System.Boolean>("show", value);
-        }
-    }
-    public PanelAction<UnityEngine.UI.Toggle> on_show_changed
-    {
-        get
-        {
-            return GetValue<PanelAction<UnityEngine.UI.Toggle>>("on_show_changed");
-        }
-        set
-        {
-            SetValue<PanelAction<UnityEngine.UI.Toggle>>("on_show_changed", value);
-        }
-    }
-    public System.Single scale
-    {
-        get
-        {
-            return GetValue<System.Single>("scale");
-        }
-        set
-        {
-            SetValue<System.Single>("scale", value);
-        }
-    }
-    public System.Single min_scale
-    {
-        get
-        {
-            return GetValue<System.Single>("min_scale");
-        }
-        set
-        {
-            SetValue<System.Single>("min_scale", value);
-        }
-    }
-    public System.Single max_scale
-    {
-        get
-        {
-            return GetValue<System.Single>("max_scale");
-        }
-        set
-        {
-            SetValue<System.Single>("max_scale", value);
-        }
-    }
-    public PanelAction<UnityEngine.UI.Slider> on_scale_changed
-    {
-        get
-        {
-            return GetValue<PanelAction<UnityEngine.UI.Slider>>("on_scale_changed");
-        }
-        set
-        {
-            SetValue<PanelAction<UnityEngine.UI.Slider>>("on_scale_changed", value);
-        }
-    }
-    public System.String show_title
-    {
-        get
-        {
-            return GetValue<System.String>("show_title");
-        }
-        set
-        {
-            SetValue<System.String>("show_title", value);
-        }
-    }
-    public System.String current_scale
-    {
-        get
-        {
-            return GetValue<System.String>("current_scale");
-        }
-        set
-        {
-            SetValue<System.String>("current_scale", value);
+            SetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Button>>("turn_red", value);
         }
     }
 
-    #endregion
-
+    public System.String show_title {
+		get {
+			return GetValue<System.String> ("show_title");
+		}
+		set {
+			SetValue<System.String> ("show_title", value);
+		}
+    }
     [SerializeField]
     private GameObject m_prefab;
     [SerializeField]
@@ -117,11 +116,14 @@ public class vm_Control : ViewModel
     private float maxScale;
     [SerializeField]
     private float currentScale;
-
-    private GameObject instence { get; set; }
-   
+    private GameObject instence
+    {
+        get;
+        set;
+    }
     void OnEnable()
     {
+        Debug.Log("OnEnable");
         show = startActive;
         scale = currentScale;
         min_scale = minScale;
@@ -130,22 +132,34 @@ public class vm_Control : ViewModel
         UpdateShowText();
         on_scale_changed = SetGameObjectScale;
         on_show_changed = SetGameObjectVisiable;
+        turn_green = SetCubeGreen;
+        turn_red = SetCubeRed;
     }
-
+    private void SetCubeGreen(IBindingContext panel, Button sender)
+    {
+        if (instence)
+            instence.GetComponent<MeshRenderer>().material.color = Color.green;
+    }
+    private void SetCubeRed(IBindingContext panel, Button sender)
+    {
+        if (instence)
+            instence.GetComponent<MeshRenderer>().material.color = Color.red;
+    }
     public override void OnBinding(IBindingContext context)
     {
+        Debug.Log("OnBinding:" + context);
         base.OnBinding(context);
-       
         if (instence == null && m_prefab != null)
         {
             instence = Instantiate(m_prefab);
             instence.SetActive(startActive);
+            SetScaleInteranl(scale);
         }
     }
     public override void OnUnBinding(IBindingContext context)
     {
         base.OnUnBinding(context);
-        if(Contexts.Count == 0)
+        if (Contexts.Count == 0)
         {
             if (instence)
             {
@@ -153,7 +167,6 @@ public class vm_Control : ViewModel
             }
         }
     }
-
     private void SetGameObjectVisiable(IBindingContext panel, Toggle sender)
     {
         show = sender.isOn;
@@ -161,16 +174,19 @@ public class vm_Control : ViewModel
         if (instence)
             instence.gameObject.SetActive(sender.isOn);
     }
-
     private void UpdateShowText()
     {
         show_title = show ? "隐藏" : "显示";
     }
-
     private void SetGameObjectScale(IBindingContext panel, Slider sender)
     {
         scale = sender.value;
+        SetScaleInteranl(scale);
+    }
+    private void SetScaleInteranl(float scale)
+    {
         current_scale = string.Format("当前cube 尺寸：" + scale.ToString("0.0"));
-        if (instence) instence.gameObject.transform.localScale = Vector3.one * sender.value;
+        if (instence)
+            instence.gameObject.transform.localScale = Vector3.one * scale;
     }
 }

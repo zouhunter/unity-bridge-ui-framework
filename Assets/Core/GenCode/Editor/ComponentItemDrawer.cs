@@ -289,9 +289,9 @@ namespace BridgeUIEditor
                 {
                     var eventItem = item.eventItems[index];
                     UpdateEventByType(item.componentType);
-                    var targetRect = new Rect(rect.x + rect.width * 0.1f, rect.y, rect.width * 0.5f, rect.height);
-                    var sourceRect = new Rect(rect.x + rect.width * 0.65f, rect.y, rect.width * 0.25f, EditorGUIUtility.singleLineHeight);
-                    var enableRect = new Rect(rect.x + rect.width * 0.92f, rect.y, rect.width * 0.1f, rect.height);
+                    var targetRect = new Rect(rect.x + rect.width * 0.1f, rect.y, rect.width * 0.35f, rect.height);
+                    var sourceRect = new Rect(rect.x + rect.width * 0.475f, rect.y, rect.width * 0.3f, EditorGUIUtility.singleLineHeight);
+                    var enableRect = new Rect(rect.x + rect.width * 0.8f, rect.y, rect.width * 0.2f, rect.height);
                     EditorGUI.LabelField(new Rect(rect.x, rect.y, rect.width * 0.1f, rect.height), new GUIContent("[t]", "Target"));
 
                     if (string.IsNullOrEmpty(eventItem.bindingSource))
@@ -308,7 +308,9 @@ namespace BridgeUIEditor
                         eventItem.bindingTargetType = new BridgeUI.TypeInfo(eventMemberViewer.currentTypes[viewNameIndex]);
                         eventItem.bindingTarget = eventMemberViewer.currentNames[viewNameIndex];
                     }
-                    eventItem.runtime = EditorGUI.Toggle(enableRect, bindngAble ? eventItem.runtime : false);
+                    EditorGUI.BeginDisabledGroup(!bindngAble);
+                    eventItem.type = (BindingType)EditorGUI.EnumPopup(enableRect, eventItem.type);
+                    EditorGUI.EndDisabledGroup();
                 };
             }
             return eventDic[item];

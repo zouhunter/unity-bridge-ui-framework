@@ -55,7 +55,7 @@ namespace BridgeUI.Binding
             {
                 SetMemberValue<T>(root, member, value);
             };
-            RegistValueCharge(onViewModelChanged, sourceName);
+            RegistMember(onViewModelChanged, sourceName);
         }
         /// <summary>
         /// 注册通用事件
@@ -88,6 +88,7 @@ namespace BridgeUI.Binding
                 uEvent.RemoveListener(action);
             };
         }
+
         /// <summary>
         /// 注册通用事件
         /// </summary>
@@ -123,7 +124,7 @@ namespace BridgeUI.Binding
         }
 
         /// <summary>
-        /// 注册事件
+        /// 注册事件并传递指定参数
         /// (其中arguments中的参数只能是引用类型,否则无法正常显示)
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -156,14 +157,46 @@ namespace BridgeUI.Binding
                 uEvent.RemoveListener(action);
             };
         }
+        /// <summary>
+        /// 注册状态改变事件
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="uEvent"></param>
+        /// <param name="sourceName"></param>
+        public virtual void RegistEvent<T>(UnityEvent<T> uEvent, string sourceName)
+        {
+            UnityAction<T> action = (x) =>
+            {
+                var prop = viewModel.GetBindableProperty<PanelAction<T>>(sourceName);
 
+                if (prop != null && prop.Value != null)
+                {
+                    var func = prop.Value;
+                    func.Invoke(Context, x);
+                }
+                else
+                {
+                    Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                }
+            };
+
+            binders += viewModel =>
+            {
+                uEvent.AddListener(action);
+            };
+
+            unbinders += viewModel =>
+            {
+                uEvent.RemoveListener(action);
+            };
+        }
         /// <summary>
         /// 手动指定绑定事件
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sourceName"></param>
         /// <param name="onViewModelChanged"></param>
-        public void RegistValueCharge<T>(UnityAction<T> onViewModelChanged, string sourceName)
+        public void RegistMember<T>(UnityAction<T> onViewModelChanged, string sourceName)
         {
             binders += (viewModel) =>
             {

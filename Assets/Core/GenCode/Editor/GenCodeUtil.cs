@@ -137,7 +137,6 @@ namespace BridgeUI.CodeGen
         /// <param name="rule"></param>
         public static void UpdateScripts(GameObject go, List<ComponentItem> components, GenCodeRule rule)
         {
-            GenCodeUtil.CreateVMScript(go, components);
             rule.onGenerated = (viewScript) =>
             {
                 if (viewScript is PanelBase)
@@ -178,8 +177,7 @@ namespace BridgeUI.CodeGen
                 var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
                 var scriptPath = string.Format("{0}/{1}.cs", folder, uiCoder.className);
                 var scriptValue = uiCoder.Compile();
-
-                System.IO.File.WriteAllText(scriptPath, scriptValue);
+                System.IO.File.WriteAllText(scriptPath, scriptValue,System.Text.Encoding.UTF8);
                 AssetDatabase.Refresh();
 
                 EditorApplication.delayCall += () =>
@@ -219,7 +217,8 @@ namespace BridgeUI.CodeGen
             var tree = oldViewModel.tree;
             var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
             AstNode lastNode = classNode.Descendants.OfType<PreProcessorDirective>().FirstOrDefault();
-            if(lastNode == null){
+            if (lastNode == null)
+            {
                 lastNode = classNode.Descendants.OfType<PropertyDeclaration>().FirstOrDefault();
             }
 
@@ -237,12 +236,38 @@ namespace BridgeUI.CodeGen
                     }
 
                 }
+
                 foreach (var eventItem in component.eventItems)
                 {
-                    var type = component.components[component.componentID];
-                    if (type.type != null)
+                    if (eventItem.type == BindingType.NoBinding) continue;
+                    var type = eventItem.bindingTargetType.type;
+                    if (type != null)
                     {
-                        var typevalue = typeof(Binding.PanelAction<>).MakeGenericType(type.type);
+                        Type typevalue = null;
+                        if (type.BaseType.IsGenericType)
+                        {
+                            if (eventItem.type == BindingType.WithTarget)
+                            {
+                                typevalue = typeof(Binding.PanelAction<>).MakeGenericType(component.componentType);
+                            }
+                            else
+                            {
+                                var argument = type.BaseType.GetGenericArguments();
+                                typevalue = typeof(Binding.PanelAction<>).MakeGenericType(argument);
+                            }
+                        }
+                        else
+                        {
+                            if (eventItem.type == BindingType.WithTarget)
+                            {
+                                typevalue = typeof(Binding.PanelAction<>).MakeGenericType(component.componentType);
+                            }
+                            else
+                            {
+                                typevalue = typeof(Binding.PanelAction);
+                            }
+                        }
+
                         lastNode = InsertPropertyToClassNode(typevalue, eventItem.bindingSource, lastNode, classNode);
                     }
                     else
@@ -252,15 +277,21 @@ namespace BridgeUI.CodeGen
                 }
             }
             var scriptValue = oldViewModel.Compile();
-            var scriptPath = AssetDatabase.GetAssetPath(monoScript); 
+            var scriptPath = AssetDatabase.GetAssetPath(monoScript);
             System.IO.File.WriteAllText(scriptPath, scriptValue);
         }
-
+        /// <summary>
+        /// 向viewModel添加属性
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="source"></param>
+        /// <param name="beforeNode"></param>
+        /// <param name="classNode"></param>
+        /// <returns></returns>
         private static AstNode InsertPropertyToClassNode(Type type, string source, AstNode beforeNode, TypeDeclaration classNode)
         {
             var child = classNode.Descendants.OfType<PropertyDeclaration>().Where(x => x.Name == source).FirstOrDefault();
-            if (child != null)
-            {
+            if (child != null) {
                 classNode.Members.Remove(child);
             }
 
@@ -268,7 +299,7 @@ namespace BridgeUI.CodeGen
 
             child = new PropertyDeclaration();
             child.Modifiers = Modifiers.Public;
-            child.ReturnType = new PrimitiveType(string.Format("{0}.{1}",type.Namespace, typeName));
+            child.ReturnType = new PrimitiveType(string.Format("{0}.{1}", type.Namespace, typeName));
             child.Name = source;
             #region Getter
             var accessor = child.Getter = new Accessor();
@@ -283,9 +314,9 @@ namespace BridgeUI.CodeGen
             accessor = child.Setter = new Accessor();
             body = accessor.Body = new BlockStatement();
             expression = new IdentifierExpression("SetValue");
-            typeArguement = new MemberType(new SimpleType(type.Namespace), typeName); 
+            typeArguement = new MemberType(new SimpleType(type.Namespace), typeName);
             expression.TypeArguments.Add(typeArguement);
-            statement = new ExpressionStatement(new InvocationExpression(expression,new PrimitiveExpression(source),new IdentifierExpression("value")));
+            statement = new ExpressionStatement(new InvocationExpression(expression, new PrimitiveExpression(source), new IdentifierExpression("value")));
             body.Add(statement);
             #endregion
             classNode.InsertChildAfter(beforeNode, child, Roles.TypeMemberRole);
@@ -310,8 +341,6 @@ namespace BridgeUI.CodeGen
             }
             return typeName;
         }
-
-
         /// <summary>
         /// 按顺序加载组件
         /// </summary>
@@ -469,84 +498,6 @@ namespace BridgeUI.CodeGen
             return PropBindingsNode;
         }
 
-        /// <summary>
-        /// 生成view model的模板脚本
-        /// </summary>
-        /// <param name="components"></param>
-        /// <returns></returns>
-        public static void CreateVMScript(GameObject go, List<ComponentItem> components)
-        {
-            //var prefabPath = AssetDatabase.GetAssetPath(go);
-            //var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
-            //var scriptPath = string.Format("{0}/VM_{1}.cs", folder, go.name);
-            var scriptName = go.name;
-            string template =
- @"using BridgeUI.Binding;
-/// <summary>
-/// AutoGenerated!
-/// </summary>
-public class VM_#panelName# : ViewModelBase
-{
-    #detail#
-}
-";
-            var itemTemplate =
-@"public #type# #name#
-    {
-        get
-        {
-            return GetValue<#type#>(#key#);
-        }
-        set
-        {
-            SetValue<#type#>(#key#, value);
-        }
-    }
-    ";
-            string detail = "#region 属性列表\n";
-            foreach (var component in components)
-            {
-                foreach (var viewItem in component.viewItems)
-                {
-                    if (viewItem.bindingTargetType.type != null)
-                    {
-                        var item = itemTemplate.Replace("#type#", viewItem.bindingTargetType.type.FullName).Replace("#name#", viewItem.bindingSource).Replace("#key#", "\"" + viewItem.bindingSource + "\"");
-                        detail += item;
-                    }
-                    else
-                    {
-                        Debug.LogError(viewItem.bindingSource + ":type NULL");
-                    }
-
-                }
-                foreach (var eventItem in component.eventItems)
-                {
-                    var type = component.components[component.componentID];
-                    if (type.type != null)
-                    {
-                        var typevalue = string.Format("PanelAction<{0}>", type.type.FullName);
-                        var item = itemTemplate.Replace("#type#", typevalue).Replace("#name#", eventItem.bindingSource).Replace("#key#", "\"" + eventItem.bindingSource + "\"");
-                        detail += item;
-                    }
-                    else
-                    {
-                        Debug.LogError(eventItem.bindingSource + ":type NULL");
-                    }
-
-                }
-            }
-            detail += "\n#endregion";
-            var script = detail;//template.Replace("#detail#", detail).Replace("#panelName#", scriptName);
-            TextEditor te = new TextEditor();
-            te.text = script;
-            te.SelectAll();
-            te.Copy();
-            Debug.Log("The view model propertys has been copied. You can paste it with Ctrl + v.");
-            Debug.Log(template.Replace("#detail#", detail).Replace("#panelName#", scriptName));
-            Debug.Log(detail);
-            //System.IO.File.WriteAllText(scriptPath, script);
-        }
-
         #region private functions
         /// <summary>
         /// 所有支持的父级
@@ -688,7 +639,6 @@ public class VM_#panelName# : ViewModelBase
 
             classNode.Members.Remove(InitComponentsNode);
             classNode.InsertChildAfter(keyNode, InitComponentsNode, Roles.TypeMemberRole);
-            keyNode = InitComponentsNode;
 
             classNode.Members.Remove(PropBindingsNode);
             classNode.InsertChildAfter(keyNode, PropBindingsNode, Roles.TypeMemberRole);

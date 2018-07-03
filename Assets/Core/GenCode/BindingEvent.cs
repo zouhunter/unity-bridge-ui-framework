@@ -16,9 +16,16 @@ namespace BridgeUI.CodeGen
     [System.Serializable]
     public class BindingEvent
     {
-        public bool runtime;
+        public BindingType type;
         public string bindingSource;
         public string bindingTarget;
         public TypeInfo bindingTargetType;
+    }
+
+    public enum BindingType
+    {
+        NoBinding = 0,
+        Normal = 1,
+        WithTarget = 2
     }
 }

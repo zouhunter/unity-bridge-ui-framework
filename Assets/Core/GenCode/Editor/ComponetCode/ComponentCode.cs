@@ -49,7 +49,7 @@ namespace BridgeUI.CodeGen
         protected TypeDeclaration classNode;
         protected GenCodeRule rule;
 
-        public void SetContext(TypeDeclaration classNode,GenCodeRule rule)
+        public void SetContext(TypeDeclaration classNode, GenCodeRule rule)
         {
             this.classNode = classNode;
             this.rule = rule;
@@ -70,13 +70,17 @@ namespace BridgeUI.CodeGen
 
             foreach (var item in component.eventItems)
             {
-                if (item.runtime)
+                switch (item.type)
                 {
-                    BindingEventInvocations(component.name, component.componentType, item);
-                }
-                else
-                {
-                    LocalEventInvocations(component.name,item, bindingAble);
+                    case BindingType.NoBinding:
+                        LocalEventInvocations(component.name, item, bindingAble);
+                        break;
+                    case BindingType.Normal:
+                    case BindingType.WithTarget:
+                        BindingEventInvocations(component.name, component.componentType, item);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -88,18 +92,18 @@ namespace BridgeUI.CodeGen
         {
             var invocations = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
             var arg0_name = "m_" + name + "." + bindingInfo.bindingTarget;
-            var arg0 = string.Format("\"{0}\"", arg0_name);
+            var arg0 = string.Format("x=>{0}=x", arg0_name);
             var arg1 = string.Format("\"{0}\"", bindingInfo.bindingSource);
             var invocation = invocations.Where(
-                x => x.Target.ToString().Contains("Binder") &&
-                x.Arguments.Count > 0 &&
-                x.Arguments.First().ToString() == arg0 &&
-                x.Arguments.ToArray()[1].ToString() == arg1).FirstOrDefault();
+                x =>x.Target.ToString().Contains("Binder") &&
+                     x.Arguments.Count > 0 &&
+                     x.Arguments.First().ToString().Replace(" ","") == arg0 &&
+                     x.Arguments.ToArray()[1].ToString() == arg1).FirstOrDefault();
 
             if (invocation == null)
             {
                 string methodName = "";
-                UnityEngine.Debug.Assert(bindingInfo.bindingTargetType.type != null , name + ":" + bindingInfo.bindingSource +" type Null!");
+                UnityEngine.Debug.Assert(bindingInfo.bindingTargetType.type != null, name + ":" + bindingInfo.bindingSource + " type Null!");
                 if (!bindingInfo.bindingTargetType.type.IsGenericType)
                 {
                     var typeName = bindingInfo.bindingTargetType.typeName;
@@ -120,7 +124,7 @@ namespace BridgeUI.CodeGen
                 {
                     invocation = new InvocationExpression();
                     invocation.Target = new MemberReferenceExpression(new IdentifierExpression("Binder"), methodName, new AstType[0]);
-                    invocation.Arguments.Add(new PrimitiveExpression(arg0_name));
+                    invocation.Arguments.Add(new IdentifierExpression(arg0));
                     invocation.Arguments.Add(new PrimitiveExpression(bindingInfo.bindingSource));
                     PropBindingsNode.Body.Add(invocation);
                 }
@@ -134,24 +138,45 @@ namespace BridgeUI.CodeGen
         /// <param name="name"></param>
         /// <param name="bindingInfo"></param>
 
-        protected virtual void BindingEventInvocations(string name,Type componentType, BindingEvent bindingInfo)
+        protected virtual void BindingEventInvocations(string name, Type componentType, BindingEvent bindingInfo)
         {
             var invocations = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
-            var arg0_name = "m_" + name + "." + bindingInfo.bindingTarget;
-            var arg1_name = string.Format("\"{0}\"", bindingInfo.bindingSource);
+            var arg0_name = "m_" + name + "." + bindingInfo.bindingTarget;//绑定目标
+            var arg1_name = string.Format("\"{0}\"", bindingInfo.bindingSource);//绑定源
 
-            var invocation = invocations.Where(
+            var may_invocations = invocations.Where(
                 x => x.Target.ToString().Contains("Binder") &&
                 x.Arguments.Count > 0 &&
                 x.Arguments.First().ToString() == arg0_name &&
-                x.Arguments.ToArray()[1].ToString() == arg1_name).FirstOrDefault();
+                x.Arguments.ToArray().Length > 1 &&
+                x.Arguments.ToArray()[1].ToString() == arg1_name);
+
+            InvocationExpression invocation = null;
+            if (may_invocations != null)
+            {
+                //两个参数
+                if (bindingInfo.type == BindingType.Normal)
+                {
+                    invocation = may_invocations.Where(x => x.Arguments.Count() == 2).FirstOrDefault();
+                }
+                //三个参数
+                else if (bindingInfo.type == BindingType.WithTarget)
+                {
+                    invocation = may_invocations.Where(x => x.Arguments.ToArray().Length > 2 && x.Arguments.ToArray()[2].ToString() == "m_" + name).FirstOrDefault();
+                }
+            }
 
             if (invocation == null)
             {
                 var methodName = "RegistEvent";
-                if(typeof(UnityEngine.Events.UnityEvent).IsAssignableFrom(bindingInfo.bindingTargetType.type))
+
+                UnityEngine.Debug.Assert(bindingInfo.bindingTargetType.type != null, bindingInfo.bindingSource + ";" + bindingInfo.bindingTarget + "  type Null");
+                ///从UnityEvent和UnityEvent<T>派生
+                if (bindingInfo.bindingTargetType.type.BaseType.IsGenericType)
                 {
-                    methodName = string.Format("RegistEvent<{0}>", componentType.FullName);
+                    var arguments = bindingInfo.bindingTargetType.type.BaseType.GetGenericArguments().Select(x => x.FullName).ToList();
+                    if (bindingInfo.type == BindingType.WithTarget) arguments.Add(componentType.FullName);
+                    methodName = "RegistEvent<" + string.Join(",", arguments.ToArray()) + ">";
                 }
 
                 if (!string.IsNullOrEmpty(methodName))
@@ -160,7 +185,10 @@ namespace BridgeUI.CodeGen
                     invocation.Target = new MemberReferenceExpression(new IdentifierExpression("Binder"), methodName, new AstType[0]);
                     invocation.Arguments.Add(new IdentifierExpression(arg0_name));
                     invocation.Arguments.Add(new PrimitiveExpression(bindingInfo.bindingSource));
-                    invocation.Arguments.Add(new IdentifierExpression("m_" + name));
+                    if (bindingInfo.type == BindingType.WithTarget)
+                    {
+                        invocation.Arguments.Add(new IdentifierExpression("m_" + name));
+                    }
                     PropBindingsNode.Body.Add(invocation);
                 }
 
@@ -200,6 +228,7 @@ namespace BridgeUI.CodeGen
             var funcNode = classNode.Descendants.OfType<MethodDeclaration>().Where(x => x.Name == item.bindingSource).FirstOrDefault();
             if (funcNode == null)
             {
+                UnityEngine.Debug.Assert(item.bindingTargetType.type != null, item.bindingSource + ":" + item.bindingTarget);
                 var parameter = item.bindingTargetType.type.GetMethod("AddListener").GetParameters()[0];
                 List<ParameterDeclaration> arguments = new List<ParameterDeclaration>();
                 var parameters = parameter.ParameterType.GetGenericArguments();
@@ -238,6 +267,10 @@ namespace BridgeUI.CodeGen
                         {
                             sameFunc = false;
                         }
+                    }
+                    else
+                    {
+                        sameFunc = false;
                     }
 
                     ParameterDeclaration argument = new ParameterDeclaration(new ICSharpCode.NRefactory.CSharp.PrimitiveType(para.FullName), "arg" + count++);
@@ -302,7 +335,7 @@ namespace BridgeUI.CodeGen
             if (component != null)
             {
                 string bindingSource = invocation.Arguments.First().ToString();
-                var info = component.eventItems.Find(x => invocation.Target.ToString().Contains("m_" + component.name + "." + x.bindingTarget) && !x.runtime && x.bindingSource == bindingSource);
+                var info = component.eventItems.Find(x => invocation.Target.ToString().Contains("m_" + component.name + "." + x.bindingTarget) && x.type == BindingType.NoBinding && x.bindingSource == bindingSource);
 
                 if (info == null)
                 {
@@ -310,7 +343,7 @@ namespace BridgeUI.CodeGen
                     var target = (express.Target as MemberReferenceExpression).MemberNameToken.Name;
                     Type infoType = GetTypeClamp(component.componentType, target);
                     info = new BindingEvent();
-                    info.runtime = false;
+                    info.type = BindingType.NoBinding;
                     info.bindingSource = bindingSource;
                     info.bindingTarget = target;
                     info.bindingTargetType.Update(infoType);
@@ -325,23 +358,45 @@ namespace BridgeUI.CodeGen
         /// <param name="components"></param>
         protected virtual void AnalysisBindingMembers(InvocationExpression invocation, List<ComponentItem> components)
         {
-            var component = components.Find(x => invocation.Arguments.Count > 1 && invocation.Arguments.First().ToString().Contains(string.Format("m_{0}.",x.name)));
+            var component = components.Find(x => invocation.Arguments.Count > 1 && invocation.Arguments.First().ToString().Contains(string.Format("m_{0}.", x.name)));
             if (component != null)
             {
                 var source = invocation.Arguments.ToArray()[1].ToString().Replace("\"", "");
                 var info = component.viewItems.Find(x => x.bindingSource == source);
+                var targetName = AnalysisTargetFromLamdaArgument(invocation.Arguments.First().ToString());
+
+                if (targetName == null)
+                {
+                    UnityEngine.Debug.Assert(!string.IsNullOrEmpty(targetName), "annalysis err:" + invocation.Arguments.First().ToString());
+                    return;
+                }
+                var type = GetTypeClamp(component.componentType, targetName);
                 if (info == null)
                 {
                     info = new BindingShow();
                     info.bindingSource = source;
-                    var arg0 = invocation.Arguments.First().ToString().Replace("\"", "");
-                    var targetName = arg0.Substring(arg0.IndexOf(".") + 1);
-                    var type = GetTypeClamp(component.componentType, targetName);
                     info.bindingTarget = targetName;
-                    info.bindingTargetType.Update(type);
                     component.viewItems.Add(info);
                 }
+                info.bindingTargetType.Update(type);
             }
+        }
+
+        private string AnalysisTargetFromLamdaArgument(string arg)
+        {
+            arg = arg.Replace(" ", "");
+            var pattem = "x =>(.*)=x";
+            var match = System.Text.RegularExpressions.Regex.Match(arg, pattem);
+            if (match != null)
+            {
+                var value = match.Groups[1].Value;
+                if (value.Contains("."))
+                {
+                    value = value.Substring(value.IndexOf('.') + 1);
+                }
+                return value;
+            }
+            return null;
         }
 
         /// <summary>
@@ -352,21 +407,33 @@ namespace BridgeUI.CodeGen
         protected virtual void AnalysisBindingEvents(InvocationExpression invocation, List<ComponentItem> components)
         {
             var component = components.Find(x => invocation.Arguments.Count > 1 && invocation.Arguments.First().ToString().Contains("m_" + x.name));
+
             if (component != null)
             {
                 var source = invocation.Arguments.ToArray()[1].ToString().Replace("\"", "");
-                var info = component.eventItems.Find(x => x.bindingSource == source && x.runtime);
+                var info = component.eventItems.Find(x => x.bindingSource == source);
+                var arg0 = invocation.Arguments.First().ToString();
+                var targetName = arg0.Substring(arg0.IndexOf(".") + 1);
+                Type infoType = GetTypeClamp(component.componentType, targetName);
+
                 if (info == null)
                 {
                     info = new BindingEvent();
                     info.bindingSource = source;
-                    var arg0 = invocation.Arguments.First().ToString();
-                    var targetName = arg0.Substring(arg0.IndexOf(".") + 1);
-                    Type infoType = GetTypeClamp(component.componentType, targetName);
-                    info.runtime = true;
                     info.bindingTarget = targetName;
                     info.bindingTargetType.Update(infoType);
                     component.eventItems.Add(info);
+                }
+
+                info.bindingTargetType.Update(infoType);
+
+                if (invocation.Arguments.Count() > 2)
+                {
+                    info.type = BindingType.WithTarget;//3个参数
+                }
+                else
+                {
+                    info.type = BindingType.Normal;//2个参数
                 }
             }
         }

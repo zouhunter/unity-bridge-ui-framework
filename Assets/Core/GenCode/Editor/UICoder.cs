@@ -55,6 +55,7 @@ namespace BridgeUI
         public string Compile()
         {
             if (tree == null) return null;
+
             if (firstCreate)
             {
                 return head + "\r\n" + tree.ToString();
@@ -68,12 +69,12 @@ namespace BridgeUI
         private string CalculateHead(string author, string time, params string[] detailInfo)
         {
             var str1 =
-               "/*************************************************************************************   \r\n" +
-               "    * 作    者：       {0}\r\n" +
-               "    * 创建时间：       {1}\r\n" +
-               "    * 说    明：       ";
-            var str2 = "\r\n                       ";
-            var str3 = "\r\n* ************************************************************************************/\r\n";
+               @"///*************************************************************************************
+///* 作    者：       {0}
+///* 创建时间：       {1}
+///* 说    明：       ";
+            var str2 = "///                       ";
+            var str3 = "\r\n///* ************************************************************************************/\r\n";
 
             var headerStr = string.Format(str1, author, time);
             for (int i = 0; i < detailInfo.Length; i++)

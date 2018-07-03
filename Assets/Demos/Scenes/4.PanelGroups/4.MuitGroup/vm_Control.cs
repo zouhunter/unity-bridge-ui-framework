@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.Events;
@@ -24,12 +24,12 @@ public class vm_Control : ViewModel
 		}
 	}
 
-	public BridgeUI.Binding.PanelAction<UnityEngine.UI.Toggle> on_show_changed {
+	public BridgeUI.Binding.PanelAction<System.Boolean> on_show_changed {
 		get {
-			return GetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Toggle>> ("on_show_changed");
+			return GetValue<BridgeUI.Binding.PanelAction<System.Boolean>> ("on_show_changed");
 		}
 		set {
-			SetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Toggle>> ("on_show_changed", value);
+			SetValue<BridgeUI.Binding.PanelAction<System.Boolean>> ("on_show_changed", value);
 		}
 	}
 
@@ -60,12 +60,12 @@ public class vm_Control : ViewModel
 		}
 	}
 
-	public BridgeUI.Binding.PanelAction<UnityEngine.UI.Slider> on_scale_changed {
+	public BridgeUI.Binding.PanelAction<System.Single> on_scale_changed {
 		get {
-			return GetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Slider>> ("on_scale_changed");
+			return GetValue<BridgeUI.Binding.PanelAction<System.Single>> ("on_scale_changed");
 		}
 		set {
-			SetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Slider>> ("on_scale_changed", value);
+			SetValue<BridgeUI.Binding.PanelAction<System.Single>> ("on_scale_changed", value);
 		}
 	}
 
@@ -78,115 +78,124 @@ public class vm_Control : ViewModel
 		}
 	}
 
-	public BridgeUI.Binding.PanelAction<UnityEngine.UI.Button> turn_green {
-		get {
-			return GetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Button>> ("turn_green");
-		}
-		set {
-			SetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Button>> ("turn_green", value);
-		}
-	}
-    public BridgeUI.Binding.PanelAction<UnityEngine.UI.Button> turn_red
-    {
-        get
-        {
-            return GetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Button>>("turn_red");
-        }
-        set
-        {
-            SetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Button>>("turn_red", value);
-        }
-    }
-
-    public System.String show_title {
+	public System.String show_title {
 		get {
 			return GetValue<System.String> ("show_title");
 		}
 		set {
 			SetValue<System.String> ("show_title", value);
 		}
-    }
-    [SerializeField]
-    private GameObject m_prefab;
-    [SerializeField]
-    private bool startActive;
-    [SerializeField]
-    private float minScale;
-    [SerializeField]
-    private float maxScale;
-    [SerializeField]
-    private float currentScale;
-    private GameObject instence
-    {
-        get;
-        set;
-    }
-    void OnEnable()
-    {
-        Debug.Log("OnEnable");
-        show = startActive;
-        scale = currentScale;
-        min_scale = minScale;
-        max_scale = maxScale;
-        current_scale = "";
-        UpdateShowText();
-        on_scale_changed = SetGameObjectScale;
-        on_show_changed = SetGameObjectVisiable;
-        turn_green = SetCubeGreen;
-        turn_red = SetCubeRed;
-    }
-    private void SetCubeGreen(IBindingContext panel, Button sender)
-    {
-        if (instence)
-            instence.GetComponent<MeshRenderer>().material.color = Color.green;
-    }
-    private void SetCubeRed(IBindingContext panel, Button sender)
-    {
-        if (instence)
-            instence.GetComponent<MeshRenderer>().material.color = Color.red;
-    }
-    public override void OnBinding(IBindingContext context)
-    {
-        Debug.Log("OnBinding:" + context);
-        base.OnBinding(context);
-        if (instence == null && m_prefab != null)
-        {
-            instence = Instantiate(m_prefab);
-            instence.SetActive(startActive);
-            SetScaleInteranl(scale);
-        }
-    }
-    public override void OnUnBinding(IBindingContext context)
-    {
-        base.OnUnBinding(context);
-        if (Contexts.Count == 0)
-        {
-            if (instence)
-            {
-                Destroy(instence);
-            }
-        }
-    }
-    private void SetGameObjectVisiable(IBindingContext panel, Toggle sender)
-    {
-        show = sender.isOn;
-        UpdateShowText();
-        if (instence)
-            instence.gameObject.SetActive(sender.isOn);
-    }
-    private void UpdateShowText()
-    {
-        show_title = show ? "隐藏" : "显示";
-    }
-    private void SetGameObjectScale(IBindingContext panel, Slider sender)
-    {
-        scale = sender.value;
-        SetScaleInteranl(scale);
-    }
-    private void SetScaleInteranl(float scale)
-    {
-        current_scale = string.Format("当前cube 尺寸：" + scale.ToString("0.0"));
-        if (instence)
-            instence.gameObject.transform.localScale = Vector3.one * scale;
-    }
+	}
+
+	public BridgeUI.Binding.PanelAction turn_green {
+		get {
+			return GetValue<BridgeUI.Binding.PanelAction> ("turn_green");
+		}
+		set {
+			SetValue<BridgeUI.Binding.PanelAction> ("turn_green", value);
+		}
+	}
+
+	public BridgeUI.Binding.PanelAction turn_red {
+		get {
+			return GetValue<BridgeUI.Binding.PanelAction> ("turn_red");
+		}
+		set {
+			SetValue<BridgeUI.Binding.PanelAction> ("turn_red", value);
+		}
+	}
+
+	[SerializeField]
+	private GameObject m_prefab;
+
+	[SerializeField]
+	private bool startActive;
+
+	[SerializeField]
+	private float minScale;
+
+	[SerializeField]
+	private float maxScale;
+
+	[SerializeField]
+	private float currentScale;
+
+	private GameObject instence {
+		get;
+		set;
+	}
+
+	void OnEnable ()
+	{
+		show = startActive;
+		scale = currentScale;
+		min_scale = minScale;
+		max_scale = maxScale;
+		current_scale = "";
+		UpdateShowText ();
+		on_scale_changed = SetGameObjectScale;
+		on_show_changed = SetGameObjectVisiable;
+		turn_green = SetCubeGreen;
+		turn_red = SetCubeRed;
+	}
+
+	private void SetCubeGreen (IBindingContext panel)
+	{
+		if (instence)
+			instence.GetComponent<MeshRenderer> ().material.color = Color.green;
+	}
+
+	private void SetCubeRed (IBindingContext panel)
+	{
+		if (instence)
+			instence.GetComponent<MeshRenderer> ().material.color = Color.red;
+	}
+
+	public override void OnBinding (IBindingContext context)
+	{
+		Debug.Log ("OnBinding:" + context);
+		base.OnBinding (context);
+		if (instence == null && m_prefab != null) {
+			instence = Instantiate (m_prefab);
+			instence.SetActive (startActive);
+			SetScaleInteranl (scale);
+		}
+	}
+
+	public override void OnUnBinding (IBindingContext context)
+	{
+		base.OnUnBinding (context);
+		if (Contexts.Count == 0) {
+			if (instence) {
+				Destroy (instence);
+			}
+		}
+	}
+
+	private void SetGameObjectVisiable (IBindingContext panel, bool isOn)
+	{
+		Debug.Log ("SetGameObjectVisiable");
+		show = isOn;
+		UpdateShowText ();
+		if (instence)
+			instence.gameObject.SetActive (show);
+	}
+
+	private void UpdateShowText ()
+	{
+		show_title = show ? "隐藏" : "显示";
+	}
+
+	private void SetGameObjectScale (IBindingContext panel, float value)
+	{
+		scale = value;
+		SetScaleInteranl (scale);
+	}
+
+	private void SetScaleInteranl (float scale)
+	{
+		current_scale = string.Format ("当前cube 尺寸：" + scale.ToString ("0.0"));
+		if (instence)
+			instence.gameObject.transform.localScale = Vector3.one * scale;
+	}
 }

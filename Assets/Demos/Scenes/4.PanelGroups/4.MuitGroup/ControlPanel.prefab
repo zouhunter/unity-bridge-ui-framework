@@ -385,11 +385,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewModel: {fileID: 11400000, guid: fb921086a44da9b42bf388dd9dfd3876, type: 2}
-  m_show: {fileID: 11488660}
-  m_scale: {fileID: 11477248}
-  m_show_title: {fileID: 11479710}
-  m_current: {fileID: 11449426}
-  m_red: {fileID: 11483562}
+  m_show: {fileID: 0}
+  m_red: {fileID: 0}
+  m_scale: {fileID: 0}
 --- !u!114 &11474900
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -16,6 +16,7 @@ namespace BridgeUI.CodeGen
     [System.Serializable]
     public class BindingShow
     {
+        public bool isMethod;
         public string bindingSource;
         public string bindingTarget;
         public TypeInfo bindingTargetType;

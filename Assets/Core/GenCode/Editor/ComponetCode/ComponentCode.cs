@@ -92,7 +92,14 @@ namespace BridgeUI.CodeGen
         {
             var invocations = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
             var arg0_name = "m_" + name + "." + bindingInfo.bindingTarget;
-            var arg0 = string.Format("x=>{0}=x", arg0_name);
+            var arg0 = arg0_name;
+            if (!bindingInfo.isMethod){
+                arg0 = string.Format("x=>{0}=x", arg0_name);
+            }
+            
+            UnityEngine.Debug.Log (bindingInfo.bindingTarget) ;
+            UnityEngine.Debug.Log(bindingInfo.bindingTargetType.type) ;
+
             var arg1 = string.Format("\"{0}\"", bindingInfo.bindingSource);
             var invocation = invocations.Where(
                 x =>x.Target.ToString().Contains("Binder") &&
@@ -363,7 +370,9 @@ namespace BridgeUI.CodeGen
             {
                 var source = invocation.Arguments.ToArray()[1].ToString().Replace("\"", "");
                 var info = component.viewItems.Find(x => x.bindingSource == source);
-                var targetName = AnalysisTargetFromLamdaArgument(invocation.Arguments.First().ToString());
+                var isMethod = false;
+                var targetName = AnalysisTargetFromLamdaArgument(invocation.Arguments.First().ToString(),out isMethod);
+                UnityEngine.Debug.Log(targetName);
 
                 if (targetName == null)
                 {
@@ -376,27 +385,43 @@ namespace BridgeUI.CodeGen
                     info = new BindingShow();
                     info.bindingSource = source;
                     info.bindingTarget = targetName;
+                    info.isMethod = isMethod;
                     component.viewItems.Add(info);
                 }
                 info.bindingTargetType.Update(type);
             }
         }
 
-        private string AnalysisTargetFromLamdaArgument(string arg)
+        private string AnalysisTargetFromLamdaArgument(string arg,out bool isMethod)
         {
             arg = arg.Replace(" ", "");
-            var pattem = "x =>(.*)=x";
-            var match = System.Text.RegularExpressions.Regex.Match(arg, pattem);
-            if (match != null)
+            if(arg.Contains("=>"))
             {
-                var value = match.Groups[1].Value;
+                isMethod = false;
+                var pattem = "x =>(.*)=x";
+                var match = System.Text.RegularExpressions.Regex.Match(arg, pattem);
+                if (match != null)
+                {
+                    var value = match.Groups[1].Value;
+                    if (value.Contains("."))
+                    {
+                        value = value.Substring(value.IndexOf('.') + 1);
+                    }
+                    return value;
+                }
+                return null;
+            }
+            else
+            {
+                isMethod = true;
+                var value = arg;
                 if (value.Contains("."))
                 {
                     value = value.Substring(value.IndexOf('.') + 1);
                 }
                 return value;
             }
-            return null;
+           
         }
 
         /// <summary>

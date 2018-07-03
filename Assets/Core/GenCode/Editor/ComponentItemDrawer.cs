@@ -16,15 +16,17 @@ namespace BridgeUIEditor
         public Dictionary<System.Type, Type[]> memberTypeDic = new Dictionary<System.Type, Type[]>();
         public Dictionary<System.Type, string[]> memberNameDic = new Dictionary<System.Type, string[]>();
         public Dictionary<System.Type, string[]> memberViewNameDic = new Dictionary<System.Type, string[]>();
+        public Dictionary<System.Type, List<string>> memberMethodDic = new Dictionary<Type, List<string>>();
         public Type[] currentTypes;
         public string[] currentNames;
         public string[] currentViewNames;
+        public List<string> currentMethods;
     }
 
     public class ComponentItemDrawer
     {
-        Color fieldColor = new Color(.2f, 1f,.5f, 1f);
-        Color activeColor = new Color(.2f,.5f, 1f, 1f);
+        Color fieldColor = new Color(.2f, 1f, .5f, 1f);
+        Color activeColor = new Color(.2f, .5f, 1f, 1f);
         Dictionary<ComponentItem, ReorderableList> viewDic = new Dictionary<ComponentItem, ReorderableList>();
         Dictionary<ComponentItem, ReorderableList> eventDic = new Dictionary<ComponentItem, ReorderableList>();
 
@@ -37,7 +39,6 @@ namespace BridgeUIEditor
         private MemberViewer viewMemberViewer = new MemberViewer();
         private MemberViewer eventMemberViewer = new MemberViewer();
         private static Dictionary<Type, Texture> _previewIcons;
-
         public static Dictionary<Type, Texture> previewIcons
         {
             get
@@ -46,7 +47,7 @@ namespace BridgeUIEditor
                 {
                     _previewIcons = new Dictionary<Type, Texture>();
 #if UNITY_5_3
-            _previewIcons.Add(typeof(GameObject), EditorGUIUtility.FindTexture("GameObject Icon"));
+                    _previewIcons.Add(typeof(GameObject), EditorGUIUtility.FindTexture("GameObject Icon"));
 #elif UNITY_5_6
                     _previewIcons.Add(typeof(GameObject), EditorGUIUtility.IconContent("GameObject Icon").image);
 #else
@@ -175,7 +176,8 @@ namespace BridgeUIEditor
             if (newTarget != item.target)
             {
                 var prefabTarget = PrefabUtility.GetPrefabParent(newTarget);
-                if (prefabTarget != null){
+                if (prefabTarget != null)
+                {
                     newTarget = prefabTarget;
                 }
                 item.target = newTarget.GetType().GetProperty("gameObject").GetValue(newTarget, null) as GameObject;
@@ -233,7 +235,7 @@ namespace BridgeUIEditor
                 viewHeight = 0;
             }
 
-            eventHeight = (EditorGUIUtility.singleLineHeight + padding) * (item.eventItems.Count >= 1 ? item.eventItems.Count + 2 :3);
+            eventHeight = (EditorGUIUtility.singleLineHeight + padding) * (item.eventItems.Count >= 1 ? item.eventItems.Count + 2 : 3);
         }
 
 
@@ -268,6 +270,8 @@ namespace BridgeUIEditor
                     {
                         viewItem.bindingTargetType = new BridgeUI.TypeInfo(viewMemberViewer.currentTypes[viewNameIndex]);
                         viewItem.bindingTarget = viewMemberViewer.currentNames[viewNameIndex];
+                        viewItem.isMethod = viewMemberViewer.currentMethods.Contains(viewItem.bindingTarget);
+                        Debug.Log(viewItem.bindingTarget + ":"+ viewItem.isMethod);
                     }
                     EditorGUI.BeginDisabledGroup(true);
                     EditorGUI.Toggle(enableRect, true);
@@ -322,7 +326,7 @@ namespace BridgeUIEditor
             {
                 var typeList = new List<Type>();
                 var nameList = new List<string>();
-
+                var methods = new List<string>();
                 var members = type.GetMembers(
                      System.Reflection.BindingFlags.Public |
                      System.Reflection.BindingFlags.Instance |
@@ -360,6 +364,7 @@ namespace BridgeUIEditor
                                 {
                                     typeList.Add(parmeter.ParameterType);
                                     nameList.Add(methodInfo.Name);
+                                    methods.Add(methodInfo.Name);
                                 }
                             }
                             break;
@@ -369,7 +374,7 @@ namespace BridgeUIEditor
                 }
                 viewMemberViewer.memberTypeDic[type] = typeList.ToArray();
                 viewMemberViewer.memberNameDic[type] = nameList.ToArray();
-
+                viewMemberViewer.memberMethodDic[type] = methods;
                 var viewNameList = new List<string>();
                 for (int i = 0; i < typeList.Count; i++)
                 {
@@ -381,6 +386,7 @@ namespace BridgeUIEditor
             viewMemberViewer.currentNames = viewMemberViewer.memberNameDic[type];
             viewMemberViewer.currentTypes = viewMemberViewer.memberTypeDic[type];
             viewMemberViewer.currentViewNames = viewMemberViewer.memberViewNameDic[type];
+            viewMemberViewer.currentMethods = viewMemberViewer.memberMethodDic[type];
         }
 
         private bool IsMemberSupported(System.Type type)

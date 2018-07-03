@@ -14,7 +14,8 @@ using BridgeUI.Binding;
 
 public class customEventViewModel : ViewModel
 {
-	public BridgeUI.Binding.PanelAction<System.String,System.Int32> on_event_execute {
+    #region 属性
+    public BridgeUI.Binding.PanelAction<System.String,System.Int32> on_event_execute {
 		get {
 			return GetValue<BridgeUI.Binding.PanelAction<System.String,System.Int32>> ("on_event_execute");
 		}
@@ -22,6 +23,7 @@ public class customEventViewModel : ViewModel
 			SetValue<BridgeUI.Binding.PanelAction<System.String,System.Int32>> ("on_event_execute", value);
 		}
 	}
+    #endregion
     public customEventViewModel()
     {
         on_event_execute = OnEventTrigger;

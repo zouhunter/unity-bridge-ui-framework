@@ -256,14 +256,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!1 &489071356
+--- !u!1 &489003033
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 4
   m_Component:
-  - 224: {fileID: 489071357}
+  - 224: {fileID: 489003034}
   m_Layer: 0
   m_Name: 0|[B]
   m_TagString: Untagged
@@ -271,12 +271,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &489071357
+--- !u!224 &489003034
 RectTransform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 489071356}
+  m_GameObject: {fileID: 489003033}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -316,7 +316,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 489071357}
+  - {fileID: 489003034}
   m_Father: {fileID: 2058652652}
   m_RootOrder: 0
   m_AnchorMin: {x: 0.75100005, y: 0.58540416}
@@ -344,7 +344,7 @@ MonoBehaviour:
   b_nodes: []
   p_nodes:
   - panelName: ControlPanel
-    instanceID: -429090
+    instanceID: -4500
     discription: 
     type:
       layerIndex: 0

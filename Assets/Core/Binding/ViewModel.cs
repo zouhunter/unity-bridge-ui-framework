@@ -43,58 +43,58 @@ namespace BridgeUI.Binding
         }
 
 
-        public virtual void SetBindableProperty(string key, IBindableProperty value)
+        public virtual void SetBindableProperty(string keyward, IBindableProperty value)
         {
-            if(this[name] == null)
+            if (this[keyward] == null)
             {
-                this[name] = value;
+                this[keyward] = value;
             }
-            else if(this[name] == value)
+            else if(this[keyward] == value)
             {
-                this[name].ValueBoxed = value.ValueBoxed;
+                this[keyward].ValueBoxed = value.ValueBoxed;
             }
             else
             {
-                this[name] = value;
+                this[keyward] = value;
             }
         }
 
-        public virtual BindableProperty<T> GetBindableProperty<T>(string name)
+        public virtual BindableProperty<T> GetBindableProperty<T>(string keyward)
         {
-            if (ContainsKey(name) && this[name] is BindableProperty<T>)
+            if (ContainsKey(keyward) && this[keyward] is BindableProperty<T>)
             {
-                return this[name] as BindableProperty<T>;
+                return this[keyward] as BindableProperty<T>;
             }
             return null;
         }
 
-        public virtual BindableProperty<T> GetBindablePropertySelfty<T>(string name)
+        public virtual BindableProperty<T> GetBindablePropertySelfty<T>(string keyward)
         {
-            if (!ContainsKey(name) || !(this[name] is BindableProperty<T>))
+            if (!ContainsKey(keyward) || !(this[keyward] is BindableProperty<T>))
             {
-                this[name] = new BindableProperty<T>();
+                this[keyward] = new BindableProperty<T>();
             }
-            return this[name] as BindableProperty<T>;
+            return this[keyward] as BindableProperty<T>;
         }
 
-        public virtual IBindableProperty GetBindablePropertySelfty(string name, System.Type type)
+        public virtual IBindableProperty GetBindablePropertySelfty(string keyward, System.Type type)
         {
             var fullType = typeof(BindableProperty<>).MakeGenericType(type);
 
-            if (!ContainsKey(name) || this[name].GetType() != fullType)
+            if (!ContainsKey(keyward) || this[keyward].GetType() != fullType)
             {
-                this[name] = System.Activator.CreateInstance(fullType) as IBindableProperty;
+                this[keyward] = System.Activator.CreateInstance(fullType) as IBindableProperty;
             }
-            return this[name] as IBindableProperty;
+            return this[keyward] as IBindableProperty;
         }
 
-        protected virtual T GetValue<T>(string key)
+        protected virtual T GetValue<T>(string keyward)
         {
-            return GetBindablePropertySelfty<T>(key).Value;
+            return GetBindablePropertySelfty<T>(keyward).Value;
         }
-        protected virtual void SetValue<T>(string key,T value)
+        protected virtual void SetValue<T>(string keyward,T value)
         {
-            GetBindablePropertySelfty<T>(key).Value = value;
+            GetBindablePropertySelfty<T>(keyward).Value = value;
         }
         public virtual void OnBinding(IBindingContext context) { this._contexts.Add(context); }
         public virtual void OnUnBinding(IBindingContext context) { this._contexts.Remove(context); }

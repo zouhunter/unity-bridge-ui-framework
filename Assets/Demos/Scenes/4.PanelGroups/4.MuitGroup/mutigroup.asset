@@ -14,7 +14,7 @@ MonoBehaviour:
   m_allNodes:
   - m_name: ControlPanel
     m_id: 9fb286ff-8fc0-464d-88ba-681e6a9d2988
-    m_x: 420
+    m_x: 410
     m_y: 200
     m_node: {fileID: 11424064}
     m_inputPoints:
@@ -113,8 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 1
-  instenceID: 0
+  selected: 2
+  instenceID: -123764
   assetName: ControlPanel
   style: 1
   rule:
@@ -139,7 +139,7 @@ MonoBehaviour:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         typeName: System.Boolean
     eventItems:
-    - runtime: 1
+    - type: 1
       bindingSource: on_show_changed
       bindingTarget: onValueChanged
       bindingTargetType:
@@ -148,7 +148,50 @@ MonoBehaviour:
     target: {fileID: 119542, guid: eb2899fc77c698848addee82857de3de, type: 2}
     scriptTarget: {fileID: 0}
     isScriptComponent: 0
-  - open: 1
+  - open: 0
+    name: current
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Text
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems:
+    - bindingSource: current_scale
+      bindingTarget: text
+      bindingTargetType:
+        assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        typeName: System.String
+    eventItems: []
+    target: {fileID: 143040, guid: eb2899fc77c698848addee82857de3de, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
+    name: red
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - type: 1
+      bindingSource: turn_red
+      bindingTarget: onClick
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Button+ButtonClickedEvent
+    target: {fileID: 124280, guid: eb2899fc77c698848addee82857de3de, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
     name: scale
     componentID: 0
     components:
@@ -164,14 +207,44 @@ MonoBehaviour:
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         typeName: System.Single
+    - bindingSource: min_scale
+      bindingTarget: minValue
+      bindingTargetType:
+        assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        typeName: System.Single
+    - bindingSource: max_scale
+      bindingTarget: maxValue
+      bindingTargetType:
+        assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        typeName: System.Single
     eventItems:
-    - runtime: 1
+    - type: 1
       bindingSource: on_scale_changed
       bindingTarget: onValueChanged
       bindingTargetType:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Slider+SliderEvent
     target: {fileID: 105452, guid: eb2899fc77c698848addee82857de3de, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
+    name: show_title
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Text
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems:
+    - bindingSource: show_title
+      bindingTarget: text
+      bindingTargetType:
+        assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        typeName: System.String
+    eventItems: []
+    target: {fileID: 107246, guid: eb2899fc77c698848addee82857de3de, type: 2}
     scriptTarget: {fileID: 0}
     isScriptComponent: 0
   nodeInfo:

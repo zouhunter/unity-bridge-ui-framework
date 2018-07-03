@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanelNode
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 2
   instenceID: -475074
   assetName: ControlPanel_B
   style: 1
@@ -104,7 +104,7 @@ MonoBehaviour:
     canInherit: 0
     bindingAble: 0
   components:
-  - open: 0
+  - open: 1
     name: show
     componentID: 0
     components:
@@ -121,12 +121,12 @@ MonoBehaviour:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         typeName: System.Boolean
     eventItems:
-    - runtime: 1
+    - type: 1
       bindingSource: on_show_changed
       bindingTarget: onValueChanged
       bindingTargetType:
-        assembleName: 
-        typeName: 
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Toggle+ToggleEvent
     target: {fileID: 197220, guid: 95cab5514859269448d9116ae2c11ed2, type: 2}
     scriptTarget: {fileID: 0}
     isScriptComponent: 0
@@ -157,12 +157,12 @@ MonoBehaviour:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         typeName: System.Single
     eventItems:
-    - runtime: 1
+    - type: 1
       bindingSource: on_scale_changed
       bindingTarget: onValueChanged
       bindingTargetType:
-        assembleName: 
-        typeName: 
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Slider+SliderEvent
     target: {fileID: 137058, guid: 95cab5514859269448d9116ae2c11ed2, type: 2}
     scriptTarget: {fileID: 0}
     isScriptComponent: 0
@@ -200,12 +200,12 @@ MonoBehaviour:
       typeName: UnityEngine.GameObject
     viewItems: []
     eventItems:
-    - runtime: 1
+    - type: 1
       bindingSource: turn_green
       bindingTarget: onClick
       bindingTargetType:
-        assembleName: 
-        typeName: 
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Button+ButtonClickedEvent
     target: {fileID: 135430, guid: 95cab5514859269448d9116ae2c11ed2, type: 2}
     scriptTarget: {fileID: 0}
     isScriptComponent: 0

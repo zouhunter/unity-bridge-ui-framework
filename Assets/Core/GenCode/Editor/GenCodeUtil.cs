@@ -177,7 +177,7 @@ namespace BridgeUI.CodeGen
                 var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
                 var scriptPath = string.Format("{0}/{1}.cs", folder, uiCoder.className);
                 var scriptValue = uiCoder.Compile();
-                System.IO.File.WriteAllText(scriptPath, scriptValue,System.Text.Encoding.UTF8);
+                System.IO.File.WriteAllText(scriptPath, scriptValue, System.Text.Encoding.UTF8);
                 AssetDatabase.Refresh();
 
                 EditorApplication.delayCall += () =>
@@ -244,29 +244,39 @@ namespace BridgeUI.CodeGen
                     if (type != null)
                     {
                         Type typevalue = null;
-                        if (type.BaseType.IsGenericType)
+
+                        if (eventItem.type == BindingType.WithTarget)
                         {
-                            if (eventItem.type == BindingType.WithTarget)
-                            {
-                                typevalue = typeof(Binding.PanelAction<>).MakeGenericType(component.componentType);
-                            }
-                            else
-                            {
-                                var argument = type.BaseType.GetGenericArguments();
-                                typevalue = typeof(Binding.PanelAction<>).MakeGenericType(argument);
-                            }
+                            typevalue = typeof(Binding.PanelAction<>).MakeGenericType(component.componentType);
                         }
                         else
                         {
-                            if (eventItem.type == BindingType.WithTarget)
+                            if (type.BaseType.IsGenericType)
                             {
-                                typevalue = typeof(Binding.PanelAction<>).MakeGenericType(component.componentType);
+                                var argument = type.BaseType.GetGenericArguments();
+                                if (argument.Length == 1)
+                                {
+                                    typevalue = typeof(Binding.PanelAction<>).MakeGenericType(argument);
+                                }
+                                else if (argument.Length == 2)
+                                {
+                                    typevalue = typeof(Binding.PanelAction<,>).MakeGenericType(argument);
+                                }
+                                else if (argument.Length == 3)
+                                {
+                                    typevalue = typeof(Binding.PanelAction<,,>).MakeGenericType(argument);
+                                }
+                                else if (argument.Length == 4)
+                                {
+                                    typevalue = typeof(Binding.PanelAction<,,,>).MakeGenericType(argument);
+                                }
                             }
                             else
                             {
                                 typevalue = typeof(Binding.PanelAction);
                             }
                         }
+
 
                         lastNode = InsertPropertyToClassNode(typevalue, eventItem.bindingSource, lastNode, classNode);
                     }
@@ -291,7 +301,9 @@ namespace BridgeUI.CodeGen
         private static AstNode InsertPropertyToClassNode(Type type, string source, AstNode beforeNode, TypeDeclaration classNode)
         {
             var child = classNode.Descendants.OfType<PropertyDeclaration>().Where(x => x.Name == source).FirstOrDefault();
-            if (child != null) {
+
+            if (child != null)
+            {
                 classNode.Members.Remove(child);
             }
 

@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a1717512d12dc4894b945e0e1e28e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
+  _viewModel: {fileID: 11400000, guid: 6ba98923e0a4fc24ca74ca455d6fa32e, type: 2}
   m_close: {fileID: 11418640}
   m_bindingMethodTest: {fileID: 11438588}
 --- !u!114 &11462602

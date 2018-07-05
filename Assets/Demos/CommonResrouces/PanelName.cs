@@ -173,4 +173,10 @@ public class PanelNames {
             return "ControlPanel_B";
         }
     }
+    
+    public static string WorldUI {
+        get {
+            return "WorldUI";
+        }
+    }
 }

@@ -115,7 +115,8 @@ MonoBehaviour:
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
-    - bindingSource: show
+    - isMethod: 0
+      bindingSource: show
       bindingTarget: isOn
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
@@ -141,17 +142,20 @@ MonoBehaviour:
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
-    - bindingSource: scale
+    - isMethod: 0
+      bindingSource: scale
       bindingTarget: value
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         typeName: System.Single
-    - bindingSource: min_scale
+    - isMethod: 0
+      bindingSource: min_scale
       bindingTarget: minValue
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         typeName: System.Single
-    - bindingSource: max_scale
+    - isMethod: 0
+      bindingSource: max_scale
       bindingTarget: maxValue
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
@@ -177,7 +181,8 @@ MonoBehaviour:
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
-    - bindingSource: current_scale
+    - isMethod: 0
+      bindingSource: current_scale
       bindingTarget: text
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
@@ -220,7 +225,8 @@ MonoBehaviour:
     - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
-    - bindingSource: show_title
+    - isMethod: 0
+      bindingSource: show_title
       bindingTarget: text
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089

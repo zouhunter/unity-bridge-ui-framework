@@ -22,17 +22,18 @@ BridgeUI-综合性UGUI框架
 
 ### 1.任意脚本中打开一个面板
 ```
-var handle = UIFacade.Instence.Open(PanelName:string);
+var handle = UIFacade.Instence.Open(PanelName:string, data:object = null);
 ```
 ### 2.在面板中打开面板为子面板
 ```
-var handle = selfFacade.Open(PanelName:string, data:object);
+var handle = this.Open(PanelName:string, data:object = null);
+var handle = this.Open(id:int,data:object = null);
 ```
-### 3.强行关闭对应名称的面板
+### 3.关闭所有对应名称的面板
 ```
 UIFacade.Instence.Close(PanelName:string);
 ```
-### 4.强行隐藏对应的面板
+### 4.隐藏所有对应名称的面板
 ```
 UIFacade.Instence.Hide(PanelName:string);
 ```
@@ -44,9 +45,10 @@ IUIHandle RegistCreate(UnityAction<IPanelBase> onCreate);
 ```
 IUIHandle RegistClose(UnityAction<IPanelBase> onClose);
 ```
-### 7.注册界面信息回调
+### 7.注册与注销界面信息回调
 ```
 IUIHandle RegistCallBack(UnityAction<IPanelBase, object> onCallBack);
+IUIHandle RemoveCallBack(UnityAction<IPanelBase, object> onCallBack);
 ```
 ### 8.定向发送信息
 ```

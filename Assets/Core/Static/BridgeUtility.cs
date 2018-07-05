@@ -6,14 +6,9 @@ namespace BridgeUI
 {
     public static class Utility
     {
-        public static IUIHandle Open(this IPanelBase parentPanel, string panelName, object data = null)
+        public static IUIHandle Open(this IPanelBase parentPanel, string panelName,  object data = null)
         {
-            return Utility.Open(parentPanel, panelName, null, data);
-        }
-
-        public static IUIHandle Open(this IPanelBase parentPanel, string panelName, UnityAction<object> callBack, object data = null)
-        {
-            return UIFacade.Instence.Open(parentPanel, panelName, callBack, data);
+            return UIFacade.Instence.Open(parentPanel, panelName, data);
         }
 
         public static IUIHandle Open(this IPanelBase panel, int index, object data = null)

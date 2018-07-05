@@ -61,19 +61,10 @@ namespace BridgeUI
 
         public IUIHandle Open(string panelName, object data = null)
         {
-            var handle = Open(panelName, null, data);
-            return handle;
+            return Open(null, panelName,  data);
         }
 
-        public IUIHandle Open(string panelName, UnityAction<object> callBack, object data = null)
-        {
-            return Open(null, panelName, callBack, data);
-        }
         public IUIHandle Open(IPanelBase parent, string panelName, object data = null)
-        {
-            return Open(parent, panelName, null, data);
-        }
-        public IUIHandle Open(IPanelBase parent, string panelName, UnityAction<object> callBack, object data = null)
         {
             var handle = handlePool.Allocate(panelName);
 
@@ -89,14 +80,6 @@ namespace BridgeUI
                 {
                     InternalOpen(parent, group, handle, panelName);
                 }
-            }
-
-            if (callBack != null)
-            {
-                handle.RegistCallBack((x, y) =>
-                {
-                    callBack(y);
-                });
             }
 
             if (data != null)

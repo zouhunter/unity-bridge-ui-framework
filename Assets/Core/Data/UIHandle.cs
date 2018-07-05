@@ -133,6 +133,15 @@ namespace BridgeUI
             return this;
         }
 
+        public IUIHandle RemoveCallBack(UnityAction<IPanelBase, object> onCallBack)
+        {
+            if (onCallBack == null) return null;
+            if (this.onCallBack.Contains(onCallBack))
+            {
+                this.onCallBack.Remove(onCallBack);
+            }
+            return this;
+        }
         public IUIHandle RegistCreate(UnityAction<IPanelBase> onCreate)
         {
             if (onCreate == null) return null;
@@ -152,5 +161,6 @@ namespace BridgeUI
             }
             return this;
         }
+
     }
 }

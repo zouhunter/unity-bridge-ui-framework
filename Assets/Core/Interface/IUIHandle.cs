@@ -21,6 +21,7 @@ namespace BridgeUI
         bool Active { get; }
         IUIHandle Send(object data);
         IUIHandle RegistCallBack(UnityAction<IPanelBase, object> onCallBack);
+        IUIHandle RemoveCallBack(UnityAction<IPanelBase, object> onCallBack);
         IUIHandle RegistCreate(UnityAction<IPanelBase> onCreate);
         IUIHandle RegistClose(UnityAction<IPanelBase> onClose);
 

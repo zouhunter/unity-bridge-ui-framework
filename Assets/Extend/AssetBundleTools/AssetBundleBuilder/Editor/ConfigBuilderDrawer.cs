@@ -455,7 +455,7 @@ namespace AssetBundleBuilder
             var srect = new Rect(rt.x + offset, rt.y, rt.width - offset - pointWidth, EditorGUIUtility.singleLineHeight);
 
             if (Event.current != null && srect.Contains(Event.current.mousePosition)
-             && Event.current.button == 0 && Event.current.type <= EventType.mouseUp)
+             && Event.current.button == 0 && Event.current.type <= EventType.MouseUp)
             {
                 EditorGUIUtility.PingObject(data.layer.GetInstanceID());
             }

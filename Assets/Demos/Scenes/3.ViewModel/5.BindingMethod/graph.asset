@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
+  m_Name: graph
+  m_EditorClassIdentifier: 
+  m_allNodes:
+  - m_name: bindingMethodTest
+    m_id: 541f0be2-8f8c-4f72-bc60-549f6829c143
+    m_x: 325
+    m_y: 241
+    m_node: {fileID: 114524892367379700}
+    m_inputPoints:
+    - id: 8a053a18-45f5-45ed-9e08-55153235bf4e
+      label: 
+      parentId: 541f0be2-8f8c-4f72-bc60-549f6829c143
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints:
+    - id: b9c69e42-3765-48a0-a593-a6b5c8f8a2ed
+      label: 
+      parentId: 541f0be2-8f8c-4f72-bc60-549f6829c143
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 149
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  m_allConnections: []
+  m_lastModified: 131759218619300950
+  m_graphDescription: 
+  m_controllerType: BridgeUI.BridgeUIGraphCtrl
+--- !u!114 &114524892367379700
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: PanelNode
+  m_EditorClassIdentifier: 
+  selected: 1
+  instenceID: 0
+  assetName: bindingMethodTest
+  style: 1
+  rule:
+    baseTypeIndex: 4
+    canInherit: 0
+    bindingAble: 0
+  components:
+  - open: 1
+    name: bindingMethodTest
+    componentID: 0
+    components:
+    - assembleName: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: bindingMethodTest
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems:
+    - isMethod: 1
+      bindingSource: value
+      bindingTarget: SetValue
+      bindingTargetType:
+        assembleName: mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        typeName: System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0,
+          Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+    eventItems: []
+    target: {fileID: 172206, guid: 2a44c603d9b16fe44b5764f940b1abf1, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
+    name: close
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems: []
+    target: {fileID: 185914, guid: 2a44c603d9b16fe44b5764f940b1abf1, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 172206, guid: 2a44c603d9b16fe44b5764f940b1abf1, type: 2}
+    discription: 

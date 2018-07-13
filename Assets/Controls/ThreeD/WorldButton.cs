@@ -3,19 +3,21 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-
-public class WorldButton : MonoBehaviour
+namespace BridgeUI.Control
 {
-    public UnityEvent onClick = new UnityEvent();
-    [SerializeField]
-    private bool _interactable;
-    public bool Interactable { get { return _interactable; } set { _interactable = value; } }
-
-    private void OnMouseUpAsButton()
+    public class WorldButton : MonoBehaviour
     {
-        if (Interactable)
+        public UnityEvent onClick = new UnityEvent();
+        [SerializeField]
+        private bool _interactable;
+        public bool Interactable { get { return _interactable; } set { _interactable = value; } }
+
+        private void OnMouseUpAsButton()
         {
-            onClick.Invoke();
+            if (Interactable)
+            {
+                onClick.Invoke();
+            }
         }
     }
 }

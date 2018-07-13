@@ -158,7 +158,7 @@ namespace BridgeUIEditor
 
             switch (Event.current.type)
             {
-                case EventType.mouseUp:
+                case EventType.MouseUp:
                     if (rect.Contains(Event.current.mousePosition))
                     {
                         if (groupObj) EditorGUIUtility.PingObject(groupObj);

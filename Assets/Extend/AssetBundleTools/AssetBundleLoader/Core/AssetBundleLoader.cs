@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using AssetBundles;
-using AssetBundleReference.Tuples;
+//using AssetBundleReference.Tuples;
 
 public class AssetBundleLoader :MonoBehaviour
 {
@@ -135,7 +135,7 @@ public class AssetBundleLoader :MonoBehaviour
                 if (m_LoadObjectQueue.Count > 0)
                 {
                     Tuple<string, string, UnityAction<UnityEngine.Object>> data = m_LoadObjectQueue.Dequeue();
-                    LoadAssetFromUrlAsync(data.Element1, data.Element2, data.Element3);
+                    LoadAssetFromUrlAsync<UnityEngine.Object>(data.Item1, data.Item2, data.Item3);
                 }
             }
         }

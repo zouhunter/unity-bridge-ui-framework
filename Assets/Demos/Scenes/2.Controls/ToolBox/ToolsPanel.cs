@@ -30,11 +30,13 @@ public class ToolsPanel : SinglePanel
     {
         surchField.onEndEdit.AddListener(OnFliterChanged);
     }
+
     protected override void OnEnable()
     {
         base.OnEnable();
         OnFliterChanged(null);
     }
+
     public static void CollectTreeLeaf<T>(T root, ref List<T> leafs) where T : ModelTree
     {
         if (leafs == null) leafs = new List<T>();

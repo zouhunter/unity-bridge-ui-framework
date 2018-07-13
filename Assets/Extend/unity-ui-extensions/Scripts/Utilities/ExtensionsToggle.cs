@@ -12,6 +12,11 @@ namespace UnityEngine.UI
     [RequireComponent(typeof(RectTransform))]
     public class ExtensionsToggle : Selectable, IPointerClickHandler, ISubmitHandler, ICanvasElement
     {
+        /// <summary>
+        /// Variable to identify this script, change the datatype if needed to fit your use case 
+        /// </summary>
+        public string UniqueID;
+
         public enum ToggleTransition
         {
             None,
@@ -20,6 +25,10 @@ namespace UnityEngine.UI
 
         [Serializable]
         public class ToggleEvent : UnityEvent<bool>
+        { }
+
+        [Serializable]
+        public class ToggleEventObject : UnityEvent<ExtensionsToggle>
         { }
 
         /// <summary>
@@ -36,7 +45,7 @@ namespace UnityEngine.UI
         [SerializeField]
         private ExtensionsToggleGroup m_Group;
 
-        public ExtensionsToggleGroup group
+        public ExtensionsToggleGroup Group
         {
             get { return m_Group; }
             set
@@ -55,7 +64,15 @@ namespace UnityEngine.UI
         /// <summary>
         /// Allow for delegate-based subscriptions for faster events than 'eventReceiver', and allowing for multiple receivers.
         /// </summary>
+        [Tooltip("Use this event if you only need the bool state of the toggle that was changed")]
         public ToggleEvent onValueChanged = new ToggleEvent();
+
+
+        /// <summary>
+        /// Allow for delegate-based subscriptions for faster events than 'eventReceiver', and allowing for multiple receivers.
+        /// </summary>
+        [Tooltip("Use this event if you need access to the toggle that was changed")]
+        public ToggleEventObject onToggleChanged = new ToggleEventObject();
 
         // Whether the toggle is on
         [FormerlySerializedAs("m_IsActive")]
@@ -84,7 +101,10 @@ namespace UnityEngine.UI
         {
 #if UNITY_EDITOR
             if (executing == CanvasUpdate.Prelayout)
+            {
                 onValueChanged.Invoke(m_IsOn);
+                onToggleChanged.Invoke(this);
+            }
 #endif
         }
 
@@ -110,7 +130,7 @@ namespace UnityEngine.UI
         protected override void OnDidApplyAnimationProperties()
         {
             // Check if isOn has been changed by the animation.
-            // Unfortunately there is no way to check if we donï¿½t have a graphic.
+            // Unfortunately there is no way to check if we don't have a graphic.
             if (graphic != null)
             {
                 bool oldValue = !Mathf.Approximately(graphic.canvasRenderer.GetColor().a, 0);
@@ -144,14 +164,14 @@ namespace UnityEngine.UI
 
             // If we are in a new group, and this toggle is on, notify group.
             // Note: Don't refer to m_Group here as it's not guaranteed to have been set.
-            if (newGroup != null && newGroup != oldGroup && isOn && IsActive())
+            if (newGroup != null && newGroup != oldGroup && IsOn && IsActive())
                 m_Group.NotifyToggleOn(this);
         }
 
         /// <summary>
         /// Whether the toggle is currently active.
         /// </summary>
-        public bool isOn
+        public bool IsOn
         {
             get { return m_IsOn; }
             set
@@ -174,7 +194,7 @@ namespace UnityEngine.UI
             m_IsOn = value;
             if (m_Group != null && IsActive())
             {
-                if (m_IsOn || (!m_Group.AnyTogglesOn() && !m_Group.allowSwitchOff))
+                if (m_IsOn || (!m_Group.AnyTogglesOn() && !m_Group.AllowSwitchOff))
                 {
                     m_IsOn = true;
                     m_Group.NotifyToggleOn(this);
@@ -187,7 +207,10 @@ namespace UnityEngine.UI
             // It's up to the user to ignore a selection being set to the same value it already was, if desired.
             PlayEffect(toggleTransition == ToggleTransition.None);
             if (sendCallback)
+            {
                 onValueChanged.Invoke(m_IsOn);
+                onToggleChanged.Invoke(this);
+            }
         }
 
         /// <summary>
@@ -219,7 +242,7 @@ namespace UnityEngine.UI
             if (!IsActive() || !IsInteractable())
                 return;
 
-            isOn = !isOn;
+            IsOn = !IsOn;
         }
 
         /// <summary>

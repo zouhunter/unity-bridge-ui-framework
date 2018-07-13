@@ -1,211 +1,237 @@
-# README #
+# README
 
 This is an extension project for the new Unity UI system which can be found at: [Unity UI Source](https://bitbucket.org/Unity-Technologies/ui)
 
-###For Unity 5.2.2+ - Use the new 5.3 package!###
-###*Note, due to limited demand, this is the last release we will update the 4.x/5.1 asset package, we'll be focusing on 5.3/5.4 from now on.###
 
------
-#Intro#
+# [Intro](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/GettingStarted)
 For more info, here's a little introduction video for the project:
 
 [![View Intro Video](http://img.youtube.com/vi/njoIeE4akq0/0.jpg)](http://www.youtube.com/watch?v=njoIeE4akq0 "Unity UI Extensions intro video")
 
-You can follow the UI Extentions team for updates and news on:
-### [Twitter](https://twitter.com/search?q=%23uiextensions) / [Facebook](https://www.facebook.com/UnityUIExtensions/) / [YouTube](https://www.youtube.com/channel/UCG3gZOkmL-2rmZat4ufv28Q)###
------
-# What is this repository for? #
+You can follow the UI Extensions team for updates and news on:
+## [Twitter](https://twitter.com/hashtag/UnityUIExtensions?src=hash) / [Facebook](https://www.facebook.com/UnityUIExtensions/) / [YouTube](https://www.youtube.com/channel/UCG3gZOkmL-2rmZat4ufv28Q)
 
-In this repository is a collection of extension scripts to enhance your Unity UI experience. These scripts have been gathered from many sources and combined and improved over time.
+> ## Also, come chat live with the Unity UI Extensions community on Gitter here: [UI Extensions Live Chat](https://gitter.im/Unity-UI-Extensions/Lobby) 
+
+-----
+
+# [What is this repository for? ](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/About)
+
+In this repository is a collection of extension scripts / effects and controls to enhance your Unity UI experience. These scripts have been gathered from many sources, combined and improved over time.
 
 > The majority of the scripts came from the Scripts thread on the [Unity UI forum here](http://bit.ly/UnityUIScriptsForumPost)
 
-You can either download / fork this project to access the scripts, or you can also download these precompiled Unity Assets, chock full of goodness for each release:
+You can either download / fork this project to access the scripts, or you can also download these pre-compiled Unity Assets, chock full of goodness for each release:
 
-   ###    * [Unity UI Extensions Unity 4.x Asset](https://bitbucket.org/ddreaper/unity-ui-extensions/downloads/UnityUIExtensions-4.x.unitypackage)###
-   ###    * [Unity UI Extensions Unity 5.1 Asset](https://bitbucket.org/ddreaper/unity-ui-extensions/downloads/UnityUIExtensions-5.1.unitypackage)###
-   ###    * [Unity UI Extensions Unity 5.2 Asset](https://bitbucket.org/ddreaper/unity-ui-extensions/downloads/UnityUIExtensions-5.2.unitypackage) <- 5.2.0 - 5.2.1 base releases ONLY###
-   ###    * [Unity UI Extensions Unity 5.3 (5.2.1P+) Asset](https://bitbucket.org/ddreaper/unity-ui-extensions/downloads/UnityUIExtensions-5.3.unitypackage) <- use this for 5.2.1P+ releases###
+# [Download](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/Downloads)
+
+For the 2.0 release, we have expanded where you can download the UnityPackage asset and widened the options to contribute to the project.
+
+> I will still stress however, ***contribution is optional***. **The asset / code will always remain FREE**
+
+[![Download from Itch.IO](https://bytebucket.org/UnityUIExtensions/unity-ui-extensions/wiki/SiteImages/itchio.png)](https://unityuiextensions.itch.io/uiextensions2-0 "Download from Itch.IO")
+[![Download from Itch.IO](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/SiteImages/unionassets.png)](https://unionassets.com/admin/AssetList "Download from Union Assets")
+[![Download from Itch.IO](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/SiteImages/patreon.jpg)](https://www.patreon.com/UnityUIExtensions "Support Unity UI Extensions on Patreon & download")
+
+> Still available on the [BitBucket site](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/downloads/UnityUIExtensions.unitypackage) if you prefer
+
+To view previous releases, visit the [release archive](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/Downloads)
 
 -----
-#Getting Started#
+
+# [Supporting the UI Extensions project](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=89L8T9N6BR7LJ)
+
+If you wish to further support the Unity UI Extensions project itself, then you can either subsidise your downloads above, or contribute direct using the PayPal link below.
+All funds go to support the project, no matter the amount, donations in code are also extremely welcome :D
+
+> (PayPal account not required and you can remain anonymous if you wish)
+
+## [>> Donate via PayPal <<](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=89L8T9N6BR7LJ)
+
+-----
+
+# [Getting Started](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/GettingStarted)
 To get started with the project, here's a little guide:
+
 [![View Getting Started Video](http://img.youtube.com/vi/sVLeYmsNQAI/0.jpg)](http://www.youtube.com/watch?v=sVLeYmsNQAI "Unity UI getting started video")
----
-#Updates:#
 
-##Update 1.1##
-[![View 1.1 update Video](http://img.youtube.com/vi/JuE0ja5DmV4/0.jpg)](https://www.youtube.com/watch?v=JuE0ja5DmV4 "Update 1.1 for the Unity UI Extensions Project")
+-----
 
-###New / updated features###
-* New Polygon primitive
-* New UI Vertical Scroller control
-* New Curved layout component
-* New Shining effect
-* New UI Particle system
-* New Scroll Conflict Manager
-* Soft Alpha Mask updated in line with SAUI 1.3 release
-* Line Renderer has had a complete overhaul, including full programmatic support, Line list and Bezier line rendering
-* Horizontal and Vertical Scroll Snaps updated to include a Starting page, current page and transition speed parameters. Plus a new GoToPage, Add and Remove page functions
-* Added some script helper functions for LZF compression and Serialization
-* Two utilities to help manage drag thresholds on high PPI systems
+# [Updates:](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/ReleaseNotes/RELEASENOTES)
 
-###Fixes###
-* Line Render almost completely re-written with tons of fixes
-* Radial layout updated to avoid 360 overlap (first and last)
-* Scroll Snaps updates to better handle children.
-* Scroll Snaps distribute function updated so it can be called onDirty more efficiently.
+## Update 2.0 - The update so big they had to name it twice
+[![View 2.0 update Video](http://img.youtube.com/vi/Ivzt9_jhGfQ/0.jpg)](https://www.youtube.com/watch?v=Ivzt9_jhGfQ "Update 2.0 for the Unity UI Extensions Project")
 
--------------------
-##Release History##
+> Be sure to logon to the new Gitter Chat site for the UI Extensions project, if you have any questions, queries or suggestions
+> Much easier that posting a question / issue on YouTube, Twitter or Facebook :D
+> ## [UIExtensions Gitter Chanel](https://gitter.im/Unity-UI-Extensions/Lobby)
+
+### New / updated features
+* Major updates to the Line renderer for texture and positioning support, inc Editor support
+* Line Renderer also includes "dotted" line support and the ability to increase the vertex count
+* Reorderable list now also works in Screenspace-Camera & Worldspace
+* H&V Scroll Snap controls now support scrollbars
+* Minor updates to the Gradient 2 control
+* Minor updates to all dropdown controls to manage control startup
+* Update UI Particle Renderer with new updates, including Texture Sheet animation support
+* New Selectable Scalar
+* New MonoSpacing text effect
+* New Multi-Touch Scrollrect support
+* New UI Grid Renderer (handy if you want a UI grid background)
+* New CoolDownButton control (adds a timer between button clicks)
+* New Curly UI - for those who like their UI Bendy
+* New Fancy Scroll View - A programmatic  scroll view
+* New UI Line connector control - extends line renderer to draw lines between UI Objects
+* New Radial Slider control - for those who like their sliders to curve
+* New Stepper control - a +/- control similar to that found on iOS
+* New Segmented Control - A button array control similar to that found on iOS
+* New UIHighlightable control - just in case the user wasn't sure where they were
+
+### Examples / Examples / Examples
+Finally added some proper examples, especially for the newer controls.
+These can be found in the Examples folder (which can be safely deleted if you wish)
+
+* ColorPicker - shows the Color Picker UI in both SS and WS
+* ComboBox - shows all the different combo box controls
+* Cooldown - several example implementations of the cooldown button control using Unity image effects and SAUIM
+* CurlyUI - shows off the CurlyUI control
+* FancyScrollView - the only REAL way to understand this programmatic control (direct from the contributor)
+* HSS-VSS-ScrollSnap - several working examples of the HSS/VSS scroll snaps (not ScrollSnap or FancyScrollView), including a full screen variant
+* MenuExample - A demo menu implementation showing off the new MenuManager control
+* Radial Slider - Just keep on sliding
+* ReorderableList - Several examples of the re-orderable list in action, complete with managed drag / drop features
+* ScrollConflictManager - Making ScrollRects get along
+* SelectionBox - The RTS selector in action, showing examples of selecting 2D and 3D objects
+* Serialisation - Unit test case examples for the serialisation components
+* TextEffects - All the Text effects and shaders in one easy to view place
+* UIlineRenderer - Several demos / examples for using the Line Renderer and UI Line connector controls
+* UIVerticalScrollerDemo - A full screen example of a UIVertical Scroller implementation.
+
+### Fixes
+* H&V Scroll Snap Next/Previous Button interactable handler (only enables when there is a child to move to)
+* H&V Scroll Snap Swipe logic updated and now includes scaling support
+* Editor options for non-drawing graphic control
+* Events in ComboBox, Dropdown and autocomplete controls updated to use UI events
+* UIFlippable "Argument out of Range" bigfix (pesky component orders with effects)
+* All primitive controls will now redraw when enabled in code
+* Autocomplete has two lookup text methods now, Array and Linq
+* Line renderer pivot fix (now respects the pivot point)
+* TextPic rendering and event updates
+* Minor tweaks to the UIParticle system to remove "upgrade" errors. Still needs a rework tbh
+* Clean up of all unnecessary usings (swept under the rug)
+
+### Known issues
+Serialisation functionality has been removed due to several incompatibilities between platforms, suggest the UniversalSerialiser as an alternative. May bring back if there is demand. (or copy out the source from the previous release)
+
+## Upgrade Notes
+With this being a major version update, it is recommended to remove the old UI Extensions folder before importing the new asset.
+
+----------------
+## Release History
 
 For the full release history, follow the below link to the full release notes page.
-### [Release Notes](https://bitbucket.org/ddreaper/unity-ui-extensions/src/c9354eadf4b9287790eb636c21e4107760cd7b87/RELEASENOTES.md?at=develop_5.3)###
+
+### [Release Notes](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/ReleaseNotes/RELEASENOTES)
 
 ---
-#Controls and extensions listed in this project:#
+# [Controls and extensions listed in this project](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/Controls):
 
-## Controls ##
-================
+There are almost 70+ extension controls / effect and other utilities in the project which are listed on the following page:
 
-Control | Description | Menu Command | Component Command | Notes | Donate | Credits
---------- | -------------- | ---------------------- | ---------------------------- | ------- | ---------- | ----------
-**Accordion** | An Acordian style control with animated segments. Sourced from [here]. | N/A | Component / UI / Extensions / AccordionGroup |[demo video](http://forum.unity3d.com/threads/accordion-type-layout.271818/)|| ChoMPHi
- | | | Component / UI / Extensions / AccordionItem |[demo video](http://forum.unity3d.com/threads/accordion-type-layout.271818/)|| ChoMPHi
-**HSVPicker** | A colour picker UI | N/A | UI / Extensions / HSVPicker | Project folder includes prefab and sample scene || judah4
-**SelectionBox** | An RTS style selection box control | UI / Extensions / Selection Box | UI / Extensions / Selection Box |[tutorial video](https://www.youtube.com/watch?v=UtM3HejKL5s)|| Korindian, BenZed
-**UIButton** | Improved Button control with additional events (PointerDown, PointerUp, PointerClick and PointerHeld) | UI / Extensions / UI Button | UI / Extensions / UI Button |Will update video, this has now been updated to a more reusable Selectable extension|| AriathTheWise
-**UIFlippable** | Improved Image control with image flipping options | UI / Extensions / UI Flippable | UI / Extensions / Flippable |[tutorial video](https://www.youtube.com/watch?v=Htt2RNa2qy0)|| ChoMPHi
-**UIWindowBase** | A draggable Window implementation | UI / Extensions / UI Window Base | UI / Extensions / UI Window Base |[tutorial video](https://www.youtube.com/watch?v=Htt2RNa2qy0)|| GXMark, alexzzzz, CaoMengde777, TroyDavis 
-**ComboBox** | A fixed combobox implementation for text | UI / Extensions / ComboBox | UI / Extensions / ComboBox |[tutorial video](https://www.youtube.com/watch?v=JrEfs47FoOE)|| Perchik
-**AutoCompleteComboBox** | A text combobox with autocomplete selection | UI / Extensions / AutoComplete ComboBox | UI / Extensions / AutoComplete ComboBox |[tutorial video](https://www.youtube.com/watch?v=JrEfs47FoOE)|| Perchik
-**DropDownList** | A basic drop down list with text and image support | UI / Extensions / Dropdown List | UI / Extensions / Dropdown List |[tutorial video](https://www.youtube.com/watch?v=JrEfs47FoOE)|| Perchik
-**BoundToolTip** | An alternate Tooltip implementation with central listener | UI / Extensions / Bound Tooltip / Tooltip | UI / Extensions / Bound Tooltip / Tooltip Item | Offset and tooltip placement needs work || Martin Sharkbomb
- | | | UI / Extensions / Bound Tooltip / Tooltip Trigger ||| Martin Sharkbomb
-||||||
+## [UI Extensions controls list](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/Controls)
 
+[Controls](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/Controls#markdown-header-controls)|||||
+------|------|------|------|
+Accordion|ColorPicker|SelectionBox|UIButton|UIFlippable
+ComboBox|AutoCompleteComboBox|DropDownList|BoundToolTip|UIWindowBase
+UI_Knob|TextPic|InputFocus|Box Slider|CooldownButton
+Segmented Control|Stepper|||
+||||
 
-## Primitives ##
-================
+[Primitives](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/Controls#markdown-header-primitives)|||||
+------|------|------|------|
+UILineRenderer|UILineTextureRenderer|UICircle|DiamondGraph|UICornerCut
+UIPolygon||||
+||||
 
-Control | Description | Menu Command | Component Command | Notes | Donate | Credits
---------- | -------------- | ---------------------- | ---------------------------- | ------- | ---------- | ----------
-**UILineRenderer** | Graphic control for drawing lines in the UI System | UI / Extensions / Primitives / UI Line Renderer | UI / Extensions / Primitives / UI Line Renderer |[tutorial video](https://www.youtube.com/watch?v=OElcWAZGHi0)|| jack.sydorenko
-**UILineTextureRenderer** | Graphic control for drawing lines in the UI System | UI / Extensions / Primitives / UI Line Texture Renderer | UI / Extensions / Primitives / UI Line Texture Renderer |[tutorial video](https://www.youtube.com/watch?v=OElcWAZGHi0)|| jack.sydorenko, jonbro5556
-**UICircle** | Graphic control for drawing circles in the UI System | UI / Extensions / Primitives / UI Circle | UI / Extensions / Primitives / UI Circle |[tutorial video](https://www.youtube.com/watch?v=2KOnEKAVua0)|| zge
-**DiamondGraph** | Graphic control for drawing a diamond in the UI System | UI / Extensions / Primitives / DiamondGraph | UI / Extensions / Primitives / DiamondGraph |5.2+ only [tutorial video](https://www.youtube.com/watch?v=2KOnEKAVua0)|| koohddang
-**UICornerCut** | Graphic control for drawing a diamond in the UI System | UI/Extensions/Primitives/Cut Corners | UI/Extensions/Primitives/Cut Corners ||| Freezy
-**UIPolygon** | Graphic control for drawing custom polygons in the UI System | UI/Extensions/Primitives/UI Polygon | UI/Extensions/Primitives/UI Polygon ||| CiaccoDavide
-||||||
+[Layouts](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/Controls#markdown-header-layouts)|||||
+------|------|------|------|
+Horizontal Scroll Snap|Vertical Scroll Snap|Flow Layout Group|Radial Layout|Tile Size Fitter
+Scroll Snap (alt implementation)|Reorderable List|UI Vertical Scroller|Curved Layout|Table Layout
+FancyScrollView||||
+||||
 
-## Layouts ##
-================
+[Effects](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/Controls#markdown-header-effect_components)|||||
+------|------|------|------|
+Best Fit Outline|Curved Text|Gradient|Gradient2|Letter Spacing
+NicerOutline|RaycastMask|UIFlippable|UIImageCrop|SoftAlphaMask
+CylinderText|UIParticleSystem|CurlyUI||
+||||
 
-Layout | Description | Menu Command | Component Command | Notes | Donate | Credits
---------- | -------------- | ---------------------- | ---------------------------- | ------- | ---------- | ----------
-**HorizontalScrollSnap** | A pages scroll rect that can work in steps / pages, includes button support | UI / Extensions / Horizontal Scroll Snap | Layout / Extensions / Horizontal Scroll Snap |[tutorial video](https://www.youtube.com/watch?v=KJlIlWHlfMo)|| BinaryX
-**VerticalScrollSnap** | A pages scroll rect that can work in steps / pages, includes button support | UI / Extensions / Vertical Scroll Snap | Layout / Extensions / Vertical Scroll Snap |[tutorial video](https://www.youtube.com/watch?v=KJlIlWHlfMo)|| BinaryX, Simon Darkside Jackson
-**FlowLayoutGroup** | A more rugged grid style layout group  || Layout / Extensions / Flow Layout Group | [Example Video](https://www.youtube.com/watch?v=tMe_3tJTZvc) || Simie
-**RadialLayout** | A radial layout system || Layout / Extensions / Radial Layout |[tutorial video](https://www.youtube.com/watch?v=iUlk0d2RDMs)|| Danny Goodayle
-**TileSizeFitter** | A fitter layout that will shink / expand content by tiles || Layout / Extensions / TileSizeFitter |[tutorial video](https://www.youtube.com/watch?v=AkQNWl8mnxg)|| Ges
-**ScrollSnap** | An alternate scroll snap control supporting both Horizontal and Vertial layous in one control | UI / Extensions / Fixed Item Scroll / Snap Horizontal Single Item|||| xesenix
-|| UI / Extensions / Fixed Item Scroll / Snap Horizontal Multiple Item|||| xesenix
-|| UI / Extensions / Fixed Item Scroll / Snap Vertical Single Item|||| xesenix
-|| UI / Extensions / Fixed Item Scroll / Snap Vertical Multiple Item|||| xesenix
-**ReorderableList** | A dynamic control allowing drag and drop of child elements with reordering support | UI/Extensions/Re-orderable Lists/Re-orderable Vertical Scroll Rect|UI/Extensions/Re-orderable list|[Example](http://i.giphy.com/3o85xri0ARKKSfDHIQ.gif)|| Ziboo
-|| UI/Extensions/Re-orderable Lists/Re-orderable Horizontal Scroll Rect|||| Ziboo
-|| UI/Extensions/Re-orderable Lists/Re-orderable Grid Scroll Rect|||| Ziboo
-|| UI/Extensions/Re-orderable Lists/Re-orderable Vertical List|||| Ziboo
-|| UI/Extensions/Re-orderable Lists/Re-orderable Hirizontal List|||| Ziboo
-|| UI/Extensions/Re-orderable Lists/Re-orderable Grid|||| Ziboo
-**VerticalScroller** | Rolling scrolling selector | UI / Extensions / Vertical Scroller | Layout / Extensions / Vertical Scroller ||tbc|[Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RJ8D9FRFQF9VS)| Mrs. YakaYocha
-**CurvedLayout** | A curved layout system || Layout / Extensions / Curved Layout |tbc|| Freezy
-||||||
+[VR Components](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/Controls#markdown-header-vr_components)|||||
+------|------|------|------|
+VRCursor|VRInputModule|||
+||||
 
+[Input Modules](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/Controls#markdown-header-input_modules)|||||
+------|------|------|------|
+AimerInputModule|GamePadInputModule|||
+||||
 
-## Effect components ##
-=====================
-
-Effect   | Description | Component Command | Notes | Donate | Credits
---------- | -------------- | ---------------------------- | ------- | ----------- | ----------
-**BestFitOutline** | An improved outline effect | UI / Effects / Extensions / Best Fit Outline ||| Melang
-**CurvedText** | A Text vertex manipulator for those users NOT using TextMeshPro (why ever not?) | UI / Effects / Extensons / Curved Text ||| Breyer
-**Gradient**  | Apply vertex colours in a gradient on any UI object | UI / Effects / Extensions / Gradient ||| Breyer
-**LetterSpacing** | Allows finers control of text spacing |  UI / Effects / Extensions / Letter Spacing ||| Deeperbeige
-**NicerOutline** | Another outline control | UI / Effects / Extensions / Nicer Outline ||| Melang
-**RaycastMask** | An example of an enhanced mask component able to work with the image data. Enables picking on image parts and not just the Rect Transform | UI / Effects / Extensions / Raycast Mask ||| senritsu
-**UIFlippable** | Image component effect to flip the graphic | UI / Effects / Extensions / UI Flippable ||| ChoMPHi
-**UIImageCrop** | Shader based mask system which clips to specific ranges X&Y | UI / Effects / Extensions / UI Image Crop ||| 00christian00
-**SoftAlphaMask** | Shader based mask able to clip images using an alpha mask | UI / Effects / Extensions / Soft Mask Script ||[Donate](https://www.assetstore.unity3d.com/en/#!/content/50339)| NemoKrad
-**CylinderText** | Allows finers control of text spacing |  UI / Effects / Extensions / Cylinder Text ||| Breyer
-**UIParticleSystem** | Implementation of a particle system on a canvas |  UI / Effects / Extensions / UI Particle System |5.3+ only|| Glennpow
-||||||
-
-
-## VR Components ##
-=======================
-
-Component | Description | Component Command | Notes | Donate | Credits
---------- | -------------- | ---------------------------- | ------- | ------ | ----------
-**VRCursor** | Cursor script for VR use (requires VRInputModule) | UI / Extensions / VR Cursoe ||| Ralph Barbagallo
-**VRInputModule** | Input module to support the VR Cursor | Event / Vr Input Module ||| Ralph Barbagallo
-|||||
-
-
-## Input Modules ##
-=======================
-
-Component | Description | Component Command | Notes | Donate | Credits
---------- | -------------- | ---------------------------- | ------- | ------ | ----------
-**AimerInputModule** | Replacement Input module to allow for a reciclue to interace with WorldSpace canvas UI  | Event / Extensions / Aimer Input Module ||| Chris Trueman
-**GamePadInputModule** | Stripped down SIM Input module for just gamepad/keybord input   | Event / Extensions / GamePad Input Module ||| Simon (darkside) Jackson
-|||||
-
-## Additional Components##
-=======================
-
-Component | Description | Component Command | Notes | Donate | Credits
---------- | -------------- | ---------------------------- | ------- | ------ | ----------
-**ReturnKeyTrigger** | Does something?? | UI / Extensions / ReturnKey Trigger ||| Melang, ddreaper
-**TabNavigation**  | An example Tab navigation script, updated to add manual navigation | UI / Extensions / Tab Navigation ||| Melang, omatase
-**uGUITools** | | Menu / uGUI ||| Senshi
-**ScrollRectTweener** | Tweening solution for ScrollRects, add smoothing automatically  | UI / Extensions / ScrollRectTweener ||| Martin Sharkbomb
-**ScrollRectLinker** | ScrollRect Linker script, enable multiple ScrollRects to move together  | UI / Extensions / ScrollRectLinker ||| Martin Sharkbomb
-**ScrollRectEx** | Improved ScrollRect control, enables support for Nested ScrollRects  | UI / Extensions / ScrollRectEx ||| CaptainSchnittchen, GamesRUs
-**InputFocus** | Enhanced InputField control for forms, enables Enter to submit and other features  | UI / Extensions / InputFocus ||| Zelek
-**ImageExtended** | Improved Image control with rotation support and use of filled type without an Image (useful for masks)  | UI / Extensions / Image Extended ||| Ges
-**UIScrollToSelection** | Enables a ScrollRect to scroll based on the selected child automatically  | UI / Extensions / UIScrollToSelection ||| zero3growlithe
-**UISelectableExtension** | Refactor of original UI Button control, can now add Press/Release and Hold events to any Selectable control  | UI / Extensions / UI Selectable Extension ||| AriathTheWise / Simon Jackson
-**switchToRectTransform** | RectTransform extension method to move one Rect to another  | N/A ||| Izitmee
-**ScrollConflictManager** | Resolves dragging issues with multiple nested scroll rects  | UI / Extensions / Scrollrect Conflict Manager ||| srinivas sunil
-**CLFZ2** | LZF Compression library to compress data  | N/A |Check the readme in the Utilities folder|| mrbroshkin, Agent_007
-**Serialization** | Serialization library to enable serializing Unity struct types like Vectors, Quaternions  | N/A |Check the readme in the Utilities\serialization folder|| Cherno
-**DragCorrector** | Utility to manage the EventSystem drag threshold for high DPI systems  | UI / Extensions / Drag Corrector ||| FireOApache
-**PPIViewer** | Simple script to attach to a text component to display the currnet DPI/PPI  | UI / Extensions / PPI Viewer ||| FireOApache
-|||||
-
+[Additional Components](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/Controls#markdown-header-additional_components)|||||
+------|------|------|------|
+ReturnKeyTrigger|TabNavigation|uGUITools|ScrollRectTweener|ScrollRectLinker
+ScrollRectEx|UI_InfiniteScroll|UI_ScrollRectOcclusion|UIScrollToSelection|UISelectableExtension
+switchToRectTransform|ScrollConflictManager|CLFZ2 (Encryption)|DragCorrector|PPIViewer
+UI_TweenScale|UI_InfiniteScroll|UI_ScrollRectOcclusion|NonDrawingGraphic|UILineConnector
+UIHighlightable|Menu Manager|Pagination Manager||
+||||
 
 *More to come*
 
-=======================
-# How do I get set up? #
+---
+
+
+# [How do I get set up? ](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/GettingStarted)
+
 Either clone / download this repository to your machine and then copy the scripts in, or use the pre-packaged .UnityPackage for your version of Unity and import it as a custom package in to your project.
 
-# Contribution guidelines #
+# [Contribution guidelines ](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/ContributionGuidelines)
+
 Got a script you want added? Then just fork the bitbucket repository and submit a PR.  All contributions accepted (including fixes)
 Just ensure 
 * The header of the script matches the standard used in all scripts
 * The script uses the **Unity.UI.Extensions** namespace so they do not affect any other developments
 * (optional) Add Component and Editor options where possible (editor options are in the Editor\UIExtensionsMenuOptions.cs file)
 
-# License #
-All scripts conform to the BSD license and are free to use / distribute.  See the [LICENSE](https://bitbucket.org/ddreaper/unity-ui-extensions/src/6d03f25b0150994afa97c6a55854d6ae696cad13/LICENSE?at=default) file for more information 
+# [License ](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/License)
 
-# Like what you see? #
+All scripts conform to the BSD license and are free to use / distribute.  See the [LICENSE](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/License) file for more information 
+
+# [Like what you see? ](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/FurtherInfo)
+
 All these scripts were put together for my latest book Unity3D UI Essentials
 Check out the [page on my blog](http://bit.ly/Unity3DUIEssentials) for more details and learn all about the inner workings of the new Unity UI System.
 
-# The downloads #
+# [The downloads ](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/Downloads)
+
 As this repo was created to support my new Unity UI Title ["Unity 3D UI Essentials"](http://bit.ly/Unity3DUIEssentials), in the downloads section you will find two custom assets (SpaceShip-DemoScene-Start.unitypackage and RollABallSample-Start.unitypackage).  These are just here as starter scenes for doing UI tasks in the book.
 
 I will add more sample scenes for the UI examples in this repository and detail them above over time.
+
+# [Previous Releases](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/wiki/Downloads)
+
+* [Unity UI Extensions Unity 4.x Asset](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/downloads/UnityUIExtensions-4.x.unitypackage)
+
+* [Unity UI Extensions Unity 5.1 Asset](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/downloads/UnityUIExtensions-5.1.unitypackage)
+
+* [Unity UI Extensions Unity 5.2 Asset](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/downloads/UnityUIExtensions-5.2.unitypackage) <- 5.2.0 - 5.2.1 base releases ONLY
+
+* [Unity UI Extensions Unity 5.3 (5.2.1P+) Asset](https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/downloads/UnityUIExtensions-5.3.unitypackage) <- use this for 5.2.1P+ releases
+
+> **Note** To retain 5.2 compatibility in the 5.3 package, you will see two warnings related to:
+> ```
+> `UnityEngine.UI.InputField.onValueChange' is obsolete.  
+> ```
+> This has no effect on the package working in 5.4 plus and is only there to maintain backwards compatibility.  We will look to update/remove this in a future release, likely after 5.4.  
+If you have any concerns, feel free to update your code in your project to add the missing "d".  Unity have ensured it still works as they have mapped the API change for now.

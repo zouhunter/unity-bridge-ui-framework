@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-using AssetBundleReference.Tuples;
 using Object = UnityEngine.Object;
 namespace AssetBundles
 {
@@ -107,7 +106,7 @@ namespace AssetBundles
             {
                 if (tupes.Count > 0){
                     var tupe = tupes.Dequeue();
-                    tupe.Element3.Invoke(LoadAsset<Object>(tupe.Element1, tupe.Element2));
+                    tupe.Item3.Invoke(LoadAsset<Object>(tupe.Item1, tupe.Item2));
                 }
                 yield return null;
             }

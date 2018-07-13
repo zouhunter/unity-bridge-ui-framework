@@ -206,12 +206,14 @@ namespace BridgeUI.CodeGen
         /// <summary>
         /// 更新viewModelScript
         /// </summary>
-        /// <param name="script"></param>
+        /// <param name="viewModel"></param>
         /// <param name="components"></param>
         public static void UpdateViewModelScript(Binding.ViewModel viewModel, List<ComponentItem> components)
         {
             var monoScript = MonoScript.FromScriptableObject(viewModel);
-            var className = monoScript.GetClass().Name;
+            var classType = monoScript.GetClass();
+            var baseType = classType.BaseType;
+            var className = classType.Name;
             UICoder oldViewModel = new UICoder(className);
             oldViewModel.Load(monoScript.text);
             var tree = oldViewModel.tree;
@@ -226,6 +228,10 @@ namespace BridgeUI.CodeGen
             {
                 foreach (var viewItem in component.viewItems)
                 {
+                    //忽略已经存在于父级的属性
+                    if (baseType.GetProperty(viewItem.bindingSource, BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.FlattenHierarchy) != null)
+                        continue;
+
                     if (viewItem.bindingTargetType.type != null)
                     {
                         lastNode = InsertPropertyToClassNode(viewItem.bindingTargetType.type, viewItem.bindingSource, lastNode, classNode);
@@ -239,6 +245,10 @@ namespace BridgeUI.CodeGen
 
                 foreach (var eventItem in component.eventItems)
                 {
+                    //忽略已经存在于父级的属性
+                    if (baseType.GetProperty(eventItem.bindingSource, BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.FlattenHierarchy) != null)
+                        continue;
+
                     if (eventItem.type == BindingType.NoBinding) continue;
                     var type = eventItem.bindingTargetType.type;
                     if (type != null)

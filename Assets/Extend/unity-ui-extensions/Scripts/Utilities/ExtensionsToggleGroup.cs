@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
+using System.Linq;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace UnityEngine.UI
 {
@@ -12,7 +12,7 @@ namespace UnityEngine.UI
     {
         [SerializeField]
         private bool m_AllowSwitchOff = false;
-        public bool allowSwitchOff { get { return m_AllowSwitchOff; } set { m_AllowSwitchOff = value; } }
+        public bool AllowSwitchOff { get { return m_AllowSwitchOff; } set { m_AllowSwitchOff = value; } }
 
         private List<ExtensionsToggle> m_Toggles = new List<ExtensionsToggle>();
 
@@ -48,7 +48,7 @@ namespace UnityEngine.UI
                     continue;
                 }
 
-                m_Toggles[i].isOn = false;
+                m_Toggles[i].IsOn = false;
             }
             onToggleGroupChanged.Invoke(AnyTogglesOn());
         }
@@ -78,12 +78,12 @@ namespace UnityEngine.UI
 
         public bool AnyTogglesOn()
         {
-            return m_Toggles.Find(x => x.isOn) != null;
+            return m_Toggles.Find(x => x.IsOn) != null;
         }
 
         public IEnumerable<ExtensionsToggle> ActiveToggles()
         {
-            return m_Toggles.Where(x => x.isOn);
+            return m_Toggles.Where(x => x.IsOn);
         }
 
         public void SetAllTogglesOff()
@@ -92,7 +92,7 @@ namespace UnityEngine.UI
             m_AllowSwitchOff = true;
 
             for (var i = 0; i < m_Toggles.Count; i++)
-                m_Toggles[i].isOn = false;
+                m_Toggles[i].IsOn = false;
 
             m_AllowSwitchOff = oldAllowSwitchOff;
         }

@@ -1,23 +1,62 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace UnityEngine.UI.Extensions
 {
+    public enum ResolutionMode
+    {
+        None,
+        PerSegment,
+        PerLine
+    }
+
     public class UIPrimitiveBase : MaskableGraphic, ILayoutElement, ICanvasRaycastFilter
     {
+        static protected Material s_ETC1DefaultUI = null;
 
-        [SerializeField]
-        private Sprite m_Sprite;
-        public Sprite sprite { get { return m_Sprite; } set { if (SetPropertyUtility.SetClass(ref m_Sprite, value)) SetAllDirty(); } }
+        [SerializeField] private Sprite m_Sprite;
+        public Sprite sprite { get { return m_Sprite; } set { if (SetPropertyUtility.SetClass(ref m_Sprite, value)) GeneratedUVs(); SetAllDirty(); } }
 
         [NonSerialized]
         private Sprite m_OverrideSprite;
-        public Sprite overrideSprite { get { return m_OverrideSprite == null ? sprite : m_OverrideSprite; } set { if (SetPropertyUtility.SetClass(ref m_OverrideSprite, value)) SetAllDirty(); } }
+        public Sprite overrideSprite { get { return activeSprite; } set { if (SetPropertyUtility.SetClass(ref m_OverrideSprite, value)) GeneratedUVs(); SetAllDirty(); } }
+
+        protected Sprite activeSprite { get { return m_OverrideSprite != null ? m_OverrideSprite : sprite; } }
 
         // Not serialized until we support read-enabled sprites better.
         internal float m_EventAlphaThreshold = 1;
         public float eventAlphaThreshold { get { return m_EventAlphaThreshold; } set { m_EventAlphaThreshold = value; } }
 
+        [SerializeField]
+        private ResolutionMode m_improveResolution;
+        public ResolutionMode ImproveResolution { get { return m_improveResolution; } set { m_improveResolution = value; SetAllDirty(); } }
 
+        [SerializeField]
+        protected float m_Resolution;
+        public float Resoloution { get { return m_Resolution; } set { m_Resolution = value; SetAllDirty(); } }
+
+        [SerializeField]
+        private bool m_useNativeSize;
+        public bool UseNativeSize { get { return m_useNativeSize; } set { m_useNativeSize = value; SetAllDirty(); } }
+
+        protected UIPrimitiveBase()
+        {
+            useLegacyMeshGeneration = false;
+        }
+
+        /// <summary>
+        /// Default material used to draw everything if no explicit material was specified.
+        /// </summary>
+
+        static public Material defaultETC1GraphicMaterial
+        {
+            get
+            {
+                if (s_ETC1DefaultUI == null)
+                    s_ETC1DefaultUI = Canvas.GetETC1SupportedCanvasMaterial();
+                return s_ETC1DefaultUI;
+            }
+        }
 
         /// <summary>
         /// Image's texture comes from the UnityEngine.Image.
@@ -26,7 +65,7 @@ namespace UnityEngine.UI.Extensions
         {
             get
             {
-                if (overrideSprite == null)
+                if (activeSprite == null)
                 {
                     if (material != null && material.mainTexture != null)
                     {
@@ -35,7 +74,24 @@ namespace UnityEngine.UI.Extensions
                     return s_WhiteTexture;
                 }
 
-                return overrideSprite.texture;
+                return activeSprite.texture;
+            }
+        }
+
+        /// <summary>
+        /// Whether the Image has a border to work with.
+        /// </summary>
+
+        public bool hasBorder
+        {
+            get
+            {
+                if (activeSprite != null)
+                {
+                    Vector4 v = activeSprite.border;
+                    return v.sqrMagnitude > 0f;
+                }
+                return false;
             }
         }
 
@@ -44,14 +100,33 @@ namespace UnityEngine.UI.Extensions
             get
             {
                 float spritePixelsPerUnit = 100;
-                if (sprite)
-                    spritePixelsPerUnit = sprite.pixelsPerUnit;
+                if (activeSprite)
+                    spritePixelsPerUnit = activeSprite.pixelsPerUnit;
 
                 float referencePixelsPerUnit = 100;
                 if (canvas)
                     referencePixelsPerUnit = canvas.referencePixelsPerUnit;
 
                 return spritePixelsPerUnit / referencePixelsPerUnit;
+            }
+        }
+
+        public override Material material
+        {
+            get
+            {
+                if (m_Material != null)
+                    return m_Material;
+
+                if (activeSprite && activeSprite.associatedAlphaSplitTexture != null)
+                    return defaultETC1GraphicMaterial;
+
+                return defaultMaterial;
+            }
+
+            set
+            {
+                base.material = value;
             }
         }
 
@@ -69,6 +144,59 @@ namespace UnityEngine.UI.Extensions
             }
             return vbo;
         }
+
+        protected Vector2[] IncreaseResolution(Vector2[] input)
+        {
+            var outputList = new List<Vector2>();
+
+            switch (ImproveResolution)
+            {
+                case ResolutionMode.PerLine:
+                    float totalDistance = 0, increments = 0;
+                    for (int i = 0; i < input.Length - 1; i++)
+                    {
+                        totalDistance += Vector2.Distance(input[i], input[i + 1]);
+                    }
+                    ResolutionToNativeSize(totalDistance);
+                    increments = totalDistance / m_Resolution;
+                    var incrementCount = 0;
+                    for (int i = 0; i < input.Length - 1; i++)
+                    {
+                        var p1 = input[i];
+                        outputList.Add(p1);
+                        var p2 = input[i + 1];
+                        var segmentDistance = Vector2.Distance(p1, p2) / increments;
+                        var incrementTime = 1f / segmentDistance;
+                        for (int j=0; j < segmentDistance; j++)
+                        {
+                            outputList.Add(Vector2.Lerp(p1, (Vector2)p2, j * incrementTime));
+                            incrementCount++;
+                        }
+                        outputList.Add(p2);
+                    }
+                    break;
+                case ResolutionMode.PerSegment:
+                    for (int i = 0; i < input.Length - 1; i++)
+                    {
+                        var p1 = input[i];
+                        outputList.Add(p1);
+                        var p2 = input[i + 1];
+                        ResolutionToNativeSize(Vector2.Distance(p1, p2));
+                        increments = 1f / m_Resolution;
+                        for (Single j = 1; j < m_Resolution; j++)
+                        {
+                            outputList.Add(Vector2.Lerp(p1, (Vector2)p2, increments * j));
+                        }
+                        outputList.Add(p2);
+                    }
+                    break;
+            }
+            return outputList.ToArray();
+        }
+
+        protected virtual void GeneratedUVs() { }
+
+        protected virtual void ResolutionToNativeSize(float distance) { }
 
 
         #region ILayoutElement Interface
@@ -111,6 +239,7 @@ namespace UnityEngine.UI.Extensions
         #region ICanvasRaycastFilter Interface
         public virtual bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
         {
+            // add test for line check
             if (m_EventAlphaThreshold >= 1)
                 return true;
 
@@ -128,6 +257,8 @@ namespace UnityEngine.UI.Extensions
             local.y += rectTransform.pivot.y * rect.height;
 
             local = MapCoordinate(local, rect);
+
+            //test local coord with Mesh
 
             // Normalize local coordinates.
             Rect spriteRect = sprite.textureRect;
@@ -159,7 +290,7 @@ namespace UnityEngine.UI.Extensions
         {
             Rect spriteRect = sprite.rect;
             //if (type == Type.Simple || type == Type.Filled)
-                return new Vector2(local.x * spriteRect.width / rect.width, local.y * spriteRect.height / rect.height);
+                return new Vector2(local.x * rect.width, local.y * rect.height);
 
             //Vector4 border = sprite.border;
             //Vector4 adjustedBorder = GetAdjustedBorders(border / pixelsPerUnit, rect);
@@ -212,6 +343,13 @@ namespace UnityEngine.UI.Extensions
 
         #endregion
 
+        #region onEnable
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            SetAllDirty();
+        }
+        #endregion
 
     }
 }

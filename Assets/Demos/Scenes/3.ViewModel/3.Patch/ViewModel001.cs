@@ -37,7 +37,7 @@ public class ViewModel001 : ViewModel
         {
             SetValue<System.String>("title", value);
         }
-    }
+    } 
     public System.Int32 fontSize
     {
         get
@@ -68,7 +68,6 @@ public class ViewModel001 : ViewModel
 
     private void OnEnable()
     {
-        Debug.Log("OnEnable");
         title = _title;
         info = _info;
         fontSize = _fontSize;

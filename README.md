@@ -17,6 +17,7 @@ BridgeUI-综合性UGUI框架
 - **支持代码生成与更新，解析与重写**
 - **支持unity5.3.4及以上版本
 
+## 注意（需要同时下载：![unity-nodegraph-frame](https://github.com/zouhunter/unity-nodegraph-frame.git)）
 -------------------
 ## 接口
 

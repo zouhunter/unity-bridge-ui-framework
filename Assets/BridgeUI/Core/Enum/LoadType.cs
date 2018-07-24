@@ -17,6 +17,6 @@ namespace BridgeUI
     public enum LoadType
     {
         Prefab = 1,
-        Bundle = 1 << 1,
+        Bundle = 1<<1,
     }
 }

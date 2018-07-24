@@ -38,13 +38,7 @@ namespace BridgeUI
 
         public override bool ResetMenu { get { return groupObj.resetMenu; } }
 
-        public override LoadType LoadType { get { return groupObj.loadType; } }
-
-        public override List<BundleUIInfo> B_Nodes { get { return groupObj.b_nodes; } }
-
-        public override List<PrefabUIInfo> P_Nodes { get { return groupObj.p_nodes; } }
-
-        public override List<BridgeInfo> Bridges { get { return groupObj.bridges; } }
+        //public override LoadType LoadType { get { return groupObj.loadType; } }
 
         /// <summary>
         /// 在start中调用防止线程等待（webgl）

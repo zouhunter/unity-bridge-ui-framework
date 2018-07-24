@@ -3,8 +3,9 @@ using System.Collections;
 using System;
 using UnityEditor;
 using NodeGraph;
+using BridgeUI;
 
-namespace BridgeUI
+namespace BridgeUIEditor
 {
     [CustomNodeView(typeof(BridgeConnection))]
     public class BridgeConnectionView:ConnectionView

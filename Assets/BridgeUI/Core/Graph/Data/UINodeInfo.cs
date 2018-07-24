@@ -16,7 +16,7 @@ namespace BridgeUI.Model
     public class NodeInfo
     {
         public UIType uiType = new UIType();
-        public GameObject prefab;
+        public string guid;
         public string discription;
     }
 }

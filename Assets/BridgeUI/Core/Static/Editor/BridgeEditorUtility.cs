@@ -3,14 +3,61 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-namespace BridgeUI
-{
+using ShowMode = BridgeUI.ShowMode;
+using BridgeUI;
+using UnityEditor;
+using System;
 
-#if UNITY_EDITOR
-    using UnityEditor;
-    using System;
+namespace BridgeUIEditor
+{
     public static class BridgeEditorUtility
     {
+        public const float padding = 5;
+
+        public static Rect DrawBoxRect(Rect orignalRect, string index)
+        {
+            var idRect = new Rect(orignalRect.x - padding, orignalRect.y + padding, 20, 20);
+            EditorGUI.LabelField(idRect, index.ToString());
+            var boxRect = PaddingRect(orignalRect, padding * 0.5f);
+            GUI.Box(boxRect, "");
+            var rect = PaddingRect(orignalRect);
+            return rect;
+        }
+
+        public static Rect PaddingRect(Rect orignalRect, float padding = padding)
+        {
+            var rect = new Rect(orignalRect.x + padding, orignalRect.y + padding, orignalRect.width - padding * 2, orignalRect.height - padding * 2);
+            return rect;
+        }
+
+        public static void SetPrefab(this BridgeUI.Model.NodeInfo nodeInfo,GameObject prefab)
+        {
+            if (prefab != null)
+            {
+                var path = AssetDatabase.GetAssetPath(prefab);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    nodeInfo.guid = AssetDatabase.AssetPathToGUID(path);
+                }
+            }
+            else
+            {
+                nodeInfo.guid = null;
+            }
+        }
+        public static GameObject GetPrefab(this BridgeUI.Model.NodeInfo nodeInfo)
+        {
+            if (!string.IsNullOrEmpty(nodeInfo.guid))
+            {
+                var path = AssetDatabase.GUIDToAssetPath(nodeInfo.guid);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                    return prefab;
+                }
+            }
+            return null;
+        }
         public static void ApplyPrefab(GameObject gitem)
         {
             var instanceRoot = PrefabUtility.FindValidUploadPrefabInstanceRoot(gitem);
@@ -244,5 +291,4 @@ namespace BridgeUI
             }
         }
     }
-#endif
 }

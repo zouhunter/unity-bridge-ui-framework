@@ -27,9 +27,14 @@ namespace BridgeUIEditor
         {
             get
             {
-                if (_panelCompnent == null && panelNode.Info.prefab != null)
+                if (_panelCompnent == null && !string.IsNullOrEmpty(panelNode.Info.guid))
                 {
-                    GenCodeUtil.ChoiseAnUserMonobehiver(panelNode.Info.prefab, v => _panelCompnent = v);
+                    var path = AssetDatabase.GUIDToAssetPath(panelNode.Info.guid);
+                    if(!string.IsNullOrEmpty(path))
+                    {
+                        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                        GenCodeUtil.ChoiseAnUserMonobehiver(prefab, v => _panelCompnent = v);
+                    }
                 }
 
                 return _panelCompnent;
@@ -78,10 +83,10 @@ namespace BridgeUIEditor
 
         private void OnPrefabChanged()
         {
-            if (nodeInfo.prefab != null)
+            var prefab = nodeInfo.GetPrefab();
+            if (prefab != null)
             {
-                panelNode.assetName = nodeInfo.prefab.name;
-                //uiCoder = GenCodeUtil.LoadUICoder(nodeInfo.prefab, rule);
+                panelNode.assetName = prefab.name;
             }
         }
         private void InitAnimPlayers()
@@ -138,13 +143,16 @@ namespace BridgeUIEditor
                     ToggleOpen();
                 }
                 EditorGUI.BeginChangeCheck();
-                nodeInfo.prefab = EditorGUILayout.ObjectField(nodeInfo.prefab, typeof(GameObject), false) as GameObject;
+                nodeInfo.SetPrefab(EditorGUILayout.ObjectField(nodeInfo.GetPrefab(), typeof(GameObject), false) as GameObject);
                 if (EditorGUI.EndChangeCheck())
                 {
                     OnPrefabChanged();
                 }
             }
         }
+
+
+
         private void DrawComponetHeader(Rect rect)
         {
             EditorGUI.LabelField(rect, "[控件列表]");
@@ -172,14 +180,14 @@ namespace BridgeUIEditor
 
         private void DrawPreComponents()
         {
-            if (nodeInfo.prefab == null) return;
+            if (nodeInfo.GetPrefab() == null) return;
 
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button(new GUIContent("←", "快速解析"), EditorStyles.toolbarButton, GUILayout.Width(20)))
                 {
-                    var component = nodeInfo.prefab.GetComponent<PanelBase>();
+                    var component = nodeInfo.GetPrefab().GetComponent<PanelBase>();
                     if (component == null)
                     {
                         EditorApplication.Beep();
@@ -199,7 +207,7 @@ namespace BridgeUIEditor
                 rule.baseTypeIndex = EditorGUILayout.Popup(rule.baseTypeIndex, GenCodeUtil.supportBaseTypes);
                 if (GUILayout.Button(new GUIContent("update", "更新脚本控件信息"), EditorStyles.miniButton, GUILayout.Width(60)))
                 {
-                    var go = nodeInfo.prefab;
+                    var go = nodeInfo.GetPrefab();
                     GenCodeUtil.UpdateScripts(go,components,rule);
                 }
             }
@@ -529,7 +537,7 @@ namespace BridgeUIEditor
                 }
                 if (parent != null)
                 {
-                    var obj = PrefabUtility.InstantiatePrefab(nodeInfo.prefab) as GameObject;
+                    var obj = PrefabUtility.InstantiatePrefab(nodeInfo.GetPrefab()) as GameObject;
                     obj.transform.SetParent(parent, false);
                     panelNode.instenceID = obj.GetInstanceID();
                 }

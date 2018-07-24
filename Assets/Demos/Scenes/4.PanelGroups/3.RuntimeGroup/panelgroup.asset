@@ -12,34 +12,7 @@ MonoBehaviour:
   m_Name: panelgroup
   m_EditorClassIdentifier: 
   graphList:
-  - graphName: runtimeGraph
-    guid: ebb950b8ba4b31942871d319b26a98a8
+  - {fileID: 11400000, guid: 7922bd934b92e7d4d81ededd30138dd5, type: 2}
   resetMenu: 0
   menu: 
   loadType: 2
-  b_nodes:
-  - panelName: RuntimePanel
-    instanceID: 0
-    type:
-      layerIndex: 0
-      form: 0
-      layer: 0
-      hideAlaph: 0
-      enterAnim: 0
-      quitAnim: 0
-      closeRule: 0
-      hideRule: 0
-    guid: 9df3bf47de3451444bf0b545a4bdf473
-    good: 1
-    bundleName: bridgeui/panels/runtimepanel
-  p_nodes: []
-  bridges:
-  - inNode: 
-    index: 0
-    showModel:
-      auto: 1
-      mutex: 0
-      cover: 0
-      baseShow: 0
-      single: 0
-    outNode: RuntimePanel

@@ -49,7 +49,9 @@ namespace BridgeUIEditor
             InitPropertys(property);
 
             Rect btnRect = new Rect(position.xMin, position.yMin + 2f, position.width * 0.9f, singleHeight);
+
             GUI.contentColor = Color.green;
+
             if (property.isExpanded && (instanceIDProp.intValue == 0 || EditorUtility.InstanceIDToObject(instanceIDProp.intValue) == null))
             {
                 property.isExpanded = false;
@@ -88,6 +90,7 @@ namespace BridgeUIEditor
                     instanceIDProp.intValue = 0;
                 }
             }
+
             GUI.contentColor = Color.white;
 
             WorningIfNotRight(btnRect);

@@ -104,11 +104,13 @@ namespace BridgeUI.Common
                 case LuaResourceType.WebFile:
                     EditorGUILayout.PropertyField(webUrl);
                     break;
-                case LuaResourceType.AssetBundle:
+#if AssetBundleTools
+                    case LuaResourceType.AssetBundle:
                     EditorGUILayout.PropertyField(menu);
                     EditorGUILayout.PropertyField(assetBundleName);
                     EditorGUILayout.PropertyField(assetName);
                     break;
+#endif
                 case LuaResourceType.Resource:
                     EditorGUILayout.PropertyField(scriptName);
                     break;

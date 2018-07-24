@@ -66,7 +66,9 @@ namespace BridgeUIEditor
             base.OnInspectorGUI(gui);
             if (target != null)
             {
-                gui.Name = (target as PanelNode).assetName;
+                var node = target as PanelNode;
+                node.name = node.assetName;
+                gui.Name = node.name;
             }
         }
         public override void OnNodeGUI(Rect position, NodeData data)
@@ -83,9 +85,10 @@ namespace BridgeUIEditor
             base.OnClickNodeGUI(nodeGUI, mousePosition, result);
             if (panelNode == null) return;
             var nodeInfo = panelNode.nodeInfo;
-            if (nodeInfo.prefab)
+            var prefab = nodeInfo.GetPrefab();
+            if (prefab)
             {
-                EditorGUIUtility.PingObject(nodeInfo.prefab);
+                EditorGUIUtility.PingObject(prefab);
             }
         }
         public override void OnContextMenuGUI(GenericMenu menu, NodeGUI gui)

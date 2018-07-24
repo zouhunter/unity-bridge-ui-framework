@@ -19,9 +19,7 @@ namespace BridgeUI
     /// </summary>
     public abstract class PanelGroupBase : MonoBehaviour, IPanelGroup
     {
-#if UNITY_EDITOR
-        public List<GraphWorp> graphList = new List<GraphWorp>();
-#endif
+        public List<Graph.UIGraph> graphList = new List<Graph.UIGraph>();
         public Transform Trans { get { return transform; } }
         public List<UIInfoBase> Nodes { get { return activeNodes; } }
         protected BridgeInfo defultBridge;
@@ -32,13 +30,57 @@ namespace BridgeUI
         protected List<UIInfoBase> activeNodes;
         protected IPanelCreater creater;
         protected event UnityAction onDestroy;
+        private List<BundleUIInfo> _b_nodes;
+        private List<PrefabUIInfo> _p_nodes;
+        private List<BridgeInfo> _bridges;
         public UIBindingController bindingCtrl { get; private set; }
         public abstract string Menu { get; }
         public abstract bool ResetMenu { get; }
-        public abstract LoadType LoadType { get; }
-        public abstract List<BundleUIInfo> B_Nodes { get; }
-        public abstract List<PrefabUIInfo> P_Nodes { get; }
-        public abstract List<BridgeInfo> Bridges { get; }
+        public List<BundleUIInfo> B_Nodes
+        {
+            get
+            {
+                if (_b_nodes == null)
+                {
+                    _b_nodes = new List<BundleUIInfo>();
+                    foreach (var item in graphList)
+                    {
+                        _b_nodes.AddRange(item.b_nodes);
+                    }
+                }
+                return _b_nodes;
+            }
+        }
+        public List<PrefabUIInfo> P_Nodes
+        {
+            get
+            {
+                if (_p_nodes == null)
+                {
+                    _p_nodes = new List<PrefabUIInfo>();
+                    foreach (var graph in graphList)
+                    {
+                        _p_nodes.AddRange(graph.p_nodes);
+                    }
+                }
+                return _p_nodes;
+            }
+        }
+        public List<BridgeInfo> Bridges
+        {
+            get
+            {
+                if (_bridges == null)
+                {
+                    _bridges = new List<BridgeInfo>();
+                    foreach (var graph in graphList)
+                    {
+                        _bridges.AddRange(graph.bridges);
+                    }
+                }
+                return _bridges;
+            }
+        }
 
         private void OnEnable()
         {
@@ -113,7 +155,7 @@ namespace BridgeUI
         /// </summary>
         protected void InitCreater()
         {
-            if (ResetMenu && LoadType == LoadType.Bundle)
+            if (ResetMenu)
             {
                 creater = new PanelCreater(Menu);
             }
@@ -259,16 +301,8 @@ namespace BridgeUI
         protected void RegistUINodes()
         {
             activeNodes = new List<UIInfoBase>();
-
-            if ((LoadType & LoadType.Bundle) == LoadType.Bundle)
-            {
-                activeNodes.AddRange(B_Nodes.ConvertAll<UIInfoBase>(x => x));
-            }
-
-            if ((LoadType & LoadType.Prefab) == LoadType.Prefab)
-            {
-                activeNodes.AddRange(P_Nodes.ConvertAll<UIInfoBase>(x => x));
-            }
+            activeNodes.AddRange(B_Nodes.ConvertAll<UIInfoBase>(x => x));
+            activeNodes.AddRange(P_Nodes.ConvertAll<UIInfoBase>(x => x));
         }
         /// <summary>
         /// 

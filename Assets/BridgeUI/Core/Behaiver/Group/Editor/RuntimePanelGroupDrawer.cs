@@ -39,11 +39,13 @@ namespace BridgeUIEditor
             serializedObject.Update();
             DrawAcceptRect();
             DrawAssetOptions();
+            serializedObject.ApplyModifiedProperties();
 
             if (groupobjDrawer != null){
+                groupobjDrawer.serializedObject.Update();
                 groupobjDrawer.OnInspectorGUI();
+                groupobjDrawer.serializedObject.ApplyModifiedProperties();
             }
-            serializedObject.ApplyModifiedProperties();
 #endif
         }
 

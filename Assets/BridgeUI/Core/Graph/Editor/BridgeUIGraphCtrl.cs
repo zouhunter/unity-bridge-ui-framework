@@ -12,6 +12,7 @@ using System.Security.Cryptography;
 using NodeGraph;
 using NodeGraph.DataModel;
 using BridgeUI.Model;
+using BridgeUI.Graph;
 
 namespace BridgeUI
 {
@@ -25,67 +26,88 @@ namespace BridgeUI
                 return "BridgeUI";
             }
         }
-        private void StoreInfoOfPanelGroup(PanelGroup group)
+
+        private bool good = false;
+
+        private void StoreInfoOfUIGraph(UIGraph graph)
         {
-            InsertBridges(group.bridges, GetBridges());
-            if (group.loadType == LoadType.Prefab)
+            graph.bridges.Clear();
+            graph.b_nodes.Clear();
+            graph.p_nodes.Clear();
+
+            InsertBridges(graph.bridges, GetBridges());
+            if (graph.loadType == LoadType.Prefab)
             {
-                InsertPrefabinfo(group.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
+                InsertPrefabinfo(graph.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
             }
-            else if (group.loadType == LoadType.Bundle)
+            else if (graph.loadType == LoadType.Bundle)
             {
-                InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
+                InsertBundleinfo(graph.b_nodes, GetBundleUIInfos(GetNodeInfos()));
             }
-            TryRecoredGraphGUID(group);
-            EditorUtility.SetDirty(group);
+            EditorUtility.SetDirty(graph);
         }
-        private void StoreInfoOfPanelGroup(PanelGroupObj group)
-        {
-            InsertBridges(group.bridges, GetBridges());
-            if (group.loadType == LoadType.Prefab)
-            {
-                InsertPrefabinfo(group.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
-            }
-            else if (group.loadType == LoadType.Bundle)
-            {
-                InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
-            }
-            TryRecoredGraphGUID(group);
-            EditorUtility.SetDirty(group);
-        }
-        private void TryRecoredGraphGUID(UnityEngine.Object group)
-        {
-            var path = AssetDatabase.GetAssetPath(TargetGraph);
-            var guid = AssetDatabase.AssetPathToGUID(path);
-            if (group is PanelGroup)
-            {
-                var panelGroup = group as PanelGroup;
-                var record = panelGroup.graphList.Find(x => x.guid == guid);
-                if (record == null)
-                {
-                    var item = new GraphWorp(TargetGraph.name, guid);
-                    panelGroup.graphList.Add(item);
-                }
-                else
-                {
-                    record.graphName = TargetGraph.name;
-                }
-            }
-            else if (group is PanelGroupObj)
-            {
-                var panelGroup = group as PanelGroupObj;
-                var record = panelGroup.graphList.Find(x => x.guid == guid);
-                if (record == null)
-                {
-                    var item = new GraphWorp(TargetGraph.name, guid);
-                    panelGroup.graphList.Add(item);
-                }
-                else
-                {
-                    record.graphName = TargetGraph.name;
-                }
-            }
-        }
+
+        //private void StoreInfoOfPanelGroup(PanelGroup group)
+        //{
+        //    InsertBridges(group.bridges, GetBridges());
+        //    if (group.loadType == LoadType.Prefab)
+        //    {
+        //        InsertPrefabinfo(group.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
+        //    }
+        //    else if (group.loadType == LoadType.Bundle)
+        //    {
+        //        InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
+        //    }
+        //    TryRecoredGraphGUID(group);
+        //    EditorUtility.SetDirty(group);
+        //}
+        //private void StoreInfoOfPanelGroup(PanelGroupObj group)
+        //{
+        //    InsertBridges(group.bridges, GetBridges());
+        //    if (group.loadType == LoadType.Prefab)
+        //    {
+        //        InsertPrefabinfo(group.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
+        //    }
+        //    else if (group.loadType == LoadType.Bundle)
+        //    {
+        //        InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
+        //    }
+        //    TryRecoredGraphGUID(group);
+        //    EditorUtility.SetDirty(group);
+        //}
+        //private void TryRecoredGraphGUID(UnityEngine.Object group)
+        //{
+        //    var path = AssetDatabase.GetAssetPath(TargetGraph);
+        //    var guid = AssetDatabase.AssetPathToGUID(path);
+        //    if (group is PanelGroup)
+        //    {
+        //        var panelGroup = group as PanelGroup;
+        //        var record = panelGroup.graphList.Find(x => x.guid == guid);
+        //        if (record == null)
+        //        {
+        //            var item = new GraphWorp(TargetGraph.name, guid);
+        //            panelGroup.graphList.Add(item);
+        //        }
+        //        else
+        //        {
+        //            record.graphName = TargetGraph.name;
+        //        }
+        //    }
+        //    else if (group is PanelGroupObj)
+        //    {
+        //        var panelGroup = group as PanelGroupObj;
+        //        var record = panelGroup.graphList.Find(x => x.guid == guid);
+        //        if (record == null)
+        //        {
+        //            var item = new GraphWorp(TargetGraph.name, guid);
+        //            panelGroup.graphList.Add(item);
+        //        }
+        //        else
+        //        {
+        //            record.graphName = TargetGraph.name;
+        //        }
+        //    }
+        //}
         private void InsertBridges(List<BridgeInfo> source, List<BridgeInfo> newBridges)
         {
             if (source == null) return;
@@ -186,13 +208,14 @@ namespace BridgeUI
             {
                 var p = new PrefabUIInfo();
                 p.type = item.uiType;
-                p.prefab = item.prefab;
+                p.prefab = LoadPrefabFromGUID(item.guid);
                 p.panelName = p.prefab.name;
                 p.discription = item.discription;
                 pinfos.Add(p);
             }
             return pinfos;
         }
+
         private GameObject LoadPrefabFromGUID(string guid)
         {
             var path = AssetDatabase.GUIDToAssetPath(guid);
@@ -212,8 +235,7 @@ namespace BridgeUI
             {
                 var p = new BundleUIInfo();
                 p.type = item.uiType;
-                var path = AssetDatabase.GetAssetPath(item.prefab);
-                p.guid = AssetDatabase.AssetPathToGUID(path);
+                p.guid = item.guid;
                 p.discription = item.discription;
                 binfo.Add(p);
             }
@@ -245,68 +267,79 @@ namespace BridgeUI
         }
         internal override void Validate(NodeGUI node)
         {
-            var changed = false;
             if (node.Data.Object is IPanelInfoHolder)
             {
                 var nodeItem = node.Data.Object as IPanelInfoHolder;
-                if (nodeItem.Info.prefab == null)
+                if (string.IsNullOrEmpty(nodeItem.Info.guid) || LoadPrefabFromGUID(nodeItem.Info.guid) == null)
                 {
                     node.ResetErrorStatus();
-                    changed = true;
                 }
-            }
-            if (changed)
-            {
-                Perform();
             }
         }
         protected override void JudgeNodeExceptions(NodeGraphObj m_targetGraph, List<NodeException> m_nodeExceptions)
         {
+            bool haveError = false;
             foreach (var item in TargetGraph.Nodes)
             {
                 if (item.Object is IPanelInfoHolder)
                 {
                     var nodeItem = item.Object as IPanelInfoHolder;
-                    if (nodeItem.Info.prefab == null)
+                    if (string.IsNullOrEmpty(nodeItem.Info.guid) || LoadPrefabFromGUID(nodeItem.Info.guid) == null)
                     {
                         m_nodeExceptions.Add(new NodeException("prefab is null", item.Id));
+                        haveError = true;
                     }
                 }
+            }
+            if(!haveError)
+            {
+                Build();
             }
         }
         protected override void BuildFromGraph(NodeGraphObj m_targetGraph)
         {
-            if (Selection.activeGameObject != null)
+            if(m_targetGraph is Graph.UIGraph)
             {
-                var panelGroup = Selection.activeGameObject.GetComponent<PanelGroup>();
-                if (panelGroup != null)
-                {
-                    StoreInfoOfPanelGroup(panelGroup);
-                }
+                StoreInfoOfUIGraph(m_targetGraph as Graph.UIGraph);
             }
-            if (Selection.activeObject != null && Selection.activeObject is PanelGroupObj)
-            {
-                var groupObj = Selection.activeObject as PanelGroupObj;
-                if (groupObj != null)
-                {
-                    StoreInfoOfPanelGroup(groupObj);
-                }
-            }
-            if (Selection.activeGameObject != null)
-            {
-                var runtimePanelGroup = Selection.activeGameObject.GetComponent<RuntimePanelGroup>();
-                if(runtimePanelGroup != null && !string.IsNullOrEmpty(runtimePanelGroup.groupGuid))
-                {
-                    var path = AssetDatabase.GUIDToAssetPath(runtimePanelGroup.groupGuid);
-                    if (!string.IsNullOrEmpty(path))
-                    {
-                        var groupObj = AssetDatabase.LoadAssetAtPath<PanelGroupObj>(path);
-                        StoreInfoOfPanelGroup(groupObj);
-                    }
-                }
-            }
+            //else if (Selection.activeGameObject != null)
+            //{
+            //    var panelGroup = Selection.activeGameObject.GetComponent<PanelGroup>();
+            //    if (panelGroup != null)
+            //    {
+            //        StoreInfoOfPanelGroup(panelGroup);
+            //    }
+            //    else
+            //    {
+            //        var runtimePanelGroup = Selection.activeGameObject.GetComponent<RuntimePanelGroup>();
+            //        if (runtimePanelGroup != null && !string.IsNullOrEmpty(runtimePanelGroup.groupGuid))
+            //        {
+            //            var path = AssetDatabase.GUIDToAssetPath(runtimePanelGroup.groupGuid);
+            //            if (!string.IsNullOrEmpty(path))
+            //            {
+            //                var groupObj = AssetDatabase.LoadAssetAtPath<PanelGroupObj>(path);
+            //                StoreInfoOfPanelGroup(groupObj);
+            //            }
+            //        }
+            //    }
+
+            //}
+            //else if (Selection.activeObject != null)
+            //{
+            //    if (Selection.activeObject is PanelGroupObj)
+            //    {
+            //        var groupObj = Selection.activeObject as PanelGroupObj;
+            //        if (groupObj != null)
+            //        {
+            //            StoreInfoOfPanelGroup(groupObj);
+            //        }
+            //    }
+            //}
+
             UpdateScriptOfPanelNames(m_targetGraph.Nodes.FindAll(x => x.Object is PanelNodeBase).ConvertAll<string>(x => x.Name));
         }
+
+
         private void UpdateScriptOfPanelNames(List<string> list)
         {
             var guid = PlayerPrefs.GetString(prefer_script_guid);
@@ -419,7 +452,7 @@ namespace BridgeUI
                         foreach (var item in files)
                         {
                             panelNode = ScriptableObject.CreateInstance<PanelNode>();
-                            panelNode.Info.prefab = AssetDatabase.LoadAssetAtPath<GameObject>(item);
+                            panelNode.Info.guid = AssetDatabase.AssetPathToGUID(item);
                             panelNode.name = typeof(PanelNode).FullName;
                             nodeList.Add(new KeyValuePair<string, Node>(Path.GetFileNameWithoutExtension(item), panelNode));
                         }
@@ -432,7 +465,7 @@ namespace BridgeUI
                         {
                             prefab = obj;
                         }
-                        panelNode.Info.prefab = prefab as GameObject;
+                        panelNode.Info.guid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(prefab as GameObject));
                         panelNode.name = typeof(PanelNode).FullName;
                         nodeList.Add(new KeyValuePair<string, Node>(prefab.name, panelNode));
                     }
@@ -440,12 +473,57 @@ namespace BridgeUI
             }
             return nodeList;
         }
-        public override NodeGraphObj CreateNodeGraphObject(string path)
+        public override NodeGraphObj CreateNodeGraphObject()
         {
-            var obj = ScriptableObject.CreateInstance<NodeGraph.DataModel.NodeGraphObj>();
+            var obj = ScriptableObject.CreateInstance<Graph.UIGraph>();
             obj.ControllerType = this.GetType().FullName;
-            AssetDatabase.CreateAsset(obj, path);
+            ProjectWindowUtil.CreateAsset(obj, string.Format("new {0}.asset", obj.GetType().Name));
+
             return obj;
+        }
+        public override void SaveGraph(List<NodeData> nodes, List<ConnectionData> connections, bool resetAll = false)
+        {
+            //base.SaveGraph(nodes, connections, resetAll);
+            UnityEngine.Assertions.Assert.IsNotNull(this);
+            TargetGraph.ApplyGraph(nodes, connections);
+            NodeGraphObj obj = TargetGraph;
+            var allAssets = AllNeededAssets();
+            SetSubAssets(allAssets, obj);
+            UnityEditor.EditorUtility.SetDirty(obj);
+        }
+
+        private ScriptableObject[] AllNeededAssets()
+        {
+            var list = new List<ScriptableObject>();
+            list.Add(TargetGraph);
+            list.AddRange(TargetGraph.Nodes.ConvertAll(x => x.Object as ScriptableObject));
+            list.AddRange(TargetGraph.Connections.ConvertAll(x => x.Object as ScriptableObject));
+            return list.ToArray();
+        }
+
+        public static void SetSubAssets(ScriptableObject[] subAssets, ScriptableObject mainAsset)
+        {
+            var path = AssetDatabase.GetAssetPath(mainAsset);
+            var oldAssets = AssetDatabase.LoadAllAssetsAtPath(path);
+
+            foreach (ScriptableObject subAsset in subAssets)
+            {
+                if (subAsset == mainAsset) continue;
+
+                if (System.Array.Find(oldAssets, x => x == subAsset) == null)
+                {
+                    if (subAsset is PanelNode)
+                    {
+                        ScriptableObjUtility.AddSubAsset(subAsset, mainAsset, HideFlags.None);
+                    }
+                    else
+                    {
+                        ScriptableObjUtility.AddSubAsset(subAsset, mainAsset, HideFlags.HideInHierarchy);
+                    }
+                }
+            }
+
+            ScriptableObjUtility.ClearSubAssets(mainAsset, subAssets);
         }
     }
 }

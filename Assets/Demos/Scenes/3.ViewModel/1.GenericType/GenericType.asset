@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
+  m_Script: {fileID: 11500000, guid: 85d2d9de1cba75443b53732fa8104050, type: 3}
   m_Name: GenericType
   m_EditorClassIdentifier: 
   m_allNodes:
@@ -47,6 +47,25 @@ MonoBehaviour:
   m_lastModified: 131699059091619425
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  loadType: 2
+  b_nodes:
+  - panelName: GenericTypePanel
+    instanceID: 0
+    discription: 
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    guid: 333148b58bb87ae40bc3facb420af07e
+    good: 1
+    bundleName: bridgeui/panels/generictypepanel
+  p_nodes: []
+  bridges: []
 --- !u!114 &11418722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -56,7 +75,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
-  m_Name: PanelNode
+  m_Name: GenericTypePanel
   m_EditorClassIdentifier: 
   selected: 1
   instenceID: 0
@@ -66,31 +85,33 @@ MonoBehaviour:
     baseTypeIndex: 1
     canInherit: 0
     bindingAble: 0
-    generateViewModel: 0
   components:
-  - open: 1
+  - open: 0
     name: subcomponent
     componentID: 0
     components:
     - assembleName: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: SubComponent
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
-    - bindingSource: array
+    - isMethod: 0
+      bindingSource: array
       bindingTarget: stringTest
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         typeName: System.String[]
-    - bindingSource: list
+    - isMethod: 0
+      bindingSource: list
       bindingTarget: listTest
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         typeName: System.Collections.Generic.List`1[[System.String, mscorlib, Version=2.0.0.0,
           Culture=neutral, PublicKeyToken=b77a5c561934e089]]
-    - bindingSource: dic
+    - isMethod: 0
+      bindingSource: dic
       bindingTarget: dicTest
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
@@ -111,5 +132,5 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 122434, guid: 333148b58bb87ae40bc3facb420af07e, type: 2}
+    guid: 333148b58bb87ae40bc3facb420af07e
     discription: 

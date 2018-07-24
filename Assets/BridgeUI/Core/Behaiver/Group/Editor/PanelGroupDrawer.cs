@@ -288,6 +288,8 @@ namespace BridgeUIEditor
             var nodes = new List<BundleUIInfo>();
             foreach (var item in panelgroup.graphList)
             {
+                if (item == null) continue;
+
                 nodes.AddRange(item.b_nodes);
             }
             if (string.IsNullOrEmpty(fliter))
@@ -305,6 +307,8 @@ namespace BridgeUIEditor
             var nodes = new List<PrefabUIInfo>();
             foreach (var item in panelgroup.graphList)
             {
+                if (item == null) continue;
+
                 nodes.AddRange(item.p_nodes);
             }
             if (string.IsNullOrEmpty(fliter))
@@ -327,6 +331,8 @@ namespace BridgeUIEditor
             var panelgroup = target as PanelGroupObj;
             var nodes = new List<BundleUIInfo>();
             foreach (var item in panelgroup.graphList){
+                if (item == null) continue;
+
                 nodes.AddRange(item.b_nodes);
             }
             if (string.IsNullOrEmpty(fliter))
@@ -344,6 +350,8 @@ namespace BridgeUIEditor
             var nodes = new List<PrefabUIInfo>();
             foreach (var item in panelgroup.graphList)
             {
+                if (item == null) continue;
+
                 nodes.AddRange(item.p_nodes);
             }
             if (string.IsNullOrEmpty(fliter))

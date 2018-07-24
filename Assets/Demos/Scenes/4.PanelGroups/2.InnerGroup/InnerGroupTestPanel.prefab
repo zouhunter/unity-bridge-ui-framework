@@ -5,10 +5,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 224: {fileID: 22408028}
-  - 114: {fileID: 11418328}
+  - component: {fileID: 22408028}
+  - component: {fileID: 11418328}
   m_Layer: 5
   m_Name: InnerGroupTestPanel
   m_TagString: Untagged
@@ -21,12 +21,12 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 224: {fileID: 22483246}
-  - 222: {fileID: 22260504}
-  - 114: {fileID: 11451618}
-  - 114: {fileID: 11466812}
+  - component: {fileID: 22483246}
+  - component: {fileID: 22260504}
+  - component: {fileID: 11451618}
+  - component: {fileID: 11466812}
   m_Layer: 5
   m_Name: openPopUp
   m_TagString: Untagged
@@ -39,11 +39,11 @@ GameObject:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 224: {fileID: 22400606}
-  - 222: {fileID: 22254490}
-  - 114: {fileID: 11424624}
+  - component: {fileID: 22400606}
+  - component: {fileID: 22254490}
+  - component: {fileID: 11424624}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -56,10 +56,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 224: {fileID: 22403266}
-  - 114: {fileID: 11441772}
+  - component: {fileID: 22403266}
+  - component: {fileID: 11441772}
   m_Layer: 5
   m_Name: InnerGroup
   m_TagString: Untagged
@@ -125,27 +125,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphList:
-  - graphName: innergroup
-    guid: f9c027a56b03d3e41a01b31cbff121bd
+  - {fileID: 11400000, guid: f9c027a56b03d3e41a01b31cbff121bd, type: 2}
   resetMenu: 0
   menu: 
-  loadType: 1
-  b_nodes: []
-  p_nodes:
-  - panelName: PopUpPanel
-    instanceID: 0
-    discription: 
-    type:
-      layerIndex: 0
-      form: 0
-      layer: 0
-      hideAlaph: 0
-      enterAnim: {fileID: 0}
-      quitAnim: {fileID: 0}
-      closeRule: 0
-      hideRule: 0
-    prefab: {fileID: 132216, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}
-  bridges: []
 --- !u!114 &11451618
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -238,6 +220,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22483246}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -255,6 +238,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22408028}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -274,6 +258,7 @@ RectTransform:
   - {fileID: 22483246}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -292,6 +277,7 @@ RectTransform:
   - {fileID: 22400606}
   m_Father: {fileID: 22408028}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 80, y: -15}

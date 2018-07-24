@@ -5,12 +5,12 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 224: {fileID: 22403904}
-  - 222: {fileID: 22269434}
-  - 114: {fileID: 11457268}
-  - 114: {fileID: 11466086}
+  - component: {fileID: 22403904}
+  - component: {fileID: 22269434}
+  - component: {fileID: 11457268}
+  - component: {fileID: 11466086}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -23,11 +23,11 @@ GameObject:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 224: {fileID: 22492540}
-  - 222: {fileID: 22217804}
-  - 114: {fileID: 11443264}
+  - component: {fileID: 22492540}
+  - component: {fileID: 22217804}
+  - component: {fileID: 11443264}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -40,12 +40,12 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 224: {fileID: 22415496}
-  - 222: {fileID: 22251666}
-  - 114: {fileID: 11418776}
-  - 114: {fileID: 11475984}
+  - component: {fileID: 22415496}
+  - component: {fileID: 22251666}
+  - component: {fileID: 11418776}
+  - component: {fileID: 11475984}
   m_Layer: 5
   m_Name: ButtonOpenPanel
   m_TagString: Untagged
@@ -227,6 +227,7 @@ RectTransform:
   - {fileID: 22492540}
   m_Father: {fileID: 22415496}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -245,6 +246,7 @@ RectTransform:
   - {fileID: 22403904}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -262,6 +264,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22403904}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}

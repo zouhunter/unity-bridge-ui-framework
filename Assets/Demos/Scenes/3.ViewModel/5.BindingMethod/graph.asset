@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
+  m_Script: {fileID: 11500000, guid: 85d2d9de1cba75443b53732fa8104050, type: 3}
   m_Name: graph
   m_EditorClassIdentifier: 
   m_allNodes:
@@ -47,6 +47,10 @@ MonoBehaviour:
   m_lastModified: 131759218619300950
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  loadType: 1
+  b_nodes: []
+  p_nodes: []
+  bridges: []
 --- !u!114 &114524892367379700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -118,5 +122,5 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 172206, guid: 2a44c603d9b16fe44b5764f940b1abf1, type: 2}
+    guid: 
     discription: 

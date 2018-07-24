@@ -1,8 +1,8 @@
 fileFormatVersion: 2
 guid: 333148b58bb87ae40bc3facb420af07e
-timeCreated: 1525403507
-licenseType: Free
 NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: bridgeui/panels/generictypepanel
   assetBundleVariant: 

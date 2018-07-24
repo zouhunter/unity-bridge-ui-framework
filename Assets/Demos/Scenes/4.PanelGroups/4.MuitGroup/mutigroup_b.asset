@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
+  m_Script: {fileID: 11500000, guid: 85d2d9de1cba75443b53732fa8104050, type: 3}
   m_Name: mutigroup_b
   m_EditorClassIdentifier: 
   m_allNodes:
@@ -73,6 +73,32 @@ MonoBehaviour:
   m_lastModified: 131750199156567673
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  loadType: 1
+  b_nodes: []
+  p_nodes:
+  - panelName: ControlPanel_B
+    instanceID: 0
+    discription: 
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 105524, guid: 95cab5514859269448d9116ae2c11ed2, type: 2}
+  bridges:
+  - inNode: 
+    index: 0
+    showModel:
+      auto: 1
+      cover: 0
+      single: 0
+      mutex: 0
+      baseShow: 0
+    outNode: ControlPanel_B
 --- !u!114 &11420118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -93,7 +119,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
-  m_Name: PanelNode
+  m_Name: ControlPanel_B
   m_EditorClassIdentifier: 
   selected: 2
   instenceID: -475074
@@ -104,15 +130,15 @@ MonoBehaviour:
     canInherit: 0
     bindingAble: 0
   components:
-  - open: 1
+  - open: 0
     name: show
     componentID: 0
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Toggle
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0
@@ -137,9 +163,9 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Slider
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0
@@ -176,9 +202,9 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0
@@ -199,9 +225,9 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Button
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems: []
     eventItems:
@@ -220,9 +246,9 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0
@@ -245,7 +271,7 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 105524, guid: 95cab5514859269448d9116ae2c11ed2, type: 2}
+    guid: 95cab5514859269448d9116ae2c11ed2
     discription: 
 --- !u!114 &11499792
 MonoBehaviour:

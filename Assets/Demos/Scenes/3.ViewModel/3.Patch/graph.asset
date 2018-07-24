@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
+  m_Script: {fileID: 11500000, guid: 85d2d9de1cba75443b53732fa8104050, type: 3}
   m_Name: graph
   m_EditorClassIdentifier: 
   m_allNodes:
@@ -47,6 +47,23 @@ MonoBehaviour:
   m_lastModified: 131749965427819153
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  loadType: 1
+  b_nodes: []
+  p_nodes:
+  - panelName: VMUsePanel
+    instanceID: 0
+    discription: 
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 100746, guid: 2067d2deffeb5534a8c7b64163ff03ad, type: 2}
+  bridges: []
 --- !u!114 &11442760
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -56,7 +73,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
-  m_Name: PanelNode
+  m_Name: VMUsePanel
   m_EditorClassIdentifier: 
   selected: 0
   instenceID: 0
@@ -66,7 +83,6 @@ MonoBehaviour:
     baseTypeIndex: 1
     canInherit: 0
     bindingAble: 0
-    generateViewModel: 0
   components:
   - open: 0
     name: click
@@ -76,13 +92,13 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Button
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems: []
     eventItems:
-    - runtime: 1
+    - type: 0
       bindingSource: onClick
       bindingTarget: onClick
       bindingTargetType:
@@ -97,17 +113,19 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
-    - bindingSource: title
+    - isMethod: 0
+      bindingSource: title
       bindingTarget: text
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         typeName: System.String
-    - bindingSource: fontSize
+    - isMethod: 0
+      bindingSource: fontSize
       bindingTarget: fontSize
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
@@ -122,12 +140,13 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
-    - bindingSource: info
+    - isMethod: 0
+      bindingSource: info
       bindingTarget: text
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
@@ -146,5 +165,5 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 100746, guid: 2067d2deffeb5534a8c7b64163ff03ad, type: 2}
+    guid: 2067d2deffeb5534a8c7b64163ff03ad
     discription: 

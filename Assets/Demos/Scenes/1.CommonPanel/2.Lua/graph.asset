@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
+  m_Script: {fileID: 11500000, guid: 85d2d9de1cba75443b53732fa8104050, type: 3}
   m_Name: graph
   m_EditorClassIdentifier: 
   m_allNodes:
@@ -73,7 +73,32 @@ MonoBehaviour:
   m_lastModified: 131694767415757109
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
-  m_panelNamePath: 
+  loadType: 1
+  b_nodes: []
+  p_nodes:
+  - panelName: LuaPanel01
+    instanceID: 0
+    discription: 
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 142688, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+  bridges:
+  - inNode: 
+    index: 0
+    showModel:
+      auto: 0
+      cover: 0
+      single: 0
+      mutex: 0
+      baseShow: 0
+    outNode: LuaPanel01
 --- !u!114 &11457308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -83,7 +108,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
-  m_Name: PanelNode
+  m_Name: LuaPanel01
   m_EditorClassIdentifier: 
   selected: 1
   instenceID: -50136
@@ -102,31 +127,31 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Button
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems:
-    - bindingSource: btn_color
+    - isMethod: 0
+      bindingSource: btn_color
       bindingTarget: color
       bindingTargetType:
         assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.Color
-    - bindingSource: btn_color1
+    - isMethod: 0
+      bindingSource: btn_color1
       bindingTarget: color
       bindingTargetType:
         assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.Color
     eventItems:
-    - runtime: 0
+    - type: 0
       bindingSource: on_cull_statechanged
       bindingTarget: onCullStateChanged
       bindingTargetType:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent
-    - runtime: 1
+    - type: 0
       bindingSource: on_cull_statechanged
       bindingTarget: onCullStateChanged
       bindingTargetType:
@@ -141,25 +166,25 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Slider
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems: []
     eventItems:
-    - runtime: 1
+    - type: 0
       bindingSource: on_slider_switched
       bindingTarget: onValueChanged
       bindingTargetType:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Slider+SliderEvent
-    - runtime: 0
+    - type: 0
       bindingSource: on_slider_switched
       bindingTarget: onValueChanged
       bindingTargetType:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Slider+SliderEvent
-    - runtime: 0
+    - type: 0
       bindingSource: on_slider_switched1
       bindingTarget: onValueChanged
       bindingTargetType:
@@ -176,21 +201,19 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Button
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems:
-    - runtime: 0
+    - type: 0
       bindingSource: on_button_clicked
       bindingTarget: onClick
       bindingTargetType:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.Button+ButtonClickedEvent
-    - runtime: 1
+    - type: 0
       bindingSource: on_button_clicked
       bindingTarget: onClick
       bindingTargetType:
@@ -205,13 +228,13 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Toggle
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems: []
     eventItems:
-    - runtime: 1
+    - type: 0
       bindingSource: on_toggle_switched
       bindingTarget: onValueChanged
       bindingTargetType:
@@ -228,15 +251,13 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Dropdown
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems:
-    - runtime: 1
+    - type: 0
       bindingSource: on_dropdown_switched
       bindingTarget: onValueChanged
       bindingTargetType:
@@ -253,21 +274,19 @@ MonoBehaviour:
       typeName: UnityEngine.UI.InputField
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems:
-    - runtime: 1
+    - type: 0
       bindingSource: on_inputfield_edited
       bindingTarget: onEndEdit
       bindingTargetType:
         assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.UI.InputField+SubmitEvent
-    - runtime: 1
+    - type: 0
       bindingSource: on_inputfield_edited1
       bindingTarget: onEndEdit
       bindingTargetType:
@@ -282,19 +301,19 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems:
-    - bindingSource: image
+    - isMethod: 0
+      bindingSource: image
       bindingTarget: sprite
       bindingTargetType:
         assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         typeName: UnityEngine.Sprite
-    - bindingSource: image_color
+    - isMethod: 0
+      bindingSource: image_color
       bindingTarget: color
       bindingTargetType:
         assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -309,14 +328,13 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems:
-    - bindingSource: text
+    - isMethod: 0
+      bindingSource: text
       bindingTarget: text
       bindingTargetType:
         assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
@@ -333,15 +351,13 @@ MonoBehaviour:
       typeName: UnityEngine.UI.ScrollRect
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      typeName: UnityEngine.CanvasRenderer
     viewItems: []
     eventItems:
-    - runtime: 1
+    - type: 0
       bindingSource: on_scrollview_changed
       bindingTarget: onValueChanged
       bindingTargetType:
@@ -356,15 +372,11 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 142688, guid: f50a6668e2769894289e06d5debd5b8f, type: 2}
+    guid: f50a6668e2769894289e06d5debd5b8f
     discription: 
 --- !u!114 &11480364
 MonoBehaviour:

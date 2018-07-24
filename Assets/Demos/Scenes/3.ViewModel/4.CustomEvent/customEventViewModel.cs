@@ -24,6 +24,7 @@ public class customEventViewModel : ViewModel
 		}
 	}
     #endregion
+
     public customEventViewModel()
     {
         on_event_execute = OnEventTrigger;

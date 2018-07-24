@@ -38,8 +38,13 @@ namespace BridgeUI
 
         public override bool ResetMenu { get { return groupObj.resetMenu; } }
 
-        //public override LoadType LoadType { get { return groupObj.loadType; } }
-
+        public override List<Graph.UIGraph> GraphList
+        {
+            get
+            {
+                return groupObj.graphList;
+            }
+        }
         /// <summary>
         /// 在start中调用防止线程等待（webgl）
         /// </summary>
@@ -76,6 +81,7 @@ namespace BridgeUI
 
         void OnLoad(Model.PanelGroupObj obj)
         {
+            Debug.Log("onload:" + obj);
             this.groupObj = obj;
             if (obj)
             {

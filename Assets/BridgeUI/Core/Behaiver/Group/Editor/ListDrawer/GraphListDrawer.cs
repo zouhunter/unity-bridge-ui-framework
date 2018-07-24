@@ -22,8 +22,6 @@ namespace BridgeUIEditor
         {
             if (property.arraySize <= index || index < 0) return;
 
-            var prop = property.GetArrayElementAtIndex(index);
-
             if (isFocused)
             {
                 var oldColor = GUI.backgroundColor;

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_allNodes:
   - m_name: WorldUI
     m_id: 16f34636-a22c-46db-b26e-cad67919e4cd
-    m_x: 218
-    m_y: 318
+    m_x: 240
+    m_y: 80
     m_node: {fileID: 11484366}
     m_inputPoints:
     - id: b41e639c-99b7-453d-b8fa-cd05b31c4350
@@ -70,12 +70,11 @@ MonoBehaviour:
     m_toNodeConnectionPoiontId: b41e639c-99b7-453d-b8fa-cd05b31c4350
     m_type: bridge
     m_connection: {fileID: 11456084}
-  m_lastModified: 131757790639574834
+  m_lastModified: 131768914909310805
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
-  loadType: 1
-  b_nodes: []
-  p_nodes:
+  loadType: 2
+  b_nodes:
   - panelName: WorldUI
     instanceID: 0
     discription: 
@@ -88,7 +87,10 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 184476, guid: 2922ba4c785828d4592dd4397cde102f, type: 2}
+    guid: 2922ba4c785828d4592dd4397cde102f
+    good: 1
+    bundleName: bridgeui/panels/worldui
+  p_nodes: []
   bridges:
   - inNode: 
     index: 0

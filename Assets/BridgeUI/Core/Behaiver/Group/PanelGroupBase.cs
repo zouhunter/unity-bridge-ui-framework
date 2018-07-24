@@ -19,7 +19,6 @@ namespace BridgeUI
     /// </summary>
     public abstract class PanelGroupBase : MonoBehaviour, IPanelGroup
     {
-        public List<Graph.UIGraph> graphList = new List<Graph.UIGraph>();
         public Transform Trans { get { return transform; } }
         public List<UIInfoBase> Nodes { get { return activeNodes; } }
         protected BridgeInfo defultBridge;
@@ -36,6 +35,7 @@ namespace BridgeUI
         public UIBindingController bindingCtrl { get; private set; }
         public abstract string Menu { get; }
         public abstract bool ResetMenu { get; }
+        public abstract List<Graph.UIGraph> GraphList { get; }
         public List<BundleUIInfo> B_Nodes
         {
             get
@@ -43,7 +43,7 @@ namespace BridgeUI
                 if (_b_nodes == null)
                 {
                     _b_nodes = new List<BundleUIInfo>();
-                    foreach (var item in graphList)
+                    foreach (var item in GraphList)
                     {
                         _b_nodes.AddRange(item.b_nodes);
                     }
@@ -58,7 +58,7 @@ namespace BridgeUI
                 if (_p_nodes == null)
                 {
                     _p_nodes = new List<PrefabUIInfo>();
-                    foreach (var graph in graphList)
+                    foreach (var graph in GraphList)
                     {
                         _p_nodes.AddRange(graph.p_nodes);
                     }
@@ -73,7 +73,7 @@ namespace BridgeUI
                 if (_bridges == null)
                 {
                     _bridges = new List<BridgeInfo>();
-                    foreach (var graph in graphList)
+                    foreach (var graph in GraphList)
                     {
                         _bridges.AddRange(graph.bridges);
                     }

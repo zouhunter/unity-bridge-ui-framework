@@ -27,8 +27,6 @@ namespace BridgeUI
             }
         }
 
-        private bool good = false;
-
         private void StoreInfoOfUIGraph(UIGraph graph)
         {
             graph.bridges.Clear();

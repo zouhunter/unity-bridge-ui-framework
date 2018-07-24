@@ -19,6 +19,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using BridgeUI.Model;
+using BridgeUI.Graph;
 
 namespace BridgeUI
 {
@@ -28,10 +29,20 @@ namespace BridgeUI
     /// </summary>
     public class PanelGroup : PanelGroupBase
     {
+        public List<Graph.UIGraph> graphList = new List<Graph.UIGraph>();
         public bool resetMenu;
         public string menu;
         public override string Menu { get { return menu; } }
         public override bool ResetMenu { get { return resetMenu; } }
+
+        public override List<UIGraph> GraphList
+        {
+            get
+            {
+                return graphList;
+            }
+        }
+
         private void Awake()
         {
             LunchPanelGroupSystem();

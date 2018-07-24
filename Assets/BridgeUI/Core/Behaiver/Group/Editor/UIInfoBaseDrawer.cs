@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using BridgeUI;
+
 using UnityEditor;
-using BridgeUI;
+
+using UnityEngine;
 namespace BridgeUIEditor
 {
     public abstract class UIInfoBaseDrawer : PropertyDrawer
@@ -195,14 +197,7 @@ namespace BridgeUIEditor
             instanceIDProp.intValue = 0;
         }
 
-        protected virtual void ResetBuildInfoOnOpen()
-        {
-            //使用对象是UIGroupObj，将无法从button和Toggle加载
-            //if (serializedObject.targetObject is PanelGroupObj)
-            //{
-
-            //}
-        }
+        protected virtual void ResetBuildInfoOnOpen() { }
 
         protected abstract GameObject GetPrefabItem();
 
@@ -227,6 +222,7 @@ namespace BridgeUIEditor
             {
                 uigroup = Object.FindObjectOfType<PanelGroup>();
             }
+
             if (uigroup != null)
             {
                 return uigroup.transform;

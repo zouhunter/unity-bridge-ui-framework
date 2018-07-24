@@ -221,11 +221,11 @@ namespace BridgeUIEditor
                             go.transform.SetParent((target as PanelGroup).transform, true);
                         }
                     }
-                    else if (target is PanelGroupObj)
+                    else
                     {
                         if (go.GetComponent<Transform>() is RectTransform)
                         {
-                            var canvas = GameObject.FindObjectOfType<Canvas>();
+                            var canvas = UnityEngine.Object.FindObjectOfType<Canvas>();
                             go.transform.SetParent(canvas.transform, false);
                         }
                         else

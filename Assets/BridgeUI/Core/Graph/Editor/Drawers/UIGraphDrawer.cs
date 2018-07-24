@@ -344,37 +344,17 @@ namespace BridgeUIEditor
                 }
                 else
                 {
-                    //var rematrixProp = itemProp.FindPropertyRelative("reset");
                     GameObject go = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
-                    if (target is PanelGroup)
-                    {
-                        if (go.GetComponent<Transform>() is RectTransform)
-                        {
-                            go.transform.SetParent((target as PanelGroup).transform, false);
-                        }
-                        else
-                        {
-                            go.transform.SetParent((target as PanelGroup).transform, true);
-                        }
-                    }
-                    else if (target is Model. PanelGroupObj)
-                    {
-                        if (go.GetComponent<Transform>() is RectTransform)
-                        {
-                            var canvas = GameObject.FindObjectOfType<Canvas>();
-                            go.transform.SetParent(canvas.transform, false);
-                        }
-                        else
-                        {
-                            go.transform.SetParent(null);
-                        }
-                    }
 
-                    //if (rematrixProp.boolValue)
-                    //{
-                    //    go.transform.position = Vector3.zero;
-                    //    go.transform.localRotation = Quaternion.identity;
-                    //}
+                    if (go.GetComponent<Transform>() is RectTransform)
+                    {
+                        var canvas = UnityEngine.Object.FindObjectOfType<Canvas>();
+                        go.transform.SetParent(canvas.transform, false);
+                    }
+                    else
+                    {
+                        go.transform.SetParent(null);
+                    }
 
                     instanceIDProp.intValue = go.GetInstanceID();
                 }

@@ -72,7 +72,7 @@ MonoBehaviour:
     m_connection: {fileID: 11400596}
   m_lastModified: 131750157516255984
   m_graphDescription: 
-  m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  m_controllerType: BridgeUIEditor.BridgeUIGraphCtrl
   loadType: 1
   b_nodes: []
   p_nodes:

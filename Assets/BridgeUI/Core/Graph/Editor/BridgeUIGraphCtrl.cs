@@ -240,39 +240,6 @@ namespace BridgeUIEditor
             {
                 StoreInfoOfUIGraph(m_targetGraph as BridgeUI.Graph.UIGraph);
             }
-            //else if (Selection.activeGameObject != null)
-            //{
-            //    var panelGroup = Selection.activeGameObject.GetComponent<PanelGroup>();
-            //    if (panelGroup != null)
-            //    {
-            //        StoreInfoOfPanelGroup(panelGroup);
-            //    }
-            //    else
-            //    {
-            //        var runtimePanelGroup = Selection.activeGameObject.GetComponent<RuntimePanelGroup>();
-            //        if (runtimePanelGroup != null && !string.IsNullOrEmpty(runtimePanelGroup.groupGuid))
-            //        {
-            //            var path = AssetDatabase.GUIDToAssetPath(runtimePanelGroup.groupGuid);
-            //            if (!string.IsNullOrEmpty(path))
-            //            {
-            //                var groupObj = AssetDatabase.LoadAssetAtPath<PanelGroupObj>(path);
-            //                StoreInfoOfPanelGroup(groupObj);
-            //            }
-            //        }
-            //    }
-
-            //}
-            //else if (Selection.activeObject != null)
-            //{
-            //    if (Selection.activeObject is PanelGroupObj)
-            //    {
-            //        var groupObj = Selection.activeObject as PanelGroupObj;
-            //        if (groupObj != null)
-            //        {
-            //            StoreInfoOfPanelGroup(groupObj);
-            //        }
-            //    }
-            //}
 
             UpdateScriptOfPanelNames(m_targetGraph.Nodes.FindAll(x => x.Object is PanelNodeBase).ConvertAll<string>(x => x.Name));
         }

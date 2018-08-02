@@ -17,13 +17,13 @@ namespace BridgeUI
     public interface IUIHandle
     {
         string PanelName { get; }
-        IPanelBase[] Contexts { get; }
+        IUIPanel[] Contexts { get; }
         bool Active { get; }
         IUIHandle Send(object data);
-        IUIHandle RegistCallBack(UnityAction<IPanelBase, object> onCallBack);
-        IUIHandle RemoveCallBack(UnityAction<IPanelBase, object> onCallBack);
-        IUIHandle RegistCreate(UnityAction<IPanelBase> onCreate);
-        IUIHandle RegistClose(UnityAction<IPanelBase> onClose);
+        IUIHandle RegistCallBack(UnityAction<IUIPanel, object> onCallBack);
+        IUIHandle RemoveCallBack(UnityAction<IUIPanel, object> onCallBack);
+        IUIHandle RegistCreate(UnityAction<IUIPanel> onCreate);
+        IUIHandle RegistClose(UnityAction<IUIPanel> onClose);
 
     }
 

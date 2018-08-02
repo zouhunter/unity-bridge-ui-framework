@@ -23,9 +23,9 @@ namespace BridgeUI
         public List<UIInfoBase> Nodes { get { return activeNodes; } }
         protected BridgeInfo defultBridge;
         protected Dictionary<BridgeInfo, BridgePool> poolDic = new Dictionary<BridgeInfo, BridgePool>();
-        protected List<IPanelBase> createdPanels = new List<IPanelBase>();
-        protected Dictionary<IPanelBase, Stack<IPanelBase>> hidedPanelStack = new Dictionary<IPanelBase, Stack<IPanelBase>>();
-        protected Dictionary<IPanelBase, Bridge> bridgeDic = new Dictionary<IPanelBase, Bridge>();
+        protected List<IUIPanel> createdPanels = new List<IUIPanel>();
+        protected Dictionary<IUIPanel, Stack<IUIPanel>> hidedPanelStack = new Dictionary<IUIPanel, Stack<IUIPanel>>();
+        protected Dictionary<IUIPanel, Bridge> bridgeDic = new Dictionary<IUIPanel, Bridge>();
         protected List<UIInfoBase> activeNodes;
         protected IPanelCreater creater;
         protected event UnityAction onDestroy;
@@ -114,7 +114,7 @@ namespace BridgeUI
             RegistUIEvents();
         }
 
-        public Bridge InstencePanel(IPanelBase parentPanel, string panelName, Transform root)
+        public Bridge InstencePanel(IUIPanel parentPanel, string panelName, Transform root)
         {
             Bridge bridge = null;
             UIInfoBase uiNode = null;
@@ -124,7 +124,7 @@ namespace BridgeUI
                 {
                     Utility.SetTranform(go.transform, uiNode.type.layer, uiNode.type.layerIndex, root == null ? Trans : root);
                     go.SetActive(true);
-                    var panel = go.GetComponent<IPanelBase>();
+                    var panel = go.GetComponent<IUIPanel>();
                     if (panel != null)
                     {
                         createdPanels.Add(panel);
@@ -142,7 +142,7 @@ namespace BridgeUI
             return bridge;
         }
 
-        public List<IPanelBase> RetrivePanels(string panelName)
+        public List<IUIPanel> RetrivePanels(string panelName)
         {
             var panels = createdPanels.FindAll(x => x.Name == panelName);
             return panels;
@@ -170,7 +170,7 @@ namespace BridgeUI
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="bridge"></param>
-        protected void HandBridgeOptions(IPanelBase panel, Bridge bridge)
+        protected void HandBridgeOptions(IUIPanel panel, Bridge bridge)
         {
             TryChangeParentState(panel, bridge.Info);
             TryHideMutexPanels(panel, bridge.Info);
@@ -184,7 +184,7 @@ namespace BridgeUI
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="info"></param>
-        protected void TryMakeCover(IPanelBase panel, BridgeInfo info)
+        protected void TryMakeCover(IUIPanel panel, BridgeInfo info)
         {
             if (info.showModel.cover)
             {
@@ -196,7 +196,7 @@ namespace BridgeUI
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="bridge"></param>
-        protected void TryHideGroup(IPanelBase panel, BridgeInfo bridge)
+        protected void TryHideGroup(IUIPanel panel, BridgeInfo bridge)
         {
             if ((bridge.showModel.single))
             {
@@ -221,7 +221,7 @@ namespace BridgeUI
         /// <param name="childPanel"></param>
         /// <param name=""></param>
         /// <param name="bridge"></param>
-        protected void TryHideMutexPanels(IPanelBase childPanel, BridgeInfo bridge)
+        protected void TryHideMutexPanels(IUIPanel childPanel, BridgeInfo bridge)
         {
             if (bridge.showModel.mutex != MutexRule.NoMutex)
             {
@@ -262,7 +262,7 @@ namespace BridgeUI
         /// <param name="current"></param>
         /// <param name="target"></param>
         /// <returns></returns>
-        protected bool IsChildOfPanel(IPanelBase current, IPanelBase target)
+        protected bool IsChildOfPanel(IUIPanel current, IUIPanel target)
         {
             if (current.Parent == null)
             {
@@ -283,7 +283,7 @@ namespace BridgeUI
         /// </summary>
         /// <param name="content"></param>
         /// <param name="parentPanel"></param>
-        protected void TryAutoOpen(Transform content, IPanelBase parentPanel = null)
+        protected void TryAutoOpen(Transform content, IUIPanel parentPanel = null)
         {
             var panelName = parentPanel == null ? "" : parentPanel.Name;
             var autoBridges = Bridges.FindAll(x => CompareName(x.inNode, panelName) && x.showModel.auto);
@@ -324,7 +324,7 @@ namespace BridgeUI
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="needHidePanel"></param>
-        protected void HidePanelInteral(IPanelBase panel, IPanelBase needHidePanel)
+        protected void HidePanelInteral(IUIPanel panel, IUIPanel needHidePanel)
         {
             if (needHidePanel.IsShowing)
             {
@@ -332,7 +332,7 @@ namespace BridgeUI
             }
             if (!hidedPanelStack.ContainsKey(panel))
             {
-                hidedPanelStack[panel] = new Stack<IPanelBase>();
+                hidedPanelStack[panel] = new Stack<IUIPanel>();
             }
             //Debug.Log("push:" + needHidePanel);
             hidedPanelStack[panel].Push(needHidePanel);
@@ -343,7 +343,7 @@ namespace BridgeUI
         /// <param name="panel"></param>
         /// <param name="bridge"></param>
         /// <param name="uiNode"></param>
-        protected void InitPanel(IPanelBase panel, Bridge bridge, UIInfoBase uiNode)
+        protected void InitPanel(IUIPanel panel, Bridge bridge, UIInfoBase uiNode)
         {
             panel.UType = uiNode.type;
             panel.Group = this;
@@ -356,7 +356,7 @@ namespace BridgeUI
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="bridge"></param>
-        protected void TryChangeParentState(IPanelBase panel, BridgeInfo bridge)
+        protected void TryChangeParentState(IUIPanel panel, BridgeInfo bridge)
         {
             if (bridge.showModel.baseShow == BaseShow.Hide)
             {
@@ -380,7 +380,7 @@ namespace BridgeUI
                     {
                         if (!hidedPanelStack.ContainsKey(panel))
                         {
-                            hidedPanelStack[panel] = new Stack<IPanelBase>();
+                            hidedPanelStack[panel] = new Stack<IUIPanel>();
                         }
                         while (hidedPanelStack[parent].Count > 0)
                         {
@@ -401,7 +401,7 @@ namespace BridgeUI
         /// <param name="bridgeObj"></param>
         /// <param name="uiNode"></param>
         /// <returns></returns>
-        protected bool TryMatchPanel(IPanelBase parentPanel, string panelName, out Bridge bridgeObj, out UIInfoBase uiNode)
+        protected bool TryMatchPanel(IUIPanel parentPanel, string panelName, out Bridge bridgeObj, out UIInfoBase uiNode)
         {
             uiNode = Nodes.Find(x => x.panelName == panelName);
 
@@ -439,7 +439,7 @@ namespace BridgeUI
         /// <param name="parentPanel"></param>
         /// <param name="panelName"></param>
         /// <returns></returns>
-        protected Bridge GetBridgeClamp(IPanelBase parentPanel, string panelName)
+        protected Bridge GetBridgeClamp(IUIPanel parentPanel, string panelName)
         {
             Bridge bridge = null;
             var parentName = parentPanel == null ? "" : parentPanel.Name;
@@ -489,7 +489,7 @@ namespace BridgeUI
         /// 当删除一个面板时触发一些事
         /// </summary>
         /// <param name="panel"></param>
-        protected void OnDeletePanel(IPanelBase panel, bool remove)
+        protected void OnDeletePanel(IUIPanel panel, bool remove)
         {
             if (remove)
             {
@@ -522,7 +522,7 @@ namespace BridgeUI
             //显示隐藏面板
             if (hidedPanelStack.ContainsKey(panel))
             {
-                var mayactive = new List<IPanelBase>();
+                var mayactive = new List<IUIPanel>();
                 var stack = hidedPanelStack[panel];
                 if (stack != null)
                 {
@@ -541,7 +541,7 @@ namespace BridgeUI
         /// （如果没有被占用，则可以打开）
         /// </summary>
         /// <param name="panels"></param>
-        protected void TryOpenPanels(IPanelBase[] panels)
+        protected void TryOpenPanels(IUIPanel[] panels)
         {
             bool canActive = true;
             foreach (var item in panels)

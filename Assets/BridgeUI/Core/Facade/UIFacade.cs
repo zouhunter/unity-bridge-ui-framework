@@ -64,7 +64,7 @@ namespace BridgeUI
             return Open(null, panelName,  data);
         }
 
-        public IUIHandle Open(IPanelBase parent, string panelName, object data = null)
+        public IUIHandle Open(IUIPanel parent, string panelName, object data = null)
         {
             var handle = handlePool.Allocate(panelName);
 
@@ -90,7 +90,7 @@ namespace BridgeUI
             return handle;
         }
 
-        private void InternalOpen(IPanelBase parentPanel, IPanelGroup group, IUIHandleInternal handle, string panelName)
+        private void InternalOpen(IUIPanel parentPanel, IPanelGroup group, IUIHandleInternal handle, string panelName)
         {
             var Content = parentPanel == null ? null : parentPanel.Content;
             Bridge bridgeObj = group.InstencePanel(parentPanel, panelName, Content);

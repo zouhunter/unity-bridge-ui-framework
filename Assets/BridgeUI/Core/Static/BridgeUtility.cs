@@ -6,35 +6,35 @@ namespace BridgeUI
 {
     public static class Utility
     {
-        public static IUIHandle Open(this IPanelBase parentPanel, string panelName,  object data = null)
+        public static IUIHandle Open(this IUIPanel parentPanel, string panelName,  object data = null)
         {
             return UIFacade.Instence.Open(parentPanel, panelName, data);
         }
 
-        public static IUIHandle Open(this IPanelBase panel, int index, object data = null)
+        public static IUIHandle Open(this IUIPanel panel, int index, object data = null)
         {
             return panel.Group.bindingCtrl.OpenRegistedPanel(panel, index, data);
         }
 
-        public static void Hide(this IPanelBase parentPanel, string panelName)
+        public static void Hide(this IUIPanel parentPanel, string panelName)
         {
             UIFacade.Instence.Hide(parentPanel.Group, panelName);
         }
-        public static void Hide(this IPanelBase parentPanel, int index)
+        public static void Hide(this IUIPanel parentPanel, int index)
         {
             parentPanel.Group.bindingCtrl.HideRegistedPanel(parentPanel, index);
         }
 
-        public static void Close(this IPanelBase parentPanel, string panelName)
+        public static void Close(this IUIPanel parentPanel, string panelName)
         {
             UIFacade.Instence.Close(parentPanel.Group, panelName);
         }
-        public static void Close(this IPanelBase parentPanel, int index)
+        public static void Close(this IUIPanel parentPanel, int index)
         {
             parentPanel.Group.bindingCtrl.CloseRegistedPanel(parentPanel, index);
         }
 
-        public static bool IsOpen(this IPanelBase parentPanel, int index)
+        public static bool IsOpen(this IUIPanel parentPanel, int index)
         {
             return parentPanel.Group.bindingCtrl.IsRegistedPanelOpen(parentPanel, index);
         }
@@ -89,7 +89,7 @@ namespace BridgeUI
             for (int i = 0; i < childCount; i++)
             {
                 var obj = root.GetChild(i);
-                var panel = obj.GetComponent<IPanelBase>();
+                var panel = obj.GetComponent<IUIPanel>();
                 if (panel == null || obj == item || panel.UType.layerIndex <= layerIndex)
                 {
                     id = i;

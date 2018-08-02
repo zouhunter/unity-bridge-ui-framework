@@ -197,4 +197,10 @@ public class PanelNames {
             return "bindingMethodTest";
         }
     }
+    
+    public static string PanderTestPanel {
+        get {
+            return "PanderTestPanel";
+        }
+    }
 }

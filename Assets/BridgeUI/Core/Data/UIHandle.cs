@@ -19,9 +19,9 @@ namespace BridgeUI
     public class UIHandle : IUIHandleInternal
     {
         private readonly List<Bridge> bridges = new List<Bridge>();
-        private readonly List<UnityAction<IPanelBase, object>> onCallBack = new List<UnityAction<IPanelBase, object>>();
-        private readonly List<UnityAction<IPanelBase>> onCreate = new List<UnityAction<IPanelBase>>();
-        private readonly List<UnityAction<IPanelBase>> onClose = new List<UnityAction<IPanelBase>>();
+        private readonly List<UnityAction<IUIPanel, object>> onCallBack = new List<UnityAction<IUIPanel, object>>();
+        private readonly List<UnityAction<IUIPanel>> onCreate = new List<UnityAction<IUIPanel>>();
+        private readonly List<UnityAction<IUIPanel>> onClose = new List<UnityAction<IUIPanel>>();
         private UnityAction<UIHandle> onRelease { get; set; }
         public bool Active
         {
@@ -30,7 +30,7 @@ namespace BridgeUI
                 return bridges.Count > 0;
             }
         }
-        public IPanelBase[] Contexts
+        public IUIPanel[] Contexts
         {
             get
             {
@@ -74,7 +74,7 @@ namespace BridgeUI
         }
 
 
-        private void OnBridgeCallBack(IPanelBase panel, object data)
+        private void OnBridgeCallBack(IUIPanel panel, object data)
         {
             var array = onCallBack.ToArray();
             foreach (var item in array)
@@ -82,7 +82,7 @@ namespace BridgeUI
                 item.Invoke(panel, data);
             }
         }
-        private void OnCloseCallBack(IPanelBase panel)
+        private void OnCloseCallBack(IUIPanel panel)
         {
             var array = onClose.ToArray();
             foreach (var item in array)
@@ -90,7 +90,7 @@ namespace BridgeUI
                 item.Invoke(panel);
             }
         }
-        private void OnCreatePanel(IPanelBase panel)
+        private void OnCreatePanel(IUIPanel panel)
         {
             var array = onCreate.ToArray();
             foreach (var item in array)
@@ -123,7 +123,7 @@ namespace BridgeUI
             return this;
         }
 
-        public IUIHandle RegistCallBack(UnityAction<IPanelBase, object> onCallBack)
+        public IUIHandle RegistCallBack(UnityAction<IUIPanel, object> onCallBack)
         {
             if (onCallBack == null) return null;
             if (!this.onCallBack.Contains(onCallBack))
@@ -133,7 +133,7 @@ namespace BridgeUI
             return this;
         }
 
-        public IUIHandle RemoveCallBack(UnityAction<IPanelBase, object> onCallBack)
+        public IUIHandle RemoveCallBack(UnityAction<IUIPanel, object> onCallBack)
         {
             if (onCallBack == null) return null;
             if (this.onCallBack.Contains(onCallBack))
@@ -142,7 +142,7 @@ namespace BridgeUI
             }
             return this;
         }
-        public IUIHandle RegistCreate(UnityAction<IPanelBase> onCreate)
+        public IUIHandle RegistCreate(UnityAction<IUIPanel> onCreate)
         {
             if (onCreate == null) return null;
             if (!this.onCreate.Contains(onCreate))
@@ -152,7 +152,7 @@ namespace BridgeUI
             return this;
         }
 
-        public IUIHandle RegistClose(UnityAction<IPanelBase> onClose)
+        public IUIHandle RegistClose(UnityAction<IUIPanel> onClose)
         {
             if (onClose == null) return null;
             if (!this.onClose.Contains(onClose))

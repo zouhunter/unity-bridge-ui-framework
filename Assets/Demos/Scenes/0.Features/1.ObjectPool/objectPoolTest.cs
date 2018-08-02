@@ -72,17 +72,17 @@ public class objectPoolTest : MonoBehaviour {
         }
     }
 
-    private void OnCreate(IPanelBase arg0)
+    private void OnCreate(IUIPanel arg0)
     {
         Debug.Log("OnCreate:" + arg0);
     }
 
-    private void OnClose(IPanelBase arg0)
+    private void OnClose(IUIPanel arg0)
     {
         Debug.Log("OnClose:" + arg0);
     }
 
-    private void OnCallBack(IPanelBase arg0, object arg1)
+    private void OnCallBack(IUIPanel arg0, object arg1)
     {
         Debug.Log("OnCallBack:" + arg0);
     }

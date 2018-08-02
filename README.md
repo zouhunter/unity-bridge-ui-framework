@@ -44,16 +44,16 @@ UIFacade.Instence.Hide(PanelName:string);
 ```
 ### 5.注册界面打开事件
 ```
-IUIHandle RegistCreate(UnityAction<IPanelBase> onCreate);
+IUIHandle RegistCreate(UnityAction<IUIPanel> onCreate);
 ```
 ### 6.注册界面关闭事件
 ```
-IUIHandle RegistClose(UnityAction<IPanelBase> onClose);
+IUIHandle RegistClose(UnityAction<IUIPanel> onClose);
 ```
 ### 7.注册与注销界面信息回调
 ```
-IUIHandle RegistCallBack(UnityAction<IPanelBase, object> onCallBack);
-IUIHandle RemoveCallBack(UnityAction<IPanelBase, object> onCallBack);
+IUIHandle RegistCallBack(UnityAction<IUIPanel, object> onCallBack);
+IUIHandle RemoveCallBack(UnityAction<IUIPanel, object> onCallBack);
 ```
 ### 8.定向发送信息
 ```

@@ -1,32 +1,17 @@
-﻿#region statement
-/*************************************************************************************   
-    * 作    者：       zouhunter
-    * 时    间：       2018-02-06 11:27:06
-    * 说    明：       
-* ************************************************************************************/
-#endregion
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Audio;
 using UnityEngine.Events;
-using UnityEngine.Sprites;
-using UnityEngine.Scripting;
-using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
-using UnityEngine.Assertions.Must;
-using UnityEngine.Assertions.Comparers;
 using System.Collections;
-using System;
-using BridgeUI.Model;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
-using BridgeUI.Binding;
+using BridgeUI;
+using BridgeUI.Model;
+using System;
+using UnityEngine.EventSystems;
 
 namespace BridgeUI
 {
-    [PanelParent]
-    public abstract class PanelBase : UIBehaviour, IUIPanel, IBindingContext
+
+    public sealed class PanelRender : MonoBehaviour, IUIPanel
     {
         public int InstenceID
         {
@@ -38,7 +23,7 @@ namespace BridgeUI
         public string Name { get { return name; } }
         public IPanelGroup Group { get; set; }
         public IUIPanel Parent { get; set; }
-        public virtual Transform Content { get { return transform; } }
+        public Transform Content { get { return transform; } }
         public Transform Root { get { return transform.parent.parent; } }
         public UIType UType { get; set; }
         public List<IUIPanel> ChildPanels
@@ -52,14 +37,14 @@ namespace BridgeUI
         {
             get
             {
-                return _isShowing && !IsDestroyed();
+                return _isShowing;
             }
         }
         public bool IsAlive
         {
             get
             {
-                return _isAlive && !IsDestroyed();
+                return _isAlive;
             }
         }
         private AnimPlayer _enterAnim;
@@ -76,7 +61,7 @@ namespace BridgeUI
             }
         }
         private AnimPlayer _quitAnim;
-        protected AnimPlayer quitAnim
+        private AnimPlayer quitAnim
         {
             get
             {
@@ -90,76 +75,24 @@ namespace BridgeUI
             }
         }
 
-
         protected Bridge bridge;
         protected List<IUIPanel> childPanels;
         public event PanelCloseEvent onDelete;
-
+        private event UnityAction<object> onReceive;
         private bool _isShowing = true;
         private bool _isAlive = true;
-        private Binding.PropertyBinder _binder;
-        protected virtual Binding.PropertyBinder Binder
-        {
-            get
-            {
-                if (_binder == null)
-                {
-                    _binder = new Binding.PropertyBinder(this);
-                }
-                return _binder;
-            }
-        }
-        [SerializeField, DefultViewModel]
-        private Binding.ViewModel _viewModel;
-        private Binding.ViewModel _defultViewModel;
-        protected Binding.ViewModel defultViewModel
-        {
-            get
-            {
-                if (_defultViewModel == null)
-                {
-                    _defultViewModel = ScriptableObject.CreateInstance<ViewModel>();
-                }
-                return _defultViewModel;
-            }
-        }
-        public Binding.ViewModel ViewModel
-        {
-            get
-            {
-                return _viewModel;
-            }
-            set
-            {
-                _viewModel = value;
-                OnViewModelChanged(_viewModel);
-            }
-        }
 
-        protected override void Awake()
+        void Start()
         {
-            base.Awake();
-            InitComponents();
-            PropBindings();
-
-            if (_viewModel != null){
-                OnViewModelChanged(_viewModel);
-            }
-        }
-        protected override void Start()
-        {
-            base.Start();
-            if (bridge != null)
-            {
+            if (bridge != null){
                 bridge.OnCreatePanel(this);
             }
             AppendComponentsByType();
             OnOpenInternal();
         }
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
 
+        void OnDestroy()
+        {
             _isAlive = false;
 
             _isShowing = false;
@@ -174,16 +107,11 @@ namespace BridgeUI
                 onDelete.Invoke(this, true);
             }
 
-            Binder.Unbind();
         }
-        protected virtual void InitComponents() { }
 
-        protected virtual void PropBindings() { }
-
-        public virtual void OnViewModelChanged(Binding.ViewModel newValue)
+        public void OnRegistOnRecevie(UnityAction<object> onReceive)
         {
-            Binder.Unbind();
-            Binder.Bind(newValue);
+            this.onReceive += onReceive;
         }
 
         public void SetParent(Transform Trans)
@@ -206,7 +134,7 @@ namespace BridgeUI
                 bridge.onGet = HandleData;
             }
         }
-        protected void HandleData(Queue<object> dataQueue)
+        private void HandleData(Queue<object> dataQueue)
         {
             if (dataQueue != null)
             {
@@ -220,36 +148,16 @@ namespace BridgeUI
                 }
             }
         }
-        protected virtual void HandleData(object data)
+
+        private void HandleData(object data)
         {
-            if (data is Binding.ViewModel)
+            if(this.onReceive != null)
             {
-                ViewModel = data as Binding.ViewModel;
-            }
-            else if (data is IDictionary)
-            {
-                var currentViewModel = ViewModel == null ? defultViewModel:ViewModel;
-                LoadPropDictionary(currentViewModel, data as IDictionary);
-                ViewModel = currentViewModel;
+                onReceive.Invoke(data);
             }
         }
-        protected virtual void LoadPropDictionary(ViewModel viewModel,IDictionary dataDic)
-        {
-            var keys = dataDic.Keys;
-            foreach (var key in keys)
-            {
-                var value = dataDic[key];
-                if(value != null)
-                {
-                    var prop = viewModel.GetBindablePropertySelfty(key.ToString(), value.GetType());
-                    if(prop != null)
-                    {
-                        prop.ValueBoxed = value;
-                    }
-                }
-            }
-        }
-        public virtual void Hide()
+ 
+        public void Hide()
         {
             _isShowing = false;
             switch (UType.hideRule)
@@ -265,7 +173,7 @@ namespace BridgeUI
             }
         }
 
-        public virtual void OnDestroyHide()
+        public void OnDestroyHide()
         {
             _isShowing = false;
             gameObject.SetActive(false);
@@ -275,16 +183,17 @@ namespace BridgeUI
             }
         }
 
-        public virtual void UnHide()
+        public void UnHide()
         {
             gameObject.SetActive(true);
-            if(UType.hideRule == HideRule.AlaphGameObject) {
+            if (UType.hideRule == HideRule.AlaphGameObject)
+            {
                 AlaphGameObject(false);
             }
             _isShowing = true;
             OnOpenInternal();
         }
-        public virtual void Close()
+        public void Close()
         {
             if (IsShowing && UType.quitAnim != null)
             {

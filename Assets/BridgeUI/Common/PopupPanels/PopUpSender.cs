@@ -23,7 +23,7 @@ namespace BridgeUI.Common
         }
         public void SendFunctionPopInfo(UnityAction<bool> callBack)
         {
-            UIFacade.Instence.Open("FunctionPopupPanel", GetCurrentEnumValue()).RegistCallBack(new UnityAction<IPanelBase,object>((z,x) => { if (callBack != null) callBack.Invoke((bool)x); }));
+            UIFacade.Instence.Open("FunctionPopupPanel", GetCurrentEnumValue()).RegistCallBack(new UnityAction<IUIPanel,object>((z,x) => { if (callBack != null) callBack.Invoke((bool)x); }));
             isCallBack = true;
         }
         public void ClosePopUpPanel()

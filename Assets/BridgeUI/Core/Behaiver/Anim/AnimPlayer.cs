@@ -20,11 +20,11 @@ namespace BridgeUI
         private bool reverse;
 
         protected List<uTweener> tweens;
-        protected PanelBase panel;
+        protected MonoBehaviour panel;
         protected UnityAction onComplete { get; set; }
         protected int completedTween;
 
-        public virtual void SetContext(PanelBase context)
+        public virtual void SetContext(MonoBehaviour context)
         {
             panel = context;
             panel.StartCoroutine(UpdateState());

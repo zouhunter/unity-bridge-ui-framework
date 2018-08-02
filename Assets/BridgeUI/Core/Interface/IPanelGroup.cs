@@ -11,8 +11,8 @@ namespace BridgeUI
     {
         Transform Trans { get; }
         List<UIInfoBase> Nodes { get; }
-        List<IPanelBase> RetrivePanels(string panelName);
+        List<IUIPanel> RetrivePanels(string panelName);
         UIBindingController bindingCtrl { get; }
-        Bridge InstencePanel(IPanelBase parentPanel, string panelName, Transform root);
+        Bridge InstencePanel(IUIPanel parentPanel, string panelName, Transform root);
     }
 }

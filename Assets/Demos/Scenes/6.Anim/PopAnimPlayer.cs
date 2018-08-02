@@ -11,7 +11,7 @@ public class PopAnimPlayer : AnimPlayer
     private float duration = 5;
     RectTransform childPanel;
     private Image image;
-    public override void SetContext(PanelBase context)
+    public override void SetContext(MonoBehaviour context)
     {
         base.SetContext(context);
         childPanel = context.transform.GetChild(0) as RectTransform;

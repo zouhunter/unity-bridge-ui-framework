@@ -30,7 +30,7 @@ namespace BridgeUI
             return bridge;
         }
 
-        internal Bridge Allocate(IPanelBase parentPanel = null)
+        internal Bridge Allocate(IUIPanel parentPanel = null)
         {
             var bridge = innerPool.Allocate();
             bridge.Reset(parentPanel);

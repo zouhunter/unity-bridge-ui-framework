@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace BridgeUI
 {
 
-    public delegate void PanelCloseEvent(IPanelBase panel, bool remove);
+    public delegate void PanelCloseEvent(IUIPanel panel, bool remove);
    
 
 }

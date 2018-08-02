@@ -35,17 +35,17 @@ namespace BridgeUI.Model
         public UnityAction<Queue<object>> onGet { get; set; }
         public Queue<object> dataQueue = new Queue<object>();
         public event UnityAction<Bridge> onRelease;
-        public event UnityAction<IPanelBase, object> onCallBack;
-        public event UnityAction<IPanelBase> onCreate;
-        public IPanelBase InPanel { get; private set; }
-        public IPanelBase OutPanel { get; private set; }
+        public event UnityAction<IUIPanel, object> onCallBack;
+        public event UnityAction<IUIPanel> onCreate;
+        public IUIPanel InPanel { get; private set; }
+        public IUIPanel OutPanel { get; private set; }
         private UnityAction<Bridge> onReleaseFromPool { get; set; }
         public Bridge(BridgeInfo info,UnityAction<Bridge> onReleaseFromPool)
         {
             this.Info = info;
             this.onReleaseFromPool = onReleaseFromPool;
         }
-        public void Reset(IPanelBase parentPanel)
+        public void Reset(IUIPanel parentPanel)
         {
             this.InPanel = parentPanel;
             this.onCreate = null;
@@ -72,7 +72,7 @@ namespace BridgeUI.Model
             }
         }
 
-        public void CallBack(IPanelBase panel, object data)
+        public void CallBack(IUIPanel panel, object data)
         {
             if (onCallBack != null) onCallBack.Invoke(panel, data);
         }
@@ -90,7 +90,7 @@ namespace BridgeUI.Model
             }
         }
 
-        internal void OnCreatePanel(IPanelBase panel)
+        internal void OnCreatePanel(IUIPanel panel)
         {
             OutPanel = panel;
             if (onCreate != null)

@@ -14,6 +14,13 @@ namespace BridgeUIEditor
     {
         public const float padding = 5;
         public static float currentViewWidth { get { return EditorGUIUtility.currentViewWidth - 100; } }
+
+        [PreferenceItem("Bridge UI")]
+        public static void PreferencesGUI()
+        {
+            BridgeUI.Setting.bundleNameFormat = EditorGUILayout.TextField("默认AssetBundle路径:", BridgeUI.Setting.bundleNameFormat);
+        }
+
         public static Rect DrawBoxRect(Rect orignalRect, string index)
         {
             var idRect = new Rect(orignalRect.x - 15, orignalRect.y + 8, 20, 20);

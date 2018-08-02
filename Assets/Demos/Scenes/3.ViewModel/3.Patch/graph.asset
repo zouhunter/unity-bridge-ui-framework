@@ -47,9 +47,8 @@ MonoBehaviour:
   m_lastModified: 131749965427819153
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
-  loadType: 1
-  b_nodes: []
-  p_nodes:
+  loadType: 2
+  b_nodes:
   - panelName: VMUsePanel
     instanceID: 0
     discription: 
@@ -62,7 +61,10 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 100746, guid: 2067d2deffeb5534a8c7b64163ff03ad, type: 2}
+    guid: 2067d2deffeb5534a8c7b64163ff03ad
+    good: 1
+    bundleName: bridgeui/uipanels000/vmusepanel.assetbundle
+  p_nodes: []
   bridges: []
 --- !u!114 &11442760
 MonoBehaviour:

@@ -13,8 +13,8 @@ using NodeGraph;
 using NodeGraph.DataModel;
 using BridgeUI.Model;
 using BridgeUI.Graph;
-
-namespace BridgeUI
+using BridgeUI;
+namespace BridgeUIEditor
 {
     public class BridgeUIGraphCtrl : NodeGraphController
     {
@@ -189,9 +189,10 @@ namespace BridgeUI
                 var path = AssetDatabase.GUIDToAssetPath(binfo.guid);
                 var importer = AssetImporter.GetAtPath(path);
                 var obj = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+
                 if (importer)
                 {
-                    binfo.bundleName = importer.assetBundleName = Setting.bundleNameBase + obj.name.ToLower();
+                    binfo.bundleName = importer.assetBundleName = string.Format(Setting.bundleNameFormat, obj.name.ToLower());
                     binfo.panelName = obj.name;
                     binfo.good = true;
                     EditorUtility.SetDirty(importer);
@@ -235,9 +236,9 @@ namespace BridgeUI
         }
         protected override void BuildFromGraph(NodeGraphObj m_targetGraph)
         {
-            if(m_targetGraph is Graph.UIGraph)
+            if(m_targetGraph is BridgeUI. Graph.UIGraph)
             {
-                StoreInfoOfUIGraph(m_targetGraph as Graph.UIGraph);
+                StoreInfoOfUIGraph(m_targetGraph as BridgeUI.Graph.UIGraph);
             }
             //else if (Selection.activeGameObject != null)
             //{
@@ -412,7 +413,7 @@ namespace BridgeUI
         }
         public override NodeGraphObj CreateNodeGraphObject()
         {
-            var obj = ScriptableObject.CreateInstance<Graph.UIGraph>();
+            var obj = ScriptableObject.CreateInstance<BridgeUI.Graph.UIGraph>();
             obj.ControllerType = this.GetType().FullName;
             ProjectWindowUtil.CreateAsset(obj, string.Format("new {0}.asset", obj.GetType().Name));
 

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_allNodes:
   - m_name: bindingMethodTest
     m_id: 541f0be2-8f8c-4f72-bc60-549f6829c143
-    m_x: 325
-    m_y: 241
+    m_x: 280
+    m_y: 160
     m_node: {fileID: 114524892367379700}
     m_inputPoints:
     - id: 8a053a18-45f5-45ed-9e08-55153235bf4e
@@ -43,14 +43,91 @@ MonoBehaviour:
         height: 23
       max: 100
       type: bridge
-  m_allConnections: []
-  m_lastModified: 131759218619300950
+  - m_name: AnyState
+    m_id: 423ca61b-8dcc-471b-94ef-e34718052030
+    m_x: 62
+    m_y: 155
+    m_node: {fileID: 114309275575609262}
+    m_inputPoints: []
+    m_outputPoints:
+    - id: 6d783b13-3347-4312-8525-5a4b5ded8ba0
+      label: +
+      parentId: 423ca61b-8dcc-471b-94ef-e34718052030
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  m_allConnections:
+  - m_id: 16ae532d-92b1-4c91-9bbd-2326cf2e6043
+    m_fromNodeId: 423ca61b-8dcc-471b-94ef-e34718052030
+    m_fromNodeConnectionPointId: 6d783b13-3347-4312-8525-5a4b5ded8ba0
+    m_toNodeId: 541f0be2-8f8c-4f72-bc60-549f6829c143
+    m_toNodeConnectionPoiontId: 8a053a18-45f5-45ed-9e08-55153235bf4e
+    m_type: bridge
+    m_connection: {fileID: 114211992659144660}
+  m_lastModified: 131776981862156762
   m_graphDescription: 
   m_controllerType: BridgeUI.BridgeUIGraphCtrl
   loadType: 1
   b_nodes: []
-  p_nodes: []
-  bridges: []
+  p_nodes:
+  - panelName: bindingMethodTest
+    instanceID: 0
+    discription: 
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 172206, guid: 2a44c603d9b16fe44b5764f940b1abf1, type: 2}
+  bridges:
+  - inNode: 
+    index: 0
+    showModel:
+      auto: 1
+      cover: 0
+      single: 0
+      mutex: 0
+      baseShow: 0
+    outNode: bindingMethodTest
+--- !u!114 &114211992659144660
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeConnection
+  m_EditorClassIdentifier: 
+  index: 0
+  show:
+    auto: 1
+    cover: 0
+    single: 0
+    mutex: 0
+    baseShow: 0
+--- !u!114 &114309275575609262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
+  m_Name: Luncher
+  m_EditorClassIdentifier: 
 --- !u!114 &114524892367379700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -60,9 +137,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
-  m_Name: PanelNode
+  m_Name: bindingMethodTest
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 0
   instenceID: 0
   assetName: bindingMethodTest
   style: 1
@@ -71,7 +148,7 @@ MonoBehaviour:
     canInherit: 0
     bindingAble: 0
   components:
-  - open: 1
+  - open: 0
     name: bindingMethodTest
     componentID: 0
     components:
@@ -79,9 +156,9 @@ MonoBehaviour:
       typeName: bindingMethodTest
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 1
@@ -103,9 +180,9 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Button
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems: []
     eventItems: []
@@ -122,5 +199,5 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    guid: 
+    guid: 2a44c603d9b16fe44b5764f940b1abf1
     discription: 

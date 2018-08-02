@@ -12,26 +12,30 @@ using System.Collections;
 using System.Collections.Generic;
 using BridgeUI;
 
-public class bindingMethodTest : BridgeUI.SinglePanel
+public class bindingMethodTest : BridgeUI.SingleCloseAblePanel
 {
 	[SerializeField]
 	private bindingMethodTest m_bindingMethodTest;
 
 	[SerializeField]
-	private UnityEngine.UI.Button m_close;
+	private UnityEngine.UI.Button m_btn;
 
 	[SerializeField]
-	private UnityEngine.UI.Button m_btn;
+	private BridgeUI.Control.ButtonListSelector m_list;
 
 	protected override void PropBindings ()
 	{
-		Binder.RegistMember<List<System.String>> (m_bindingMethodTest.SetValue, "value");
-		Binder.RegistMember<UnityEngine.UI.ColorBlock> (x => m_close.colors = x, "close_colors");
-		Binder.RegistMember<UnityEngine.UI.ColorBlock> (x => m_btn.colors = x, "close_colors");
+		Binder.RegistMember<System.String[]> (m_bindingMethodTest.SetValue, "value");
+		Binder.RegistMember<UnityEngine.UI.ColorBlock> (x => m_close.colors = x, "color");
+		Binder.RegistMember<UnityEngine.UI.ColorBlock> (x => m_btn.colors = x, "color");
 		Binder.RegistEvent (m_btn.onClick, "ButtonClicked");
+		Binder.RegistMember<System.String[]> (x => m_list.options = x, "value");
 	}
 
-	public void SetValue (List<string> value)
+	public void SetValue (System.String[] value)
 	{
+		foreach (var item in value) {
+			Debug.Log (item);
+		}
 	}
 }

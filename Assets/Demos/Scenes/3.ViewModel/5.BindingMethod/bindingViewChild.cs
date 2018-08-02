@@ -7,32 +7,32 @@ public class bindingViewChild : bindingViewModel
 {
 	#region 属性列表
 	[DefultValue]
-	public System.Collections.Generic.List<System.String> value {
-		get {
-			return GetValue<System.Collections.Generic.List<System.String>> ("value");
-		}
-		set {
-			SetValue<System.Collections.Generic.List<System.String>> ("value", value);
-		}
-	}
-
-	[DefultValue]
-	public UnityEngine.UI.ColorBlock close_colors {
-		get {
-			return GetValue<UnityEngine.UI.ColorBlock> ("close_colors");
-		}
-		set {
-			SetValue<UnityEngine.UI.ColorBlock> ("close_colors", value);
-		}
-	}
-
-	[DefultValue]
 	public BridgeUI.Binding.PanelAction ButtonClicked {
 		get {
 			return GetValue<BridgeUI.Binding.PanelAction> ("ButtonClicked");
 		}
 		set {
 			SetValue<BridgeUI.Binding.PanelAction> ("ButtonClicked", value);
+		}
+	}
+
+	[DefultValue]
+	public System.String[] value {
+		get {
+			return GetValue<System.String[]> ("value");
+		}
+		set {
+			SetValue<System.String[]> ("value", value);
+		}
+	}
+
+	[DefultValue]
+	public UnityEngine.UI.ColorBlock color {
+		get {
+			return GetValue<UnityEngine.UI.ColorBlock> ("color");
+		}
+		set {
+			SetValue<UnityEngine.UI.ColorBlock> ("color", value);
 		}
 	}
 
@@ -44,7 +44,12 @@ public class bindingViewChild : bindingViewModel
 		colorBlock.normalColor = Color.white;
 		colorBlock.highlightedColor = Color.red;
 		colorBlock.pressedColor = Color.yellow;
-        colorBlock.colorMultiplier = 1;
-		close_colors = colorBlock;
+		colorBlock.colorMultiplier = 1;
+		color = colorBlock;
+		value = new string[] {
+			"a",
+			"b",
+			"c"
+		};
 	}
 }

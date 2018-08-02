@@ -50,6 +50,7 @@ namespace BridgeUIEditor
             var sobj = new SerializedObject(ScriptableObject.CreateInstance<Graph.UIGraph>());
             prefabsPropWorp = sobj.FindProperty("p_nodes");
             bundlesPropWorp = sobj.FindProperty("b_nodes");
+            (target as UIGraph).ControllerType = typeof(BridgeUIEditor.BridgeUIGraphCtrl).FullName;
         }
 
         public override void OnInspectorGUI()

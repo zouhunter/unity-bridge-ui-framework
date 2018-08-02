@@ -63,7 +63,7 @@ MonoBehaviour:
       hideRule: 0
     guid: 2067d2deffeb5534a8c7b64163ff03ad
     good: 1
-    bundleName: bridgeui/uipanels000/vmusepanel.assetbundle
+    bundleName: bridgeui/panels/vmusepanel.assetbundle
   p_nodes: []
   bridges: []
 --- !u!114 &11442760

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 22274014}
   - component: {fileID: 11470628}
   - component: {fileID: 11470982}
-  - component: {fileID: 114728724549160062}
   m_Layer: 0
   m_Name: VMUsePanel
   m_TagString: Untagged
@@ -260,7 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da0da64a3f48e7e44b217a15016d6b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 11400000, guid: b4f0af250b7687544b96f253d4bad035, type: 2}
+  _viewModel: {fileID: 0}
   m_click: {fileID: 11452118}
   m_title: {fileID: 11464906}
   m_info: {fileID: 11498884}
@@ -432,18 +431,3 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100746}
   m_IsPrefabParent: 1
---- !u!114 &114728724549160062
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da0da64a3f48e7e44b217a15016d6b32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  m_click: {fileID: 0}
-  m_title: {fileID: 0}
-  m_info: {fileID: 0}

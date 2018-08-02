@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: AnimTestPanel
   m_EditorClassIdentifier: 
   selected: 0
-  instenceID: 0
+  instenceID: -62022
   assetName: AnimTestPanel
   style: 1
   rule:

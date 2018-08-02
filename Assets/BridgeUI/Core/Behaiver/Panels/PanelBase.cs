@@ -228,14 +228,12 @@ namespace BridgeUI
             }
             else if (data is IDictionary)
             {
-                if(ViewModel == null) {
-                    ViewModel = defultViewModel;
-                }
-
-                LoadPropDictionary(data as IDictionary);
+                var currentViewModel = ViewModel == null ? defultViewModel:ViewModel;
+                LoadPropDictionary(currentViewModel, data as IDictionary);
+                ViewModel = currentViewModel;
             }
         }
-        protected virtual void LoadPropDictionary(IDictionary dataDic)
+        protected virtual void LoadPropDictionary(ViewModel viewModel,IDictionary dataDic)
         {
             var keys = dataDic.Keys;
             foreach (var key in keys)
@@ -243,7 +241,7 @@ namespace BridgeUI
                 var value = dataDic[key];
                 if(value != null)
                 {
-                    var prop = ViewModel.GetBindablePropertySelfty(key.ToString(), value.GetType());
+                    var prop = viewModel.GetBindablePropertySelfty(key.ToString(), value.GetType());
                     if(prop != null)
                     {
                         prop.ValueBoxed = value;

@@ -66,7 +66,6 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
-    generateViewModel: 0
   components: []
   nodeInfo:
     uiType:
@@ -78,5 +77,5 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 3
       hideRule: 0
-    prefab: {fileID: 132216, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}
+    guid: 
     discription: 

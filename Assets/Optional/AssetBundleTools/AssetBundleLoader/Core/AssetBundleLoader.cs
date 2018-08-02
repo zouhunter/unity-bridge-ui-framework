@@ -110,8 +110,8 @@ public class AssetBundleLoader :MonoBehaviour
     private bool isDownLanding;
     private bool menuLoaded;
 
-    private Queue<Tuple<string, string, UnityAction<UnityEngine.Object>>> m_LoadObjectQueue =
-      new Queue<Tuple<string, string, UnityAction<UnityEngine.Object>>>();
+    private Queue<AssetBundles.Tuple<string, string, UnityAction<UnityEngine.Object>>> m_LoadObjectQueue =
+      new Queue<AssetBundles.Tuple<string, string, UnityAction<UnityEngine.Object>>>();
     private static Dictionary<string, AssetBundleLoader> loaderDic = new Dictionary<string, AssetBundleLoader>();
 
     protected void Init(string url,string menu)
@@ -135,7 +135,7 @@ public class AssetBundleLoader :MonoBehaviour
             {
                 if (m_LoadObjectQueue.Count > 0)
                 {
-                    Tuple<string, string, UnityAction<UnityEngine.Object>> data = m_LoadObjectQueue.Dequeue();
+                    AssetBundles.Tuple<string, string, UnityAction<UnityEngine.Object>> data = m_LoadObjectQueue.Dequeue();
                     LoadAssetFromUrlAsync<UnityEngine.Object>(data.Item1, data.Item2, data.Item3);
                 }
             }
@@ -185,7 +185,7 @@ public class AssetBundleLoader :MonoBehaviour
             {
                 if (isDownLanding)
                 {
-                    m_LoadObjectQueue.Enqueue(new Tuple<string, string, UnityAction<UnityEngine.Object>>(assetBundleName, assetName, (x) => onAssetLoad((T)x)));
+                    m_LoadObjectQueue.Enqueue(new AssetBundles.Tuple<string, string, UnityAction<UnityEngine.Object>>(assetBundleName, assetName, (x) => onAssetLoad((T)x)));
                     return;
                 }
                 else

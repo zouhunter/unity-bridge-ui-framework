@@ -106,7 +106,7 @@ namespace BridgeUI.Binding
         public virtual IBindableProperty GetBindablePropertySelfty(string keyward, System.Type type)
         {
             var fullType = typeof(BindableProperty<>).MakeGenericType(type);
-
+            Debug.Log(fullType);
             if (!ContainsKey(keyward) || this[keyward].GetType() != fullType)
             {
                 this[keyward] = System.Activator.CreateInstance(fullType) as IBindableProperty;

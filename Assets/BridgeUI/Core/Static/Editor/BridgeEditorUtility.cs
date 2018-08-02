@@ -13,11 +13,11 @@ namespace BridgeUIEditor
     public static class BridgeEditorUtility
     {
         public const float padding = 5;
-
+        public static float currentViewWidth { get { return EditorGUIUtility.currentViewWidth - 100; } }
         public static Rect DrawBoxRect(Rect orignalRect, string index)
         {
-            var idRect = new Rect(orignalRect.x - padding, orignalRect.y + padding, 20, 20);
-            EditorGUI.LabelField(idRect, index.ToString());
+            var idRect = new Rect(orignalRect.x - 15, orignalRect.y + 8, 20, 20);
+            EditorGUI.LabelField(idRect, index);
             var boxRect = PaddingRect(orignalRect, padding * 0.5f);
             GUI.Box(boxRect, "");
             var rect = PaddingRect(orignalRect);
@@ -29,8 +29,28 @@ namespace BridgeUIEditor
             var rect = new Rect(orignalRect.x + padding, orignalRect.y + padding, orignalRect.width - padding * 2, orignalRect.height - padding * 2);
             return rect;
         }
+        public static void DelyAcceptObject(UnityEngine.Object instence, UnityAction<UnityEngine.Object> onCreate)
+        {
+            if (onCreate == null) return;
+            EditorApplication.CallbackFunction action = () =>
+            {
+                var path = AssetDatabase.GetAssetPath(instence);
 
-        public static void SetPrefab(this BridgeUI.Model.NodeInfo nodeInfo,GameObject prefab)
+                if (!string.IsNullOrEmpty(path))
+                {
+                    var item = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
+                    if (item)
+                    {
+                        onCreate.Invoke(item);
+                    }
+
+                    EditorApplication.update = null;
+
+                }
+            };
+            EditorApplication.update = action;
+        }
+        public static void SetPrefab(this BridgeUI.Model.NodeInfo nodeInfo, GameObject prefab)
         {
             if (prefab != null)
             {
@@ -142,6 +162,15 @@ namespace BridgeUIEditor
             ResetChildPropertyValues(property);
         }
 
+        internal static Enum EnumMaskField(string title, Enum buildOption)
+        {
+#if UNITY_2018_1_OR_NEWER
+            return EditorGUILayout.EnumFlagsField(title, buildOption);
+#else
+            return EditorGUILayout.EnumMaskField(title, buildOption);
+#endif
+        }
+
         private static void ResetChildPropertyValues(SerializedProperty element)
         {
             if (!element.hasChildren)
@@ -226,7 +255,7 @@ namespace BridgeUIEditor
                         break;
                 }
             }
-            if (show .single)
+            if (show.single)
             {
                 str += "[s]";
             }

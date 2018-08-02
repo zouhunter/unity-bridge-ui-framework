@@ -218,12 +218,24 @@ namespace BridgeUI.CodeGen
             oldViewModel.Load(monoScript.text);
             var tree = oldViewModel.tree;
             var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
-            AstNode lastNode = classNode.Descendants.OfType<PreProcessorDirective>().FirstOrDefault();
-            if (lastNode == null)
+
+            PreProcessorDirective startRegion = classNode.Descendants.OfType<PreProcessorDirective>().Where(x => x.Type == PreProcessorDirectiveType.Region && x.Argument == "属性列表").FirstOrDefault();
+
+            if (startRegion == null)
             {
-                lastNode = classNode.Descendants.OfType<PropertyDeclaration>().FirstOrDefault();
+                startRegion = new PreProcessorDirective(PreProcessorDirectiveType.Region, "属性列表");
+                classNode.AddChild<PreProcessorDirective>(startRegion, Roles.PreProcessorDirective);
             }
 
+            PreProcessorDirective endRegion = classNode.Descendants.OfType<PreProcessorDirective>().Where(x => x.Type == PreProcessorDirectiveType.Endregion && x.Argument == "属性列表").FirstOrDefault();
+            if (endRegion == null)
+            {
+                endRegion = new PreProcessorDirective(PreProcessorDirectiveType.Endregion, "属性列表");
+                classNode.InsertChildAfter<PreProcessorDirective>(startRegion, endRegion, Roles.PreProcessorDirective);
+                Debug.Log("new :" + endRegion);
+            }
+
+            #region 处理属性列表
             foreach (var component in components)
             {
                 foreach (var viewItem in component.viewItems)
@@ -234,7 +246,7 @@ namespace BridgeUI.CodeGen
 
                     if (viewItem.bindingTargetType.type != null)
                     {
-                        lastNode = InsertPropertyToClassNode(viewItem.bindingTargetType.type, viewItem.bindingSource, lastNode, classNode);
+                        InsertPropertyToClassNode(viewItem.bindingTargetType.type, viewItem.bindingSource, endRegion, classNode);
                     }
                     else
                     {
@@ -288,7 +300,7 @@ namespace BridgeUI.CodeGen
                         }
 
 
-                        lastNode = InsertPropertyToClassNode(typevalue, eventItem.bindingSource, lastNode, classNode);
+                        InsertPropertyToClassNode(typevalue, eventItem.bindingSource, endRegion, classNode);
                     }
                     else
                     {
@@ -296,6 +308,10 @@ namespace BridgeUI.CodeGen
                     }
                 }
             }
+            #endregion
+
+
+
             var scriptValue = oldViewModel.Compile();
             var scriptPath = AssetDatabase.GetAssetPath(monoScript);
             System.IO.File.WriteAllText(scriptPath, scriptValue);
@@ -310,21 +326,24 @@ namespace BridgeUI.CodeGen
         /// <returns></returns>
         private static AstNode InsertPropertyToClassNode(Type type, string source, AstNode beforeNode, TypeDeclaration classNode)
         {
-            var child = classNode.Descendants.OfType<PropertyDeclaration>().Where(x => x.Name == source).FirstOrDefault();
+            var propertyNode = classNode.Descendants.OfType<PropertyDeclaration>().Where(x => x.Name == source).FirstOrDefault();
 
-            if (child != null)
+            if (propertyNode != null)
             {
-                classNode.Members.Remove(child);
+                classNode.Members.Remove(propertyNode);
             }
 
             var typeName = TypeStringName(type);
 
-            child = new PropertyDeclaration();
-            child.Modifiers = Modifiers.Public;
-            child.ReturnType = new PrimitiveType(string.Format("{0}.{1}", type.Namespace, typeName));
-            child.Name = source;
+            propertyNode = new PropertyDeclaration();
+            var att = new BridgeUI.NRefactory.CSharp.Attribute();
+            att.Type = new SimpleType("DefultValue");
+            propertyNode.Attributes.Add(new AttributeSection(att));
+            propertyNode.Modifiers = Modifiers.Public;
+            propertyNode.ReturnType = new PrimitiveType(string.Format("{0}.{1}", type.Namespace, typeName));
+            propertyNode.Name = source;
             #region Getter
-            var accessor = child.Getter = new Accessor();
+            var accessor = propertyNode.Getter = new Accessor();
             var body = accessor.Body = new BlockStatement();
             var expression = new IdentifierExpression("GetValue");
             var typeArguement = new MemberType(new SimpleType(type.Namespace), typeName);
@@ -333,7 +352,7 @@ namespace BridgeUI.CodeGen
             body.Add(statement);
             #endregion
             #region Setter
-            accessor = child.Setter = new Accessor();
+            accessor = propertyNode.Setter = new Accessor();
             body = accessor.Body = new BlockStatement();
             expression = new IdentifierExpression("SetValue");
             typeArguement = new MemberType(new SimpleType(type.Namespace), typeName);
@@ -341,8 +360,8 @@ namespace BridgeUI.CodeGen
             statement = new ExpressionStatement(new InvocationExpression(expression, new PrimitiveExpression(source), new IdentifierExpression("value")));
             body.Add(statement);
             #endregion
-            classNode.InsertChildAfter(beforeNode, child, Roles.TypeMemberRole);
-            return child;
+            classNode.InsertChildBefore(beforeNode, propertyNode, Roles.TypeMemberRole);
+            return propertyNode;
         }
 
         /// <summary>

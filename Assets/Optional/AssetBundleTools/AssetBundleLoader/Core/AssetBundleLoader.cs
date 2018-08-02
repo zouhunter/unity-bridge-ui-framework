@@ -109,6 +109,7 @@ public class AssetBundleLoader :MonoBehaviour
     private IUrlAssetBundleLoadCtrl activeLoader;
     private bool isDownLanding;
     private bool menuLoaded;
+
     private Queue<Tuple<string, string, UnityAction<UnityEngine.Object>>> m_LoadObjectQueue =
       new Queue<Tuple<string, string, UnityAction<UnityEngine.Object>>>();
     private static Dictionary<string, AssetBundleLoader> loaderDic = new Dictionary<string, AssetBundleLoader>();

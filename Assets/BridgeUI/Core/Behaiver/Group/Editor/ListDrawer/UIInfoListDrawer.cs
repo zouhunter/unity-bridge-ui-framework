@@ -35,8 +35,9 @@ namespace BridgeUIEditor
         }
         protected override void DrawElementCallBack(Rect rect, int index, bool isActive, bool isFocused)
         {
+            base.DrawElementCallBack(rect, index, isActive, isFocused);
             var prop = property.GetArrayElementAtIndex(index);
-            rect = BridgeEditorUtility.DrawBoxRect(rect, index.ToString());
+            rect = BridgeEditorUtility.DrawBoxRect(rect, index.ToString("00"));
             EditorGUI.PropertyField(rect, prop);
         }
 

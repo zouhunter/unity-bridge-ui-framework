@@ -93,18 +93,19 @@ namespace BridgeUI.CodeGen
             var invocations = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
             var arg0_name = "m_" + name + "." + bindingInfo.bindingTarget;
             var arg0 = arg0_name;
-            if (!bindingInfo.isMethod){
+            if (!bindingInfo.isMethod)
+            {
                 arg0 = string.Format("x=>{0}=x", arg0_name);
             }
-            
-            UnityEngine.Debug.Log (bindingInfo.bindingTarget) ;
-            UnityEngine.Debug.Log(bindingInfo.bindingTargetType.type) ;
+
+            UnityEngine.Debug.Log(bindingInfo.bindingTarget);
+            UnityEngine.Debug.Log(bindingInfo.bindingTargetType.type);
 
             var arg1 = string.Format("\"{0}\"", bindingInfo.bindingSource);
             var invocation = invocations.Where(
-                x =>x.Target.ToString().Contains("Binder") &&
+                x => x.Target.ToString().Contains("Binder") &&
                      x.Arguments.Count > 0 &&
-                     x.Arguments.First().ToString().Replace(" ","") == arg0 &&
+                     x.Arguments.First().ToString().Replace(" ", "") == arg0 &&
                      x.Arguments.ToArray()[1].ToString() == arg1).FirstOrDefault();
 
             if (invocation == null)
@@ -371,10 +372,10 @@ namespace BridgeUI.CodeGen
                 var source = invocation.Arguments.ToArray()[1].ToString().Replace("\"", "");
                 var info = component.viewItems.Find(x => x.bindingSource == source);
                 var isMethod = false;
-                var targetName = AnalysisTargetFromLamdaArgument(invocation.Arguments.First().ToString(),out isMethod);
+                var targetName = AnalysisTargetFromLamdaArgument(invocation.Arguments.First().ToString(), out isMethod);
                 UnityEngine.Debug.Log(targetName);
 
-                if (targetName == null)
+                if (string.IsNullOrEmpty(targetName))
                 {
                     UnityEngine.Debug.Assert(!string.IsNullOrEmpty(targetName), "annalysis err:" + invocation.Arguments.First().ToString());
                     return;
@@ -392,13 +393,14 @@ namespace BridgeUI.CodeGen
             }
         }
 
-        private string AnalysisTargetFromLamdaArgument(string arg,out bool isMethod)
+        private string AnalysisTargetFromLamdaArgument(string arg, out bool isMethod)
         {
             arg = arg.Replace(" ", "");
-            if(arg.Contains("=>"))
+
+            if (arg.Contains("=>"))
             {
                 isMethod = false;
-                var pattem = "x =>(.*)=x";
+                var pattem = "x=>(.*)=x";
                 var match = System.Text.RegularExpressions.Regex.Match(arg, pattem);
                 if (match != null)
                 {
@@ -421,7 +423,7 @@ namespace BridgeUI.CodeGen
                 }
                 return value;
             }
-           
+
         }
 
         /// <summary>

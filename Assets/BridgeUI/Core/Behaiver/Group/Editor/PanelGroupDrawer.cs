@@ -33,6 +33,7 @@ namespace BridgeUIEditor
         protected string[] option =  { "预制"};
 #endif
         protected int selected;
+        protected int selectedGraph;
 
         private void OnEnable()
         {
@@ -71,9 +72,16 @@ namespace BridgeUIEditor
             if (graphList == null)
             {
                 graphList = new GraphListDrawer("界面配制图表");
+                graphList.onSelectID += OnSelectGraphID;
                 graphList.InitReorderList(graphListProp);
             }
             graphList.DoLayoutList();
+        }
+
+        private void OnSelectGraphID(int arg0)
+        {
+            selectedGraph = arg0;
+            UpdateMarchList();
         }
 
         private void TryDrawMenu()
@@ -286,12 +294,16 @@ namespace BridgeUIEditor
         {
             var panelgroup = target as PanelGroup;
             var nodes = new List<BundleUIInfo>();
-            foreach (var item in panelgroup.graphList)
+            for (int i = 0; i < panelgroup.graphList.Count; i++)
             {
+                var item = panelgroup.graphList[i];
                 if (item == null) continue;
-
-                nodes.AddRange(item.b_nodes);
+                if (selectedGraph == -1|| selectedGraph == i)
+                {
+                    nodes.AddRange(item.b_nodes);
+                }
             }
+          
             if (string.IsNullOrEmpty(fliter))
             {
                 return nodes;
@@ -305,11 +317,14 @@ namespace BridgeUIEditor
         {
             var panelgroup = target as PanelGroup;
             var nodes = new List<PrefabUIInfo>();
-            foreach (var item in panelgroup.graphList)
+            for (int i = 0; i < panelgroup.graphList.Count; i++)
             {
+                var item = panelgroup.graphList[i];
                 if (item == null) continue;
-
-                nodes.AddRange(item.p_nodes);
+                if (selectedGraph == -1 || selectedGraph == i)
+                {
+                    nodes.AddRange(item.p_nodes);
+                }
             }
             if (string.IsNullOrEmpty(fliter))
             {
@@ -330,10 +345,14 @@ namespace BridgeUIEditor
         {
             var panelgroup = target as PanelGroupObj;
             var nodes = new List<BundleUIInfo>();
-            foreach (var item in panelgroup.graphList){
+            for (int i = 0; i < panelgroup.graphList.Count; i++)
+            {
+                var item = panelgroup.graphList[i];
                 if (item == null) continue;
-
-                nodes.AddRange(item.b_nodes);
+                if (selectedGraph == -1 || selectedGraph == i)
+                {
+                    nodes.AddRange(item.b_nodes);
+                }
             }
             if (string.IsNullOrEmpty(fliter))
             {
@@ -348,11 +367,14 @@ namespace BridgeUIEditor
         {
             var panelgroup = target as PanelGroupObj;
             var nodes = new List<PrefabUIInfo>();
-            foreach (var item in panelgroup.graphList)
+            for (int i = 0; i < panelgroup.graphList.Count; i++)
             {
+                var item = panelgroup.graphList[i];
                 if (item == null) continue;
-
-                nodes.AddRange(item.p_nodes);
+                if (selectedGraph == -1 || selectedGraph == i)
+                {
+                    nodes.AddRange(item.p_nodes);
+                }
             }
             if (string.IsNullOrEmpty(fliter))
             {

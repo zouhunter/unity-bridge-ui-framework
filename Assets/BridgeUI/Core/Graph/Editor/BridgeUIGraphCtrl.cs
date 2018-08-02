@@ -45,67 +45,6 @@ namespace BridgeUI
             EditorUtility.SetDirty(graph);
         }
 
-        //private void StoreInfoOfPanelGroup(PanelGroup group)
-        //{
-        //    InsertBridges(group.bridges, GetBridges());
-        //    if (group.loadType == LoadType.Prefab)
-        //    {
-        //        InsertPrefabinfo(group.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
-        //    }
-        //    else if (group.loadType == LoadType.Bundle)
-        //    {
-        //        InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
-        //    }
-        //    TryRecoredGraphGUID(group);
-        //    EditorUtility.SetDirty(group);
-        //}
-        //private void StoreInfoOfPanelGroup(PanelGroupObj group)
-        //{
-        //    InsertBridges(group.bridges, GetBridges());
-        //    if (group.loadType == LoadType.Prefab)
-        //    {
-        //        InsertPrefabinfo(group.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
-        //    }
-        //    else if (group.loadType == LoadType.Bundle)
-        //    {
-        //        InsertBundleinfo(group.b_nodes, GetBundleUIInfos(GetNodeInfos()));
-        //    }
-        //    TryRecoredGraphGUID(group);
-        //    EditorUtility.SetDirty(group);
-        //}
-        //private void TryRecoredGraphGUID(UnityEngine.Object group)
-        //{
-        //    var path = AssetDatabase.GetAssetPath(TargetGraph);
-        //    var guid = AssetDatabase.AssetPathToGUID(path);
-        //    if (group is PanelGroup)
-        //    {
-        //        var panelGroup = group as PanelGroup;
-        //        var record = panelGroup.graphList.Find(x => x.guid == guid);
-        //        if (record == null)
-        //        {
-        //            var item = new GraphWorp(TargetGraph.name, guid);
-        //            panelGroup.graphList.Add(item);
-        //        }
-        //        else
-        //        {
-        //            record.graphName = TargetGraph.name;
-        //        }
-        //    }
-        //    else if (group is PanelGroupObj)
-        //    {
-        //        var panelGroup = group as PanelGroupObj;
-        //        var record = panelGroup.graphList.Find(x => x.guid == guid);
-        //        if (record == null)
-        //        {
-        //            var item = new GraphWorp(TargetGraph.name, guid);
-        //            panelGroup.graphList.Add(item);
-        //        }
-        //        else
-        //        {
-        //            record.graphName = TargetGraph.name;
-        //        }
-        //    }
-        //}
         private void InsertBridges(List<BridgeInfo> source, List<BridgeInfo> newBridges)
         {
             if (source == null) return;

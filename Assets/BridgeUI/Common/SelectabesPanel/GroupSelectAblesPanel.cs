@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace BridgeUI.Common
 {
-    public class GroupButtonPanel : ButtonsPanel
+    public class GroupSelectAblesPanel : SelectAblesPanel
     {
         [SerializeField]
         private Transform content;

@@ -286,7 +286,7 @@ namespace BridgeUI
         protected void TryAutoOpen(Transform content, IPanelBase parentPanel = null)
         {
             var panelName = parentPanel == null ? "" : parentPanel.Name;
-            var autoBridges = Bridges.FindAll(x => x.inNode == panelName && x.showModel.auto);
+            var autoBridges = Bridges.FindAll(x => CompareName(x.inNode, panelName) && x.showModel.auto);
             if (autoBridges != null)
             {
                 foreach (var autoBridge in autoBridges)
@@ -295,6 +295,21 @@ namespace BridgeUI
                 }
             }
         }
+        /// <summary>
+        /// 名称比较
+        /// </summary>
+        /// <param name="nameA"></param>
+        /// <param name="nameB"></param>
+        /// <returns></returns>
+        protected bool CompareName(string nameA, string nameB)
+        {
+            if (string.IsNullOrEmpty(nameA))
+            {
+                return string.IsNullOrEmpty(nameB);
+            }
+            return string.Compare(nameA, nameB) == 1;
+        }
+
         /// <summary>
         /// 注册所有ui节点信息
         /// </summary>

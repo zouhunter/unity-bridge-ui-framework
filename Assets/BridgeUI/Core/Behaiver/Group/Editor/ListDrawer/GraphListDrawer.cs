@@ -32,11 +32,12 @@ namespace BridgeUIEditor
         }
         protected override void DrawElementCallBack(Rect rect, int index, bool isActive, bool isFocused)
         {
+            base.DrawElementCallBack(rect, index, isActive, isFocused);
             var prop = property.GetArrayElementAtIndex(index);
             var graph = prop.objectReferenceValue;
             var graphName = graph == null ? "empty" : graph.name;
 
-            rect = BridgeEditorUtility.DrawBoxRect(rect, index.ToString());
+            rect = BridgeEditorUtility.DrawBoxRect(rect, index.ToString("00"));
 
             var btnRect = new Rect(rect.x, rect.y, rect.width - 30, EditorGUIUtility.singleLineHeight);
 
@@ -70,9 +71,9 @@ namespace BridgeUIEditor
         /// </summary>
         private void DrawGraphAcceptRegion()
         {
-            var rect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
+            var rect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
             rect.y -= EditorGUIUtility.singleLineHeight;
-
+            rect.height = 2 * EditorGUIUtility.singleLineHeight;
             switch (Event.current.type)
             {
                 case EventType.DragUpdated:
@@ -92,13 +93,18 @@ namespace BridgeUIEditor
                             {
                                 property.InsertArrayElementAtIndex(property.arraySize);
                                 var prop = property.GetArrayElementAtIndex(property.arraySize - 1);
-                                prop.objectReferenceValue = obj;
-                                property.serializedObject.ApplyModifiedProperties();
-                                Debug.Log(property.serializedObject.targetObject);
+                                SetProperyValue(prop, obj);
                             }
                         }
                     }
                     break;
+            }
+
+            if(Event.current.type == EventType.MouseUp && rect.Contains( Event.current.mousePosition))
+            {
+                reorderList.ReleaseKeyboardFocus();
+                SetOnSelect(-1);
+                Event.current.Use();
             }
         }
 
@@ -122,12 +128,7 @@ namespace BridgeUIEditor
                             var obj = DragAndDrop.objectReferences[0];
                             if (obj is NodeGraph.DataModel.NodeGraphObj)
                             {
-                                var path = AssetDatabase.GetAssetPath(obj);
-                                var guid = AssetDatabase.AssetPathToGUID(path);
-                                var keyProp = prop.FindPropertyRelative("graphName");
-                                var guidProp = prop.FindPropertyRelative("guid");
-                                guidProp.stringValue = guid;
-                                keyProp.stringValue = obj.name;
+                                SetProperyValue(prop, obj);
                             }
                         }
                         DragAndDrop.AcceptDrag();
@@ -136,6 +137,13 @@ namespace BridgeUIEditor
                     break;
             }
         }
+
+        protected virtual void SetProperyValue(SerializedProperty property,UnityEngine.Object obj)
+        {
+            property.objectReferenceValue = obj;
+            property.serializedObject.ApplyModifiedProperties();
+        }
+
         protected override float ElementHeightCallback(int index)
         {
             var prop = property.GetArrayElementAtIndex(index);

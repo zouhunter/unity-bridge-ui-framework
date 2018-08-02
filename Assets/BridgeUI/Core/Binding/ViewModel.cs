@@ -12,6 +12,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Reflection;
+
 
 namespace BridgeUI.Binding
 {
@@ -24,7 +26,7 @@ namespace BridgeUI.Binding
         {
             get
             {
-                if(innerDic.ContainsKey(key))
+                if (innerDic.ContainsKey(key))
                 {
                     return innerDic[key];
                 }
@@ -36,12 +38,36 @@ namespace BridgeUI.Binding
             }
         }
 
+        public ViewModel()
+        {
+            AutoInitPropery(this.GetType());
+        }
+
+        protected void AutoInitPropery(Type type)
+        {
+            var propertys = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty|BindingFlags.DeclaredOnly);
+            foreach (var item in propertys)
+            {
+                var att = item.GetCustomAttributes(true).Where(x => x is DefultValueAttribute).FirstOrDefault();
+                if (att != null)
+                {
+                    var fullType = typeof(BindableProperty<>).MakeGenericType(item.PropertyType);
+                    this[item.Name] = System.Activator.CreateInstance(fullType) as IBindableProperty;
+                    Debug.Log("注册:" + item.Name);
+                }
+            }
+
+            var baseType = type.BaseType;
+            if(baseType != typeof(ViewModel) && baseType != null)
+            {
+                AutoInitPropery(baseType);
+            }
+        }
 
         public bool ContainsKey(string key)
         {
             return innerDic.ContainsKey(key);
         }
-
 
         public virtual void SetBindableProperty(string keyward, IBindableProperty value)
         {
@@ -49,7 +75,7 @@ namespace BridgeUI.Binding
             {
                 this[keyward] = value;
             }
-            else if(this[keyward] == value)
+            else if (this[keyward] == value)
             {
                 this[keyward].ValueBoxed = value.ValueBoxed;
             }
@@ -92,13 +118,13 @@ namespace BridgeUI.Binding
         {
             return GetBindablePropertySelfty<T>(keyward).Value;
         }
-        protected virtual void SetValue<T>(string keyward,T value)
+        protected virtual void SetValue<T>(string keyward, T value)
         {
             GetBindablePropertySelfty<T>(keyward).Value = value;
         }
         public virtual void OnBinding(IBindingContext context) { this._contexts.Add(context); }
         public virtual void OnUnBinding(IBindingContext context) { this._contexts.Remove(context); }
-   
+
     }
 
 }

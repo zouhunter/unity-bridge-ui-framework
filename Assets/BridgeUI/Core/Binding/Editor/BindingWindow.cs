@@ -276,7 +276,7 @@ namespace BridgeUIEditor
 
             preComponentList.DoLayoutList();
 
-            var addRect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
+            var addRect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
 
             if (addRect.Contains(Event.current.mousePosition))
             {

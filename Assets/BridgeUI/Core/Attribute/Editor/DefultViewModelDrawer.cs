@@ -39,9 +39,10 @@ namespace BridgeUIEditor
                 var rect = new Rect(position.x + position.width - 60, position.y, 60, position.height);
                 if (GUI.Button(rect, "new", EditorStyles.miniButtonRight))
                 {
-                    var serializeObj = property.serializedObject;
+                    var target = property.serializedObject.targetObject;
                     var path = property.propertyPath;
                     CreateNewViewModel((viewModel)=> {
+                        var serializeObj = new SerializedObject(target);
                         var prop = serializeObj.FindProperty(path);
                         prop.objectReferenceValue = viewModel;
                         serializeObj.ApplyModifiedProperties();
@@ -55,7 +56,7 @@ namespace BridgeUIEditor
         private void CreateNewViewModel(UnityAction<ViewModel> onCreate)
         {
             InitEnviroments();
-            EditorUtility.DisplayCustomMenu(new Rect(Event.current.mousePosition, Vector2.zero), options, 0, OnSelect, onCreate);
+            EditorUtility.DisplayCustomMenu(new Rect(Event.current.mousePosition, Vector2.zero), options,-1, OnSelect, onCreate);
         }
 
         private void OnSelect(object userData, string[] options, int selected)
@@ -63,22 +64,28 @@ namespace BridgeUIEditor
             if (selected >= 0 && options.Length > 0)
             {
                 var type = supportViewModels[selected];
-                var item = ScriptableObject.CreateInstance(type) as ViewModel;
+                var item = ScriptableObject.CreateInstance(type);
                 ProjectWindowUtil.CreateAsset(item, "new viewModel.asset");
-                EditorApplication.update = () =>
+                BridgeUIEditor.BridgeEditorUtility.DelyAcceptObject(item, (obj) =>
                 {
-                    var path = AssetDatabase.GetAssetPath(item);
-                    if(path != null)
+                    var action = userData as UnityAction<ViewModel>;
+                    if (action != null)
                     {
-                        var obj = AssetDatabase.LoadAssetAtPath<ViewModel>(path);
-                        EditorApplication.update = null;
-                        var action = userData as UnityAction<ViewModel>;
-                        if(action != null)
-                        {
-                            action.Invoke(obj);
-                        }
+                        action.Invoke(obj as ViewModel);
                     }
-                };
+
+                });
+                //EditorApplication.update = () =>
+                //{
+                //    var path = AssetDatabase.GetAssetPath(item);
+                //    if(path != null)
+                //    {
+                //        var obj = AssetDatabase.LoadAssetAtPath(path, type);
+                //        Debug.Assert(obj != null);
+                //        EditorApplication.update = null;
+                       
+                //    }
+                //};
             }
         }
 

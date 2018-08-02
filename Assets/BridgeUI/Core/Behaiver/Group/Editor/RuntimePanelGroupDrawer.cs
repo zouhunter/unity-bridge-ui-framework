@@ -155,7 +155,7 @@ namespace BridgeUIEditor
         }
         private void DrawAcceptRect()
         {
-            var rect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
+            var rect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
             EditorGUI.LabelField(rect, string.Format("[PanelGroup] = {0}", groupobjPath));
 
             switch (Event.current.type)

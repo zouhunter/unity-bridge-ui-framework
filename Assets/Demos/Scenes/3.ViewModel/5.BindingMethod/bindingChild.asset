@@ -9,5 +9,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 777f6d99528ccaf4f87bf89d23ede5d3, type: 3}
-  m_Name: new viewModel
+  m_Name: bindingChild
   m_EditorClassIdentifier: 

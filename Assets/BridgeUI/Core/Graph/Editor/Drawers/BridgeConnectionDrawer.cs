@@ -37,14 +37,14 @@ public class BridgeConnectionDrawer : Editor
 
     private void DrawIndex(string tip)
     {
-        var position = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.5f);
+        var position = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.5f);
         GUI.color = Color.green;
         GUI.Box(position, "", EditorStyles.miniButton);
         GUI.color = Color.white;
         EditorGUI.LabelField(position, string.Format("【{0}】", connecton.name), EditorStyles.largeLabel);
         DrawHead("界面索引");
 
-        position = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
+        position = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
         var fieldRect = new Rect(position.x, position.y, position.width - 2 * buttonWidth, position.height);
         var btnRect = new Rect(position.x + position.width - 2 * buttonWidth, position.y, buttonWidth, position.height);
 
@@ -73,7 +73,7 @@ public class BridgeConnectionDrawer : Editor
     private void DrawHead(string label)
     {
         EditorGUILayout.LabelField("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
-        var rect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.1f);
+        var rect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.1f);
         GUI.color = Color.gray;
         GUI.Box(rect, "", EditorStyles.miniButton);
         GUI.color = Color.white;

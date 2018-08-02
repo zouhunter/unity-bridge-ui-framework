@@ -407,11 +407,13 @@ namespace BridgeUI.Binding
         /// <param name="onViewModelChanged"></param>
         public void RegistMember<T>(UnityAction<T> onViewModelChanged, string sourceName)
         {
+            if (onViewModelChanged == null) return;
+
             binders += (viewModel) =>
             {
                 var prop = viewModel.GetBindableProperty<T>(sourceName);
 
-                if (onViewModelChanged != null && prop != null)
+                if (prop != null)
                 {
                     onViewModelChanged.Invoke(prop.Value);
                     prop.RegistValueChanged(onViewModelChanged);
@@ -426,7 +428,7 @@ namespace BridgeUI.Binding
             {
                 var prop = viewModel.GetBindableProperty<T>(sourceName);
 
-                if (onViewModelChanged != null && prop != null)
+                if (prop != null)
                 {
                     prop.RemoveValueChanged(onViewModelChanged);
                 }

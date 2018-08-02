@@ -136,17 +136,27 @@ namespace BridgeUIEditor
 
         private void DrawObjectField()
         {
+            if(panelNode.instenceID != 0)
+            {
+                var asset = EditorUtility.InstanceIDToObject(panelNode.instenceID);
+                if(asset == null)
+                {
+                    panelNode.instenceID = 0;
+                }
+            }
+
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                if (GUILayout.Button("预制体:", EditorStyles.toolbarButton, GUILayout.Width(lableWidth)))
-                {
-                    ToggleOpen();
-                }
+                EditorGUILayout.LabelField("预制体:", GUILayout.Width(lableWidth));
                 EditorGUI.BeginChangeCheck();
                 nodeInfo.SetPrefab(EditorGUILayout.ObjectField(nodeInfo.GetPrefab(), typeof(GameObject), false) as GameObject);
-                if (EditorGUI.EndChangeCheck())
-                {
+                if (EditorGUI.EndChangeCheck()){
                     OnPrefabChanged();
+                }
+                var btnName = panelNode.instenceID == 0 ? "打开" : "关闭";
+                if (GUILayout.Button(btnName, EditorStyles.miniButtonRight, GUILayout.Width(lableWidth)))
+                {
+                    ToggleOpen();
                 }
             }
         }
@@ -217,7 +227,7 @@ namespace BridgeUIEditor
                 preComponentList.DoLayoutList();
             }
 
-            var addRect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
+            var addRect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
 
             if (addRect.Contains(Event.current.mousePosition))
             {
@@ -460,7 +470,7 @@ namespace BridgeUIEditor
         private void DrawOption(string label, UnityAction body)
         {
             EditorGUILayout.LabelField("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
-            var rect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.1f);
+            var rect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.1f);
             GUI.color = Color.gray;
             GUI.Box(rect, "", EditorStyles.miniButton);
             GUI.color = Color.white;

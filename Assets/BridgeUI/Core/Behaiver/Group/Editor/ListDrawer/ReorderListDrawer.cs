@@ -17,9 +17,9 @@ namespace BridgeUIEditor
         protected IList list;
         protected Type type;
         protected string title;
-
+        public event UnityAction<int> onSelectID;
         public IList List { get { return list; } }
-
+        protected int lastFocus;
         public ReorderListDrawer(string title = null)
         {
             this.title = title;
@@ -49,7 +49,14 @@ namespace BridgeUIEditor
         }
 
         protected abstract float ElementHeightCallback(int index);
-        protected abstract void DrawElementCallBack(Rect rect, int index, bool isActive, bool isFocused);
+        protected virtual void DrawElementCallBack(Rect rect, int index, bool isActive, bool isFocused)
+        {
+            if (isFocused && lastFocus != index)
+            {
+                SetOnSelect(index);
+            }
+          
+        }
         protected virtual void DrawHeaderCallBack(Rect rect)
         {
             if (drawHeaderCallback != null)
@@ -59,6 +66,16 @@ namespace BridgeUIEditor
                 EditorGUI.LabelField(rect, title);
             }
         }
+
+        protected void SetOnSelect(int index)
+        {
+            if (onSelectID != null)
+            {
+                onSelectID.Invoke(index);
+            }
+            lastFocus = index;
+        }
+
         public virtual void DoLayoutList()
         {
             if(reorderList != null)

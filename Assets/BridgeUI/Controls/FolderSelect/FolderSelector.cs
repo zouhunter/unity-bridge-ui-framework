@@ -19,8 +19,8 @@ namespace BridgeUI.Control
         protected override void Awake()
         {
             base.Awake();
-            result.onSelectID += OnHeadSelect;
-            creater.onSelectID += OnBodySelect;
+            result.onSelectID.AddListener(OnHeadSelect);
+            creater.onSelectID.AddListener(OnBodySelect);
             creater.singleChoise = true;
         }
 
@@ -37,14 +37,14 @@ namespace BridgeUI.Control
             ClearTree();
             OnHeadSelect(0);
             Tree.TreeNode node = rootNode;
-            while (node.childern !=null && node.childern.Count > 0)
+            while (node.childern != null && node.childern.Count > 0)
             {
                 node = node.childern[0];
-                creater.SetSelect(0,true);
+                creater.SetSelect(0, true);
             }
         }
 
-    
+
 
         public override void SetSelect(params string[] path)
         {
@@ -56,7 +56,7 @@ namespace BridgeUI.Control
                 if (node.childern != null)
                 {
                     var child = node.GetChildItem(path[i]);
-                    if(child != null)
+                    if (child != null)
                     {
                         var index = node.childern.IndexOf(child);
                         creater.SetSelect(index, true);
@@ -136,7 +136,7 @@ namespace BridgeUI.Control
             }
 
             //更新标头列表
-            if(currentSelection.Count > dp)
+            if (currentSelection.Count > dp)
                 currentSelection.RemoveRange(dp, currentSelection.Count - dp);
 
             ChargeHeadOption(currentSelection.ToArray());

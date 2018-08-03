@@ -53,7 +53,7 @@ namespace BridgeUI.Binding
                 {
                     var fullType = typeof(BindableProperty<>).MakeGenericType(item.PropertyType);
                     this[item.Name] = System.Activator.CreateInstance(fullType) as IBindableProperty;
-                    Debug.Log("注册:" + item.Name);
+                    //Debug.Log("注册:" + item.Name);
                 }
             }
 

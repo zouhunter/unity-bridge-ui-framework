@@ -73,7 +73,7 @@ public class PanelNameGenerater
             cprovider.GenerateCodeFromCompileUnit(compunit, sw, new CodeGeneratorOptions());//想把生成的代码保存为cs文件
         }
 
-        Debug.Log(fileContent.ToString());
+        //Debug.Log(fileContent.ToString());
         File.WriteAllText(outPutPath, fileContent.ToString());
     }
 }

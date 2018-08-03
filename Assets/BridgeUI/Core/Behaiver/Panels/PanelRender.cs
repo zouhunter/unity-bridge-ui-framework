@@ -48,7 +48,7 @@ namespace BridgeUI
             }
         }
         private AnimPlayer _enterAnim;
-        protected AnimPlayer enterAnim
+        private AnimPlayer enterAnim
         {
             get
             {
@@ -75,8 +75,8 @@ namespace BridgeUI
             }
         }
 
-        protected Bridge bridge;
-        protected List<IUIPanel> childPanels;
+        private Bridge bridge;
+        private List<IUIPanel> childPanels;
         public event PanelCloseEvent onDelete;
         private event UnityAction<object> onReceive;
         private bool _isShowing = true;

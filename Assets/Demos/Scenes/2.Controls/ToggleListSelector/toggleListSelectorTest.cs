@@ -18,8 +18,8 @@ public class toggleListSelectorTest : MonoBehaviour {
 
     public void Start()
     {
-        toggleList.onSelectID += onSelectOne;
-        toggleList.onSelectIDs += OnSelectMany;
+        toggleList.onSelectID.AddListener(onSelectOne);
+        toggleList.onSelectIDs.AddListener(OnSelectMany);
     }
 
     void Update()

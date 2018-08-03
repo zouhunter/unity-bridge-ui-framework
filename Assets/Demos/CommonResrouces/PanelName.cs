@@ -203,4 +203,28 @@ public class PanelNames {
             return "PanderTestPanel";
         }
     }
+    
+    public static string PopupPanel {
+        get {
+            return "PopupPanel";
+        }
+    }
+    
+    public static string LoginPanel {
+        get {
+            return "LoginPanel";
+        }
+    }
+    
+    public static string LoadingPanel {
+        get {
+            return "LoadingPanel";
+        }
+    }
+    
+    public static string ListPanel {
+        get {
+            return "ListPanel";
+        }
+    }
 }

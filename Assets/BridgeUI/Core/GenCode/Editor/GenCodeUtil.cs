@@ -263,6 +263,7 @@ namespace BridgeUI.CodeGen
 
                     if (eventItem.type == BindingType.NoBinding) continue;
                     var type = eventItem.bindingTargetType.type;
+
                     if (type != null)
                     {
                         Type typevalue = null;

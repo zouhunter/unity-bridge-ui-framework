@@ -307,7 +307,7 @@ namespace BridgeUI
             {
                 return string.IsNullOrEmpty(nameB);
             }
-            return string.Compare(nameA, nameB) == 1;
+            return string.Compare(nameA, nameB) == 0;
         }
 
         /// <summary>

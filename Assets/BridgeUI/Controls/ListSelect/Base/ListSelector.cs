@@ -21,8 +21,8 @@ namespace BridgeUI.Control
         [SerializeField]
         protected GameObject m_prefab;
 
-        public event UnityAction<int[]> onSelectIDs;
-        public event UnityAction<int> onSelectID;
+        public Binding.IntEvent onSelectID = new Binding.IntEvent();
+        public Binding.IntArrayEvent onSelectIDs = new Binding.IntArrayEvent();
         public event UnityAction<GameObject> onShow;
         public event UnityAction<GameObject> onHide;
         public int currentID { get { return _currentID; } }
@@ -79,7 +79,7 @@ namespace BridgeUI.Control
                 if (onSelectID != null)
                 {
                     _currentID = selecteds[selecteds.Count - 1];
-                    onSelectID(_currentID);
+                    onSelectID.Invoke(_currentID);
                 }
             }
         }
@@ -89,7 +89,7 @@ namespace BridgeUI.Control
             {
                 if (onSelectIDs != null)
                 {
-                    onSelectIDs(selecteds.ToArray());
+                    onSelectIDs.Invoke(selecteds.ToArray());
                 }
             }
         }

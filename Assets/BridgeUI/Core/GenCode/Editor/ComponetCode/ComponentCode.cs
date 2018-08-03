@@ -98,8 +98,8 @@ namespace BridgeUI.CodeGen
                 arg0 = string.Format("x=>{0}=x", arg0_name);
             }
 
-            UnityEngine.Debug.Log(bindingInfo.bindingTarget);
-            UnityEngine.Debug.Log(bindingInfo.bindingTargetType.type);
+            //UnityEngine.Debug.Log(bindingInfo.bindingTarget);
+            //UnityEngine.Debug.Log(bindingInfo.bindingTargetType.type);
 
             var arg1 = string.Format("\"{0}\"", bindingInfo.bindingSource);
             var invocation = invocations.Where(

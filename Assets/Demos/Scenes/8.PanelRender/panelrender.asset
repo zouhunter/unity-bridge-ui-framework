@@ -115,7 +115,7 @@ MonoBehaviour:
   b_nodes: []
   p_nodes:
   - panelName: PanderTestPanel
-    instanceID: -27640
+    instanceID: 0
     discription: "\u6D4B\u8BD5panelRender"
     type:
       layerIndex: 0

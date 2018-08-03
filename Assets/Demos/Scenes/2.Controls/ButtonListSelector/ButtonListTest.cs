@@ -18,7 +18,7 @@ public class ButtonListTest : MonoBehaviour {
 
     void Start()
     {
-        buttonList.onSelectID += OnSelectItem;
+        buttonList.onSelectID.AddListener( OnSelectItem);
         buttonList.options = options;
     }
 

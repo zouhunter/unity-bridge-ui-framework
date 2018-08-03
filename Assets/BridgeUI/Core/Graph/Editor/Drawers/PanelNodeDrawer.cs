@@ -30,7 +30,7 @@ namespace BridgeUIEditor
                 if (_panelCompnent == null && !string.IsNullOrEmpty(panelNode.Info.guid))
                 {
                     var path = AssetDatabase.GUIDToAssetPath(panelNode.Info.guid);
-                    if(!string.IsNullOrEmpty(path))
+                    if (!string.IsNullOrEmpty(path))
                     {
                         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                         GenCodeUtil.ChoiseAnUserMonobehiver(prefab, v => _panelCompnent = v);
@@ -72,7 +72,7 @@ namespace BridgeUIEditor
             InitPanelNode();
         }
 
-      
+
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
@@ -91,7 +91,7 @@ namespace BridgeUIEditor
         }
         private void InitAnimPlayers()
         {
-            supportedAnimPlayers =  typeof(AnimPlayer).Assembly.GetTypes().Where(x => typeof(AnimPlayer).IsAssignableFrom(x) && !x.IsAbstract).ToArray();
+            supportedAnimPlayers = typeof(AnimPlayer).Assembly.GetTypes().Where(x => typeof(AnimPlayer).IsAssignableFrom(x) && !x.IsAbstract).ToArray();
         }
 
         protected virtual void InitPanelNode()
@@ -109,7 +109,7 @@ namespace BridgeUIEditor
                 };
                 preComponentList.drawElementCallback += (rect, index, isFocused, isActive) =>
                 {
-                    itemDrawer.DrawItemOnRect(rect, index, components[index],BindingAble);
+                    itemDrawer.DrawItemOnRect(rect, index, components[index], BindingAble);
                 };
                 preComponentList.drawElementBackgroundCallback += (rect, index, isFocused, isActive) =>
                 {
@@ -136,10 +136,10 @@ namespace BridgeUIEditor
 
         private void DrawObjectField()
         {
-            if(panelNode.instenceID != 0)
+            if (panelNode.instenceID != 0)
             {
                 var asset = EditorUtility.InstanceIDToObject(panelNode.instenceID);
-                if(asset == null)
+                if (asset == null)
                 {
                     panelNode.instenceID = 0;
                 }
@@ -150,7 +150,8 @@ namespace BridgeUIEditor
                 EditorGUILayout.LabelField("预制体:", GUILayout.Width(lableWidth));
                 EditorGUI.BeginChangeCheck();
                 nodeInfo.SetPrefab(EditorGUILayout.ObjectField(nodeInfo.GetPrefab(), typeof(GameObject), false) as GameObject);
-                if (EditorGUI.EndChangeCheck()){
+                if (EditorGUI.EndChangeCheck())
+                {
                     OnPrefabChanged();
                 }
                 var btnName = panelNode.instenceID == 0 ? "打开" : "关闭";
@@ -218,7 +219,7 @@ namespace BridgeUIEditor
                 if (GUILayout.Button(new GUIContent("update", "更新脚本控件信息"), EditorStyles.miniButton, GUILayout.Width(60)))
                 {
                     var go = nodeInfo.GetPrefab();
-                    GenCodeUtil.UpdateScripts(go,components,rule);
+                    GenCodeUtil.UpdateScripts(go, components, rule);
                 }
             }
 
@@ -279,7 +280,7 @@ namespace BridgeUIEditor
         string[] formTypes;
         string[] formTypesNotice = { "固定窗口(只能打开单个)", "可拖拽(可以打开多个小窗体)", "没有关闭按扭(只有场景跳转时关闭)" };
         int formSelected;
-      
+
         private void DrawFormType()
         {
             if (formTypes == null)
@@ -287,7 +288,7 @@ namespace BridgeUIEditor
                 formTypes = System.Enum.GetNames(typeof(UIFormType));
             }
 
-            formSelected = System.Array.IndexOf(formTypes,nodeInfo.uiType.form.ToString());
+            formSelected = System.Array.IndexOf(formTypes, nodeInfo.uiType.form.ToString());
 
             for (int i = 0; i < formTypes.Length; i++)
             {
@@ -395,7 +396,7 @@ namespace BridgeUIEditor
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("出场动画:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
-                nodeInfo.uiType.enterAnim = EditorGUILayout.ObjectField(nodeInfo.uiType.enterAnim,typeof(AnimPlayer),false) as AnimPlayer;
+                nodeInfo.uiType.enterAnim = EditorGUILayout.ObjectField(nodeInfo.uiType.enterAnim, typeof(AnimPlayer), false) as AnimPlayer;
                 if (GUILayout.Button("new", GUILayout.Width(60)))
                 {
                     SelectAnimPlayer((x) => nodeInfo.uiType.enterAnim = x);
@@ -405,18 +406,19 @@ namespace BridgeUIEditor
             {
                 EditorGUILayout.LabelField("关闭动画:", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
                 nodeInfo.uiType.quitAnim = EditorGUILayout.ObjectField(nodeInfo.uiType.quitAnim, typeof(AnimPlayer), false) as AnimPlayer;
-                if (GUILayout.Button("new",GUILayout.Width(60)))
+                if (GUILayout.Button("new", GUILayout.Width(60)))
                 {
-                    SelectAnimPlayer((x)=> nodeInfo.uiType.quitAnim = x);
+                    SelectAnimPlayer((x) => nodeInfo.uiType.quitAnim = x);
                 }
             }
         }
-        private void SelectAnimPlayer(UnityAction< AnimPlayer> onSelect)
+        private void SelectAnimPlayer(UnityAction<AnimPlayer> onSelect)
         {
             if (supportedAnimPlayers == null || supportedAnimPlayers.Count() == 0) return;
 
-            var options = supportedAnimPlayers.Select(x => new GUIContent( x.FullName)).ToArray();
-            EditorUtility.DisplayCustomMenu(new Rect(Event.current.mousePosition, Vector2.zero), options, -1, (x, optionKeys, index) => {
+            var options = supportedAnimPlayers.Select(x => new GUIContent(x.FullName)).ToArray();
+            EditorUtility.DisplayCustomMenu(new Rect(Event.current.mousePosition, Vector2.zero), options, -1, (x, optionKeys, index) =>
+            {
                 if (index < options.Length)
                 {
                     var type = supportedAnimPlayers[index];
@@ -427,30 +429,7 @@ namespace BridgeUIEditor
 
             }, null);
         }
-        //private TypeInfo DrawAnimField(ref MonoScript animScript, TypeInfo typeInfo)
-        //{
-        //    var entertype = typeInfo.type;
-        //    if (entertype != null && animScript == null)
-        //    {
-        //        var temp = new GameObject("temp", entertype).GetComponent(entertype);
-        //        animScript = MonoScript.FromMonoBehaviour(temp as MonoBehaviour);
-        //        DestroyImmediate(temp.gameObject);
-        //    }
-        //    var newMonoScript = EditorGUILayout.ObjectField(animScript, typeof(MonoScript), false) as MonoScript;
-        //    if (newMonoScript != animScript)
-        //    {
-        //        if (newMonoScript != null)
-        //        {
-        //            if (typeof(IAnimPlayer).IsAssignableFrom(newMonoScript.GetClass()) && typeof(MonoBehaviour).IsAssignableFrom(newMonoScript.GetClass()))
-        //            {
-        //                typeInfo = new TypeInfo(newMonoScript.GetClass());
-        //                animScript = newMonoScript;
-        //            }
-        //        }
-        //    }
-        //    return typeInfo;
-        //}
-
+      
         private bool ChangeCheckField(UnityAction func)
         {
             EditorGUI.BeginChangeCheck();
@@ -469,33 +448,45 @@ namespace BridgeUIEditor
 
         private void DrawOption(string label, UnityAction body)
         {
-            EditorGUILayout.LabelField("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
-            var rect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.1f);
-            GUI.color = Color.gray;
-            GUI.Box(rect, "", EditorStyles.miniButton);
-            GUI.color = Color.white;
-            EditorGUI.LabelField(rect, string.Format("【{0}】", label), EditorStyles.largeLabel);
+            DrawTitleRegion(label);
             using (var ver = new EditorGUILayout.VerticalScope())
             {
                 body.Invoke();
             }
         }
 
+        private void DrawTitleRegion(string label)
+        {
+            EditorGUILayout.LabelField("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+            var rect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.1f);
+            GUI.color = Color.gray;
+            GUI.Box(rect, "", EditorStyles.miniButton);
+            GUI.color = Color.white;
+            EditorGUI.LabelField(rect, string.Format("【{0}】", label), EditorStyles.largeLabel);
+        }
 
+        private string[] styleOptions = { "gray", "blue", "green", "yellow", "orange", "flesh", "pink", "purple" };
         private void DrawView()
         {
-            using (var hor = new EditorGUILayout.HorizontalScope())
+            DrawTitleRegion("板式:");
+
+            for (int i = 0; i < styleOptions.Length; i++)
             {
-                EditorGUILayout.LabelField("Style:");
-                panelNode.style = (int)EditorGUILayout.Slider(panelNode.style, 1, 7);
-            }
-            using (var hor = new EditorGUILayout.HorizontalScope())
-            {
-                EditorGUILayout.LabelField("说明:");
-                if (panelNode != null)
+                if (i == 0) continue;
+
+                var style = i == panelNode.style ?  EditorStyles.toolbarPopup: EditorStyles.toolbarButton;
+
+                if (GUILayout.Button(styleOptions[i], style))
                 {
-                    panelNode.Info.discription = EditorGUILayout.TextField(panelNode.Info.discription);
+                    panelNode.style = i;
+
                 }
+            }
+
+            DrawTitleRegion("说明:");
+            if (panelNode != null)
+            {
+                panelNode.Info.discription = EditorGUILayout.TextArea(panelNode.Info.discription,GUILayout.Height(EditorGUIUtility.singleLineHeight * 2));
             }
         }
         private void DrawPanelComponent()

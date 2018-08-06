@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PopUpPanel
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 1
   instenceID: 0
   assetName: PopUpPanel
   style: 1
@@ -178,7 +178,54 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
-  components: []
+  components:
+  - open: 0
+    name: title
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Text
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems: []
+    target: {fileID: 137820, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
+    name: info
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Text
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems: []
+    target: {fileID: 138724, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
+    name: close
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems: []
+    target: {fileID: 166410, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   nodeInfo:
     uiType:
       layerIndex: 0
@@ -220,7 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanderTestPanel
   m_EditorClassIdentifier: 
-  selected: 3
+  selected: 1
   instenceID: 0
   assetName: PanderTestPanel
   style: 1
@@ -228,7 +275,43 @@ MonoBehaviour:
     baseTypeIndex: 0
     canInherit: 0
     bindingAble: 0
-  components: []
+  components:
+  - open: 0
+    name: close
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems: []
+    target: {fileID: 1742131945442294, guid: ec171a8373919f847a31b8bfba63417f, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 1
+    name: body
+    componentID: 1
+    components:
+    - assembleName: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: RenderTestPanel
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems: []
+    target: {fileID: 1727339852298134, guid: ec171a8373919f847a31b8bfba63417f, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   nodeInfo:
     uiType:
       layerIndex: 0

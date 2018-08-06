@@ -198,16 +198,18 @@ namespace BridgeUIEditor
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button(new GUIContent("←", "快速解析"), EditorStyles.toolbarButton, GUILayout.Width(20)))
                 {
-                    var component = nodeInfo.GetPrefab().GetComponent<PanelBase>();
-                    if (component == null)
-                    {
-                        EditorApplication.Beep();
-                    }
-                    else
-                    {
-                        //从旧的脚本解析出
-                        GenCodeUtil.AnalysisComponent(component, components);
-                    }
+                    GenCodeUtil.ChoiseAnUserMonobehiver(nodeInfo.GetPrefab(), component => {
+                        if (component == null)
+                        {
+                            EditorApplication.Beep();
+                        }
+                        else
+                        {
+                            //从旧的脚本解析出
+                            GenCodeUtil.AnalysisComponent(component, components);
+                        }
+                    });
+                   
                 }
 
             }

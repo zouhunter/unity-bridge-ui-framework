@@ -11,6 +11,7 @@ namespace BridgeUI.Common
     public class PopUpObjPopDataDrawer : PropertyDrawer
     {
         private static Color bgColor = new Color(0.1f, 0.1f, 0.1f, 0.3f);
+
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             return 4 * EditorGUIUtility.singleLineHeight;
@@ -27,6 +28,7 @@ namespace BridgeUI.Common
             var titlePorp = property.FindPropertyRelative("title");
             var infoPorp = property.FindPropertyRelative("info");
             var donthideProp = property.FindPropertyRelative("donthide");
+            
             var titleRect = new Rect(innerRect.x, innerRect.y, innerRect.width - 90, EditorGUIUtility.singleLineHeight);
             GUI.color = Color.green;
             EditorGUI.SelectableLabel(titleRect, typePorp.stringValue, EditorStyles.boldLabel);
@@ -50,10 +52,13 @@ namespace BridgeUI.Common
         SerializedProperty popDatasProp;
         ReorderableList reorderList;
         SerializedProperty popEnumProp;
+        SerializedProperty descritionProp;
         private void OnEnable()
         {
             popEnumProp = serializedObject.FindProperty("popEnum");
             popDatasProp = serializedObject.FindProperty("popDatas");
+            descritionProp = serializedObject.FindProperty("descrition");
+
             InitListDrawer();
         }
 
@@ -111,6 +116,7 @@ namespace BridgeUI.Common
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
+            EditorGUILayout.PropertyField(descritionProp,new GUIContent("描述"));
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(popEnumProp);
             if (EditorGUI.EndChangeCheck())

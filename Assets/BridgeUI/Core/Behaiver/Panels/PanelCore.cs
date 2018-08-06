@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 namespace BridgeUI
 {
 
-    public sealed class PanelRender : MonoBehaviour, IUIPanel
+    public sealed class PanelCore : MonoBehaviour, IUIPanel
     {
         public int InstenceID
         {

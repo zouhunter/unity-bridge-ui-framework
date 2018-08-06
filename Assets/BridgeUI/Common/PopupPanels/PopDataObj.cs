@@ -35,6 +35,7 @@ namespace BridgeUI.Common
 #endif
         public string enumType;
         public List<PopData> popDatas = new List<PopData>();
+        public string descrition;
 
         public PopData GetPopData(int typeInt)
         {

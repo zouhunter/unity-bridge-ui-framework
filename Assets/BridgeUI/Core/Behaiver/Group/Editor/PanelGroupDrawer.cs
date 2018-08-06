@@ -33,7 +33,7 @@ namespace BridgeUIEditor
         protected string[] option =  { "预制"};
 #endif
         protected int selected;
-        protected int selectedGraph;
+        protected int selectedGraph = -1;
 
         private void OnEnable()
         {

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_allNodes:
   - m_name: AnyState
     m_id: 774dd682-2f1c-4e40-a788-b042c46f68f2
-    m_x: 93
-    m_y: 149
+    m_x: 120
+    m_y: 240
     m_node: {fileID: 114227603876637122}
     m_inputPoints: []
     m_outputPoints:
@@ -65,7 +65,7 @@ MonoBehaviour:
   - m_name: LoadingPanel
     m_id: feed4755-5953-4b2b-b9b3-f57410187ec4
     m_x: 470
-    m_y: 120
+    m_y: 240
     m_node: {fileID: 114625434238430238}
     m_inputPoints:
     - id: 4f64c31d-bddf-4b06-8dfb-e686fba7cd07
@@ -126,8 +126,8 @@ MonoBehaviour:
       type: bridge
   - m_name: ListPanel
     m_id: ed3782b3-0b51-49c0-8303-69554a57e5d2
-    m_x: 540
-    m_y: 240
+    m_x: 790
+    m_y: 230
     m_node: {fileID: 114175942353123234}
     m_inputPoints:
     - id: bac2de22-b510-4fa4-8540-c066f484160d

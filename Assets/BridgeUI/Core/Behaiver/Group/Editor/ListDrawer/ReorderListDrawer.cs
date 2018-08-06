@@ -19,7 +19,7 @@ namespace BridgeUIEditor
         protected string title;
         public event UnityAction<int> onSelectID;
         public IList List { get { return list; } }
-        protected int lastFocus;
+        protected int lastFocus = -1;
         public ReorderListDrawer(string title = null)
         {
             this.title = title;
@@ -51,8 +51,7 @@ namespace BridgeUIEditor
         protected abstract float ElementHeightCallback(int index);
         protected virtual void DrawElementCallBack(Rect rect, int index, bool isActive, bool isFocused)
         {
-            if (isFocused && lastFocus != index)
-            {
+            if (isFocused && lastFocus != index){
                 SetOnSelect(index);
             }
           

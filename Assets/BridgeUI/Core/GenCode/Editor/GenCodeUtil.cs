@@ -91,6 +91,12 @@ namespace BridgeUI.CodeGen
         {
             var fields = component.GetType().GetFields(BindingFlags.GetField | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
+            fields = (from field in fields
+                      let atts = field.GetCustomAttributes(false)
+                      from att in atts
+                      where att is SerializeField
+                      select field).ToArray();
+
             foreach (var field in fields)
             {
                 if (typeof(UnityEngine.MonoBehaviour).IsAssignableFrom(field.FieldType) || typeof(ScriptableObject).IsAssignableFrom(field.FieldType))
@@ -416,7 +422,12 @@ namespace BridgeUI.CodeGen
         internal static MonoBehaviour[] GetUserMonobehaiver(GameObject prefab)
         {
             var monobehaivers = prefab.GetComponents<MonoBehaviour>();
-            return monobehaivers.Where(x => x != null && !InnerNameSpace.Contains(x.GetType().Namespace)).ToArray();
+            var supported = from behaiver in monobehaivers
+                            where behaiver != null
+                            where !InnerNameSpace.Contains(behaiver.GetType().Namespace)
+                            where behaiver.GetType() != typeof(PanelCore)
+                            select behaiver;
+            return supported.ToArray();
         }
 
         internal static void ChoiseAnUserMonobehiver(GameObject prefab, Action<MonoBehaviour> onChoise)

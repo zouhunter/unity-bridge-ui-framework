@@ -3,9 +3,10 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
-namespace Menu_Generic
+namespace BridgeUI.Control
 {
-    public class ClickDragEvent : MonoBehaviour
+    [RequireComponent(typeof(Button))]
+    public class ButtonClickDragEvent : MonoBehaviour, IPointerDownHandler
     {
         Vector3 m_PressDownPos;
         Vector3 m_CurrentMousePos;
@@ -33,11 +34,10 @@ namespace Menu_Generic
             }
         }
 
-        public void OnMouseDown()
+        public void OnPointerDown(PointerEventData eventData)
         {
             Debug.Log(this.gameObject.name + " Was click drag started.");
             m_PressDownPos = Input.mousePosition;
-            m_Pressed = true;
         }
 
 
@@ -46,4 +46,5 @@ namespace Menu_Generic
             m_Pressed = false;
         }
     }
+
 }

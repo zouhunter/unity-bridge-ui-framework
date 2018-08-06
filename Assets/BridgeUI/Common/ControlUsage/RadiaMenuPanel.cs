@@ -11,7 +11,6 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using Menu_Generic;
 
 namespace BridgeUI.Common
 {
@@ -21,8 +20,8 @@ namespace BridgeUI.Common
     public class RadiaMenuPanel : SinglePanel
     {
         [SerializeField]
-        private RadialMenu m_radiaPrefab;
-        private RadialMenu _radiaMenu;
+        private Control.RadialMenu m_radiaPrefab;
+        private Control.RadialMenu _radiaMenu;
 
         protected override void Awake()
         {
@@ -33,16 +32,16 @@ namespace BridgeUI.Common
         private void InitRadiaMenu()
         {
             _radiaMenu = Instantiate(m_radiaPrefab);
-            _radiaMenu.transform.SetParent(transform,false);
+            _radiaMenu.transform.SetParent(transform, false);
         }
 
         protected override void HandleData(object data)
         {
             base.HandleData(data);
-            if (data is UnityAction<RadialMenu>)
+            if (data is UnityAction<Control.RadialMenu>)
             {
                 _radiaMenu.Reset();
-                (data as UnityAction<RadialMenu>).Invoke(_radiaMenu);
+                (data as UnityAction<Control.RadialMenu>).Invoke(_radiaMenu);
                 _radiaMenu.SetPosition(Input.mousePosition);
                 _radiaMenu.ActivateMenu();
             }

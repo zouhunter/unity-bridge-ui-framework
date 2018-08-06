@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using System;
-namespace Menu_Generic
+namespace BridgeUI.Control
 {
     [RequireComponent(typeof(Button))]
     public class RadialSlider : RadialMenuObject, IPointerDownHandler

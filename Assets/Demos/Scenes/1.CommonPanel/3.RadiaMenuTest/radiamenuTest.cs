@@ -11,8 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using BridgeUI;
-using BridgeUI.Common;
-using Menu_Generic;
+using BridgeUI.Control;
 
 public class radiamenuTest : MonoBehaviour {
 

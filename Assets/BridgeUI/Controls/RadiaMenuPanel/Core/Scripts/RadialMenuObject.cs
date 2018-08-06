@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
-namespace Menu_Generic
+namespace BridgeUI.Control
 {
     public abstract class RadialMenuObject : MonoBehaviour, IPointerDownHandler
     {

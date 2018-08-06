@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Menu_Generic
+namespace BridgeUI.Control
 {
     public class RadialLayout : UIBehaviour
     {

@@ -4,11 +4,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-using System;
-namespace Menu_Generic
+
+namespace BridgeUI.Control
 {
-    [RequireComponent(typeof(Button))]
-    public class RadialList : RadialMenuObject, IPointerDownHandler
+    public class RadialMenu : MonoBehaviour, IPointerDownHandler
     {
         enum State
         {
@@ -27,18 +26,28 @@ namespace Menu_Generic
         // Prefab buttons that will populate the menu
         public RectTransform m_DefaultMenuObject;
 
+        public RadialSlider m_SliderPrefab;
+        public RadialMenuObject m_ButtonPrefab;
+        public RadialMenuObject m_TogglePrefab;
+        public RadialList m_ListPrefab;
+
+        public Color m_FGCol;
+        public Color m_BGCol;
+        public Color m_HLCol;
+        public Color m_TextCol;
+
+        RadialMenuObject m_SelectedMenuObject;
+
         // Name displayed on the menu
         public string m_MenuName = "Menu";
         Text m_MenuText;
 
         // Main menu button
-        Button MainButton;
+        protected Button MainButton;
 
         // List of buttons
-        public List<RectTransform> m_MenuObjects = new List<RectTransform>();
+        public List<RadialMenuObject> m_MenuObjects = new List<RadialMenuObject>();
 
-        // Names of active buttons
-        string[] m_ButtonsNames;
 
         // Size in pixels of buttons
         public float m_ButtonSizeMain = 60;
@@ -78,14 +87,7 @@ namespace Menu_Generic
         // Test array of events
         public SelectionEvent[] OnSelectedEvents;
 
-        public Color m_HighlightCol;
-        public Color m_BaseCol;
-
-        public Color m_TextColBase;
-        public Color m_TextColHighlight;
-
-
-
+        GameObject m_ObjectToMessage;
 
         public bool m_HideInactive = false;
 
@@ -104,19 +106,22 @@ namespace Menu_Generic
             int index = m_RadLayout.transform.GetSiblingIndex();
             m_RadLayout.transform.SetSiblingIndex(index - 1);
 
-
-            for (int i = m_MenuObjects.Count; i < 6; i++)
-            {
-                m_MenuObjects.Add(CreateNewButton());
-            }
-
             SetButtonSize(m_ButtonSizeMain, m_ButtonSizeChild);
-
         }
+
+
+        // Transition to pooling later
+        public void Reset()
+        {
+            foreach (RadialMenuObject obj in m_MenuObjects)
+                Destroy(obj.gameObject);
+
+            m_MenuObjects.Clear();
+        }
+
         void Update()
         {
             AdjustAngleBasedOnScreenPos();
-
 
             // Update selection colours
 
@@ -125,44 +130,26 @@ namespace Menu_Generic
                 if (!m_MenuObjects[i].gameObject.activeSelf)
                     continue;
 
-                if (!m_OptionSelected)
-                {
-                    m_MenuObjects[i].GetComponent<Image>().color = m_BGCol;
-                    m_MenuObjects[i].GetComponentInChildren<Text>().color = m_TextCol;
-                }
-                else if (i != m_SelectedIndex)
-                {
-                    m_MenuObjects[i].GetComponent<Image>().color = m_BGCol;
-                    m_MenuObjects[i].GetComponentInChildren<Text>().color = m_TextCol;
-                }
-                else
-                {
-                    m_MenuObjects[i].GetComponent<Image>().color = m_FGCol;
-                    m_MenuObjects[i].GetComponentInChildren<Text>().color = m_TextCol;
-                }
+
             }
 
             if (m_State == State.Activating || m_State == State.Active)
             {
-                if (m_OptionSelected) MainButton.GetComponent<Image>().color = Color.Lerp(MainButton.image.color, m_BGCol, Time.deltaTime * m_Smoothing);
+
             }
 
-            else MainButton.GetComponent<Image>().color = Color.Lerp(MainButton.image.color, m_FGCol, Time.deltaTime * m_Smoothing);
 
             if (m_State == State.Activating)
             {
                 m_RadLayout.UpdateFDistance(Mathf.Lerp(m_RadLayout.fDistance, m_TargetRadius, Time.deltaTime * m_Smoothing));
 
                 float norm = m_RadLayout.fDistance / m_Radius;
-                SetButtonFade(Mathf.Pow(norm, 5));
+                SetAllObjectFades(Mathf.Pow(norm, 5));
 
                 if (Mathf.Abs(m_RadLayout.fDistance - m_TargetRadius) < 2)
                 {
                     m_State = State.Active;
                 }
-
-                if (Input.GetMouseButtonUp(0))
-                    DeactivateMenu();
             }
             else if (m_State == State.Active)
             {
@@ -174,35 +161,76 @@ namespace Menu_Generic
                 else
                 {
                     m_SelectedIndex = FindClosestButtonIndex();
-                    m_MenuText.text = m_ButtonsNames[m_SelectedIndex];
                     m_OptionSelected = true;
                 }
 
-                if (Input.GetMouseButtonUp(0))
-                    DeactivateMenu();
-
+                // if (Input.GetMouseButtonUp(1))
+                //     DeactivateMenu();
 
             }
             else if (m_State == State.Deactivating)
             {
                 float norm = (m_Radius - m_RadLayout.fDistance) / m_Radius;
                 norm = 1 - norm;
-                SetButtonFade(Mathf.Pow(norm, 5));
+                SetAllObjectFades(Mathf.Pow(norm, 5));
 
                 m_RadLayout.UpdateFDistance(Mathf.Lerp(m_RadLayout.fDistance, m_TargetRadius, Time.deltaTime * m_Smoothing));
 
                 if (Mathf.Abs(m_RadLayout.fDistance - m_TargetRadius) < 2)
                 {
                     m_State = State.Deactivated;
-                    for (int i = 0; i < m_ButtonsNames.Length; i++)
+                    for (int i = 0; i < m_MenuObjects.Count; i++)
                     {
                         m_MenuObjects[i].gameObject.SetActive(false);
                     }
 
                     if (m_HideInactive)
-                        transform.position = Vector3.right * float.MaxValue;
+                        transform.position = Vector3.right * Screen.width * 3;
                 }
             }
+        }
+
+        public void SetSelectedMenuObject(RadialMenuObject obj)
+        {
+            m_SelectedMenuObject = obj;
+
+            m_SelectedMenuObject.Fade(1);
+
+            foreach (RadialMenuObject menuObj in m_MenuObjects)
+                if (menuObj != m_SelectedMenuObject) menuObj.Fade(.1f);
+
+            Color col = m_FGCol;
+            col.a = .1f;
+            this.GetComponent<Image>().color = col;
+
+            Color fontCol = m_TextCol;
+            fontCol.a = .1f;
+            m_MenuText.color = fontCol;
+        }
+
+        public void AddSlider(string name, float rangeMin, float rangeMax, float initialValue, UnityAction<float> onSlider)
+        {
+            RadialSlider slider = Instantiate(m_SliderPrefab);
+            slider.Init(this, name, (x)=> { if (onSlider != null) onSlider.Invoke((float)x); });
+            slider.m_Range = new Vector2(rangeMin, rangeMax);
+            slider.ScaledVal = initialValue;
+            slider.m_Text.text = name;
+
+            slider.transform.SetParent(m_RadLayout.transform);
+
+            m_MenuObjects.Add(slider);
+
+            foreach (RadialMenuObject menuObj in m_MenuObjects)
+                menuObj.SetPallette(m_FGCol, m_BGCol, m_HLCol, m_TextCol);
+        }
+        public void AddList(string name, string[] names, UnityAction<int> onSelect)
+        {
+            RadialList list = Instantiate(m_ListPrefab);
+            list.Init(this, name, (x) => { if (onSelect != null) onSelect.Invoke((int)x); });
+            list.GenerateMenu(name, names);
+            list.transform.SetParent(m_RadLayout.transform);
+
+            m_MenuObjects.Add(list);
         }
 
         public void SetPosition(Vector3 pos)
@@ -278,7 +306,7 @@ namespace Menu_Generic
             }
             else
             {
-                m_RadLayout.StartAngle = 90;
+                m_RadLayout.StartAngle = 0;
                 m_RadLayout.MaxAngle = 360;
                 SetButtonSize(m_ButtonSizeMain, m_ButtonSizeChild);
             }
@@ -288,7 +316,7 @@ namespace Menu_Generic
         {
             int closestButtonIndex = 0;
             float closestDist = float.MaxValue;
-            for (int i = 0; i < m_ButtonsNames.Length; i++)
+            for (int i = 0; i < m_MenuObjects.Count; i++)
             {
                 float dist = Vector3.Distance(Input.mousePosition, m_MenuObjects[i].transform.position);
                 if (dist < closestDist)
@@ -303,8 +331,8 @@ namespace Menu_Generic
 
         void SetButtonSize(float mainSize, float childSize)
         {
-            MainButton.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, mainSize);
-            MainButton.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, mainSize);
+            this.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, mainSize);
+            this.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, mainSize);
 
             for (int i = 0; i < m_MenuObjects.Count; i++)
             {
@@ -313,63 +341,45 @@ namespace Menu_Generic
             }
         }
 
-        void SetButtonFade(float fade)
+        void SetAllObjectFades(float fade)
         {
-            for (int i = 0; i < m_ButtonsNames.Length; i++)
-            {
-                Image image = m_MenuObjects[i].GetComponent<Image>();
-                Color currentCol = image.color;
-                currentCol.a = fade;
-                image.color = currentCol;
+            Color col = m_FGCol;
+            col.a = fade;
+            this.GetComponent<Image>().color = col;
 
-                Text text = m_MenuObjects[i].GetComponentInChildren<Text>();
-                Color textCol = text.color;
-                textCol.a = fade;
-                m_MenuObjects[i].GetComponentInChildren<Text>().color = textCol;
+            Color fontCol = m_TextCol;
+            fontCol.a = fade;
+            m_MenuText.color = fontCol;
 
-            }
+
+            foreach (RadialMenuObject rO in m_MenuObjects)
+                rO.Fade(fade);
         }
 
-        public void GenerateMenu(string menuName, string[] buttonsNames)
+        public void DisengageSelection()
         {
-            m_MenuName = menuName;
-            m_MenuText.text = menuName;
-            m_ButtonsNames = buttonsNames;
-
-            if (m_ButtonsNames.Length > m_MenuObjects.Count)
-            {
-                int newBtnCount = m_ButtonsNames.Length - m_MenuObjects.Count;
-                for (int i = 0; i < newBtnCount; i++)
-                {
-                    m_MenuObjects.Add(CreateNewButton());
-                }
-            }
-
-            // Set buttons names and set to active
-            for (int i = 0; i < m_ButtonsNames.Length; i++)
-            {
-                RectTransform b = m_MenuObjects[i];
-                b.gameObject.SetActive(true);
-                m_MenuObjects[i].GetComponentInChildren<Text>().text = m_ButtonsNames[i];
-                b.gameObject.SetActive(false);
-            }
+            SetAllObjectFades(1);
         }
 
-        public override void OnPointerDown(PointerEventData eventData)
+        public void OnPointerDown(PointerEventData eventData)
         {
-            m_RadMenu.SetSelectedMenuObject(this);
-            if (m_State == State.Deactivated || m_State == State.Deactivating)
+            if (m_State == State.Deactivated)
             {
                 ActivateMenu();
-                //Debug.Log(this.gameObject.name + " Was Clicked.");
+                Debug.Log(this.gameObject.name + " Was Clicked.");
+            }
+            else if (m_State == State.Active)
+            {
+                DeactivateMenu();
+                //print("here");
             }
         }
 
         public void ActivateMenu()
         {
-            //print("Menu activated");
+            print("Menu activated");
 
-            for (int i = 0; i < m_ButtonsNames.Length; i++)
+            for (int i = 0; i < m_MenuObjects.Count; i++)
             {
                 m_MenuObjects[i].gameObject.SetActive(true);
             }
@@ -383,7 +393,7 @@ namespace Menu_Generic
         {
             if (m_OptionSelected)
             {
-                CallFunction();
+                OnSelected.Invoke(m_SelectedIndex);
             }
 
             m_State = State.Deactivating;
@@ -393,18 +403,7 @@ namespace Menu_Generic
 
             //print("Deactivating,    Name set to : " + m_MenuText.text);
 
-            Disengage();
-
             m_TargetRadius = 0;
-        }
-
-        public override void CallFunction()
-        {
-            base.CallFunction();
-            if (m_OptionSelected)
-            {
-                OnSelected.Invoke(m_SelectedIndex);
-            }
         }
 
         RectTransform CreateNewButton()
@@ -419,13 +418,6 @@ namespace Menu_Generic
             newBtn.name = "Rad Btn " + m_MenuObjects.Count;
 
             return newBtn;
-        }
-        protected override object CallBackData
-        {
-            get
-            {
-                return m_SelectedIndex;
-            }
         }
 
         void OnDrawGizmos()

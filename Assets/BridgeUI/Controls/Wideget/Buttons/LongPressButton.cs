@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace SpringGUI
+namespace BridgeUI.Control
 {
     public class LongPressButton : Button
     {

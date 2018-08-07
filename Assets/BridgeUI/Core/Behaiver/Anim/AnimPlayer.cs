@@ -18,12 +18,20 @@ namespace BridgeUI
     {
         [SerializeField]
         private bool reverse;
-
-        protected List<uTweener> tweens;
         protected MonoBehaviour panel;
         protected UnityAction onComplete { get; set; }
         protected int completedTween;
-
+        private List<uTweener> _tweeners;
+        public virtual List<uTweener> tweeners
+        {
+            get
+            {
+                if (_tweeners == null){
+                    _tweeners = CreateTweeners();
+                }
+                return _tweeners;
+            }
+        }
         public virtual void SetContext(MonoBehaviour context)
         {
             panel = context;
@@ -41,9 +49,9 @@ namespace BridgeUI
         }
         protected virtual void Update()
         {
-            if (tweens != null)
+            if (tweeners != null)
             {
-                foreach (var tween in tweens)
+                foreach (var tween in tweeners)
                 {
                     if (tween != null)
                     {
@@ -52,20 +60,20 @@ namespace BridgeUI
                 }
             }
         }
-        public virtual void PlayAnim(bool isEnter, UnityAction onComplete)
+        public virtual void PlayAnim(UnityAction onComplete)
         {
-            tweens = CreateTweener(isEnter);
-            if (onComplete != null){
+            if (onComplete != null)
+            {
                 this.onComplete = onComplete;
             }
 
-            if (tweens != null)
+            if (tweeners != null)
             {
                 completedTween = 0;
 
-                foreach (var tween in tweens)
+                foreach (var tween in tweeners)
                 {
-                    if(!reverse)
+                    if (!reverse)
                     {
                         tween.ResetToBeginning();
                         tween.PlayForward();
@@ -75,7 +83,7 @@ namespace BridgeUI
                         tween.ResetToComplete();
                         tween.PlayReverse();
                     }
-                   
+
                     tween.AddOnFinished(CompleteOne);
                 }
             }
@@ -83,16 +91,16 @@ namespace BridgeUI
 
         protected virtual void CompleteOne()
         {
-            if (++completedTween  >=  tweens.Count)
+            if (++completedTween >= tweeners.Count)
             {
                 completedTween = 0;
-                if(onComplete != null)
+                if (onComplete != null)
                 {
                     onComplete.Invoke();
                 }
             }
         }
 
-        protected abstract List<uTweener> CreateTweener(bool isEnter);
+        protected abstract List<uTweener> CreateTweeners();
     }
 }

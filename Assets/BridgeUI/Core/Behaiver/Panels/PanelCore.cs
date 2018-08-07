@@ -197,7 +197,7 @@ namespace BridgeUI
         {
             if (IsShowing && UType.quitAnim != null)
             {
-                quitAnim.PlayAnim(false, CloseInternal);
+                quitAnim.PlayAnim( CloseInternal);
             }
             else
             {
@@ -273,7 +273,7 @@ namespace BridgeUI
         {
             if (UType.enterAnim != null)
             {
-                enterAnim.PlayAnim(true, null);
+                enterAnim.PlayAnim( null);
             }
         }
         private void AlaphGameObject(bool hide)

@@ -72,7 +72,7 @@ MonoBehaviour:
     m_connection: {fileID: 11477356}
   m_lastModified: 131768910377261586
   m_graphDescription: 
-  m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  m_controllerType: BridgeUIEditor.BridgeUIGraphCtrl
   loadType: 2
   b_nodes:
   - panelName: AnimTestPanel
@@ -83,13 +83,13 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: {fileID: 11400000, guid: fe18e12e7fcd5b341973ff7ceada92e2, type: 2}
-      quitAnim: {fileID: 11400000, guid: da9d70eddb166064fa9794d82f8094f2, type: 2}
+      enterAnim: {fileID: 11400000, guid: 08f91a1bb3fc09b4eab1793cc69f644d, type: 2}
+      quitAnim: {fileID: 11400000, guid: 83f56e536f90b154eb91395fab54fed2, type: 2}
       closeRule: 0
       hideRule: 0
     guid: 9e8dc7a02139fbd4b9bd37fd1b9d0f42
     good: 1
-    bundleName: bridgeui/panels/animtestpanel
+    bundleName: bridgeui/panels/animtestpanel.assetbundle
   p_nodes: []
   bridges:
   - inNode: 
@@ -100,6 +100,7 @@ MonoBehaviour:
       single: 0
       mutex: 0
       baseShow: 0
+    viewModel: {fileID: 0}
     outNode: AnimTestPanel
 --- !u!114 &11409134
 MonoBehaviour:
@@ -124,7 +125,7 @@ MonoBehaviour:
   m_Name: AnimTestPanel
   m_EditorClassIdentifier: 
   selected: 0
-  instenceID: -62022
+  instenceID: 0
   assetName: AnimTestPanel
   style: 1
   rule:
@@ -138,8 +139,8 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim: {fileID: 11400000, guid: fe18e12e7fcd5b341973ff7ceada92e2, type: 2}
-      quitAnim: {fileID: 11400000, guid: da9d70eddb166064fa9794d82f8094f2, type: 2}
+      enterAnim: {fileID: 11400000, guid: 08f91a1bb3fc09b4eab1793cc69f644d, type: 2}
+      quitAnim: {fileID: 11400000, guid: 83f56e536f90b154eb91395fab54fed2, type: 2}
       closeRule: 0
       hideRule: 0
     guid: 9e8dc7a02139fbd4b9bd37fd1b9d0f42
@@ -162,3 +163,4 @@ MonoBehaviour:
     single: 0
     mutex: 0
     baseShow: 0
+  viewModel: {fileID: 0}

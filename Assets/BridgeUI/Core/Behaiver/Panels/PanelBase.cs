@@ -69,7 +69,7 @@ namespace BridgeUI
             {
                 if (_enterAnim == null)
                 {
-                    _enterAnim = UType.enterAnim;
+                    _enterAnim = Instantiate(UType.enterAnim);
                     _enterAnim.SetContext(this);
                 }
                 return _enterAnim;
@@ -82,7 +82,7 @@ namespace BridgeUI
             {
                 if (_quitAnim == null)
                 {
-                    _quitAnim = UType.quitAnim;
+                    _quitAnim = Instantiate(UType.quitAnim);
                     _quitAnim.SetContext(this);
                 }
                 return _quitAnim;
@@ -109,7 +109,7 @@ namespace BridgeUI
                 return _binder;
             }
         }
-        [SerializeField,Attributes. DefultViewModel]
+        [SerializeField, Attributes.DefultViewModel]
         private Binding.ViewModel _viewModel;
         private Binding.ViewModel _defultViewModel;
         protected Binding.ViewModel defultViewModel
@@ -142,7 +142,8 @@ namespace BridgeUI
             InitComponents();
             PropBindings();
 
-            if (_viewModel != null){
+            if (_viewModel != null)
+            {
                 OnViewModelChanged(_viewModel);
             }
         }
@@ -228,21 +229,21 @@ namespace BridgeUI
             }
             else if (data is IDictionary)
             {
-                var currentViewModel = ViewModel == null ? defultViewModel:ViewModel;
+                var currentViewModel = ViewModel == null ? defultViewModel : ViewModel;
                 LoadPropDictionary(currentViewModel, data as IDictionary);
                 ViewModel = currentViewModel;
             }
         }
-        protected virtual void LoadPropDictionary(ViewModel viewModel,IDictionary dataDic)
+        protected virtual void LoadPropDictionary(ViewModel viewModel, IDictionary dataDic)
         {
             var keys = dataDic.Keys;
             foreach (var key in keys)
             {
                 var value = dataDic[key];
-                if(value != null)
+                if (value != null)
                 {
                     var prop = viewModel.GetBindablePropertySelfty(key.ToString(), value.GetType());
-                    if(prop != null)
+                    if (prop != null)
                     {
                         prop.ValueBoxed = value;
                     }
@@ -278,7 +279,8 @@ namespace BridgeUI
         public virtual void UnHide()
         {
             gameObject.SetActive(true);
-            if(UType.hideRule == HideRule.AlaphGameObject) {
+            if (UType.hideRule == HideRule.AlaphGameObject)
+            {
                 AlaphGameObject(false);
             }
             _isShowing = true;
@@ -288,7 +290,7 @@ namespace BridgeUI
         {
             if (IsShowing && UType.quitAnim != null)
             {
-                quitAnim.PlayAnim(false, CloseInternal);
+                quitAnim.PlayAnim(CloseInternal);
             }
             else
             {
@@ -364,7 +366,7 @@ namespace BridgeUI
         {
             if (UType.enterAnim != null)
             {
-                enterAnim.PlayAnim(true, null);
+                enterAnim.PlayAnim(null);
             }
         }
         private void AlaphGameObject(bool hide)

@@ -62,7 +62,7 @@ GameObject:
   - component: {fileID: 22455912}
   - component: {fileID: 22209634}
   - component: {fileID: 11428650}
-  - component: {fileID: 11411270}
+  - component: {fileID: 114979113317392464}
   m_Layer: 5
   m_Name: AnimTestPanel
   m_TagString: Untagged
@@ -70,19 +70,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &11411270
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 183666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbcefa3b3d562bb4dbc00d40ba2f8955, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  m_close: {fileID: 11488380}
 --- !u!114 &11428650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -348,3 +335,16 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 183666}
   m_IsPrefabParent: 1
+--- !u!114 &114979113317392464
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 183666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41aa5e77a320f234ab5451fd4a983725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _viewModel: {fileID: 0}
+  m_close: {fileID: 11488380}

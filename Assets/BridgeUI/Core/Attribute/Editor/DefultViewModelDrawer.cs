@@ -14,14 +14,14 @@ using UnityEditor;
 using BridgeUI.Binding;
 using System;
 using System.Linq;
+using BridgeUI.Attributes;
 
 namespace BridgeUIEditor
 {
+  
     [CustomPropertyDrawer(typeof(DefultViewModelAttribute))]
     public class DefultViewModelDrawer : PropertyDrawer
     {
-        private static List<Type> supportViewModels;
-        private static GUIContent[] options;
         private static ViewModel defultviewModel;
         private static GUIContent content = new GUIContent("View Model");
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -38,7 +38,7 @@ namespace BridgeUIEditor
                 {
                     var target = property.serializedObject.targetObject;
                     var path = property.propertyPath;
-                    CreateNewViewModel((viewModel)=> {
+                    MvvmUtil. CreateNewViewModel((viewModel)=> {
                         var serializeObj = new SerializedObject(target);
                         var prop = serializeObj.FindProperty(path);
                         prop.objectReferenceValue = viewModel;
@@ -59,60 +59,6 @@ namespace BridgeUIEditor
                     EditorGUI.PropertyField(rect, property, content);
                 }
             }
-        }
-
-        private void CreateNewViewModel(UnityAction<ViewModel> onCreate)
-        {
-            InitEnviroments();
-            EditorUtility.DisplayCustomMenu(new Rect(Event.current.mousePosition, Vector2.zero), options,-1, OnSelect, onCreate);
-        }
-
-        private void OnSelect(object userData, string[] options, int selected)
-        {
-            if (selected >= 0 && options.Length > 0)
-            {
-                var type = supportViewModels[selected];
-                var item = ScriptableObject.CreateInstance(type);
-                ProjectWindowUtil.CreateAsset(item, "new viewModel.asset");
-                BridgeUIEditor.BridgeEditorUtility.DelyAcceptObject(item, (obj) =>
-                {
-                    var action = userData as UnityAction<ViewModel>;
-                    if (action != null)
-                    {
-                        action.Invoke(obj as ViewModel);
-                    }
-
-                });
-                //EditorApplication.update = () =>
-                //{
-                //    var path = AssetDatabase.GetAssetPath(item);
-                //    if(path != null)
-                //    {
-                //        var obj = AssetDatabase.LoadAssetAtPath(path, type);
-                //        Debug.Assert(obj != null);
-                //        EditorApplication.update = null;
-                       
-                //    }
-                //};
-            }
-        }
-
-        private void InitEnviroments()
-        {
-            if (supportViewModels == null)
-            {
-                supportViewModels = (from type in typeof(ViewModel).Assembly.GetTypes()
-                                     where type.IsSubclassOf(typeof(ViewModel))
-                                     where !type.IsAbstract
-                                     select type).ToList();
-            }
-
-            if (options == null)
-            {
-                options = (from model in supportViewModels
-                           select new GUIContent(model.FullName)).ToArray();
-            }
-
         }
     }
 

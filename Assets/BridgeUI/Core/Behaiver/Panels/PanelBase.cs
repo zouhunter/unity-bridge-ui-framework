@@ -109,7 +109,7 @@ namespace BridgeUI
                 return _binder;
             }
         }
-        [SerializeField, DefultViewModel]
+        [SerializeField,Attributes. DefultViewModel]
         private Binding.ViewModel _viewModel;
         private Binding.ViewModel _defultViewModel;
         protected Binding.ViewModel defultViewModel

@@ -10,7 +10,12 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+namespace BridgeUI.Attributes
+{
 
-public class DefultViewModelAttribute : UnityEngine.PropertyAttribute {
+    public class DefultViewModelAttribute : UnityEngine.PropertyAttribute
+    {
+
+    }
 
 }

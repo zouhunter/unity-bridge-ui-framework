@@ -72,7 +72,7 @@ MonoBehaviour:
     m_connection: {fileID: 114211992659144660}
   m_lastModified: 131776981862156762
   m_graphDescription: 
-  m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  m_controllerType: BridgeUIEditor.BridgeUIGraphCtrl
   loadType: 1
   b_nodes: []
   p_nodes:
@@ -98,6 +98,7 @@ MonoBehaviour:
       single: 0
       mutex: 0
       baseShow: 0
+    viewModel: {fileID: 0}
     outNode: bindingMethodTest
 --- !u!114 &114211992659144660
 MonoBehaviour:
@@ -117,6 +118,7 @@ MonoBehaviour:
     single: 0
     mutex: 0
     baseShow: 0
+  viewModel: {fileID: 11400000, guid: fb832de497bbf7442b253e73beef6b74, type: 2}
 --- !u!114 &114309275575609262
 MonoBehaviour:
   m_ObjectHideFlags: 1

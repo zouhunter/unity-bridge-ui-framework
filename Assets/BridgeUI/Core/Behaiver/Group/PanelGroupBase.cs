@@ -347,6 +347,9 @@ namespace BridgeUI
         {
             panel.UType = uiNode.type;
             panel.Group = this;
+            if(panel is BridgeUI.Binding.IBindingContext && bridge.Info.viewModel != null) {
+                (panel as BridgeUI.Binding.IBindingContext).ViewModel = bridge.Info.viewModel;
+            }
             panel.onDelete += OnDeletePanel;
             panel.HandleData(bridge);
 
@@ -463,7 +466,7 @@ namespace BridgeUI
             {
                 bridge = poolDic[defultBridge].Allocate(parentPanel);
                 var show = new ShowMode(false, MutexRule.NoMutex, false, BaseShow.NoChange, false);
-                bridge.Info = new BridgeInfo(parentName, panelName, show, 0);
+                bridge.Info = new BridgeInfo(parentName, panelName, show,null, 0);
             }
             else
             {

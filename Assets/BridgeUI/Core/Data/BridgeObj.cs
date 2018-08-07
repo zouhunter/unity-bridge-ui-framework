@@ -17,14 +17,16 @@ namespace BridgeUI.Model
         public string inNode;
         public int index;
         public ShowMode showModel;
+        public BridgeUI.Binding.ViewModel viewModel;
         public string outNode;
         #endregion
-        public BridgeInfo(string inNode,string outNode,ShowMode showModel,int index)
+        public BridgeInfo(string inNode,string outNode,ShowMode showModel, BridgeUI.Binding.ViewModel viewModel, int index)
         {
             this.inNode = inNode;
             this.outNode = outNode;
             this.showModel = showModel;
             this.index = index;
+            this.viewModel = viewModel;
         }
     }
 
@@ -55,11 +57,11 @@ namespace BridgeUI.Model
 
             if (InPanel != null)
             {
-                Info = new BridgeInfo(parentPanel.Name,Info.outNode,Info.showModel,0);
+                Info = new BridgeInfo(parentPanel.Name,Info.outNode,Info.showModel,Info.viewModel,0);
             }
             else
             {
-                Info = new BridgeInfo("", Info.outNode, Info.showModel,0);
+                Info = new BridgeInfo("", Info.outNode, Info.showModel, Info.viewModel, 0);
             }
         }
 

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using NodeGraph;
 using NodeGraph.DataModel;
 using BridgeUI;
+using BridgeUI.Binding;
 using System;
 
 [CustomConnection("bridge")]
@@ -20,4 +21,5 @@ public class BridgeConnection : Connection
 {
     public int index;
     public ShowMode show = new ShowMode(false,MutexRule.NoMutex,false,BaseShow.NoChange,false);
+    public ViewModel viewModel;
 }

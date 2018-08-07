@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BridgeUI.Binding;
+using System;
 
 public class bindingViewChild : bindingViewModel
 {
@@ -51,5 +52,12 @@ public class bindingViewChild : bindingViewModel
 			"b",
 			"c"
 		};
-	}
+        ButtonClicked = OnButtonClicked;
+
+    }
+
+    private void OnButtonClicked(IBindingContext panel)
+    {
+        Debug.Log(panel);
+    }
 }

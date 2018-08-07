@@ -118,7 +118,7 @@ namespace BridgeUIEditor
                 {
                     bridge.outNode = outnode.Name;
                 }
-
+                bridge.viewModel = connection.viewModel;
                 bridge.showModel = connection.show;
                 bridge.index = connection.index;
                 bridges.Add(bridge);

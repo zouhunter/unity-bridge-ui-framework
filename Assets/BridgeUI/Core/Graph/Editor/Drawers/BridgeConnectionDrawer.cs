@@ -19,6 +19,7 @@ public class BridgeConnectionDrawer : Editor
 {
     private BridgeConnection connecton;
     protected const float buttonWidth = 20;
+
     public override void OnInspectorGUI()
     {
         connecton = target as BridgeConnection;
@@ -33,8 +34,11 @@ public class BridgeConnectionDrawer : Editor
         DrawMutexRules();
         DrawHead("父级变化");
         DrawBaseShow();
+        DrawHead("数据模型");
+        DrawViewModel();
     }
 
+ 
     private void DrawIndex(string tip)
     {
         var position = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.5f);
@@ -134,6 +138,11 @@ public class BridgeConnectionDrawer : Editor
             EditorGUILayout.SelectableLabel(" --" + tip);
         }
         return on;
+    }
+
+    private void DrawViewModel()
+    {
+        connecton.viewModel = EditorGUILayout.ObjectField(connecton.viewModel, typeof(BridgeUI.Binding.ViewModel), false) as BridgeUI.Binding.ViewModel;
     }
 
 }

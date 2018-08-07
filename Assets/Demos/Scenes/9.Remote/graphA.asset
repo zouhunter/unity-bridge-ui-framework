@@ -14,7 +14,7 @@ MonoBehaviour:
   m_allNodes:
   - m_name: RemotePanel
     m_id: 1c75dad7-9f1b-4a97-9c22-7c2cca715272
-    m_x: 350
+    m_x: 370
     m_y: 160
     m_node: {fileID: 114168316168891138}
     m_inputPoints:
@@ -45,7 +45,7 @@ MonoBehaviour:
       type: bridge
   - m_name: PopUpPanel
     m_id: b8b1edc0-b98f-475a-8f3e-ce729862394d
-    m_x: 530
+    m_x: 540
     m_y: 200
     m_node: {fileID: 114432702166604054}
     m_inputPoints:
@@ -62,7 +62,7 @@ MonoBehaviour:
       max: 100
       type: bridge
     m_outputPoints: []
-  - m_name: AnyPanel
+  - m_name: AnyState
     m_id: faaf738a-62f1-4bd9-a1be-7c9a2226e770
     m_x: 194
     m_y: 136
@@ -96,7 +96,7 @@ MonoBehaviour:
     m_toNodeConnectionPoiontId: 2a63cb9b-cf4f-44f7-9664-29934e29200c
     m_type: bridge
     m_connection: {fileID: 114429075506013072}
-  m_lastModified: 131781141467754375
+  m_lastModified: 131781143104057966
   m_graphDescription: 
   m_controllerType: BridgeUIEditor.BridgeUIGraphCtrl
   loadType: 1
@@ -124,6 +124,7 @@ MonoBehaviour:
       single: 0
       mutex: 0
       baseShow: 0
+    viewModel: {fileID: 0}
     outNode: PopUpPanel
   - inNode: 
     index: 0
@@ -133,6 +134,7 @@ MonoBehaviour:
       single: 0
       mutex: 0
       baseShow: 0
+    viewModel: {fileID: 0}
     outNode: RemotePanel
 --- !u!114 &114168316168891138
 MonoBehaviour:
@@ -145,10 +147,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: RemotePanel
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 3
   instenceID: 0
   assetName: RemotePanel
-  style: 1
+  style: 2
   rule:
     baseTypeIndex: 0
     canInherit: 0
@@ -184,6 +186,7 @@ MonoBehaviour:
     single: 0
     mutex: 0
     baseShow: 0
+  viewModel: {fileID: 0}
 --- !u!114 &114429075506013072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -202,6 +205,7 @@ MonoBehaviour:
     single: 0
     mutex: 0
     baseShow: 0
+  viewModel: {fileID: 0}
 --- !u!114 &114432702166604054
 MonoBehaviour:
   m_ObjectHideFlags: 1

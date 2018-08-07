@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using NodeGraph;
 using UnityEditor;
 using NodeGraph.DefultSkin;
+using NodeGraph.DataModel;
 
 namespace BridgeUIEditor
 {
@@ -23,7 +24,7 @@ namespace BridgeUIEditor
         {
             get
             {
-                return -EditorGUIUtility.singleLineHeight;
+                return -EditorGUIUtility.singleLineHeight * 0.5f;
             }
         }
 

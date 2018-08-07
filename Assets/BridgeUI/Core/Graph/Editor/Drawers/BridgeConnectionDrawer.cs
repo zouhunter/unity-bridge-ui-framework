@@ -24,7 +24,7 @@ namespace BridgeUIEditor
         public override void OnInspectorGUI()
         {
             connecton = target as BridgeConnection;
-            DrawIndex("上一级面板打开本面板的唯一id");
+            DrawTitle(connecton.name);
             DrawHead("自动打开");
             connecton.show.auto = DrawToggle(connecton.show.auto, "更随上级同步打开");
             DrawHead("界面遮罩");
@@ -39,40 +39,13 @@ namespace BridgeUIEditor
             DrawViewModel();
         }
 
-
-        private void DrawIndex(string tip)
+        private void DrawTitle(string title)
         {
             var position = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.5f);
             GUI.color = Color.green;
             GUI.Box(position, "", EditorStyles.miniButton);
             GUI.color = Color.white;
-            EditorGUI.LabelField(position, string.Format("【{0}】", connecton.name), EditorStyles.largeLabel);
-            DrawHead("界面索引");
-
-            position = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
-            var fieldRect = new Rect(position.x, position.y, position.width - 2 * buttonWidth, position.height);
-            var btnRect = new Rect(position.x + position.width - 2 * buttonWidth, position.y, buttonWidth, position.height);
-
-            connecton.index = EditorGUI.IntField(fieldRect, connecton.index);
-            btnRect.x -= 1;
-
-            if (GUI.Button(btnRect, "-", EditorStyles.miniButtonLeft))
-            {
-                connecton.index--;
-            }
-            btnRect.x += buttonWidth + 1;
-            if (GUI.Button(btnRect, "+", EditorStyles.miniButtonRight))
-            {
-                connecton.index++;
-            }
-            if (connecton.index < 0)
-            {
-                connecton.index = 0;
-            }
-            if (connecton.index > 100)
-            {
-                connecton.index = 100;
-            }
+            EditorGUI.LabelField(position, string.Format("【{0}】", title), EditorStyles.largeLabel);
         }
 
         private void DrawHead(string label)

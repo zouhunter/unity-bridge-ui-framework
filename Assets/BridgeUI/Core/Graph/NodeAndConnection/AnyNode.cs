@@ -5,14 +5,15 @@ using System.Collections.Generic;
 using NodeGraph.DataModel;
 using NodeGraph;
 
-[CustomNode("AnyPanel", 0, "BridgeUI")]
+[CustomNode("a.AnyPanel", 0, "BridgeUI")]
 public class AnyNode : Node
 {
-    protected override IEnumerable<Point> outPoints
+    public override void Initialize(NodeData data)
     {
-        get
+        base.Initialize(data);
+        if (data.OutputPoints == null || data.OutputPoints.Count == 0)
         {
-            return new Point[] { new Point("+", "bridge", 100) };
+            data.AddOutputPoint("→", "bridge", 1);
         }
     }
 }

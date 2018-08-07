@@ -122,7 +122,9 @@ namespace BridgeUIEditor
 
                 bridge.viewModel = connection.viewModel;
                 bridge.showModel = connection.show;
-                bridge.index = connection.index;
+                if(innode != null && innode.OutputPoints != null){
+                    bridge.index = innode.OutputPoints.FindIndex(x => x.Id == item.FromNodeId);
+                }
                 bridges.Add(bridge);
             }
             return bridges;

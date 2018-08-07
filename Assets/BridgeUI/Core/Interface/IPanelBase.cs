@@ -27,6 +27,7 @@ namespace BridgeUI
         Transform Content { get; }
         Transform Root { get; }
         List<IUIPanel> ChildPanels { get; }
+        int Capacity { get; }
 
         event PanelCloseEvent onDelete;
         UIType UType { get; set; }

@@ -162,6 +162,8 @@ MonoBehaviour:
   _viewModel: {fileID: 0}
   selectables:
   - {fileID: 11463326}
+  - {fileID: 11463326}
+  - {fileID: 11463326}
 --- !u!114 &11492522
 MonoBehaviour:
   m_ObjectHideFlags: 1

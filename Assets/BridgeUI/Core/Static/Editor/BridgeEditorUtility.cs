@@ -7,6 +7,7 @@ using ShowMode = BridgeUI.ShowMode;
 using BridgeUI;
 using UnityEditor;
 using System;
+using NodeGraph.DataModel;
 
 namespace BridgeUIEditor
 {
@@ -44,6 +45,35 @@ namespace BridgeUIEditor
             BridgeUI.Setting.bundleNameFormat = EditorGUILayout.TextField("默认AssetBundle路径:", BridgeUI.Setting.bundleNameFormat);
         }
 
+        public static void DrawAddNodes(Rect position, NodeData data)
+        {
+            var nodePostion = new Rect(position.x + position.width - 40, 25, 15, 15);
+
+            if (GUI.Button(nodePostion, "+"))
+            {
+                var count = data.OutputPoints.Count;
+                data.AddOutputPoint(count.ToString(), "bridge", 100);
+            }
+
+            for (int i = 0; i < data.OutputPoints.Count; i++)
+            {
+                if (i == 0) continue;
+                nodePostion.y += 31.8f;
+
+                if (GUI.Button(nodePostion, "-"))
+                {
+                    if (data.OutputPoints.Count > 1)
+                    {
+                        data.OutputPoints.RemoveAt(i);
+                        for (int j = i; j < data.OutputPoints.Count; j++)
+                        {
+                            data.OutputPoints[j].Label = j.ToString();
+                        }
+                    }
+                }
+            }
+
+        }
         public static Rect DrawBoxRect(Rect orignalRect, string index)
         {
             var idRect = new Rect(orignalRect.x - 15, orignalRect.y + 8, 20, 20);

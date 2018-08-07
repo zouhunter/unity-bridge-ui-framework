@@ -16,21 +16,61 @@ using BridgeUI.Model;
 using BridgeUI;
 using System.Collections.Generic;
 
-[CustomNode("RealPanel", 1,"BridgeUI")]
+[CustomNode("b.RealPanel", 1, "BridgeUI")]
 public class PanelNode : PanelNodeBase
 {
-    protected override IEnumerable<Point> inPoints
+    public override void Initialize(NodeData data)
     {
-        get
+        base.Initialize(data);
+
+        if (data.InputPoints == null || data.InputPoints.Count == 0)
         {
-            return new Point[] { new Point("","bridge",100) };
+            data.AddInputPoint("→", "bridge", 100);
+        }
+
+        if (data.OutputPoints == null || data.OutputPoints.Count == 0)
+        {
+            data.AddOutputPoint("0", "bridge", 100);
+        }
+
+        if (data.Object != null && data.Object is PanelNode)
+        {
+            var panelNode = data.Object as PanelNode;
+            var panel = GetPanelFromGUID(panelNode.Info.guid);
+            if (panel != null && panel.Capacity != data.OutputPoints.Count)
+            {
+                if (panel.Capacity > data.OutputPoints.Count)
+                {
+                    for (int i = 0; i < panel.Capacity; i++)
+                    {
+                        if (data.OutputPoints.Count <= i)
+                        {
+                            data.AddOutputPoint(i.ToString(), "bridge", 100);
+                        }
+                    }
+                }
+                else 
+                {
+                    var more = data.OutputPoints.Count - panel.Capacity;
+                    for (int i = 0; i < more; i++)
+                    {
+                        data.OutputPoints.RemoveAt(data.OutputPoints.Count - 1);
+                    }
+                }
+            }
         }
     }
-    protected override IEnumerable<Point> outPoints
+
+    private IUIPanel GetPanelFromGUID(string guid)
     {
-        get
+#if UNITY_EDITOR
+        var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+        if (!string.IsNullOrEmpty(path))
         {
-            return new Point[] { new Point("", "bridge", 100) };
+            var go = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            return go.GetComponent<IUIPanel>();
         }
+#endif
+        return null;
     }
 }

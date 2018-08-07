@@ -3,6 +3,7 @@ guid: a41db1c1d5f30cc40a374e0694970cbb
 timeCreated: 1530500178
 licenseType: Pro
 NativeFormatImporter:
+  mainObjectFileID: -1
   userData: 
-  assetBundleName: bridgeui/panels/inputpanel
+  assetBundleName: bridgeui/panels/inputpanel.assetbundle
   assetBundleVariant: 

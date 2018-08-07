@@ -19,7 +19,6 @@ using System;
 [CustomConnection("bridge")]
 public class BridgeConnection : Connection
 {
-    public int index;
     public ShowMode show = new ShowMode(false,MutexRule.NoMutex,false,BaseShow.NoChange,false);
     public ViewModel viewModel;
 }

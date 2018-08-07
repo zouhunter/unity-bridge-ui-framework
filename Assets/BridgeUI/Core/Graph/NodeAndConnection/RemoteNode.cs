@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using NodeGraph.DataModel;
 using NodeGraph;
 
-[CustomNode("RemotePanel", 2, "BridgeUI")]
+[CustomNode("c.RemotePanel", 2, "BridgeUI")]
 public class RemoteNode : Node {
-    protected override IEnumerable<Point> inPoints
+    public override void Initialize(NodeData data)
     {
-        get
+        base.Initialize(data);
+        if (data.InputPoints == null || data.InputPoints.Count == 0)
         {
-            return new Point[] { new Point("", "bridge", 100) };
+            data.AddInputPoint("→", "bridge", 100);
         }
     }
 }

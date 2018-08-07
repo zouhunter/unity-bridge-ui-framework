@@ -43,11 +43,10 @@ namespace BridgeUIEditor
         {
             get
             {
-                if (panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription))
-                {
+                if (panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription)){
                     return EditorGUIUtility.singleLineHeight + 2;
                 }
-                return 0;
+                return -EditorGUIUtility.singleLineHeight * 0.5f;
             }
         }
         public override float SuperWidth
@@ -71,6 +70,7 @@ namespace BridgeUIEditor
                 gui.Name = node.name;
             }
         }
+
         public override void OnNodeGUI(Rect position, NodeData data)
         {
             base.OnNodeGUI(position, data);
@@ -80,6 +80,7 @@ namespace BridgeUIEditor
                 EditorGUI.LabelField(rect, panelNode.Info.discription);
             }
         }
+
         public override void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result)
         {
             base.OnClickNodeGUI(nodeGUI, mousePosition, result);
@@ -105,5 +106,7 @@ namespace BridgeUIEditor
                 nodeItem.nodeInfo.uiType = (UIType)uiTypeTemplate;
             });
         }
+
+        
     }
 }

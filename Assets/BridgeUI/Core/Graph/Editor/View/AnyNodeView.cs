@@ -16,8 +16,8 @@ using NodeGraph.DefultSkin;
 
 namespace BridgeUIEditor
 {
-    [CustomNodeView(typeof(Luncher))]
-    public class LuncherView : DefultSkinNodeView
+    [CustomNodeView(typeof(AnyNode))]
+    public class AnyNodeView : DefultSkinNodeView
     {
         public override float SuperHeight
         {

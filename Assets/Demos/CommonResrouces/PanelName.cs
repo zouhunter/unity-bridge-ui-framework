@@ -227,4 +227,10 @@ public class PanelNames {
             return "ListPanel";
         }
     }
+    
+    public static string RemotePanel {
+        get {
+            return "RemotePanel";
+        }
+    }
 }

@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using NodeGraph.DataModel;
 using NodeGraph;
 
-[CustomNode("AnyState", 0, "BridgeUI")]
-public class Luncher : Node
+[CustomNode("AnyPanel", 0, "BridgeUI")]
+public class AnyNode : Node
 {
     protected override IEnumerable<Point> outPoints
     {

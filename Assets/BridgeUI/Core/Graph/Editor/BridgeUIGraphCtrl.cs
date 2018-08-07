@@ -34,6 +34,7 @@ namespace BridgeUIEditor
             graph.p_nodes.Clear();
 
             InsertBridges(graph.bridges, GetBridges());
+
             if (graph.loadType == LoadType.Prefab)
             {
                 InsertPrefabinfo(graph.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
@@ -113,7 +114,7 @@ namespace BridgeUIEditor
                     }
                 }
 
-                if (outnode != null && outnode.Object is IPanelInfoHolder)
+                if (outnode != null)
                 {
                     bridge.outNode = outnode.Name;
                 }

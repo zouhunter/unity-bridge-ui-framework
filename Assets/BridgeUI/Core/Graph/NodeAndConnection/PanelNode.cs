@@ -16,7 +16,7 @@ using BridgeUI.Model;
 using BridgeUI;
 using System.Collections.Generic;
 
-[CustomNode("Panel", 1,"BridgeUI")]
+[CustomNode("RealPanel", 1,"BridgeUI")]
 public class PanelNode : PanelNodeBase
 {
     protected override IEnumerable<Point> inPoints
@@ -33,5 +33,4 @@ public class PanelNode : PanelNodeBase
             return new Point[] { new Point("", "bridge", 100) };
         }
     }
-
 }

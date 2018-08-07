@@ -233,4 +233,16 @@ public class PanelNames {
             return "RemotePanel";
         }
     }
+    
+    public static string ContentPanel {
+        get {
+            return "ContentPanel";
+        }
+    }
+    
+    public static string Panel1 {
+        get {
+            return "Panel1";
+        }
+    }
 }

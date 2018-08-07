@@ -10,8 +10,7 @@ using UnityEngine.EventSystems;
 
 namespace BridgeUI
 {
-
-    public sealed class PanelCore : MonoBehaviour, IUIPanel
+    public class PanelCore : UIBehaviour, IUIPanel
     {
         public int InstenceID
         {
@@ -23,7 +22,7 @@ namespace BridgeUI
         public string Name { get { return name; } }
         public IPanelGroup Group { get; set; }
         public IUIPanel Parent { get; set; }
-        public Transform Content { get { return transform; } }
+        public virtual Transform Content { get { return transform; } }
         public Transform Root { get { return transform.parent.parent; } }
         public UIType UType { get; set; }
         public List<IUIPanel> ChildPanels
@@ -37,53 +36,53 @@ namespace BridgeUI
         {
             get
             {
-                return _isShowing;
+                 return _isShowing && !IsDestroyed();
             }
         }
         public bool IsAlive
         {
             get
             {
-                return _isAlive;
+                return _isAlive && !IsDestroyed();
             }
         }
-        private AnimPlayer _enterAnim;
-        private AnimPlayer enterAnim
+        protected AnimPlayer _enterAnim;
+        protected AnimPlayer enterAnim
         {
             get
             {
                 if (_enterAnim == null)
                 {
-                    _enterAnim = UType.enterAnim;
+                    _enterAnim = Instantiate(UType.enterAnim);
                     _enterAnim.SetContext(this);
                 }
                 return _enterAnim;
             }
         }
-        private AnimPlayer _quitAnim;
-        private AnimPlayer quitAnim
+        protected AnimPlayer _quitAnim;
+        protected AnimPlayer quitAnim
         {
             get
             {
                 if (_quitAnim == null)
                 {
-                    _quitAnim = UType.quitAnim;
+                    _quitAnim = Instantiate(UType.quitAnim);
                     _quitAnim.SetContext(this);
                 }
                 return _quitAnim;
-
             }
         }
 
-        private Bridge bridge;
-        private List<IUIPanel> childPanels;
+        protected Bridge bridge;
+        protected List<IUIPanel> childPanels;
         public event PanelCloseEvent onDelete;
-        private event UnityAction<object> onReceive;
-        private bool _isShowing = true;
-        private bool _isAlive = true;
+        protected event UnityAction<object> onReceive;
+        protected bool _isShowing = true;
+        protected bool _isAlive = true;
 
-        void Start()
+        protected override void Start()
         {
+            base.Start();
             if (bridge != null){
                 bridge.OnCreatePanel(this);
             }
@@ -91,8 +90,10 @@ namespace BridgeUI
             OnOpenInternal();
         }
 
-        void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+
             _isAlive = false;
 
             _isShowing = false;
@@ -134,7 +135,7 @@ namespace BridgeUI
                 bridge.onGet = HandleData;
             }
         }
-        private void HandleData(Queue<object> dataQueue)
+        protected void HandleData(Queue<object> dataQueue)
         {
             if (dataQueue != null)
             {
@@ -149,10 +150,9 @@ namespace BridgeUI
             }
         }
 
-        private void HandleData(object data)
+        protected virtual void HandleData(object data)
         {
-            if(this.onReceive != null)
-            {
+            if(this.onReceive != null){
                 onReceive.Invoke(data);
             }
         }
@@ -193,7 +193,7 @@ namespace BridgeUI
             _isShowing = true;
             OnOpenInternal();
         }
-        public void Close()
+        public virtual void Close()
         {
             if (IsShowing && UType.quitAnim != null)
             {
@@ -204,7 +204,7 @@ namespace BridgeUI
                 CloseInternal();
             }
         }
-        private void CloseInternal()
+        protected void CloseInternal()
         {
             _isShowing = false;
 
@@ -239,7 +239,7 @@ namespace BridgeUI
             }
             childPanel.Parent = this;
         }
-        private void AppendComponentsByType()
+        protected void AppendComponentsByType()
         {
             if (UType.form == UIFormType.DragAble)
             {
@@ -262,21 +262,21 @@ namespace BridgeUI
             img.color = new Color(0, 0, 0, 0.01f);
             img.raycastTarget = true;
         }
-        private void OnRemoveChild(IUIPanel childPanel, bool remove)
+        protected void OnRemoveChild(IUIPanel childPanel, bool remove)
         {
             if (childPanels != null && childPanels.Contains(childPanel) && remove)
             {
                 childPanels.Remove(childPanel);
             }
         }
-        private void OnOpenInternal()
+        protected void OnOpenInternal()
         {
             if (UType.enterAnim != null)
             {
                 enterAnim.PlayAnim( null);
             }
         }
-        private void AlaphGameObject(bool hide)
+        protected void AlaphGameObject(bool hide)
         {
             var canvasGroup = GetComponent<CanvasGroup>();
             if (canvasGroup == null)

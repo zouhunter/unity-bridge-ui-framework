@@ -72,13 +72,13 @@ namespace BridgeUI
 
             if (currentGroup != null)//限制性打开
             {
-                InternalOpen(parent, currentGroup, handle, panelName);
+                InternalOpen(parent, currentGroup, handle, panelName,-1);
             }
             else
             {
                 foreach (var group in groupList)
                 {
-                    InternalOpen(parent, group, handle, panelName);
+                    InternalOpen(parent, group, handle, panelName,-1);
                 }
             }
 
@@ -90,15 +90,41 @@ namespace BridgeUI
             return handle;
         }
 
-        private void InternalOpen(IUIPanel parentPanel, IPanelGroup group, IUIHandleInternal handle, string panelName)
+        public IUIHandle Open(IUIPanel parent, string panelName, int index,  object data = null)
+        {
+            var handle = handlePool.Allocate(panelName);
+
+            var currentGroup = parent == null ? null : parent.Group;
+
+            if (currentGroup != null)//限制性打开
+            {
+                InternalOpen(parent, currentGroup, handle, panelName, index);
+            }
+            else
+            {
+                foreach (var group in groupList)
+                {
+                    InternalOpen(parent, group, handle, panelName, index);
+                }
+            }
+
+            if (data != null)
+            {
+                handle.Send(data);
+            }
+
+            return handle;
+        }
+        private void InternalOpen(IUIPanel parentPanel, IPanelGroup group, IUIHandleInternal handle,string panelName,int index)
         {
             var Content = parentPanel == null ? null : parentPanel.Content;
-            Bridge bridgeObj = group.InstencePanel(parentPanel, panelName, Content);
+            Bridge bridgeObj = group.InstencePanel(parentPanel, panelName,index, Content);
             if (bridgeObj != null)
             {
                 handle.RegistBridge(bridgeObj);
             }
         }
+
         public void Hide(string panelName)
         {
             Hide(null, panelName);

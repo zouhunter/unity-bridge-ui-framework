@@ -114,11 +114,11 @@ namespace BridgeUI
             RegistUIEvents();
         }
 
-        public Bridge InstencePanel(IUIPanel parentPanel, string panelName, Transform root)
+        public Bridge InstencePanel(IUIPanel parentPanel, string panelName,int index, Transform root)
         {
             Bridge bridge = null;
             UIInfoBase uiNode = null;
-            if (TryMatchPanel(parentPanel, panelName, out bridge, out uiNode))
+            if (TryMatchPanel(parentPanel, panelName,index, out bridge, out uiNode))
             {
                 uiNode.OnCreate = (go) =>
                 {
@@ -291,7 +291,7 @@ namespace BridgeUI
             {
                 foreach (var autoBridge in autoBridges)
                 {
-                    InstencePanel(parentPanel, autoBridge.outNode, content);
+                    InstencePanel(parentPanel, autoBridge.outNode,-1, content);
                 }
             }
         }
@@ -404,7 +404,7 @@ namespace BridgeUI
         /// <param name="bridgeObj"></param>
         /// <param name="uiNode"></param>
         /// <returns></returns>
-        protected bool TryMatchPanel(IUIPanel parentPanel, string panelName, out Bridge bridgeObj, out UIInfoBase uiNode)
+        protected bool TryMatchPanel(IUIPanel parentPanel, string panelName,int index, out Bridge bridgeObj, out UIInfoBase uiNode)
         {
             uiNode = Nodes.Find(x => x.panelName == panelName);
 
@@ -432,7 +432,7 @@ namespace BridgeUI
                 return false;
             }
 
-            bridgeObj = GetBridgeClamp(parentPanel, panelName);
+            bridgeObj = GetBridgeClamp(parentPanel, panelName, index);
             return uiNode != null && bridgeObj != null;
         }
 
@@ -442,12 +442,12 @@ namespace BridgeUI
         /// <param name="parentPanel"></param>
         /// <param name="panelName"></param>
         /// <returns></returns>
-        protected Bridge GetBridgeClamp(IUIPanel parentPanel, string panelName)
+        protected Bridge GetBridgeClamp(IUIPanel parentPanel, string panelName,int index)
         {
             Bridge bridge = null;
             var parentName = parentPanel == null ? "" : parentPanel.Name;
-            var mayInfos = Bridges.FindAll(x => x.outNode == panelName);
-            var baseInfos = mayInfos.FindAll(x => x.inNode == parentName);
+            var mayInfos = Bridges.FindAll(x => x.outNode == panelName && (x.index == index || index == -1));//所有可能的
+            var baseInfos = mayInfos.FindAll(x => x.inNode == parentName);//所有父级名相同的
             BridgeInfo? bridgeInfo = null;
             if (baseInfos.Count > 0)
             {
@@ -580,11 +580,13 @@ namespace BridgeUI
                 {
                     UIBindingItem bindingItem = new UIBindingItem();
 
+                    var index = item.index;
+
                     bindingItem.openAction = (x, y) =>
                     {
                         var parentPanel = x;
                         var panelName = bridgeInfo.outNode;
-                        return UIFacade.Instence.Open(parentPanel, panelName, y);
+                        return UIFacade.Instence.Open(parentPanel, panelName,index, y);
                     };
 
                     bindingItem.closeAction = () =>

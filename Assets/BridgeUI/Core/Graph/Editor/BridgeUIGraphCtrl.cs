@@ -53,7 +53,7 @@ namespace BridgeUIEditor
             foreach (var item in newBridges)
             {
                 if (string.IsNullOrEmpty(item.outNode)) continue;
-                source.RemoveAll(x => (x.inNode == item.inNode || (string.IsNullOrEmpty(x.inNode) && string.IsNullOrEmpty(item.inNode))) && x.outNode == item.outNode);
+                source.RemoveAll(x => (x.inNode == item.inNode || (string.IsNullOrEmpty(x.inNode) && string.IsNullOrEmpty(item.inNode))) &&x.index == item.index && x.outNode == item.outNode);
                 source.Add(item);
             }
         }
@@ -101,6 +101,7 @@ namespace BridgeUIEditor
             foreach (var item in connectons)
             {
                 if (!(item.Object is BridgeConnection)) continue;
+
                 var connection = item.Object as BridgeConnection;
 
                 var bridge = new BridgeInfo();
@@ -118,6 +119,7 @@ namespace BridgeUIEditor
                 {
                     bridge.outNode = outnode.Name;
                 }
+
                 bridge.viewModel = connection.viewModel;
                 bridge.showModel = connection.show;
                 bridge.index = connection.index;

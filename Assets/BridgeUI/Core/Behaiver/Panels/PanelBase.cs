@@ -26,77 +26,8 @@ using BridgeUI.Binding;
 namespace BridgeUI
 {
     [PanelParent]
-    public abstract class PanelBase : UIBehaviour, IUIPanel, IBindingContext
+    public class PanelBase : PanelCore, IBindingContext
     {
-        public int InstenceID
-        {
-            get
-            {
-                return GetInstanceID();
-            }
-        }
-        public string Name { get { return name; } }
-        public IPanelGroup Group { get; set; }
-        public IUIPanel Parent { get; set; }
-        public virtual Transform Content { get { return transform; } }
-        public Transform Root { get { return transform.parent.parent; } }
-        public UIType UType { get; set; }
-        public List<IUIPanel> ChildPanels
-        {
-            get
-            {
-                return childPanels;
-            }
-        }
-        public bool IsShowing
-        {
-            get
-            {
-                return _isShowing && !IsDestroyed();
-            }
-        }
-        public bool IsAlive
-        {
-            get
-            {
-                return _isAlive && !IsDestroyed();
-            }
-        }
-        private AnimPlayer _enterAnim;
-        protected AnimPlayer enterAnim
-        {
-            get
-            {
-                if (_enterAnim == null)
-                {
-                    _enterAnim = Instantiate(UType.enterAnim);
-                    _enterAnim.SetContext(this);
-                }
-                return _enterAnim;
-            }
-        }
-        private AnimPlayer _quitAnim;
-        protected AnimPlayer quitAnim
-        {
-            get
-            {
-                if (_quitAnim == null)
-                {
-                    _quitAnim = Instantiate(UType.quitAnim);
-                    _quitAnim.SetContext(this);
-                }
-                return _quitAnim;
-
-            }
-        }
-
-
-        protected Bridge bridge;
-        protected List<IUIPanel> childPanels;
-        public event PanelCloseEvent onDelete;
-
-        private bool _isShowing = true;
-        private bool _isAlive = true;
         private Binding.PropertyBinder _binder;
         protected virtual Binding.PropertyBinder Binder
         {
@@ -141,17 +72,14 @@ namespace BridgeUI
             base.Awake();
             InitComponents();
             PropBindings();
-
-            if (_viewModel != null)
-            {
+            if (_viewModel != null){
                 OnViewModelChanged(_viewModel);
             }
         }
         protected override void Start()
         {
             base.Start();
-            if (bridge != null)
-            {
+            if (bridge != null){
                 bridge.OnCreatePanel(this);
             }
             AppendComponentsByType();
@@ -160,23 +88,9 @@ namespace BridgeUI
         protected override void OnDestroy()
         {
             base.OnDestroy();
-
-            _isAlive = false;
-
-            _isShowing = false;
-
-            if (bridge != null)
-            {
-                bridge.Release();
-            }
-
-            if (onDelete != null)
-            {
-                onDelete.Invoke(this, true);
-            }
-
             Binder.Unbind();
         }
+
         protected virtual void InitComponents() { }
 
         protected virtual void PropBindings() { }
@@ -187,42 +101,10 @@ namespace BridgeUI
             Binder.Bind(newValue);
         }
 
-        public void SetParent(Transform Trans)
+        protected override void HandleData(object data)
         {
-            Utility.SetTranform(transform, UType.layer, UType.layerIndex, Trans);
-        }
-        public void CallBack(object data)
-        {
-            if (bridge != null)
-            {
-                bridge.CallBack(this, data);
-            }
-        }
-        public void HandleData(Bridge bridge)
-        {
-            this.bridge = bridge;
-            if (bridge != null)
-            {
-                HandleData(bridge.dataQueue);
-                bridge.onGet = HandleData;
-            }
-        }
-        protected void HandleData(Queue<object> dataQueue)
-        {
-            if (dataQueue != null)
-            {
-                while (dataQueue.Count > 0)
-                {
-                    var data = dataQueue.Dequeue();
-                    if (data != null)
-                    {
-                        HandleData(data);
-                    }
-                }
-            }
-        }
-        protected virtual void HandleData(object data)
-        {
+            base.HandleData(data);
+
             if (data is Binding.ViewModel)
             {
                 ViewModel = data as Binding.ViewModel;
@@ -248,146 +130,6 @@ namespace BridgeUI
                         prop.ValueBoxed = value;
                     }
                 }
-            }
-        }
-        public virtual void Hide()
-        {
-            _isShowing = false;
-            switch (UType.hideRule)
-            {
-                case HideRule.AlaphGameObject:
-                    AlaphGameObject(true);
-                    break;
-                case HideRule.HideGameObject:
-                    gameObject.SetActive(false);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        public virtual void OnDestroyHide()
-        {
-            _isShowing = false;
-            gameObject.SetActive(false);
-            if (onDelete != null)
-            {
-                onDelete.Invoke(this, false);
-            }
-        }
-
-        public virtual void UnHide()
-        {
-            gameObject.SetActive(true);
-            if (UType.hideRule == HideRule.AlaphGameObject)
-            {
-                AlaphGameObject(false);
-            }
-            _isShowing = true;
-            OnOpenInternal();
-        }
-        public virtual void Close()
-        {
-            if (IsShowing && UType.quitAnim != null)
-            {
-                quitAnim.PlayAnim(CloseInternal);
-            }
-            else
-            {
-                CloseInternal();
-            }
-        }
-        private void CloseInternal()
-        {
-            _isShowing = false;
-
-            switch (UType.closeRule)
-            {
-                case CloseRule.DestroyImmediate:
-                    DestroyImmediate(gameObject);
-                    break;
-                case CloseRule.DestroyDely:
-                    Destroy(gameObject, 0.02f);
-                    break;
-                case CloseRule.DestroyNoraml:
-                    Destroy(gameObject);
-                    break;
-                case CloseRule.HideGameObject:
-                    OnDestroyHide();
-                    break;
-                default:
-                    break;
-            }
-        }
-        public void RecordChild(IUIPanel childPanel)
-        {
-            if (childPanels == null)
-            {
-                childPanels = new List<IUIPanel>();
-            }
-            if (!childPanels.Contains(childPanel))
-            {
-                childPanel.onDelete += OnRemoveChild;
-                childPanels.Add(childPanel);
-            }
-            childPanel.Parent = this;
-        }
-        private void AppendComponentsByType()
-        {
-            if (UType.form == UIFormType.DragAble)
-            {
-                if (gameObject.GetComponent<DragPanel>() == null)
-                {
-                    gameObject.AddComponent<DragPanel>();
-                }
-            }
-        }
-        public void Cover()
-        {
-            var covername = Name + "_Cover";
-            var rectt = new GameObject(covername, typeof(RectTransform)).GetComponent<RectTransform>();
-            rectt.gameObject.layer = 5;
-            rectt.SetParent(transform, false);
-            rectt.SetSiblingIndex(0);
-            rectt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 10000);
-            rectt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 10000);
-            var img = rectt.gameObject.AddComponent<Image>();
-            img.color = new Color(0, 0, 0, 0.01f);
-            img.raycastTarget = true;
-        }
-        private void OnRemoveChild(IUIPanel childPanel, bool remove)
-        {
-            if (childPanels != null && childPanels.Contains(childPanel) && remove)
-            {
-                childPanels.Remove(childPanel);
-            }
-        }
-        private void OnOpenInternal()
-        {
-            if (UType.enterAnim != null)
-            {
-                enterAnim.PlayAnim(null);
-            }
-        }
-        private void AlaphGameObject(bool hide)
-        {
-            var canvasGroup = GetComponent<CanvasGroup>();
-            if (canvasGroup == null)
-            {
-                canvasGroup = gameObject.AddComponent<CanvasGroup>();
-            }
-
-            if (hide)
-            {
-                canvasGroup.alpha = UType.hideAlaph;
-                canvasGroup.interactable = false;
-                canvasGroup.blocksRaycasts = false;
-            }
-            else
-            {
-                canvasGroup.alpha = 1;
-                canvasGroup.interactable = true;
-                canvasGroup.blocksRaycasts = true;
             }
         }
     }

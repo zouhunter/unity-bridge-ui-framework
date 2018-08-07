@@ -327,7 +327,7 @@ MonoBehaviour:
     m_connection: {fileID: 11480194}
   m_lastModified: 131692476682705989
   m_graphDescription: 
-  m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  m_controllerType: BridgeUIEditor.BridgeUIGraphCtrl
   loadType: 2
   b_nodes:
   - panelName: ButtonOpenPanel

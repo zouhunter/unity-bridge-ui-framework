@@ -14,7 +14,30 @@ namespace BridgeUIEditor
     {
         public const float padding = 5;
         public static float currentViewWidth { get { return EditorGUIUtility.currentViewWidth - 100; } }
-
+        //记录坐标加载时,不需要记录下列信息变化
+        public static List<string> coondinatePaths = new List<string>
+        {
+            "m_LocalPosition.x",
+            "m_LocalPosition.y",
+            "m_LocalPosition.z",
+            "m_LocalRotation.x",
+            "m_LocalRotation.y",
+            "m_LocalRotation.z",
+            "m_LocalRotation.w",
+            "m_LocalScale.x",
+            "m_LocalScale.y",
+            "m_LocalScale.z",
+            "m_AnchoredPosition.x",
+            "m_AnchoredPosition.y",
+            "m_SizeDelta.x",
+            "m_SizeDelta.y",
+            "m_AnchorMin.x",
+            "m_AnchorMin.y",
+            "m_AnchorMax.x",
+            "m_AnchorMax.y",
+            "m_Pivot.x",
+            "m_Pivot.y",
+        };
         [PreferenceItem("Bridge UI")]
         public static void PreferencesGUI()
         {
@@ -57,7 +80,7 @@ namespace BridgeUIEditor
             };
             EditorApplication.update = action;
         }
-        public static void SetPrefab(this BridgeUI.Model.NodeInfo nodeInfo, GameObject prefab)
+        public static void SetPrefabGUID(this BridgeUI.Model.NodeInfo nodeInfo, GameObject prefab)
         {
             if (prefab != null)
             {
@@ -85,7 +108,60 @@ namespace BridgeUIEditor
             }
             return null;
         }
-        public static void ApplyPrefab(GameObject gitem)
+        #region 保存预制体
+        public static void SavePrefab(ref int instanceID, bool destroy = true)
+        {
+            var gitem = EditorUtility.InstanceIDToObject(instanceID);
+            if (gitem != null)
+            {
+                if (!Ignore(gitem))
+                {
+                    InternalApplyPrefab(gitem as GameObject);
+                }
+                if (destroy)
+                {
+                    GameObject.DestroyImmediate(gitem);
+                    instanceID = 0;
+                }
+            }
+            else
+            {
+                instanceID = 0;
+            }
+        }
+        public static void SavePrefab(GameObject gitem, bool destroy = true)
+        {
+            if (!Ignore(gitem))
+            {
+                InternalApplyPrefab(gitem);
+            }
+            if (destroy)
+            {
+                GameObject.DestroyImmediate(gitem);
+            }
+        }
+        public static void SavePrefab(SerializedProperty instanceIDProp, bool destroy = true)
+        {
+            var gitem = EditorUtility.InstanceIDToObject(instanceIDProp.intValue);
+            if (gitem != null)
+            {
+                var transform = (gitem as GameObject).transform;
+                if (!Ignore(gitem))
+                {
+                    InternalApplyPrefab(gitem as GameObject);
+                }
+                if (destroy)
+                {
+                    GameObject.DestroyImmediate(gitem);
+                    instanceIDProp.intValue = 0;
+                }
+            }
+            else
+            {
+                instanceIDProp.intValue = 0;
+            }
+        }
+        private static void InternalApplyPrefab(GameObject gitem)
         {
             var instanceRoot = PrefabUtility.FindValidUploadPrefabInstanceRoot(gitem);
             var prefab = PrefabUtility.GetPrefabParent(instanceRoot);
@@ -97,6 +173,7 @@ namespace BridgeUIEditor
                 }
             }
         }
+        #endregion 保存和加载预制体
         /// <summary>
         /// Reset the value of a property.
         /// </summary>
@@ -325,6 +402,61 @@ namespace BridgeUIEditor
                     //!TODO: Amend when Unity add a public API for setting the gradient.
                     break;
             }
+        }
+
+        private static bool Ignore(UnityEngine.Object instence)
+        {
+            var modifyed = PrefabUtility.GetPropertyModifications(instence);
+            var changed = false;
+
+            var instanceRoot = PrefabUtility.FindValidUploadPrefabInstanceRoot(instence as GameObject) as GameObject;
+            var prefab = PrefabUtility.GetPrefabParent(instanceRoot) as GameObject;
+
+            if (prefab == null) return true;
+
+            SerializedObject prefabObj = new SerializedObject(prefab.GetComponent<RectTransform>());
+            SerializedObject instenceObj = new SerializedObject((instence as GameObject).GetComponent<RectTransform>());
+
+            foreach (var item in modifyed)
+            {
+                if (item.propertyPath == "m_RootOrder")
+                {
+                    continue;
+                }
+
+                if (!coondinatePaths.Contains(item.propertyPath))
+                {
+                    Debug.Log("property changed:" + item.propertyPath);
+                    changed = true;
+                }
+                else
+                {
+                    var intenalChanged = IsInteranlPropertyChanged(prefabObj, instenceObj, item.propertyPath);
+                    if(intenalChanged)
+                    {
+                        changed = true;
+                        Debug.Log("property changed:" + item.propertyPath);
+                    }
+                }
+            }
+
+            if (!changed)
+            {
+                Debug.Log("ignore changes of:" + instence);
+            }
+
+            return !changed;
+        }
+
+
+        private static bool IsInteranlPropertyChanged(SerializedObject prefab, SerializedObject instence, string path)
+        {
+            var change = prefab.FindProperty(path).floatValue - instence.FindProperty(path).floatValue;
+            if (Mathf.Abs(change) > 0.001)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

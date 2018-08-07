@@ -254,13 +254,7 @@ namespace BridgeUIEditor
             for (int i = 0; i < infoList.Length; i++)
             {
                 var item = infoList[i];
-                var obj = EditorUtility.InstanceIDToObject(item.instanceID);
-                if (obj != null)
-                {
-                    BridgeEditorUtility.ApplyPrefab(obj as GameObject);
-                    DestroyImmediate(obj);
-                }
-                item.instanceID = 0;
+                BridgeEditorUtility.SavePrefab(ref item.instanceID);
             }
         }
 

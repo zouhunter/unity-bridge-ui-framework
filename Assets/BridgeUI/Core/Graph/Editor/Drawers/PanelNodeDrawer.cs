@@ -149,7 +149,7 @@ namespace BridgeUIEditor
             {
                 EditorGUILayout.LabelField("预制体:", GUILayout.Width(lableWidth));
                 EditorGUI.BeginChangeCheck();
-                nodeInfo.SetPrefab(EditorGUILayout.ObjectField(nodeInfo.GetPrefab(), typeof(GameObject), false) as GameObject);
+                nodeInfo.SetPrefabGUID(EditorGUILayout.ObjectField(nodeInfo.GetPrefab(), typeof(GameObject), false) as GameObject);
                 if (EditorGUI.EndChangeCheck())
                 {
                     OnPrefabChanged();

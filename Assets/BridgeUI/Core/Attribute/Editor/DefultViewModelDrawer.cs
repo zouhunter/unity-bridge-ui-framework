@@ -20,22 +20,19 @@ namespace BridgeUIEditor
     [CustomPropertyDrawer(typeof(DefultViewModelAttribute))]
     public class DefultViewModelDrawer : PropertyDrawer
     {
-        private static ViewModel defultViewModel;
         private static List<Type> supportViewModels;
         private static GUIContent[] options;
+        private static ViewModel defultviewModel;
+        private static GUIContent content = new GUIContent("View Model");
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (defultViewModel == null)
+            if(defultviewModel == null)
             {
-                defultViewModel = ScriptableObject.CreateInstance<ViewModel>();
+                defultviewModel = ScriptableObject.CreateInstance<ViewModel>();
             }
 
             if (property.propertyType == SerializedPropertyType.ObjectReference)
             {
-                if (property.objectReferenceValue == null)
-                {
-                    property.objectReferenceValue = defultViewModel;
-                }
                 var rect = new Rect(position.x + position.width - 60, position.y, 60, position.height);
                 if (GUI.Button(rect, "new", EditorStyles.miniButtonRight))
                 {
@@ -49,7 +46,18 @@ namespace BridgeUIEditor
                     });
                 }
                 rect = new Rect(position.x, position.y, position.width - 60, position.height);
-                EditorGUI.PropertyField(rect, property, new GUIContent("View Model"));
+                if (property.objectReferenceValue == null)
+                {
+                    var viewModel = EditorGUI.ObjectField(rect, content, defultviewModel,typeof(ViewModel),false) as ViewModel;
+                    if(viewModel != defultviewModel)
+                    {
+                        property.objectReferenceValue = viewModel;
+                    }
+                }
+                else
+                {
+                    EditorGUI.PropertyField(rect, property, content);
+                }
             }
         }
 

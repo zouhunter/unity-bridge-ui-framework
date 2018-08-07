@@ -450,13 +450,7 @@ namespace BridgeUIEditor
             {
                 var item = arrayProp.GetArrayElementAtIndex(i);
                 var instanceIDPorp = item.FindPropertyRelative("instanceID");
-                var obj = EditorUtility.InstanceIDToObject(instanceIDPorp.intValue);
-                if (obj != null)
-                {
-                    BridgeEditorUtility.ApplyPrefab(obj as GameObject);
-                    DestroyImmediate(obj);
-                }
-                instanceIDPorp.intValue = 0;
+                BridgeEditorUtility.SavePrefab(instanceIDPorp);
             }
         }
         private void SortAllBundles(SerializedProperty property)

@@ -184,14 +184,12 @@ namespace BridgeUIEditor
             if (obj != null)
             {
                 var go = obj as GameObject;
-                BridgeEditorUtility.ApplyPrefab(go);
-                if (go.transform.parent.GetComponent<PanelGroup>() == null && go.transform.parent.childCount == 1)
+                var parent = go.transform.parent;
+                BridgeEditorUtility.SavePrefab(go,true);
+
+                if (parent != null && parent.GetComponent<PanelGroup>() == null && parent.childCount == 0)
                 {
-                    Object.DestroyImmediate(go.transform.parent.gameObject);
-                }
-                else
-                {
-                    Object.DestroyImmediate(obj);
+                    Object.DestroyImmediate(parent.gameObject);
                 }
             }
             instanceIDProp.intValue = 0;

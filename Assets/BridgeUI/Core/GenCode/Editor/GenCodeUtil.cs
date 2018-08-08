@@ -230,7 +230,12 @@ namespace BridgeUI.CodeGen
             if (startRegion == null)
             {
                 startRegion = new PreProcessorDirective(PreProcessorDirectiveType.Region, "属性列表");
-                classNode.AddChild<PreProcessorDirective>(startRegion, Roles.PreProcessorDirective);
+                AstNode firstMember = classNode.GetChildByRole(Roles.TypeMemberRole);
+                if (firstMember == null)
+                {
+                    firstMember = classNode.LastChild;
+                }
+                classNode.InsertChildBefore<PreProcessorDirective>(firstMember, startRegion, Roles.PreProcessorDirective);
             }
 
             PreProcessorDirective endRegion = classNode.Descendants.OfType<PreProcessorDirective>().Where(x => x.Type == PreProcessorDirectiveType.Endregion && x.Argument == "属性列表").FirstOrDefault();
@@ -238,7 +243,6 @@ namespace BridgeUI.CodeGen
             {
                 endRegion = new PreProcessorDirective(PreProcessorDirectiveType.Endregion, "属性列表");
                 classNode.InsertChildAfter<PreProcessorDirective>(startRegion, endRegion, Roles.PreProcessorDirective);
-                Debug.Log("new :" + endRegion);
             }
 
             #region 处理属性列表
@@ -316,9 +320,6 @@ namespace BridgeUI.CodeGen
                 }
             }
             #endregion
-
-
-
             var scriptValue = oldViewModel.Compile();
             var scriptPath = AssetDatabase.GetAssetPath(monoScript);
             System.IO.File.WriteAllText(scriptPath, scriptValue);
@@ -344,11 +345,12 @@ namespace BridgeUI.CodeGen
 
             propertyNode = new PropertyDeclaration();
             var att = new BridgeUI.NRefactory.CSharp.Attribute();
-            att.Type = new SimpleType("DefultValue");
+            att.Type = new SimpleType(typeof(BridgeUI.Attributes.DefultValueAttribute).FullName);
             propertyNode.Attributes.Add(new AttributeSection(att));
             propertyNode.Modifiers = Modifiers.Public;
             propertyNode.ReturnType = new PrimitiveType(string.Format("{0}.{1}", type.Namespace, typeName));
             propertyNode.Name = source;
+
             #region Getter
             var accessor = propertyNode.Getter = new Accessor();
             var body = accessor.Body = new BlockStatement();
@@ -358,6 +360,7 @@ namespace BridgeUI.CodeGen
             Statement statement = new ReturnStatement(new InvocationExpression(expression, new PrimitiveExpression(source)));
             body.Add(statement);
             #endregion
+
             #region Setter
             accessor = propertyNode.Setter = new Accessor();
             body = accessor.Body = new BlockStatement();
@@ -367,6 +370,7 @@ namespace BridgeUI.CodeGen
             statement = new ExpressionStatement(new InvocationExpression(expression, new PrimitiveExpression(source), new IdentifierExpression("value")));
             body.Add(statement);
             #endregion
+
             classNode.InsertChildBefore(beforeNode, propertyNode, Roles.TypeMemberRole);
             return propertyNode;
         }

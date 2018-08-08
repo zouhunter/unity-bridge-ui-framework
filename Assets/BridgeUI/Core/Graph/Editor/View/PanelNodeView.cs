@@ -69,7 +69,7 @@ namespace BridgeUIEditor
             {
                 if (!string.IsNullOrEmpty(panelNode.Info.discription))
                 {
-                    var rect = new Rect(position.x + 10, position.y + position.height - 1.5f * EditorGUIUtility.singleLineHeight, position.width - 20,  EditorGUIUtility.singleLineHeight);
+                    var rect = new Rect(position.x + 20, position.y + position.height - 1.5f * EditorGUIUtility.singleLineHeight, position.width - 20,  EditorGUIUtility.singleLineHeight);
                     EditorGUI.LabelField(rect, panelNode.Info.discription, EditorStyles.label);
                 }
             }

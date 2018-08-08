@@ -23,7 +23,6 @@ namespace BridgeUIEditor
     {
         protected static UIType uiTypeTemplate;
         protected static NodeType nodeTypeTemplate;
-
         protected PanelNodeBase panelNode { get { return target as PanelNodeBase; } }
         public override int Style
         {
@@ -43,23 +42,14 @@ namespace BridgeUIEditor
         {
             get
             {
-                if (panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription)){
-                    return EditorGUIUtility.singleLineHeight + 2;
+                if (panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription))
+                {
+                    return EditorGUIUtility.singleLineHeight * 0.5f;
                 }
                 return -EditorGUIUtility.singleLineHeight * 0.5f;
             }
         }
-        public override float SuperWidth
-        {
-            get
-            {
-                if(panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription) && panelNode.Info.discription.Length >  7)
-                {
-                    return (panelNode.Info.discription.Length - 7) * EditorGUIUtility.singleLineHeight * 0.7f;
-                }
-                return base.SuperWidth;
-            }
-        }
+
         public override void OnInspectorGUI(NodeGUI gui)
         {
             base.OnInspectorGUI(gui);
@@ -74,11 +64,16 @@ namespace BridgeUIEditor
         public override void OnNodeGUI(Rect position, NodeData data)
         {
             base.OnNodeGUI(position, data);
-            if (panelNode != null && !string.IsNullOrEmpty(panelNode.Info.discription))
+
+            if (panelNode != null)
             {
-                var rect = new Rect(position.x + 30, position.y + 2 * EditorGUIUtility.singleLineHeight, position.width - 40, EditorGUIUtility.singleLineHeight);
-                EditorGUI.LabelField(rect, panelNode.Info.discription);
+                if (!string.IsNullOrEmpty(panelNode.Info.discription))
+                {
+                    var rect = new Rect(position.x + 10, position.y + position.height - 1.5f * EditorGUIUtility.singleLineHeight, position.width - 20,  EditorGUIUtility.singleLineHeight);
+                    EditorGUI.LabelField(rect, panelNode.Info.discription, EditorStyles.label);
+                }
             }
+
         }
 
         public override void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result)
@@ -90,6 +85,7 @@ namespace BridgeUIEditor
             if (prefab)
             {
                 EditorGUIUtility.PingObject(prefab);
+                nodeGUI.Data.Object.Initialize(nodeGUI.Data);
             }
         }
         public override void OnContextMenuGUI(GenericMenu menu, NodeGUI gui)
@@ -107,6 +103,6 @@ namespace BridgeUIEditor
             });
         }
 
-        
+
     }
 }

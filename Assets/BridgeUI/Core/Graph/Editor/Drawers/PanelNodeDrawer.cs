@@ -161,9 +161,6 @@ namespace BridgeUIEditor
                 }
             }
         }
-
-
-
         private void DrawComponetHeader(Rect rect)
         {
             EditorGUI.LabelField(rect, "[控件列表]");
@@ -489,6 +486,16 @@ namespace BridgeUIEditor
             if (panelNode != null)
             {
                 panelNode.Info.discription = EditorGUILayout.TextArea(panelNode.Info.discription,GUILayout.Height(EditorGUIUtility.singleLineHeight * 2));
+            }
+
+
+            if (!panelCompnent) return;
+            IUIPanel uipanel = panelCompnent as IUIPanel;
+            if (uipanel == null || uipanel.Capacity == 0) return;
+            DrawTitleRegion("子面板:");
+            for (int i = 0; i < uipanel.Capacity; i++)
+            {
+                panelNode.nodedescribe[i] = EditorGUILayout.TextField(i.ToString(), panelNode.nodedescribe[i]);
             }
         }
         private void DrawPanelComponent()

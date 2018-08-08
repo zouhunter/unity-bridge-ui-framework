@@ -11,8 +11,7 @@ public class RemoteNode : Node {
     public override void Initialize(NodeData data)
     {
         base.Initialize(data);
-        if (data.InputPoints == null || data.InputPoints.Count == 0)
-        {
+        if (data.InputPoints == null || data.InputPoints.Count == 0){
             data.AddInputPoint("→", "bridge", 100);
         }
     }

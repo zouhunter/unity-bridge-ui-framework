@@ -8,7 +8,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace BridgeUI.Common
 {
@@ -21,11 +21,11 @@ namespace BridgeUI.Common
         protected List<Selectable> selectables;
         public override int Capacity
         {
-            get
-            {
+            get{
                 return selectables.Count;
             }
         }
+
         protected override void Awake()
         {
             base.Awake();
@@ -39,14 +39,14 @@ namespace BridgeUI.Common
                 var index = i;
                 var item = selectables[i];
 
-                if(item is Button)
+                if (item is Button)
                 {
                     (item as Button).onClick.AddListener(() =>
                     {
                         this.Open(GetPort(index), GetData(index));
                     });
                 }
-                else if(item is Toggle)
+                else if (item is Toggle)
                 {
                     (item as Toggle).onValueChanged.AddListener((isOn) =>
                     {
@@ -60,7 +60,7 @@ namespace BridgeUI.Common
                         }
                     });
                 }
-              
+
             }
         }
 

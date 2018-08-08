@@ -13,7 +13,7 @@ public class AnyNode : Node
         base.Initialize(data);
         if (data.OutputPoints == null || data.OutputPoints.Count == 0)
         {
-            data.AddOutputPoint("→", "bridge", 1);
+            data.AddOutputPoint("→", "bridge", 100);
         }
     }
 }

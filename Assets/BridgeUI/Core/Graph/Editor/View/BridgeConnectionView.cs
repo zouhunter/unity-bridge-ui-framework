@@ -31,7 +31,9 @@ namespace BridgeUIEditor
                 return _endContent;
             }
         }
+
         private static Vector2 contentPos = new Vector2(-endContent.image.width, -endContent.image.height) * 0.5f;
+
         protected string Label
         {
             get
@@ -53,9 +55,9 @@ namespace BridgeUIEditor
         internal override void OnConnectionGUI(Vector2 startV3, Vector2 endV3, Vector2 startTan, Vector2 endTan)
         {
             base.OnConnectionGUI(startV3, endV3, startTan, endTan);
-            var quater = Quaternion.Euler(endTan);
-            quater.SetLookRotation(startTan);
-            Handles.Label(endV3 + contentPos, endContent);//
+            //var quater = Quaternion.Euler(endTan);
+            //quater.SetLookRotation(startTan);
+            //Handles.Label(endV3 + contentPos, endContent);//
         }
         internal override void OnContextMenuGUI(GenericMenu menu, ConnectionGUI connectionGUI)
         {

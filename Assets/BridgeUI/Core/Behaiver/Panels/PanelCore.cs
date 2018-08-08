@@ -72,8 +72,7 @@ namespace BridgeUI
                 return _quitAnim;
             }
         }
-
-        public virtual int Capacity { get { return 1; } }
+        public virtual int Capacity { get { return 0; } }
         protected Bridge bridge;
         protected List<IUIPanel> childPanels;
         public event PanelCloseEvent onDelete;

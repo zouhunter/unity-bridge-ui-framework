@@ -25,19 +25,15 @@ public class PanelNode : PanelNodeBase
 
         if (data.InputPoints == null || data.InputPoints.Count == 0)
         {
-            data.AddInputPoint("→", "bridge", 100);
-        }
-
-        if (data.OutputPoints == null || data.OutputPoints.Count == 0)
-        {
-            data.AddOutputPoint("0", "bridge", 100);
+            data.AddInputPoint("→", "bridge", 20);
         }
 
         if (data.Object != null && data.Object is PanelNode)
         {
             var panelNode = data.Object as PanelNode;
             var panel = GetPanelFromGUID(panelNode.Info.guid);
-            if (panel != null && panel.Capacity != data.OutputPoints.Count)
+
+            if (panel != null && panel.Capacity > 0)
             {
                 if (panel.Capacity > data.OutputPoints.Count)
                 {
@@ -45,11 +41,12 @@ public class PanelNode : PanelNodeBase
                     {
                         if (data.OutputPoints.Count <= i)
                         {
-                            data.AddOutputPoint(i.ToString(), "bridge", 100);
+                            var nodeName = string.Format("{0}({1})", "", i.ToString());
+                            data.AddOutputPoint(nodeName, "bridge", 20);
                         }
                     }
                 }
-                else 
+                else if (panel.Capacity < data.OutputPoints.Count)
                 {
                     var more = data.OutputPoints.Count - panel.Capacity;
                     for (int i = 0; i < more; i++)
@@ -57,7 +54,16 @@ public class PanelNode : PanelNodeBase
                         data.OutputPoints.RemoveAt(data.OutputPoints.Count - 1);
                     }
                 }
+                else
+                {
+                    for (int i = 0; i < panel.Capacity; i++)
+                    {
+                        var nodeName = string.Format("{0}({1})", "", i.ToString());
+                        data.OutputPoints[i].Label = nodeName;
+                    }
+                }
             }
+
         }
     }
 

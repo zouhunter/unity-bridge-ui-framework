@@ -7,10 +7,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 using System.Linq;
-
+using System.Collections;
 
 namespace BridgeUIEditor
 {
+   
+
     [CustomEditor(typeof(PanelNode))]
     public class PanelNodeInfoDrawer : Editor
     {
@@ -56,6 +58,7 @@ namespace BridgeUIEditor
         private GenCodeRule rule { get { if (panelNode == null) return default(GenCodeRule); return panelNode.rule; } }
         private System.Collections.Generic.List<ComponentItem> components { get { if (panelNode == null) return null; return panelNode.components; } }
         private ComponentItemDrawer itemDrawer;
+        private StringListDrawer nodeProtListDrawer;
         private bool BindingAble
         {
             get
@@ -67,18 +70,26 @@ namespace BridgeUIEditor
         {
             panelNode = target as PanelNodeBase;
             itemDrawer = new ComponentItemDrawer();
+            InitPanelPortDrawer();
             InitAnimPlayers();
             OnPrefabChanged();
             InitPanelNode();
         }
-
-
+        
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
             DrawObjectField();
             SwitchDrawOption();
             serializedObject.ApplyModifiedProperties();
+        }
+        private void InitPanelPortDrawer()
+        {
+            if (nodeProtListDrawer == null)
+            {
+                nodeProtListDrawer = new StringListDrawer();
+                nodeProtListDrawer.InitReorderList(panelNode.nodedescribe, typeof(string));
+            }
         }
 
         private void OnPrefabChanged()
@@ -195,7 +206,8 @@ namespace BridgeUIEditor
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button(new GUIContent("←", "快速解析"), EditorStyles.toolbarButton, GUILayout.Width(20)))
                 {
-                    GenCodeUtil.ChoiseAnUserMonobehiver(nodeInfo.GetPrefab(), component => {
+                    GenCodeUtil.ChoiseAnUserMonobehiver(nodeInfo.GetPrefab(), component =>
+                    {
                         if (component == null)
                         {
                             EditorApplication.Beep();
@@ -206,7 +218,7 @@ namespace BridgeUIEditor
                             GenCodeUtil.AnalysisComponent(component, components);
                         }
                     });
-                   
+
                 }
 
             }
@@ -428,7 +440,7 @@ namespace BridgeUIEditor
 
             }, null);
         }
-      
+
         private bool ChangeCheckField(UnityAction func)
         {
             EditorGUI.BeginChangeCheck();
@@ -473,29 +485,24 @@ namespace BridgeUIEditor
             {
                 if (i == 0) continue;
 
-                var style = i == panelNode.style ?  EditorStyles.toolbarPopup: EditorStyles.toolbarButton;
+                var style = i == panelNode.style ? EditorStyles.toolbarPopup : EditorStyles.toolbarButton;
 
                 if (GUILayout.Button(styleOptions[i], style))
                 {
                     panelNode.style = i;
-
                 }
             }
 
             DrawTitleRegion("说明:");
             if (panelNode != null)
             {
-                panelNode.Info.discription = EditorGUILayout.TextArea(panelNode.Info.discription,GUILayout.Height(EditorGUIUtility.singleLineHeight * 2));
+                panelNode.Info.discription = EditorGUILayout.TextArea(panelNode.Info.discription, GUILayout.Height(EditorGUIUtility.singleLineHeight * 2));
             }
 
 
-            if (!panelCompnent) return;
-            IUIPanel uipanel = panelCompnent as IUIPanel;
-            if (uipanel == null || uipanel.Capacity == 0) return;
             DrawTitleRegion("子面板:");
-            for (int i = 0; i < uipanel.Capacity; i++)
-            {
-                panelNode.nodedescribe[i] = EditorGUILayout.TextField(i.ToString(), panelNode.nodedescribe[i]);
+            if (nodeProtListDrawer != null){
+                nodeProtListDrawer.DoLayoutList();
             }
         }
         private void DrawPanelComponent()

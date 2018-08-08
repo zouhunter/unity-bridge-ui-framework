@@ -19,12 +19,6 @@ namespace BridgeUI.Common
     {
         [SerializeField, HideInInspector]
         protected List<Selectable> selectables;
-        public override int Capacity
-        {
-            get{
-                return selectables.Count;
-            }
-        }
 
         protected override void Awake()
         {

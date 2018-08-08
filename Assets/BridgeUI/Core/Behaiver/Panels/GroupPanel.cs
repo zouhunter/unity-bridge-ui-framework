@@ -27,17 +27,7 @@ namespace BridgeUI
     public class GroupPanel : PanelBase
     {
         [SerializeField]
-        private int _capacity;
-        [SerializeField]
         private Transform content;
-        public override int Capacity
-        {
-            get
-            {
-                return _capacity;
-            }
-        }
         public override Transform Content { get { return content == null ? Group.Trans : content; } }
-
     }
 }

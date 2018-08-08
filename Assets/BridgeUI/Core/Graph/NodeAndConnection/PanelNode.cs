@@ -28,42 +28,35 @@ public class PanelNode : PanelNodeBase
             data.AddInputPoint("→", "bridge", 20);
         }
 
-        if (data.Object != null && data.Object is PanelNode)
+        if (nodedescribe != null)
         {
-            var panelNode = data.Object as PanelNode;
-            var panel = GetPanelFromGUID(panelNode.Info.guid);
-
-            if (panel != null && panel.Capacity > 0)
+            if (nodedescribe.Count > data.OutputPoints.Count)
             {
-                if (panel.Capacity > data.OutputPoints.Count)
+                for (int i = 0; i < nodedescribe.Count; i++)
                 {
-                    for (int i = 0; i < panel.Capacity; i++)
+                    if (data.OutputPoints.Count <= i)
                     {
-                        if (data.OutputPoints.Count <= i)
-                        {
-                            var nodeName = string.Format("{0}({1})", "", i.ToString());
-                            data.AddOutputPoint(nodeName, "bridge", 20);
-                        }
-                    }
-                }
-                else if (panel.Capacity < data.OutputPoints.Count)
-                {
-                    var more = data.OutputPoints.Count - panel.Capacity;
-                    for (int i = 0; i < more; i++)
-                    {
-                        data.OutputPoints.RemoveAt(data.OutputPoints.Count - 1);
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < panel.Capacity; i++)
-                    {
-                        var nodeName = string.Format("{0}({1})", "", i.ToString());
-                        data.OutputPoints[i].Label = nodeName;
+                        var nodeName = string.Format("{0}({1})", nodedescribe[i], i.ToString());
+                        data.AddOutputPoint(nodeName, "bridge", 20);
                     }
                 }
             }
-
+            else if (nodedescribe.Count < data.OutputPoints.Count)
+            {
+                var more = data.OutputPoints.Count - nodedescribe.Count;
+                for (int i = 0; i < more; i++)
+                {
+                    data.OutputPoints.RemoveAt(data.OutputPoints.Count - 1);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < nodedescribe.Count; i++)
+                {
+                    var nodeName = string.Format("{0}({1})", nodedescribe[i], i.ToString());
+                    data.OutputPoints[i].Label = nodeName;
+                }
+            }
         }
     }
 

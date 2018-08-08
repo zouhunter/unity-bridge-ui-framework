@@ -79,13 +79,13 @@ namespace BridgeUIEditor
         public override void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result)
         {
             base.OnClickNodeGUI(nodeGUI, mousePosition, result);
+            nodeGUI.Data.Object.Initialize(nodeGUI.Data);
             if (panelNode == null) return;
             var nodeInfo = panelNode.nodeInfo;
             var prefab = nodeInfo.GetPrefab();
             if (prefab)
             {
                 EditorGUIUtility.PingObject(prefab);
-                nodeGUI.Data.Object.Initialize(nodeGUI.Data);
             }
         }
         public override void OnContextMenuGUI(GenericMenu menu, NodeGUI gui)

@@ -10,8 +10,7 @@ public abstract class PanelNodeBase : Node, IPanelInfoHolder
     public int instenceID;
     public string assetName;
     public int style = 1;
-    public string[] nodedescribe = new string[20];
-   
+    public List<string> nodedescribe = new List<string>();
     public GenCodeRule rule;
     public List<ComponentItem> components = new List<ComponentItem>();
     public NodeInfo nodeInfo = new NodeInfo();

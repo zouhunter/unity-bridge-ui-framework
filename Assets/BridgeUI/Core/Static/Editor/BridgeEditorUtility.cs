@@ -74,13 +74,13 @@ namespace BridgeUIEditor
             }
 
         }
-        public static Rect DrawBoxRect(Rect orignalRect, string index)
+        public static Rect DrawBoxRect(Rect orignalRect, string index,float padding = padding)
         {
             var idRect = new Rect(orignalRect.x - 15, orignalRect.y + 8, 20, 20);
             EditorGUI.LabelField(idRect, index);
             var boxRect = PaddingRect(orignalRect, padding * 0.5f);
             GUI.Box(boxRect, "");
-            var rect = PaddingRect(orignalRect);
+            var rect = PaddingRect(orignalRect,padding);
             return rect;
         }
 

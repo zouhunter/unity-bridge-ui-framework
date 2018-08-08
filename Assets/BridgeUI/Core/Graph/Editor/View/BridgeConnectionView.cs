@@ -32,8 +32,6 @@ namespace BridgeUIEditor
             }
         }
 
-        private static Vector2 contentPos = new Vector2(-endContent.image.width, -endContent.image.height) * 0.5f;
-
         protected string Label
         {
             get

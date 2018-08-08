@@ -5,13 +5,13 @@ using UnityEditor;
 using NodeGraph;
 using BridgeUI;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
-    [CustomNodeView(typeof(BridgeConnection))]
+    [CustomNodeView(typeof(Graph.BridgeConnection))]
     public class BridgeConnectionView:ConnectionView
     {
-        private BridgeConnection connecton;
-        public static BridgeConnection copyed;
+        private Graph.BridgeConnection connecton;
+        public static Graph.BridgeConnection copyed;
 
         private static GUIContent _endContent;
         private static GUIContent endContent
@@ -37,7 +37,7 @@ namespace BridgeUIEditor
             get
             {
                 if (connecton == null && target != null)
-                    connecton = target as BridgeConnection;
+                    connecton = target as Graph.BridgeConnection;
                 var str = connecton != null ? BridgeEditorUtility.ShowModelToString(connecton.show) : "";
                 return str;
             }

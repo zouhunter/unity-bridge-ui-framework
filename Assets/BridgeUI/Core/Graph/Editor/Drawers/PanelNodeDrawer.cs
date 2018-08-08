@@ -7,16 +7,17 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using System.Collections;
+using NodeGraph;
+using NodeGraph.DataModel;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
-   
-
-    [CustomEditor(typeof(PanelNode))]
+    [CustomEditor(typeof(Graph.PanelNode))]
     public class PanelNodeInfoDrawer : Editor
     {
-        private PanelNodeBase panelNode;
+        private Graph.PanelNodeBase panelNode;
         private NodeInfo nodeInfo { get { if (panelNode == null) return null; return panelNode.nodeInfo; } }
         private int selected
         {
@@ -68,14 +69,15 @@ namespace BridgeUIEditor
         }
         private void OnEnable()
         {
-            panelNode = target as PanelNodeBase;
+            panelNode = target as Graph.PanelNodeBase;
             itemDrawer = new ComponentItemDrawer();
             InitPanelPortDrawer();
             InitAnimPlayers();
             OnPrefabChanged();
-            InitPanelNode();
+            InitComponentList();
         }
-        
+
+
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
@@ -105,7 +107,7 @@ namespace BridgeUIEditor
             supportedAnimPlayers = typeof(AnimPlayer).Assembly.GetTypes().Where(x => typeof(AnimPlayer).IsAssignableFrom(x) && !x.IsAbstract).ToArray();
         }
 
-        protected virtual void InitPanelNode()
+        protected virtual void InitComponentList()
         {
             if (preComponentList == null)
             {
@@ -239,7 +241,7 @@ namespace BridgeUIEditor
                 preComponentList.DoLayoutList();
             }
 
-            var addRect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
+            var addRect = GUILayoutUtility.GetRect(BridgeUI.Drawer.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
 
             if (addRect.Contains(Event.current.mousePosition))
             {
@@ -469,7 +471,7 @@ namespace BridgeUIEditor
         private void DrawTitleRegion(string label)
         {
             EditorGUILayout.LabelField("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
-            var rect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.1f);
+            var rect = GUILayoutUtility.GetRect(BridgeUI.Drawer.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.1f);
             GUI.color = Color.gray;
             GUI.Box(rect, "", EditorStyles.miniButton);
             GUI.color = Color.white;
@@ -488,9 +490,9 @@ namespace BridgeUIEditor
                 panelNode.Info.discription = EditorGUILayout.TextArea(panelNode.Info.discription, GUILayout.Height(EditorGUIUtility.singleLineHeight * 2));
             }
 
-
             DrawTitleRegion("子面板:");
-            if (nodeProtListDrawer != null){
+            if (nodeProtListDrawer != null)
+            {
                 nodeProtListDrawer.DoLayoutList();
             }
         }
@@ -507,7 +509,7 @@ namespace BridgeUIEditor
                     {
                         for (int j = i; j < i + xCount && j < styleOptions.Length; j++)
                         {
-                            var isOn = GUILayout.Toggle(j == panelNode.style, new GUIContent(styleOptions[j]), EditorStyles.radioButton,GUILayout.Width(width));
+                            var isOn = GUILayout.Toggle(j == panelNode.style, new GUIContent(styleOptions[j]), EditorStyles.radioButton, GUILayout.Width(width));
                             if (isOn)
                             {
                                 panelNode.style = j;
@@ -516,7 +518,7 @@ namespace BridgeUIEditor
                     }
                 }
             }
-          
+
         }
 
         private void DrawPanelComponent()
@@ -584,7 +586,6 @@ namespace BridgeUIEditor
             }
 
         }
-
     }
 
 }

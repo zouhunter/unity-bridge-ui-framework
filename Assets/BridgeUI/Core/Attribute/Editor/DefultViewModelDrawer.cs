@@ -16,7 +16,7 @@ using System;
 using System.Linq;
 using BridgeUI.Attributes;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
   
     [CustomPropertyDrawer(typeof(DefultViewModelAttribute))]

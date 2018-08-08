@@ -13,17 +13,17 @@ using System.Collections.Generic;
 using UnityEditor;
 using BridgeUI;
 using System;
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
-    [CustomEditor(typeof(BridgeConnection))]
+    [CustomEditor(typeof(Graph.BridgeConnection))]
     public class BridgeConnectionDrawer : Editor
     {
-        private BridgeConnection connecton;
+        private Graph.BridgeConnection connecton;
         protected const float buttonWidth = 20;
 
         public override void OnInspectorGUI()
         {
-            connecton = target as BridgeConnection;
+            connecton = target as Graph.BridgeConnection;
             DrawTitle(connecton.name);
             DrawHead("自动打开");
             connecton.show.auto = DrawToggle(connecton.show.auto, "更随上级同步打开");
@@ -41,7 +41,7 @@ namespace BridgeUIEditor
 
         private void DrawTitle(string title)
         {
-            var position = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.5f);
+            var position = GUILayoutUtility.GetRect(BridgeUI.Drawer.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.5f);
             GUI.color = Color.green;
             GUI.Box(position, "", EditorStyles.miniButton);
             GUI.color = Color.white;
@@ -51,7 +51,7 @@ namespace BridgeUIEditor
         private void DrawHead(string label)
         {
             EditorGUILayout.LabelField("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
-            var rect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.1f);
+            var rect = GUILayoutUtility.GetRect(BridgeUI.Drawer.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight * 1.1f);
             GUI.color = Color.gray;
             GUI.Box(rect, "", EditorStyles.miniButton);
             GUI.color = Color.white;

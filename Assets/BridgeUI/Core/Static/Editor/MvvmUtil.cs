@@ -6,7 +6,7 @@ using System;
 using BridgeUI.Binding;
 using System.Linq;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     public static class MvvmUtil
     {
@@ -26,7 +26,7 @@ namespace BridgeUIEditor
                 var type = supportViewModels[selected];
                 var item = ScriptableObject.CreateInstance(type);
                 ProjectWindowUtil.CreateAsset(item, "new viewModel.asset");
-                BridgeUIEditor.BridgeEditorUtility.DelyAcceptObject(item, (obj) =>
+                BridgeUI.Drawer.BridgeEditorUtility.DelyAcceptObject(item, (obj) =>
                 {
                     var action = userData as UnityAction<ViewModel>;
                     if (action != null)

@@ -7,7 +7,7 @@ using UnityEditorInternal;
 using System;
 using UnityEditor;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     public class StringListDrawer : ReorderListDrawer
     {
@@ -28,7 +28,7 @@ namespace BridgeUIEditor
         }
         protected override void DrawElementCallBack(Rect rect, int index, bool isActive, bool isFocused)
         {
-            rect = BridgeUIEditor.BridgeEditorUtility.DrawBoxRect(rect, "", 3);
+            rect = BridgeUI.Drawer.BridgeEditorUtility.DrawBoxRect(rect, "", 3);
             List[index] = EditorGUI.TextField(rect, index.ToString(), List[index].ToString());
         }
     }

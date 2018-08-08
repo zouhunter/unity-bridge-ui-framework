@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using BridgeUI;
 using BridgeUI.Model;
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     [CustomPropertyDrawer(typeof(BundleUIInfo))]
 

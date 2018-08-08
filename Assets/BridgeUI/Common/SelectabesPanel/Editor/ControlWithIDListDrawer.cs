@@ -27,7 +27,7 @@ namespace BridgeUI.Common
             reorderList = new ReorderableList(property.serializedObject, property);
             reorderList.drawHeaderCallback += DrawHeader;
             reorderList.drawElementCallback += DrawElement;
-            reorderList.elementHeight = EditorGUIUtility.singleLineHeight + BridgeUIEditor.BridgeEditorUtility.padding * 2;
+            reorderList.elementHeight = EditorGUIUtility.singleLineHeight + BridgeUI.Drawer.BridgeEditorUtility.padding * 2;
             reorderList.displayAdd = true;
             reorderList.displayRemove = true;
         }
@@ -39,7 +39,7 @@ namespace BridgeUI.Common
 
         protected virtual void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
         {
-            rect = BridgeUIEditor.BridgeEditorUtility.DrawBoxRect(rect, "");
+            rect = BridgeUI.Drawer.BridgeEditorUtility.DrawBoxRect(rect, "");
             var r1 = new Rect(rect.x, rect.y, rect.width * 0.3f, rect.height);
             EditorGUI.LabelField(r1, new GUIContent(index.ToString()));
             var r2 = new Rect(rect.x + r1.width, rect.y, rect.width - r1.width, rect.height);

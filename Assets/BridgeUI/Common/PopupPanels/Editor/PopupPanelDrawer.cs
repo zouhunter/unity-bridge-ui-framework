@@ -7,7 +7,7 @@ using BridgeUI;
 using BridgeUI.Common;
 using UnityEditor;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
 
     [CustomEditor(typeof(PopupPanel))]

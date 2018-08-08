@@ -10,7 +10,7 @@ using BridgeUI.Model;
 using UnityEditorInternal;
 using System.Linq;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     using AssetBundle = UnityEngine.AssetBundle;
     public abstract class PanelGroupBaseDrawer : Editor

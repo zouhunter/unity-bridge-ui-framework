@@ -11,11 +11,15 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 
-[System.Flags]
-public enum NodeType{
-    Fixed = 1,//可自定义窗体结构
-    ZeroLayer = 2,//可自定义层级
-    HideGO = 4,//可自定义隐藏显示
-    Destroy = 8,//可自定义销毁方式
-    NoAnim = 16//可自定义动画效果
+namespace BridgeUI.Graph
+{
+    [System.Flags]
+    public enum NodeType
+    {
+        Fixed = 1,//可自定义窗体结构
+        ZeroLayer = 2,//可自定义层级
+        HideGO = 4,//可自定义隐藏显示
+        Destroy = 8,//可自定义销毁方式
+        NoAnim = 16//可自定义动画效果
+    }
 }

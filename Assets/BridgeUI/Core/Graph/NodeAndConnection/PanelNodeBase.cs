@@ -3,23 +3,25 @@ using NodeGraph.DataModel;
 using BridgeUI.Model;
 using BridgeUI.CodeGen;
 using System.Collections.Generic;
-
-public abstract class PanelNodeBase : Node, IPanelInfoHolder
+namespace BridgeUI.Graph
 {
-    public int selected;
-    public int instenceID;
-    public string assetName;
-    public int style = 1;
-    public List<string> nodedescribe = new List<string>();
-    public GenCodeRule rule;
-    public List<ComponentItem> components = new List<ComponentItem>();
-    public NodeInfo nodeInfo = new NodeInfo();
-    public NodeInfo Info
+    public abstract class PanelNodeBase : Node, IPanelInfoHolder
     {
-        get
+        public int selected;
+        public int instenceID;
+        public string assetName;
+        public int style = 1;
+        public List<string> nodedescribe = new List<string>();
+        public GenCodeRule rule;
+        public List<ComponentItem> components = new List<ComponentItem>();
+        public NodeInfo nodeInfo = new NodeInfo();
+        public NodeInfo Info
         {
-            return nodeInfo;
+            get
+            {
+                return nodeInfo;
+            }
         }
+
     }
-   
 }

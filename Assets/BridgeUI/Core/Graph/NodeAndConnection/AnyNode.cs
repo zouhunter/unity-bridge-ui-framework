@@ -4,16 +4,18 @@ using System.Linq;
 using System.Collections.Generic;
 using NodeGraph.DataModel;
 using NodeGraph;
-
-[CustomNode("a.AnyPanel", 0, "BridgeUI")]
-public class AnyNode : Node
+namespace BridgeUI.Graph
 {
-    public override void Initialize(NodeData data)
+    [CustomNode("a.AnyPanel", 0, "BridgeUI")]
+    public class AnyNode : Node
     {
-        base.Initialize(data);
-        if (data.OutputPoints == null || data.OutputPoints.Count == 0)
+        public override void Initialize(NodeData data)
         {
-            data.AddOutputPoint("→", "bridge", 100);
+            base.Initialize(data);
+            if (data.OutputPoints == null || data.OutputPoints.Count == 0)
+            {
+                data.AddOutputPoint("→", "bridge", 100);
+            }
         }
     }
 }

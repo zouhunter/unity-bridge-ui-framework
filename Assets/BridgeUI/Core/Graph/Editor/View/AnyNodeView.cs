@@ -15,9 +15,9 @@ using UnityEditor;
 using NodeGraph.DefultSkin;
 using NodeGraph.DataModel;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
-    [CustomNodeView(typeof(AnyNode))]
+    [CustomNodeView(typeof(Graph.AnyNode))]
     public class AnyNodeView : DefultSkinNodeView
     {
         public override float SuperHeight

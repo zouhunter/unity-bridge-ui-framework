@@ -9,7 +9,7 @@ using UnityEditor;
 using System;
 using NodeGraph.DataModel;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     public static class BridgeEditorUtility
     {

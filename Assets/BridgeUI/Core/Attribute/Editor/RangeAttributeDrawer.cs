@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using BridgeUI;
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     [CustomPropertyDrawer(typeof(BridgeUI.RangeAttribute))]
     public class RangeAttributeDrawer : PropertyDrawer

@@ -4,7 +4,7 @@ using UnityEditor;
 using BridgeUI;
 using BridgeUI.Model;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     [CustomEditor(typeof(RuntimePanelGroup)), CanEditMultipleObjects()]
     public class RuntimePanelGroupDrawer : Editor
@@ -155,7 +155,7 @@ namespace BridgeUIEditor
         }
         private void DrawAcceptRect()
         {
-            var rect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
+            var rect = GUILayoutUtility.GetRect(BridgeUI.Drawer.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
             EditorGUI.LabelField(rect, string.Format("[PanelGroup] = {0}", groupobjPath));
 
             switch (Event.current.type)

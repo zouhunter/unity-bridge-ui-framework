@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using BridgeUI;
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     [CustomPropertyDrawer(typeof(UIType))]
     public class UITypeDrawer : PropertyDrawer

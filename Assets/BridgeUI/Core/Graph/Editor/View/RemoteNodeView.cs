@@ -15,9 +15,9 @@ using NodeGraph;
 using UnityEditor;
 using NodeGraph.DefultSkin;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
-    [CustomNodeView(typeof(RemoteNode))]
+    [CustomNodeView(typeof(Graph.RemoteNode))]
     public class RemoteNodeView : DefultSkinNodeView
     {
         public override string Category

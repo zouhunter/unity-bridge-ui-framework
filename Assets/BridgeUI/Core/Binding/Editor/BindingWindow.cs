@@ -8,7 +8,7 @@ using BridgeUI.CodeGen;
 using BridgeUI.Binding;
 using UnityEditorInternal;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     public class BindingWindow : EditorWindow
     {
@@ -278,7 +278,7 @@ namespace BridgeUIEditor
 
             preComponentList.DoLayoutList();
 
-            var addRect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
+            var addRect = GUILayoutUtility.GetRect(BridgeUI.Drawer.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
 
             if (addRect.Contains(Event.current.mousePosition))
             {

@@ -9,16 +9,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace BridgeUI.Common
 {
     /// <summary>
     /// 只有一些button的面板
     /// </summary>
-    public class SelectAblesPanel : SinglePanel
+    public class SelectAblesPanel : SinglePanel, IPortGroup
     {
         [SerializeField, HideInInspector]
         protected List<Selectable> selectables;
+        public string[] Ports
+        {
+            get
+            {
+                return selectables.Select(x => x.name).ToArray();
+            }
+        }
 
         protected override void Awake()
         {

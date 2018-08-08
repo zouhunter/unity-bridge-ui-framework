@@ -7,7 +7,7 @@ using UnityEditor;
 using BridgeUI.Common;
 using System;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     public class PopDataObjListDrawer : ReorderListDrawer
     {
@@ -15,7 +15,7 @@ namespace BridgeUIEditor
 
         protected override float ElementHeightCallback(int index)
         {
-            return EditorGUIUtility.singleLineHeight + 2 * BridgeUIEditor.BridgeEditorUtility.padding;
+            return EditorGUIUtility.singleLineHeight + 2 * BridgeUI.Drawer.BridgeEditorUtility.padding;
         }
 
         protected override void DrawElementCallBack(Rect rect, int index, bool isActive, bool isFocused)

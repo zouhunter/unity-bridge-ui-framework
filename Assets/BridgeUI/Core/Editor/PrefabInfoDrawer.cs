@@ -7,7 +7,7 @@ using System;
 using Object = UnityEngine.Object;
 using BridgeUI;
 using BridgeUI.Model;
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     [CustomPropertyDrawer(typeof(PrefabUIInfo))]
     public class PrefabInfoDrawer : UIInfoBaseDrawer

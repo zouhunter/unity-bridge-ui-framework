@@ -6,7 +6,7 @@ using BridgeUI;
 using BridgeUI.Model;
 using System;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     public class UIInfoListDrawer : ReorderListDrawer
     {
@@ -44,7 +44,7 @@ namespace BridgeUIEditor
         protected override float ElementHeightCallback(int index)
         {
             var prop = property.GetArrayElementAtIndex(index);
-            var height = EditorGUI.GetPropertyHeight(prop, null, true) + BridgeUIEditor.BridgeEditorUtility.padding * 3;
+            var height = EditorGUI.GetPropertyHeight(prop, null, true) + BridgeUI.Drawer.BridgeEditorUtility.padding * 3;
             return height;
         }
     }

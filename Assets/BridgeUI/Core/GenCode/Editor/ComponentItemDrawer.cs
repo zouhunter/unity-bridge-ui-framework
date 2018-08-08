@@ -8,7 +8,7 @@ using UnityEditorInternal;
 using System;
 using System.Linq;
 using System.Reflection;
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
 
     public class MemberViewer

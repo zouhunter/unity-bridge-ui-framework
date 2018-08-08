@@ -14,7 +14,7 @@ using NodeGraph.DataModel;
 using BridgeUI.Model;
 using BridgeUI.Graph;
 using BridgeUI;
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     public class BridgeUIGraphCtrl : NodeGraphController
     {

@@ -6,7 +6,7 @@ using BridgeUI;
 using BridgeUI.Model;
 using System;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     public class GraphListDrawer : ReorderListDrawer
     {
@@ -71,7 +71,7 @@ namespace BridgeUIEditor
         /// </summary>
         private void DrawGraphAcceptRegion()
         {
-            var rect = GUILayoutUtility.GetRect(BridgeUIEditor.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
+            var rect = GUILayoutUtility.GetRect(BridgeUI.Drawer.BridgeEditorUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
             rect.y -= EditorGUIUtility.singleLineHeight;
             rect.height = 2 * EditorGUIUtility.singleLineHeight;
             switch (Event.current.type)
@@ -147,7 +147,7 @@ namespace BridgeUIEditor
         protected override float ElementHeightCallback(int index)
         {
             var prop = property.GetArrayElementAtIndex(index);
-            var height = EditorGUI.GetPropertyHeight(prop, null, true) + BridgeUIEditor.BridgeEditorUtility.padding * 2;
+            var height = EditorGUI.GetPropertyHeight(prop, null, true) + BridgeUI.Drawer.BridgeEditorUtility.padding * 2;
             return height;
         }
     }

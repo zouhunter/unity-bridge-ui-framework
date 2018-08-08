@@ -15,10 +15,12 @@ using NodeGraph.DataModel;
 using BridgeUI;
 using BridgeUI.Binding;
 using System;
-
-[CustomConnection("bridge")]
-public class BridgeConnection : Connection
+namespace BridgeUI.Graph
 {
-    public ShowMode show = new ShowMode(false,MutexRule.NoMutex,false,BaseShow.NoChange,false);
-    public ViewModel viewModel;
+    [CustomConnection("bridge")]
+    public class BridgeConnection : Connection
+    {
+        public ShowMode show = new ShowMode(false, MutexRule.NoMutex, false, BaseShow.NoChange, false);
+        public ViewModel viewModel;
+    }
 }

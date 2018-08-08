@@ -3,7 +3,7 @@
 using UnityEditor;
 
 using UnityEngine;
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     public abstract class UIInfoBaseDrawer : PropertyDrawer
     {

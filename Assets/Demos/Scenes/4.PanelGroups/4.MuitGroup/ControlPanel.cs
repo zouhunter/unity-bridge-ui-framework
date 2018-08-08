@@ -15,7 +15,7 @@ using UnityEngine.Events;
 ///<summary>
 public class ControlPanel : BridgeUI.SinglePanel
 {
-	[SerializeField]
+    [SerializeField]
 	private UnityEngine.UI.Toggle m_show;
 
 	[SerializeField]

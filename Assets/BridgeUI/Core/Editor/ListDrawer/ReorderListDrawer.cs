@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEditorInternal;
 using System.Linq;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     public abstract class ReorderListDrawer
     {

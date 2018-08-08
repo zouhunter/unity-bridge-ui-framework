@@ -13,10 +13,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using NodeGraph;
 using NodeGraph.DataModel;
-using BridgeUI;
 using NodeGraph.DefultSkin;
+using BridgeUI;
+using BridgeUI.Graph;
+using BridgeUI.Model;
+using BridgeUI.CodeGen;
+using System;
+using System.Linq;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     [CustomNodeView(typeof(PanelNode))]
     public class PanelNodeView : DefultSkinNodeView
@@ -79,15 +84,15 @@ namespace BridgeUIEditor
         public override void OnClickNodeGUI(NodeGUI nodeGUI, Vector2 mousePosition, ConnectionPointData result)
         {
             base.OnClickNodeGUI(nodeGUI, mousePosition, result);
-            nodeGUI.Data.Object.Initialize(nodeGUI.Data);
+            InitPanelNodeChild(nodeGUI.Data);
             if (panelNode == null) return;
             var nodeInfo = panelNode.nodeInfo;
             var prefab = nodeInfo.GetPrefab();
-            if (prefab)
-            {
+            if (prefab){
                 EditorGUIUtility.PingObject(prefab);
             }
         }
+        
         public override void OnContextMenuGUI(GenericMenu menu, NodeGUI gui)
         {
             base.OnContextMenuGUI(menu, gui);
@@ -101,6 +106,129 @@ namespace BridgeUIEditor
                 var nodeItem = (target as PanelNode);
                 nodeItem.nodeInfo.uiType = (UIType)uiTypeTemplate;
             });
+        }
+
+        /// <summary>
+        /// 更新panelNode的贪睡
+        /// </summary>
+        private void InitPanelNodeChild(NodeData nodeData)
+        {
+            TryUpdateNodeDescribe(panelNode);
+            nodeData.Object.Initialize(nodeData);
+        }
+
+        /// <summary>
+        /// 更新节点信息描述
+        /// </summary>
+        /// <param name="node"></param>
+        private static void TryUpdateNodeDescribe(Graph.PanelNodeBase node)
+        {
+            var guid = node.nodeInfo.guid;
+            var behaivers = GetBehaiversFromGUID(guid);
+            if (behaivers != null && behaivers.Length > 0)
+            {
+                foreach (var item in behaivers)
+                {
+                    var list = AnalysisBehaiver(item);
+                    if (list != null)
+                    {
+                        for (int i = 0; i < list.Count; i++)
+                        {
+                            if (node.nodedescribe.Count < i + 1)
+                            {
+                                node.nodedescribe.Add(list[i]);
+                            }
+
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(list[i]))
+                                {
+                                    node.nodedescribe[i] = list[i];
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        /// <summary>
+        /// 从脚本解析代码
+        /// </summary>
+        /// <returns></returns>
+        private static List<string> AnalysisBehaiver(MonoBehaviour behaiver)
+        {
+            List<string> list = null;
+            if (behaiver is IPortGroup)
+            {
+                var ports = (behaiver as IPortGroup).Ports;
+                if (ports != null)
+                {
+                    list = new List<string>((behaiver as IPortGroup).Ports);
+                }
+            }
+
+            var types = behaiver.GetType().GetFields(System.Reflection.BindingFlags.GetField |
+                System.Reflection.BindingFlags.Instance |
+                System.Reflection.BindingFlags.Static |
+                System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.FlattenHierarchy);
+
+            var supportPorts = from type in types
+                               where type.FieldType == typeof(int)
+                               from att in type.GetCustomAttributes(true)
+                               where att is Attributes.PortAttribute
+                               let portName = (att as Attributes.PortAttribute).portInfo
+                               select new KeyValuePair<int, string>((int)type.GetValue(behaiver), string.IsNullOrEmpty(portName)? type.Name:portName);
+
+            if (supportPorts != null)
+            {
+                if (list == null)
+                    list = new List<string>();
+
+                foreach (var item in supportPorts)
+                {
+                    var span = item.Key + 1 - list.Count;
+
+                    if (span > 0)
+                    {
+                        for (int i = 0; i < span; i++)
+                        {
+                            list.Add("");
+                        }
+                    }
+                    if (item.Key >= 0)
+                    {
+
+                        list[item.Key] = item.Value;
+                    }
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
+        ///从guid解析一组MonoBehaiver
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns></returns>
+        private static MonoBehaviour[] GetBehaiversFromGUID(string guid)
+        {
+#if UNITY_EDITOR
+            var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+            if (!string.IsNullOrEmpty(path))
+            {
+                var go = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                var behaivers = go.GetComponents<MonoBehaviour>();
+                var supportBehaiver = (from beahiver in behaivers
+                                       where beahiver != null
+                                       let type = beahiver.GetType()
+                                       where string.IsNullOrEmpty(type.Namespace) || !(type.Namespace.StartsWith("UnityEngine."))
+                                       select beahiver).ToArray();
+                return supportBehaiver;
+            }
+#endif
+            return null;
         }
 
 

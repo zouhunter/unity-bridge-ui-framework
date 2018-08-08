@@ -9,7 +9,7 @@ using BridgeUI.Graph;
 using Graph = BridgeUI.Graph;
 using Model = BridgeUI.Model;
 
-namespace BridgeUIEditor
+namespace BridgeUI.Drawer
 {
     [CustomEditor(typeof(Graph.UIGraph))]
     public class UIGraphDrawer : Editor
@@ -50,7 +50,7 @@ namespace BridgeUIEditor
             var sobj = new SerializedObject(ScriptableObject.CreateInstance<Graph.UIGraph>());
             prefabsPropWorp = sobj.FindProperty("p_nodes");
             bundlesPropWorp = sobj.FindProperty("b_nodes");
-            (target as UIGraph).ControllerType = typeof(BridgeUIEditor.BridgeUIGraphCtrl).FullName;
+            (target as UIGraph).ControllerType = typeof(BridgeUI.Drawer.BridgeUIGraphCtrl).FullName;
         }
 
         public override void OnInspectorGUI()

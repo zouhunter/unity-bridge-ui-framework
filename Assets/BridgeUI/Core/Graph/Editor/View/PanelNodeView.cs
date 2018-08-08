@@ -29,7 +29,7 @@ namespace BridgeUI.Drawer
         protected static UIType uiTypeTemplate;
         protected static NodeType nodeTypeTemplate;
         protected static long timer;
-        protected const long clickTime = 5000000;
+        protected const long clickTime = 3000000;
         protected PanelNodeBase panelNode { get { return target as PanelNodeBase; } }
         public override int Style
         {
@@ -101,6 +101,8 @@ namespace BridgeUI.Drawer
 
         private bool HaveClickTwince()
         {
+            Debug.Log(target);
+
             if(DateTime.Now.ToFileTime() - timer < clickTime)
             {
                 timer = 0;

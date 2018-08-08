@@ -51,11 +51,19 @@ namespace BridgeUI.Binding
         {
             object root = Context;
             var member = GetDeepMember(ref root, memberPath);
-            UnityAction<T> onViewModelChanged = (value) =>
+            if (root == null)
             {
-                SetMemberValue<T>(root, member, value);
-            };
-            RegistMember(onViewModelChanged, sourceName);
+                Debug.LogWarning("ignore:" + memberPath + "(because some component is null!)");
+            }
+            else
+            {
+                UnityAction<T> onViewModelChanged = (value) =>
+                {
+                    SetMemberValue<T>(root, member, value);
+                };
+                RegistMember(onViewModelChanged, sourceName);
+            }
+
         }
         /// <summary>
         /// 注册通用事件
@@ -165,22 +173,22 @@ namespace BridgeUI.Binding
         /// <typeparam name="T"></typeparam>
         /// <param name="uEvent"></param>
         /// <param name="sourceName"></param>
-        public virtual void RegistEvent<T, X, P>(UnityEvent<T,X> uEvent, string sourceName, P target)
+        public virtual void RegistEvent<T, X, P>(UnityEvent<T, X> uEvent, string sourceName, P target)
         {
-            UnityAction<T,X> action = (x,y) =>
-            {
-                var prop = viewModel.GetBindableProperty<PanelAction<P>>(sourceName);
+            UnityAction<T, X> action = (x, y) =>
+             {
+                 var prop = viewModel.GetBindableProperty<PanelAction<P>>(sourceName);
 
-                if (prop != null && prop.Value != null)
-                {
-                    var func = prop.Value;
-                    func.Invoke(Context, target);
-                }
-                else
-                {
-                    Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
-                }
-            };
+                 if (prop != null && prop.Value != null)
+                 {
+                     var func = prop.Value;
+                     func.Invoke(Context, target);
+                 }
+                 else
+                 {
+                     Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                 }
+             };
 
             binders += viewModel =>
             {
@@ -200,22 +208,22 @@ namespace BridgeUI.Binding
         /// <typeparam name="T"></typeparam>
         /// <param name="uEvent"></param>
         /// <param name="sourceName"></param>
-        public virtual void RegistEvent<T, X, Y,P>(UnityEvent<T,X,Y> uEvent, string sourceName, P target)
+        public virtual void RegistEvent<T, X, Y, P>(UnityEvent<T, X, Y> uEvent, string sourceName, P target)
         {
-            UnityAction<T, X,Y> action = (x, y,z) =>
-            {
-                var prop = viewModel.GetBindableProperty<PanelAction<P>>(sourceName);
+            UnityAction<T, X, Y> action = (x, y, z) =>
+             {
+                 var prop = viewModel.GetBindableProperty<PanelAction<P>>(sourceName);
 
-                if (prop != null && prop.Value != null)
-                {
-                    var func = prop.Value;
-                    func.Invoke(Context, target);
-                }
-                else
-                {
-                    Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
-                }
-            };
+                 if (prop != null && prop.Value != null)
+                 {
+                     var func = prop.Value;
+                     func.Invoke(Context, target);
+                 }
+                 else
+                 {
+                     Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                 }
+             };
 
             binders += viewModel =>
             {
@@ -236,22 +244,22 @@ namespace BridgeUI.Binding
         /// <typeparam name="T"></typeparam>
         /// <param name="uEvent"></param>
         /// <param name="sourceName"></param>
-        public virtual void RegistEvent<T, X, Y,Z, P>(UnityEvent<T, X, Y,Z> uEvent, string sourceName, P target)
+        public virtual void RegistEvent<T, X, Y, Z, P>(UnityEvent<T, X, Y, Z> uEvent, string sourceName, P target)
         {
-            UnityAction<T, X, Y,Z> action = (x, y, z,w) =>
-            {
-                var prop = viewModel.GetBindableProperty<PanelAction<P>>(sourceName);
+            UnityAction<T, X, Y, Z> action = (x, y, z, w) =>
+             {
+                 var prop = viewModel.GetBindableProperty<PanelAction<P>>(sourceName);
 
-                if (prop != null && prop.Value != null)
-                {
-                    var func = prop.Value;
-                    func.Invoke(Context, target);
-                }
-                else
-                {
-                    Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
-                }
-            };
+                 if (prop != null && prop.Value != null)
+                 {
+                     var func = prop.Value;
+                     func.Invoke(Context, target);
+                 }
+                 else
+                 {
+                     Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                 }
+             };
 
             binders += viewModel =>
             {

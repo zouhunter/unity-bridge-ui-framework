@@ -21,9 +21,9 @@ namespace BridgeUI.Common
         [SerializeField]
         private Text m_title;
 
-        protected override void Awake()
+        protected override void PropBindings()
         {
-            base.Awake();
+            base.PropBindings();
             Binder.RegistMember<bool>("m_close.interactable", "cansaleAble");
             Binder.RegistMember<string>("m_title.text", "title");
         }

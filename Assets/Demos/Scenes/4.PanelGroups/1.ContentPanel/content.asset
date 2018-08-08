@@ -14,8 +14,8 @@ MonoBehaviour:
   m_allNodes:
   - m_name: ContentPanel
     m_id: 2aac0bab-0698-4db9-b376-ec67fdcdca94
-    m_x: 228
-    m_y: 132
+    m_x: 230
+    m_y: 100
     m_node: {fileID: 11417720}
     m_inputPoints:
     - id: 813859db-2d04-4144-bac9-e8c1b52e79a4
@@ -31,17 +31,29 @@ MonoBehaviour:
       max: 100
       type: bridge
     m_outputPoints:
-    - id: e7377340-7fc8-4be9-af32-0ec830cc1006
-      label: 
+    - id: 0294d4b3-4a74-471e-b788-2b6b3ca30396
+      label: Button(0)
       parentId: 2aac0bab-0698-4db9-b376-ec67fdcdca94
       isInput: 0
       buttonRect:
         serializedVersion: 2
-        x: 119
+        x: 122
         y: 21.5
         width: 10
         height: 23
-      max: 100
+      max: 20
+      type: bridge
+    - id: a51435f1-dbf6-420c-83d3-d445d284775b
+      label: Button (1)(1)
+      parentId: 2aac0bab-0698-4db9-b376-ec67fdcdca94
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 122
+        y: 53.5
+        width: 10
+        height: 23
+      max: 20
       type: bridge
   - m_name: Luncher
     m_id: 5ae9c295-db50-4921-b78c-0bf561ebdc2a
@@ -80,19 +92,7 @@ MonoBehaviour:
         height: 29
       max: 100
       type: bridge
-    m_outputPoints:
-    - id: ee865f15-aca1-48cb-8a30-89aff0d25ea1
-      label: 
-      parentId: 5ae2db62-42e2-4131-8750-1eb11ffcbff3
-      isInput: 0
-      buttonRect:
-        serializedVersion: 2
-        x: 111
-        y: 21.5
-        width: 10
-        height: 23
-      max: 100
-      type: bridge
+    m_outputPoints: []
   - m_name: Panel1
     m_id: cb1576d9-3eed-45c7-9a88-aed943a6fce5
     m_x: 470
@@ -139,23 +139,9 @@ MonoBehaviour:
     m_toNodeConnectionPoiontId: 813859db-2d04-4144-bac9-e8c1b52e79a4
     m_type: bridge
     m_connection: {fileID: 11462424}
-  - m_id: 57c6c47c-a553-444e-b452-406297a6892e
-    m_fromNodeId: 2aac0bab-0698-4db9-b376-ec67fdcdca94
-    m_fromNodeConnectionPointId: e7377340-7fc8-4be9-af32-0ec830cc1006
-    m_toNodeId: cb1576d9-3eed-45c7-9a88-aed943a6fce5
-    m_toNodeConnectionPoiontId: 22e44489-fdcb-4703-9ee6-c9a54b0eed9c
-    m_type: bridge
-    m_connection: {fileID: 114775185767854216}
-  - m_id: 418ba022-b295-4a9a-8684-9d32f195dc76
-    m_fromNodeId: 2aac0bab-0698-4db9-b376-ec67fdcdca94
-    m_fromNodeConnectionPointId: e7377340-7fc8-4be9-af32-0ec830cc1006
-    m_toNodeId: 44dcac79-918c-4567-abb1-7c60f973d16e
-    m_toNodeConnectionPoiontId: 7fd5e502-7693-466f-9b27-bb3ac2c1161e
-    m_type: bridge
-    m_connection: {fileID: 114763228233783318}
-  m_lastModified: 131781316847795540
+  m_lastModified: 131782114362097264
   m_graphDescription: 
-  m_controllerType: BridgeUIEditor.BridgeUIGraphCtrl
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 1
   b_nodes: []
   p_nodes:
@@ -196,26 +182,6 @@ MonoBehaviour:
       baseShow: 0
     viewModel: {fileID: 0}
     outNode: ContentPanel
-  - inNode: ContentPanel
-    index: 1
-    showModel:
-      auto: 0
-      cover: 0
-      single: 0
-      mutex: 0
-      baseShow: 2
-    viewModel: {fileID: 0}
-    outNode: Panel1
-  - inNode: ContentPanel
-    index: 0
-    showModel:
-      auto: 0
-      cover: 0
-      single: 0
-      mutex: 0
-      baseShow: 1
-    viewModel: {fileID: 0}
-    outNode: Panel1
 --- !u!114 &11417720
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -227,10 +193,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: ContentPanel
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 3
   instenceID: 0
   assetName: ContentPanel
   style: 1
+  nodedescribe:
+  - Button
+  - Button (1)
   rule:
     baseTypeIndex: 0
     canInherit: 0
@@ -270,7 +239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeConnection
   m_EditorClassIdentifier: 
-  index: 0
   show:
     auto: 1
     cover: 0
@@ -293,6 +261,7 @@ MonoBehaviour:
   instenceID: 0
   assetName: Panel1
   style: 1
+  nodedescribe: []
   rule:
     baseTypeIndex: 0
     canInherit: 0
@@ -332,41 +301,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff5f928ce618db4b9be54804a0ed0da, type: 3}
   m_Name: RemoteNode
   m_EditorClassIdentifier: 
---- !u!114 &114763228233783318
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
-  m_Name: BridgeConnection
-  m_EditorClassIdentifier: 
-  index: 0
-  show:
-    auto: 0
-    cover: 0
-    single: 0
-    mutex: 0
-    baseShow: 1
-  viewModel: {fileID: 0}
---- !u!114 &114775185767854216
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
-  m_Name: BridgeConnection
-  m_EditorClassIdentifier: 
-  index: 1
-  show:
-    auto: 0
-    cover: 0
-    single: 0
-    mutex: 0
-    baseShow: 2
-  viewModel: {fileID: 0}

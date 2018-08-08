@@ -25,7 +25,7 @@ using BridgeUI.Binding;
 
 namespace BridgeUI
 {
-    [PanelParent]
+    [BridgeUI.Attributes.PanelParent]
     public class PanelBase : PanelCore, IBindingContext
     {
         private Binding.PropertyBinder _binder;

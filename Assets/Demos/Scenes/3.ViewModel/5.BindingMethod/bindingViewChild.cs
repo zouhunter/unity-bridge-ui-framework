@@ -7,7 +7,7 @@ using System;
 public class bindingViewChild : bindingViewModel
 {
 	#region 属性列表
-	[DefultValue]
+	[BridgeUI.Attributes.DefultValue]
 	public BridgeUI.Binding.PanelAction ButtonClicked {
 		get {
 			return GetValue<BridgeUI.Binding.PanelAction> ("ButtonClicked");
@@ -17,7 +17,7 @@ public class bindingViewChild : bindingViewModel
 		}
 	}
 
-	[DefultValue]
+	[BridgeUI.Attributes.DefultValue]
 	public System.String[] value {
 		get {
 			return GetValue<System.String[]> ("value");
@@ -27,7 +27,7 @@ public class bindingViewChild : bindingViewModel
 		}
 	}
 
-	[DefultValue]
+	[BridgeUI.Attributes.DefultValue]
 	public UnityEngine.UI.ColorBlock color {
 		get {
 			return GetValue<UnityEngine.UI.ColorBlock> ("color");

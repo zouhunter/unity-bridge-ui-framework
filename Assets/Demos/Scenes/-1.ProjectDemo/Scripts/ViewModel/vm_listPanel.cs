@@ -10,7 +10,7 @@ using System;
 public class vm_listPanel : ViewModel
 {
 	#region 属性列表
-	[DefultValue]
+	[BridgeUI.Attributes.DefultValue]
 	public System.String[] options {
 		get {
 			return GetValue<System.String[]> ("options");
@@ -20,7 +20,7 @@ public class vm_listPanel : ViewModel
 		}
 	}
 
-	[DefultValue]
+	[BridgeUI.Attributes.DefultValue]
 	public BridgeUI.Binding.PanelAction<System.Int32> on_selectid {
 		get {
 			return GetValue<BridgeUI.Binding.PanelAction<System.Int32>> ("on_selectid");

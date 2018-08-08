@@ -563,7 +563,7 @@ namespace BridgeUI.CodeGen
             foreach (var item in types)
             {
                 var attributes = item.GetCustomAttributes(false);
-                if (Array.Find(attributes, x => x is PanelParentAttribute) != null)
+                if (Array.Find(attributes, x => x is BridgeUI.Attributes.PanelParentAttribute) != null)
                 {
                     support.Add(item);
                 }
@@ -572,6 +572,33 @@ namespace BridgeUI.CodeGen
             support.Add(typeof(MonoBehaviour));
             support.Add(typeof(UIBehaviour));
             return support.ConvertAll(x => x.FullName).ToArray();
+        }
+        public class ComparePanelParentType : IComparer<Type>
+        {
+            int IComparer<Type>.Compare(Type x, Type y)
+            {
+                var att_x = GetAttribute(x);
+                var att_y = GetAttribute(y);
+                if (att_x.sortIndex > att_y.sortIndex)
+                {
+                    return 1;
+                }
+                else if (att_x.sortIndex < att_y.sortIndex)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            private BridgeUI.Attributes.PanelParentAttribute GetAttribute(Type type)
+            {
+                var attributes = type.GetCustomAttributes(false);
+                var attribute = Array.Find(attributes, x => x is BridgeUI.Attributes.PanelParentAttribute);
+                return attribute as BridgeUI.Attributes.PanelParentAttribute;
+            }
         }
 
         private static void LoadViewScriptCoder(GameObject prefab, GenCodeRule rule, Action<UICoder> onLoadCoder)

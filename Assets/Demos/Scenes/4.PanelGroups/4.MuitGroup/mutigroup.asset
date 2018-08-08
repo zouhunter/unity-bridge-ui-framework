@@ -30,19 +30,7 @@ MonoBehaviour:
         height: 29
       max: 100
       type: bridge
-    m_outputPoints:
-    - id: 9e54e294-c9f8-42d8-8a15-3a7535c496f6
-      label: 
-      parentId: 9fb286ff-8fc0-464d-88ba-681e6a9d2988
-      isInput: 0
-      buttonRect:
-        serializedVersion: 2
-        x: 116
-        y: 21.5
-        width: 10
-        height: 23
-      max: 100
-      type: bridge
+    m_outputPoints: []
   - m_name: AnyState
     m_id: 11b53e09-71e5-438a-b892-8dde64bcbd93
     m_x: 189
@@ -62,6 +50,25 @@ MonoBehaviour:
         height: 23
       max: 100
       type: bridge
+  - m_name: ControlPanel
+    m_id: a1151891-a177-497b-b240-d072bce24f0e
+    m_x: 410
+    m_y: 110
+    m_node: {fileID: 114837372691904380}
+    m_inputPoints:
+    - id: af208f0e-afd4-4ab2-8a72-8038a9d59b73
+      label: "\u2192"
+      parentId: a1151891-a177-497b-b240-d072bce24f0e
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 20
+      type: bridge
+    m_outputPoints: []
   m_allConnections:
   - m_id: 51c7e410-b7e9-430c-92f7-6c3b1d40f774
     m_fromNodeId: 11b53e09-71e5-438a-b892-8dde64bcbd93
@@ -70,9 +77,9 @@ MonoBehaviour:
     m_toNodeConnectionPoiontId: 5297042c-b58b-42ef-81df-db218abce4bd
     m_type: bridge
     m_connection: {fileID: 11400596}
-  m_lastModified: 131750157516255984
+  m_lastModified: 131782104393707105
   m_graphDescription: 
-  m_controllerType: BridgeUIEditor.BridgeUIGraphCtrl
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 1
   b_nodes: []
   p_nodes:
@@ -98,6 +105,7 @@ MonoBehaviour:
       single: 0
       mutex: 0
       baseShow: 0
+    viewModel: {fileID: 0}
     outNode: ControlPanel
 --- !u!114 &11400596
 MonoBehaviour:
@@ -110,13 +118,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeConnection
   m_EditorClassIdentifier: 
-  index: 0
   show:
     auto: 1
     cover: 0
     single: 0
     mutex: 0
     baseShow: 0
+  viewModel: {fileID: 0}
 --- !u!114 &11420118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,10 +147,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: ControlPanel
   m_EditorClassIdentifier: 
-  selected: 2
-  instenceID: -123764
+  selected: 3
+  instenceID: 0
   assetName: ControlPanel
   style: 1
+  nodedescribe: []
   rule:
     baseTypeIndex: 1
     canInherit: 0
@@ -154,9 +163,9 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Toggle
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0
@@ -181,9 +190,9 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0
@@ -204,9 +213,9 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Button
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems: []
     eventItems:
@@ -225,9 +234,9 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Slider
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0
@@ -264,9 +273,9 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0
@@ -279,6 +288,39 @@ MonoBehaviour:
     target: {fileID: 107246, guid: eb2899fc77c698848addee82857de3de, type: 2}
     scriptTarget: {fileID: 0}
     isScriptComponent: 0
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    guid: eb2899fc77c698848addee82857de3de
+    discription: 
+--- !u!114 &114837372691904380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: ControlPanel
+  m_EditorClassIdentifier: 
+  selected: 3
+  instenceID: 0
+  assetName: ControlPanel
+  style: 1
+  nodedescribe: []
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+    bindingAble: 0
+  components: []
   nodeInfo:
     uiType:
       layerIndex: 0

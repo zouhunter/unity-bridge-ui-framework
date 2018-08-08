@@ -49,19 +49,7 @@ MonoBehaviour:
         height: 29
       max: 100
       type: bridge
-    m_outputPoints:
-    - id: 4e835cff-02ef-4db6-ab5c-fc1d0507e81a
-      label: 
-      parentId: e9c72d32-24ec-4d31-bbe6-760b8aeb14d6
-      isInput: 0
-      buttonRect:
-        serializedVersion: 2
-        x: 131
-        y: 21.5
-        width: 10
-        height: 23
-      max: 100
-      type: bridge
+    m_outputPoints: []
   m_allConnections:
   - m_id: c1443ac7-f3d4-4d99-8ec7-fa82f9441b0c
     m_fromNodeId: 11b53e09-71e5-438a-b892-8dde64bcbd93
@@ -72,7 +60,7 @@ MonoBehaviour:
     m_connection: {fileID: 11499792}
   m_lastModified: 131750199156567673
   m_graphDescription: 
-  m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 1
   b_nodes: []
   p_nodes:
@@ -98,6 +86,7 @@ MonoBehaviour:
       single: 0
       mutex: 0
       baseShow: 0
+    viewModel: {fileID: 0}
     outNode: ControlPanel_B
 --- !u!114 &11420118
 MonoBehaviour:
@@ -121,10 +110,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: ControlPanel_B
   m_EditorClassIdentifier: 
-  selected: 2
-  instenceID: -475074
+  selected: 3
+  instenceID: 0
   assetName: ControlPanel_B
   style: 1
+  nodedescribe: []
   rule:
     baseTypeIndex: 1
     canInherit: 0
@@ -136,9 +126,9 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Toggle
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0
@@ -163,9 +153,9 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Slider
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0
@@ -202,9 +192,9 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0
@@ -225,9 +215,9 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Button
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems: []
     eventItems:
@@ -246,9 +236,9 @@ MonoBehaviour:
     components:
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Text
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0
@@ -284,10 +274,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeConnection
   m_EditorClassIdentifier: 
-  index: 0
   show:
     auto: 1
     cover: 0
     single: 0
     mutex: 0
     baseShow: 0
+  viewModel: {fileID: 0}

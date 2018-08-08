@@ -18,7 +18,7 @@ using BridgeUI.Binding;
 namespace BridgeUI.Common
 {
     [LuaCallCSharp]
-    [PanelParent]
+    [Attributes.PanelParent]
     public class LuaPanel : PanelBase
     {
         [HideInInspector]

@@ -48,7 +48,7 @@ namespace BridgeUI.Binding
             var propertys = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty|BindingFlags.DeclaredOnly);
             foreach (var item in propertys)
             {
-                var att = item.GetCustomAttributes(true).Where(x => x is DefultValueAttribute).FirstOrDefault();
+                var att = item.GetCustomAttributes(true).Where(x => x is BridgeUI.Attributes.DefultValueAttribute).FirstOrDefault();
                 if (att != null)
                 {
                     var fullType = typeof(BindableProperty<>).MakeGenericType(item.PropertyType);

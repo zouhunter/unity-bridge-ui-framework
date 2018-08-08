@@ -5,12 +5,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using BridgeUI;
+using BridgeUI.Attributes;
 namespace BridgeUI.Drawer
 {
-    [CustomPropertyDrawer(typeof(BridgeUI.RangeAttribute))]
+    [CustomPropertyDrawer(typeof(BridgeUI.Attributes.RangeAttribute))]
     public class RangeAttributeDrawer : PropertyDrawer
     {
-        BridgeUI.RangeAttribute range;
+        BridgeUI.Attributes.RangeAttribute range;
         const float buttonWidth = 20;
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -18,7 +19,7 @@ namespace BridgeUI.Drawer
         }
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            range = attribute as BridgeUI.RangeAttribute;
+            range = attribute as BridgeUI.Attributes. RangeAttribute;
             var fieldRect = new Rect(position.x, position.y, position.width - 2 * buttonWidth, position.height);
             var btnRect = new Rect(position.x + position.width - 2 * buttonWidth, position.y, buttonWidth, position.height);
 

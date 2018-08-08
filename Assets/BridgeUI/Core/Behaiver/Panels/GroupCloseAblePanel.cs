@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 namespace BridgeUI
 {
-    [PanelParent]
+    [BridgeUI.Attributes.PanelParent]
     public class GroupCloseAblePanel : GroupPanel
     {
         [SerializeField]

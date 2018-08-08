@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-namespace BridgeUI.Binding
+namespace BridgeUI.Attributes
 {
 
     [AttributeUsage(AttributeTargets.Property)]

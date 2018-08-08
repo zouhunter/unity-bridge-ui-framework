@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace BridgeUI
+namespace BridgeUI.Attributes
 {
     [System.Serializable]
     public class RangeAttribute: PropertyAttribute

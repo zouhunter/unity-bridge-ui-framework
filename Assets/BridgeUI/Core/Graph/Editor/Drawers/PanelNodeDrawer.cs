@@ -480,18 +480,7 @@ namespace BridgeUIEditor
         private void DrawView()
         {
             DrawTitleRegion("板式:");
-
-            for (int i = 0; i < styleOptions.Length; i++)
-            {
-                if (i == 0) continue;
-
-                var style = i == panelNode.style ? EditorStyles.toolbarPopup : EditorStyles.toolbarButton;
-
-                if (GUILayout.Button(styleOptions[i], style))
-                {
-                    panelNode.style = i;
-                }
-            }
+            DrawViewFormat();
 
             DrawTitleRegion("说明:");
             if (panelNode != null)
@@ -505,6 +494,31 @@ namespace BridgeUIEditor
                 nodeProtListDrawer.DoLayoutList();
             }
         }
+
+        private void DrawViewFormat()
+        {
+            var xCount = 4;
+            var width = (EditorGUIUtility.currentViewWidth - 20) / xCount;
+            using (var vertical = new EditorGUILayout.VerticalScope())
+            {
+                for (int i = 0; i < styleOptions.Length; i += xCount)
+                {
+                    using (var hor = new EditorGUILayout.HorizontalScope())
+                    {
+                        for (int j = i; j < i + xCount && j < styleOptions.Length; j++)
+                        {
+                            var isOn = GUILayout.Toggle(j == panelNode.style, new GUIContent(styleOptions[j]), EditorStyles.radioButton,GUILayout.Width(width));
+                            if (isOn)
+                            {
+                                panelNode.style = j;
+                            }
+                        }
+                    }
+                }
+            }
+          
+        }
+
         private void DrawPanelComponent()
         {
             if (!panelCompnent) return;

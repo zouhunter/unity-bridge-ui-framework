@@ -73,7 +73,8 @@ IUIHandle Send(object data);
 ![null](Pics/3.png)
 ### 6.定义界面关联与打开时的状态
 ![null](Pics/4.png)
-
+### 7.自定义节点图显示
+![null](Pics/7.png)
 
 ## UML设计
 ### 1.Facade及生成器

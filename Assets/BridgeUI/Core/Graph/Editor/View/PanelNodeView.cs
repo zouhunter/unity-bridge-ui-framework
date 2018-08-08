@@ -28,6 +28,8 @@ namespace BridgeUI.Drawer
     {
         protected static UIType uiTypeTemplate;
         protected static NodeType nodeTypeTemplate;
+        protected static long timer;
+        protected const long clickTime = 5000000;
         protected PanelNodeBase panelNode { get { return target as PanelNodeBase; } }
         public override int Style
         {
@@ -85,14 +87,32 @@ namespace BridgeUI.Drawer
         {
             base.OnClickNodeGUI(nodeGUI, mousePosition, result);
             InitPanelNodeChild(nodeGUI.Data);
-            if (panelNode == null) return;
-            var nodeInfo = panelNode.nodeInfo;
-            var prefab = nodeInfo.GetPrefab();
-            if (prefab){
-                EditorGUIUtility.PingObject(prefab);
+            if(HaveClickTwince())
+            {
+                if (panelNode == null) return;
+                var nodeInfo = panelNode.nodeInfo;
+                var prefab = nodeInfo.GetPrefab();
+                if (prefab)
+                {
+                    EditorGUIUtility.PingObject(prefab);
+                }
             }
         }
-        
+
+        private bool HaveClickTwince()
+        {
+            if(DateTime.Now.ToFileTime() - timer < clickTime)
+            {
+                timer = 0;
+                return true;
+            }
+            else
+            {
+                timer = DateTime.Now.ToFileTime();
+                return false;
+            }
+        }
+
         public override void OnContextMenuGUI(GenericMenu menu, NodeGUI gui)
         {
             base.OnContextMenuGUI(menu, gui);

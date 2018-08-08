@@ -38,6 +38,7 @@ public class bindingViewChild : bindingViewModel
 	}
 
 	#endregion 属性列表
+
 	public bindingViewChild ()
 	{
 		var colorBlock = new UnityEngine.UI.ColorBlock ();

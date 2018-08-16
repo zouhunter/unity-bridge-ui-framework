@@ -1,8 +1,9 @@
 fileFormatVersion: 2
 guid: 2922ba4c785828d4592dd4397cde102f
+timeCreated: 1534420498
+licenseType: Pro
 NativeFormatImporter:
-  externalObjects: {}
   mainObjectFileID: 0
   userData: 
-  assetBundleName: bridgeui/panels/worldui
+  assetBundleName: bridgeui/panels/worldui.assetbundle
   assetBundleVariant: 

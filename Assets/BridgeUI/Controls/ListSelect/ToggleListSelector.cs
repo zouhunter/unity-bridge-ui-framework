@@ -81,7 +81,8 @@ namespace BridgeUI.Control
             {
                 if (x)
                 {
-                    if (!stopEvent) Select(id);
+                    if (!stopEvent)
+                        Select(id);
                 }
                 else
                 {

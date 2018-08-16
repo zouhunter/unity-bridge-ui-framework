@@ -478,7 +478,7 @@ namespace BridgeUI.Drawer
             EditorGUI.LabelField(rect, string.Format("【{0}】", label), EditorStyles.largeLabel);
         }
 
-        private string[] styleOptions = { "gray", "blue", "green", "yellow", "orange", "flesh", "pink", "purple" };
+        private string[] styleOptions = {  "blue", "green", "yellow", "orange", "flesh", "pink", "purple", "cyan" };
         private void DrawView()
         {
             DrawTitleRegion("板式:");
@@ -509,16 +509,15 @@ namespace BridgeUI.Drawer
                     {
                         for (int j = i; j < i + xCount && j < styleOptions.Length; j++)
                         {
-                            var isOn = GUILayout.Toggle(j == panelNode.style, new GUIContent(styleOptions[j]), EditorStyles.radioButton, GUILayout.Width(width));
+                            var isOn = GUILayout.Toggle(j == panelNode.style - 1, new GUIContent(styleOptions[j]), EditorStyles.radioButton, GUILayout.Width(width));
                             if (isOn)
                             {
-                                panelNode.style = j;
+                                panelNode.style  = j + 1;
                             }
                         }
                     }
                 }
             }
-
         }
 
         private void DrawPanelComponent()

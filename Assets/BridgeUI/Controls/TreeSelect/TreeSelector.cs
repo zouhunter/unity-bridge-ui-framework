@@ -56,7 +56,7 @@ namespace BridgeUI.Control.Tree
             var parent = rootNode;
             for (int i = 0; i < path.Count; i++)
             {
-                var id = parent.childern.FindIndex(x => x.name == path[i]);
+                var id = System.Array.FindIndex( parent.childern,x => x.name == path[i]);
                 idList.Add(id);
                 parent = parent.childern[id];
             }

@@ -40,7 +40,7 @@ public class ToolsPanel : SinglePanel
     public static void CollectTreeLeaf<T>(T root, ref List<T> leafs) where T : ModelTree
     {
         if (leafs == null) leafs = new List<T>();
-        if ((root.childern == null || root.childern.Count == 0) && !leafs.Contains(root) )
+        if ((root.childern == null || root.childern.Length == 0) && !leafs.Contains(root) )
         {
             leafs.Add(root);
         }

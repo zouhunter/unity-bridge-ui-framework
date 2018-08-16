@@ -43,9 +43,10 @@ namespace BridgeUI
                 if (_b_nodes == null)
                 {
                     _b_nodes = new List<BundleUIInfo>();
-                    foreach (var item in GraphList)
+                    foreach (var graph in GraphList)
                     {
-                        _b_nodes.AddRange(item.b_nodes);
+                        if(graph.b_nodes != null)
+                        _b_nodes.AddRange(graph.b_nodes);
                     }
                 }
                 return _b_nodes;
@@ -60,7 +61,8 @@ namespace BridgeUI
                     _p_nodes = new List<PrefabUIInfo>();
                     foreach (var graph in GraphList)
                     {
-                        _p_nodes.AddRange(graph.p_nodes);
+                        if (graph.p_nodes != null)
+                            _p_nodes.AddRange(graph.p_nodes);
                     }
                 }
                 return _p_nodes;
@@ -75,6 +77,7 @@ namespace BridgeUI
                     _bridges = new List<BridgeInfo>();
                     foreach (var graph in GraphList)
                     {
+                        if(graph.bridges != null)
                         _bridges.AddRange(graph.bridges);
                     }
                 }
@@ -128,8 +131,7 @@ namespace BridgeUI
                     if (panel != null)
                     {
                         createdPanels.Add(panel);
-                        if (parentPanel != null)
-                        {
+                        if (parentPanel != null) {
                             parentPanel.RecordChild(panel);
                         }
                         bridgeDic.Add(panel, bridge);
@@ -412,7 +414,7 @@ namespace BridgeUI
             {
                 if (uiNode.type.form == UIFormType.Fixed)
                 {
-                    var oldPanel = createdPanels.Find(x => x.Name == panelName);
+                    var oldPanel = createdPanels.Find(x => x.Name == panelName && x.Parent == parentPanel);
                     if (oldPanel != null)
                     {
                         bridgeObj = bridgeDic[oldPanel];

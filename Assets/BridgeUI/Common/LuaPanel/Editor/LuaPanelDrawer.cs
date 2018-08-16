@@ -11,11 +11,11 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
-
 namespace BridgeUI.Common
 {
 #if xLua
 
+    using ResourceType = LuaPanel.ResourceType;
     [CanEditMultipleObjects]
     [CustomEditor(typeof(LuaPanel), editorForChildClasses: true)]
     public class LuaPanelDrawer : Editor
@@ -92,32 +92,32 @@ namespace BridgeUI.Common
 
         private void SwitchDrawProps()
         {
-            var type = (LuaResourceType)resourceType.intValue;
+            var type = (LuaPanel.ResourceType)resourceType.intValue;
             switch (type)
             {
-                case LuaResourceType.OriginLink:
+                case ResourceType.OriginLink:
                     EditorGUILayout.PropertyField(luaScript);
                     break;
-                case LuaResourceType.StreamingFile:
+                case ResourceType.StreamingFile:
                     EditorGUILayout.PropertyField(streamingPath);
                     break;
-                case LuaResourceType.WebFile:
+                case ResourceType.WebFile:
                     EditorGUILayout.PropertyField(webUrl);
                     break;
 #if AssetBundleTools
-                    case LuaResourceType.AssetBundle:
+                case ResourceType.AssetBundle:
                     EditorGUILayout.PropertyField(menu);
                     EditorGUILayout.PropertyField(assetBundleName);
                     EditorGUILayout.PropertyField(assetName);
                     break;
 #endif
-                case LuaResourceType.Resource:
+                case ResourceType.Resource:
                     EditorGUILayout.PropertyField(scriptName);
                     break;
-                case LuaResourceType.ScriptObject:
+                case ResourceType.ScriptObject:
                     EditorGUILayout.PropertyField(scriptObj);
                     break;
-                case LuaResourceType.RuntimeString:
+                case ResourceType.RuntimeString:
                     break;
                 default:
                     break;

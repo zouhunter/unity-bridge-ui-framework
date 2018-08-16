@@ -6,6 +6,7 @@ namespace BridgeUI
 {
     public static class Utility
     {
+        #region Extend Of Open Close
         public static IUIHandle Open(this IUIPanel parentPanel, string panelName,  object data = null)
         {
             return UIFacade.Instence.Open(parentPanel, panelName, data);
@@ -38,6 +39,9 @@ namespace BridgeUI
         {
             return parentPanel.Group.bindingCtrl.IsRegistedPanelOpen(parentPanel, index);
         }
+        #endregion
+
+        #region Transform And Layer
         public static void SetTranform(Transform item, UILayerType layer, int layerIndex, Transform parent)
         {
             string rootName = LayerToString(layer);
@@ -102,7 +106,6 @@ namespace BridgeUI
             item.SetSiblingIndex(id);
 
         }
-
         public static string LayerToString(UILayerType layer, bool showint = true)
         {
             string str = "";
@@ -124,5 +127,8 @@ namespace BridgeUI
             }
             return str;
         }
+        #endregion
+
+
     }
 }

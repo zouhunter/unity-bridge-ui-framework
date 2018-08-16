@@ -12,42 +12,11 @@ MonoBehaviour:
   m_Name: world
   m_EditorClassIdentifier: 
   m_allNodes:
-  - m_name: WorldUI
-    m_id: 16f34636-a22c-46db-b26e-cad67919e4cd
-    m_x: 240
-    m_y: 80
-    m_node: {fileID: 11484366}
-    m_inputPoints:
-    - id: b41e639c-99b7-453d-b8fa-cd05b31c4350
-      label: 
-      parentId: 16f34636-a22c-46db-b26e-cad67919e4cd
-      isInput: 1
-      buttonRect:
-        serializedVersion: 2
-        x: 0
-        y: 18.5
-        width: 21
-        height: 29
-      max: 100
-      type: bridge
-    m_outputPoints:
-    - id: 0749540a-8c56-4941-98e3-0ec86dbe1a39
-      label: 
-      parentId: 16f34636-a22c-46db-b26e-cad67919e4cd
-      isInput: 0
-      buttonRect:
-        serializedVersion: 2
-        x: 111
-        y: 21.5
-        width: 10
-        height: 23
-      max: 100
-      type: bridge
   - m_name: AnyState
     m_id: 30ab80c0-4efa-4f63-b7de-2ada7ddca8eb
     m_x: 94
     m_y: 149
-    m_node: {fileID: 11435620}
+    m_node: {fileID: 114692618493034336}
     m_inputPoints: []
     m_outputPoints:
     - id: 2ce324ea-119c-4dd4-99d6-6634310fe6ab
@@ -62,17 +31,36 @@ MonoBehaviour:
         height: 23
       max: 100
       type: bridge
+  - m_name: WorldUI
+    m_id: 2a3db352-2a3a-4429-ba9e-f7e4c66ff5b4
+    m_x: 310
+    m_y: 130
+    m_node: {fileID: 114773291592510252}
+    m_inputPoints:
+    - id: d2bd066d-92a4-4e66-8285-e8a49b99a8dd
+      label: "\u2192"
+      parentId: 2a3db352-2a3a-4429-ba9e-f7e4c66ff5b4
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 20
+      type: bridge
+    m_outputPoints: []
   m_allConnections:
-  - m_id: b76e586c-1d16-4811-b0ad-00a6216ecfff
+  - m_id: df53deec-cebd-4394-8dfe-c807ecf726ea
     m_fromNodeId: 30ab80c0-4efa-4f63-b7de-2ada7ddca8eb
     m_fromNodeConnectionPointId: 2ce324ea-119c-4dd4-99d6-6634310fe6ab
-    m_toNodeId: 16f34636-a22c-46db-b26e-cad67919e4cd
-    m_toNodeConnectionPoiontId: b41e639c-99b7-453d-b8fa-cd05b31c4350
+    m_toNodeId: 2a3db352-2a3a-4429-ba9e-f7e4c66ff5b4
+    m_toNodeConnectionPoiontId: d2bd066d-92a4-4e66-8285-e8a49b99a8dd
     m_type: bridge
-    m_connection: {fileID: 11456084}
-  m_lastModified: 131768914909310805
+    m_connection: {fileID: 114334691483283102}
+  m_lastModified: 131783074312265471
   m_graphDescription: 
-  m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 2
   b_nodes:
   - panelName: WorldUI
@@ -89,50 +77,51 @@ MonoBehaviour:
       hideRule: 0
     guid: 2922ba4c785828d4592dd4397cde102f
     good: 1
-    bundleName: bridgeui/panels/worldui
+    bundleName: bridgeui/panels/worldui.assetbundle
   p_nodes: []
   bridges:
   - inNode: 
     index: 0
     showModel:
-      auto: 1
-      cover: 0
-      single: 0
+      _auto: 1
+      _cover: 0
+      _single: 0
       mutex: 0
       baseShow: 0
+    viewModel: {fileID: 0}
     outNode: WorldUI
---- !u!114 &11435620
+--- !u!114 &114334691483283102
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
-  m_Name: Luncher
-  m_EditorClassIdentifier: 
---- !u!114 &11456084
-MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
-  m_Name: BridgeConnection
+  m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
-  index: 0
   show:
-    auto: 1
-    cover: 0
-    single: 0
+    _auto: 1
+    _cover: 0
+    _single: 0
     mutex: 0
     baseShow: 0
---- !u!114 &11484366
+  viewModel: {fileID: 0}
+--- !u!114 &114692618493034336
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
+  m_Name: BridgeUI.Graph.AnyNode
+  m_EditorClassIdentifier: 
+--- !u!114 &114773291592510252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -142,9 +131,10 @@ MonoBehaviour:
   m_Name: WorldUI
   m_EditorClassIdentifier: 
   selected: 0
-  instenceID: 0
+  instenceID: -36104
   assetName: WorldUI
   style: 1
+  nodedescribe: []
   rule:
     baseTypeIndex: 0
     canInherit: 0

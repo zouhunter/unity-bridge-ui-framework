@@ -20,6 +20,16 @@ namespace BridgeUI.Drawer
     {
         private Graph.BridgeConnection connecton;
         protected const float buttonWidth = 20;
+        private void OnEnable()
+        {
+            if(target == null)
+            {
+                DestroyImmediate(this);
+                return;
+            }
+            target.name = target.GetType().FullName;
+        }
+        protected override void OnHeaderGUI() { }
 
         public override void OnInspectorGUI()
         {

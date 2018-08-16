@@ -22,7 +22,6 @@ namespace BridgeUI.Control
         protected override void OnCreateItem(int id,GameObject instence)
         {
             base.OnCreateItem(id,instence);
-
             var type = options[id];
             instence.GetComponentInChildren<Text>().text = type;
             var button = instence.GetComponentInChildren<Button>();

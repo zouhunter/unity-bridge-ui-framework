@@ -3,15 +3,15 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace BridgeUI.Control
+namespace BridgeUI.Control.Tree
 {
     public class FolderSelector : Tree.TreeSelector
     {
         [SerializeField]
-        private ButtonListSelector result;
-        [SerializeField]
         private ToggleListSelector creater;
+        public StringArrayEvent onSelectionChanged;
 
         private List<string> currentSelection = new List<string>();
         private Tree.TreeNode active;
@@ -19,11 +19,10 @@ namespace BridgeUI.Control
         protected override void Awake()
         {
             base.Awake();
-            result.onSelectID.AddListener(OnHeadSelect);
             creater.onSelectID.AddListener(OnBodySelect);
             creater.singleChoise = true;
         }
-
+        #region public
         public override void CreateTree(Tree.TreeNode nodeBase)
         {
             base.CreateTree(nodeBase);
@@ -31,21 +30,17 @@ namespace BridgeUI.Control
             ClearTree();
             OnHeadSelect(0);
         }
-
         public override void AutoSelectFirst()
         {
             ClearTree();
             OnHeadSelect(0);
             Tree.TreeNode node = rootNode;
-            while (node.childern != null && node.childern.Count > 0)
+            while (node.childern != null && node.childern.Length > 0)
             {
                 node = node.childern[0];
                 creater.SetSelect(0, true);
             }
         }
-
-
-
         public override void SetSelect(params string[] path)
         {
             ClearTree();
@@ -58,8 +53,9 @@ namespace BridgeUI.Control
                     var child = node.GetChildItem(path[i]);
                     if (child != null)
                     {
-                        var index = node.childern.IndexOf(child);
+                        var index =System.Array.IndexOf( node.childern,(child));
                         creater.SetSelect(index, true);
+                        node = node.childern[i];
                     }
                     else
                     {
@@ -72,7 +68,6 @@ namespace BridgeUI.Control
                 }
             }
         }
-
         public override void SetSelect(params int[] path)
         {
             ClearTree();
@@ -81,7 +76,7 @@ namespace BridgeUI.Control
             Tree.TreeNode node = rootNode;
             for (int i = 0; i < path.Length; i++)
             {
-                if (node.childern != null && node.childern.Count > path[i])
+                if (node.childern != null && node.childern.Length > path[i])
                 {
                     creater.SetSelect(path[i], true);
                     node = node.childern[i];
@@ -92,21 +87,44 @@ namespace BridgeUI.Control
                 }
             }
         }
+        public void OnHeadSelect(int dp)
+        {
+            active = rootNode;
+            for (int i = 0; i < dp; i++)
+            {
+                var key = currentSelection[i];
+                active =System.Array.Find( active.childern,x => x.name == key);
+            }
+
+            //更新view
+            UpdateCurrentSelectFromActiveNode(active);
+            //更新选择列表
+            ChargeBodyOption(active);
+        }
+
+        public void BackOneSelect()
+        {
+            if (active.ParentItem != null)
+            {
+                active = active.ParentItem;
+                UpdateCurrentSelectFromActiveNode(active);
+                //更新选择列表
+                ChargeBodyOption(active);
+            }
+        }
         public override void ClearTree()
         {
-            result.options = null;
+            onSelectionChanged.Invoke(null);
             creater.options = null;
         }
+        #endregion
         /// <summary>
         /// 显示已经选择的状态列表
         /// </summary>
         /// <param name="keys"></param>
         private void ChargeHeadOption(string[] keys)
         {
-            if (keys != null)
-            {
-                result.options = keys;
-            }
+            onSelectionChanged.Invoke(keys);
         }
 
         /// <summary>
@@ -115,34 +133,11 @@ namespace BridgeUI.Control
         /// <param name="node"></param>
         private void ChargeBodyOption(Tree.TreeNode node)
         {
-            if (node.childern != null && node.childern.Count > 0)
+            if (node.childern != null && node.childern.Length > 0)
             {
-                string[] selectItems = node.childern.ConvertAll<string>(x => x.name).ToArray();
+                string[] selectItems = node.childern.Select(x => x.name).ToArray();
                 creater.options = selectItems;
             }
-        }
-
-        /// <summary>
-        /// 选择标题列表
-        /// </summary>
-        /// <param name="dp"></param>
-        private void OnHeadSelect(int dp)
-        {
-            active = rootNode;
-            for (int i = 0; i < dp; i++)
-            {
-                var key = currentSelection[i];
-                active = active.childern.Find(x => x.name == key);
-            }
-
-            //更新标头列表
-            if (currentSelection.Count > dp)
-                currentSelection.RemoveRange(dp, currentSelection.Count - dp);
-
-            ChargeHeadOption(currentSelection.ToArray());
-
-            //更新选择列表
-            ChargeBodyOption(active);
         }
 
 
@@ -153,24 +148,50 @@ namespace BridgeUI.Control
         /// <param name="key"></param>
         private void OnBodySelect(int key)
         {
+            //最底层的选择逻辑
+            if ((active.childern == null || active.childern.Length == 0) && active.ParentItem != null)
+            {
+                active = active.ParentItem;
+            }
+
             var child = active.GetChildItem(key);
-            if (child != null && child.childern != null && child.childern.Count > 0)
+            if (child != null)
             {
                 //激活当前节点
                 active = child;
 
-                //更新选择列表
-                ChargeBodyOption(active);
-
                 //更新标头列表
-                currentSelection.Add(active.name);
-                ChargeHeadOption(currentSelection.ToArray());
+                UpdateCurrentSelectFromActiveNode(active);
+
+                if (child.childern != null && child.childern.Length > 0)
+                {
+                    //更新选择列表
+                    ChargeBodyOption(active);
+                }
+                else
+                {
+                    Debug.Assert(active != null, "active :Null", gameObject);
+                    OnSelectionChanged(child.FullPath);
+                }
             }
-            else
+
+        }
+
+        private void UpdateCurrentSelectFromActiveNode(TreeNode node)
+        {
+            currentSelection.Clear();
+            while (node.ParentItem != null)
             {
-                Debug.Assert(active != null, "active :Null", gameObject);
-                OnSelectionChanged(child.FullPath);
+                if (node.ParentItem != null)
+                {
+                    currentSelection.Add(node.name);
+                }
+                node = node.ParentItem;
             }
+            currentSelection.Reverse();
+
+            //更新显示
+            ChargeHeadOption(currentSelection.ToArray());
         }
     }
 }

@@ -16,11 +16,11 @@ public class ModelTreeRuntime : TreeNode
 {
     public string infomation;
     public List<ModelTreeRuntime> childNodes = new List<ModelTreeRuntime>();
-    public override List<TreeNode> childern
+    public override TreeNode[] childern
     {
         get
         {
-            return childNodes.ConvertAll<TreeNode>(x => x);
+            return childNodes.ToArray();
         }
     }
     public override TreeNode InsetChild()

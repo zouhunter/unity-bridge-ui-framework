@@ -27,6 +27,7 @@ namespace BridgeUI.Drawer
             }
         }
 
+        #region 保存配制的信息
         private void StoreInfoOfUIGraph(UIGraph graph)
         {
             graph.bridges.Clear();
@@ -45,7 +46,6 @@ namespace BridgeUI.Drawer
             }
             EditorUtility.SetDirty(graph);
         }
-
         private void InsertBridges(List<BridgeInfo> source, List<BridgeInfo> newBridges)
         {
             if (source == null) return;
@@ -157,7 +157,6 @@ namespace BridgeUI.Drawer
             }
             return pinfos;
         }
-
         private GameObject LoadPrefabFromGUID(string guid)
         {
             var path = AssetDatabase.GUIDToAssetPath(guid);
@@ -208,48 +207,11 @@ namespace BridgeUI.Drawer
                 }
             }
         }
-        internal override void Validate(NodeGUI node)
-        {
-            if (node.Data.Object is IPanelInfoHolder)
-            {
-                var nodeItem = node.Data.Object as IPanelInfoHolder;
-                if (string.IsNullOrEmpty(nodeItem.Info.guid) || LoadPrefabFromGUID(nodeItem.Info.guid) == null)
-                {
-                    node.ResetErrorStatus();
-                }
-            }
-        }
-        protected override void JudgeNodeExceptions(NodeGraphObj m_targetGraph, List<NodeException> m_nodeExceptions)
-        {
-            bool haveError = false;
-            foreach (var item in TargetGraph.Nodes)
-            {
-                if (item.Object is IPanelInfoHolder)
-                {
-                    var nodeItem = item.Object as IPanelInfoHolder;
-                    if (string.IsNullOrEmpty(nodeItem.Info.guid) || LoadPrefabFromGUID(nodeItem.Info.guid) == null)
-                    {
-                        m_nodeExceptions.Add(new NodeException("prefab is null", item.Id));
-                        haveError = true;
-                    }
-                }
-            }
-            if(!haveError)
-            {
-                Build();
-            }
-        }
-        protected override void BuildFromGraph(NodeGraphObj m_targetGraph)
-        {
-            if(m_targetGraph is BridgeUI. Graph.UIGraph)
-            {
-                StoreInfoOfUIGraph(m_targetGraph as BridgeUI.Graph.UIGraph);
-            }
 
-            UpdateScriptOfPanelNames(m_targetGraph.Nodes.FindAll(x => x.Object is PanelNodeBase).ConvertAll<string>(x => x.Name));
-        }
-
-
+        /// <summary>
+        /// 更新代码
+        /// </summary>
+        /// <param name="list"></param>
         private void UpdateScriptOfPanelNames(List<string> list)
         {
             var guid = PlayerPrefs.GetString(prefer_script_guid);
@@ -299,6 +261,109 @@ namespace BridgeUI.Drawer
                 new PanelNameGenerater(path).GenerateParcialPanelName(list.ToArray());
             }
         }
+        #endregion
+
+        #region ScriptObject的保存
+        public override void SaveGraph(List<NodeData> nodes, List<ConnectionData> connections, bool resetAll = false)
+        {
+            //base.SaveGraph(nodes, connections, resetAll);
+            UnityEngine.Assertions.Assert.IsNotNull(this);
+            TargetGraph.ApplyGraph(nodes, connections);
+            NodeGraphObj obj = TargetGraph;
+            var allAssets = AllNeededAssets();
+            SetSubAssets(allAssets, obj);
+            UnityEditor.EditorUtility.SetDirty(obj);
+        }
+        private ScriptableObject[] AllNeededAssets()
+        {
+            var list = new List<ScriptableObject>();
+            list.Add(TargetGraph);
+            list.AddRange(TargetGraph.Nodes.ConvertAll(x => x.Object as ScriptableObject));
+            list.AddRange(TargetGraph.Connections.ConvertAll(x => x.Object as ScriptableObject));
+            return list.ToArray();
+        }
+        public static void SetSubAssets(ScriptableObject[] subAssets, ScriptableObject mainAsset)
+        {
+            var path = AssetDatabase.GetAssetPath(mainAsset);
+            var oldAssets = AssetDatabase.LoadAllAssetsAtPath(path);
+
+            foreach (ScriptableObject subAsset in subAssets)
+            {
+                if (subAsset == mainAsset) continue;
+
+                if (System.Array.Find(oldAssets, x => x == subAsset) == null)
+                {
+                    if (subAsset is PanelNode)
+                    {
+                        ScriptableObjUtility.AddSubAsset(subAsset, mainAsset, HideFlags.None);
+                    }
+                    else
+                    {
+                        ScriptableObjUtility.AddSubAsset(subAsset, mainAsset, HideFlags.HideInHierarchy);
+                    }
+                }
+            }
+
+            ScriptableObjUtility.ClearSubAssets(mainAsset, subAssets);
+        }
+        #endregion
+
+        internal override void Validate(NodeGUI node)
+        {
+            if (node.Data.Object is IPanelInfoHolder)
+            {
+                var nodeItem = node.Data.Object as IPanelInfoHolder;
+                if (string.IsNullOrEmpty(nodeItem.Info.guid) || LoadPrefabFromGUID(nodeItem.Info.guid) == null)
+                {
+                    node.ResetErrorStatus();
+                }
+            }
+        }
+
+         protected override void JudgeNodeExceptions(NodeGraphObj m_targetGraph, List<NodeException> m_nodeExceptions)
+        {
+            bool haveError = false;
+            var lockList = new List<string>();
+            foreach (var item in TargetGraph.Nodes)
+            {
+                if (item.Object is IPanelInfoHolder)
+                {
+                    var nodeItem = item.Object as IPanelInfoHolder;
+                    if (string.IsNullOrEmpty(nodeItem.Info.guid) || LoadPrefabFromGUID(nodeItem.Info.guid) == null)
+                    {
+                        m_nodeExceptions.Add(new NodeException("prefab is null", item.Id));
+                        haveError = true;
+                    }
+                    else
+                    {
+                        if (lockList.Contains(nodeItem.Info.guid))
+                        {
+                            m_nodeExceptions.Add(new NodeException("node repeated", item.Id));
+                            haveError = true;
+                        }
+                        else
+                        {
+                            lockList.Add(nodeItem.Info.guid);
+                        }
+                    }
+                }
+            }
+            if (!haveError)
+            {
+                Build();
+            }
+        }
+
+        protected override void BuildFromGraph(NodeGraphObj m_targetGraph)
+        {
+            if(m_targetGraph is BridgeUI. Graph.UIGraph)
+            {
+                StoreInfoOfUIGraph(m_targetGraph as BridgeUI.Graph.UIGraph);
+            }
+
+            UpdateScriptOfPanelNames(m_targetGraph.Nodes.FindAll(x => x.Object is PanelNodeBase).ConvertAll<string>(x => x.Name));
+        }
+
         internal override void OnDragUpdated()
         {
             base.OnDragUpdated();
@@ -390,50 +455,6 @@ namespace BridgeUI.Drawer
             ProjectWindowUtil.CreateAsset(obj, string.Format("new {0}.asset", obj.GetType().Name));
 
             return obj;
-        }
-        public override void SaveGraph(List<NodeData> nodes, List<ConnectionData> connections, bool resetAll = false)
-        {
-            //base.SaveGraph(nodes, connections, resetAll);
-            UnityEngine.Assertions.Assert.IsNotNull(this);
-            TargetGraph.ApplyGraph(nodes, connections);
-            NodeGraphObj obj = TargetGraph;
-            var allAssets = AllNeededAssets();
-            SetSubAssets(allAssets, obj);
-            UnityEditor.EditorUtility.SetDirty(obj);
-        }
-
-        private ScriptableObject[] AllNeededAssets()
-        {
-            var list = new List<ScriptableObject>();
-            list.Add(TargetGraph);
-            list.AddRange(TargetGraph.Nodes.ConvertAll(x => x.Object as ScriptableObject));
-            list.AddRange(TargetGraph.Connections.ConvertAll(x => x.Object as ScriptableObject));
-            return list.ToArray();
-        }
-
-        public static void SetSubAssets(ScriptableObject[] subAssets, ScriptableObject mainAsset)
-        {
-            var path = AssetDatabase.GetAssetPath(mainAsset);
-            var oldAssets = AssetDatabase.LoadAllAssetsAtPath(path);
-
-            foreach (ScriptableObject subAsset in subAssets)
-            {
-                if (subAsset == mainAsset) continue;
-
-                if (System.Array.Find(oldAssets, x => x == subAsset) == null)
-                {
-                    if (subAsset is PanelNode)
-                    {
-                        ScriptableObjUtility.AddSubAsset(subAsset, mainAsset, HideFlags.None);
-                    }
-                    else
-                    {
-                        ScriptableObjUtility.AddSubAsset(subAsset, mainAsset, HideFlags.HideInHierarchy);
-                    }
-                }
-            }
-
-            ScriptableObjUtility.ClearSubAssets(mainAsset, subAssets);
         }
     }
 }

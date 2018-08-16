@@ -21,8 +21,23 @@ namespace BridgeUI.Common
     [Attributes.PanelParent]
     public class LuaPanel : PanelBase
     {
+        /// <summary>
+        /// 
+        /// <summary>
+        public enum ResourceType
+        {
+            OriginLink,
+            StreamingFile,
+            WebFile,
+#if AssetBundleTools
+            AssetBundle,
+#endif
+            Resource,
+            ScriptObject,
+            RuntimeString,
+        }
         [HideInInspector]
-        public LuaResourceType resourceType;
+        public ResourceType resourceType;
         [HideInInspector]
         public TextAsset luaScript;
         [HideInInspector]
@@ -77,10 +92,10 @@ namespace BridgeUI.Common
             string url = "";
             switch (resourceType)
             {
-                case LuaResourceType.OriginLink:
+                case ResourceType.OriginLink:
                     InitScritEnv(luaScript.text);
                     break;
-                case LuaResourceType.StreamingFile:
+                case ResourceType.StreamingFile:
                     url =
 #if UNITY_EDITOR || UNITY_STANDALONE
                     "file:///" +
@@ -88,18 +103,18 @@ namespace BridgeUI.Common
                     Application.streamingAssetsPath + "/" + streamingPath;
                     StartCoroutine(LoadScriptFromUrl(url));
                     break;
-                case LuaResourceType.WebFile:
+                case ResourceType.WebFile:
                     StartCoroutine(LoadScriptFromUrl(webUrl));
                     break;
 #if AssetBundleTools
-                case LuaResourceType.AssetBundle:
+                case ResourceType.AssetBundle:
                     LoadScriptFromBundle();
                     break;
 #endif
-                case LuaResourceType.Resource:
+                case ResourceType.Resource:
                     LoadScriptFromResource();
                     break;
-                case LuaResourceType.ScriptObject:
+                case ResourceType.ScriptObject:
                     InitScritEnv(scriptObj.luaScriptText);
                     break;
                 default:
@@ -225,7 +240,7 @@ namespace BridgeUI.Common
         {
             base.HandleData(data);
 
-            if (resourceType == LuaResourceType.RuntimeString && data is string)
+            if (resourceType == ResourceType.RuntimeString && data is string)
             {
                 InitScritEnv(data as string);
             }

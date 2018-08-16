@@ -35,7 +35,6 @@ namespace BridgeUI
 #endif
         private PanelGroupObj groupObj;
         public override string Menu { get { return groupObj.menu; } }
-
         public override bool ResetMenu { get { return groupObj.resetMenu; } }
 
         public override List<Graph.UIGraph> GraphList

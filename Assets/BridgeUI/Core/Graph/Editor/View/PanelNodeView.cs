@@ -101,8 +101,6 @@ namespace BridgeUI.Drawer
 
         private bool HaveClickTwince()
         {
-            Debug.Log(target);
-
             if(DateTime.Now.ToFileTime() - timer < clickTime)
             {
                 timer = 0;

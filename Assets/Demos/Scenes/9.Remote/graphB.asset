@@ -19,7 +19,7 @@ MonoBehaviour:
     m_node: {fileID: 114268955325294786}
     m_inputPoints:
     - id: dc46637c-0091-41dc-b2d9-804b557035b3
-      label: 
+      label: "\u2192"
       parentId: 829a4d54-e2b1-496d-8f2c-bdcde02c9ceb
       isInput: 1
       buttonRect:
@@ -30,23 +30,11 @@ MonoBehaviour:
         height: 29
       max: 100
       type: bridge
-    m_outputPoints:
-    - id: 17077fb0-bd0b-4a7b-8a34-14ad1fc231c2
-      label: 
-      parentId: 829a4d54-e2b1-496d-8f2c-bdcde02c9ceb
-      isInput: 0
-      buttonRect:
-        serializedVersion: 2
-        x: 111
-        y: 21.5
-        width: 10
-        height: 23
-      max: 100
-      type: bridge
+    m_outputPoints: []
   m_allConnections: []
   m_lastModified: 131781132573675663
   m_graphDescription: 
-  m_controllerType: BridgeUIEditor.BridgeUIGraphCtrl
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 1
   b_nodes: []
   p_nodes:
@@ -79,6 +67,7 @@ MonoBehaviour:
   instenceID: 0
   assetName: PopUpPanel
   style: 1
+  nodedescribe: []
   rule:
     baseTypeIndex: 0
     canInherit: 0

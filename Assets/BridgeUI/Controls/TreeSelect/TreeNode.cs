@@ -10,7 +10,7 @@ namespace BridgeUI.Control.Tree
     {
         public string name;
         public object content;
-        public abstract List<TreeNode> childern { get; }
+        public abstract TreeNode[] childern { get; }
         public TreeNode ParentItem { get; internal set; }
         public string[] FullPath
         {
@@ -29,11 +29,11 @@ namespace BridgeUI.Control.Tree
             {
                 return null;
             }
-            return childern.Find(x => x.name == key);
+            return Array.Find(childern,x => x.name == key);
         }
         public TreeNode GetChildItem(int index)
         {
-            if (childern == null || childern.Count <= index)
+            if (childern == null || childern.Length <= index)
             {
                 return null;
             }
@@ -63,11 +63,11 @@ namespace BridgeUI.Control.Tree
         [SerializeField]
         private List<T> _childNodes;
         public List<T> childNodes { get { if (_childNodes == null) _childNodes = new List<T>(); return _childNodes; } }
-        public override List<TreeNode> childern
+        public override TreeNode[] childern
         {
             get
             {
-                return childNodes.ConvertAll<TreeNode>(x => x);
+                return childNodes.ToArray();
             }
         }
         public override TreeNode InsetChild()
@@ -77,10 +77,11 @@ namespace BridgeUI.Control.Tree
             return child;
         }
     }
+
     [System.Serializable]
     public class TreeNodeLeaf : TreeNode
     {
-        public override List<TreeNode> childern { get { return null; } }
+        public override TreeNode[] childern { get { return null; } }
 
         public override TreeNode InsetChild()
         {

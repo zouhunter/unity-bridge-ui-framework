@@ -245,4 +245,22 @@ public class PanelNames {
             return "Panel1";
         }
     }
+    
+    public static string Calendar {
+        get {
+            return "Calendar";
+        }
+    }
+    
+    public static string Panel {
+        get {
+            return "Panel";
+        }
+    }
+    
+    public static string GraphPanel {
+        get {
+            return "GraphPanel";
+        }
+    }
 }

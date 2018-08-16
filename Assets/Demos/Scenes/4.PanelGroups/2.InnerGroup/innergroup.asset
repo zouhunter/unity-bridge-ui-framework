@@ -19,7 +19,7 @@ MonoBehaviour:
     m_node: {fileID: 11488936}
     m_inputPoints:
     - id: 1a0f5b72-ff5c-451b-90da-647bced6c9a7
-      label: 
+      label: "\u2192"
       parentId: 69ddb178-3bb8-486c-b9f6-582fa60b62a2
       isInput: 1
       buttonRect:
@@ -30,49 +30,11 @@ MonoBehaviour:
         height: 29
       max: 100
       type: bridge
-    m_outputPoints:
-    - id: a7486e18-3f38-48c1-8b25-745f3cc0c162
-      label: 
-      parentId: 69ddb178-3bb8-486c-b9f6-582fa60b62a2
-      isInput: 0
-      buttonRect:
-        serializedVersion: 2
-        x: 164
-        y: 21.5
-        width: 10
-        height: 23
-      max: 100
-      type: bridge
-  - m_name: AnyState
-    m_id: 9334ef45-4456-438f-84a5-62504569ce42
-    m_x: 187
-    m_y: 118
-    m_node: {fileID: 11404092}
-    m_inputPoints: []
-    m_outputPoints:
-    - id: d787e1c4-3c48-47de-b3fd-c20b54d68623
-      label: +
-      parentId: 9334ef45-4456-438f-84a5-62504569ce42
-      isInput: 0
-      buttonRect:
-        serializedVersion: 2
-        x: 111
-        y: 21.5
-        width: 10
-        height: 23
-      max: 100
-      type: bridge
-  m_allConnections:
-  - m_id: 93afff61-e2a7-4a76-a203-62529cbda780
-    m_fromNodeId: 9334ef45-4456-438f-84a5-62504569ce42
-    m_fromNodeConnectionPointId: d787e1c4-3c48-47de-b3fd-c20b54d68623
-    m_toNodeId: 69ddb178-3bb8-486c-b9f6-582fa60b62a2
-    m_toNodeConnectionPoiontId: 1a0f5b72-ff5c-451b-90da-647bced6c9a7
-    m_type: bridge
-    m_connection: {fileID: 11435500}
-  m_lastModified: 131750129344294639
+    m_outputPoints: []
+  m_allConnections: []
+  m_lastModified: 131789222071645937
   m_graphDescription: 
-  m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 1
   b_nodes: []
   p_nodes:
@@ -89,45 +51,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 120522, guid: fa59f46d365c62f48b4013e37ca4cbdd, type: 2}
-  bridges:
-  - inNode: 
-    index: 0
-    showModel:
-      auto: 1
-      cover: 0
-      single: 0
-      mutex: 0
-      baseShow: 0
-    outNode: InnerGroupTestPanel
---- !u!114 &11404092
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
-  m_Name: Luncher
-  m_EditorClassIdentifier: 
---- !u!114 &11435500
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
-  m_Name: BridgeConnection
-  m_EditorClassIdentifier: 
-  index: 0
-  show:
-    auto: 1
-    cover: 0
-    single: 0
-    mutex: 0
-    baseShow: 0
+  bridges: []
 --- !u!114 &11488936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,6 +67,7 @@ MonoBehaviour:
   instenceID: 0
   assetName: InnerGroupTestPanel
   style: 1
+  nodedescribe: []
   rule:
     baseTypeIndex: 0
     canInherit: 0

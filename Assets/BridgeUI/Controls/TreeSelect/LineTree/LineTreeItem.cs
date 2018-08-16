@@ -37,7 +37,7 @@ namespace BridgeUI.Control.Tree
             var ruleget = option.ruleGetter;
             this.rule = ruleget(deepth);
 
-            if (node.childern != null && node.childern.Count > 0)
+            if (node.childern != null && node.childern.Length > 0)
             {
                 InitContent(option.axisType);
                 creater = new LineTreeItemCreater(deepth, childContent, option);

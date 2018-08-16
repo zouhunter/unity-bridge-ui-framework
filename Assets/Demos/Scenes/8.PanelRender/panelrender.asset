@@ -14,12 +14,12 @@ MonoBehaviour:
   m_allNodes:
   - m_name: PanderTestPanel
     m_id: c816fe0e-c279-46e5-83ab-f8c0f10c422d
-    m_x: 170
+    m_x: 200
     m_y: 140
     m_node: {fileID: 114470972867000132}
     m_inputPoints:
     - id: ceea5618-a53c-48c4-994b-e278de6b355c
-      label: 
+      label: "\u2192"
       parentId: c816fe0e-c279-46e5-83ab-f8c0f10c422d
       isInput: 1
       buttonRect:
@@ -31,17 +31,17 @@ MonoBehaviour:
       max: 100
       type: bridge
     m_outputPoints:
-    - id: 9035c29a-652d-4a31-a6c9-8320495b222f
-      label: 
+    - id: 2a348a9f-5570-4c72-9500-11c452ccc526
+      label: (0)
       parentId: c816fe0e-c279-46e5-83ab-f8c0f10c422d
       isInput: 0
       buttonRect:
         serializedVersion: 2
-        x: 205.2
+        x: 138
         y: 21.5
         width: 10
         height: 23
-      max: 100
+      max: 20
       type: bridge
   - m_name: PopUpPanel
     m_id: 9a42c2c0-f196-411d-8da3-c760b0072c37
@@ -50,7 +50,7 @@ MonoBehaviour:
     m_node: {fileID: 114108274848791432}
     m_inputPoints:
     - id: 9e37fbce-5d03-4454-94b6-ef595c23594f
-      label: 
+      label: "\u2192"
       parentId: 9a42c2c0-f196-411d-8da3-c760b0072c37
       isInput: 1
       buttonRect:
@@ -61,19 +61,7 @@ MonoBehaviour:
         height: 29
       max: 100
       type: bridge
-    m_outputPoints:
-    - id: 838d0f00-ed58-4cf0-9af1-7f75e3a040fe
-      label: 
-      parentId: 9a42c2c0-f196-411d-8da3-c760b0072c37
-      isInput: 0
-      buttonRect:
-        serializedVersion: 2
-        x: 111
-        y: 21.5
-        width: 10
-        height: 23
-      max: 100
-      type: bridge
+    m_outputPoints: []
   - m_name: AnyState
     m_id: 5ebf7f01-c020-4579-8893-444ea5f12251
     m_x: 40
@@ -94,23 +82,23 @@ MonoBehaviour:
       max: 100
       type: bridge
   m_allConnections:
-  - m_id: e4451269-992a-4e91-aaac-348eaaeeb5f9
-    m_fromNodeId: c816fe0e-c279-46e5-83ab-f8c0f10c422d
-    m_fromNodeConnectionPointId: 9035c29a-652d-4a31-a6c9-8320495b222f
-    m_toNodeId: 9a42c2c0-f196-411d-8da3-c760b0072c37
-    m_toNodeConnectionPoiontId: 9e37fbce-5d03-4454-94b6-ef595c23594f
-    m_type: bridge
-    m_connection: {fileID: 114730088787892334}
-  - m_id: 4c9149a5-903f-4c2b-a9dd-93516bab1b5d
+  - m_id: e852e2a3-2e8b-45c7-8866-4e5f9c369010
     m_fromNodeId: 5ebf7f01-c020-4579-8893-444ea5f12251
     m_fromNodeConnectionPointId: dc75a768-a7c3-4af0-a70b-f39f3424a871
     m_toNodeId: c816fe0e-c279-46e5-83ab-f8c0f10c422d
     m_toNodeConnectionPoiontId: ceea5618-a53c-48c4-994b-e278de6b355c
     m_type: bridge
-    m_connection: {fileID: 114284108135014170}
-  m_lastModified: 131777065899673433
+    m_connection: {fileID: 114991885412560506}
+  - m_id: 8ef80a16-5050-4ef5-9530-063264bf0037
+    m_fromNodeId: c816fe0e-c279-46e5-83ab-f8c0f10c422d
+    m_fromNodeConnectionPointId: 2a348a9f-5570-4c72-9500-11c452ccc526
+    m_toNodeId: 9a42c2c0-f196-411d-8da3-c760b0072c37
+    m_toNodeConnectionPoiontId: 9e37fbce-5d03-4454-94b6-ef595c23594f
+    m_type: bridge
+    m_connection: {fileID: 114290625019371660}
+  m_lastModified: 131789214797159860
   m_graphDescription: 
-  m_controllerType: BridgeUIEditor.BridgeUIGraphCtrl
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 1
   b_nodes: []
   p_nodes:
@@ -121,18 +109,18 @@ MonoBehaviour:
       layerIndex: 0
       form: 0
       layer: 0
-      hideAlaph: 0
+      hideAlaph: 0.325
       enterAnim: {fileID: 0}
       quitAnim: {fileID: 0}
       closeRule: 0
-      hideRule: 0
+      hideRule: 1
     prefab: {fileID: 1727339852298134, guid: ec171a8373919f847a31b8bfba63417f, type: 2}
   - panelName: PopUpPanel
     instanceID: 0
     discription: 
     type:
       layerIndex: 0
-      form: 0
+      form: 1
       layer: 0
       hideAlaph: 0
       enterAnim: {fileID: 0}
@@ -141,24 +129,26 @@ MonoBehaviour:
       hideRule: 0
     prefab: {fileID: 132216, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}
   bridges:
-  - inNode: PanderTestPanel
-    index: 0
-    showModel:
-      auto: 0
-      cover: 0
-      single: 0
-      mutex: 0
-      baseShow: 1
-    outNode: PopUpPanel
   - inNode: 
     index: 0
     showModel:
-      auto: 1
-      cover: 0
-      single: 0
+      _auto: 1
+      _cover: 0
+      _single: 0
       mutex: 0
       baseShow: 0
+    viewModel: {fileID: 0}
     outNode: PanderTestPanel
+  - inNode: PanderTestPanel
+    index: 0
+    showModel:
+      _auto: 0
+      _cover: 0
+      _single: 0
+      mutex: 0
+      baseShow: 1
+    viewModel: {fileID: 0}
+    outNode: PopUpPanel
 --- !u!114 &114108274848791432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,10 +160,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PopUpPanel
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 0
   instenceID: 0
   assetName: PopUpPanel
   style: 1
+  nodedescribe: []
   rule:
     baseTypeIndex: 0
     canInherit: 0
@@ -229,7 +220,7 @@ MonoBehaviour:
   nodeInfo:
     uiType:
       layerIndex: 0
-      form: 0
+      form: 1
       layer: 0
       hideAlaph: 0
       enterAnim: {fileID: 0}
@@ -238,7 +229,7 @@ MonoBehaviour:
       hideRule: 0
     guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6
     discription: 
---- !u!114 &114284108135014170
+--- !u!114 &114290625019371660
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -247,15 +238,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
-  m_Name: BridgeConnection
+  m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
-  index: 0
   show:
-    auto: 1
-    cover: 0
-    single: 0
+    _auto: 0
+    _cover: 0
+    _single: 0
     mutex: 0
-    baseShow: 0
+    baseShow: 1
+  viewModel: {fileID: 0}
 --- !u!114 &114470972867000132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,10 +258,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PanderTestPanel
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 0
   instenceID: 0
   assetName: PanderTestPanel
   style: 1
+  nodedescribe:
+  - 
   rule:
     baseTypeIndex: 0
     canInherit: 0
@@ -293,7 +286,7 @@ MonoBehaviour:
     target: {fileID: 1742131945442294, guid: ec171a8373919f847a31b8bfba63417f, type: 2}
     scriptTarget: {fileID: 0}
     isScriptComponent: 0
-  - open: 1
+  - open: 0
     name: body
     componentID: 1
     components:
@@ -317,31 +310,13 @@ MonoBehaviour:
       layerIndex: 0
       form: 0
       layer: 0
-      hideAlaph: 0
+      hideAlaph: 0.325
       enterAnim: {fileID: 0}
       quitAnim: {fileID: 0}
       closeRule: 0
-      hideRule: 0
+      hideRule: 1
     guid: ec171a8373919f847a31b8bfba63417f
     discription: "\u6D4B\u8BD5panelRender"
---- !u!114 &114730088787892334
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
-  m_Name: BridgeConnection
-  m_EditorClassIdentifier: 
-  index: 0
-  show:
-    auto: 0
-    cover: 0
-    single: 0
-    mutex: 0
-    baseShow: 1
 --- !u!114 &114934134055476820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -353,3 +328,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
   m_Name: Luncher
   m_EditorClassIdentifier: 
+--- !u!114 &114991885412560506
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  show:
+    _auto: 1
+    _cover: 0
+    _single: 0
+    mutex: 0
+    baseShow: 0
+  viewModel: {fileID: 0}

@@ -126,7 +126,7 @@ namespace BridgeUI
             {
                 return;
             }
-
+            Debug.Log(prefab);
             GameObject go = GameObject.Instantiate(prefab);
 
             go.name = nodeInfo.panelName;

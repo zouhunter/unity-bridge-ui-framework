@@ -20,6 +20,6 @@ public class folderToTree : MonoBehaviour {
         folderPath = Application.dataPath;
         TreeNode tree = new ModelTreeCreater().EncodedTree(folderPath);// CreateTree();
         treeSelector.CreateTree(tree);
-        Debug.Log(tree.childern.Count);
+        Debug.Log(tree.childern.Length);
     }
 }

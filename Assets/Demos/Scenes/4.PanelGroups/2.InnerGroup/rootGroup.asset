@@ -19,7 +19,7 @@ MonoBehaviour:
     m_node: {fileID: 11442646}
     m_inputPoints:
     - id: eaee1a81-9443-4445-9cf3-6854c084587f
-      label: 
+      label: "\u2192"
       parentId: c37836b2-c4d5-44ed-a47c-c050d34a18b9
       isInput: 1
       buttonRect:
@@ -30,19 +30,7 @@ MonoBehaviour:
         height: 29
       max: 100
       type: bridge
-    m_outputPoints:
-    - id: 11f97141-4ff0-4863-9910-cd0f5b05d8bf
-      label: 
-      parentId: c37836b2-c4d5-44ed-a47c-c050d34a18b9
-      isInput: 0
-      buttonRect:
-        serializedVersion: 2
-        x: 164
-        y: 21.5
-        width: 10
-        height: 23
-      max: 100
-      type: bridge
+    m_outputPoints: []
   - m_name: AnyState
     m_id: 3698e90c-15bb-49f4-9c6c-0c0401cc4a26
     m_x: 123
@@ -72,7 +60,7 @@ MonoBehaviour:
     m_connection: {fileID: 11458414}
   m_lastModified: 131746687678140762
   m_graphDescription: 
-  m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 1
   b_nodes: []
   p_nodes:
@@ -93,11 +81,12 @@ MonoBehaviour:
   - inNode: 
     index: 0
     showModel:
-      auto: 1
-      cover: 0
-      single: 0
+      _auto: 1
+      _cover: 0
+      _single: 0
       mutex: 0
       baseShow: 0
+    viewModel: {fileID: 0}
     outNode: InnerGroupTestPanel
 --- !u!114 &11429270
 MonoBehaviour:
@@ -122,9 +111,10 @@ MonoBehaviour:
   m_Name: InnerGroupTestPanel
   m_EditorClassIdentifier: 
   selected: 0
-  instenceID: -96188
+  instenceID: 0
   assetName: InnerGroupTestPanel
   style: 1
+  nodedescribe: []
   rule:
     baseTypeIndex: 0
     canInherit: 0
@@ -151,12 +141,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
-  m_Name: BridgeConnection
+  m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
-  index: 0
   show:
-    auto: 1
-    cover: 0
-    single: 0
+    _auto: 1
+    _cover: 0
+    _single: 0
     mutex: 0
     baseShow: 0
+  viewModel: {fileID: 0}

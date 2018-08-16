@@ -30,6 +30,10 @@ namespace BridgeUI.Graph
             {
                 data.AddInputPoint("→", "bridge", 20);
             }
+            else
+            {
+                data.InputPoints[0].Label = "→";
+            }
             
             if (nodedescribe != null)
             {

@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d2d9de1cba75443b53732fa8104050, type: 3}
+  m_Name: graphPanel
+  m_EditorClassIdentifier: 
+  m_allNodes:
+  - m_name: GraphPanel
+    m_id: 4a5d0f0d-d617-4d58-837c-78b5b4f3e069
+    m_x: 320
+    m_y: 140
+    m_node: {fileID: 114012449446268218}
+    m_inputPoints:
+    - id: eafa9488-34a0-47c7-b0a1-4ca890ef672b
+      label: "\u2192"
+      parentId: 4a5d0f0d-d617-4d58-837c-78b5b4f3e069
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 20
+      type: bridge
+    m_outputPoints: []
+  m_allConnections: []
+  m_lastModified: 131789182416517794
+  m_graphDescription: 
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
+  loadType: 1
+  b_nodes: []
+  p_nodes:
+  - panelName: GraphPanel
+    instanceID: 0
+    discription: 
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 1053018935430422, guid: 7cd7db2967025d64cb5bb1211cf0858b, type: 2}
+  bridges: []
+--- !u!114 &114012449446268218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: GraphPanel
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  assetName: GraphPanel
+  style: 1
+  nodedescribe: []
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+    bindingAble: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    guid: 7cd7db2967025d64cb5bb1211cf0858b
+    discription: 

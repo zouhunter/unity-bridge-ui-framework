@@ -11,6 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace BridgeUI.Control.Tree
 {
@@ -37,7 +38,7 @@ namespace BridgeUI.Control.Tree
         {
             if (creater != null)
             {
-                var options = node.childern.ConvertAll<string>(x => x.name).ToArray();
+                var options = node.childern.Select(x => x.name).ToArray();
 
                 creater.OpenSelect(options);
                 if (options.Length > 0)
@@ -75,7 +76,7 @@ namespace BridgeUI.Control.Tree
             {
                 var creater = creaters[i];
                 var node = GetTreeNode(rootNode, path,i);
-                var options = node.childern.ConvertAll<string>(x => x.name).ToArray();
+                var options = node.childern.Select(x => x.name).ToArray();
                 creater.OpenSelect(options);
 
                 if (options.Length > 0)
@@ -93,7 +94,7 @@ namespace BridgeUI.Control.Tree
             {
                 var creater = creaters[i];
                 var node = GetTreeNode(rootNode, path,i);
-                var options = node.childern.ConvertAll<string>(x => x.name).ToArray();
+                var options = node.childern.Select(x => x.name).ToArray();
                 creater.OpenSelect(options);
 
                 if (options.Length > 0)
@@ -134,7 +135,7 @@ namespace BridgeUI.Control.Tree
             if (deepth < 0) deepth = selection.Length;
             for (int i = 0; i < deepth; i++)
             {
-                root = root.childern.Find(x => x.name == selection[i]);
+                root = Array.Find( root.childern,x => x.name == selection[i]);
             }
             return root;
         }
@@ -144,7 +145,7 @@ namespace BridgeUI.Control.Tree
             if (deepth < 0) deepth = selection.Length;
             for (int i = 0; i < deepth; i++)
             {
-                if(root.childern != null && root.childern.Count > selection[i])
+                if(root.childern != null && root.childern.Length > selection[i])
                 root = root.childern[selection[i]];
             }
             return root;

@@ -19,16 +19,17 @@ public abstract class ModelTree : TreeNode
     public string infomation;
     public GameObject prefab;
 }
+
 public class ModelTree<T> : ModelTree where T : ModelTree, new()
 {
     [SerializeField]
     private List<T> _childNodes;
     public List<T> childNodes { get { if (_childNodes == null) _childNodes = new List<T>(); return _childNodes; } }
-    public override List<TreeNode> childern
+    public override TreeNode[] childern
     {
         get
         {
-            return childNodes.ConvertAll<TreeNode>(x => x);
+            return childNodes.ToArray();
         }
     }
     public override TreeNode InsetChild()
@@ -50,7 +51,7 @@ public class ModelTree1 : ModelTree<ModelTree2>
 [System.Serializable]
 public class ModelTree2 : ModelTree
 {
-    public override List<TreeNode> childern { get { return null; } }
+    public override TreeNode[] childern { get { return null; } }
 
     public override TreeNode InsetChild()
     {

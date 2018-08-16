@@ -93,7 +93,7 @@ MonoBehaviour:
   - inNode: 
     index: 0
     showModel:
-      _auto: 0
+      _auto: 1
       _cover: 0
       _single: 0
       mutex: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
   show:
-    _auto: 0
+    _auto: 1
     _cover: 0
     _single: 0
     mutex: 0

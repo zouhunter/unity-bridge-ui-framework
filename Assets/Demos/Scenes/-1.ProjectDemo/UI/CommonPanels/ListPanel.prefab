@@ -283,13 +283,13 @@ MonoBehaviour:
   onSelectID:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: BridgeUI.Binding.IntEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: BridgeUI.IntEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   onSelectIDs:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: BridgeUI.Binding.IntArrayEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: BridgeUI.IntArrayEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114071421364446326
 MonoBehaviour:
   m_ObjectHideFlags: 1

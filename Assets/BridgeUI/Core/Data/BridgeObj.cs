@@ -17,10 +17,10 @@ namespace BridgeUI.Model
         public string inNode;
         public int index;
         public ShowMode showModel;
-        public BridgeUI.Binding.ViewModel viewModel;
+        public ScriptableObject viewModel;
         public string outNode;
         #endregion
-        public BridgeInfo(string inNode,string outNode,ShowMode showModel, BridgeUI.Binding.ViewModel viewModel, int index)
+        public BridgeInfo(string inNode,string outNode,ShowMode showModel, ScriptableObject viewModel, int index)
         {
             this.inNode = inNode;
             this.outNode = outNode;

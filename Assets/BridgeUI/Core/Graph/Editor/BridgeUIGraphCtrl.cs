@@ -104,6 +104,8 @@ namespace BridgeUI.Drawer
 
                 var connection = item.Object as BridgeConnection;
 
+                if (connection.blocking) continue;
+
                 var bridge = new BridgeInfo();
                 var innode = nodes.Find(x => x.OutputPoints != null && x.OutputPoints.Find(y => y.Id == item.FromNodeConnectionPointId) != null);
                 var outnode = nodes.Find(x => x.InputPoints != null && x.InputPoints.Find(y => y.Id == item.ToNodeConnectionPointId) != null);
@@ -151,7 +153,12 @@ namespace BridgeUI.Drawer
                 var p = new PrefabUIInfo();
                 p.type = item.uiType;
                 p.prefab = LoadPrefabFromGUID(item.guid);
-                p.panelName = p.prefab.name;
+
+                if (p.prefab)
+                {
+                    p.panelName = p.prefab.name;
+                }
+               
                 p.discription = item.discription;
                 pinfos.Add(p);
             }
@@ -259,6 +266,7 @@ namespace BridgeUI.Drawer
             if (!string.IsNullOrEmpty(path))
             {
                 new PanelNameGenerater(path).GenerateParcialPanelName(list.ToArray());
+                EditorUtility.DisplayDialog("Notice", "PanelNames Updated--> \n" + path, "OK");
             }
         }
         #endregion
@@ -350,18 +358,21 @@ namespace BridgeUI.Drawer
             }
             if (!haveError)
             {
-                Build();
+                BuildFromGraph(m_targetGraph);
             }
         }
 
-        protected override void BuildFromGraph(NodeGraphObj m_targetGraph)
+        public override void Build()
+        {
+            base.Build();
+            UpdateScriptOfPanelNames(m_targetGraph.Nodes.FindAll(x => x.Object is PanelNodeBase).ConvertAll<string>(x => x.Name));
+        }
+        internal override void BuildFromGraph(NodeGraphObj m_targetGraph)
         {
             if(m_targetGraph is BridgeUI. Graph.UIGraph)
             {
                 StoreInfoOfUIGraph(m_targetGraph as BridgeUI.Graph.UIGraph);
             }
-
-            UpdateScriptOfPanelNames(m_targetGraph.Nodes.FindAll(x => x.Object is PanelNodeBase).ConvertAll<string>(x => x.Name));
         }
 
         internal override void OnDragUpdated()

@@ -148,9 +148,13 @@ namespace BridgeUI.CodeGen
                 if (viewScript is PanelBase)
                 {
                     var viewModel = (viewScript as PanelBase).ViewModel;
-                    if (viewModel)
+                    if (viewModel is Binding.ViewModel && viewModel.GetType() != typeof(Binding.ViewModel))
                     {
-                        GenCodeUtil.UpdateViewModelScript(viewModel, components);
+                        GenCodeUtil.UpdateViewModelScript(viewModel as Binding.ViewModel, components);
+                    }
+                    else if(viewModel is Binding.ViewModelContainer)
+                    {
+                        GenCodeUtil.UpdateViewModelScript((viewModel as Binding.ViewModelContainer).instence, components);
                     }
                 }
             };
@@ -431,6 +435,12 @@ namespace BridgeUI.CodeGen
                             where !InnerNameSpace.Contains(behaiver.GetType().Namespace)
                             where behaiver.GetType() != typeof(PanelCore)
                             select behaiver;
+            var mainScript = (from main in supported
+                              where MonoScript.FromMonoBehaviour(main).GetClass().Name == prefab.name
+                              select main).FirstOrDefault();
+            if(mainScript != null){
+                return new MonoBehaviour[] { mainScript };
+            }
             return supported.ToArray();
         }
 

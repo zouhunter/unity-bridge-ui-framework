@@ -9,17 +9,17 @@ namespace BridgeUI.Binding
     public class PropertyBinder
     {
         public IBindingContext Context { get; private set; }
-        public ViewModel viewModel { get; private set; }
+        public IViewModel viewModel { get; private set; }
 
-        protected event UnityAction<ViewModel> binders;
-        protected event UnityAction<ViewModel> unbinders;
-
+        protected event UnityAction<IViewModel> binders;
+        protected event UnityAction<IViewModel> unbinders;
+        public static bool log = false;
         public PropertyBinder(IBindingContext context)
         {
             this.Context = context;
         }
 
-        public void Bind(ViewModel viewModel)
+        public void Bind(IViewModel viewModel)
         {
             //Debug.Log("Bind:" + viewModel);
             this.viewModel = viewModel;
@@ -53,7 +53,7 @@ namespace BridgeUI.Binding
             var member = GetDeepMember(ref root, memberPath);
             if (root == null)
             {
-                Debug.LogWarning("ignore:" + memberPath + "(because some component is null!)");
+               if(log) Debug.LogWarning("ignore:" + memberPath + "(because some component is null!)");
             }
             else
             {
@@ -82,7 +82,7 @@ namespace BridgeUI.Binding
                 }
                 else
                 {
-                    Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                    if (log) Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                 }
             };
 
@@ -115,7 +115,7 @@ namespace BridgeUI.Binding
                 }
                 else
                 {
-                    Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                    if (log) Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                 }
 
             };
@@ -151,7 +151,7 @@ namespace BridgeUI.Binding
                 }
                 else
                 {
-                    Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                    if (log) Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                 }
             };
 
@@ -186,7 +186,7 @@ namespace BridgeUI.Binding
                  }
                  else
                  {
-                     Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                     if (log) Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                  }
              };
 
@@ -221,7 +221,8 @@ namespace BridgeUI.Binding
                  }
                  else
                  {
-                     Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                     if (log)
+                         Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                  }
              };
 
@@ -257,7 +258,7 @@ namespace BridgeUI.Binding
                  }
                  else
                  {
-                     Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                     if (log) Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                  }
              };
 
@@ -290,7 +291,7 @@ namespace BridgeUI.Binding
                 }
                 else
                 {
-                    Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                    if (log) Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                 }
             };
 
@@ -324,7 +325,7 @@ namespace BridgeUI.Binding
                  }
                  else
                  {
-                     Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                     if (log) Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                  }
              };
 
@@ -358,7 +359,7 @@ namespace BridgeUI.Binding
                  }
                  else
                  {
-                     Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                     if (log) Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                  }
              };
 
@@ -392,7 +393,7 @@ namespace BridgeUI.Binding
                  }
                  else
                  {
-                     Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                     if (log) Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                  }
              };
 
@@ -428,7 +429,7 @@ namespace BridgeUI.Binding
                 }
                 else
                 {
-                    Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                   if(log)  Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                 }
             };
 
@@ -505,7 +506,7 @@ namespace BridgeUI.Binding
         /// <param name="memberName"></param>
         protected static void InvokeMethod(object Instance, string memberName, params object[] value)
         {
-            Debug.Log(Instance + ":" + memberName);
+            if (log) Debug.Log(Instance + ":" + memberName);
             var temps = Instance.GetType().GetMember(memberName);
             if (temps.Length > 0)
             {

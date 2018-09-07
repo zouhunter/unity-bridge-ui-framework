@@ -16,11 +16,12 @@ namespace BridgeUI.Common
     /// <summary>
     /// 只有一些button的面板
     /// </summary>
+    [Attributes.PanelParent]
     public class SelectAblesPanel : SinglePanel, IPortGroup
     {
         [SerializeField, HideInInspector]
         protected List<Selectable> selectables;
-        public string[] Ports
+        public virtual string[] Ports
         {
             get
             {

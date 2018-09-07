@@ -47,13 +47,6 @@ public class LuaPanel01 : BridgeUI.Common.LuaPanel
 	[SerializeField]
 	private UnityEngine.UI.Image m_btnPic;
 
-	protected override void InitComponents ()
-	{
-		m_Button.onClick.AddListener (on_button_clicked);
-		m_Slider.onValueChanged.AddListener (on_slider_switched);
-		m_Slider.onValueChanged.AddListener (on_slider_switched1);
-		m_btnPic.onCullStateChanged.AddListener (on_cull_statechanged);
-	}
 
 	protected override void PropBindings ()
 	{
@@ -78,22 +71,6 @@ public class LuaPanel01 : BridgeUI.Common.LuaPanel
 		if (Input.GetMouseButtonDown (1)) {
 			HandleData ("我是面板启动参数测试");
 		}
-	}
-
-	private void on_button_clicked ()
-	{
-	}
-
-	protected void on_slider_switched (Single arg0)
-	{
-	}
-
-	protected void on_slider_switched1 (Single arg0)
-	{
-	}
-
-	protected void on_cull_statechanged (Boolean arg0)
-	{
 	}
 }
 //#endif

@@ -12,7 +12,7 @@ namespace BridgeUI.Control
     public class ToolContainer : ListViewer
     {
         [SerializeField]
-        protected float _distence = 2;
+        protected float _distence = 1;
         protected GameObject template;
         protected List<ToolData> _toolDatas;
         protected Ray ray;
@@ -22,8 +22,27 @@ namespace BridgeUI.Control
         public UnityAction<GameObject> onUse { get; set; }
         public UnityAction<GameObject> onHide { get; set; }
         public List<ToolData> tools { get { return _toolDatas; } set { _toolDatas = value; ResetItems(_toolDatas); } }
-        public float distence { get { return _distence; } set { _distence = value; } }
         public readonly List<string> clampTags = new List<string>();
+        public float distence { get { return _distence; }set { if (_distence > 0.2f) _distence = value; } }
+        private Camera _catchedCamera;
+        private Camera activeCamera
+        {
+            get
+            {
+                if(_catchedCamera ==null ||!_catchedCamera.isActiveAndEnabled)
+                {
+                    if (Camera.main)
+                    {
+                        _catchedCamera = Camera.main;
+                    }
+                    else
+                    {
+                        _catchedCamera = FindObjectOfType<Camera>();
+                    }
+                }
+                return _catchedCamera;
+            }
+        }
 
         protected virtual void ResetItems(List<ToolData> list)
         {
@@ -77,6 +96,7 @@ namespace BridgeUI.Control
         public void SaveBack(GameObject template)
         {
             template.gameObject.SetActive(false);
+
             if (onHide != null)
                 onHide.Invoke(template);
         }
@@ -93,34 +113,32 @@ namespace BridgeUI.Control
 
         protected virtual void OnDragItem(string arg0)
         {
-            if (template != null && Camera.main)
+            if (template != null && activeCamera)
             {
-                var clamp = false;
+                var pos = activeCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, distence));
+                var minDistence = Vector3.Distance(pos, activeCamera.transform.position);
 
                 if (clampTags != null && clampTags.Count > 0)
                 {
-                    ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    ray = activeCamera.ScreenPointToRay(Input.mousePosition);
                     hits = Physics.RaycastAll(ray);
                     var grounds = hits.Where(hit => clampTags.Contains(hit.collider.gameObject.tag)).ToArray();
+
                     if (grounds.Length > 0)
                     {
-                        var pos = grounds[0].point;
-                        for (int i = 1; i < grounds.Length; i++)
-                        {
-                            pos = Vector3.Distance(pos, Camera.main.transform.position) < Vector3.Distance(grounds[i].point, Camera.main.transform.position) ? pos : grounds[i].point;
+                        
+                        for (int i = 1; i < grounds.Length; i++){
+                            var groundToCameraDistence = Vector3.Distance(grounds[i].point, activeCamera.transform.position);
+                            if(groundToCameraDistence < minDistence)
+                            {
+                                minDistence = groundToCameraDistence;
+                                pos = grounds[i].point;
+                            }
                         }
-
-                        SetItemPosition(template, pos);
-                        clamp = true;
                     }
                 }
-
-
-                if (!clamp)
-                {
-                    var pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, distence));
-                    SetItemPosition(template, pos);
-                }
+                ///设置最小距离
+                SetItemPosition(template, pos);
             }
         }
 
@@ -139,26 +157,35 @@ namespace BridgeUI.Control
 
         protected virtual void ResetAllCreated()
         {
-            for (int i = 0; i < pool.Count; i++)
+            var length = pool.Count;
+
+            for (int i = 0; i < length; i++)
             {
-                var useAble = pool[i].GetComponent<IUseAble>();
-                if (useAble != null)
+                if (!pool[i])
                 {
-                    useAble.OnReset();
+                    pool.RemoveAt(i);
+                    length--;
                 }
-                pool[i].gameObject.SetActive(false);
+                else
+                {
+                    var useAble = pool[i].GetComponent<IUseAble>();
+                    if (useAble != null){
+                        useAble.OnReset();
+                    }
+
+                    pool[i].gameObject.SetActive(false);
+                }
             }
         }
 
         protected virtual GameObject GetItemFromPool(string arg0)
         {
-            var item = pool.Find(x => x.name == arg0 && !x.gameObject.activeSelf);
+            var item = pool.Find(x => x && x.name == arg0 && !x.gameObject.activeSelf);
             if (item == null)
             {
                 var pointItem = tools.Find(x => x.title == arg0);
                 item = Instantiate(pointItem.prefab);
                 item.name = arg0;
-
                 var newBehaiver = item.GetComponent<ICustomMove>();
                 if (newBehaiver != null){
                     newBehaiver.oringalPos = pointItem.prefab.transform.position;
@@ -166,6 +193,7 @@ namespace BridgeUI.Control
 
                 pool.Add(item);
             }
+
             item.gameObject.SetActive(true);
             return item;
         }

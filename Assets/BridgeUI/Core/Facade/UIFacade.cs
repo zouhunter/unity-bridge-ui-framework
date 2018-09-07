@@ -186,6 +186,7 @@ namespace BridgeUI
                     panel.Close();
                 }
             }
+            group.CansaleInstencePanel(panelName);
         }
 
         public bool IsPanelOpen(string panelName)

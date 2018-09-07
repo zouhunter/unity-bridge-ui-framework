@@ -263,4 +263,16 @@ public class PanelNames {
             return "GraphPanel";
         }
     }
+    
+    public static string Cube000 {
+        get {
+            return "Cube000";
+        }
+    }
+    
+    public static string VMContinerPanel {
+        get {
+            return "VMContinerPanel";
+        }
+    }
 }

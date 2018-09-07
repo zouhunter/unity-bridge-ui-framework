@@ -41,9 +41,9 @@ namespace BridgeUI
             }
         }
         [SerializeField, Attributes.DefultViewModel]
-        private Binding.ViewModel _viewModel;
-        private Binding.ViewModel _defultViewModel;
-        protected Binding.ViewModel defultViewModel
+        private ScriptableObject _viewModel;
+        private IViewModel _defultViewModel;
+        protected IViewModel defultViewModel
         {
             get
             {
@@ -54,16 +54,16 @@ namespace BridgeUI
                 return _defultViewModel;
             }
         }
-        public Binding.ViewModel ViewModel
+        public IViewModel ViewModel
         {
             get
             {
-                return _viewModel;
+                return _viewModel as IViewModel;
             }
             set
             {
-                _viewModel = value;
-                OnViewModelChanged(_viewModel);
+                //_viewModel = value;
+                OnViewModelChanged(value);
             }
         }
 
@@ -72,16 +72,19 @@ namespace BridgeUI
             base.Awake();
             InitComponents();
             PropBindings();
-            if (_viewModel != null){
-                OnViewModelChanged(_viewModel);
-            }
         }
         protected override void Start()
         {
             base.Start();
+
+            if (_viewModel != null && _viewModel is IViewModel){
+                OnViewModelChanged(_viewModel as IViewModel);
+            }
+
             if (bridge != null){
                 bridge.OnCreatePanel(this);
             }
+
             AppendComponentsByType();
             OnOpenInternal();
         }
@@ -95,7 +98,7 @@ namespace BridgeUI
 
         protected virtual void PropBindings() { }
 
-        public virtual void OnViewModelChanged(Binding.ViewModel newValue)
+        public virtual void OnViewModelChanged(IViewModel newValue)
         {
             Binder.Unbind();
             Binder.Bind(newValue);
@@ -116,7 +119,7 @@ namespace BridgeUI
                 ViewModel = currentViewModel;
             }
         }
-        protected virtual void LoadPropDictionary(ViewModel viewModel, IDictionary dataDic)
+        protected virtual void LoadPropDictionary(IViewModel viewModel, IDictionary dataDic)
         {
             var keys = dataDic.Keys;
             foreach (var key in keys)

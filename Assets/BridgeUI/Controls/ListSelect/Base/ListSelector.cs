@@ -21,8 +21,8 @@ namespace BridgeUI.Control
         [SerializeField]
         protected GameObject m_prefab;
 
-        public IntEvent onSelectID = new IntEvent();
-        public IntArrayEvent onSelectIDs = new IntArrayEvent();
+        public Events.IntEvent onSelectID = new Events.IntEvent();
+        public Events.IntArrayEvent onSelectIDs = new Events.IntArrayEvent();
         public event UnityAction<GameObject> onShow;
         public event UnityAction<GameObject> onHide;
         public int currentID { get { return _currentID; } }

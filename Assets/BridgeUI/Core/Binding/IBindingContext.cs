@@ -4,8 +4,8 @@ namespace BridgeUI.Binding
 {
     public interface IBindingContext
     {
-        Binding.ViewModel ViewModel { get; set; }
-        void OnViewModelChanged(Binding.ViewModel newValue);
+        IViewModel ViewModel { get; set; }
+        void OnViewModelChanged(IViewModel newValue);
     }
 
 }

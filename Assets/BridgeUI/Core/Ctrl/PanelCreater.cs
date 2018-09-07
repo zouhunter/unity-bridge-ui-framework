@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using BridgeUI.Model;
+using System;
 
 namespace BridgeUI
 {
@@ -61,14 +62,7 @@ namespace BridgeUI
                 }
             }
         }
-        /// <summary>
-        /// 取消创建对象
-        /// </summary>
-        /// <param name="panelName"></param>
-        public void CansaleCreate(string panelName)
-        {
-            _cansaleKeys.Add(panelName);
-        }
+
         /// <summary>
         /// BundleUINode创建对象
         /// </summary>
@@ -126,7 +120,7 @@ namespace BridgeUI
             {
                 return;
             }
-            Debug.Log(prefab);
+
             GameObject go = GameObject.Instantiate(prefab);
 
             go.name = nodeInfo.panelName;
@@ -137,6 +131,14 @@ namespace BridgeUI
                 nodeInfo.OnCreate(go);
         }
 
+        /// <summary>
+        /// 取消创建对象
+        /// </summary>
+        /// <param name="panelName"></param>
 
+        public void CansaleCreatePanel(string panelName)
+        {
+            _cansaleKeys.Add(panelName);
+        }
     }
 }

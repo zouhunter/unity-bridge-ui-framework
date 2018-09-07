@@ -11,11 +11,18 @@ namespace BridgeUI.Control.Tree
     {
         [SerializeField]
         private ToggleListSelector creater;
-        public StringArrayEvent onSelectionChanged;
+        public Events.StringArrayEvent onSelectionChanged;
 
         private List<string> currentSelection = new List<string>();
         private Tree.TreeNode active;
-
+        public ToggleListSelector Selector { get { return creater; } }
+        public int deepth
+        {
+            get
+            {
+                return currentSelection.Count();
+            }
+        }
         protected override void Awake()
         {
             base.Awake();
@@ -95,11 +102,11 @@ namespace BridgeUI.Control.Tree
                 var key = currentSelection[i];
                 active =System.Array.Find( active.childern,x => x.name == key);
             }
-
-            //更新view
-            UpdateCurrentSelectFromActiveNode(active);
+            
             //更新选择列表
             ChargeBodyOption(active);
+            //更新view
+            UpdateCurrentSelectFromActiveNode(active);
         }
 
         public void BackOneSelect()
@@ -107,9 +114,9 @@ namespace BridgeUI.Control.Tree
             if (active.ParentItem != null)
             {
                 active = active.ParentItem;
-                UpdateCurrentSelectFromActiveNode(active);
-                //更新选择列表
+                               //更新选择列表
                 ChargeBodyOption(active);
+                UpdateCurrentSelectFromActiveNode(active);
             }
         }
         public override void ClearTree()
@@ -160,9 +167,6 @@ namespace BridgeUI.Control.Tree
                 //激活当前节点
                 active = child;
 
-                //更新标头列表
-                UpdateCurrentSelectFromActiveNode(active);
-
                 if (child.childern != null && child.childern.Length > 0)
                 {
                     //更新选择列表
@@ -173,6 +177,9 @@ namespace BridgeUI.Control.Tree
                     Debug.Assert(active != null, "active :Null", gameObject);
                     OnSelectionChanged(child.FullPath);
                 }
+
+                //更新标头列表
+                UpdateCurrentSelectFromActiveNode(active);
             }
 
         }

@@ -15,7 +15,6 @@ namespace BridgeUI.Control
     public interface IUseAble
     {
         bool hideOnUse { get; }
-        bool saveAble { get; }
         void OnReset();
         bool TryUse(UnityAction onUse);
     }

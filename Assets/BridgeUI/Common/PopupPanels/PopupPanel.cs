@@ -27,7 +27,7 @@ namespace BridgeUI.Common
         public string defultTitle = "温馨提示";
         public bool queue;
         public List<PopDataObj> popDatas = new List<PopDataObj>();
-        public StringEvent onGet;
+        public Events.StringEvent onGet;
 
         protected bool callBack;
         private bool donthide = false;

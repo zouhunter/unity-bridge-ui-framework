@@ -14,7 +14,7 @@ namespace BridgeUI.Drawer
         protected SerializedProperty layerIndexProp;
         protected SerializedProperty discriptionProp;
         protected SerializedProperty instanceIDProp;
-        protected SerializedObject serializedObject; 
+        protected SerializedObject serializedObject;
         protected const float widthBt = 20;
         protected float singleHeight;
 
@@ -25,7 +25,8 @@ namespace BridgeUI.Drawer
             InitPropertys(property);
             typeProp = property.FindPropertyRelative("type");
             var height = EditorGUIUtility.singleLineHeight;
-            if (property.isExpanded){
+            if (property.isExpanded)
+            {
                 height += EditorGUI.GetPropertyHeight(typeProp);
                 height += GetInfoItemHeight();
             }
@@ -75,7 +76,7 @@ namespace BridgeUI.Drawer
                         var gopfb = GetPrefabItem();
                         if (gopfb != null)
                         {
-                            InstantiatePrefab(gopfb, GetParent());
+                            InstantiatePrefab(gopfb, GetParent(gopfb));
                         }
                         else
                         {
@@ -185,7 +186,7 @@ namespace BridgeUI.Drawer
             {
                 var go = obj as GameObject;
                 var parent = go.transform.parent;
-                BridgeEditorUtility.SavePrefab(go,true);
+                BridgeEditorUtility.SavePrefab(go, true);
 
                 if (parent != null && parent.GetComponent<PanelGroup>() == null && parent.childCount == 0)
                 {
@@ -209,7 +210,7 @@ namespace BridgeUI.Drawer
             }
         }
 
-        protected Transform GetParent()
+        protected Transform GetParent(GameObject prefab)
         {
             PanelGroup uigroup = null;
             if (serializedObject.targetObject is PanelGroup)
@@ -232,6 +233,23 @@ namespace BridgeUI.Drawer
                 return runtimeGroup.transform;
             }
 #endif
+
+            if (prefab.GetComponent<RectTransform>() != null)
+            {
+                var canvas = GameObject.FindObjectOfType<Canvas>();
+                if (canvas != null)
+                {
+                    return canvas.transform;
+                }
+
+                var ok = EditorApplication.ExecuteMenuItem("GameObject/UI/Canvas");
+                if (ok)
+                {
+                    var selected = Selection.activeTransform;
+                    return selected;
+                }
+            }
+
             return null;
         }
 

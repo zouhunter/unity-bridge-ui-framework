@@ -6,44 +6,15 @@ namespace BridgeUI
 {
     public static class Utility
     {
-        #region Extend Of Open Close
-        public static IUIHandle Open(this IUIPanel parentPanel, string panelName,  object data = null)
-        {
-            return UIFacade.Instence.Open(parentPanel, panelName, data);
-        }
-
-        public static IUIHandle Open(this IUIPanel panel, int index, object data = null)
-        {
-            return panel.Group.bindingCtrl.OpenRegistedPanel(panel, index, data);
-        }
-
-        public static void Hide(this IUIPanel parentPanel, string panelName)
-        {
-            UIFacade.Instence.Hide(parentPanel.Group, panelName);
-        }
-        public static void Hide(this IUIPanel parentPanel, int index)
-        {
-            parentPanel.Group.bindingCtrl.HideRegistedPanel(parentPanel, index);
-        }
-
-        public static void Close(this IUIPanel parentPanel, string panelName)
-        {
-            UIFacade.Instence.Close(parentPanel.Group, panelName);
-        }
-        public static void Close(this IUIPanel parentPanel, int index)
-        {
-            parentPanel.Group.bindingCtrl.CloseRegistedPanel(parentPanel, index);
-        }
-
-        public static bool IsOpen(this IUIPanel parentPanel, int index)
-        {
-            return parentPanel.Group.bindingCtrl.IsRegistedPanelOpen(parentPanel, index);
-        }
-        #endregion
 
         #region Transform And Layer
         public static void SetTranform(Transform item, UILayerType layer, int layerIndex, Transform parent)
         {
+            if(parent == null)
+            {
+                return;
+            }
+
             string rootName = LayerToString(layer);
             var root = parent.transform.Find(rootName);
             if (root == null)
@@ -86,6 +57,7 @@ namespace BridgeUI
                     root.SetSiblingIndex(i);
                 }
             }
+
             item.transform.SetParent(root, !(item.GetComponent<Transform>() is RectTransform));
 
             var childCount = root.childCount;
@@ -103,8 +75,8 @@ namespace BridgeUI
                     break;
                 }
             }
-            item.SetSiblingIndex(id);
 
+            item.SetSiblingIndex(id);
         }
         public static string LayerToString(UILayerType layer, bool showint = true)
         {

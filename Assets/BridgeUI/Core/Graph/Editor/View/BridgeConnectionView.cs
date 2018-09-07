@@ -44,7 +44,7 @@ namespace BridgeUI.Drawer
         }
         internal override Color LineColor
         {
-            get { return Color.yellow; }
+            get { return connecton == null ? Color.blue:(connecton.blocking?Color.red:Color.yellow); }
         }
         internal override void OnDrawLabel(Vector2 centerPos, string label)
         {

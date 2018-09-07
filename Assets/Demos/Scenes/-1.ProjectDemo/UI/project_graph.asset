@@ -34,7 +34,7 @@ MonoBehaviour:
   - m_name: LoginPanel
     m_id: 704ef559-e301-484b-8a5a-ba453af43e4e
     m_x: 300
-    m_y: 130
+    m_y: 120
     m_node: {fileID: 114909348989606544}
     m_inputPoints:
     - id: e8cd8d8b-5ddb-4dc0-9058-1d8f3a03f263
@@ -65,7 +65,7 @@ MonoBehaviour:
   - m_name: LoadingPanel
     m_id: feed4755-5953-4b2b-b9b3-f57410187ec4
     m_x: 468
-    m_y: 240
+    m_y: 252
     m_node: {fileID: 114625434238430238}
     m_inputPoints:
     - id: 4f64c31d-bddf-4b06-8dfb-e686fba7cd07
@@ -172,7 +172,7 @@ MonoBehaviour:
     m_toNodeConnectionPoiontId: bac2de22-b510-4fa4-8540-c066f484160d
     m_type: bridge
     m_connection: {fileID: 114081094432661616}
-  m_lastModified: 131784540129391621
+  m_lastModified: 131800539326795937
   m_graphDescription: 
   m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 1
@@ -282,6 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
+  blocking: 0
   show:
     _auto: 1
     _cover: 0
@@ -334,7 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: ListPanel
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 2
   instenceID: 0
   assetName: ListPanel
   style: 1
@@ -407,6 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
+  blocking: 0
   show:
     _auto: 0
     _cover: 0
@@ -425,6 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
+  blocking: 0
   show:
     _auto: 0
     _cover: 0
@@ -477,6 +480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
+  blocking: 0
   show:
     _auto: 1
     _cover: 0

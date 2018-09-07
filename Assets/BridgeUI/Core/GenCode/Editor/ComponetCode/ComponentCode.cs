@@ -93,6 +93,9 @@ namespace BridgeUI.CodeGen
             var invocations = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
             var arg0_name = "m_" + name + "." + bindingInfo.bindingTarget;
             var arg0 = arg0_name;
+            UnityEngine.Debug.Log(bindingInfo.bindingTargetType.type);
+            UnityEngine.Debug.Log(bindingInfo.isMethod);
+
             if (!bindingInfo.isMethod)
             {
                 arg0 = string.Format("x=>{0}=x", arg0_name);
@@ -373,7 +376,7 @@ namespace BridgeUI.CodeGen
                 var info = component.viewItems.Find(x => x.bindingSource == source);
                 var isMethod = false;
                 var targetName = AnalysisTargetFromLamdaArgument(invocation.Arguments.First().ToString(), out isMethod);
-                UnityEngine.Debug.Log(targetName);
+                UnityEngine.Debug.Log("解析出字段：" + targetName);
 
                 if (string.IsNullOrEmpty(targetName))
                 {
@@ -381,6 +384,7 @@ namespace BridgeUI.CodeGen
                     return;
                 }
                 var type = GetTypeClamp(component.componentType, targetName);
+                UnityEngine.Debug.Log("解析出类型：" + type);
                 if (info == null)
                 {
                     info = new BindingShow();
@@ -415,10 +419,19 @@ namespace BridgeUI.CodeGen
             }
             else
             {
-                isMethod = true;
                 var value = arg;
-                if (value.Contains("."))
+                if(arg.Contains("\""))
                 {
+                    value = arg.Replace("\"", "");
+                    isMethod = false;
+                }
+                else
+                {
+                    isMethod = true;
+                }
+                UnityEngine.Debug.Log(isMethod);
+
+                if (value.Contains(".")){
                     value = value.Substring(value.IndexOf('.') + 1);
                 }
                 return value;

@@ -20,7 +20,8 @@ namespace BridgeUI.Graph
     [CustomConnection("bridge")]
     public class BridgeConnection : Connection
     {
+        public bool blocking;//堵塞
         public ShowMode show = new ShowMode(false, MutexRule.NoMutex, false, BaseShow.NoChange, false);
-        public ViewModel viewModel;
+        public ScriptableObject viewModel;
     }
 }

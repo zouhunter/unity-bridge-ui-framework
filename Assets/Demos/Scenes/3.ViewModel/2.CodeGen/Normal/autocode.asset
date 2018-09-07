@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eec4882d68a9346b3b5f8ecf1e38a534, type: 3}
+  m_Script: {fileID: 11500000, guid: 85d2d9de1cba75443b53732fa8104050, type: 3}
   m_Name: autocode
   m_EditorClassIdentifier: 
   m_allNodes:
@@ -72,8 +72,34 @@ MonoBehaviour:
     m_connection: {fileID: 11438244}
   m_lastModified: 131689509806790328
   m_graphDescription: 
-  m_controllerType: BridgeUI.BridgeUIGraphCtrl
-  m_panelNamePath: 
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
+  loadType: 1
+  b_nodes: []
+  p_nodes:
+  - panelName: MyPanel
+    instanceID: 0
+    discription: 
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 146968, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
+  bridges:
+  - inNode: 
+    index: 0
+    showModel:
+      _auto: 0
+      _cover: 0
+      _single: 0
+      mutex: 0
+      baseShow: 0
+    viewModel: {fileID: 0}
+    outNode: MyPanel
 --- !u!114 &11438244
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85,13 +111,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeConnection
   m_EditorClassIdentifier: 
-  index: 0
+  blocking: 0
   show:
-    auto: 1
-    cover: 0
-    single: 0
+    _auto: 0
+    _cover: 0
+    _single: 0
     mutex: 0
     baseShow: 0
+  viewModel: {fileID: 0}
 --- !u!114 &11478004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -107,6 +134,7 @@ MonoBehaviour:
   instenceID: -31432
   assetName: MyPanel
   style: 7
+  nodedescribe: []
   rule:
     baseTypeIndex: 2
     canInherit: 0
@@ -195,15 +223,11 @@ MonoBehaviour:
       form: 0
       layer: 0
       hideAlaph: 0
-      enterAnim:
-        assembleName: 
-        typeName: 
-      quitAnim:
-        assembleName: 
-        typeName: 
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 146968, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
+    guid: 
     discription: 
 --- !u!114 &11499712
 MonoBehaviour:

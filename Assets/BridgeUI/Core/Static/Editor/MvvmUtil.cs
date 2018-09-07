@@ -13,7 +13,7 @@ namespace BridgeUI.Drawer
         private static List<Type> supportViewModels;
         private static GUIContent[] options;
 
-        public static void CreateNewViewModel(UnityAction<ViewModel> onCreate)
+        public static void CreateNewViewModel(UnityAction<ScriptableObject> onCreate)
         {
             InitEnviroments();
             EditorUtility.DisplayCustomMenu(new Rect(Event.current.mousePosition, Vector2.zero), options, -1, OnSelect, onCreate);
@@ -24,17 +24,7 @@ namespace BridgeUI.Drawer
             if (selected >= 0 && options.Length > 0)
             {
                 var type = supportViewModels[selected];
-                var item = ScriptableObject.CreateInstance(type);
-                ProjectWindowUtil.CreateAsset(item, "new viewModel.asset");
-                BridgeUI.Drawer.BridgeEditorUtility.DelyAcceptObject(item, (obj) =>
-                {
-                    var action = userData as UnityAction<ViewModel>;
-                    if (action != null)
-                    {
-                        action.Invoke(obj as ViewModel);
-                    }
-
-                });
+                CreateAssets(type, userData as UnityAction<ScriptableObject>);
             }
         }
 
@@ -42,10 +32,8 @@ namespace BridgeUI.Drawer
         {
             if (supportViewModels == null)
             {
-                supportViewModels = (from type in typeof(ViewModel).Assembly.GetTypes()
-                                     where type.IsSubclassOf(typeof(ViewModel))
-                                     where !type.IsAbstract
-                                     select type).ToList();
+                supportViewModels = GetSubInstenceTypes(typeof(ViewModel));
+                supportViewModels.Insert(0, typeof(ViewModelContainer));
             }
 
             if (options == null)
@@ -54,6 +42,28 @@ namespace BridgeUI.Drawer
                            select new GUIContent(model.FullName)).ToArray();
             }
 
+        }
+
+        public static void CreateAssets(Type type, UnityAction<ScriptableObject> action)
+        {
+            var item = ScriptableObject.CreateInstance(type);
+            ProjectWindowUtil.CreateAsset(item,type.Name + ".asset");
+            BridgeUI.Drawer.BridgeEditorUtility.DelyAcceptObject(item, (obj) =>
+            {
+                if (action != null){
+                    action.Invoke(obj as ScriptableObject);
+                }
+
+            });
+        }
+
+        public static List<Type> GetSubInstenceTypes(Type rootType)
+        {
+            var types = (from type in rootType.Assembly.GetTypes()
+                                 where type.IsSubclassOf(rootType)
+                                 where !type.IsAbstract
+                                 select type).ToList();
+            return types;
         }
     }
 }

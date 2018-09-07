@@ -72,7 +72,7 @@ MonoBehaviour:
     m_connection: {fileID: 11491268}
   m_lastModified: 131694767415757109
   m_graphDescription: 
-  m_controllerType: BridgeUIEditor.BridgeUIGraphCtrl
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 1
   b_nodes: []
   p_nodes:
@@ -93,11 +93,12 @@ MonoBehaviour:
   - inNode: 
     index: 0
     showModel:
-      auto: 0
-      cover: 0
-      single: 0
+      _auto: 0
+      _cover: 0
+      _single: 0
       mutex: 0
       baseShow: 0
+    viewModel: {fileID: 0}
     outNode: LuaPanel01
 --- !u!114 &11457308
 MonoBehaviour:
@@ -114,6 +115,7 @@ MonoBehaviour:
   instenceID: -50136
   assetName: LuaPanel01
   style: 1
+  nodedescribe: []
   rule:
     baseTypeIndex: 4
     canInherit: 0
@@ -400,10 +402,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeConnection
   m_EditorClassIdentifier: 
-  index: 0
+  blocking: 0
   show:
-    auto: 0
-    cover: 0
-    single: 0
+    _auto: 0
+    _cover: 0
+    _single: 0
     mutex: 0
     baseShow: 0
+  viewModel: {fileID: 0}

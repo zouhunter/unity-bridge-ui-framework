@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: AnimTestPanel
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 1
   instenceID: 0
   assetName: AnimTestPanel
   style: 1
@@ -121,7 +121,24 @@ MonoBehaviour:
     baseTypeIndex: 4
     canInherit: 0
     bindingAble: 0
-  components: []
+  components:
+  - open: 1
+    name: close
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems: []
+    target: {fileID: 112694, guid: 9e8dc7a02139fbd4b9bd37fd1b9d0f42, type: 2}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
   nodeInfo:
     uiType:
       layerIndex: 0
@@ -145,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
+  blocking: 0
   show:
     _auto: 1
     _cover: 0

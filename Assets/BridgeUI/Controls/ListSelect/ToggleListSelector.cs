@@ -53,6 +53,15 @@ namespace BridgeUI.Control
 
             stopEvent = false;
         }
+
+        public void SetInteractable(bool interactable)
+        {
+            foreach (var item in createdDic)
+            {
+                item.Value.interactable = interactable;
+            }
+        }
+
         protected override void OnSaveItem(GameObject instence)
         {
             base.OnSaveItem(instence);
@@ -68,7 +77,10 @@ namespace BridgeUI.Control
         {
             base.OnCreateItem(id, instence);
             var type = options[id];
-            instence.GetComponentInChildren<Text>().text = type;
+            var texts = instence.GetComponentsInChildren<Text>();
+            foreach (var item in texts){
+                item.text = type;
+            }
             var toggle = instence.GetComponentInChildren<Toggle>();
             Debug.Assert(toggle, "预制体或子物体上没有toggle组件");
 

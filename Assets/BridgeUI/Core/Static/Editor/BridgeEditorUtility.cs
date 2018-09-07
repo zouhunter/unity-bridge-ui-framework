@@ -45,6 +45,10 @@ namespace BridgeUI.Drawer
             BridgeUI.Setting.bundleNameFormat = EditorGUILayout.TextField("默认AssetBundle路径:", BridgeUI.Setting.bundleNameFormat);
         }
 
+        public static Dictionary<UnityEngine.Object, Editor> editorDic = new Dictionary<UnityEngine.Object, Editor>();
+        public static Dictionary<UnityEngine.Object, SerializedObject> serializedDic = new Dictionary<UnityEngine.Object, SerializedObject>();
+
+
         public static void DrawAddNodes(Rect position, NodeData data)
         {
             var nodePostion = new Rect(position.x + position.width - 40, 25, 15, 15);
@@ -487,6 +491,65 @@ namespace BridgeUI.Drawer
                 return true;
             }
             return false;
+        }
+        /// <summary>
+        /// 缓存Object的SerilizedObject
+        /// </summary>
+        /// <param name="objectReferenceValue"></param>
+        /// <returns></returns>
+        public static SerializedObject CreateCachedSerializedObject(UnityEngine.Object objectReferenceValue)
+        {
+            if (!serializedDic.ContainsKey(objectReferenceValue) || serializedDic[objectReferenceValue] == null)
+            {
+                serializedDic[objectReferenceValue] = new SerializedObject(objectReferenceValue);
+            }
+            return serializedDic[objectReferenceValue];
+        }
+        /// <summary>
+        /// 在指定区域绘制默认属性
+        /// </summary>
+        /// <param name="serializedProperty"></param>
+        /// <param name="position"></param>
+        /// <param name="finalPropertyName"></param>
+        public static void DrawChildInContent(SerializedProperty serializedProperty, Rect position, List<string> ignorePorps = null, string finalPropertyName = null, int level = 0)
+        {
+            bool enterChildren = true;
+            SerializedProperty endProperty = string.IsNullOrEmpty(finalPropertyName) ? null : serializedProperty.FindPropertyRelative(finalPropertyName);
+            while (serializedProperty.NextVisible(enterChildren))
+            {
+                if (ignorePorps != null && ignorePorps.Contains(serializedProperty.propertyPath)) continue;
+
+                EditorGUI.indentLevel = serializedProperty.depth + level;
+                position.height = EditorGUI.GetPropertyHeight(serializedProperty, null, true);
+                EditorGUI.PropertyField(position, serializedProperty, true);
+                position.y += position.height + 2f;
+                enterChildren = false;
+
+                if (SerializedProperty.EqualContents(serializedProperty, endProperty))
+                {
+                    break;
+                }
+            }
+        }
+        /// <summary>
+        /// 计算高
+        /// </summary>
+        /// <param name="se"></param>
+        /// <param name="ignorePorps"></param>
+        /// <returns></returns>
+        internal static float GetSerializedObjectHeight(SerializedObject se, List<string> ignorePorps = null)
+        {
+            var prop = se.GetIterator();
+            var enterChildern = true;
+            float hight = 0;
+            while (prop.NextVisible(enterChildern))
+            {
+                enterChildern = false;
+                if (ignorePorps != null && ignorePorps.Contains(prop.propertyPath))
+                    continue;
+                hight += EditorGUI.GetPropertyHeight(prop, null, true);
+            }
+            return hight;
         }
     }
 }

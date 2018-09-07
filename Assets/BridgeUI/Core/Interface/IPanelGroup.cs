@@ -14,5 +14,6 @@ namespace BridgeUI
         List<IUIPanel> RetrivePanels(string panelName);
         UIBindingController bindingCtrl { get; }
         Bridge InstencePanel(IUIPanel parentPanel, string panelName, int index, Transform root);
+        void CansaleInstencePanel(string panelName);
     }
 }

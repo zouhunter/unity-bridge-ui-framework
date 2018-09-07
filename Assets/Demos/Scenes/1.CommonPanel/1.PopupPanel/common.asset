@@ -14,8 +14,8 @@ MonoBehaviour:
   m_allNodes:
   - m_name: ButtonOpenPanel
     m_id: fae30cf6-ed0d-46c6-bffd-35dfea55ec0a
-    m_x: 310
-    m_y: 50
+    m_x: 312
+    m_y: 48
     m_node: {fileID: 11409300}
     m_inputPoints:
     - id: eedd3895-fa08-4cee-ad44-1ce0d2510c23
@@ -34,7 +34,7 @@ MonoBehaviour:
   - m_name: ButtonsPanel
     m_id: 0e8f09d6-56c1-4b9e-aff8-d2368e93c4bf
     m_x: 120
-    m_y: 90
+    m_y: 84
     m_node: {fileID: 11410418}
     m_inputPoints:
     - id: b5371d58-9f44-4724-9857-e1ef937a4ce0

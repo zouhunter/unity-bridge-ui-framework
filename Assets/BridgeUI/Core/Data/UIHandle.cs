@@ -82,6 +82,7 @@ namespace BridgeUI
                 item.Invoke(panel, data);
             }
         }
+
         private void OnCloseCallBack(IUIPanel panel)
         {
             var array = onClose.ToArray();
@@ -89,6 +90,7 @@ namespace BridgeUI
             {
                 item.Invoke(panel);
             }
+            onClose.Clear();
         }
         private void OnCreatePanel(IUIPanel panel)
         {
@@ -97,6 +99,7 @@ namespace BridgeUI
             {
                 item.Invoke(panel);
             }
+            onCreate.Clear();
         }
 
         private void Release()
@@ -145,8 +148,7 @@ namespace BridgeUI
         public IUIHandle RegistCreate(UnityAction<IUIPanel> onCreate)
         {
             if (onCreate == null) return null;
-            if (!this.onCreate.Contains(onCreate))
-            {
+            if (!this.onCreate.Contains(onCreate)){
                 this.onCreate.Add(onCreate);
             }
             return this;

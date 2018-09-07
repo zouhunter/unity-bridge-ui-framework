@@ -58,11 +58,12 @@ MonoBehaviour:
     m_toNodeConnectionPoiontId: 6b1be38a-0423-47a0-8132-b74cd544616c
     m_type: bridge
     m_connection: {fileID: 114071461911051640}
-  m_lastModified: 131784553963879763
+  m_lastModified: 131800562077819208
   m_graphDescription: 
   m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
-  loadType: 2
-  b_nodes:
+  loadType: 1
+  b_nodes: []
+  p_nodes:
   - panelName: PopupPanel
     instanceID: 0
     discription: 
@@ -75,10 +76,7 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    guid: 7e11abdec5e3dbb4c91d5e2411be07aa
-    good: 1
-    bundleName: bridgeui/panels/popuppanel.assetbundle
-  p_nodes: []
+    prefab: {fileID: 1817570773136330, guid: 7e11abdec5e3dbb4c91d5e2411be07aa, type: 2}
   bridges:
   - inNode: 
     index: 0
@@ -101,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
+  blocking: 0
   show:
     _auto: 1
     _cover: 0

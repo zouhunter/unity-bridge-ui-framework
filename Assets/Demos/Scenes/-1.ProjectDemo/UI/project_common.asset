@@ -14,8 +14,8 @@ MonoBehaviour:
   m_allNodes:
   - m_name: PopupPanel
     m_id: 521d6b54-c0c2-40a3-a7d1-1cca72e2a56a
-    m_x: 260
-    m_y: 170
+    m_x: 324
+    m_y: 180
     m_node: {fileID: 114889120418653246}
     m_inputPoints:
     - id: 6b1be38a-0423-47a0-8132-b74cd544616c
@@ -33,8 +33,8 @@ MonoBehaviour:
     m_outputPoints: []
   - m_name: AnyState
     m_id: 9123f052-31b6-4eb7-acdc-7db03a55d076
-    m_x: 72
-    m_y: 84
+    m_x: 120
+    m_y: 120
     m_node: {fileID: 114551064117748468}
     m_inputPoints: []
     m_outputPoints:
@@ -58,12 +58,11 @@ MonoBehaviour:
     m_toNodeConnectionPoiontId: 6b1be38a-0423-47a0-8132-b74cd544616c
     m_type: bridge
     m_connection: {fileID: 114427927432201214}
-  m_lastModified: 131784553963879763
+  m_lastModified: 131800522642632071
   m_graphDescription: 
   m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
-  loadType: 1
-  b_nodes: []
-  p_nodes:
+  loadType: 2
+  b_nodes:
   - panelName: PopupPanel
     instanceID: 0
     discription: 
@@ -76,7 +75,10 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 1817570773136330, guid: 7e11abdec5e3dbb4c91d5e2411be07aa, type: 2}
+    guid: 7e11abdec5e3dbb4c91d5e2411be07aa
+    good: 1
+    bundleName: bridgeui/panels/popuppanel.assetbundle
+  p_nodes: []
   bridges:
   - inNode: 
     index: 0
@@ -99,6 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
+  blocking: 0
   show:
     _auto: 0
     _cover: 0
@@ -128,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PopupPanel
   m_EditorClassIdentifier: 
-  selected: 1
+  selected: 0
   instenceID: 0
   assetName: PopupPanel
   style: 1

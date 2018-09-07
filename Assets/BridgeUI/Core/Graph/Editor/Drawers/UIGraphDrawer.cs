@@ -51,6 +51,7 @@ namespace BridgeUI.Drawer
             prefabsPropWorp = sobj.FindProperty("p_nodes");
             bundlesPropWorp = sobj.FindProperty("b_nodes");
             (target as UIGraph).ControllerType = typeof(BridgeUI.Drawer.BridgeUIGraphCtrl).FullName;
+            QuickUpdateFromGraph();
         }
 
         public override void OnInspectorGUI()
@@ -304,7 +305,7 @@ namespace BridgeUI.Drawer
             NodeGraph.NodeGraphController controller = new BridgeUIGraphCtrl();
             controller.TargetGraph = graph;
             Selection.activeObject = graph;
-            controller.Build();
+            controller.BuildFromGraph(graph);
 
             if(EnumIndexToLoadType(defultTypeProp.enumValueIndex) == LoadType.Bundle)
             {

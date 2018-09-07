@@ -17,5 +17,6 @@ namespace BridgeUI
     public interface IPanelCreater
     {
         void CreatePanel(UIInfoBase itemInfo);
+        void CansaleCreatePanel(string panel);
     }
 }

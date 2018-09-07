@@ -17,7 +17,7 @@ using System.Reflection;
 
 namespace BridgeUI.Binding
 {
-    public class ViewModel : ScriptableObject
+    public class ViewModel : ScriptableObject,IViewModel
     {
         private List<IBindingContext> _contexts = new List<IBindingContext>();
         protected List<IBindingContext> Contexts { get { return _contexts; } }

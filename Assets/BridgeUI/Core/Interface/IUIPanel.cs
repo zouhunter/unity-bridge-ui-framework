@@ -14,11 +14,24 @@ using BridgeUI.Model;
 
 namespace BridgeUI
 {
+    public interface IChildPanelOpenClose
+    {
+        #region OpenClose
+        IUIHandle Open(string panelName, object data = null);
+        IUIHandle Open(int index, object data = null);
+        void Hide(string panelName);
+        void Hide(int index);
+        void Close(string panelName);
+        void Close(int index);
+        bool IsOpen(int index);
+        #endregion
+    }
     /// <summary>
     /// 所有ui界面的父级
     /// [用于界面创建及打开的规则]
     /// </summary>
-    public interface IUIPanel
+
+    public interface IUIPanel: IChildPanelOpenClose
     {
         string Name { get; }
         int InstenceID { get; }
@@ -39,7 +52,8 @@ namespace BridgeUI
 
         void HandleData(Bridge bridge);
         void Cover();
+    
     }
 
-  
+
 }

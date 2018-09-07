@@ -19,7 +19,7 @@ MonoBehaviour:
     m_node: {fileID: 11418722}
     m_inputPoints:
     - id: 13df1a1a-0bf9-4d81-b189-4eced391767c
-      label: 
+      label: "\u2192"
       parentId: 55fc6959-1933-41b9-b5b3-6330814cebb6
       isInput: 1
       buttonRect:
@@ -30,23 +30,11 @@ MonoBehaviour:
         height: 29
       max: 100
       type: bridge
-    m_outputPoints:
-    - id: 9af510f9-5080-4e2e-b06a-b99592e9bd64
-      label: 
-      parentId: 55fc6959-1933-41b9-b5b3-6330814cebb6
-      isInput: 0
-      buttonRect:
-        serializedVersion: 2
-        x: 146
-        y: 21.5
-        width: 10
-        height: 23
-      max: 100
-      type: bridge
+    m_outputPoints: []
   m_allConnections: []
-  m_lastModified: 131699059091619425
+  m_lastModified: 131789238384308968
   m_graphDescription: 
-  m_controllerType: BridgeUI.BridgeUIGraphCtrl
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 2
   b_nodes:
   - panelName: GenericTypePanel
@@ -63,7 +51,7 @@ MonoBehaviour:
       hideRule: 0
     guid: 333148b58bb87ae40bc3facb420af07e
     good: 1
-    bundleName: bridgeui/panels/generictypepanel
+    bundleName: bridgeui/panels/generictypepanel.assetbundle
   p_nodes: []
   bridges: []
 --- !u!114 &11418722
@@ -81,6 +69,7 @@ MonoBehaviour:
   instenceID: 0
   assetName: GenericTypePanel
   style: 1
+  nodedescribe: []
   rule:
     baseTypeIndex: 1
     canInherit: 0
@@ -92,9 +81,9 @@ MonoBehaviour:
     components:
     - assembleName: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: SubComponent
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0

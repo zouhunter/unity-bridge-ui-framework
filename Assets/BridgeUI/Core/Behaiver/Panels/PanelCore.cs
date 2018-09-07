@@ -20,7 +20,16 @@ namespace BridgeUI
             }
         }
         public string Name { get { return name; } }
-        public IPanelGroup Group { get; set; }
+        public IPanelGroup Group
+        {
+            get
+            {
+                if (group == null)
+                    group = GetComponentInParent<IPanelGroup>();
+                return group;
+            }
+            set { group = value; }
+        }
         public IUIPanel Parent { get; set; }
         public virtual Transform Content { get { return transform; } }
         public Transform Root { get { return transform.parent.parent; } }
@@ -36,7 +45,7 @@ namespace BridgeUI
         {
             get
             {
-                 return _isShowing && !IsDestroyed();
+                return _isShowing && !IsDestroyed();
             }
         }
         public bool IsAlive
@@ -72,6 +81,7 @@ namespace BridgeUI
                 return _quitAnim;
             }
         }
+        protected IPanelGroup group;
         protected Bridge bridge;
         protected List<IUIPanel> childPanels;
         public event PanelCloseEvent onDelete;
@@ -82,7 +92,8 @@ namespace BridgeUI
         protected override void Start()
         {
             base.Start();
-            if (bridge != null){
+            if (bridge != null)
+            {
                 bridge.OnCreatePanel(this);
             }
             AppendComponentsByType();
@@ -151,11 +162,12 @@ namespace BridgeUI
 
         protected virtual void HandleData(object data)
         {
-            if(this.onReceive != null){
+            if (this.onReceive != null)
+            {
                 onReceive.Invoke(data);
             }
         }
- 
+
         public void Hide()
         {
             _isShowing = false;
@@ -196,7 +208,7 @@ namespace BridgeUI
         {
             if (IsShowing && UType.quitAnim != null)
             {
-                quitAnim.PlayAnim( CloseInternal);
+                quitAnim.PlayAnim(CloseInternal);
             }
             else
             {
@@ -272,7 +284,7 @@ namespace BridgeUI
         {
             if (UType.enterAnim != null)
             {
-                enterAnim.PlayAnim( null);
+                enterAnim.PlayAnim(null);
             }
         }
         protected void AlaphGameObject(bool hide)
@@ -296,5 +308,44 @@ namespace BridgeUI
                 canvasGroup.blocksRaycasts = true;
             }
         }
+
+        #region Extend Of Open Close
+        public IUIHandle Open(string panelName, object data = null)
+        {
+            return UIFacade.Instence.Open(this, panelName, data);
+        }
+
+        public IUIHandle Open(int index, object data = null)
+        {
+            return Group.bindingCtrl.OpenRegistedPanel(this, index, data);
+        }
+
+        public void Hide(string panelName)
+        {
+            UIFacade.Instence.Hide(Group, panelName);
+        }
+        public void Hide(int index)
+        {
+            Group.bindingCtrl.HideRegistedPanel(this, index);
+        }
+
+        public void Close(string panelName)
+        {
+            UIFacade.Instence.Close(Group, panelName);
+        }
+        public void Close(int index)
+        {
+            Group.bindingCtrl.CloseRegistedPanel(this, index);
+        }
+        public bool IsOpen(int index)
+        {
+            return Group.bindingCtrl.IsRegistedPanelOpen(this, index);
+        }
+        public bool IsOpen(string panelName)
+        {
+            var panels = Group.RetrivePanels(panelName);
+            return (panels != null && panels.Count > 0);
+        }
+        #endregion
     }
 }

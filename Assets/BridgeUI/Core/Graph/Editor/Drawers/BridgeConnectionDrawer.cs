@@ -35,6 +35,8 @@ namespace BridgeUI.Drawer
         {
             connecton = target as Graph.BridgeConnection;
             DrawTitle(connecton.name);
+            DrawHead("通道堵塞");
+            connecton.blocking = DrawToggle(connecton.blocking, "执行时跳过这个路径");
             DrawHead("自动打开");
             connecton.show.auto = DrawToggle(connecton.show.auto, "更随上级同步打开");
             DrawHead("界面遮罩");
@@ -129,7 +131,17 @@ namespace BridgeUI.Drawer
         {
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                connecton.viewModel = EditorGUILayout.ObjectField(connecton.viewModel, typeof(BridgeUI.Binding.ViewModel), false) as BridgeUI.Binding.ViewModel;
+                var model = EditorGUILayout.ObjectField(new GUIContent("IViewModel"), connecton.viewModel, typeof(ScriptableObject), false) ;
+
+                if(model != connecton.viewModel && model is Binding.IViewModel)
+                {
+                    connecton.viewModel = model as ScriptableObject;
+                }
+
+                if(model == null)
+                {
+                    connecton.viewModel = null;
+                }
 
                 if (GUILayout.Button("new", EditorStyles.miniButtonRight, GUILayout.Width(60)))
                 {

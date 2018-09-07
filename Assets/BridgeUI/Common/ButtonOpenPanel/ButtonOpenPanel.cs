@@ -16,6 +16,7 @@ namespace BridgeUI.Common
     /// <summary>
     ///利用按扭打开其他面板
     /// </summary>
+    [Attributes.PanelParent]
     public sealed class ButtonOpenPanel : SinglePanel
     {
         [System.Serializable]

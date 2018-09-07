@@ -276,12 +276,12 @@ MonoBehaviour:
   info: {fileID: 114463390228675818}
   defultTitle: "\u6E29\u99A8\u63D0\u793A"
   queue: 0
+  popDatas: []
   onGet:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.InputField+OnChangeEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  popDatas: []
+    m_TypeName: BridgeUI.StringEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114673412551490782
 MonoBehaviour:
   m_ObjectHideFlags: 1

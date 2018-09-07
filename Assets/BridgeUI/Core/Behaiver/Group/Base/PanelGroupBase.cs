@@ -143,7 +143,10 @@ namespace BridgeUI
             }
             return bridge;
         }
-
+        public void CansaleInstencePanel(string panelName)
+        {
+            creater.CansaleCreatePanel(panelName);
+        }
         public List<IUIPanel> RetrivePanels(string panelName)
         {
             var panels = createdPanels.FindAll(x => x.Name == panelName);
@@ -350,7 +353,7 @@ namespace BridgeUI
             panel.UType = uiNode.type;
             panel.Group = this;
             if(panel is BridgeUI.Binding.IBindingContext && bridge.Info.viewModel != null) {
-                (panel as BridgeUI.Binding.IBindingContext).ViewModel = bridge.Info.viewModel;
+                (panel as BridgeUI.Binding.IBindingContext).ViewModel = bridge.Info.viewModel as Binding.IViewModel;
             }
             panel.onDelete += OnDeletePanel;
             panel.HandleData(bridge);

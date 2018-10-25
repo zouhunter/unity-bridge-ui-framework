@@ -114,8 +114,6 @@ namespace BridgeUI
         private void Clean()
         {
             this.onCallBack.Clear();
-            this.onCreate.Clear();
-            this.onClose.Clear();
         }
 
         public IUIHandle Send(object data)
@@ -145,24 +143,40 @@ namespace BridgeUI
             }
             return this;
         }
+
         public IUIHandle RegistCreate(UnityAction<IUIPanel> onCreate)
         {
-            if (onCreate == null) return null;
-            if (!this.onCreate.Contains(onCreate)){
+            if(onCreate != null && !this.onCreate.Contains(onCreate)){
                 this.onCreate.Add(onCreate);
+            }
+            return this;
+        }
+
+        public IUIHandle RemoveCreate(UnityAction<IUIPanel> onCreate)
+        {
+            if (onCreate != null && this.onCreate.Contains(onCreate))
+            {
+                this.onCreate.Remove(onCreate);
             }
             return this;
         }
 
         public IUIHandle RegistClose(UnityAction<IUIPanel> onClose)
         {
-            if (onClose == null) return null;
-            if (!this.onClose.Contains(onClose))
+            if (onClose != null && !this.onClose.Contains(onClose))
             {
                 this.onClose.Add(onClose);
             }
             return this;
         }
 
+        public IUIHandle RemoveClose(UnityAction<IUIPanel> onClose)
+        {
+            if (onClose != null && this.onClose.Contains(onClose))
+            {
+                this.onClose.Remove(onClose);
+            }
+            return this;
+        }
     }
 }

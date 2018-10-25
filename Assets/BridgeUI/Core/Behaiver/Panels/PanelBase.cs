@@ -29,7 +29,7 @@ namespace BridgeUI
     public class PanelBase : PanelCore, IBindingContext
     {
         private Binding.PropertyBinder _binder;
-        protected virtual Binding.PropertyBinder Binder
+        public virtual Binding.PropertyBinder Binder
         {
             get
             {
@@ -62,7 +62,7 @@ namespace BridgeUI
             }
             set
             {
-                //_viewModel = value;
+                _viewModel = (ScriptableObject)value;
                 OnViewModelChanged(value);
             }
         }
@@ -80,13 +80,6 @@ namespace BridgeUI
             if (_viewModel != null && _viewModel is IViewModel){
                 OnViewModelChanged(_viewModel as IViewModel);
             }
-
-            if (bridge != null){
-                bridge.OnCreatePanel(this);
-            }
-
-            AppendComponentsByType();
-            OnOpenInternal();
         }
         protected override void OnDestroy()
         {

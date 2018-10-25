@@ -159,17 +159,20 @@ namespace XLua
                 }
                 else
                 {
-                    Utils.ReflectionWrap(L, type);
+                    Utils.ReflectionWrap(L, type, privateAccessibleFlags.Contains(type));
                 }
 #else
-                Utils.ReflectionWrap(L, type);
+                Utils.ReflectionWrap(L, type, privateAccessibleFlags.Contains(type));
 #endif
 #if NOT_GEN_WARNING
+                if (!typeof(Delegate).IsAssignableFrom(type))
+                {
 #if !XLUA_GENERAL
-                UnityEngine.Debug.LogWarning(string.Format("{0} not gen, using reflection instead", type));
+                    UnityEngine.Debug.LogWarning(string.Format("{0} not gen, using reflection instead", type));
 #else
-                System.Console.WriteLine(string.Format("Warning: {0} not gen, using reflection instead", type));
+                    System.Console.WriteLine(string.Format("Warning: {0} not gen, using reflection instead", type));
 #endif
+                }
 #endif
             }
             if (top != LuaAPI.lua_gettop(L))
@@ -224,7 +227,7 @@ namespace XLua
 #endif
             assemblies = new List<Assembly>();
 
-#if UNITY_WSA && !UNITY_EDITOR
+#if (UNITY_WSA && !ENABLE_IL2CPP) && !UNITY_EDITOR
             var assemblies_usorted = Utils.GetAssemblies();
 #else
             assemblies.Add(Assembly.GetExecutingAssembly());
@@ -904,6 +907,20 @@ namespace XLua
             return getTypeId(L, type, out isFirst);
         }
 
+        HashSet<Type> privateAccessibleFlags = new HashSet<Type>();
+
+        public void PrivateAccessible(RealStatePtr L, Type type)
+        {
+            if (!privateAccessibleFlags.Contains(type)) //未处理
+            {
+                privateAccessibleFlags.Add(type);
+                if (typeIdMap.ContainsKey(type)) //loaded
+                {
+                    Utils.MakePrivateAccessible(L, type);
+                }
+            }
+        }
+
         internal int getTypeId(RealStatePtr L, Type type, out bool is_first, LOGLEVEL log_level = LOGLEVEL.WARN)
         {
             int type_id;
@@ -918,6 +935,7 @@ namespace XLua
                 if (typeof(MulticastDelegate).IsAssignableFrom(type))
                 {
                     if (common_delegate_meta == -1) throw new Exception("Fatal Exception! Delegate Metatable not inited!");
+                    TryDelayWrapLoader(L, type);
                     return common_delegate_meta;
                 }
 

@@ -19,6 +19,19 @@ namespace BridgeUI.Control
     [System.Serializable]
     public class ButtonListSelector : ListSelector
     {
+        public override bool singleChoise
+        {
+            get
+            {
+                return true;
+            }
+
+            set
+            {
+                base.singleChoise = value;
+            }
+        }
+     
         protected override void OnCreateItem(int id,GameObject instence)
         {
             base.OnCreateItem(id,instence);

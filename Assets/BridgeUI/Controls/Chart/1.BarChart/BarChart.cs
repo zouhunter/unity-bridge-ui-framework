@@ -44,8 +44,8 @@ namespace BridgeUI.Control.Chart
         {
             if (!enable)
                 return;
-            GameObject horizontalText = transform.FindChild("HorizontalUnitTemplate").gameObject;
-            GameObject verticalText = transform.FindChild("VerticalUnitTemplate").gameObject;
+            GameObject horizontalText = transform.Find("HorizontalUnitTemplate").gameObject;
+            GameObject verticalText = transform.Find("VerticalUnitTemplate").gameObject;
             horizontalText.SetActive(false);
             verticalText.SetActive(false);
             (barChartFactory as BarChartFactory).UnitEnable(verticalText,horizontalText,GetPixelAdjustedRect(),this.transform,BaseSetting ,BarChartSetting , barChartData);

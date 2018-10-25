@@ -31,7 +31,7 @@ namespace BridgeUI
             set { group = value; }
         }
         public IUIPanel Parent { get; set; }
-        public virtual Transform Content { get { return transform; } }
+        public virtual Transform Content { get { return Group.Trans; } }
         public Transform Root { get { return transform.parent.parent; } }
         public UIType UType { get; set; }
         public List<IUIPanel> ChildPanels
@@ -88,14 +88,9 @@ namespace BridgeUI
         protected event UnityAction<object> onReceive;
         protected bool _isShowing = true;
         protected bool _isAlive = true;
-
         protected override void Start()
         {
             base.Start();
-            if (bridge != null)
-            {
-                bridge.OnCreatePanel(this);
-            }
             AppendComponentsByType();
             OnOpenInternal();
         }

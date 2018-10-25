@@ -23,7 +23,7 @@ using System.Collections;
 
 namespace XLua
 {
-    public class LuaTable : LuaBase
+    public partial class LuaTable : LuaBase
     {
         public LuaTable(int reference, LuaEnv luaenv) : base(reference, luaenv)
         {

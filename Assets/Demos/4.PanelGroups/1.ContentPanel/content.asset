@@ -1,0 +1,376 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d2d9de1cba75443b53732fa8104050, type: 3}
+  m_Name: content
+  m_EditorClassIdentifier: 
+  m_allNodes:
+  - m_name: ContentPanel
+    m_id: 2aac0bab-0698-4db9-b376-ec67fdcdca94
+    m_x: 230
+    m_y: 100
+    m_node: {fileID: 11417720}
+    m_inputPoints:
+    - id: 813859db-2d04-4144-bac9-e8c1b52e79a4
+      label: "\u2192"
+      parentId: 2aac0bab-0698-4db9-b376-ec67fdcdca94
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints:
+    - id: 0294d4b3-4a74-471e-b788-2b6b3ca30396
+      label: Button(0)
+      parentId: 2aac0bab-0698-4db9-b376-ec67fdcdca94
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 133
+        y: 21.5
+        width: 10
+        height: 23
+      max: 20
+      type: bridge
+    - id: a51435f1-dbf6-420c-83d3-d445d284775b
+      label: Button (1)(1)
+      parentId: 2aac0bab-0698-4db9-b376-ec67fdcdca94
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 133
+        y: 53.5
+        width: 10
+        height: 23
+      max: 20
+      type: bridge
+  - m_name: Luncher
+    m_id: 5ae9c295-db50-4921-b78c-0bf561ebdc2a
+    m_x: 36
+    m_y: 48
+    m_node: {fileID: 11421066}
+    m_inputPoints: []
+    m_outputPoints:
+    - id: 0d96872d-0c91-406f-8100-492e53ffe2f1
+      label: +
+      parentId: 5ae9c295-db50-4921-b78c-0bf561ebdc2a
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  - m_name: Panel1
+    m_id: 5ae2db62-42e2-4131-8750-1eb11ffcbff3
+    m_x: 230
+    m_y: 220
+    m_node: {fileID: 114016379823073696}
+    m_inputPoints:
+    - id: 1c6b43c5-2102-4e6f-b8b3-b5c6a3b06800
+      label: "\u2192"
+      parentId: 5ae2db62-42e2-4131-8750-1eb11ffcbff3
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints: []
+  - m_name: Panel1
+    m_id: cb1576d9-3eed-45c7-9a88-aed943a6fce5
+    m_x: 470
+    m_y: 220
+    m_node: {fileID: 114232901235185064}
+    m_inputPoints:
+    - id: 22e44489-fdcb-4703-9ee6-c9a54b0eed9c
+      label: 
+      parentId: cb1576d9-3eed-45c7-9a88-aed943a6fce5
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints: []
+  - m_name: Panel1
+    m_id: 44dcac79-918c-4567-abb1-7c60f973d16e
+    m_x: 470
+    m_y: 110
+    m_node: {fileID: 114431437302168630}
+    m_inputPoints:
+    - id: 7fd5e502-7693-466f-9b27-bb3ac2c1161e
+      label: 
+      parentId: 44dcac79-918c-4567-abb1-7c60f973d16e
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints: []
+  m_allConnections:
+  - m_id: b6bc58f6-dc75-4462-8935-6a24b4b1d7de
+    m_fromNodeId: 5ae9c295-db50-4921-b78c-0bf561ebdc2a
+    m_fromNodeConnectionPointId: 0d96872d-0c91-406f-8100-492e53ffe2f1
+    m_toNodeId: 2aac0bab-0698-4db9-b376-ec67fdcdca94
+    m_toNodeConnectionPoiontId: 813859db-2d04-4144-bac9-e8c1b52e79a4
+    m_type: bridge
+    m_connection: {fileID: 11462424}
+  - m_id: 760cf215-1dea-48ae-a221-74898ce757e0
+    m_fromNodeId: 2aac0bab-0698-4db9-b376-ec67fdcdca94
+    m_fromNodeConnectionPointId: 0294d4b3-4a74-471e-b788-2b6b3ca30396
+    m_toNodeId: 44dcac79-918c-4567-abb1-7c60f973d16e
+    m_toNodeConnectionPoiontId: 7fd5e502-7693-466f-9b27-bb3ac2c1161e
+    m_type: bridge
+    m_connection: {fileID: 114317296328549332}
+  - m_id: bf5842c7-09ba-4882-8462-196cb96c076e
+    m_fromNodeId: 2aac0bab-0698-4db9-b376-ec67fdcdca94
+    m_fromNodeConnectionPointId: a51435f1-dbf6-420c-83d3-d445d284775b
+    m_toNodeId: cb1576d9-3eed-45c7-9a88-aed943a6fce5
+    m_toNodeConnectionPoiontId: 22e44489-fdcb-4703-9ee6-c9a54b0eed9c
+    m_type: bridge
+    m_connection: {fileID: 114652538061417784}
+  m_lastModified: 131789219461086622
+  m_graphDescription: 
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
+  loadType: 1
+  b_nodes: []
+  p_nodes:
+  - instanceID: 0
+    discription: 
+    panelName: ContentPanel
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 1
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 122324, guid: 52d079d69fd0f9841b1d3ee41b4cda0c, type: 2}
+  - instanceID: 0
+    discription: 
+    panelName: Panel1
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0.2
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 1380110791000156, guid: 838ebae1ca8ec0b478bd4d54ab40afd7, type: 2}
+  bridges:
+  - inNode: 
+    index: 0
+    showModel:
+      _auto: 1
+      _cover: 0
+      _single: 0
+      mutex: 0
+      baseShow: 0
+    viewModel: {fileID: 0}
+    outNode: ContentPanel
+  - inNode: ContentPanel
+    index: 0
+    showModel:
+      _auto: 0
+      _cover: 0
+      _single: 0
+      mutex: 0
+      baseShow: 0
+    viewModel: {fileID: 0}
+    outNode: Panel1
+  - inNode: ContentPanel
+    index: 1
+    showModel:
+      _auto: 0
+      _cover: 0
+      _single: 0
+      mutex: 0
+      baseShow: 0
+    viewModel: {fileID: 0}
+    outNode: Panel1
+--- !u!114 &11417720
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: ContentPanel
+  m_EditorClassIdentifier: 
+  selected: 3
+  instenceID: 0
+  assetName: ContentPanel
+  style: 1
+  nodedescribe:
+  - Button
+  - Button (1)
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+    bindingAble: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 1
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    guid: 52d079d69fd0f9841b1d3ee41b4cda0c
+    discription: 
+--- !u!114 &11421066
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
+  m_Name: Luncher
+  m_EditorClassIdentifier: 
+--- !u!114 &11462424
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 1
+    _cover: 0
+    _single: 0
+    mutex: 0
+    baseShow: 0
+  viewModel: {fileID: 0}
+--- !u!114 &114016379823073696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: Panel1
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  assetName: Panel1
+  style: 1
+  nodedescribe: []
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+    bindingAble: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0.2
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    guid: 838ebae1ca8ec0b478bd4d54ab40afd7
+    discription: 
+--- !u!114 &114232901235185064
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff5f928ce618db4b9be54804a0ed0da, type: 3}
+  m_Name: RemoteNode
+  m_EditorClassIdentifier: 
+--- !u!114 &114317296328549332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 0
+    _cover: 0
+    _single: 0
+    mutex: 0
+    baseShow: 0
+  viewModel: {fileID: 0}
+--- !u!114 &114431437302168630
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff5f928ce618db4b9be54804a0ed0da, type: 3}
+  m_Name: RemoteNode
+  m_EditorClassIdentifier: 
+--- !u!114 &114652538061417784
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 0
+    _cover: 0
+    _single: 0
+    mutex: 0
+    baseShow: 0
+  viewModel: {fileID: 0}

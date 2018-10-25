@@ -23,8 +23,9 @@ namespace BridgeUI
         IUIHandle RegistCallBack(UnityAction<IUIPanel, object> onCallBack);
         IUIHandle RemoveCallBack(UnityAction<IUIPanel, object> onCallBack);
         IUIHandle RegistCreate(UnityAction<IUIPanel> onCreate);
-        IUIHandle RegistClose(UnityAction<IUIPanel> onClose);
-
+        IUIHandle RemoveCreate(UnityAction<IUIPanel> onCreate);
+        IUIHandle RegistClose(UnityAction<IUIPanel> onCreate);
+        IUIHandle RemoveClose(UnityAction<IUIPanel> onCreate);
     }
 
     internal interface IUIHandleInternal : IUIHandle

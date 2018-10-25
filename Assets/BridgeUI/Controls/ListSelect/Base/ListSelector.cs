@@ -48,7 +48,7 @@ namespace BridgeUI.Control
                 return createdItems.ToArray();
             }
         }
-        public bool singleChoise { get; set; }
+        public virtual bool singleChoise { get; set; }
 
         protected List<int> selecteds = new List<int>();
         protected string[] _options;

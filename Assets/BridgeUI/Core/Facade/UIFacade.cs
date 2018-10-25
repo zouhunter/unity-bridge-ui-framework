@@ -42,6 +42,8 @@ namespace BridgeUI
         private static List<IPanelGroup> groupList = new List<IPanelGroup>();
         //handle池
         private static UIHandlePool handlePool = new UIHandlePool();
+        private event UnityAction<IUIPanel> onCreate;
+        private event UnityAction<IUIPanel> onClose;
 
         public static void RegistGroup(IPanelGroup group)
         {
@@ -61,36 +63,15 @@ namespace BridgeUI
 
         public IUIHandle Open(string panelName, object data = null)
         {
-            return Open(null, panelName,  data);
+            return Open(null, panelName, data);
         }
 
         public IUIHandle Open(IUIPanel parent, string panelName, object data = null)
         {
-            var handle = handlePool.Allocate(panelName);
-
-            var currentGroup = parent == null ? null : parent.Group;
-
-            if (currentGroup != null)//限制性打开
-            {
-                InternalOpen(parent, currentGroup, handle, panelName,-1);
-            }
-            else
-            {
-                foreach (var group in groupList)
-                {
-                    InternalOpen(parent, group, handle, panelName,-1);
-                }
-            }
-
-            if (data != null)
-            {
-                handle.Send(data);
-            }
-
-            return handle;
+            return this.Open(parent, panelName, -1, data);
         }
 
-        public IUIHandle Open(IUIPanel parent, string panelName, int index,  object data = null)
+        public IUIHandle Open(IUIPanel parent, string panelName, int index, object data = null)
         {
             var handle = handlePool.Allocate(panelName);
 
@@ -115,15 +96,7 @@ namespace BridgeUI
 
             return handle;
         }
-        private void InternalOpen(IUIPanel parentPanel, IPanelGroup group, IUIHandleInternal handle,string panelName,int index)
-        {
-            var Content = parentPanel == null ? null : parentPanel.Content;
-            Bridge bridgeObj = group.InstencePanel(parentPanel, panelName,index, Content);
-            if (bridgeObj != null)
-            {
-                handle.RegistBridge(bridgeObj);
-            }
-        }
+ 
 
         public void Hide(string panelName)
         {
@@ -145,17 +118,7 @@ namespace BridgeUI
             }
         }
 
-        private void InternalHide(IPanelGroup group, string panelName)
-        {
-            var panels = group.RetrivePanels(panelName);
-            if (panels != null)
-            {
-                foreach (var panel in panels)
-                {
-                    panel.Hide();
-                }
-            }
-        }
+
 
         public void Close(IPanelGroup currentGroup, string panelName)
         {
@@ -176,18 +139,6 @@ namespace BridgeUI
             Close(null, panelName);
         }
 
-        private void InteralClose(IPanelGroup group, string panelName)
-        {
-            var panels = group.RetrivePanels(panelName);
-            if (panels != null)
-            {
-                foreach (var panel in panels)
-                {
-                    panel.Close();
-                }
-            }
-            group.CansaleInstencePanel(panelName);
-        }
 
         public bool IsPanelOpen(string panelName)
         {
@@ -203,6 +154,81 @@ namespace BridgeUI
         {
             var panels = parentPanel.RetrivePanels(panelName);
             return (panels != null && panels.Count > 0);
+        }
+
+        public void RegistCreate(UnityAction<IUIPanel> onCreate)
+        {
+            if (onCreate == null) return;
+            this.onCreate -= onCreate;
+            this.onCreate += onCreate;
+        }
+        
+        public void RegistClose(UnityAction<IUIPanel> onClose)
+        {
+            if (onClose == null) return ;
+            this.onClose -= onClose;
+            this.onClose += onClose;
+        }
+        public void RemoveCreate(UnityAction<IUIPanel> onCreate)
+        {
+            if (onCreate == null) return;
+            this.onCreate -= onCreate;
+        }
+
+        public void RemoveClose(UnityAction<IUIPanel> onClose)
+        {
+            if (onClose == null) return;
+            this.onClose -= onClose;
+        }
+
+        internal void InternalOpen(IUIPanel parentPanel, IPanelGroup group, IUIHandleInternal handle, string panelName, int index)
+        {
+            var Content = parentPanel == null ? null : parentPanel.Content;
+            Bridge bridgeObj = group.InstencePanel(parentPanel, panelName, index, Content);
+            if (bridgeObj != null) {
+                handle.RegistCreate(OnCreate);
+                handle.RegistClose(OnClose);
+                handle.RegistBridge(bridgeObj);
+            }
+        }
+        private void InternalHide(IPanelGroup group, string panelName)
+        {
+            var panels = group.RetrivePanels(panelName);
+            if (panels != null)
+            {
+                foreach (var panel in panels)
+                {
+                    panel.Hide();
+                }
+            }
+        }
+        private void InteralClose(IPanelGroup group, string panelName)
+        {
+            var panels = group.RetrivePanels(panelName);
+            if (panels != null)
+            {
+                foreach (var panel in panels)
+                {
+                    panel.Close();
+                }
+            }
+            group.CansaleInstencePanel(panelName);
+        }
+
+        private void OnCreate(IUIPanel panel)
+        {
+            if(this.onCreate != null)
+            {
+                this.onCreate.Invoke(panel);
+            }
+        }
+
+        private void OnClose(IUIPanel panel)
+        {
+            if(this.onClose != null)
+            {
+                this.onClose.Invoke(panel);
+            }
         }
     }
 }

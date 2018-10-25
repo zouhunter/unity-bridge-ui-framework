@@ -10,7 +10,7 @@ namespace BridgeUI
     public interface IPanelGroup
     {
         Transform Trans { get; }
-        List<UIInfoBase> Nodes { get; }
+        Dictionary<string, UIInfoBase> Nodes { get; }
         List<IUIPanel> RetrivePanels(string panelName);
         UIBindingController bindingCtrl { get; }
         Bridge InstencePanel(IUIPanel parentPanel, string panelName, int index, Transform root);

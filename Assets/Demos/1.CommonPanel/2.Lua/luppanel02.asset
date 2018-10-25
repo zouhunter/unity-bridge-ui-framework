@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f35fe0cd34ac594e831074e8f8789d9, type: 3}
+  m_Name: luppanel02
+  m_EditorClassIdentifier: 
+  luaScript: "local Debug = CS.UnityEngine.Debug\r\n\r\nfunction on_binding(panel)\r\n\tprint(\"lua
+    oninit...\")\r\n\tslider_trans = panel.transform:Find(\"Slider\")\r\n\tslider
+    = slider_trans:GetComponent(typeof(CS.UnityEngine.UI.Slider))\r\n\tslider.onValueChanged:AddListener(printprogress)\r\n\tself:SetValue(\"text\",\"\u6211\u662F\u4ECElua\u4E2D\u751F\u6210\u7684\u6587\u5B57\")\r\n\tself:SetValue(\"image_color\",CS.UnityEngine.Color(1,0,0,1))\r\n\tself:SetValue(\"btn_color\",CS.UnityEngine.Color(0,1,0,1))\nend\r\n\r\nfunction
+    update()\r\n\tprint(\"lua update...\")\r\n\tself:SetValue(\"btn_color\",CS.UnityEngine.Color(CS.UnityEngine.Time.time
+    % 1,0.5,0.1,1))\r\nend\r\n\r\nfunction ondestroy()\r\n    print(\"lua destroy\")\r\nend\r\n\r\nfunction
+    printprogress(f)\r\n\tprint(f)\r\n\tend\r\n\r\nfunction on_button_clicked(panel)\r\n\tbuttonClicked
+    = true\r\n\tprint(\"lua on_button_clicked...\")\r\n\tDebug.Log(\"(debug:)lua on_button_clicked...\")\r\nend\r\n\r\nfunction
+    on_toggle_switched(panel,toggle)\r\n\tprint(\"lua on_toggle_switched...\",toggle.isOn)\r\nend\r\n\r\n--\u4E0B\u62C9\u6846\r\nfunction
+    on_dropdown_switched(panel,dropdown)\r\n\tprint(\"lua on_dropdown_switched...\",dropdown.value)\r\nend\r\n\r\n--\u8F93\u5165\u6846\r\nfunction
+    on_inputfield_edited(panel,text)\r\n\tprint(\"lua on_inputfield_edited...\",text.text)\r\nend\r\n\r\n--\u6ED1\u52A8\u6846\r\nfunction
+    on_scrollview_changed(panel)\r\n\tprint(\"lua on_scrollview_changed...\")\r\nend\r\n\r\nfunction
+    handle_data(data)\r\n\tprint(data)\r\nend"

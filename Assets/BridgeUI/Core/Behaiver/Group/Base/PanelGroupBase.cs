@@ -20,54 +20,24 @@ namespace BridgeUI
     public abstract class PanelGroupBase : MonoBehaviour, IPanelGroup
     {
         public Transform Trans { get { return transform; } }
-        public List<UIInfoBase> Nodes { get { return activeNodes; } }
-        protected BridgeInfo defultBridge;
-        protected Dictionary<BridgeInfo, BridgePool> poolDic = new Dictionary<BridgeInfo, BridgePool>();
+        protected BridgePool bridgePool = new BridgePool();
+        protected UICreateInfoPool uiCreateInfoPool = new UICreateInfoPool();
         protected List<IUIPanel> createdPanels = new List<IUIPanel>();
+        protected List<Bridge> createdBridges = new List<Bridge>();
         protected Dictionary<IUIPanel, Stack<IUIPanel>> hidedPanelStack = new Dictionary<IUIPanel, Stack<IUIPanel>>();
-        protected Dictionary<IUIPanel, Bridge> bridgeDic = new Dictionary<IUIPanel, Bridge>();
-        protected List<UIInfoBase> activeNodes;
-        protected IPanelCreater creater;
+        protected List<UICreateInfo> waitCreateQueue = new List<UICreateInfo>();
+        protected abstract IPanelCreater creater { get; }
         protected event UnityAction onDestroy;
-        private List<BundleUIInfo> _b_nodes;
-        private List<PrefabUIInfo> _p_nodes;
-        private List<BridgeInfo> _bridges;
+
         public UIBindingController bindingCtrl { get; private set; }
         public abstract string Menu { get; }
         public abstract bool ResetMenu { get; }
         public abstract List<Graph.UIGraph> GraphList { get; }
-        public List<BundleUIInfo> B_Nodes
-        {
-            get
-            {
-                if (_b_nodes == null)
-                {
-                    _b_nodes = new List<BundleUIInfo>();
-                    foreach (var graph in GraphList)
-                    {
-                        if(graph.b_nodes != null)
-                        _b_nodes.AddRange(graph.b_nodes);
-                    }
-                }
-                return _b_nodes;
-            }
-        }
-        public List<PrefabUIInfo> P_Nodes
-        {
-            get
-            {
-                if (_p_nodes == null)
-                {
-                    _p_nodes = new List<PrefabUIInfo>();
-                    foreach (var graph in GraphList)
-                    {
-                        if (graph.p_nodes != null)
-                            _p_nodes.AddRange(graph.p_nodes);
-                    }
-                }
-                return _p_nodes;
-            }
-        }
+
+        /// <summary>
+        /// 关联信息
+        /// </summary>
+        private List<BridgeInfo> _bridges;
         public List<BridgeInfo> Bridges
         {
             get
@@ -77,19 +47,66 @@ namespace BridgeUI
                     _bridges = new List<BridgeInfo>();
                     foreach (var graph in GraphList)
                     {
-                        if(graph.bridges != null)
-                        _bridges.AddRange(graph.bridges);
+                        if (graph.bridges != null)
+                            _bridges.AddRange(graph.bridges);
                     }
                 }
                 return _bridges;
             }
         }
+        /// <summary>
+        /// 节点信息
+        /// </summary>
+        private Dictionary<string, UIInfoBase> activeNodes;
+        public Dictionary<string, UIInfoBase> Nodes
+        {
+            get
+            {
+                if (activeNodes == null)
+                {
+                    activeNodes = new Dictionary<string, UIInfoBase>();
+                    foreach (var graph in GraphList)
+                    {
+                        if (graph.b_nodes != null)
+                            graph.b_nodes.ForEach(x =>
+                            {
+                                activeNodes.Add(x.panelName, x);
+                            });
+                        if (graph.p_nodes != null)
+                            graph.p_nodes.ForEach(x =>
+                            {
+                                activeNodes.Add(x.panelName, x);
+                            });
+                    }
+                }
+                return activeNodes;
+            }
+        }
 
-        private void OnEnable()
+        protected void OnEnable()
         {
             var created = createdPanels.ToArray();
             TryOpenPanels(created);
             UIFacade.RegistGroup(this);
+        }
+
+        protected void Update()
+        {
+            if (waitCreateQueue.Count > 0)
+            {
+                var first = waitCreateQueue[0];
+                waitCreateQueue.RemoveAt(0);
+                if (first.uiInfo != null)
+                {
+                    creater.CreatePanel(first.uiInfo,(x)=> {
+
+                        if(first.onCreate != null)
+                            first.onCreate.Invoke(x);
+
+                        uiCreateInfoPool.Release(first);
+                    } );
+                }
+            }
         }
         protected void OnDisable()
         {
@@ -101,50 +118,58 @@ namespace BridgeUI
         }
         protected virtual void OnDestroy()
         {
-            if (onDestroy != null)
-            {
+            if (onDestroy != null){
                 onDestroy.Invoke();
             }
+
             UIFacade.UnRegistGroup(this);
         }
 
         protected void LunchPanelGroupSystem()
         {
-            InitCreater();
-            RegistUINodes();
-            RegistBridgePool();
             TryAutoOpen(Trans);
             RegistUIEvents();
         }
 
-        public Bridge InstencePanel(IUIPanel parentPanel, string panelName,int index, Transform root)
+        public Bridge InstencePanel(IUIPanel parentPanel, string panelName, int index, Transform root)
         {
             Bridge bridge = null;
             UIInfoBase uiNode = null;
-            if (TryMatchPanel(parentPanel, panelName,index, out bridge, out uiNode))
+            if (TryMatchPanel(parentPanel, panelName, index, out bridge, out uiNode))
             {
-                uiNode.OnCreate = (go) =>
+                var parent = root == null ? Trans : root;
+                var action = new UnityAction<GameObject>(go =>
                 {
-                    Utility.SetTranform(go.transform, uiNode.type.layer, uiNode.type.layerIndex, root == null ? Trans : root);
+                    Utility.SetTranform(go.transform, uiNode.type.layer, uiNode.type.layerIndex, parent);
                     go.SetActive(true);
                     var panel = go.GetComponent<IUIPanel>();
                     if (panel != null)
                     {
                         createdPanels.Add(panel);
-                        if (parentPanel != null) {
+                        if (parentPanel != null)
+                        {
                             parentPanel.RecordChild(panel);
                         }
-                        bridgeDic.Add(panel, bridge);
+                        if (bridge != null){
+                            bridge.OnCreatePanel(panel);
+                        }
                         InitPanel(panel, bridge, uiNode);
                         HandBridgeOptions(panel, bridge);
                     }
-                };
-                creater.CreatePanel(uiNode);
+                });
+                var uiCreateInfo = uiCreateInfoPool.Allocate(uiNode,action);
+                waitCreateQueue.Add(uiCreateInfo);
             }
             return bridge;
         }
         public void CansaleInstencePanel(string panelName)
         {
+            var match = waitCreateQueue.Find(x => x.uiInfo != null && x.uiInfo.panelName == panelName);
+            if (match.uiInfo != null)
+            {
+                waitCreateQueue.Remove(match);
+                uiCreateInfoPool.Release(match);
+            }
             creater.CansaleCreatePanel(panelName);
         }
         public List<IUIPanel> RetrivePanels(string panelName)
@@ -156,21 +181,6 @@ namespace BridgeUI
         #region protected Functions
 
         /// <summary>
-        /// 初始化面板创建器
-        /// </summary>
-        protected void InitCreater()
-        {
-            if (ResetMenu)
-            {
-                creater = new PanelCreater(Menu);
-            }
-            else
-            {
-                creater = new PanelCreater();
-            }
-
-        }
-        /// <summary>
         /// 处理面板打开规则
         /// </summary>
         /// <param name="panel"></param>
@@ -178,7 +188,7 @@ namespace BridgeUI
         protected void HandBridgeOptions(IUIPanel panel, Bridge bridge)
         {
             TryChangeParentState(panel, bridge.Info);
-            TryHideMutexPanels(panel, bridge.Info);
+            TryHandleMutexPanels(panel, bridge.Info);
             TryHideGroup(panel, bridge.Info);
             TryMakeCover(panel, bridge.Info);
             TryAutoOpen(panel.Content, panel);
@@ -226,21 +236,36 @@ namespace BridgeUI
         /// <param name="childPanel"></param>
         /// <param name=""></param>
         /// <param name="bridge"></param>
-        protected void TryHideMutexPanels(IUIPanel childPanel, BridgeInfo bridge)
+        protected void TryHandleMutexPanels(IUIPanel childPanel, BridgeInfo bridge)
         {
             if (bridge.showModel.mutex != MutexRule.NoMutex)
             {
                 if (bridge.showModel.mutex == MutexRule.SameParentAndLayer)
                 {
                     var mayBridges = Bridges.FindAll(x => x.inNode == bridge.inNode);
+
                     foreach (var bg in mayBridges)
                     {
-                        var mayPanels = createdPanels.FindAll(x => x.Name == bg.outNode && x.UType.layer == childPanel.UType.layer && x != childPanel && !IsChildOfPanel(childPanel, x));
+                        if (bg.showModel.mutex != MutexRule.SameParentAndLayer) continue;
+
+                        var mayPanels = createdPanels.FindAll(x => 
+                        x.Name == bg.outNode &&
+                        x.UType.layer == childPanel.UType.layer && 
+                        x != childPanel && 
+                        !IsChildOfPanel(childPanel, x));
+
                         foreach (var mayPanel in mayPanels)
                         {
                             if (mayPanel != null && mayPanel.IsShowing)
                             {
-                                HidePanelInteral(childPanel, mayPanel);
+                                if(mayPanel.UType.layerIndex > childPanel.UType.layerIndex)
+                                {
+                                    HidePanelInteral(mayPanel,childPanel);
+                                }
+                                else
+                                {
+                                    HidePanelInteral(childPanel, mayPanel);
+                                }
                             }
                         }
 
@@ -253,7 +278,14 @@ namespace BridgeUI
                     {
                         if (mayPanel != null && mayPanel.IsShowing)
                         {
-                            HidePanelInteral(childPanel, mayPanel);
+                            if (mayPanel.UType.layerIndex > childPanel.UType.layerIndex)
+                            {
+                                HidePanelInteral(mayPanel, childPanel);
+                            }
+                            else
+                            {
+                                HidePanelInteral(childPanel, mayPanel);
+                            }
                         }
                     }
                 }
@@ -296,7 +328,7 @@ namespace BridgeUI
             {
                 foreach (var autoBridge in autoBridges)
                 {
-                    InstencePanel(parentPanel, autoBridge.outNode,-1, content);
+                    InstencePanel(parentPanel, autoBridge.outNode, -1, content);
                 }
             }
         }
@@ -313,16 +345,6 @@ namespace BridgeUI
                 return string.IsNullOrEmpty(nameB);
             }
             return string.Compare(nameA, nameB) == 0;
-        }
-
-        /// <summary>
-        /// 注册所有ui节点信息
-        /// </summary>
-        protected void RegistUINodes()
-        {
-            activeNodes = new List<UIInfoBase>();
-            activeNodes.AddRange(B_Nodes.ConvertAll<UIInfoBase>(x => x));
-            activeNodes.AddRange(P_Nodes.ConvertAll<UIInfoBase>(x => x));
         }
         /// <summary>
         /// 
@@ -352,7 +374,8 @@ namespace BridgeUI
         {
             panel.UType = uiNode.type;
             panel.Group = this;
-            if(panel is BridgeUI.Binding.IBindingContext && bridge.Info.viewModel != null) {
+            if (panel is BridgeUI.Binding.IBindingContext && bridge.Info.viewModel != null)
+            {
                 (panel as BridgeUI.Binding.IBindingContext).ViewModel = bridge.Info.viewModel as Binding.IViewModel;
             }
             panel.onDelete += OnDeletePanel;
@@ -409,9 +432,9 @@ namespace BridgeUI
         /// <param name="bridgeObj"></param>
         /// <param name="uiNode"></param>
         /// <returns></returns>
-        protected bool TryMatchPanel(IUIPanel parentPanel, string panelName,int index, out Bridge bridgeObj, out UIInfoBase uiNode)
+        protected bool TryMatchPanel(IUIPanel parentPanel, string panelName, int index, out Bridge bridgeObj, out UIInfoBase uiNode)
         {
-            uiNode = Nodes.Find(x => x.panelName == panelName);
+            Nodes.TryGetValue(panelName, out uiNode);
 
             if (uiNode != null)
             {
@@ -420,7 +443,7 @@ namespace BridgeUI
                     var oldPanel = createdPanels.Find(x => x.Name == panelName && x.Parent == parentPanel);
                     if (oldPanel != null)
                     {
-                        bridgeObj = bridgeDic[oldPanel];
+                        bridgeObj = createdBridges.Find(x =>x.InPanel == parentPanel && x.OutPanel == oldPanel);
                         if (!oldPanel.IsShowing)
                         {
                             oldPanel.UnHide();
@@ -438,6 +461,7 @@ namespace BridgeUI
             }
 
             bridgeObj = GetBridgeClamp(parentPanel, panelName, index);
+            createdBridges.Add(bridgeObj);
             return uiNode != null && bridgeObj != null;
         }
 
@@ -447,7 +471,7 @@ namespace BridgeUI
         /// <param name="parentPanel"></param>
         /// <param name="panelName"></param>
         /// <returns></returns>
-        protected Bridge GetBridgeClamp(IUIPanel parentPanel, string panelName,int index)
+        protected Bridge GetBridgeClamp(IUIPanel parentPanel, string panelName, int index)
         {
             Bridge bridge = null;
             var parentName = parentPanel == null ? "" : parentPanel.Name;
@@ -469,28 +493,15 @@ namespace BridgeUI
 
             if (bridgeInfo == null)
             {
-                bridge = poolDic[defultBridge].Allocate(parentPanel);
                 var show = new ShowMode(false, MutexRule.NoMutex, false, BaseShow.NoChange, false);
-                bridge.Info = new BridgeInfo(parentName, panelName, show,null, 0);
+                var info = new BridgeInfo(parentName, panelName, show, null, 0);
+                bridge = bridgePool.Allocate(info, parentPanel);
             }
             else
             {
-                bridge = poolDic[(BridgeInfo)bridgeInfo].Allocate(parentPanel);
+                bridge = bridgePool.Allocate((BridgeInfo)bridgeInfo, parentPanel);
             }
             return bridge;
-        }
-
-        /// <summary>
-        /// bridge生成池
-        /// </summary>
-        protected virtual void RegistBridgePool()
-        {
-            foreach (var item in Bridges)
-            {
-                poolDic[item] = new BridgePool(item);
-            }
-            defultBridge = new BridgeInfo();
-            poolDic[defultBridge] = new BridgePool(defultBridge);
         }
 
         /// <summary>
@@ -508,10 +519,7 @@ namespace BridgeUI
                 }
 
                 //移除连通器
-                if (bridgeDic.ContainsKey(panel))
-                {
-                    bridgeDic.Remove(panel);
-                }
+                createdBridges.RemoveAll(x => x.OutPanel == panel);
 
                 //关闭子面板
                 if (panel.ChildPanels != null)
@@ -591,7 +599,7 @@ namespace BridgeUI
                     {
                         var parentPanel = x;
                         var panelName = bridgeInfo.outNode;
-                        return UIFacade.Instence.Open(parentPanel, panelName,index, y);
+                        return UIFacade.Instence.Open(parentPanel, panelName, index, y);
                     };
 
                     bindingItem.closeAction = () =>

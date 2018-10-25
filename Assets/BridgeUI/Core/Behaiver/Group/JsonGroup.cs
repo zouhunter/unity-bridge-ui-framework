@@ -40,6 +40,25 @@ namespace BridgeUI
         [HideInInspector]
         public string resourcePath;
         private List<UIGraph> _graphList;
+        protected PanelCreater _panelCreater;
+        protected override IPanelCreater creater
+        {
+            get
+            {
+                if (_panelCreater == null)
+                {
+                    if (ResetMenu)
+                    {
+                        _panelCreater = new PanelCreater(Menu);
+                    }
+                    else
+                    {
+                        _panelCreater = new PanelCreater();
+                    }
+                }
+                return _panelCreater;
+            }
+        }
 
         public override List<UIGraph> GraphList
         {

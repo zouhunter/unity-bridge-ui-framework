@@ -16,7 +16,7 @@ namespace BridgeUI
 {
     public interface IPanelCreater
     {
-        void CreatePanel(UIInfoBase itemInfo);
+        void CreatePanel(UIInfoBase itemInfo,UnityAction<GameObject> onCreate);
         void CansaleCreatePanel(string panel);
     }
 }

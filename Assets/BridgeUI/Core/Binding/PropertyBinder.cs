@@ -24,9 +24,12 @@ namespace BridgeUI.Binding
             //Debug.Log("Bind:" + viewModel);
             this.viewModel = viewModel;
 
-            if (viewModel != null && binders != null)
+            if (viewModel != null)
             {
-                binders.Invoke(viewModel);
+                if (binders != null)
+                {
+                    binders.Invoke(viewModel);
+                }
                 viewModel.OnBinding(Context);
             }
         }
@@ -34,9 +37,12 @@ namespace BridgeUI.Binding
         public void Unbind()
         {
             //Debug.Log("UnBind:" + viewModel);
-            if (viewModel != null && unbinders != null)
+            if (viewModel != null)
             {
-                unbinders.Invoke(viewModel);
+                if (unbinders != null)
+                {
+                    unbinders.Invoke(viewModel);
+                }
                 viewModel.OnUnBinding(Context);
             }
             this.viewModel = null;
@@ -53,7 +59,7 @@ namespace BridgeUI.Binding
             var member = GetDeepMember(ref root, memberPath);
             if (root == null)
             {
-               if(log) Debug.LogWarning("ignore:" + memberPath + "(because some component is null!)");
+                if (log) Debug.LogWarning("ignore:" + memberPath + "(because some component is null!)");
             }
             else
             {
@@ -429,7 +435,7 @@ namespace BridgeUI.Binding
                 }
                 else
                 {
-                   if(log)  Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
+                    if (log) Debug.LogWarningFormat("target prop of {0} not exist in {1}", sourceName, viewModel);
                 }
             };
 

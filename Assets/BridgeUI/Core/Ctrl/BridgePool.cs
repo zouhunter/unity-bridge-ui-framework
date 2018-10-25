@@ -16,24 +16,24 @@ namespace BridgeUI
 {
     public class BridgePool
     {
-        private BridgeInfo bridgePrefab;
+        //private BridgeInfo bridgePrefab;
         private ObjectPool<Bridge> innerPool;
-        public BridgePool(BridgeInfo bridgeObj)
+        public BridgePool(/*BridgeInfo bridgeObj*/)
         {
-            this.bridgePrefab = bridgeObj;
+            //this.bridgePrefab = bridgeObj;
             innerPool = new ObjectPool<Bridge>(CreateInstence);
         }
 
         public Bridge CreateInstence()
         {
-            var bridge = new Bridge(bridgePrefab, OnRelease);
+            var bridge = new Bridge( OnRelease);
             return bridge;
         }
 
-        internal Bridge Allocate(IUIPanel parentPanel = null)
+        internal Bridge Allocate(BridgeInfo info,IUIPanel parentPanel = null)
         {
             var bridge = innerPool.Allocate();
-            bridge.Reset(parentPanel);
+            bridge.Reset(info,parentPanel);
             return bridge;
         }
         private void OnRelease(Bridge bridge)

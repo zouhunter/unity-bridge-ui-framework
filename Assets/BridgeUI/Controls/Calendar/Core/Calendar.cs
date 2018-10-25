@@ -55,19 +55,19 @@ namespace BridgeUI.Control
         protected override void Awake()
         {
             m_Transform = transform;
-            _timeButtonText = m_Transform.FindChild("Title/TimeButton/Text").GetComponent<Text>();
-            _weeksGameObject = m_Transform.FindChild("Container/Weeks").gameObject;
-            _daysGameObejct = m_Transform.FindChild("Container/Days").gameObject;
-            _monthGameObject = m_Transform.FindChild("Container/Months").gameObject;
-            var weekPrefab = _weeksGameObject.transform.FindChild("WeekTemplate").gameObject;
-            var dayPrefab = _daysGameObejct.transform.FindChild("DayTemplate").gameObject;
-            var monthPrefab = _monthGameObject.transform.FindChild("MonthTemplate").gameObject;
+            _timeButtonText = m_Transform.Find("Title/TimeButton/Text").GetComponent<Text>();
+            _weeksGameObject = m_Transform.Find("Container/Weeks").gameObject;
+            _daysGameObejct = m_Transform.Find("Container/Days").gameObject;
+            _monthGameObject = m_Transform.Find("Container/Months").gameObject;
+            var weekPrefab = _weeksGameObject.transform.Find("WeekTemplate").gameObject;
+            var dayPrefab = _daysGameObejct.transform.Find("DayTemplate").gameObject;
+            var monthPrefab = _monthGameObject.transform.Find("MonthTemplate").gameObject;
             WeekGenerator(weekPrefab, _weeksGameObject.transform);
             DayGenerator(dayPrefab, _daysGameObejct.transform);
             MonthGenerator(monthPrefab, _monthGameObject.transform);
-            m_Transform.FindChild("Title/NextButton").GetComponent<Button>().onClick.AddListener(OnNextButtonClick);
-            m_Transform.FindChild("Title/LastButton").GetComponent<Button>().onClick.AddListener(OnLastButtonClick);
-            m_Transform.FindChild("Title/TimeButton").GetComponent<Button>().onClick.AddListener(OnTimeButtonClick);
+            m_Transform.Find("Title/NextButton").GetComponent<Button>().onClick.AddListener(OnNextButtonClick);
+            m_Transform.Find("Title/LastButton").GetComponent<Button>().onClick.AddListener(OnLastButtonClick);
+            m_Transform.Find("Title/TimeButton").GetComponent<Button>().onClick.AddListener(OnTimeButtonClick);
             Refresh();
         }
 
@@ -326,7 +326,7 @@ namespace BridgeUI.Control
         private Text _text = null;
         protected override void Awake( )
         {
-            _text = transform.FindChild("Text").GetComponent<Text>();
+            _text = transform.Find("Text").GetComponent<Text>();
         }
         public void SetDay( DateTime dateTime , E_DisplayType displayType , Color fontColor )
         {

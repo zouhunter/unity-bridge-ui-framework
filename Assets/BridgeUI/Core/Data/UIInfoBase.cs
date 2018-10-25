@@ -18,11 +18,12 @@ namespace BridgeUI
     /// </summary>
     public abstract class UIInfoBase
     {
-        public string panelName;
+#if UNITY_EDITOR
         public int instanceID;
         public string discription;
-        public abstract string IDName { get; }
+#endif
+        public string panelName;
         public UIType type;
-        public UnityAction<GameObject> OnCreate;
+        public abstract string IDName { get; }
     }
 }

@@ -1,18 +1,39 @@
 ﻿using UnityEngine;
 using UnityEditor;
-namespace BridgeUI
+using System;
+#if xLua
+using XLua;
+namespace BridgeUI.Common
 {
-    [CustomEditor(typeof(LuaScript))]
+    [CustomEditor(typeof(LuaScriptModel))]
     public class LuaScriptDrawer : Editor
     {
-        [MenuItem("Assets/Create/LuaScript",priority = 81,validate =false)]
-        static void CreateAnScript()
+        private SerializedProperty luaScript_prop;
+
+        private void OnEnable()
         {
-            var script = ScriptableObject.CreateInstance<LuaScript>();
-            ProjectWindowUtil.CreateAsset(script, "new_lua.asset");
+            luaScript_prop = serializedObject.FindProperty("luaScript");
         }
 
+        public override void OnInspectorGUI()
+        {
+            //base.OnInspectorGUI();
+            serializedObject.Update();
+            DrawHeadTools();
+            DrawScriptBody();
+            serializedObject.ApplyModifiedProperties();
+        }
 
+        private void DrawHeadTools()
+        {
+        }
+        private void DrawScriptBody()
+        {
+            var width = EditorGUIUtility.currentViewWidth - 30;
+            var height = EditorGUIUtility.singleLineHeight * 100;
+            luaScript_prop.stringValue = EditorGUILayout.TextArea(luaScript_prop.stringValue,GUILayout.Width(width),GUILayout.Height(height));
+        }
     }
 
 }
+#endif

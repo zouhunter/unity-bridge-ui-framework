@@ -18,6 +18,11 @@ namespace BridgeUI.Drawer
 
         private void OnEnable()
         {
+            if (target == null)
+            {
+                DestroyImmediate(this);
+                return;
+            }
             popDatas_prop = serializedObject.FindProperty("popDatas");
             listDrawer.InitReorderList(popDatas_prop);
         }

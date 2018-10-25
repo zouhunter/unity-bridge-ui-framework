@@ -19,6 +19,7 @@ namespace BridgeUI.Binding
 {
     public class ViewModel : ScriptableObject,IViewModel
     {
+        public static bool log { get; set; }
         private List<IBindingContext> _contexts = new List<IBindingContext>();
         protected List<IBindingContext> Contexts { get { return _contexts; } }
         private readonly Dictionary<string, IBindableProperty> innerDic = new Dictionary<string, IBindableProperty>();

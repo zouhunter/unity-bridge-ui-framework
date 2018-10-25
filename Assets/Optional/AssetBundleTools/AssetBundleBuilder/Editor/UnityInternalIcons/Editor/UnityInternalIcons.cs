@@ -82,9 +82,9 @@ namespace tarfmagougou
                 /* This is the *only* way I have found to confirm the icons are indeed unity builtin. Unfortunately
 				 * it uses LogError instead of LogWarning or throwing an Exception I can catch. So make it shut up. */
                 //TarfmagougouHelperUII.DisableLogging();
-                Debug.logger.logEnabled = false;
+                Debug.unityLogger.logEnabled = false;
                 GUIContent gc = EditorGUIUtility.IconContent(x.name);
-                Debug.logger.logEnabled = true;
+                Debug.unityLogger.logEnabled = true;
                 //TarfmagougouHelperUII.EnableLogging();
 
                 if (gc == null)

@@ -41,7 +41,7 @@ namespace BridgeUI.Common
         [HideInInspector]
         public TextAsset luaScript;
         [HideInInspector]
-        public LuaScript scriptObj;
+        public LuaScriptModel scriptObj;
         [HideInInspector]
         public string streamingPath;
         [HideInInspector]
@@ -69,6 +69,11 @@ namespace BridgeUI.Common
         {
             base.Awake();
             RegistBaseAction();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
             LoadLuaScriptOnAwake();
         }
 
@@ -81,11 +86,13 @@ namespace BridgeUI.Common
                 lastGCTime = Time.time;
             }
         }
+
         protected override void OnDestroy()
         {
             base.OnDestroy();
             luaOnDestroy.Invoke();
         }
+
         private void LoadLuaScriptOnAwake()
         {
             ClearLoadedTable();
@@ -121,6 +128,7 @@ namespace BridgeUI.Common
                     break;
             }
         }
+
         /// <summary>
         /// 从路径下载script
         /// </summary>

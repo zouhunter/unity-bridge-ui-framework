@@ -42,7 +42,7 @@ namespace BridgeUI
         /// <typeparam name="T"></typeparam>
         /// <param name="panelName"></param>
         /// <param name="onCreate"></param>
-        public void CreatePanel(UIInfoBase itemInfo)
+        public void CreatePanel(UIInfoBase itemInfo, UnityEngine.Events.UnityAction<GameObject> onCreate)
         {
             if (_cansaleKeys.Contains(itemInfo.panelName)) _cansaleKeys.RemoveAll(x => x == itemInfo.panelName);
 
@@ -54,11 +54,12 @@ namespace BridgeUI
 
                 if (bInfo != null)
                 {
-                    GetGameObjectInfo(bInfo);
+                    GetGameObjectInfo(bInfo,onCreate);
                 }
                 else if (pInfo != null)
                 {
-                    GetGameObjectInfo(pInfo);
+                    var go = GetGameObjectInfo(pInfo);
+                    if (onCreate != null) onCreate.Invoke(go);
                 }
             }
         }
@@ -69,7 +70,7 @@ namespace BridgeUI
         /// <typeparam name="T"></typeparam>
         /// <param name="panelName"></param>
         /// <param name="onCreate"></param>
-        private void GetGameObjectInfo(BundleUIInfo itemInfo)
+        private void GetGameObjectInfo(BundleUIInfo itemInfo, UnityEngine.Events.UnityAction<GameObject> onCreate)
         {
 #if AssetBundleTools
             var trigger = itemInfo as BundleUIInfo;
@@ -77,8 +78,9 @@ namespace BridgeUI
             {
                 if (x != null)
                 {
-                    CreateInstance(x, trigger);
+                   var instence = CreateInstance(x, trigger);
                     _loadingKeys.Remove(trigger.IDName);
+                    if (onCreate != null) onCreate(instence);
                 }
                 else
                 {
@@ -91,34 +93,36 @@ namespace BridgeUI
         /// PrefabUINode创建对象
         /// </summary>
         /// <param name="iteminfo"></param>
-        private void GetGameObjectInfo(PrefabUIInfo iteminfo)
+        private GameObject GetGameObjectInfo(PrefabUIInfo iteminfo)
         {
             var trigger = iteminfo as PrefabUIInfo;
 
             if (trigger.prefab != null)
             {
-                CreateInstance(trigger.prefab, trigger);
+                var instence = CreateInstance(trigger.prefab, trigger);
                 _loadingKeys.Remove(trigger.IDName);
+                return instence;
             }
             else
             {
                 Debug.Log(trigger.panelName + "-->空");
+                return null;
             }
         }
         /// <summary>
         /// 获取对象实例
         /// </summary>
-        private void CreateInstance(GameObject prefab, UIInfoBase nodeInfo)
+        private GameObject CreateInstance(GameObject prefab, UIInfoBase nodeInfo)
         {
             if (_cansaleKeys.Contains(nodeInfo.panelName))
             {
                 _cansaleKeys.Remove(nodeInfo.panelName);
-                return;
+                return null;
             }
 
             if (prefab == null || nodeInfo == null)
             {
-                return;
+                return null;
             }
 
             GameObject go = GameObject.Instantiate(prefab);
@@ -127,8 +131,7 @@ namespace BridgeUI
 
             go.SetActive(true);
 
-            if (nodeInfo.OnCreate != null)
-                nodeInfo.OnCreate(go);
+            return go;
         }
 
         /// <summary>

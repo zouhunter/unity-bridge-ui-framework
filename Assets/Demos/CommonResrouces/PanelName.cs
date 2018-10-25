@@ -59,13 +59,7 @@ public class PanelNames {
             return "SubGroupB";
         }
     }
-    
-    public static string PopUpPanel {
-        get {
-            return "PopUpPanel";
-        }
-    }
-    
+
     public static string RadiaMenuPanel {
         get {
             return "RadiaMenuPanel";

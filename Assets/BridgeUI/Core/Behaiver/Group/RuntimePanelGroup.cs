@@ -36,6 +36,25 @@ namespace BridgeUI
         private PanelGroupObj groupObj;
         public override string Menu { get { return groupObj.menu; } }
         public override bool ResetMenu { get { return groupObj.resetMenu; } }
+        protected PanelCreater _panelCreater;
+        protected override IPanelCreater creater
+        {
+            get
+            {
+                if (_panelCreater == null)
+                {
+                    if (ResetMenu)
+                    {
+                        _panelCreater = new PanelCreater(Menu);
+                    }
+                    else
+                    {
+                        _panelCreater = new PanelCreater();
+                    }
+                }
+                return _panelCreater;
+            }
+        }
 
         public override List<Graph.UIGraph> GraphList
         {

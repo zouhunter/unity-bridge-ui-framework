@@ -156,6 +156,11 @@ namespace BridgeUI.CodeGen
                     {
                         GenCodeUtil.UpdateViewModelScript((viewModel as Binding.ViewModelContainer).instence, components);
                     }
+                    else
+                    {
+                        var scriptPath = AssetDatabase.GetAssetPath(go).Replace(".prefab","_ViewModel.cs");
+                        CreateNewViewModelScript(go.name + "_ViewModel", scriptPath,components);
+                    }
                 }
             };
             GenCodeUtil.CreateViewScript(go, components, rule);
@@ -214,6 +219,46 @@ namespace BridgeUI.CodeGen
         }
 
         /// <summary>
+        /// 创建ViewModelScript
+        /// </summary>
+        /// <param name="classname"></param>
+        /// <param name="scriptPath"></param>
+        /// <param name="components"></param>
+        public static void CreateNewViewModelScript(string className, string scriptPath,List<ComponentItem> components)
+        {
+            UICoder oldViewModel = new UICoder(className);
+            var tree = oldViewModel.tree;
+            #region MakeClassScript
+            TypeDeclaration classNode = null;
+            if (tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).Count() == 0)
+            {
+                classNode = new TypeDeclaration();
+                classNode.Name = className;
+                classNode.Modifiers |= Modifiers.Public;
+                classNode.Modifiers |= Modifiers.Abstract;
+
+                var comment = new Comment("<summary>", CommentType.Documentation);
+                tree.AddChild(comment, Roles.Comment);
+                comment = new Comment("[代码说明信息]", CommentType.Documentation);
+                tree.AddChild(comment, Roles.Comment);
+                comment = new Comment("<summary>", CommentType.Documentation);
+                tree.AddChild(comment, Roles.Comment);
+                tree.AddChild(classNode, Roles.TypeMemberRole);
+
+                classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
+                var basePanels = LoadAllBasePanels();
+                var bs = classNode.BaseTypes.Where(x => Array.Find(basePanels, y => y.Contains(x.ToString())) != null).FirstOrDefault();
+                if (bs != null)
+                {
+                    classNode.BaseTypes.Remove(bs);
+                }
+                classNode.BaseTypes.Add(new SimpleType(typeof(Binding.ViewModel).FullName));
+            }
+            #endregion
+            var scriptValue = GenerateViewModelScript(className, oldViewModel.Compile(), typeof(Binding.ViewModel), components);
+            System.IO.File.WriteAllText(scriptPath, scriptValue);
+        }
+        /// <summary>
         /// 更新viewModelScript
         /// </summary>
         /// <param name="viewModel"></param>
@@ -224,9 +269,18 @@ namespace BridgeUI.CodeGen
             var classType = monoScript.GetClass();
             var baseType = classType.BaseType;
             var className = classType.Name;
+            
+            var scriptPath = AssetDatabase.GetAssetPath(monoScript);
+            var scriptValue = GenerateViewModelScript(className, monoScript.text, baseType,components);
+            System.IO.File.WriteAllText(scriptPath, scriptValue);
+        }
+
+        private static string GenerateViewModelScript(string className, string oldScript,Type baseType, List<ComponentItem> components)
+        {
             UICoder oldViewModel = new UICoder(className);
-            oldViewModel.Load(monoScript.text);
+            oldViewModel.Load(oldScript);
             var tree = oldViewModel.tree;
+            
             var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
 
             PreProcessorDirective startRegion = classNode.Descendants.OfType<PreProcessorDirective>().Where(x => x.Type == PreProcessorDirectiveType.Region && x.Argument == "属性列表").FirstOrDefault();
@@ -325,9 +379,9 @@ namespace BridgeUI.CodeGen
             }
             #endregion
             var scriptValue = oldViewModel.Compile();
-            var scriptPath = AssetDatabase.GetAssetPath(monoScript);
-            System.IO.File.WriteAllText(scriptPath, scriptValue);
+            return scriptValue;
         }
+
         /// <summary>
         /// 向viewModel添加属性
         /// </summary>

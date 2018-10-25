@@ -15,12 +15,12 @@ namespace BridgeUI.Model
     {
         #region 加载规则
         public string inNode;
-        public int index;
+        public short index;
         public ShowMode showModel;
         public ScriptableObject viewModel;
         public string outNode;
         #endregion
-        public BridgeInfo(string inNode,string outNode,ShowMode showModel, ScriptableObject viewModel, int index)
+        public BridgeInfo(string inNode,string outNode,ShowMode showModel, ScriptableObject viewModel, short index)
         {
             this.inNode = inNode;
             this.outNode = outNode;
@@ -42,13 +42,13 @@ namespace BridgeUI.Model
         public IUIPanel InPanel { get; private set; }
         public IUIPanel OutPanel { get; private set; }
         private UnityAction<Bridge> onReleaseFromPool { get; set; }
-        public Bridge(BridgeInfo info,UnityAction<Bridge> onReleaseFromPool)
+        public Bridge(UnityAction<Bridge> onReleaseFromPool)
         {
-            this.Info = info;
             this.onReleaseFromPool = onReleaseFromPool;
         }
-        public void Reset(IUIPanel parentPanel)
+        public void Reset(BridgeInfo info, IUIPanel parentPanel)
         {
+            this.Info = info;
             this.InPanel = parentPanel;
             this.onCreate = null;
             this.onGet = null;

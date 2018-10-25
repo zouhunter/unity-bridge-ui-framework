@@ -25,10 +25,10 @@ namespace BridgeUI.Control
 
         protected override void Awake()
         {
-            _dateText = this.transform.FindChild("DateText").GetComponent<Text>();
-            _calendar = this.transform.FindChild("Calendar").GetComponent<Calendar>();
+            _dateText = this.transform.Find("DateText").GetComponent<Text>();
+            _calendar = this.transform.Find("Calendar").GetComponent<Calendar>();
             _calendar.onDayClick.AddListener(dateTime => { DateTime = dateTime; });
-            transform.FindChild("PickButton").GetComponent<Button>().onClick.AddListener(( ) =>
+            transform.Find("PickButton").GetComponent<Button>().onClick.AddListener(( ) =>
              { _calendar.gameObject.SetActive(true); });
             refreshDateText();
         }

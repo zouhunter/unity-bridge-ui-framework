@@ -18,7 +18,10 @@ namespace BridgeUI.Common
 {
     /// <summary>
     /// 消息显示面板
-    /// [popInfo][closeAble][title][info]
+    /// [popInfo]
+    /// [closeAble]
+    /// [title]
+    /// [info]
     /// </summary>
     public class PopupPanel : SingleCloseAblePanel
     {

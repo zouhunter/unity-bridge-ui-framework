@@ -24,5 +24,9 @@ namespace BridgeUI
         void Hide(IPanelGroup parentGroup, string panelName);
         void Close(string panelName);
         void Close(IPanelGroup parentGroup,string panelName);
+        void RegistCreate(UnityAction<IUIPanel> onCreate);
+        void RegistClose(UnityAction<IUIPanel> onClose);
+        void RemoveCreate(UnityAction<IUIPanel> onCreate);
+        void RemoveClose(UnityAction<IUIPanel> onClose);
     }
 }

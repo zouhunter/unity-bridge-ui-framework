@@ -1,8 +1,7 @@
 fileFormatVersion: 2
 guid: 476e53e695b197b4b8e5949188034c61
-timeCreated: 1524462072
-licenseType: Free
 NativeFormatImporter:
+  externalObjects: {}
   mainObjectFileID: -1
   userData: 
   assetBundleName: bridgeui/panels/luapanel02.assetbundle

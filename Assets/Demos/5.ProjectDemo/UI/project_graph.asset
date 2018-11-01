@@ -178,9 +178,9 @@ MonoBehaviour:
   loadType: 1
   b_nodes: []
   p_nodes:
-  - panelName: LoginPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: LoginPanel
     type:
       layerIndex: 0
       form: 0
@@ -191,9 +191,9 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 1990824373533660, guid: f6178925f4c41434e82383de8bda8352, type: 2}
-  - panelName: LoadingPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: LoadingPanel
     type:
       layerIndex: 0
       form: 0
@@ -204,9 +204,9 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 1990824373533660, guid: 8f9e49b51cf0cc94488feccb9fe0de10, type: 2}
-  - panelName: MainPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: MainPanel
     type:
       layerIndex: 0
       form: 0
@@ -217,9 +217,9 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 1435404474306576, guid: d0c5354c89815cc45b9d0feebbad9527, type: 2}
-  - panelName: ListPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: ListPanel
     type:
       layerIndex: 0
       form: 1

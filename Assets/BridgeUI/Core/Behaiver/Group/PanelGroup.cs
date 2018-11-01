@@ -18,10 +18,6 @@ namespace BridgeUI
     public class PanelGroup : PanelGroupBase
     {
         public List<Graph.UIGraph> graphList = new List<Graph.UIGraph>();
-        public bool resetMenu;
-        public string menu;
-        public override string Menu { get { return menu; } }
-        public override bool ResetMenu { get { return resetMenu; } }
         public override List<UIGraph> GraphList
         {
             get
@@ -29,31 +25,9 @@ namespace BridgeUI
                 return graphList;
             }
         }
-        protected PanelCreater _panelCreater;
-        protected override IPanelCreater creater
-        {
-            get
-            {
-                if (_panelCreater == null)
-                {
-                    if (ResetMenu)
-                    {
-                        _panelCreater = new PanelCreater(Menu);
-                    }
-                    else
-                    {
-                        _panelCreater = new PanelCreater();
-                    }
-                }
-                return _panelCreater;
-            }
-        }
-
         private void Awake()
         {
             LunchPanelGroupSystem();
         }
-
-       
     }
 }

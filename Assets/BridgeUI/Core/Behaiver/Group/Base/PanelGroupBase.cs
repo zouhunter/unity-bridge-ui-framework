@@ -26,12 +26,10 @@ namespace BridgeUI
         protected List<Bridge> createdBridges = new List<Bridge>();
         protected Dictionary<IUIPanel, Stack<IUIPanel>> hidedPanelStack = new Dictionary<IUIPanel, Stack<IUIPanel>>();
         protected List<UICreateInfo> waitCreateQueue = new List<UICreateInfo>();
-        protected abstract IPanelCreater creater { get; }
+        protected PanelCreateRule createRule;
         protected event UnityAction onDestroy;
-
+        public BundleLoader bundleCreateRule;
         public UIBindingController bindingCtrl { get; private set; }
-        public abstract string Menu { get; }
-        public abstract bool ResetMenu { get; }
         public abstract List<Graph.UIGraph> GraphList { get; }
 
         /// <summary>
@@ -72,6 +70,11 @@ namespace BridgeUI
                             {
                                 activeNodes.Add(x.panelName, x);
                             });
+                        if (graph.r_nodes != null)
+                            graph.r_nodes.ForEach(x =>
+                            {
+                                activeNodes.Add(x.panelName, x);
+                            });
                         if (graph.p_nodes != null)
                             graph.p_nodes.ForEach(x =>
                             {
@@ -85,6 +88,8 @@ namespace BridgeUI
 
         protected void OnEnable()
         {
+            if (createRule == null)
+                createRule = new PanelCreateRule(bundleCreateRule);
             var created = createdPanels.ToArray();
             TryOpenPanels(created);
             UIFacade.RegistGroup(this);
@@ -98,16 +103,18 @@ namespace BridgeUI
                 waitCreateQueue.RemoveAt(0);
                 if (first.uiInfo != null)
                 {
-                    creater.CreatePanel(first.uiInfo,(x)=> {
+                    createRule.CreatePanel(first.uiInfo, (x) =>
+                    {
 
-                        if(first.onCreate != null)
+                        if (first.onCreate != null)
                             first.onCreate.Invoke(x);
 
                         uiCreateInfoPool.Release(first);
-                    } );
+                    });
                 }
             }
         }
+
         protected void OnDisable()
         {
             var created = createdPanels.ToArray();
@@ -118,7 +125,8 @@ namespace BridgeUI
         }
         protected virtual void OnDestroy()
         {
-            if (onDestroy != null){
+            if (onDestroy != null)
+            {
                 onDestroy.Invoke();
             }
 
@@ -150,14 +158,15 @@ namespace BridgeUI
                         {
                             parentPanel.RecordChild(panel);
                         }
-                        if (bridge != null){
+                        if (bridge != null)
+                        {
                             bridge.OnCreatePanel(panel);
                         }
                         InitPanel(panel, bridge, uiNode);
                         HandBridgeOptions(panel, bridge);
                     }
                 });
-                var uiCreateInfo = uiCreateInfoPool.Allocate(uiNode,action);
+                var uiCreateInfo = uiCreateInfoPool.Allocate(uiNode, action);
                 waitCreateQueue.Add(uiCreateInfo);
             }
             return bridge;
@@ -170,7 +179,7 @@ namespace BridgeUI
                 waitCreateQueue.Remove(match);
                 uiCreateInfoPool.Release(match);
             }
-            creater.CansaleCreatePanel(panelName);
+            createRule.CansaleCreatePanel(panelName);
         }
         public List<IUIPanel> RetrivePanels(string panelName)
         {
@@ -248,19 +257,19 @@ namespace BridgeUI
                     {
                         if (bg.showModel.mutex != MutexRule.SameParentAndLayer) continue;
 
-                        var mayPanels = createdPanels.FindAll(x => 
+                        var mayPanels = createdPanels.FindAll(x =>
                         x.Name == bg.outNode &&
-                        x.UType.layer == childPanel.UType.layer && 
-                        x != childPanel && 
+                        x.UType.layer == childPanel.UType.layer &&
+                        x != childPanel &&
                         !IsChildOfPanel(childPanel, x));
 
                         foreach (var mayPanel in mayPanels)
                         {
                             if (mayPanel != null && mayPanel.IsShowing)
                             {
-                                if(mayPanel.UType.layerIndex > childPanel.UType.layerIndex)
+                                if (mayPanel.UType.layerIndex > childPanel.UType.layerIndex)
                                 {
-                                    HidePanelInteral(mayPanel,childPanel);
+                                    HidePanelInteral(mayPanel, childPanel);
                                 }
                                 else
                                 {
@@ -443,7 +452,7 @@ namespace BridgeUI
                     var oldPanel = createdPanels.Find(x => x.Name == panelName && x.Parent == parentPanel);
                     if (oldPanel != null)
                     {
-                        bridgeObj = createdBridges.Find(x =>x.InPanel == parentPanel && x.OutPanel == oldPanel);
+                        bridgeObj = createdBridges.Find(x => x.InPanel == parentPanel && x.OutPanel == oldPanel);
                         if (!oldPanel.IsShowing)
                         {
                             oldPanel.UnHide();

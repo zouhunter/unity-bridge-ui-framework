@@ -66,14 +66,18 @@ namespace BridgeUI.Drawer
             rect = BridgeUI.Drawer.BridgeEditorUtility.DrawBoxRect(rect, index.ToString());
             var prop = prop_instences.GetArrayElementAtIndex(index);
             var content = prop.objectReferenceValue == null ? new GUIContent("Null") : new GUIContent(prop.objectReferenceValue.name);
+            var bgColor = index == 0 ? Color.green:Color.red;
 
             var btnRect = new Rect(rect.x, rect.y, rect.width - middleButtonWidth, EditorGUIUtility.singleLineHeight);
             var objRect = new Rect(rect.x + rect.width - middleButtonWidth, rect.y, middleButtonWidth, EditorGUIUtility.singleLineHeight);
 
+            var defultColor = GUI.backgroundColor;
+            GUI.backgroundColor = bgColor;
             if (GUI.Button(btnRect, content, EditorStyles.toolbarDropDown))
             {
                 prop.isExpanded = !prop.isExpanded;
             }
+            GUI.backgroundColor = defultColor;
 
             if (prop.objectReferenceValue != null)
             {

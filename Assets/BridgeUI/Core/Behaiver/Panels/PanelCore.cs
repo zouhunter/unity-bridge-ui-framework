@@ -88,6 +88,8 @@ namespace BridgeUI
         protected event UnityAction<object> onReceive;
         protected bool _isShowing = true;
         protected bool _isAlive = true;
+
+        #region UNITYAPI
         protected override void Start()
         {
             base.Start();
@@ -114,7 +116,9 @@ namespace BridgeUI
             }
 
         }
+        #endregion
 
+        #region Interface
         public void OnRegistOnRecevie(UnityAction<object> onReceive)
         {
             this.onReceive += onReceive;
@@ -124,6 +128,7 @@ namespace BridgeUI
         {
             Utility.SetTranform(transform, UType.layer, UType.layerIndex, Trans);
         }
+
         public void CallBack(object data)
         {
             if (bridge != null)
@@ -131,6 +136,7 @@ namespace BridgeUI
                 bridge.CallBack(this, data);
             }
         }
+
         public void HandleData(Bridge bridge)
         {
             this.bridge = bridge;
@@ -138,28 +144,6 @@ namespace BridgeUI
             {
                 HandleData(bridge.dataQueue);
                 bridge.onGet = HandleData;
-            }
-        }
-        protected void HandleData(Queue<object> dataQueue)
-        {
-            if (dataQueue != null)
-            {
-                while (dataQueue.Count > 0)
-                {
-                    var data = dataQueue.Dequeue();
-                    if (data != null)
-                    {
-                        HandleData(data);
-                    }
-                }
-            }
-        }
-
-        protected virtual void HandleData(object data)
-        {
-            if (this.onReceive != null)
-            {
-                onReceive.Invoke(data);
             }
         }
 
@@ -199,6 +183,7 @@ namespace BridgeUI
             _isShowing = true;
             OnOpenInternal();
         }
+
         public virtual void Close()
         {
             if (IsShowing && UType.quitAnim != null)
@@ -210,6 +195,61 @@ namespace BridgeUI
                 CloseInternal();
             }
         }
+
+        public void RecordChild(IUIPanel childPanel)
+        {
+            if (childPanels == null)
+            {
+                childPanels = new List<IUIPanel>();
+            }
+            if (!childPanels.Contains(childPanel))
+            {
+                childPanel.onDelete += OnRemoveChild;
+                childPanels.Add(childPanel);
+            }
+            childPanel.Parent = this;
+        }
+
+        public void Cover()
+        {
+            var covername = Name + "_Cover";
+            var rectt = new GameObject(covername, typeof(RectTransform)).GetComponent<RectTransform>();
+            rectt.gameObject.layer = 5;
+            rectt.SetParent(transform, false);
+            rectt.SetSiblingIndex(0);
+            rectt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 10000);
+            rectt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 10000);
+            var img = rectt.gameObject.AddComponent<Image>();
+            img.color = new Color(0, 0, 0, 0.01f);
+            img.raycastTarget = true;
+        }
+        #endregion
+
+        #region Protected
+
+        protected void HandleData(Queue<object> dataQueue)
+        {
+            if (dataQueue != null)
+            {
+                while (dataQueue.Count > 0)
+                {
+                    var data = dataQueue.Dequeue();
+                    if (data != null)
+                    {
+                        HandleData(data);
+                    }
+                }
+            }
+        }
+
+        protected virtual void HandleData(object data)
+        {
+            if (this.onReceive != null)
+            {
+                onReceive.Invoke(data);
+            }
+        }
+
         protected void CloseInternal()
         {
             _isShowing = false;
@@ -232,19 +272,7 @@ namespace BridgeUI
                     break;
             }
         }
-        public void RecordChild(IUIPanel childPanel)
-        {
-            if (childPanels == null)
-            {
-                childPanels = new List<IUIPanel>();
-            }
-            if (!childPanels.Contains(childPanel))
-            {
-                childPanel.onDelete += OnRemoveChild;
-                childPanels.Add(childPanel);
-            }
-            childPanel.Parent = this;
-        }
+
         protected void AppendComponentsByType()
         {
             if (UType.form == UIFormType.DragAble)
@@ -255,19 +283,7 @@ namespace BridgeUI
                 }
             }
         }
-        public void Cover()
-        {
-            var covername = Name + "_Cover";
-            var rectt = new GameObject(covername, typeof(RectTransform)).GetComponent<RectTransform>();
-            rectt.gameObject.layer = 5;
-            rectt.SetParent(transform, false);
-            rectt.SetSiblingIndex(0);
-            rectt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 10000);
-            rectt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 10000);
-            var img = rectt.gameObject.AddComponent<Image>();
-            img.color = new Color(0, 0, 0, 0.01f);
-            img.raycastTarget = true;
-        }
+
         protected void OnRemoveChild(IUIPanel childPanel, bool remove)
         {
             if (childPanels != null && childPanels.Contains(childPanel) && remove)
@@ -275,6 +291,7 @@ namespace BridgeUI
                 childPanels.Remove(childPanel);
             }
         }
+
         protected void OnOpenInternal()
         {
             if (UType.enterAnim != null)
@@ -282,6 +299,7 @@ namespace BridgeUI
                 enterAnim.PlayAnim(null);
             }
         }
+
         protected void AlaphGameObject(bool hide)
         {
             var canvasGroup = GetComponent<CanvasGroup>();
@@ -303,6 +321,7 @@ namespace BridgeUI
                 canvasGroup.blocksRaycasts = true;
             }
         }
+        #endregion
 
         #region Extend Of Open Close
         public IUIHandle Open(string panelName, object data = null)

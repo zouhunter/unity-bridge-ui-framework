@@ -16,7 +16,8 @@ namespace BridgeUI
     [System.Flags]
     public enum LoadType
     {
-        Prefab = 1,
-        Bundle = 1<<1,
+        DirectLink = 1,
+        Resources = 1<<1,
+        AssetBundle = 1<<2,
     }
 }

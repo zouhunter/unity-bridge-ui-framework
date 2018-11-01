@@ -26,8 +26,7 @@ namespace BridgeUI.Binding
         {
             get
             {
-                if(instences.Count == 0)
-                {
+                if(instences.Count == 0){
                     instences.Add(new ViewModel());
                 }
                 return instences[0];

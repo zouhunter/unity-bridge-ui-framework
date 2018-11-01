@@ -18,21 +18,23 @@ namespace BridgeUI.Drawer
         protected SerializedProperty bridgesProp;
         protected SerializedProperty bundlesProp;
         protected SerializedProperty prefabsProp;
+        protected SerializedProperty resourcesProp;
         protected SerializedProperty defultTypeProp;
         private string query;
         private SerializedProperty prefabsPropWorp;
         private SerializedProperty bundlesPropWorp;
+        private SerializedProperty resourcesPropWorp;
         private UIInfoListDrawer prefabsList;
         private UIInfoListDrawer bundlesList;
+        private UIInfoListDrawer resourcesList;
         private UIInfoListDrawer prefabsWorpList;
         private UIInfoListDrawer bundlesWorpList;
+        private UIInfoListDrawer resourcesWorpList;
         protected const float widthBt = 20;
         protected const float padding = 5;
-#if AssetBundleTools
-        protected string[] option = { "预制体", "资源包" };
-#else
-    protected string[] option =  { "预制"};
-#endif
+
+        protected string[] option = { "关联", "路径", "资源包" };
+
         public enum SortType
         {
             ByName = 0,
@@ -46,10 +48,12 @@ namespace BridgeUI.Drawer
             bridgesProp = serializedObject.FindProperty("bridges");
             bundlesProp = serializedObject.FindProperty("b_nodes");
             prefabsProp = serializedObject.FindProperty("p_nodes");
+            resourcesProp = serializedObject.FindProperty("r_nodes");
             defultTypeProp = serializedObject.FindProperty("loadType");
             var sobj = new SerializedObject(ScriptableObject.CreateInstance<Graph.UIGraph>());
             prefabsPropWorp = sobj.FindProperty("p_nodes");
             bundlesPropWorp = sobj.FindProperty("b_nodes");
+            resourcesPropWorp = sobj.FindProperty("r_nodes");
             (target as UIGraph).ControllerType = typeof(BridgeUI.Drawer.BridgeUIGraphCtrl).FullName;
             QuickUpdateFromGraph();
         }
@@ -164,12 +168,30 @@ namespace BridgeUI.Drawer
             }
             bundlesWorpList.DoLayoutList();
         }
- 
+        protected void DrawResourcesList()
+        {
+            if (resourcesList == null)
+            {
+                resourcesList = new UIInfoListDrawer("资源路径");
+                resourcesList.InitReorderList(resourcesProp);
+            }
+            resourcesList.DoLayoutList();
+        }
+        protected void DrawResourcesWorpList()
+        {
+            if (resourcesWorpList == null)
+            {
+                resourcesWorpList = new UIInfoListDrawer("资源路径筛选");
+                resourcesWorpList.InitReorderList(resourcesPropWorp);
+            }
+            resourcesWorpList.DoLayoutList();
+        }
+
         protected virtual void DrawRuntimeItems()
         {
             switch (EnumIndexToLoadType(defultTypeProp.enumValueIndex))
             {
-                case LoadType.Prefab:
+                case LoadType.DirectLink:
                     if (string.IsNullOrEmpty(query))
                     {
                         DrawPrefabList();
@@ -179,7 +201,7 @@ namespace BridgeUI.Drawer
                         DrawPrefabWorpList();
                     }
                     break;
-                case LoadType.Bundle:
+                case LoadType.AssetBundle:
                     if (string.IsNullOrEmpty(query))
                     {
                         DrawBundleList();
@@ -187,6 +209,16 @@ namespace BridgeUI.Drawer
                     else
                     {
                         DrawBundleWorpList();
+                    }
+                    break;
+                case LoadType.Resources:
+                    if (string.IsNullOrEmpty(query))
+                    {
+                        DrawResourcesList();
+                    }
+                    else
+                    {
+                        DrawResourcesWorpList();
                     }
                     break;
                 default:
@@ -205,13 +237,17 @@ namespace BridgeUI.Drawer
             {
                 switch (EnumIndexToLoadType(defultTypeProp.enumValueIndex))
                 {
-                    case LoadType.Prefab:
+                    case LoadType.DirectLink:
                         property = prefabsProp;
                         targetProperty = prefabsPropWorp;
                         break;
-                    case LoadType.Bundle:
+                    case LoadType.AssetBundle:
                         property = bundlesProp;
                         targetProperty = bundlesPropWorp;
+                        break;
+                    case LoadType.Resources:
+                        property = resourcesProp;
+                        targetProperty = resourcesPropWorp;
                         break;
                     default:
                         break;
@@ -234,27 +270,16 @@ namespace BridgeUI.Drawer
             var widthSytle = GUILayout.Width(20);
             switch (EnumIndexToLoadType(defultTypeProp.enumValueIndex))
             {
-                case LoadType.Prefab:
+                case LoadType.DirectLink:
                     using (var hor = new EditorGUILayout.HorizontalScope(widthSytle))
                     {
-                        //if (GUILayout.Button(new GUIContent("%", "移除重复"), btnStyle))
-                        //{
-                        //    RemoveBundlesDouble(prefabsProp);
-                        //    RemoveBridgesDouble(bridgesProp);
-                        //}
-                        //if (GUILayout.Button(new GUIContent("*", "快速更新"), btnStyle))
-                        //{
-                        //    prefabsProp.ClearArray();
-                        //    bridgesProp.ClearArray();
-                        //    EditorApplication.delayCall += QuickUpdateFromGraph;
-                        //}
-                        if (GUILayout.Button(new GUIContent("！", "排序"), btnStyle))
+                        if (GUILayout.Button(new GUIContent("!", "排序"), btnStyle))
                         {
-                            SortAllBundles(prefabsProp);
+                            SortUIInfo(prefabsProp);
                         }
                         if (GUILayout.Button(new GUIContent("o", "批量加载"), btnStyle))
                         {
-                            GroupLoadPrefabs(prefabsProp);
+                            GroupLoadUIInfo(prefabsProp);
                         }
                         if (GUILayout.Button(new GUIContent("c", "批量关闭"), btnStyle))
                         {
@@ -262,33 +287,37 @@ namespace BridgeUI.Drawer
                         }
                     }
                     break;
-                case LoadType.Bundle:
+                case LoadType.AssetBundle:
                     using (var hor = new EditorGUILayout.HorizontalScope(widthSytle))
                     {
-                        //resetMenuProp.boolValue = GUILayout.Toggle(resetMenuProp.boolValue, new GUIContent("r", "重设菜单"), btnStyle);
-                        //if (GUILayout.Button(new GUIContent("%", "移除重复"), btnStyle))
-                        //{
-                        //    RemoveBundlesDouble(bundlesProp);
-                        //    RemoveBridgesDouble(bridgesProp);
-                        //}
-                        //if (GUILayout.Button(new GUIContent("*", "快速更新"), btnStyle))
-                        //{
-                        //    QuickUpdateBundles();
-                        //    bundlesProp.ClearArray();
-                        //    bridgesProp.ClearArray();
-                        //    EditorApplication.delayCall += QuickUpdateFromGraph;
-                        //}
                         if (GUILayout.Button(new GUIContent("!", "排序"), btnStyle))
                         {
-                            SortAllBundles(bundlesProp);
+                            SortUIInfo(bundlesProp);
                         }
                         if (GUILayout.Button(new GUIContent("o", "批量加载"), btnStyle))
                         {
-                            GroupLoadPrefabs(bundlesProp);
+                            GroupLoadUIInfo(bundlesProp);
                         }
                         if (GUILayout.Button(new GUIContent("c", "批量关闭"), btnStyle))
                         {
                             CloseAllCreated(bundlesProp);
+                        }
+                    }
+                    break;
+                case LoadType.Resources:
+                    using (var hor = new EditorGUILayout.HorizontalScope(widthSytle))
+                    {
+                        if (GUILayout.Button(new GUIContent("!", "排序"), btnStyle))
+                        {
+                            SortUIInfo(resourcesProp);
+                        }
+                        if (GUILayout.Button(new GUIContent("o", "批量加载"), btnStyle))
+                        {
+                            GroupLoadUIInfo(resourcesProp);
+                        }
+                        if (GUILayout.Button(new GUIContent("c", "批量关闭"), btnStyle))
+                        {
+                            CloseAllCreated(resourcesProp);
                         }
                     }
                     break;
@@ -306,13 +335,12 @@ namespace BridgeUI.Drawer
             controller.TargetGraph = graph;
             Selection.activeObject = graph;
             controller.BuildFromGraph(graph);
-
-            if(EnumIndexToLoadType(defultTypeProp.enumValueIndex) == LoadType.Bundle)
-            {
+            EditorUtility.SetDirty(graph);
+            if(EnumIndexToLoadType(defultTypeProp.enumValueIndex) == LoadType.AssetBundle){
                 QuickUpdateBundles();
             }
         }
-        private void GroupLoadPrefabs(SerializedProperty proprety)
+        private void GroupLoadUIInfo(SerializedProperty proprety)
         {
             for (int i = 0; i < proprety.arraySize; i++)
             {
@@ -454,7 +482,7 @@ namespace BridgeUI.Drawer
                 BridgeEditorUtility.SavePrefab(instanceIDPorp);
             }
         }
-        private void SortAllBundles(SerializedProperty property)
+        private void SortUIInfo(SerializedProperty property)
         {
             if (currSortType == SortType.ByName)
             {

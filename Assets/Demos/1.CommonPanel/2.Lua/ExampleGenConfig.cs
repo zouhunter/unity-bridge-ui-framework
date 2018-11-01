@@ -9,7 +9,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-#if xLua
+
 
 using XLua;
 
@@ -102,10 +102,5 @@ public static class ExampleGenConfig
                 new List<string>(){"System.IO.DirectoryInfo", "CreateSubdirectory", "System.String", "System.Security.AccessControl.DirectorySecurity"},
                 new List<string>(){"System.IO.DirectoryInfo", "Create", "System.Security.AccessControl.DirectorySecurity"},
                 new List<string>(){"UnityEngine.MonoBehaviour", "runInEditMode"},
-#if !UNITY_5_6_OR_NEWER
-
-#endif
-                
             };
 }
-#endif

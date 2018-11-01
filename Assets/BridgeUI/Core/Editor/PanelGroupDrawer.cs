@@ -17,21 +17,19 @@ namespace BridgeUI.Drawer
     {
         protected SerializedProperty script;
         protected SerializedProperty graphListProp;
-        protected SerializedProperty resetMenuProp;
-        protected SerializedProperty menuProp;
+        protected SerializedProperty bundleCreateRuleProp;
         private string query;
         private GraphListDrawer graphList;
         protected const float widthBt = 20;
         protected abstract bool drawScript { get; }
         protected UIInfoListDrawer bundleInfoList;
         protected UIInfoListDrawer prefabInfoList;
+        protected UIInfoListDrawer resourceInfoList;
         protected BridgeUI.Graph.UIGraph tempGraph;
         protected SerializedObject tempGraphObj;
-#if AssetBundleTools
-        protected string[] option = { "预制体", "资源包" };
-#else
-        protected string[] option =  { "预制"};
-#endif
+
+        protected string[] option = { "关联", "路径", "资源包" };
+
         protected int selected;
         protected int selectedGraph = -1;
 
@@ -39,14 +37,15 @@ namespace BridgeUI.Drawer
         {
             script = serializedObject.FindProperty("m_Script");
             graphListProp = serializedObject.FindProperty("graphList");
-            resetMenuProp = serializedObject.FindProperty("resetMenu");
-            menuProp = serializedObject.FindProperty("menu");
+            bundleCreateRuleProp = serializedObject.FindProperty("bundleCreateRule");
             tempGraph = ScriptableObject.CreateInstance<BridgeUI.Graph.UIGraph>();
             tempGraphObj = new SerializedObject(tempGraph);
             bundleInfoList = new UIInfoListDrawer("资源包");
             bundleInfoList.InitReorderList(tempGraphObj.FindProperty("b_nodes"));
-            prefabInfoList = new UIInfoListDrawer("预制体");
+            prefabInfoList = new UIInfoListDrawer("直接关联");
             prefabInfoList.InitReorderList(tempGraphObj.FindProperty("p_nodes"));
+            resourceInfoList = new UIInfoListDrawer("资源路径");
+            resourceInfoList.InitReorderList(tempGraphObj.FindProperty("r_nodes"));
             UpdateMarchList();
         }
 
@@ -62,7 +61,7 @@ namespace BridgeUI.Drawer
                 DrawToolButtons();
                 DrawMatchField();
             }
-            TryDrawMenu();
+            //TryDrawMenu();
             DrawRuntimeItems();
             serializedObject.ApplyModifiedProperties();
         }
@@ -82,14 +81,6 @@ namespace BridgeUI.Drawer
         {
             selectedGraph = arg0;
             UpdateMarchList();
-        }
-
-        private void TryDrawMenu()
-        {
-            if (resetMenuProp.boolValue)
-            {
-                EditorGUILayout.PropertyField(menuProp);
-            }
         }
 
         private void DrawScript()
@@ -121,20 +112,27 @@ namespace BridgeUI.Drawer
         protected virtual void DrawRuntimeItems()
         {
             tempGraphObj.Update();
-            if (selected == 0)
+            if (1<<selected == (int)LoadType.DirectLink)
             {
                 prefabInfoList.DoLayoutList();
             }
-            else if (selected == 1)
+            else if (1 << selected == (int)LoadType.AssetBundle)
             {
+                EditorGUILayout.PropertyField(bundleCreateRuleProp);
                 bundleInfoList.DoLayoutList();
+            }
+            else if(1 << selected == (int)LoadType.Resources)
+            {
+                resourceInfoList.DoLayoutList();
             }
             tempGraphObj.ApplyModifiedProperties();
         }
 
+   
+
         private void UpdateMarchList()
         {
-            if (selected == 0)
+            if (1<<selected == (int)LoadType.DirectLink)
             {
                 var prefabs = GetPrefabUIInfos(query);
                 tempGraph.p_nodes.Clear();
@@ -143,11 +141,20 @@ namespace BridgeUI.Drawer
                 tempGraphObj.Update();
             }
 
-            if (selected == 1)
+            if (1 << selected == (int)LoadType.AssetBundle)
             {
                 var bundles = GetBundleUIInfos(query);
                 tempGraph.b_nodes.Clear();
                 tempGraph.b_nodes.AddRange(bundles);
+                EditorUtility.SetDirty(tempGraph);
+                tempGraphObj.Update();
+            }
+
+            if(1 << selected == (int)LoadType.Resources)
+            {
+                var resources = GetResourceUIInfos(query);
+                tempGraph.r_nodes.Clear();
+                tempGraph.r_nodes.AddRange(resources);
                 EditorUtility.SetDirty(tempGraph);
                 tempGraphObj.Update();
             }
@@ -157,34 +164,37 @@ namespace BridgeUI.Drawer
         {
             var btnStyle = EditorStyles.miniButton;
             var widthSytle = GUILayout.Width(20);
-            if(selected == 0)
+            using (var hor = new EditorGUILayout.HorizontalScope(widthSytle))
             {
-                using (var hor = new EditorGUILayout.HorizontalScope(widthSytle))
+                if (GUILayout.Button(new GUIContent("o", "批量加载"), btnStyle))
                 {
-                    if (GUILayout.Button(new GUIContent("o", "批量加载"), btnStyle))
+                    if (1 << selected == (int)LoadType.DirectLink)
                     {
-                        GroupLoadItems( (tempGraph.p_nodes).ToArray());
+                        GroupLoadItems((tempGraph.p_nodes).ToArray());
                     }
-                    if (GUILayout.Button(new GUIContent("c", "批量关闭"), btnStyle))
-                    {
-                        CloseAllCreated((tempGraph.p_nodes).ToArray());
-                    }
-                }
-            }
-            else if(selected == 1)
-            {
-                using (var hor = new EditorGUILayout.HorizontalScope(widthSytle))
-                {
-                    resetMenuProp.boolValue = GUILayout.Toggle(resetMenuProp.boolValue, new GUIContent("r", "重设菜单"), btnStyle);
-
-                    if (GUILayout.Button(new GUIContent("o", "批量加载"), btnStyle))
+                    else if(1 << selected == (int)LoadType.AssetBundle)
                     {
                         GroupLoadItems((tempGraph.b_nodes).ToArray());
                     }
-                    if (GUILayout.Button(new GUIContent("c", "批量关闭"), btnStyle))
+                    else if(1 << selected == (int)LoadType.Resources)
+                    {
+                        GroupLoadItems((tempGraph.r_nodes).ToArray());
+                    }
+                }
+
+                if (GUILayout.Button(new GUIContent("c", "批量关闭"), btnStyle))
+                {
+                    if (1 << selected == (int)LoadType.DirectLink)
+                    {
+                        CloseAllCreated((tempGraph.p_nodes).ToArray());
+                    }
+                    else if (1 << selected == (int)LoadType.AssetBundle)
                     {
                         CloseAllCreated((tempGraph.b_nodes).ToArray());
-
+                    }
+                    else if (1 << selected == (int)LoadType.Resources)
+                    {
+                        CloseAllCreated((tempGraph.r_nodes).ToArray());
                     }
                 }
             }
@@ -204,6 +214,12 @@ namespace BridgeUI.Drawer
                 else if(item is BundleUIInfo)
                 {
                     var guid = (item as BundleUIInfo).guid;
+                    var path = AssetDatabase.GUIDToAssetPath(guid);
+                    prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                }
+                else if(item is ResourceUIInfo)
+                {
+                    var guid = (item as ResourceUIInfo).guid;
                     var path = AssetDatabase.GUIDToAssetPath(guid);
                     prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                 }
@@ -279,6 +295,7 @@ namespace BridgeUI.Drawer
 
         protected abstract List<PrefabUIInfo> GetPrefabUIInfos(string fliter);
         protected abstract List<BundleUIInfo> GetBundleUIInfos(string fliter);
+        protected abstract List<ResourceUIInfo> GetResourceUIInfos(string fliter);
     }
     [CustomEditor(typeof(PanelGroup))]
     public class PanelGroupDrawer : PanelGroupBaseDrawer
@@ -329,6 +346,28 @@ namespace BridgeUI.Drawer
                 return nodes.FindAll(x => x.panelName.ToLower().Contains(fliter.ToLower()));
             }
         }
+        protected override List<ResourceUIInfo> GetResourceUIInfos(string fliter)
+        {
+            var panelgroup = target as PanelGroup;
+            var nodes = new List<ResourceUIInfo>();
+            for (int i = 0; i < panelgroup.graphList.Count; i++)
+            {
+                var item = panelgroup.graphList[i];
+                if (item == null) continue;
+                if (selectedGraph == -1 || selectedGraph == i)
+                {
+                    nodes.AddRange(item.r_nodes);
+                }
+            }
+            if (string.IsNullOrEmpty(fliter))
+            {
+                return nodes;
+            }
+            else
+            {
+                return nodes.FindAll(x => x.panelName.ToLower().Contains(fliter.ToLower()));
+            }
+        }
     }
 
     [CustomEditor(typeof(PanelGroupObj))]
@@ -368,6 +407,28 @@ namespace BridgeUI.Drawer
                 if (selectedGraph == -1 || selectedGraph == i)
                 {
                     nodes.AddRange(item.p_nodes);
+                }
+            }
+            if (string.IsNullOrEmpty(fliter))
+            {
+                return nodes;
+            }
+            else
+            {
+                return nodes.FindAll(x => x.panelName.ToLower().Contains(fliter.ToLower()));
+            }
+        }
+        protected override List<ResourceUIInfo> GetResourceUIInfos(string fliter)
+        {
+            var panelgroup = target as PanelGroupObj;
+            var nodes = new List<ResourceUIInfo>();
+            for (int i = 0; i < panelgroup.graphList.Count; i++)
+            {
+                var item = panelgroup.graphList[i];
+                if (item == null) continue;
+                if (selectedGraph == -1 || selectedGraph == i)
+                {
+                    nodes.AddRange(item.r_nodes);
                 }
             }
             if (string.IsNullOrEmpty(fliter))

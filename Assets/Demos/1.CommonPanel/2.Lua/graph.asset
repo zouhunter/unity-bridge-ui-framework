@@ -75,9 +75,9 @@ MonoBehaviour:
   m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 2
   b_nodes:
-  - panelName: LuaPanel01
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: LuaPanel01
     type:
       layerIndex: 0
       form: 0
@@ -90,9 +90,9 @@ MonoBehaviour:
     guid: f50a6668e2769894289e06d5debd5b8f
     good: 1
     bundleName: bridgeui/panels/luapanel01.assetbundle
-  - panelName: LuaPanel02
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: LuaPanel02
     type:
       layerIndex: 0
       form: 0
@@ -106,6 +106,7 @@ MonoBehaviour:
     good: 1
     bundleName: bridgeui/panels/luapanel02.assetbundle
   p_nodes: []
+  r_nodes: []
   bridges: []
 --- !u!114 &11457308
 MonoBehaviour:

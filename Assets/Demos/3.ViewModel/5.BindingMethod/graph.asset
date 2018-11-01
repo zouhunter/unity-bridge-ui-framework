@@ -76,9 +76,9 @@ MonoBehaviour:
   loadType: 1
   b_nodes: []
   p_nodes:
-  - panelName: bindingMethodTest
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: bindingMethodTest
     type:
       layerIndex: 0
       form: 0

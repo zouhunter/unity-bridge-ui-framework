@@ -73,6 +73,7 @@ namespace BridgeUI
             InitComponents();
             PropBindings();
         }
+
         protected override void Start()
         {
             base.Start();
@@ -81,6 +82,7 @@ namespace BridgeUI
                 OnViewModelChanged(_viewModel as IViewModel);
             }
         }
+
         protected override void OnDestroy()
         {
             base.OnDestroy();
@@ -112,6 +114,7 @@ namespace BridgeUI
                 ViewModel = currentViewModel;
             }
         }
+
         protected virtual void LoadPropDictionary(IViewModel viewModel, IDictionary dataDic)
         {
             var keys = dataDic.Keys;

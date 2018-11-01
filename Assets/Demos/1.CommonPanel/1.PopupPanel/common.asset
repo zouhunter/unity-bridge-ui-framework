@@ -244,9 +244,9 @@ MonoBehaviour:
   m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 2
   b_nodes:
-  - panelName: ButtonOpenPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: ButtonOpenPanel
     type:
       layerIndex: 0
       form: 0
@@ -259,9 +259,9 @@ MonoBehaviour:
     guid: 5e7386df05c992344b12b73fd369f769
     good: 1
     bundleName: bridgeui/panels/buttonopenpanel.assetbundle
-  - panelName: ButtonsPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: ButtonsPanel
     type:
       layerIndex: 0
       form: 0
@@ -274,9 +274,9 @@ MonoBehaviour:
     guid: dc1d8fe9ec7dc05469a37934506728ef
     good: 1
     bundleName: bridgeui/panels/buttonspanel.assetbundle
-  - panelName: InputPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: InputPanel
     type:
       layerIndex: 0
       form: 2
@@ -289,9 +289,9 @@ MonoBehaviour:
     guid: a41db1c1d5f30cc40a374e0694970cbb
     good: 1
     bundleName: bridgeui/panels/inputpanel.assetbundle
-  - panelName: PopupPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: PopupPanel
     type:
       layerIndex: 0
       form: 0
@@ -304,9 +304,9 @@ MonoBehaviour:
     guid: 7e11abdec5e3dbb4c91d5e2411be07aa
     good: 1
     bundleName: bridgeui/panels/popuppanel.assetbundle
-  - panelName: RadiaMenuPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: RadiaMenuPanel
     type:
       layerIndex: 0
       form: 0
@@ -319,9 +319,9 @@ MonoBehaviour:
     guid: 8e5c8944d260fa34aad17f09bbbbbb23
     good: 1
     bundleName: bridgeui/panels/radiamenupanel.assetbundle
-  - panelName: SingleImagePanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: SingleImagePanel
     type:
       layerIndex: 0
       form: 0
@@ -334,9 +334,9 @@ MonoBehaviour:
     guid: adec64d1277f9724681a8cc49e0f22c0
     good: 1
     bundleName: bridgeui/panels/singleimagepanel.assetbundle
-  - panelName: TextInfoPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: TextInfoPanel
     type:
       layerIndex: 0
       form: 0
@@ -349,9 +349,9 @@ MonoBehaviour:
     guid: 98d3bb1d8972a2446a2c848086c35db9
     good: 1
     bundleName: bridgeui/panels/textinfopanel.assetbundle
-  - panelName: TipInfomation
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: TipInfomation
     type:
       layerIndex: 0
       form: 0
@@ -364,9 +364,9 @@ MonoBehaviour:
     guid: 553df631d6856cc41a803f413fcae974
     good: 1
     bundleName: bridgeui/panels/tipinfomation.assetbundle
-  - panelName: WaitPopPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: WaitPopPanel
     type:
       layerIndex: 0
       form: 0
@@ -380,6 +380,7 @@ MonoBehaviour:
     good: 1
     bundleName: bridgeui/panels/waitpoppanel.assetbundle
   p_nodes: []
+  r_nodes: []
   bridges: []
 --- !u!114 &11401830
 MonoBehaviour:
@@ -425,7 +426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: ButtonOpenPanel
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 3
   instenceID: 0
   assetName: ButtonOpenPanel
   style: 2

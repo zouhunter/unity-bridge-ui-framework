@@ -64,9 +64,9 @@ MonoBehaviour:
   loadType: 1
   b_nodes: []
   p_nodes:
-  - panelName: VMContinerPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: VMContinerPanel
     type:
       layerIndex: 0
       form: 0

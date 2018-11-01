@@ -102,11 +102,12 @@ namespace BridgeUI.Drawer
             });
         }
 
+        private const int labelWidth = 60;
         private void DrawGroup(Rect rect, string label, UnityAction<Rect> drawBody)
         {
-            var labelRect = new Rect(rect.x, rect.y, rect.width * 0.3f, rect.height);
-            var bodyRect = new Rect(rect.x + rect.width * 0.4f, rect.y, rect.width * 0.6f, rect.height);
-            EditorGUI.LabelField(labelRect, label, EditorStyles.largeLabel);
+            var labelRect = new Rect(rect.x, rect.y, labelWidth, rect.height);
+            var bodyRect = new Rect(rect.x + labelWidth, rect.y, rect.width - labelWidth, rect.height);
+            EditorGUI.LabelField(labelRect, label);
             drawBody(bodyRect);
         }
     }

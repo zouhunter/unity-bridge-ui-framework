@@ -9,6 +9,6 @@ namespace BridgeUI.Model
         public List<Graph.UIGraph> graphList = new List<Graph.UIGraph>();
         public bool resetMenu;
         public string menu;
-        public LoadType loadType = LoadType.Prefab;
+        public LoadType loadType = LoadType.DirectLink;
     }
 }

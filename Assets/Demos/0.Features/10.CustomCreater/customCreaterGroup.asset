@@ -1,0 +1,154 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d2d9de1cba75443b53732fa8104050, type: 3}
+  m_Name: customCreaterGroup
+  m_EditorClassIdentifier: 
+  m_allNodes:
+  - m_name: PopupPanel
+    m_id: a80e5b84-6be4-402f-8a1d-71406ec1daef
+    m_x: 432
+    m_y: 180
+    m_node: {fileID: 114414169218060314}
+    m_inputPoints:
+    - id: 56d475bf-4e7f-40d8-b6b7-a69effeecda8
+      label: "\u2192"
+      parentId: a80e5b84-6be4-402f-8a1d-71406ec1daef
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 20
+      type: bridge
+    m_outputPoints: []
+  - m_name: AnyState
+    m_id: 73e1bee2-0824-4efd-9e8f-9f5b26adc13b
+    m_x: 216
+    m_y: 84
+    m_node: {fileID: 114357976737113042}
+    m_inputPoints: []
+    m_outputPoints:
+    - id: 89a89c4a-9898-47cb-938f-1336a9106917
+      label: "\u2192"
+      parentId: 73e1bee2-0824-4efd-9e8f-9f5b26adc13b
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  m_allConnections:
+  - m_id: 8a5c7416-75c3-48e6-b039-eabe1fdde4df
+    m_fromNodeId: 73e1bee2-0824-4efd-9e8f-9f5b26adc13b
+    m_fromNodeConnectionPointId: 89a89c4a-9898-47cb-938f-1336a9106917
+    m_toNodeId: a80e5b84-6be4-402f-8a1d-71406ec1daef
+    m_toNodeConnectionPoiontId: 56d475bf-4e7f-40d8-b6b7-a69effeecda8
+    m_type: bridge
+    m_connection: {fileID: 114441853302104060}
+  m_lastModified: 131854908370793613
+  m_graphDescription: 
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
+  loadType: 1
+  b_nodes: []
+  p_nodes:
+  - instanceID: 0
+    discription: 
+    panelName: PopupPanel
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    prefab: {fileID: 1817570773136330, guid: 7e11abdec5e3dbb4c91d5e2411be07aa, type: 2}
+  r_nodes: []
+  bridges:
+  - inNode: 
+    index: 0
+    showModel:
+      _auto: 1
+      _cover: 0
+      _single: 0
+      mutex: 0
+      baseShow: 0
+    viewModel: {fileID: 0}
+    outNode: PopupPanel
+--- !u!114 &114357976737113042
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
+  m_Name: BridgeUI.Graph.AnyNode
+  m_EditorClassIdentifier: 
+--- !u!114 &114414169218060314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: PopupPanel
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  assetName: PopupPanel
+  style: 1
+  nodedescribe: []
+  rule:
+    baseTypeIndex: 0
+    canInherit: 0
+    bindingAble: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+    guid: 7e11abdec5e3dbb4c91d5e2411be07aa
+    discription: 
+--- !u!114 &114441853302104060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 1
+    _cover: 0
+    _single: 0
+    mutex: 0
+    baseShow: 0
+  viewModel: {fileID: 0}

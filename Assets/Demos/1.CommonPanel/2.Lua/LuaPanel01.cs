@@ -11,11 +11,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-//#if xLua
+//
 ///<summary>
 ///[代码说明信息]
 ///<summary>
-public class LuaPanel01 : BridgeUI.Common.LuaPanel
+public class LuaPanel01 : BridgeUI.Extend.XLua.LuaPanel
 {
 	[SerializeField]
 	private UnityEngine.UI.Button m_Button;

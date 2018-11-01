@@ -995,8 +995,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11414640}
   m_HandleRect: {fileID: 22400364}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.99999976
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1068,8 +1068,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11408284}
   m_HandleRect: {fileID: 22450156}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.6100001
+  m_Value: 0.99999946
+  m_Size: 0.61
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2095,6 +2095,7 @@ MonoBehaviour:
   assetName: LuaTestScript
   menu: Windows
   scriptName: LuaTestScript.lua
+  bundleLoader: {fileID: 11400000, guid: a894d42105e86af4090932a02557e4d7, type: 2}
   m_Button: {fileID: 11486740}
   m_Slider: {fileID: 11424038}
   m_Toggle: {fileID: 11438080}
@@ -2369,7 +2370,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.000028751594, y: 0.000030508241}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &22402472

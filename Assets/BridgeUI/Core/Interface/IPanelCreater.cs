@@ -14,6 +14,7 @@ using BridgeUI.Model;
 
 namespace BridgeUI
 {
+
     public interface IPanelCreater
     {
         void CreatePanel(UIInfoBase itemInfo,UnityAction<GameObject> onCreate);

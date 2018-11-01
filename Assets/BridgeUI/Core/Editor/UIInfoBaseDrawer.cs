@@ -46,7 +46,6 @@ namespace BridgeUI.Drawer
 
         protected abstract float GetInfoItemHeight();
 
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             InitPropertys(property);
@@ -226,13 +225,6 @@ namespace BridgeUI.Drawer
             {
                 return uigroup.transform;
             }
-#if AssetBundleTools
-            RuntimePanelGroup runtimeGroup = Object.FindObjectOfType<RuntimePanelGroup>();
-            if (runtimeGroup != null)
-            {
-                return runtimeGroup.transform;
-            }
-#endif
 
             if (prefab.GetComponent<RectTransform>() != null)
             {

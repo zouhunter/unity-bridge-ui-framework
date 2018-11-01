@@ -11,7 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-//#if xLua
+//
 ///<summary>
 ///[代码说明信息]
 ///<summary>

@@ -31,18 +31,23 @@ namespace BridgeUI.Drawer
         private void StoreInfoOfUIGraph(UIGraph graph)
         {
             graph.bridges.Clear();
-            graph.b_nodes.Clear();
             graph.p_nodes.Clear();
+            graph.b_nodes.Clear();
+            graph.r_nodes.Clear();
 
             InsertBridges(graph.bridges, GetBridges());
 
-            if (graph.loadType == LoadType.Prefab)
+            if (graph.loadType == LoadType.DirectLink)
             {
                 InsertPrefabinfo(graph.p_nodes, GetPrefabUIInfos(GetNodeInfos()));
             }
-            else if (graph.loadType == LoadType.Bundle)
+            else if (graph.loadType == LoadType.AssetBundle)
             {
                 InsertBundleinfo(graph.b_nodes, GetBundleUIInfos(GetNodeInfos()));
+            }
+            else if(graph.loadType == LoadType.Resources)
+            {
+                InsertResourcesInfo(graph.r_nodes, GetResourceUIInfos(GetNodeInfos()));
             }
             EditorUtility.SetDirty(graph);
         }
@@ -93,6 +98,50 @@ namespace BridgeUI.Drawer
                 }
             }
         }
+        private void InsertResourcesInfo(List<ResourceUIInfo> source, List<ResourceUIInfo> newInfo)
+        {
+            if (newInfo == null) return;
+            foreach (var item in newInfo)
+            {
+                CompleteResourceUIInfo(item);
+
+                var old = source.Find(x => x.panelName == item.panelName);
+
+                if (old != null)
+                {
+                    old.guid = item.guid;
+                    old.type = item.type;
+                }
+                else
+                {
+                    source.Add(item);
+                }
+            }
+        }
+
+        private void CompleteResourceUIInfo(ResourceUIInfo rinfo)
+        {
+            if (string.IsNullOrEmpty(rinfo.guid))
+            {
+                return;
+            }
+            else
+            {
+                var path = AssetDatabase.GUIDToAssetPath(rinfo.guid);
+                if(!string.IsNullOrEmpty(path))
+                {
+                    var obj = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                    rinfo.panelName = obj.name;
+                    rinfo.good = true;
+                    rinfo.resourcePath = BridgeUI.Drawer.BridgeEditorUtility.GetResourcesPath(path);
+                }
+                else
+                {
+                    rinfo.good = false;
+                }
+            }
+        }
+
         private List<BridgeInfo> GetBridges()
         {
             var nodes = TargetGraph.Nodes;
@@ -175,6 +224,19 @@ namespace BridgeUI.Drawer
             {
                 return null;
             }
+        }
+        private List<ResourceUIInfo> GetResourceUIInfos(List<NodeInfo> infos)
+        {
+            var rinfo = new List<ResourceUIInfo>();
+            foreach (var item in infos)
+            {
+                var r = new ResourceUIInfo();
+                r.type = item.uiType;
+                r.guid = item.guid;
+                r.discription = item.discription;
+                rinfo.Add(r);
+            }
+            return rinfo;
         }
         private List<BundleUIInfo> GetBundleUIInfos(List<NodeInfo> infos)
         {

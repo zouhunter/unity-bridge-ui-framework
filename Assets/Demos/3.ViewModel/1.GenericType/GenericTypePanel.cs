@@ -25,9 +25,9 @@ public class GenericTypePanel : BridgeUI.SinglePanel
 
 	protected override void PropBindings ()
 	{
-		Binder.RegistMember<System.String[]> ("m_subcomponent.stringTest", "array");
-		Binder.RegistMember<List<System.String>> ("m_subcomponent.listTest", "list");
-		Binder.RegistMember<Dictionary<System.String, System.String>> ("m_subcomponent.dicTest", "dic");
+		//Binder.RegistMember<System.String[]> (m_subcomponent.stringTest, "array");
+		//Binder.RegistMember<List<System.String>> ("m_subcomponent.listTest", "list");
+		//Binder.RegistMember<Dictionary<System.String, System.String>> ("m_subcomponent.dicTest", "dic");
 	}
 }
 

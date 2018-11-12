@@ -24,6 +24,6 @@ public class UserControlPanel : BridgeUI.SinglePanel
 	protected override void PropBindings ()
 	{
 		Binder.RegistEvent (m_List.onSelectChanged, "onSelect", m_List);
-		Binder.RegistMember<System.String[]> (x=>m_List.infos=x, "infos");
+		Binder.RegistValueChange<System.String[]> (x=>m_List.infos=x, "infos");
 	}
 }

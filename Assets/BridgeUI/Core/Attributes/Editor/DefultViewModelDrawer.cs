@@ -22,13 +22,27 @@ namespace BridgeUI.Drawer
     [CustomPropertyDrawer(typeof(DefultViewModelAttribute),true)]
     public class DefultViewModelDrawer : PropertyDrawer
     {
-        private static ViewModel defultviewModel;
         private static GUIContent content = new GUIContent("IViewModel");
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            var hide = (attribute as DefultViewModelAttribute).hide;
+            if(hide && property.objectReferenceValue == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return EditorGUIUtility.singleLineHeight;
+            }
+        }
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (defultviewModel == null)
+            var hide = (attribute as DefultViewModelAttribute).hide;
+
+            if (hide && property.objectReferenceValue == null)
             {
-                defultviewModel = ScriptableObject.CreateInstance<ViewModel>();
+                return;
             }
 
             if (!(property.objectReferenceValue is Binding.IViewModel))
@@ -44,7 +58,7 @@ namespace BridgeUI.Drawer
                     var target = property.serializedObject.targetObject;
                     var path = property.propertyPath;
 
-                    MvvmUtil.CreateNewViewModel((viewModel) =>
+                    MvvmUtil.CreateAssets(typeof(ViewModelContainer), (viewModel) =>
                     {
                         var serializeObj = new SerializedObject(target);
                         var prop = serializeObj.FindProperty(path);
@@ -55,21 +69,7 @@ namespace BridgeUI.Drawer
 
                 rect = new Rect(position.x, position.y, position.width - 60, position.height);
 
-                if (property.objectReferenceValue == null)
-                {
-                    var viewModel = EditorGUI.ObjectField(rect, content, defultviewModel, typeof(ScriptableObject), false) as ScriptableObject;
-
-                    if (viewModel != defultviewModel && viewModel is IViewModel)
-                    {
-                        property.objectReferenceValue = viewModel;
-                    }
-
-                    if(viewModel == null)
-                    {
-                        property.objectReferenceValue = null;
-                    }
-                }
-                else
+                if (property.objectReferenceValue != null)
                 {
                     EditorGUI.PropertyField(rect, property, content);
                 }

@@ -337,6 +337,8 @@ namespace BridgeUI.Drawer
                     {
                         case MemberTypes.Field:
                             var field = member as FieldInfo;
+                            if (!field.IsInitOnly) continue;
+                            if (field.IsLiteral) continue;
                             if (IsMemberSupported(field.FieldType))
                             {
                                 typeList.Add(field.FieldType);
@@ -345,6 +347,7 @@ namespace BridgeUI.Drawer
                             break;
                         case MemberTypes.Property:
                             var prop = member as PropertyInfo;
+                            if (prop.GetSetMethod() == null) continue;
                             if (IsMemberSupported(prop.PropertyType))
                             {
                                 typeList.Add(prop.PropertyType);

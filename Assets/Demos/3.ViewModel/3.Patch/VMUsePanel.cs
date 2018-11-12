@@ -28,11 +28,12 @@ public class VMUsePanel : BridgeUI.SinglePanel
 	protected override void PropBindings ()
 	{
 		Binder.RegistEvent<UnityEngine.UI.Button> (m_click.onClick, "onClick", m_click);
-		Binder.RegistMember<System.String> ("m_title.text", "title");
-		Binder.RegistMember<System.Int32> ("m_title.fontSize", "fontSize");
-		Binder.RegistMember<System.String> ("m_info.text", "info");
-		Binder.RegistMember<System.String> (x => m_title.text = x, "title");
-		Binder.RegistMember<System.Int32> (x => m_title.fontSize = x, "fontSize");
-		Binder.RegistMember<System.String> (x => m_info.text = x, "info");
+		//Binder.RegistMember<System.String> (m_title.text, "title");
+		Binder.RegistValueChange<System.String> (x=>m_title.text=x, "title");
+        Binder.RegistValueChange<System.Int32> (x => m_title.fontSize=x, "fontSize");
+		Binder.RegistValueChange<System.String> (x => m_info.text=x, "info");
+		Binder.RegistValueChange<System.String> (x => m_title.text = x, "title");
+		Binder.RegistValueChange<System.Int32> (x => m_title.fontSize = x, "fontSize");
+		Binder.RegistValueChange<System.String> (x => m_info.text = x, "info");
 	}
 }

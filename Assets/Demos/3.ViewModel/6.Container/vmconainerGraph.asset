@@ -77,6 +77,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 1644209718319326, guid: b7e63095ab1e030459464897296a61cf, type: 2}
+  r_nodes: []
   bridges:
   - inNode: 
     index: 0

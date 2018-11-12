@@ -9,10 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 06f7dff4b1b733e4daea50f86f48c631, type: 3}
-  m_Name: bindingChild
+  m_Name: vmContainer
   m_EditorClassIdentifier: 
-  instence: {fileID: 114693029858894908}
---- !u!114 &114693029858894908
+  instence: {fileID: 114779919869793504}
+--- !u!114 &114779919869793504
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

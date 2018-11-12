@@ -24,8 +24,8 @@ namespace BridgeUI.Common
         protected override void PropBindings()
         {
             base.PropBindings();
-            Binder.RegistMember<bool>("m_close.interactable", "cansaleAble");
-            Binder.RegistMember<string>("m_title.text", "title");
+            Binder.RegistValueChange<bool>(x=>m_close.interactable = x, "cansaleAble");
+            Binder.RegistValueChange<string>(x=>m_title.text = x, "title");
         }
     }
 }

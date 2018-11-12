@@ -40,7 +40,7 @@ namespace BridgeUI
                 return _binder;
             }
         }
-        [SerializeField, Attributes.DefultViewModel]
+        [SerializeField, Attributes.DefultViewModel(true)]
         private ScriptableObject _viewModel;
         private IViewModel _defultViewModel;
         protected IViewModel defultViewModel
@@ -66,6 +66,20 @@ namespace BridgeUI
                 OnViewModelChanged(value);
             }
         }
+
+#if UNITY_EDITOR
+
+        [ContextMenu("加载ViewModel")]
+        private void LoadDefultViewModel()
+        {
+            _viewModel = ScriptableObject.CreateInstance<ViewModel>();
+        }
+        [ContextMenu("清除ViewModel")]
+        private void ClearDefultViewModel()
+        {
+            _viewModel =null;
+        }
+#endif
 
         protected override void Awake()
         {

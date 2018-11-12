@@ -25,11 +25,11 @@ public class bindingMethodTest : BridgeUI.SingleCloseAblePanel
 
 	protected override void PropBindings ()
 	{
-		Binder.RegistMember<System.String[]> (m_bindingMethodTest.SetValue, "value");
-		Binder.RegistMember<UnityEngine.UI.ColorBlock> (x => m_close.colors = x, "color");
-		Binder.RegistMember<UnityEngine.UI.ColorBlock> (x => m_btn.colors = x, "color");
+		Binder.RegistValueChange<System.String[]> (m_bindingMethodTest.SetValue, "value");
+		Binder.RegistValueChange<UnityEngine.UI.ColorBlock> (x => m_close.colors = x, "color");
+		Binder.RegistValueChange<UnityEngine.UI.ColorBlock> (x => m_btn.colors = x, "color");
 		Binder.RegistEvent (m_btn.onClick, "ButtonClicked");
-		Binder.RegistMember<System.String[]> (x => m_list.options = x, "value");
+		Binder.RegistValueChange<System.String[]> (x => m_list.options = x, "value");
 	}
 
 	public void SetValue (System.String[] value)

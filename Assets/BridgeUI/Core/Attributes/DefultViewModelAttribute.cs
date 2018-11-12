@@ -15,7 +15,11 @@ namespace BridgeUI.Attributes
 {
     public class DefultViewModelAttribute : UnityEngine.PropertyAttribute
     {
-
+        public bool hide;
+        public DefultViewModelAttribute(bool hide)
+        {
+            this.hide = hide;
+        }
     }
 
 }

@@ -21,9 +21,6 @@ namespace BridgeUI.Extend.XLua
     [BridgeUI.Attributes.PanelParent]
     public class LuaPanel : PanelBase
     {
-        /// <summary>
-        /// 
-        /// <summary>
         public enum ResourceType
         {
             OriginLink,
@@ -31,15 +28,12 @@ namespace BridgeUI.Extend.XLua
             WebFile,
             AssetBundle,
             Resource,
-            ScriptObject,
             RuntimeString,
         }
         [HideInInspector]
         public ResourceType resourceType;
         [HideInInspector]
         public TextAsset luaScript;
-        [HideInInspector]
-        public LuaScriptModel scriptObj;
         [HideInInspector]
         public string streamingPath;
         [HideInInspector]
@@ -52,6 +46,7 @@ namespace BridgeUI.Extend.XLua
         public string menu;
         [HideInInspector]
         public string scriptName;
+        [HideInInspector]
         public  Model.BundleLoader bundleLoader;
         internal static LuaEnv luaEnv = new LuaEnv(); //all lua behaviour shared one luaenv only!
         internal static float lastGCTime = 0;
@@ -117,9 +112,6 @@ namespace BridgeUI.Extend.XLua
                     break;
                 case ResourceType.Resource:
                     LoadScriptFromResource();
-                    break;
-                case ResourceType.ScriptObject:
-                    InitScritEnv(scriptObj.luaScriptText);
                     break;
                 default:
                     break;

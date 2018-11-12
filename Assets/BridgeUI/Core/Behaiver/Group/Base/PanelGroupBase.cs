@@ -28,6 +28,7 @@ namespace BridgeUI
         protected List<UICreateInfo> waitCreateQueue = new List<UICreateInfo>();
         protected PanelCreateRule createRule;
         protected event UnityAction onDestroy;
+        [BundleLoader("【创建规则】")]
         public BundleLoader bundleCreateRule;
         public UIBindingController bindingCtrl { get; private set; }
         public abstract List<Graph.UIGraph> GraphList { get; }

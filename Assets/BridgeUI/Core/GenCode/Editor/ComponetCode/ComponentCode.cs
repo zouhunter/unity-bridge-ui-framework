@@ -118,7 +118,7 @@ namespace BridgeUI.CodeGen
                 if (!bindingInfo.bindingTargetType.type.IsGenericType)
                 {
                     var typeName = bindingInfo.bindingTargetType.typeName;
-                    methodName = string.Format("RegistMember<{0}>", typeName);
+                    methodName = string.Format("RegistValueChange<{0}>", typeName);
                 }
                 else
                 {
@@ -128,7 +128,7 @@ namespace BridgeUI.CodeGen
                     baseName += "<";
                     baseName += string.Join(",", Array.ConvertAll<Type, string>(arguments, x => x.FullName));
                     baseName += ">";
-                    methodName = string.Format("RegistMember<{0}>", baseName);
+                    methodName = string.Format("RegistValueChange<{0}>", baseName);
                 }
 
                 if (!string.IsNullOrEmpty(methodName))
@@ -322,7 +322,7 @@ namespace BridgeUI.CodeGen
                     var invctions = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
                     foreach (var item in invctions)
                     {
-                        if (item.Target.ToString().Contains("RegistMember"))
+                        if (item.Target.ToString().Contains("RegistValueChange"))
                         {
                             AnalysisBindingMembers(item, components);
                         }

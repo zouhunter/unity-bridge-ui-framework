@@ -47,30 +47,7 @@ namespace BridgeUI.Binding
             }
             this.viewModel = null;
         }
-        /// <summary>
-        /// 利用反射自动完成绑定
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="memberPath"></param>
-        /// <param name="sourceName"></param>
-        public void RegistMember<T>(string memberPath, string sourceName)
-        {
-            object root = Context;
-            var member = GetDeepMember(ref root, memberPath);
-            if (root == null)
-            {
-                if (log) Debug.LogWarning("ignore:" + memberPath + "(because some component is null!)");
-            }
-            else
-            {
-                UnityAction<T> onViewModelChanged = (value) =>
-                {
-                    SetMemberValue<T>(root, member, value);
-                };
-                RegistMember(onViewModelChanged, sourceName);
-            }
-
-        }
+       
         /// <summary>
         /// 注册通用事件
         /// </summary>
@@ -420,7 +397,7 @@ namespace BridgeUI.Binding
         /// <typeparam name="T"></typeparam>
         /// <param name="sourceName"></param>
         /// <param name="onViewModelChanged"></param>
-        public void RegistMember<T>(UnityAction<T> onViewModelChanged, string sourceName)
+        public void RegistValueChange<T>(UnityAction<T> onViewModelChanged, string sourceName)
         {
             if (onViewModelChanged == null) return;
 
@@ -448,127 +425,6 @@ namespace BridgeUI.Binding
                     prop.RemoveValueChanged(onViewModelChanged);
                 }
             };
-        }
-
-        /// <summary>
-        ///  Get Member Value
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Instance"></param>
-        /// <param name="temp"></param>
-        /// <returns></returns>
-        protected static T GetMemberValue<T>(object Instance, MemberInfo temp)
-        {
-            if (temp == null)
-            {
-                return default(T);
-            }
-
-            if (temp is FieldInfo)
-            {
-                return (T)(temp as FieldInfo).GetValue(Instance);
-            }
-            else if (temp is PropertyInfo)
-            {
-                return (T)(temp as PropertyInfo).GetValue(Instance, null);
-            }
-            else
-            {
-                return (T)(temp as MethodInfo).Invoke(Instance, null);
-            }
-        }
-
-        /// <summary>
-        /// Set Member Value
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Instance"></param>
-        /// <param name="temp"></param>
-        /// <param name="value"></param>
-        protected static void SetMemberValue<T>(object Instance, MemberInfo temp, T value)
-        {
-            if (temp == null)
-            {
-                return;
-            }
-
-            if (temp is FieldInfo)
-            {
-                (temp as FieldInfo).SetValue(Instance, value);
-            }
-            else if (temp is PropertyInfo)
-            {
-                (temp as PropertyInfo).SetValue(Instance, value, null);
-            }
-            else
-            {
-                (temp as MethodInfo).Invoke(Instance, new object[] { value });
-            }
-        }
-
-        /// <summary>
-        /// Invoke Method Value
-        /// </summary>
-        /// <param name="memberName"></param>
-        protected static void InvokeMethod(object Instance, string memberName, params object[] value)
-        {
-            if (log) Debug.Log(Instance + ":" + memberName);
-            var temps = Instance.GetType().GetMember(memberName);
-            if (temps.Length > 0)
-            {
-                var temp = temps[0];
-                if (temp is MethodInfo)
-                {
-                    (temp as MethodInfo).Invoke(Instance, value);
-                }
-            }
-        }
-
-        /// <summary>
-        /// 深度获取对象
-        /// </summary>
-        /// <param name="Instance"></param>
-        /// <param name="memberName"></param>
-        /// <returns></returns>
-        protected static MemberInfo GetDeepMember(ref object Instance, string memberName)
-        {
-            var names = memberName.Split(new char[] { '.' });
-            Type type = Instance.GetType();
-            MemberInfo member = null;
-            for (int i = 0; i < names.Length; i++)
-            {
-                var members = type.GetMember(names[i], BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                if (members == null || members.Length == 0)
-                {
-                    return null;
-                }
-                else
-                {
-                    member = members[0];
-
-                    if (member is FieldInfo)
-                    {
-                        var fieldInfo = (member as FieldInfo);
-                        type = fieldInfo.FieldType;
-
-                        if (i < names.Length - 1)
-                        {
-                            Instance = fieldInfo.GetValue(Instance);
-                        }
-                    }
-                    else if (member is PropertyInfo)
-                    {
-                        var propertyInfo = (member as PropertyInfo);
-                        type = propertyInfo.PropertyType;
-
-                        if (i < names.Length - 1)
-                        {
-                            Instance = propertyInfo.GetValue(Instance, null);
-                        }
-                    }
-                }
-            }
-            return member;
         }
     }
 }

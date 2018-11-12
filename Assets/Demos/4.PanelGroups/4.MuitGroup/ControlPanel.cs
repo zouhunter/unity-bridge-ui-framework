@@ -32,14 +32,14 @@ public class ControlPanel : BridgeUI.SinglePanel
 
 	protected override void PropBindings ()
 	{
-		Binder.RegistMember<System.Boolean> (x => m_show.isOn = x, "show");
+		Binder.RegistValueChange<System.Boolean> (x => m_show.isOn = x, "show");
 		Binder.RegistEvent<System.Boolean> (m_show.onValueChanged, "on_show_changed");
-		Binder.RegistMember<System.String> (x => m_current.text = x, "current_scale");
+		Binder.RegistValueChange<System.String> (x => m_current.text = x, "current_scale");
 		Binder.RegistEvent (m_red.onClick, "turn_red");
-		Binder.RegistMember<System.Single> (x => m_scale.value = x, "scale");
-		Binder.RegistMember<System.Single> (x => m_scale.minValue = x, "min_scale");
-		Binder.RegistMember<System.Single> (x => m_scale.maxValue = x, "max_scale");
+		Binder.RegistValueChange<System.Single> (x => m_scale.value = x, "scale");
+		Binder.RegistValueChange<System.Single> (x => m_scale.minValue = x, "min_scale");
+		Binder.RegistValueChange<System.Single> (x => m_scale.maxValue = x, "max_scale");
 		Binder.RegistEvent<System.Single> (m_scale.onValueChanged, "on_scale_changed");
-		Binder.RegistMember<System.String> (x => m_show_title.text = x, "show_title");
+		Binder.RegistValueChange<System.String> (x => m_show_title.text = x, "show_title");
 	}
 }

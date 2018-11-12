@@ -2086,15 +2086,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewModel: {fileID: 0}
-  resourceType: 0
-  luaScript: {fileID: 4900000, guid: 3c2404cfe788cfe468fca98f8aa4c91e, type: 3}
-  scriptObj: {fileID: 0}
+  resourceType: 4
+  luaScript: {fileID: 4900000, guid: f5809db13e98145479498c3ac4cdb88c, type: 3}
   streamingPath: Lua/LuaTestScript.lua
   webUrl: file:///E:/Github/unity-bridge-ui-framework/Assets/StreamingAssets/Lua/LuaTestScript.lua
   assetBundleName: lua/luatests
   assetName: LuaTestScript
   menu: Windows
-  scriptName: LuaTestScript.lua
+  scriptName: LuaTestScript
   bundleLoader: {fileID: 11400000, guid: a894d42105e86af4090932a02557e4d7, type: 2}
   m_Button: {fileID: 11486740}
   m_Slider: {fileID: 11424038}

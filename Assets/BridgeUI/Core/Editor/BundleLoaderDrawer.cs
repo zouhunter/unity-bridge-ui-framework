@@ -8,7 +8,7 @@ using BridgeUI.Model;
 namespace BridgeUI.Drawer
 {
 
-    [CustomPropertyDrawer(typeof(BundleLoader))]
+    [CustomPropertyDrawer(typeof(BundleLoaderAttribute))]
     public class BundlePanelCreaterDrawer : PropertyDrawer
     {
         private const int labelWidth = 100;
@@ -18,7 +18,7 @@ namespace BridgeUI.Drawer
             var rect0 = new Rect(position.x, position.y, labelWidth, position.height);
             var rect1 = new Rect(position.x + labelWidth, position.y, position.width - btnWidth - labelWidth, position.height);
             var rect2 = new Rect(position.x + position.width - btnWidth, position.y, btnWidth, position.height);
-            EditorGUI.LabelField(rect0, "【创建规则】");
+            EditorGUI.LabelField(rect0, (attribute as BundleLoaderAttribute).title);
             property.objectReferenceValue = EditorGUI.ObjectField(rect1,property.objectReferenceValue,typeof(BundleLoader),false);
             var path = property.propertyPath;
             var obj = property.serializedObject.targetObject;

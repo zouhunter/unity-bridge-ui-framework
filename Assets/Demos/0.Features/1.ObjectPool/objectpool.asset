@@ -38,9 +38,9 @@ MonoBehaviour:
   loadType: 1
   b_nodes: []
   p_nodes:
-  - panelName: PopupPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: PopupPanel
     type:
       layerIndex: 0
       form: 0
@@ -51,6 +51,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 1817570773136330, guid: 7e11abdec5e3dbb4c91d5e2411be07aa, type: 2}
+  r_nodes: []
   bridges: []
 --- !u!114 &114032170392359998
 MonoBehaviour:
@@ -63,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PopupPanel
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 3
   instenceID: 0
   assetName: PopupPanel
   style: 1

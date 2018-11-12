@@ -152,14 +152,17 @@ namespace BridgeUI.CodeGen
                     {
                         GenCodeUtil.UpdateViewModelScript(viewModel as Binding.ViewModel, components);
                     }
-                    else if(viewModel is Binding.ViewModelContainer)
+                    else if((viewModel is Binding.ViewModelContainer))
                     {
-                        GenCodeUtil.UpdateViewModelScript((viewModel as Binding.ViewModelContainer).instence, components);
+                        var instence = (viewModel as Binding.ViewModelContainer).instence;
+                        if(instence != null){
+                            GenCodeUtil.UpdateViewModelScript(instence, components);
+                        }
                     }
                     else
                     {
-                        var scriptPath = AssetDatabase.GetAssetPath(go).Replace(".prefab","_ViewModel.cs");
-                        CreateNewViewModelScript(go.name + "_ViewModel", scriptPath,components);
+                        var scriptPath = AssetDatabase.GetAssetPath(go).Replace(".prefab", "_ViewModel.cs");
+                        CreateNewViewModelScript(go.name + "_ViewModel", scriptPath, components);
                     }
                 }
             };

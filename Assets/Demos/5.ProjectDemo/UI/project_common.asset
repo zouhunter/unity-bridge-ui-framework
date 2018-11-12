@@ -62,7 +62,9 @@ MonoBehaviour:
   m_graphDescription: 
   m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 2
-  b_nodes:
+  b_nodes: []
+  p_nodes: []
+  r_nodes:
   - instanceID: 0
     discription: 
     panelName: PopupPanel
@@ -77,8 +79,7 @@ MonoBehaviour:
       hideRule: 0
     guid: 7e11abdec5e3dbb4c91d5e2411be07aa
     good: 1
-    bundleName: bridgeui/panels/popuppanel.assetbundle
-  p_nodes: []
+    resourcePath: 
   bridges:
   - inNode: 
     index: 0

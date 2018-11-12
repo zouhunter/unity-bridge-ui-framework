@@ -14,137 +14,70 @@ namespace BridgeUI.Drawer
     {
         private GUIContent[] options;
         private Type[] viewModelTypes;
-        private SerializedProperty prop_instences;
-        private ReorderableList instencesList;
-        private List<string> ignoreProps = new List<string> { "m_Script" };
+        private SerializedProperty prop_instence;
         public const float middleButtonWidth = 45f;
-      
+        private Editor editor;
+
         private void OnEnable()
         {
-            InitPropertys();
+            prop_instence = serializedObject.FindProperty("instence");
             InitTypeOptions();
-            InitInstenceList();
+
+            if (prop_instence.objectReferenceValue != null)
+            {
+                editor = Editor.CreateEditor(prop_instence.objectReferenceValue);
+            }
         }
 
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
             serializedObject.Update();
-            TryDrawViewModelList();
+            DrawInstence();
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void InitInstenceList()
+        private void DrawInstence()
         {
-            instencesList = new ReorderableList(prop_instences.serializedObject, prop_instences);
-            instencesList.onAddCallback = OnAddElement;
-            instencesList.onRemoveCallback = OnRemoveElement;
-            instencesList.drawHeaderCallback = OnDrawHeader;
-            instencesList.drawElementCallback = DrawElementCallBack;
-            instencesList.elementHeightCallback = ElementHeightCallback;
-        }
-
-        private void OnDrawHeader(Rect rect)
-        {
-            EditorGUI.LabelField(rect, "视图模型列表(--优先绑定第一个ViewModel--)");
-        }
-
-        protected float ElementHeightCallback(int index)
-        {
-            var prop = prop_instences.GetArrayElementAtIndex(index);
-            var height = EditorGUIUtility.singleLineHeight + BridgeEditorUtility.padding * 2;
-            if (prop.objectReferenceValue != null && prop.isExpanded)
-            {
-                var se = BridgeUI.Drawer.BridgeEditorUtility. CreateCachedSerializedObject(prop.objectReferenceValue);
-                height += BridgeEditorUtility.GetSerializedObjectHeight(se, ignoreProps) + BridgeEditorUtility.padding * 2;
-            }
-            return height;
-        }
-
-        protected void DrawElementCallBack(Rect rect, int index, bool isActive, bool isFocused)
-        {
-            rect = BridgeUI.Drawer.BridgeEditorUtility.DrawBoxRect(rect, index.ToString());
-            var prop = prop_instences.GetArrayElementAtIndex(index);
-            var content = prop.objectReferenceValue == null ? new GUIContent("Null") : new GUIContent(prop.objectReferenceValue.name);
-            var bgColor = index == 0 ? Color.green:Color.red;
-
-            var btnRect = new Rect(rect.x, rect.y, rect.width - middleButtonWidth, EditorGUIUtility.singleLineHeight);
-            var objRect = new Rect(rect.x + rect.width - middleButtonWidth, rect.y, middleButtonWidth, EditorGUIUtility.singleLineHeight);
-
-            var defultColor = GUI.backgroundColor;
-            GUI.backgroundColor = bgColor;
-            if (GUI.Button(btnRect, content, EditorStyles.toolbarDropDown))
-            {
-                prop.isExpanded = !prop.isExpanded;
-            }
-            GUI.backgroundColor = defultColor;
-
-            if (prop.objectReferenceValue != null)
-            {
-                if (GUI.Button(objRect, "", EditorStyles.objectFieldMiniThumb))
-                {
-                    EditorGUIUtility.PingObject(prop.objectReferenceValue);
-                }
-            }
-            else
-            {
-                EditorGUI.LabelField(objRect, "Lost!!!");
+            if (GUILayout.Button("更改ViewModel类型",EditorStyles.toolbarButton)){
+                OnUpdateElement();
             }
 
-            if (prop.isExpanded && prop.objectReferenceValue != null)
+            if (editor != null && editor.target && prop_instence.objectReferenceValue != null)
             {
-                DrawObjectDetail(prop.objectReferenceValue, rect);
-            }
-        }
-        private void OnRemoveElement(ReorderableList list)
-        {
-            if(list.index >=0 && list.index < list.count)
-            {
-                var prop = prop_instences.GetArrayElementAtIndex(list.index);
-
-                if (prop.objectReferenceValue)
-                {
-                    DestroyImmediate(prop.objectReferenceValue,true);
-                    Debug.Log("删除："+ prop.objectReferenceValue);
-                }
-
-                prop_instences.DeleteArrayElementAtIndex(list.index);
-                prop_instences.serializedObject.ApplyModifiedProperties();
+                editor.serializedObject.Update();
+                editor.OnInspectorGUI();
+                editor.serializedObject.ApplyModifiedProperties();
             }
         }
 
-        private void OnAddElement(ReorderableList list)
+
+        private void OnUpdateElement()
         {
             EditorUtility.DisplayCustomMenu(new Rect(Event.current.mousePosition, Vector2.zero), options, -1, (x, y, z) =>
             {
+                if (prop_instence.objectReferenceValue != null)
+                    DestroyImmediate(prop_instence.objectReferenceValue, true);
+
                 var type = viewModelTypes[z];
                 var instence = GetAssetByType(type);
-                prop_instences.InsertArrayElementAtIndex(0);
-                var prop = prop_instences.GetArrayElementAtIndex(0);
-                prop.objectReferenceValue = instence;
-                prop_instences.serializedObject.ApplyModifiedProperties();
+                prop_instence.objectReferenceValue = instence;
+                serializedObject.ApplyModifiedProperties();
+                if (prop_instence.objectReferenceValue != null){
+                   editor = Editor.CreateEditor(prop_instence.objectReferenceValue);
+                }
+                AssetDatabase.Refresh();
+
             }, null);
         }
 
         private ScriptableObject GetAssetByType(Type type)
         {
             var path = AssetDatabase.GetAssetPath(target);
-            //var assets = AssetDatabase.LoadAllAssetsAtPath(path);
             var instence = ScriptableObject.CreateInstance(type);
             instence.name = type.Name;
             instence.hideFlags = HideFlags.HideInHierarchy;
             AssetDatabase.AddObjectToAsset(instence, path);
             return instence as ScriptableObject;
-        }
-
-        private void TryDrawViewModelList()
-        {
-            instencesList.DoLayoutList();
-        }
-
-        private void InitPropertys()
-        {
-            prop_instences = serializedObject.FindProperty("instences");
         }
 
         private void InitTypeOptions()
@@ -153,17 +86,5 @@ namespace BridgeUI.Drawer
             options = viewModelTypes.Select(x => new GUIContent(x.FullName)).ToArray();
         }
 
-        protected void DrawObjectDetail(UnityEngine.Object obj, Rect rect)
-        {
-            if (obj != null)
-            {
-                var serializedObj = BridgeEditorUtility.CreateCachedSerializedObject(obj);
-                rect.y += EditorGUIUtility.singleLineHeight + 5;
-                serializedObj.Update();
-                BridgeEditorUtility.DrawChildInContent(serializedObj.GetIterator(), rect, ignoreProps, null, 1);
-                serializedObj.ApplyModifiedProperties();
-            }
-        }
-        
     }
 }

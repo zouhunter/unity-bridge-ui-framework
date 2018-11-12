@@ -67,6 +67,7 @@ namespace BridgeUI.Drawer
                 return typeof(PanelBase).IsAssignableFrom(typeof(PanelBase).Assembly.GetType(GenCodeUtil.supportBaseTypes[rule.baseTypeIndex]));
             }
         }
+
         private void OnEnable()
         {
             panelNode = target as Graph.PanelNodeBase;

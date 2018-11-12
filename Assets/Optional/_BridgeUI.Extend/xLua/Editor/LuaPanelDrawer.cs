@@ -22,13 +22,13 @@ namespace BridgeUI.Extend.XLua
         SerializedProperty scriptPorp;
         SerializedProperty resourceType;
         SerializedProperty luaScript;
-        SerializedProperty scriptObj;
         SerializedProperty streamingPath;
         SerializedProperty webUrl;
         SerializedProperty assetBundleName;
         SerializedProperty assetName;
         SerializedProperty menu;
         SerializedProperty scriptName;
+        SerializedProperty bundleLoader;
 
         void OnEnable()
         {
@@ -40,13 +40,13 @@ namespace BridgeUI.Extend.XLua
             scriptPorp = serializedObject.FindProperty("m_Script");
             resourceType = serializedObject.FindProperty("resourceType");
             luaScript = serializedObject.FindProperty("luaScript");
-            scriptObj = serializedObject.FindProperty("scriptObj");
             streamingPath = serializedObject.FindProperty("streamingPath");
             webUrl = serializedObject.FindProperty("webUrl");
             assetBundleName = serializedObject.FindProperty("assetBundleName");
             assetName = serializedObject.FindProperty("assetName");
             menu = serializedObject.FindProperty("menu");
             scriptName = serializedObject.FindProperty("scriptName");
+            bundleLoader = serializedObject.FindProperty("bundleLoader");
         }
         public override void OnInspectorGUI()
         {
@@ -103,8 +103,8 @@ namespace BridgeUI.Extend.XLua
                 case ResourceType.WebFile:
                     EditorGUILayout.PropertyField(webUrl);
                     break;
-
                 case ResourceType.AssetBundle:
+                    EditorGUILayout.PropertyField(bundleLoader);
                     EditorGUILayout.PropertyField(menu);
                     EditorGUILayout.PropertyField(assetBundleName);
                     EditorGUILayout.PropertyField(assetName);
@@ -112,9 +112,6 @@ namespace BridgeUI.Extend.XLua
 
                 case ResourceType.Resource:
                     EditorGUILayout.PropertyField(scriptName);
-                    break;
-                case ResourceType.ScriptObject:
-                    EditorGUILayout.PropertyField(scriptObj);
                     break;
                 case ResourceType.RuntimeString:
                     break;

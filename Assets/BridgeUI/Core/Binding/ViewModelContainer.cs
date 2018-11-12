@@ -19,19 +19,8 @@ namespace BridgeUI.Binding
 {
     public class ViewModelContainer : ScriptableObject, IViewModel
     {
-        [SerializeField,HideInInspector]
-        private List<ViewModel> instences = new List<ViewModel>();
-
-        public ViewModel instence
-        {
-            get
-            {
-                if(instences.Count == 0){
-                    instences.Add(new ViewModel());
-                }
-                return instences[0];
-            }
-        }
+        [SerializeField]
+        public ViewModel instence;
 
         public bool ContainsKey(string key)
         {

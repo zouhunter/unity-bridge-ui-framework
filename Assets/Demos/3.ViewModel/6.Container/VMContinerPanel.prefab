@@ -38,7 +38,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de44261457f43e74f86979bbe426cfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 11400000, guid: fa3c51d46c4415d4db3846c5e7a34f91, type: 2}
+  _viewModel: {fileID: 11400000, guid: a0574fbaba221a84d88cc6f4506acb31, type: 2}
 --- !u!224 &224753470167208804
 RectTransform:
   m_ObjectHideFlags: 1

@@ -21,6 +21,6 @@ public class ListPanel : BridgeUI.SinglePanel
 	protected override void PropBindings ()
 	{
 		Binder.RegistEvent (m_List.onSelectID, "on_selectid");
-		Binder.RegistMember<System.String[]> (x=>m_List.options=x, "options");
+		Binder.RegistValueChange<System.String[]> (x=>m_List.options=x, "options");
 	}
 }

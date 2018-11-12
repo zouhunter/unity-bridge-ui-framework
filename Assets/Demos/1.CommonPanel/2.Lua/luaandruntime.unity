@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae2e314589e69a47833099372aab67b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  luaScript: {fileID: 4900000, guid: 3c2404cfe788cfe468fca98f8aa4c91e, type: 3}
+  luaScript: {fileID: 4900000, guid: f5809db13e98145479498c3ac4cdb88c, type: 3}
 --- !u!4 &2101821873
 Transform:
   m_ObjectHideFlags: 0

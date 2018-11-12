@@ -33,11 +33,11 @@ namespace BridgeUI.Common
         protected override void PropBindings()
         {
             base.PropBindings();
-            Binder.RegistMember<int>(view.SetFontSize, "fontSize");
-            Binder.RegistMember<Vector3>(SetPosition, "position");
-            Binder.RegistMember<string>(view.SetTitle, "textInfo");
-            Binder.RegistMember<Color>(view.SetColor, "fontColor");
-            Binder.RegistMember<Sprite>(view.SetSprite, "sprite");
+            Binder.RegistValueChange<int>(view.SetFontSize, "fontSize");
+            Binder.RegistValueChange<Vector3>(SetPosition, "position");
+            Binder.RegistValueChange<string>(view.SetTitle, "textInfo");
+            Binder.RegistValueChange<Color>(view.SetColor, "fontColor");
+            Binder.RegistValueChange<Sprite>(view.SetSprite, "sprite");
         }
 
         public void Update()

@@ -8,8 +8,7 @@ namespace BridgeUI.Binding
         void OnBinding(IBindingContext context);
         void OnUnBinding(IBindingContext context);
         BindableProperty<T> GetBindableProperty<T>(string keyward);
-        BindableProperty<T> GetBindablePropertySelfty<T>(string keyward);
-        IBindableProperty GetBindablePropertySelfty(string keyward, System.Type type);
+        IBindableProperty GetBindableProperty(string keyward, System.Type type);
         void SetBindableProperty(string keyward, IBindableProperty value);
     }
 

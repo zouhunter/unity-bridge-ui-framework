@@ -6,7 +6,6 @@ namespace BridgeUI.Binding
     {
         Binding.PropertyBinder Binder { get; }
         IViewModel ViewModel { get; set; }
-        void OnViewModelChanged(IViewModel newValue);
     }
 
 }

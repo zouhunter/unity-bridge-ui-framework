@@ -38,9 +38,9 @@ MonoBehaviour:
   loadType: 1
   b_nodes: []
   p_nodes:
-  - panelName: GraphPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: GraphPanel
     type:
       layerIndex: 0
       form: 0
@@ -51,6 +51,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 1053018935430422, guid: 7cd7db2967025d64cb5bb1211cf0858b, type: 2}
+  r_nodes: []
   bridges: []
 --- !u!114 &114012449446268218
 MonoBehaviour:

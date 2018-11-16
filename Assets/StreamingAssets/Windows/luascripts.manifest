@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 3002999730
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 001930aa89a43ef5cd42797327f2b41a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 27689eb84325cb2e57d0dc1de4ae388d
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: 8f35fe0cd34ac594e831074e8f8789d9, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+Assets:
+- Assets/Demos/1.CommonPanel/2.Lua/luppanel02.asset
+Dependencies: []

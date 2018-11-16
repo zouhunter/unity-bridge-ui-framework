@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.Events;
@@ -14,23 +14,30 @@ using BridgeUI.Binding;
 using System;
 
 public class ViewModel001 : VMUsePanel_ViewModel
-{ 
-    [SerializeField] private string _title;
-    [SerializeField] private string _info;
-    [SerializeField] private int _fontSize;
+{
+	#region 属性列表
+	#endregion 属性列表
+	[SerializeField]
+	private string _title;
 
-    private void OnEnable()
-    {
-        title = _title;
-        info = _info;
-        fontSize = _fontSize;
-        onClick = OpenPanel01;
-    }
+	[SerializeField]
+	private string _info;
 
-    private void OpenPanel01(IBindingContext panel, Button sender)
-    {
-        Debug.Log("OpenPanel01");
-        title = "panel:" + panel;
-        info = "sender:" + sender;
-    }
+	[SerializeField]
+	private int _fontSize;
+
+	private void OnEnable ()
+	{
+		title = _title;
+		info = _info;
+		fontSize = _fontSize;
+		onClick = OpenPanel01;
+	}
+
+	private void OpenPanel01 (IBindingContext panel, Button sender)
+	{
+		Debug.Log ("OpenPanel01");
+		title = "panel:" + panel;
+		info = "sender:" + sender;
+	}
 }

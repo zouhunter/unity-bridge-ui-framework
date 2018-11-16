@@ -18,9 +18,10 @@ namespace BridgeUI.Binding
     public delegate void BindHandler(IBindingContext source);
     public delegate void UnBindHandler(IBindingContext source);
 
+    public delegate void PanelAction(IBindingContext panel);
     public delegate void PanelAction<T>(IBindingContext panel,T arg0);
     public delegate void PanelAction<T,S>(IBindingContext panel,T arg0,S arg1);
     public delegate void PanelAction<T,S,R>(IBindingContext panel,T arg0,S arg1,R arg2);
     public delegate void PanelAction<T,S,R,Q>(IBindingContext panel,T arg0,S arg1,R arg2,Q arg3);
-    public delegate void PanelAction(IBindingContext panel);
+    public delegate void PanelAction<T,S,R,Q,P>(IBindingContext panel, T arg0,S arg1,R arg2,Q arg3,P arg4);
 }

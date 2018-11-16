@@ -64,13 +64,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: VMUsePanel
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 1
   instenceID: 0
   assetName: VMUsePanel
   style: 1
   nodedescribe: []
   rule:
-    baseTypeIndex: 1
+    baseTypeIndex: 4
     canInherit: 0
     bindingAble: 0
   components:
@@ -88,7 +88,7 @@ MonoBehaviour:
       typeName: UnityEngine.GameObject
     viewItems: []
     eventItems:
-    - type: 0
+    - type: 2
       bindingSource: onClick
       bindingTarget: onClick
       bindingTargetType:
@@ -97,7 +97,7 @@ MonoBehaviour:
     target: {fileID: 138282, guid: 2067d2deffeb5534a8c7b64163ff03ad, type: 2}
     scriptTarget: {fileID: 0}
     isScriptComponent: 0
-  - open: 0
+  - open: 1
     name: title
     componentID: 0
     components:

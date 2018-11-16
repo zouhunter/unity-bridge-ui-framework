@@ -51,29 +51,24 @@ namespace BridgeUI.Extend.XLua
         internal static LuaEnv luaEnv = new LuaEnv(); //all lua behaviour shared one luaenv only!
         internal static float lastGCTime = 0;
         internal const float GCInterval = 1;//1 second 
-        protected UnityEvent luaOnInit = new UnityEvent();
-        protected UnityEvent luaUpdate = new UnityEvent();
-        protected UnityEvent luaOnDestroy = new UnityEvent();
+        protected const string luaOnInit = "oninit";
+        protected const string luaUpdate = "update";
+        protected const string luaOnDestroy = "ondestroy";
 
         protected LuaViewModel luaViewModel { get { return ViewModel as LuaViewModel; }  }
         private LuaTable tableCreated;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            RegistBaseAction();
-        }
-
         protected override void Start()
         {
             base.Start();
-            if(bundleLoader) bundleLoader.InitEnviroment();
+            if(bundleLoader)
+                bundleLoader.InitEnviroment();
             LoadLuaScriptOnAwake();
         }
 
         protected virtual void Update()
         {
-            luaUpdate.Invoke();
+            Binder.InvokeEvent(luaUpdate);
             if (Time.time - lastGCTime > GCInterval)
             {
                 luaEnv.Tick();
@@ -84,7 +79,7 @@ namespace BridgeUI.Extend.XLua
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            luaOnDestroy.Invoke();
+            Binder.InvokeEvent(luaOnDestroy);
         }
 
         private void LoadLuaScriptOnAwake()
@@ -170,14 +165,7 @@ namespace BridgeUI.Extend.XLua
         [LuaCallCSharp]
         public void SetValue(string key, object value)
         {
-            if (luaViewModel != null)
-            {
-                var prop = luaViewModel.GetBindablePropertySelfty(key, value.GetType());
-                if (prop != null)
-                {
-                    prop.ValueBoxed = value;
-                }
-            }
+            Binder.SetBoxValue(value, key);
         }
 
         private void InitScritEnv(string text)
@@ -197,15 +185,9 @@ namespace BridgeUI.Extend.XLua
             var model = LuaViewModel.CreateInstance<LuaViewModel>();
             model.Init(this.tableCreated);
             ViewModel = model;
-            luaOnInit.Invoke();
+            Binder.InvokeEvent(luaOnInit);
         }
 
-        private void RegistBaseAction()
-        {
-            Binder.RegistEvent(luaOnInit, "oninit");
-            Binder.RegistEvent(luaUpdate, "update");
-            Binder.RegistEvent(luaOnDestroy, "ondestroy");
-        }
         /// <summary>
         /// 直接加载脚本文件不太安全，
         /// 可以进行解密处理
@@ -228,7 +210,7 @@ namespace BridgeUI.Extend.XLua
 
             if (luaViewModel != null)
             {
-                var action = luaViewModel.GetBindablePropertySelfty<UnityAction<object>>("handle_data");
+                var action = luaViewModel.GetBindableProperty<UnityAction<object>>("handle_data");
                 if (action.Value != null)
                 {
                     action.Value.Invoke(data);

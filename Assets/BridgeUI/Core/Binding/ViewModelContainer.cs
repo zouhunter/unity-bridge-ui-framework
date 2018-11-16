@@ -1,18 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
-using UnityEngine.Events;
-using UnityEngine.Sprites;
-using UnityEngine.Scripting;
-using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
-using UnityEngine.Assertions.Must;
-using UnityEngine.Assertions.Comparers;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System;
-using System.Reflection;
 
 
 namespace BridgeUI.Binding
@@ -32,14 +19,9 @@ namespace BridgeUI.Binding
             return instence.GetBindableProperty<T>(keyward);
         }
 
-        public IBindableProperty GetBindablePropertySelfty(string keyward, Type type)
+        public IBindableProperty GetBindableProperty(string keyward, Type type)
         {
-            return instence.GetBindablePropertySelfty(keyward, type);
-        }
-
-        public BindableProperty<T> GetBindablePropertySelfty<T>(string keyward)
-        {
-            return instence.GetBindablePropertySelfty<T>(keyward);
+            return instence.GetBindableProperty(keyward, type);
         }
 
         public void OnBinding(IBindingContext context)

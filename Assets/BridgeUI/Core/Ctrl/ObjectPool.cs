@@ -6,7 +6,7 @@ namespace BridgeUI
 {
     public class ObjectPool<T>
     {
-#if UNITY_EDITOR
+#if BridgeUI_Log
         bool log { get { return LogSetting.objectPoolLog; } }
 #endif
         public UnityEngine.Events.UnityAction<T> onCreate { get; set; }
@@ -23,7 +23,7 @@ namespace BridgeUI
         {
             if(stack.Count == 0)
             {
-#if UNITY_EDITOR
+#if BridgeUI_Log
                 if (log) Debug.Log("create new " + typeof(T).FullName);
 #endif
                 var instence = createFunc();
@@ -40,7 +40,7 @@ namespace BridgeUI
         }
         internal void Release(T instence)
         {
-#if UNITY_EDITOR
+#if BridgeUI_Log
             if (log) Debug.Log("release: " + instence);
 #endif
             stack.Push(instence);

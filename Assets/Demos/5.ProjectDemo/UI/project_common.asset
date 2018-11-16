@@ -61,10 +61,9 @@ MonoBehaviour:
   m_lastModified: 131800522642632071
   m_graphDescription: 
   m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
-  loadType: 2
+  loadType: 1
   b_nodes: []
-  p_nodes: []
-  r_nodes:
+  p_nodes:
   - instanceID: 0
     discription: 
     panelName: PopupPanel
@@ -77,9 +76,8 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    guid: 7e11abdec5e3dbb4c91d5e2411be07aa
-    good: 1
-    resourcePath: 
+    prefab: {fileID: 1817570773136330, guid: 7e11abdec5e3dbb4c91d5e2411be07aa, type: 2}
+  r_nodes: []
   bridges:
   - inNode: 
     index: 0

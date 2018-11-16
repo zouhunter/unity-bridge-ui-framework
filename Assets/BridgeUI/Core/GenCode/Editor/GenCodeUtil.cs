@@ -405,10 +405,7 @@ namespace BridgeUI.CodeGen
             var typeName = TypeStringName(type);
 
             propertyNode = new PropertyDeclaration();
-            var att = new BridgeUI.NRefactory.CSharp.Attribute();
-            att.Type = new SimpleType(typeof(BridgeUI.Attributes.DefultValueAttribute).FullName);
-            propertyNode.Attributes.Add(new AttributeSection(att));
-            propertyNode.Modifiers = Modifiers.Public;
+            propertyNode.Modifiers = Modifiers.Protected;
             propertyNode.ReturnType = new PrimitiveType(string.Format("{0}.{1}", type.Namespace, typeName));
             propertyNode.Name = source;
 

@@ -9,7 +9,7 @@
 public abstract class VMUsePanel_ViewModel : BridgeUI.Binding.ViewModel
 {
 	#region 属性列表
-	[BridgeUI.Attributes.DefultValueAttribute]
+
 	public BridgeUI.Binding.PanelAction<UnityEngine.UI.Button> onClick {
 		get {
 			return GetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Button>> ("onClick");
@@ -19,8 +19,7 @@ public abstract class VMUsePanel_ViewModel : BridgeUI.Binding.ViewModel
 		}
 	}
 
-	[BridgeUI.Attributes.DefultValueAttribute]
-	public System.String title {
+    public System.String title {
 		get {
 			return GetValue<System.String> ("title");
 		}
@@ -29,7 +28,7 @@ public abstract class VMUsePanel_ViewModel : BridgeUI.Binding.ViewModel
 		}
 	}
 
-	[BridgeUI.Attributes.DefultValueAttribute]
+
 	public System.Int32 fontSize {
 		get {
 			return GetValue<System.Int32> ("fontSize");
@@ -39,7 +38,7 @@ public abstract class VMUsePanel_ViewModel : BridgeUI.Binding.ViewModel
 		}
 	}
 
-	[BridgeUI.Attributes.DefultValueAttribute]
+
 	public System.String info {
 		get {
 			return GetValue<System.String> ("info");

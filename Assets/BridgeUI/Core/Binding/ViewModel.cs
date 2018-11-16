@@ -1,25 +1,14 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
-using UnityEngine.Events;
-using UnityEngine.Sprites;
-using UnityEngine.Scripting;
-using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
-using UnityEngine.Assertions.Must;
-using UnityEngine.Assertions.Comparers;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System;
-using System.Reflection;
-
+using UnityEngine.Events;
 
 namespace BridgeUI.Binding
 {
-    public class ViewModel : ScriptableObject,IViewModel
+    public class ViewModel : ScriptableObject, IViewModel
     {
+#if BridgeUI_Log
         public static bool log { get; set; }
+#endif
         private List<IBindingContext> _contexts = new List<IBindingContext>();
         protected List<IBindingContext> Contexts { get { return _contexts; } }
         private readonly Dictionary<string, IBindableProperty> innerDic = new Dictionary<string, IBindableProperty>();
@@ -38,38 +27,10 @@ namespace BridgeUI.Binding
                 innerDic[key] = value;
             }
         }
-
-        public ViewModel()
-        {
-            AutoInitPropery(this.GetType());
-        }
-
-        protected void AutoInitPropery(Type type)
-        {
-            var propertys = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty|BindingFlags.DeclaredOnly);
-            foreach (var item in propertys)
-            {
-                var att = item.GetCustomAttributes(true).Where(x => x is BridgeUI.Attributes.DefultValueAttribute).FirstOrDefault();
-                if (att != null)
-                {
-                    var fullType = typeof(BindableProperty<>).MakeGenericType(item.PropertyType);
-                    this[item.Name] = System.Activator.CreateInstance(fullType) as IBindableProperty;
-                    //Debug.Log("注册:" + item.Name);
-                }
-            }
-
-            var baseType = type.BaseType;
-            if(baseType != typeof(ViewModel) && baseType != null)
-            {
-                AutoInitPropery(baseType);
-            }
-        }
-
         public bool ContainsKey(string key)
         {
             return innerDic.ContainsKey(key);
         }
-
         public virtual void SetBindableProperty(string keyward, IBindableProperty value)
         {
             if (this[keyward] == null)
@@ -85,17 +46,7 @@ namespace BridgeUI.Binding
                 this[keyward] = value;
             }
         }
-
         public virtual BindableProperty<T> GetBindableProperty<T>(string keyward)
-        {
-            if (ContainsKey(keyward) && this[keyward] is BindableProperty<T>)
-            {
-                return this[keyward] as BindableProperty<T>;
-            }
-            return null;
-        }
-
-        public virtual BindableProperty<T> GetBindablePropertySelfty<T>(string keyward)
         {
             if (!ContainsKey(keyward) || !(this[keyward] is BindableProperty<T>))
             {
@@ -103,8 +54,7 @@ namespace BridgeUI.Binding
             }
             return this[keyward] as BindableProperty<T>;
         }
-
-        public virtual IBindableProperty GetBindablePropertySelfty(string keyward, System.Type type)
+        public virtual IBindableProperty GetBindableProperty(string keyward, System.Type type)
         {
             var fullType = typeof(BindableProperty<>).MakeGenericType(type);
             if (!ContainsKey(keyward) || this[keyward].GetType() != fullType)
@@ -113,17 +63,23 @@ namespace BridgeUI.Binding
             }
             return this[keyward] as IBindableProperty;
         }
-
         protected virtual T GetValue<T>(string keyward)
         {
-            return GetBindablePropertySelfty<T>(keyward).Value;
+            return GetBindableProperty<T>(keyward).Value;
         }
         protected virtual void SetValue<T>(string keyward, T value)
         {
-            GetBindablePropertySelfty<T>(keyward).Value = value;
+            GetBindableProperty<T>(keyward).Value = value;
         }
         public virtual void OnBinding(IBindingContext context) { this._contexts.Add(context); }
         public virtual void OnUnBinding(IBindingContext context) { this._contexts.Remove(context); }
+        protected virtual void Monitor<T>(string sourceName, UnityAction<T> onValueChanged)
+        {
+            if (!string.IsNullOrEmpty(sourceName) && onValueChanged != null)
+            {
+                GetBindableProperty<T>(sourceName).RegistValueChanged(onValueChanged);
+            }
+        }
 
     }
 

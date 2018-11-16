@@ -23,19 +23,23 @@ public class bindingMethodTest : BridgeUI.SingleCloseAblePanel
 	[SerializeField]
 	private BridgeUI.Control.ButtonListSelector m_list;
 
-	protected override void PropBindings ()
+    [SerializeField]
+    private InputField input_field;
+
+    protected override void PropBindings ()
 	{
-		Binder.RegistValueChange<System.String[]> (m_bindingMethodTest.SetValue, "value");
+        Binder.RegistValueChange<System.String[]> (m_bindingMethodTest.SetValue, "value");
 		Binder.RegistValueChange<UnityEngine.UI.ColorBlock> (x => m_close.colors = x, "color");
 		Binder.RegistValueChange<UnityEngine.UI.ColorBlock> (x => m_btn.colors = x, "color");
 		Binder.RegistEvent (m_btn.onClick, "ButtonClicked");
 		Binder.RegistValueChange<System.String[]> (x => m_list.options = x, "value");
-	}
-
+    }
+    
 	public void SetValue (System.String[] value)
 	{
 		foreach (var item in value) {
 			Debug.Log (item);
 		}
 	}
+
 }

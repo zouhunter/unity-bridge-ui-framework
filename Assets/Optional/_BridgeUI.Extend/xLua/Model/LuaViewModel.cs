@@ -26,7 +26,7 @@ namespace BridgeUI.Extend.XLua
 
         public override BindableProperty<T> GetBindableProperty<T>(string name)
         {
-            var prop = base.GetBindablePropertySelfty<T>(name);
+            var prop = base.GetBindableProperty<T>(name);
             if (prop.ValueBoxed == null)
             {
                 prop.Value = scriptEnv.Get<T>(name);

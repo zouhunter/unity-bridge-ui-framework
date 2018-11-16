@@ -1,0 +1,38 @@
+ManifestFileVersion: 0
+CRC: 750741975
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 6ff0b69f9ac6372ffe957143b31a74f6
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: a725a4828252786d8ec39503a7c47bfe
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 79223c38988cb9a47ab76059557930c4, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/Demos/1.CommonPanel/9.TipInfomation/TipInfomation.prefab
+Dependencies: []

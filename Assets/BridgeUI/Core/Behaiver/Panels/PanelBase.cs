@@ -137,7 +137,7 @@ namespace BridgeUI
                 var value = dataDic[key];
                 if (value != null)
                 {
-                    var prop = viewModel.GetBindablePropertySelfty(key.ToString(), value.GetType());
+                    var prop = viewModel.GetBindableProperty(key.ToString(), value.GetType());
                     if (prop != null)
                     {
                         prop.ValueBoxed = value;

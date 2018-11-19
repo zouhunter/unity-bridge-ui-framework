@@ -2085,9 +2085,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e20549bea19bf4b845e37999ee7928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  resourceType: 4
-  luaScript: {fileID: 4900000, guid: f5809db13e98145479498c3ac4cdb88c, type: 3}
+  defultViewModel: {fileID: 0}
+  resourceType: 1
+  luaScript: {fileID: 4900000, guid: 6a9d4f2b98db88b418902063508a6b90, type: 3}
   streamingPath: Lua/LuaTestScript.lua
   webUrl: file:///E:/Github/unity-bridge-ui-framework/Assets/StreamingAssets/Lua/LuaTestScript.lua
   assetBundleName: lua/luatests

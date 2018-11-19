@@ -470,7 +470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 710c624bfb47e794e8d13a5fbf1c2c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 11400000, guid: 8caf0f8a375003a4f90d986da519a267, type: 2}
+  defultViewModel: {fileID: 11400000, guid: c5077151211c25646b78abd097f223ba, type: 2}
   m_List: {fileID: 114065155506569008}
 --- !u!114 &114704403837408786
 MonoBehaviour:

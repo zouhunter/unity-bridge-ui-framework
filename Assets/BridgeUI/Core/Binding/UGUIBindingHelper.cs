@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace BridgeUI.Binding
 {
-    public static class UIBindingHelper
+    public static class UGUIBindingHelper
     {
         /// <summary>
         /// 输入框
@@ -15,7 +15,7 @@ namespace BridgeUI.Binding
         public static void BindingInputField(this PropertyBinder Binder, InputField inputField, string sourceName)
         {
             Binder.RegistValueChange<string>(x => inputField.text = x, sourceName);
-            Binder.RegistEvent(inputField.onValueChanged, sourceName);
+            Binder.RegistValueEvent(inputField.onValueChanged, sourceName);
         }
         /// <summary>
         /// 文本框
@@ -36,7 +36,7 @@ namespace BridgeUI.Binding
         public static void BindingSlider(this PropertyBinder Binder, Slider sliderComponent, string sourceName)
         {
             Binder.RegistValueChange<float>(x => sliderComponent.value = x, sourceName);
-            Binder.RegistEvent(sliderComponent.onValueChanged, sourceName);
+            Binder.RegistValueEvent(sliderComponent.onValueChanged, sourceName);
         }
         /// <summary>
         /// 下拉框
@@ -47,7 +47,7 @@ namespace BridgeUI.Binding
         public static void BindingDropdown(this PropertyBinder Binder, Dropdown dropdown, string sourceName)
         {
             Binder.RegistValueChange<int>(x => dropdown.value = x, sourceName);
-            Binder.RegistEvent(dropdown.onValueChanged, sourceName);
+            Binder.RegistValueEvent(dropdown.onValueChanged, sourceName);
         }
 
         /// <summary>
@@ -69,7 +69,8 @@ namespace BridgeUI.Binding
         /// <param name="sourceName"></param>
         public static void BindingToggle(this PropertyBinder Binder, Toggle toggle, string sourceName)
         {
-            Binder.RegistEvent(toggle.onValueChanged, sourceName);
+            Binder.RegistValueChange<bool>(x=> toggle.isOn = x, sourceName);
+            Binder.RegistValueEvent(toggle.onValueChanged, sourceName);
         }
 
         /// <summary>

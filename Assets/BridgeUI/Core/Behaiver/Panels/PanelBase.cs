@@ -41,43 +41,43 @@ namespace BridgeUI
             }
         }
         [SerializeField, Attributes.DefultViewModel(true)]
-        private ScriptableObject _viewModel;
-        private IViewModel _defultViewModel;
-        protected IViewModel defultViewModel
-        {
-            get
-            {
-                if (_defultViewModel == null)
-                {
-                    _defultViewModel = ScriptableObject.CreateInstance<ViewModelObject>();
-                }
-                return _defultViewModel;
-            }
-        }
+        private ScriptableObject defultViewModel;
+        private IViewModel _viewModel;
         public IViewModel ViewModel
         {
             get
             {
-                return _viewModel as IViewModel;
+                if(_viewModel == null)
+                {
+                    if (defultViewModel != null)
+                    {
+                        _viewModel = defultViewModel as IViewModel;
+                    }
+                    if (_viewModel == null)
+                    {
+                        _viewModel = new ViewModel();
+                    }
+                }
+                return _viewModel;
             }
             set
             {
-                _viewModel = (ScriptableObject)value;
+                _viewModel = value;
                 OnViewModelChanged(value);
             }
         }
 
 #if UNITY_EDITOR
 
-        [ContextMenu("加载ViewModel")]
+        [ContextMenu("显示ViewModel")]
         private void LoadDefultViewModel()
         {
-            _viewModel = ScriptableObject.CreateInstance<ViewModelObject>();
+            defultViewModel = ScriptableObject.CreateInstance<ViewModelObject>();
         }
         [ContextMenu("清除ViewModel")]
         private void ClearDefultViewModel()
         {
-            _viewModel =null;
+            defultViewModel = null;
         }
 #endif
 
@@ -91,10 +91,7 @@ namespace BridgeUI
         protected override void Start()
         {
             base.Start();
-
-            if (_viewModel != null && _viewModel is IViewModel){
-                OnViewModelChanged(_viewModel as IViewModel);
-            }
+            Binder.Bind(ViewModel);
         }
 
         protected override void OnDestroy()
@@ -123,9 +120,7 @@ namespace BridgeUI
             }
             else if (data is IDictionary)
             {
-                var currentViewModel = ViewModel == null ? defultViewModel : ViewModel;
-                LoadPropDictionary(currentViewModel, data as IDictionary);
-                ViewModel = currentViewModel;
+                LoadPropDictionary(ViewModel, data as IDictionary);
             }
         }
 

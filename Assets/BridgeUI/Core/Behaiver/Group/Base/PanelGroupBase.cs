@@ -175,7 +175,7 @@ namespace BridgeUI
         public void CansaleInstencePanel(string panelName)
         {
             var match = waitCreateQueue.Find(x => x.uiInfo != null && x.uiInfo.panelName == panelName);
-            if (match.uiInfo != null)
+            if (match != null && match.uiInfo != null)
             {
                 waitCreateQueue.Remove(match);
                 uiCreateInfoPool.Release(match);

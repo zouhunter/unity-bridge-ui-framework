@@ -43,7 +43,7 @@ MonoBehaviour:
         height: 23
       max: 20
       type: bridge
-  - m_name: PopUpPanel
+  - m_name: PopupPanel
     m_id: 9a42c2c0-f196-411d-8da3-c760b0072c37
     m_x: 430
     m_y: 150
@@ -102,9 +102,9 @@ MonoBehaviour:
   loadType: 1
   b_nodes: []
   p_nodes:
-  - panelName: PanderTestPanel
-    instanceID: 0
+  - instanceID: 0
     discription: "\u6D4B\u8BD5panelRender"
+    panelName: PanderTestPanel
     type:
       layerIndex: 0
       form: 0
@@ -115,9 +115,9 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 1
     prefab: {fileID: 1727339852298134, guid: ec171a8373919f847a31b8bfba63417f, type: 2}
-  - panelName: PopUpPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: PopupPanel
     type:
       layerIndex: 0
       form: 1
@@ -127,7 +127,8 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 132216, guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6, type: 2}
+    prefab: {fileID: 1817570773136330, guid: 7e11abdec5e3dbb4c91d5e2411be07aa, type: 2}
+  r_nodes: []
   bridges:
   - inNode: 
     index: 0
@@ -148,7 +149,7 @@ MonoBehaviour:
       mutex: 0
       baseShow: 1
     viewModel: {fileID: 0}
-    outNode: PopUpPanel
+    outNode: PopupPanel
 --- !u!114 &114108274848791432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,11 +159,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
-  m_Name: PopUpPanel
+  m_Name: PopupPanel
   m_EditorClassIdentifier: 
   selected: 0
   instenceID: 0
-  assetName: PopUpPanel
+  assetName: PopupPanel
   style: 1
   nodedescribe: []
   rule:
@@ -227,7 +228,7 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    guid: 5fed3fc5db2f9df4db7b8d3b33bfc2a6
+    guid: 7e11abdec5e3dbb4c91d5e2411be07aa
     discription: 
 --- !u!114 &114290625019371660
 MonoBehaviour:
@@ -240,6 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
+  blocking: 0
   show:
     _auto: 0
     _cover: 0
@@ -277,9 +279,9 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Button
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems: []
     eventItems: []
@@ -296,9 +298,9 @@ MonoBehaviour:
       typeName: UnityEngine.UI.Button
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.Image
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems: []
     eventItems: []
@@ -339,6 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
+  blocking: 0
   show:
     _auto: 1
     _cover: 0

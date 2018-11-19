@@ -76,9 +76,9 @@ MonoBehaviour:
   loadType: 1
   b_nodes: []
   p_nodes:
-  - panelName: MyPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: 
     type:
       layerIndex: 0
       form: 0
@@ -88,7 +88,8 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 146968, guid: 04f2e5fd0a841fb4f899c1f3c1d31658, type: 2}
+    prefab: {fileID: 0}
+  r_nodes: []
   bridges:
   - inNode: 
     index: 0

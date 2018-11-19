@@ -431,6 +431,32 @@ namespace BridgeUI.Binding
         }
         #endregion
 
+        #region RegistValueEvent
+        /// <summary>
+        /// 注册状态改变事件
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="uEvent"></param>
+        /// <param name="sourceName"></param>
+        public virtual void RegistValueEvent<T>(UnityEvent<T> uEvent, string sourceName)
+        {
+            UnityAction<T> action = (x) =>
+            {
+                SetValue<T>(x, sourceName);
+            };
+
+            binders += viewModel =>
+            {
+                uEvent.AddListener(action);
+            };
+
+            unbinders += viewModel =>
+            {
+                uEvent.RemoveListener(action);
+            };
+        }
+        #endregion
+
         #region ValueRegist&Set
         /// <summary>
         /// 手动指定绑定事件

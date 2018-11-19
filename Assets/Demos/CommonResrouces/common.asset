@@ -242,7 +242,7 @@ MonoBehaviour:
   m_lastModified: 131692476682705989
   m_graphDescription: 
   m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
-  loadType: 2
+  loadType: 4
   b_nodes:
   - instanceID: 0
     discription: 

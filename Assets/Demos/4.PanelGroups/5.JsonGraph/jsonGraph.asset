@@ -64,9 +64,9 @@ MonoBehaviour:
   loadType: 1
   b_nodes: []
   p_nodes:
-  - panelName: PopupPanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: PopupPanel
     type:
       layerIndex: 0
       form: 0
@@ -77,6 +77,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 1817570773136330, guid: 7e11abdec5e3dbb4c91d5e2411be07aa, type: 2}
+  r_nodes: []
   bridges:
   - inNode: 
     index: 0

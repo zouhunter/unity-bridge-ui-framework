@@ -11,6 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using BridgeUI;
+using BridgeUI.Binding;
 
 public class bindingMethodTest : BridgeUI.SingleCloseAblePanel
 {
@@ -33,6 +34,9 @@ public class bindingMethodTest : BridgeUI.SingleCloseAblePanel
 		Binder.RegistValueChange<UnityEngine.UI.ColorBlock> (x => m_btn.colors = x, "color");
 		Binder.RegistEvent (m_btn.onClick, "ButtonClicked");
 		Binder.RegistValueChange<System.String[]> (x => m_list.options = x, "value");
+
+        //user edit
+        Binder.BindingInputField(input_field, "inputfield");
     }
     
 	public void SetValue (System.String[] value)

@@ -1,6 +1,5 @@
 local Debug = CS.UnityEngine.Debug
 
-
 function oninit()
 	print("lua oninit...")
 	slider_trans = self.transform:Find("Slider")
@@ -23,23 +22,24 @@ function printprogress(f)
 	print(f)
 	end
 
-function on_button_clicked()
+function on_button_clicked(panel)
+	buttonClicked = true
 	print("lua on_button_clicked...")
 	Debug.Log("(debug:)lua on_button_clicked...")
 end
 
-function on_toggle_switched(panel,toggle)
-	print("lua on_toggle_switched...",toggle.isOn)
+function on_toggle_switched(panel,isOn)
+	print("lua on_toggle_switched...",isOn)
 end
 
 --下拉框
-function on_dropdown_switched(panel,dropdown)
-	print("lua on_dropdown_switched...",dropdown.value)
+function on_dropdown_switched(panel,value)
+	print("lua on_dropdown_switched...",value)
 end
 
 --输入框
 function on_inputfield_edited(panel,text)
-	print("lua on_inputfield_edited...",text.text)
+	print("lua on_inputfield_edited...",text)
 end
 
 --滑动框

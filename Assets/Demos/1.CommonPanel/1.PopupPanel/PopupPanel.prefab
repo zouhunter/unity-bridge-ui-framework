@@ -270,7 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece1253908594624dbcac3c3147de455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
+  defultViewModel: {fileID: 0}
   m_close: {fileID: 114517929030063462}
   title: {fileID: 114673412551490782}
   info: {fileID: 114463390228675818}

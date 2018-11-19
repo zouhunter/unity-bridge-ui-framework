@@ -11,15 +11,78 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using BridgeUI;
+using BridgeUI.Binding;
+
+public class ViewModel002 : BridgeUI.Binding.ViewModel
+{
+    public BridgeUI.Binding.PanelAction<UnityEngine.UI.Button> onClick
+    {
+        get
+        {
+            return GetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Button>>("onClick");
+        }
+        set
+        {
+            SetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Button>>("onClick", value);
+        }
+    }
+    public System.String title
+    {
+        get
+        {
+            return GetValue<System.String>("title");
+        }
+        set
+        {
+            SetValue<System.String>("title", value);
+        }
+    }
+    public System.Int32 fontSize
+    {
+        get
+        {
+            return GetValue<System.Int32>("fontSize");
+        }
+        set
+        {
+            SetValue<System.Int32>("fontSize", value);
+        }
+    }
+    public System.String info
+    {
+        get
+        {
+            return GetValue<System.String>("info");
+        }
+        set
+        {
+            SetValue<System.String>("info", value);
+        }
+    }
+  
+    public ViewModel002()
+    {
+        onClick = OpenPanel02;
+        title = "ViewModel02";
+        info = "支持非ScriptObject类型的ViewModel";
+    }
+
+    private void OpenPanel02(IBindingContext panel, Button sender)
+    {
+        Debug.Log("OpenPanel02");
+        title = "panel:" + panel;
+        info = "sender:" + sender;
+    }
+}
 
 public class VM_test : MonoBehaviour
 {
-    public ViewModel001 vmData;
+    public ViewModel002 vmData;
     private IUIHandle handle;
     private void Awake()
     {
         if (vmData == null)
-            vmData = ScriptableObject.CreateInstance<ViewModel001>();
+            vmData = new ViewModel002() ;
     }
 
     private void Update()
@@ -34,7 +97,7 @@ public class VM_test : MonoBehaviour
             OpenSend(null);
         }
 
-        if (GUILayout.Button("打开VMUsePanel -viewmodel001"))
+        if (GUILayout.Button("打开VMUsePanel -viewmodel002"))
         {
             OpenSend(vmData);
         }

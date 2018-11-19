@@ -281,6 +281,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 1022720360653176, guid: 659c9747136df4d458171d9c55001b34, type: 2}
+  r_nodes: []
   bridges:
   - inNode: 
     index: 0

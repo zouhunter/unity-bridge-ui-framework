@@ -37,9 +37,20 @@ public class bindingViewChild : bindingViewModel
 		}
 	}
 
-	#endregion 属性列表
+    public string inputfield
+    {
+        get
+        {
+            return GetValue<string>("inputfield");
+        }
+        set
+        {
+            SetValue<string>("inputfield", value);
+        }
+    }
+    #endregion 属性列表
 
-	public bindingViewChild ()
+    public bindingViewChild ()
 	{
 		var colorBlock = new UnityEngine.UI.ColorBlock ();
 		colorBlock.disabledColor = Color.gray;
@@ -53,8 +64,14 @@ public class bindingViewChild : bindingViewModel
 			"b",
 			"c"
 		};
+        inputfield = "输入框内容";
         ButtonClicked = OnButtonClicked;
+        GetBindableProperty<string>("inputfield").RegistValueChanged(OnInputFieldChanged);
+    }
 
+    private void OnInputFieldChanged(string arg0)
+    {
+        Debug.Log(arg0);
     }
 
     private void OnButtonClicked(IBindingContext panel)

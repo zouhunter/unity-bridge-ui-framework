@@ -25,6 +25,6 @@ public class RenderTestPanel : MonoBehaviour {
 
     private void OpenPopPanel()
     {
-        panelRender.Open("PopUpPanel",new string[] {"测试","看关闭之后，刚才那个面板能打开不！" });
+        panelRender.Open("PopupPanel",new string[] {"测试","看关闭之后，刚才那个面板能打开不！" });
     }
 }

@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d99d91ecddfb08d42a3943a869f14585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
+  defultViewModel: {fileID: 0}
   selectables:
   - {fileID: 114751324152031510}
 --- !u!114 &114594512887937514

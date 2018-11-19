@@ -102,9 +102,9 @@ MonoBehaviour:
   loadType: 1
   b_nodes: []
   p_nodes:
-  - panelName: RemotePanel
-    instanceID: 0
+  - instanceID: 0
     discription: 
+    panelName: RemotePanel
     type:
       layerIndex: 0
       form: 0
@@ -115,6 +115,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     prefab: {fileID: 1143669146650200, guid: b0ee069d0bc82f848bcb15f720ae214d, type: 2}
+  r_nodes: []
   bridges:
   - inNode: 
     index: 0

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_allNodes:
   - m_name: VMUsePanel
     m_id: 4816501d-4f17-4c0d-b46c-bdcc43b48426
-    m_x: 360
-    m_y: 180
+    m_x: 468
+    m_y: 192
     m_node: {fileID: 11442760}
     m_inputPoints:
     - id: 79e57f34-dfa8-4cb5-97e1-f1e3f0553ca9
@@ -31,8 +31,34 @@ MonoBehaviour:
       max: 100
       type: bridge
     m_outputPoints: []
-  m_allConnections: []
-  m_lastModified: 131749965427819153
+  - m_name: AnyState
+    m_id: a64b8d83-51ff-4183-a13c-3958eeea9b78
+    m_x: 216
+    m_y: 132
+    m_node: {fileID: 114950995108847110}
+    m_inputPoints: []
+    m_outputPoints:
+    - id: b1044be3-5256-477e-8758-bd08787c90a4
+      label: "\u2192"
+      parentId: a64b8d83-51ff-4183-a13c-3958eeea9b78
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  m_allConnections:
+  - m_id: 2437727a-6ab1-4c6d-b115-2e96173576a0
+    m_fromNodeId: a64b8d83-51ff-4183-a13c-3958eeea9b78
+    m_fromNodeConnectionPointId: b1044be3-5256-477e-8758-bd08787c90a4
+    m_toNodeId: 4816501d-4f17-4c0d-b46c-bdcc43b48426
+    m_toNodeConnectionPoiontId: 79e57f34-dfa8-4cb5-97e1-f1e3f0553ca9
+    m_type: bridge
+    m_connection: {fileID: 114365996313411760}
+  m_lastModified: 131871075573341019
   m_graphDescription: 
   m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 1
@@ -52,7 +78,17 @@ MonoBehaviour:
       hideRule: 0
     prefab: {fileID: 100746, guid: 2067d2deffeb5534a8c7b64163ff03ad, type: 2}
   r_nodes: []
-  bridges: []
+  bridges:
+  - inNode: 
+    index: 0
+    showModel:
+      _auto: 0
+      _cover: 0
+      _single: 0
+      mutex: 0
+      baseShow: 0
+    viewModel: {fileID: 11400000, guid: 784d4d45a0968404789a0e81f2db3004, type: 2}
+    outNode: VMUsePanel
 --- !u!114 &11442760
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -97,7 +133,7 @@ MonoBehaviour:
     target: {fileID: 138282, guid: 2067d2deffeb5534a8c7b64163ff03ad, type: 2}
     scriptTarget: {fileID: 0}
     isScriptComponent: 0
-  - open: 1
+  - open: 0
     name: title
     componentID: 0
     components:
@@ -157,3 +193,33 @@ MonoBehaviour:
       hideRule: 0
     guid: 2067d2deffeb5534a8c7b64163ff03ad
     discription: 
+--- !u!114 &114365996313411760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 0
+    _cover: 0
+    _single: 0
+    mutex: 0
+    baseShow: 0
+  viewModel: {fileID: 11400000, guid: 784d4d45a0968404789a0e81f2db3004, type: 2}
+--- !u!114 &114950995108847110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
+  m_Name: BridgeUI.Graph.AnyNode
+  m_EditorClassIdentifier: 

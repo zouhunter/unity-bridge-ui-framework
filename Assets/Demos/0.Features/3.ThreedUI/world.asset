@@ -61,11 +61,12 @@ MonoBehaviour:
   m_lastModified: 131783074312265471
   m_graphDescription: 
   m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
-  loadType: 2
-  b_nodes:
-  - panelName: WorldUI
-    instanceID: 0
+  loadType: 1
+  b_nodes: []
+  p_nodes:
+  - instanceID: 0
     discription: 
+    panelName: WorldUI
     type:
       layerIndex: 0
       form: 0
@@ -75,10 +76,8 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    guid: 2922ba4c785828d4592dd4397cde102f
-    good: 1
-    bundleName: bridgeui/panels/worldui.assetbundle
-  p_nodes: []
+    prefab: {fileID: 184476, guid: 2922ba4c785828d4592dd4397cde102f, type: 2}
+  r_nodes: []
   bridges:
   - inNode: 
     index: 0
@@ -101,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
   m_Name: BridgeUI.Graph.BridgeConnection
   m_EditorClassIdentifier: 
+  blocking: 0
   show:
     _auto: 1
     _cover: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Name: WorldUI
   m_EditorClassIdentifier: 
   selected: 0
-  instenceID: -36104
+  instenceID: 0
   assetName: WorldUI
   style: 1
   nodedescribe: []

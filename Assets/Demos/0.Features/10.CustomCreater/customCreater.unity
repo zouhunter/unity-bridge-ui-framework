@@ -462,5 +462,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bundleCreateRule: {fileID: 11400000, guid: a894d42105e86af4090932a02557e4d7, type: 2}
   graphList:
-  - {fileID: 11400000, guid: 58f8f40254ed1f4458e08479fe697345, type: 2}
   - {fileID: 11400000, guid: 01e01fac73363ce42b5fd704d8e7978e, type: 2}

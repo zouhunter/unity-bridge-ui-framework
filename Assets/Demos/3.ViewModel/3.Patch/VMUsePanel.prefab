@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da0da64a3f48e7e44b217a15016d6b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 11400000, guid: 784d4d45a0968404789a0e81f2db3004, type: 2}
+  defultViewModel: {fileID: 11400000, guid: 784d4d45a0968404789a0e81f2db3004, type: 2}
   m_click: {fileID: 11452118}
   m_title: {fileID: 11464906}
   m_info: {fileID: 11498884}

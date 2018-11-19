@@ -19,7 +19,7 @@ namespace BridgeUI.Control
                     m_renderer = GetComponentInChildren<Renderer>();
                 }
 
-                if (m_renderer != null)
+                if (m_renderer != null )
                 {
                     if(Application.isPlaying)
                     {

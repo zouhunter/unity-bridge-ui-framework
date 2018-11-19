@@ -82,12 +82,12 @@ MonoBehaviour:
       type: bridge
     m_outputPoints:
     - id: 0139d002-5c4f-4eb5-8c58-3f77861671f0
-      label: (0)
+      label: "\u6A21\u62DF\u52A0\u8F7D(0)"
       parentId: feed4755-5953-4b2b-b9b3-f57410187ec4
       isInput: 0
       buttonRect:
         serializedVersion: 2
-        x: 118
+        x: 119
         y: 21.5
         width: 10
         height: 23
@@ -95,7 +95,7 @@ MonoBehaviour:
       type: bridge
   - m_name: MainPanel
     m_id: 350cf793-92f8-466c-8e0f-5aa43d97fca4
-    m_x: 640
+    m_x: 636
     m_y: 120
     m_node: {fileID: 114121330232532812}
     m_inputPoints:
@@ -113,12 +113,12 @@ MonoBehaviour:
       type: bridge
     m_outputPoints:
     - id: bf08f83e-114e-415a-a761-352e98f5a37b
-      label: (0)
+      label: "\u4E3B\u5BB9\u5668\u7A97\u4F53(0)"
       parentId: 350cf793-92f8-466c-8e0f-5aa43d97fca4
       isInput: 0
       buttonRect:
         serializedVersion: 2
-        x: 111
+        x: 130
         y: 21.5
         width: 10
         height: 23
@@ -175,11 +175,12 @@ MonoBehaviour:
   m_lastModified: 131800539326795937
   m_graphDescription: 
   m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
-  loadType: 1
+  loadType: 2
   b_nodes: []
-  p_nodes:
+  p_nodes: []
+  r_nodes:
   - instanceID: 0
-    discription: 
+    discription: "\u767B\u5F55\u7CFB\u7EDF"
     panelName: LoginPanel
     type:
       layerIndex: 0
@@ -190,7 +191,9 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 1990824373533660, guid: f6178925f4c41434e82383de8bda8352, type: 2}
+    guid: f6178925f4c41434e82383de8bda8352
+    good: 1
+    resourcePath: LoginPanel
   - instanceID: 0
     discription: 
     panelName: LoadingPanel
@@ -203,7 +206,9 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 1990824373533660, guid: 8f9e49b51cf0cc94488feccb9fe0de10, type: 2}
+    guid: 8f9e49b51cf0cc94488feccb9fe0de10
+    good: 1
+    resourcePath: LoadingPanel
   - instanceID: 0
     discription: 
     panelName: MainPanel
@@ -216,9 +221,11 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 1435404474306576, guid: d0c5354c89815cc45b9d0feebbad9527, type: 2}
+    guid: d0c5354c89815cc45b9d0feebbad9527
+    good: 1
+    resourcePath: MainPanel
   - instanceID: 0
-    discription: 
+    discription: "\u5217\u8868\u63A7\u4EF6\u6D4B\u8BD5\u9762\u677F"
     panelName: ListPanel
     type:
       layerIndex: 0
@@ -229,8 +236,9 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 1780087698083268, guid: f985e05bb6df52341ab2000eb02e9a0b, type: 2}
-  r_nodes: []
+    guid: f985e05bb6df52341ab2000eb02e9a0b
+    good: 1
+    resourcePath: ListPanel
   bridges:
   - inNode: 
     index: 0
@@ -302,12 +310,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: MainPanel
   m_EditorClassIdentifier: 
-  selected: 3
+  selected: 1
   instenceID: 0
   assetName: MainPanel
   style: 1
   nodedescribe:
-  - 
+  - "\u4E3B\u5BB9\u5668\u7A97\u4F53"
   rule:
     baseTypeIndex: 4
     canInherit: 0
@@ -336,7 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: ListPanel
   m_EditorClassIdentifier: 
-  selected: 2
+  selected: 1
   instenceID: 0
   assetName: ListPanel
   style: 1
@@ -354,9 +362,9 @@ MonoBehaviour:
       typeName: BridgeUI.Control.ButtonListSelector
     - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.UI.VerticalLayoutGroup
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.RectTransform
-    - assembleName: UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       typeName: UnityEngine.GameObject
     viewItems:
     - isMethod: 0
@@ -386,7 +394,7 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     guid: f985e05bb6df52341ab2000eb02e9a0b
-    discription: 
+    discription: "\u5217\u8868\u63A7\u4EF6\u6D4B\u8BD5\u9762\u677F"
 --- !u!114 &114227603876637122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -447,12 +455,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: LoadingPanel
   m_EditorClassIdentifier: 
-  selected: 2
+  selected: 3
   instenceID: 0
   assetName: LoadingPanel
   style: 1
   nodedescribe:
-  - 
+  - "\u6A21\u62DF\u52A0\u8F7D"
   rule:
     baseTypeIndex: 0
     canInherit: 0
@@ -500,14 +508,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: LoginPanel
   m_EditorClassIdentifier: 
-  selected: 0
+  selected: 1
   instenceID: 0
   assetName: LoginPanel
   style: 1
   nodedescribe:
   - login
   rule:
-    baseTypeIndex: 0
+    baseTypeIndex: 9
     canInherit: 0
     bindingAble: 0
   components: []
@@ -522,4 +530,4 @@ MonoBehaviour:
       closeRule: 0
       hideRule: 0
     guid: f6178925f4c41434e82383de8bda8352
-    discription: 
+    discription: "\u767B\u5F55\u7CFB\u7EDF"

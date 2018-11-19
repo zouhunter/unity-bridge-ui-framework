@@ -161,7 +161,16 @@ namespace BridgeUI.CodeGen
                     }
                     else
                     {
-                        var scriptPath = AssetDatabase.GetAssetPath(go).Replace(".prefab", "_ViewModel.cs");
+                        var vscript = MonoScript.FromMonoBehaviour(viewScript as PanelBase);
+                        string scriptPath = null;
+                        if (vscript.name == go.name)
+                        {
+                            scriptPath = AssetDatabase.GetAssetPath(vscript).Replace(".cs", "_ViewModel.cs");
+                        }
+                        else
+                        {
+                            scriptPath = AssetDatabase.GetAssetPath(go).Replace(".prefab", "_ViewModel.cs");
+                        }
                         CreateNewViewModelScript(go.name + "_ViewModel", scriptPath, components);
                     }
                 }
@@ -205,24 +214,42 @@ namespace BridgeUI.CodeGen
                 var tree = uiCoder.tree;
                 var className = uiCoder.className;
                 var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
+                var type = typeof(BridgeUI.PanelBase).Assembly.GetType(className);
 
                 CreateMemberFields(classNode, needAdd);
                 BindingInfoMethods(classNode, needAdd, rule);
                 SortClassMembers(classNode);
 
                 var prefabPath = AssetDatabase.GetAssetPath(go);
-                var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
-                var scriptPath = string.Format("{0}/{1}.cs", folder, uiCoder.className);
+                var script = go.GetComponent(type);
+                var scriptPath = "";
+                if (script != null)
+                {
+                    var vScript = MonoScript.FromMonoBehaviour(script as MonoBehaviour);
+                    if(vScript.name == go.name)
+                    {
+                        scriptPath = AssetDatabase.GetAssetPath(vScript);
+                    }
+                    else
+                    {
+                        scriptPath = AssetDatabase.GetAssetPath(go).Replace(".prefab", ".cs");
+                    }
+                }
+                else
+                {
+                    var folder = prefabPath.Remove(prefabPath.LastIndexOf("/"));
+                    scriptPath = string.Format("{0}/{1}.cs", folder, uiCoder.className);
+                }
+
                 var scriptValue = uiCoder.Compile();
                 System.IO.File.WriteAllText(scriptPath, scriptValue, System.Text.Encoding.UTF8);
                 AssetDatabase.Refresh();
 
                 EditorApplication.delayCall += () =>
                 {
-                    var type = typeof(BridgeUI.PanelBase).Assembly.GetType(className);
                     if (type != null)
                     {
-                        var script = go.GetComponent(type);
+                        script = go.GetComponent(type);
                         if (script == null)
                         {
                             go.AddComponent(type);

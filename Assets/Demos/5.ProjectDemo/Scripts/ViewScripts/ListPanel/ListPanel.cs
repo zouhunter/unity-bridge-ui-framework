@@ -15,12 +15,16 @@ using System;
 ///<summary>
 public class ListPanel : BridgeUI.SinglePanel
 {
+	protected const string keyword_options = "options";
+
+	protected const string keyword_on_selectid = "on_selectid";
+
 	[SerializeField]
 	private BridgeUI.Control.ButtonListSelector m_List;
 
 	protected override void PropBindings ()
 	{
-		Binder.RegistEvent (m_List.onSelectID, "on_selectid");
-		Binder.RegistValueChange<System.String[]> (x=>m_List.options=x, "options");
+		Binder.RegistEvent (m_List.onSelectID, keyword_on_selectid);
+		Binder.RegistValueChange<System.String[]> (x => m_List.options = x, keyword_options);
 	}
 }

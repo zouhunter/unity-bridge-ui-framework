@@ -25,7 +25,7 @@ namespace BridgeUI.Common
         {
             get
             {
-                return selectables.Select(x => x.name).ToArray();
+                return selectables.Where(x => x != null).Select(x => x.name).ToArray();
             }
         }
 

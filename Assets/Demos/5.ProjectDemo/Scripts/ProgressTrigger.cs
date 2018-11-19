@@ -6,20 +6,12 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
 public class ProgressTrigger : MonoBehaviour {
-    public bool playOnAwake;
     public float time = 2;
+    public Text progress;
     public Slider slider;
     public UnityEvent onComplete;
 
-    private void Awake()
-    {
-        if(playOnAwake)
-        {
-            Play();
-        }
-    }
-
-    public void Play()
+    private void OnEnable()
     {
         StartCoroutine(DelayPlaying());
     }
@@ -30,6 +22,10 @@ public class ProgressTrigger : MonoBehaviour {
         {
             yield return null;
             slider.value = (slider.maxValue - slider.minValue) * i / time + slider.minValue;
+            if(progress!=null)
+            {
+                progress.text = string.Format("{0}%", (int)(slider.value * 100));
+            }
         }
         onComplete.Invoke();
     }

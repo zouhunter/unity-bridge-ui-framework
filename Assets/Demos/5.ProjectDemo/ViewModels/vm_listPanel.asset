@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06f7dff4b1b733e4daea50f86f48c631, type: 3}
+  m_Name: vm_listPanel
+  m_EditorClassIdentifier: 
+  instence: {fileID: 114370904875739780}
+--- !u!114 &114370904875739780
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a874549b1820247b239063575f3382, type: 3}
+  m_Name: vm_listPanel
+  m_EditorClassIdentifier: 
+  optionStrs:
+  - "\u5217\u8868\u5176\u5B9E\u662F\u4E00\u79CD\u63A7\u4EF6\uFF0C\u53EF\u4EE5\u5C06\u5176\u5C01\u88C5\u8D77\u6765\u63D0\u9AD8\u91CD\u7528\u6027\u3002"
+  - "\u5C06\u5217\u8868\u7684\u6570\u636E\u4F20\u5165\uFF0C\u4EC5\u4EC5\u662F\u6570\u636E\u5076\u5408\u3002"
+  - "\u5728ViewModel\u4E2D\uFF0C\u5199\u903B\u8F91\uFF0C\u518D\u4E5F\u4E0D\u9700\u8981\u8003\u8651\u90A3\u4E48\u591AUI\u63A7\u4EF6\u7684\u95EE\u9898\u3002"
+  - "\u7406\u8BBA\u4E0A\u6765\u8BF4\uFF0CViewModel\u53EF\u4EE5\u7528\u4E8EIMGUI,NGUI\u751A\u81F3\u53EF\u4EE5\u662FWinform\u7B49\u7A0B\u5E8F\uFF0C\u56E0\u4E3A\u6CA1\u6709\u5F15\u7528UnityEngine.UI"
+  - "Lua\u505AViewModel\u8FD8\u662F\u8BD5\u9A8C\u72B6\u6001\uFF0C\u8FD8\u6CA1\u6709\u8FDB\u4E00\u6B65\u6DF1\u5165\u7684\u60F3\u6CD5\u3002"
+  - "\u751F\u6210\u7684\u6A21\u677F\u811A\u672C\uFF0C\u9700\u8981\u548C\u9884\u5236\u4F53\u653E\u7F6E\u5728\u4E00\u8D77\u3002"

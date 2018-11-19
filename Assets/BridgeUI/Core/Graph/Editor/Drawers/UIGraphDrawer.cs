@@ -528,7 +528,7 @@ namespace BridgeUI.Drawer
                 var instanceIDPorp = item.FindPropertyRelative("instanceID");
                 var obj = EditorUtility.InstanceIDToObject(instanceIDPorp.intValue);
                 if (obj == null) continue;
-                var prefab = PrefabUtility.GetPrefabObject(obj);
+                var prefab = PrefabUtility.GetPrefabParent(obj);
                 if (prefab != null)
                 {
                     var root = PrefabUtility.FindPrefabRoot((GameObject)prefab);

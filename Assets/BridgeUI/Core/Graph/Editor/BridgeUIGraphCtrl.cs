@@ -27,7 +27,7 @@ namespace BridgeUI.Drawer
             }
         }
 
-        #region ±£´æÅäÖÆµÄÐÅÏ¢
+        #region ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½Ï¢
         private void StoreInfoOfUIGraph(UIGraph graph)
         {
             graph.bridges.Clear();
@@ -278,7 +278,7 @@ namespace BridgeUI.Drawer
         }
 
         /// <summary>
-        /// ¸üÐÂ´úÂë
+        /// ï¿½ï¿½ï¿½Â´ï¿½ï¿½ï¿½
         /// </summary>
         /// <param name="list"></param>
         private void UpdateScriptOfPanelNames(List<string> list)
@@ -315,7 +315,7 @@ namespace BridgeUI.Drawer
 
             if (needOpenSelect)
             {
-                path = EditorUtility.SaveFilePanel("ÇëÑ¡ÔñPanelNames.cs±£´æÂ·¾¶", directory, "PanelNames", "cs");
+                path = EditorUtility.SaveFilePanel("ï¿½ï¿½Ñ¡ï¿½ï¿½PanelNames.csï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½", directory, "PanelNames", "cs");
                 if (!string.IsNullOrEmpty(path))
                 {
                     var relePath = path.Replace("\\", "/").Replace(Application.dataPath, "Assets");
@@ -333,7 +333,7 @@ namespace BridgeUI.Drawer
         }
         #endregion
 
-        #region ScriptObjectµÄ±£´æ
+        #region ScriptObjectï¿½Ä±ï¿½ï¿½ï¿½
         public override void SaveGraph(List<NodeData> nodes, List<ConnectionData> connections, bool resetAll = false)
         {
             //base.SaveGraph(nodes, connections, resetAll);
@@ -467,7 +467,7 @@ namespace BridgeUI.Drawer
         }
         protected static string GetInstenceObjectPath(GameObject instenceObj)
         {
-            var pfbTrans = PrefabUtility.GetPrefabParent(instenceObj);
+            var pfbTrans = PrefabUtility.GetPrefabObject(instenceObj);
             if (pfbTrans != null)
             {
                 var prefab = PrefabUtility.FindPrefabRoot(pfbTrans as GameObject);
@@ -508,7 +508,7 @@ namespace BridgeUI.Drawer
                     else if (obj is GameObject)
                     {
                         panelNode = ScriptableObject.CreateInstance<PanelNode>();
-                        var prefab = PrefabUtility.GetPrefabParent(obj);
+                        var prefab = PrefabUtility.GetPrefabObject(obj);
                         if (prefab == null)
                         {
                             prefab = obj;

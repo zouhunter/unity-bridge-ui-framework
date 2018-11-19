@@ -218,7 +218,7 @@ namespace BridgeUI.Drawer
                         else
                         {
                             //从旧的脚本解析出
-                            GenCodeUtil.AnalysisComponent(component, components);
+                            GenCodeUtil.AnalysisComponent(component, components,rule);
                         }
                     });
 
@@ -268,7 +268,7 @@ namespace BridgeUI.Drawer
                             if (item is GameObject)
                             {
                                 var obj = item as GameObject;
-                                var parent = PrefabUtility.GetPrefabParent(obj);
+                                var parent = PrefabUtility.GetPrefabObject(obj);
                                 if (parent)
                                 {
                                     obj = parent as GameObject;

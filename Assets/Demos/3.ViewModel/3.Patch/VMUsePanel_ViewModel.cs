@@ -6,7 +6,7 @@
 ///<summary>
 ///[代码说明信息]
 ///<summary>
-public abstract class VMUsePanel_ViewModel : BridgeUI.Binding.ViewModel
+public abstract class VMUsePanel_ViewModel : BridgeUI.Binding.ViewModelObject
 {
 	#region 属性列表
 
@@ -18,7 +18,6 @@ public abstract class VMUsePanel_ViewModel : BridgeUI.Binding.ViewModel
 			SetValue<BridgeUI.Binding.PanelAction<UnityEngine.UI.Button>> ("onClick", value);
 		}
 	}
-
     public System.String title {
 		get {
 			return GetValue<System.String> ("title");
@@ -27,8 +26,6 @@ public abstract class VMUsePanel_ViewModel : BridgeUI.Binding.ViewModel
 			SetValue<System.String> ("title", value);
 		}
 	}
-
-
 	public System.Int32 fontSize {
 		get {
 			return GetValue<System.Int32> ("fontSize");
@@ -37,8 +34,6 @@ public abstract class VMUsePanel_ViewModel : BridgeUI.Binding.ViewModel
 			SetValue<System.Int32> ("fontSize", value);
 		}
 	}
-
-
 	public System.String info {
 		get {
 			return GetValue<System.String> ("info");

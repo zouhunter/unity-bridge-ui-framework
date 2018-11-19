@@ -7,7 +7,7 @@ using BridgeUI;
 using BridgeUI.Binding;
 using System;
 
-public class vm_listPanel : ViewModel
+public class vm_listPanel : ViewModelObject
 {
 	#region 属性列表
 	

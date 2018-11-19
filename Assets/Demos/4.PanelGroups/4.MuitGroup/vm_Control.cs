@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using BridgeUI.Binding;
 using System;
 
-public class vm_Control : ViewModel
+public class vm_Control : ViewModelObject
 {
 	public System.Boolean show {
 		get {

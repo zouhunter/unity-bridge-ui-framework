@@ -67,8 +67,12 @@ public static class ExampleGenConfig
 
                 typeof(UnityEngine.Events.UnityAction<object>),
                 typeof(UnityEngine.Events.UnityAction<float>),
-                typeof(BridgeUI.Binding.PanelAction<object>),
                 typeof(BridgeUI.Binding.PanelAction),
+                typeof(BridgeUI.Binding.PanelAction<object>),
+                typeof(BridgeUI.Binding.PanelAction<object,object>),
+                typeof(BridgeUI.Binding.PanelAction<object,object,object>),
+                typeof(BridgeUI.Binding.PanelAction<object,object,object,object>),
+                typeof(BridgeUI.Binding.PanelAction<object,object,object,object,object>),
             };
 
     //黑名单

@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using BridgeUI.Binding;
 
-public class customEventViewModel : ViewModel
+public class customEventViewModel : ViewModelObject
 {
     #region 属性
     public BridgeUI.Binding.PanelAction<System.String,System.Int32> on_event_execute {

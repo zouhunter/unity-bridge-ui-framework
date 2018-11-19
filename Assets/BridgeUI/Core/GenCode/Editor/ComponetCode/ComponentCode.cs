@@ -65,11 +65,14 @@ namespace BridgeUI.CodeGen
         {
             foreach (var item in component.viewItems)
             {
+                GenCodeUtil.CompleteKeyField(item.bindingSource, classNode);
                 BindingMemberInvocations(component.name, item);
             }
 
             foreach (var item in component.eventItems)
             {
+                GenCodeUtil.CompleteKeyField(item.bindingSource, classNode);
+
                 switch (item.type)
                 {
                     case BindingType.NoBinding:
@@ -104,7 +107,7 @@ namespace BridgeUI.CodeGen
             //UnityEngine.Debug.Log(bindingInfo.bindingTarget);
             //UnityEngine.Debug.Log(bindingInfo.bindingTargetType.type);
 
-            var arg1 = string.Format("\"{0}\"", bindingInfo.bindingSource);
+            var arg1 = GenCodeUtil.GetSourceKeyWord(bindingInfo.bindingSource);
             var invocation = invocations.Where(
                 x => x.Target.ToString().Contains("Binder") &&
                      x.Arguments.Count > 0 &&
@@ -136,7 +139,7 @@ namespace BridgeUI.CodeGen
                     invocation = new InvocationExpression();
                     invocation.Target = new MemberReferenceExpression(new IdentifierExpression("Binder"), methodName, new AstType[0]);
                     invocation.Arguments.Add(new IdentifierExpression(arg0));
-                    invocation.Arguments.Add(new PrimitiveExpression(bindingInfo.bindingSource));
+                    invocation.Arguments.Add(new IdentifierExpression(GenCodeUtil.GetSourceKeyWord(bindingInfo.bindingSource)));
                     PropBindingsNode.Body.Add(invocation);
                 }
 
@@ -153,7 +156,7 @@ namespace BridgeUI.CodeGen
         {
             var invocations = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
             var arg0_name = "m_" + name + "." + bindingInfo.bindingTarget;//绑定目标
-            var arg1_name = string.Format("\"{0}\"", bindingInfo.bindingSource);//绑定源
+            var arg1_name = GenCodeUtil.GetSourceKeyWord(bindingInfo.bindingSource);//绑定源
 
             var may_invocations = invocations.Where(
                 x => x.Target.ToString().Contains("Binder") &&
@@ -195,7 +198,7 @@ namespace BridgeUI.CodeGen
                     invocation = new InvocationExpression();
                     invocation.Target = new MemberReferenceExpression(new IdentifierExpression("Binder"), methodName, new AstType[0]);
                     invocation.Arguments.Add(new IdentifierExpression(arg0_name));
-                    invocation.Arguments.Add(new PrimitiveExpression(bindingInfo.bindingSource));
+                    invocation.Arguments.Add(new IdentifierExpression(GenCodeUtil.GetSourceKeyWord(bindingInfo.bindingSource)));
                     if (bindingInfo.type == BindingType.WithTarget)
                     {
                         invocation.Arguments.Add(new IdentifierExpression("m_" + name));
@@ -217,7 +220,7 @@ namespace BridgeUI.CodeGen
             var targetName = "m_" + name;
             var invocation = invocations.Where(x =>
             x.Target.ToString().Contains(targetName) &&
-            x.Arguments.FirstOrDefault().ToString() == bindingInfo.bindingSource).FirstOrDefault();
+            x.Arguments.FirstOrDefault().ToString() == GenCodeUtil.GetSourceKeyWord(bindingInfo.bindingSource)).FirstOrDefault();
 
             var eventName = bindingInfo.bindingTarget;//如onClick
             if (invocation == null && !string.IsNullOrEmpty(eventName) && !string.IsNullOrEmpty(bindingInfo.bindingSource))
@@ -345,7 +348,7 @@ namespace BridgeUI.CodeGen
             var component = components.Find(x => invocation.Target.ToString().Contains("m_" + x.name));
             if (component != null)
             {
-                string bindingSource = invocation.Arguments.First().ToString();
+                string bindingSource = GenCodeUtil.FromSourceKey(invocation.Arguments.First().ToString());
                 var info = component.eventItems.Find(x => invocation.Target.ToString().Contains("m_" + component.name + "." + x.bindingTarget) && x.type == BindingType.NoBinding && x.bindingSource == bindingSource);
 
                 if (info == null)
@@ -372,11 +375,11 @@ namespace BridgeUI.CodeGen
             var component = components.Find(x => invocation.Arguments.Count > 1 && invocation.Arguments.First().ToString().Contains(string.Format("m_{0}.", x.name)));
             if (component != null)
             {
-                var source = invocation.Arguments.ToArray()[1].ToString().Replace("\"", "");
-                var info = component.viewItems.Find(x => x.bindingSource == source);
+                var sourceName = GenCodeUtil.FromSourceKey(invocation.Arguments.ToArray()[1].ToString());
+                var info = component.viewItems.Find(x => x.bindingSource == sourceName);
                 var isMethod = false;
                 var targetName = AnalysisTargetFromLamdaArgument(invocation.Arguments.First().ToString(), out isMethod);
-                UnityEngine.Debug.Log("解析出字段：" + targetName);
+                //UnityEngine.Debug.Log("解析出字段：" + targetName);
 
                 if (string.IsNullOrEmpty(targetName))
                 {
@@ -384,11 +387,11 @@ namespace BridgeUI.CodeGen
                     return;
                 }
                 var type = GetTypeClamp(component.componentType, targetName);
-                UnityEngine.Debug.Log("解析出类型：" + type);
+                //UnityEngine.Debug.Log("解析出类型：" + type);
                 if (info == null)
                 {
                     info = new BindingShow();
-                    info.bindingSource = source;
+                    info.bindingSource = sourceName;
                     info.bindingTarget = targetName;
                     info.isMethod = isMethod;
                     component.viewItems.Add(info);
@@ -420,7 +423,7 @@ namespace BridgeUI.CodeGen
             else
             {
                 var value = arg;
-                if(arg.Contains("\""))
+                if (arg.Contains("\""))
                 {
                     value = arg.Replace("\"", "");
                     isMethod = false;
@@ -429,9 +432,10 @@ namespace BridgeUI.CodeGen
                 {
                     isMethod = true;
                 }
-                UnityEngine.Debug.Log(isMethod);
+                //UnityEngine.Debug.Log(isMethod);
 
-                if (value.Contains(".")){
+                if (value.Contains("."))
+                {
                     value = value.Substring(value.IndexOf('.') + 1);
                 }
                 return value;
@@ -450,8 +454,8 @@ namespace BridgeUI.CodeGen
 
             if (component != null)
             {
-                var source = invocation.Arguments.ToArray()[1].ToString().Replace("\"", "");
-                var info = component.eventItems.Find(x => x.bindingSource == source);
+                var sourceName = GenCodeUtil.FromSourceKey(invocation.Arguments.ToArray()[1].ToString());
+                var info = component.eventItems.Find(x => x.bindingSource == sourceName);
                 var arg0 = invocation.Arguments.First().ToString();
                 var targetName = arg0.Substring(arg0.IndexOf(".") + 1);
                 Type infoType = GetTypeClamp(component.componentType, targetName);
@@ -459,7 +463,7 @@ namespace BridgeUI.CodeGen
                 if (info == null)
                 {
                     info = new BindingEvent();
-                    info.bindingSource = source;
+                    info.bindingSource = sourceName;
                     info.bindingTarget = targetName;
                     info.bindingTargetType.Update(infoType);
                     component.eventItems.Add(info);

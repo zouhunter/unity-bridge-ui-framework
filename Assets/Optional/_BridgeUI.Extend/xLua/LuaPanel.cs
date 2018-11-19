@@ -47,7 +47,7 @@ namespace BridgeUI.Extend.XLua
         [HideInInspector]
         public string scriptName;
         [HideInInspector]
-        public  Model.BundleLoader bundleLoader;
+        public Model.BundleLoader bundleLoader;
         internal static LuaEnv luaEnv = new LuaEnv(); //all lua behaviour shared one luaenv only!
         internal static float lastGCTime = 0;
         internal const float GCInterval = 1;//1 second 
@@ -55,13 +55,24 @@ namespace BridgeUI.Extend.XLua
         protected const string luaUpdate = "update";
         protected const string luaOnDestroy = "ondestroy";
 
-        protected LuaViewModel luaViewModel { get { return ViewModel as LuaViewModel; }  }
+        protected LuaViewModel luaViewModel { get { return ViewModel as LuaViewModel; } }
         private LuaTable tableCreated;
+        public override PropertyBinder Binder
+        {
+            get
+            {
+                if (_binder == null)
+                {
+                    _binder = new LuaPropertyBinder(this);
+                }
+                return _binder;
+            }
+        }
 
         protected override void Start()
         {
             base.Start();
-            if(bundleLoader)
+            if (bundleLoader)
                 bundleLoader.InitEnviroment();
             LoadLuaScriptOnAwake();
         }
@@ -134,13 +145,13 @@ namespace BridgeUI.Extend.XLua
         private void LoadScriptFromBundle()
         {
             if (bundleLoader)
-            bundleLoader.LoadAssetAsync<TextAsset>(assetBundleName, assetName, (asset) =>
-            {
-                if (asset != null)
+                bundleLoader.LoadAssetAsync<TextAsset>(assetBundleName, assetName, (asset) =>
                 {
-                    InitScritEnv(asset.text);
-                }
-            });
+                    if (asset != null)
+                    {
+                        InitScritEnv(asset.text);
+                    }
+                });
         }
         /// <summary>
         /// 从Resource路径加载脚本
@@ -182,7 +193,7 @@ namespace BridgeUI.Extend.XLua
             tableCreated.Set("self", this);
             luaEnv.DoString(text, name, tableCreated);
 
-            var model = LuaViewModel.CreateInstance<LuaViewModel>();
+            var model = new LuaViewModel();
             model.Init(this.tableCreated);
             ViewModel = model;
             Binder.InvokeEvent(luaOnInit);

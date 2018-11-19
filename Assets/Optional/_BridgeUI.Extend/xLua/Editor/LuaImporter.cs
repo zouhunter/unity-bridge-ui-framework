@@ -7,10 +7,7 @@ using System.Linq;
 using Unity.Collections;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Experimental.U2D;
-using UnityEngine.Experimental.U2D;
 using UnityEditor.Experimental.AssetImporters;
-using UnityEngine.Experimental.Rendering;
 namespace LuaView
 {
     [ScriptedImporter(1, "lua")]

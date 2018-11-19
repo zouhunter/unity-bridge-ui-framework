@@ -21,9 +21,13 @@ public class UserControlPanel : BridgeUI.SinglePanel
 	[SerializeField]
 	private ButtonItem m_buttonItem;
 
+	public const string keyword_infos = "infos";
+
+	public const string keyword_onSelect = "onSelect";
+
 	protected override void PropBindings ()
 	{
-		Binder.RegistEvent (m_List.onSelectChanged, "onSelect", m_List);
-		Binder.RegistValueChange<System.String[]> (x=>m_List.infos=x, "infos");
+		Binder.RegistValueChange<System.String[]> (m_List.SetList, keyword_infos);
+		Binder.RegistEvent (m_List.onSelectChanged, keyword_onSelect, m_List);
 	}
 }

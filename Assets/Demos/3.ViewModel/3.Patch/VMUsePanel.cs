@@ -25,9 +25,11 @@ public class VMUsePanel : BridgeUI.SinglePanel
 	[SerializeField]
 	private UnityEngine.UI.Text m_info;
 
+    public const string key_title = "title";
+
 	protected override void PropBindings ()
 	{
-		Binder.RegistEvent (m_click.onClick, "onClick", m_click);
+        Binder.RegistEvent (m_click.onClick, "onClick", m_click);
 		Binder.RegistValueChange<System.String> (x=>m_title.text=x, "title");
 		Binder.RegistValueChange<System.Int32> (x=>m_title.fontSize=x, "fontSize");
 		Binder.RegistValueChange<System.String> (x=>m_info.text=x, "info");

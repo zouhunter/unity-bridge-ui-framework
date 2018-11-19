@@ -7,7 +7,7 @@ namespace BridgeUI.Binding
     public class ViewModelContainer : ScriptableObject, IViewModel
     {
         [SerializeField]
-        public ViewModel instence;
+        public ViewModelObject instence;
 
         public bool ContainsKey(string key)
         {

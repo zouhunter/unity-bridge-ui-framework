@@ -4,7 +4,7 @@ using UnityEngine;
 using BridgeUI.Binding;
 
 
-public partial class bindingViewModel : ViewModel
+public partial class bindingViewModel : ViewModelObject
 {
  
 }

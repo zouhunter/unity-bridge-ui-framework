@@ -87,7 +87,7 @@ namespace BridgeUI.CodeGen
         /// </summary>
         /// <param name="component"></param>
         /// <param name="components"></param>
-        public static void AnalysisComponent(MonoBehaviour component, List<ComponentItem> components)
+        public static void AnalysisComponent(MonoBehaviour component, List<ComponentItem> components,GenCodeRule rule)
         {
             var fields = component.GetType().GetFields(BindingFlags.GetField | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -132,7 +132,7 @@ namespace BridgeUI.CodeGen
                     }
                 }
             }
-            AnalysisBindings(component, components, new GenCodeRule());
+            AnalysisBindings(component, components, rule);
         }
 
         /// <summary>
@@ -148,9 +148,9 @@ namespace BridgeUI.CodeGen
                 if (viewScript is PanelBase)
                 {
                     var viewModel = (viewScript as PanelBase).ViewModel;
-                    if (viewModel is Binding.ViewModel && viewModel.GetType() != typeof(Binding.ViewModel))
+                    if (viewModel is Binding.ViewModelObject && viewModel.GetType() != typeof(Binding.ViewModelObject))
                     {
-                        GenCodeUtil.UpdateViewModelScript(viewModel as Binding.ViewModel, components);
+                        GenCodeUtil.UpdateViewModelScript(viewModel as Binding.ViewModelObject, components);
                     }
                     else if((viewModel is Binding.ViewModelContainer))
                     {
@@ -167,6 +167,25 @@ namespace BridgeUI.CodeGen
                 }
             };
             GenCodeUtil.CreateViewScript(go, components, rule);
+        }
+
+        /// <summary>
+        /// key字
+        /// </summary>
+        /// <param name="bindingSource"></param>
+        public static void CompleteKeyField(string bindingSource, TypeDeclaration classNode)
+        {
+            var fieldName = GetSourceKeyWord(bindingSource);
+            var field = classNode.Descendants.OfType<FieldDeclaration>().Where(x => x.Variables.Where(y => y.Name == fieldName).Count() > 0).FirstOrDefault();
+
+            if (field == null)
+            {
+                field = new FieldDeclaration();
+                field.Modifiers = Modifiers.Protected | Modifiers.Const;
+                field.ReturnType = new BridgeUI.NRefactory.CSharp.PrimitiveType("string");
+                field.Variables.Add(new VariableInitializer(fieldName, new PrimitiveExpression(bindingSource)));
+                classNode.AddChild(field, Roles.TypeMemberRole);
+            }
         }
 
         /// <summary>
@@ -222,6 +241,28 @@ namespace BridgeUI.CodeGen
         }
 
         /// <summary>
+        /// 计算关键字
+        /// </summary>
+        /// <param name="bindingSource"></param>
+        /// <returns></returns>
+        public static string GetSourceKeyWord(string bindingSource)
+        {
+            return "keyword_" + bindingSource;
+        }
+        /// <summary>
+        /// 从关键字解析
+        /// </summary>
+        /// <param name="sourceKey"></param>
+        /// <returns></returns>
+        internal static string FromSourceKey(string sourceKey)
+        {
+            if (sourceKey.Contains("keyword_"))
+            {
+                return sourceKey.Replace("keyword_", "");
+            }
+            return sourceKey;
+        }
+        /// <summary>
         /// 创建ViewModelScript
         /// </summary>
         /// <param name="classname"></param>
@@ -255,10 +296,10 @@ namespace BridgeUI.CodeGen
                 {
                     classNode.BaseTypes.Remove(bs);
                 }
-                classNode.BaseTypes.Add(new SimpleType(typeof(Binding.ViewModel).FullName));
+                classNode.BaseTypes.Add(new SimpleType(typeof(Binding.ViewModelObject).FullName));
             }
             #endregion
-            var scriptValue = GenerateViewModelScript(className, oldViewModel.Compile(), typeof(Binding.ViewModel), components);
+            var scriptValue = GenerateViewModelScript(className, oldViewModel.Compile(), typeof(Binding.ViewModelObject), components);
             System.IO.File.WriteAllText(scriptPath, scriptValue);
         }
         /// <summary>
@@ -266,7 +307,7 @@ namespace BridgeUI.CodeGen
         /// </summary>
         /// <param name="viewModel"></param>
         /// <param name="components"></param>
-        public static void UpdateViewModelScript(Binding.ViewModel viewModel, List<ComponentItem> components)
+        public static void UpdateViewModelScript(Binding.ViewModelObject viewModel, List<ComponentItem> components)
         {
             var monoScript = MonoScript.FromScriptableObject(viewModel);
             var classType = monoScript.GetClass();
@@ -315,6 +356,8 @@ namespace BridgeUI.CodeGen
                     if (baseType.GetProperty(viewItem.bindingSource, BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.FlattenHierarchy) != null)
                         continue;
 
+                    CompleteKeyField(viewItem.bindingSource, classNode);
+
                     if (viewItem.bindingTargetType.type != null)
                     {
                         InsertPropertyToClassNode(viewItem.bindingTargetType.type, viewItem.bindingSource, endRegion, classNode);
@@ -331,6 +374,8 @@ namespace BridgeUI.CodeGen
                     //忽略已经存在于父级的属性
                     if (baseType.GetProperty(eventItem.bindingSource, BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.FlattenHierarchy) != null)
                         continue;
+
+                    CompleteKeyField(eventItem.bindingSource, classNode);
 
                     if (eventItem.type == BindingType.NoBinding) continue;
                     var type = eventItem.bindingTargetType.type;
@@ -385,6 +430,8 @@ namespace BridgeUI.CodeGen
             return scriptValue;
         }
 
+     
+
         /// <summary>
         /// 向viewModel添加属性
         /// </summary>
@@ -415,7 +462,7 @@ namespace BridgeUI.CodeGen
             var expression = new IdentifierExpression("GetValue");
             var typeArguement = new MemberType(new SimpleType(type.Namespace), typeName);
             expression.TypeArguments.Add(typeArguement);
-            Statement statement = new ReturnStatement(new InvocationExpression(expression, new PrimitiveExpression(source)));
+            Statement statement = new ReturnStatement(new InvocationExpression(expression, new IdentifierExpression(GetSourceKeyWord(source))));
             body.Add(statement);
             #endregion
 
@@ -425,7 +472,7 @@ namespace BridgeUI.CodeGen
             expression = new IdentifierExpression("SetValue");
             typeArguement = new MemberType(new SimpleType(type.Namespace), typeName);
             expression.TypeArguments.Add(typeArguement);
-            statement = new ExpressionStatement(new InvocationExpression(expression, new PrimitiveExpression(source), new IdentifierExpression("value")));
+            statement = new ExpressionStatement(new InvocationExpression(expression, new IdentifierExpression(GetSourceKeyWord( source)), new IdentifierExpression("value")));
             body.Add(statement);
             #endregion
 
@@ -875,6 +922,8 @@ namespace BridgeUI.CodeGen
             var script = MonoScript.FromMonoBehaviour(component).text;
             var tree = new CSharpParser().Parse(script);
             var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == component.GetType().Name).FirstOrDefault();
+            var baseType = classNode.BaseTypes.FirstOrDefault();
+            rule.baseTypeIndex = Array.IndexOf(GenCodeUtil.supportBaseTypes, baseType.ToString());
             componentCoder.SetContext(classNode, rule);
             componentCoder.AnalysisBinding(components);
         }

@@ -28,7 +28,7 @@ namespace BridgeUI
     [BridgeUI.Attributes.PanelParent]
     public class PanelBase : PanelCore, IBindingContext
     {
-        private Binding.PropertyBinder _binder;
+        protected Binding.PropertyBinder _binder;
         public virtual Binding.PropertyBinder Binder
         {
             get
@@ -49,7 +49,7 @@ namespace BridgeUI
             {
                 if (_defultViewModel == null)
                 {
-                    _defultViewModel = ScriptableObject.CreateInstance<ViewModel>();
+                    _defultViewModel = ScriptableObject.CreateInstance<ViewModelObject>();
                 }
                 return _defultViewModel;
             }
@@ -72,7 +72,7 @@ namespace BridgeUI
         [ContextMenu("加载ViewModel")]
         private void LoadDefultViewModel()
         {
-            _viewModel = ScriptableObject.CreateInstance<ViewModel>();
+            _viewModel = ScriptableObject.CreateInstance<ViewModelObject>();
         }
         [ContextMenu("清除ViewModel")]
         private void ClearDefultViewModel()
@@ -117,9 +117,9 @@ namespace BridgeUI
         {
             base.HandleData(data);
 
-            if (data is Binding.ViewModel)
+            if (data is IViewModel)
             {
-                ViewModel = data as Binding.ViewModel;
+                ViewModel = data as IViewModel;
             }
             else if (data is IDictionary)
             {

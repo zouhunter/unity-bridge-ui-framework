@@ -32,7 +32,7 @@ namespace BridgeUI.Drawer
         {
             if (supportViewModels == null)
             {
-                supportViewModels = GetSubInstenceTypes(typeof(ViewModel));
+                supportViewModels = GetSubInstenceTypes(typeof(ViewModelObject));
                 supportViewModels.Insert(0, typeof(ViewModelContainer));
             }
 

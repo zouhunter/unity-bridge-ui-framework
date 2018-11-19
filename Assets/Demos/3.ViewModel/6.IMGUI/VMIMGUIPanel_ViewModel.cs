@@ -6,7 +6,7 @@
 ///<summary>
 ///[代码说明信息]
 ///<summary>
-public abstract class VMIMGUIPanel_ViewModel : BridgeUI.Binding.ViewModel
+public abstract class VMIMGUIPanel_ViewModel : BridgeUI.Binding.ViewModelObject
 {
     #region 属性列表
     protected string label

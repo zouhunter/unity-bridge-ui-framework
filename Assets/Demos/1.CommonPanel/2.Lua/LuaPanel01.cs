@@ -52,18 +52,16 @@ public class LuaPanel01 : BridgeUI.Extend.XLua.LuaPanel
 	{
 		Binder.RegistValueChange<Sprite> (x => m_Image.sprite=x, "image");
 		Binder.RegistValueChange<string> (x => m_Text.text=x, "text");
-		Binder.RegistEvent (m_Button.onClick, "on_button_clicked", (object)m_Button);
-		Binder.RegistEvent(m_Toggle.onValueChanged, "on_toggle_switched", (object)m_Toggle);
-		Binder.RegistEvent (m_Slider.onValueChanged, "on_slider_switched", (object)m_Slider);
+		Binder.RegistEvent (m_Button.onClick, "on_button_clicked", m_Button);
+		Binder.RegistEvent(m_Toggle.onValueChanged, "on_toggle_switched", m_Toggle);
+		Binder.RegistEvent (m_Slider.onValueChanged, "on_slider_switched", m_Slider);
 		Binder.RegistValueChange<UnityEngine.Color> (x => m_btnPic.color=x, "btn_color");
-		Binder.RegistEvent (m_InputField.onEndEdit, "on_inputfield_edited", (object)m_InputField);
-		Binder.RegistEvent (m_InputField.onEndEdit, "on_inputfield_edited1", (object)m_InputField);
+		Binder.RegistEvent (m_InputField.onEndEdit, "on_inputfield_edited", m_InputField);
+		Binder.RegistEvent (m_InputField.onEndEdit, "on_inputfield_edited1", m_InputField);
 		Binder.RegistValueChange<UnityEngine.Color> (x=>m_btnPic.color=x, "btn_color1");
-		Binder.RegistEvent (m_btnPic.onCullStateChanged, "on_cull_statechanged", (object)m_InputField);
-		Binder.RegistEvent (m_Dropdown.onValueChanged, "on_dropdown_switched", (object)m_Dropdown);
-
-        Binder.RegistEvent (m_ScrollView.onValueChanged, "on_scrollview_changed", (object)m_InputField);
-
+		Binder.RegistEvent (m_btnPic.onCullStateChanged, "on_cull_statechanged", m_InputField);
+		Binder.RegistEvent (m_Dropdown.onValueChanged, "on_dropdown_switched", m_Dropdown);
+        Binder.RegistEvent (m_ScrollView.onValueChanged, "on_scrollview_changed", m_InputField);
         Binder.RegistValueChange<UnityEngine.Color> (x => m_Image.color =x, "image_color");
 	}
 

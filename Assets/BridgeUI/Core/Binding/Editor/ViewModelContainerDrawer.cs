@@ -82,7 +82,7 @@ namespace BridgeUI.Drawer
 
         private void InitTypeOptions()
         {
-            viewModelTypes = BridgeUI.Drawer.MvvmUtil.GetSubInstenceTypes(typeof(ViewModel)).ToArray();
+            viewModelTypes = BridgeUI.Drawer.MvvmUtil.GetSubInstenceTypes(typeof(ViewModelObject)).ToArray();
             options = viewModelTypes.Select(x => new GUIContent(x.FullName)).ToArray();
         }
 

@@ -150,7 +150,7 @@ namespace BridgeUI.Drawer
             var newTarget = EditorGUI.ObjectField(targetRect, item.scriptTarget, item.componentType, true);
             if (newTarget != item.scriptTarget)
             {
-                var prefabTarget = PrefabUtility.GetPrefabObject(newTarget);
+                var prefabTarget = PrefabUtility.GetPrefabParent(newTarget);
                 Debug.Log(prefabTarget);
                 if (prefabTarget != null)
                 {
@@ -175,7 +175,7 @@ namespace BridgeUI.Drawer
             var newTarget = EditorGUI.ObjectField(targetRect, item.target, item.componentType, true);
             if (newTarget != item.target)
             {
-                var prefabTarget = PrefabUtility.GetPrefabObject(newTarget);
+                var prefabTarget = PrefabUtility.GetPrefabParent(newTarget);
                 if (prefabTarget != null)
                 {
                     newTarget = prefabTarget;
@@ -185,7 +185,7 @@ namespace BridgeUI.Drawer
 
             if (EditorGUI.EndChangeCheck() && item.target)
             {
-                var parent = PrefabUtility.GetPrefabObject(item.target);
+                var parent = PrefabUtility.GetPrefabParent(item.target);
                 if (parent)
                 {
                     item.target = parent as GameObject;

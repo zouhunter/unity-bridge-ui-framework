@@ -304,7 +304,7 @@ namespace BridgeUI.Drawer
                             if (item is GameObject)
                             {
                                 var obj = item as GameObject;
-                                var parent = PrefabUtility.GetPrefabObject(obj);
+                                var parent = PrefabUtility.GetPrefabParent(obj);
                                 if (parent){
                                     obj = parent as GameObject;
                                 }

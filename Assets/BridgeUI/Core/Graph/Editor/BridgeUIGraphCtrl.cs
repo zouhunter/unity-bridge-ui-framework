@@ -467,7 +467,7 @@ namespace BridgeUI.Drawer
         }
         protected static string GetInstenceObjectPath(GameObject instenceObj)
         {
-            var pfbTrans = PrefabUtility.GetPrefabObject(instenceObj);
+            var pfbTrans = PrefabUtility.GetPrefabParent(instenceObj);
             if (pfbTrans != null)
             {
                 var prefab = PrefabUtility.FindPrefabRoot(pfbTrans as GameObject);
@@ -508,7 +508,7 @@ namespace BridgeUI.Drawer
                     else if (obj is GameObject)
                     {
                         panelNode = ScriptableObject.CreateInstance<PanelNode>();
-                        var prefab = PrefabUtility.GetPrefabObject(obj);
+                        var prefab = PrefabUtility.GetPrefabParent(obj);
                         if (prefab == null)
                         {
                             prefab = obj;

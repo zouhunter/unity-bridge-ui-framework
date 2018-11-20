@@ -22,9 +22,15 @@ public class ListPanel : BridgeUI.SinglePanel
 	[SerializeField]
 	private BridgeUI.Control.ButtonListSelector m_List;
 
+	[SerializeField]
+	private UnityEngine.UI.Text m_Text;
+
+	protected const string keyword_title = "title";
+
 	protected override void PropBindings ()
 	{
 		Binder.RegistEvent (m_List.onSelectID, keyword_on_selectid);
 		Binder.RegistValueChange<System.String[]> (x => m_List.options = x, keyword_options);
+		Binder.RegistValueChange<System.String> (x=>m_Text.text=x, keyword_title);
 	}
 }

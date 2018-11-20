@@ -96,8 +96,8 @@ namespace BridgeUI.CodeGen
             var invocations = PropBindingsNode.Body.Descendants.OfType<InvocationExpression>();
             var arg0_name = "m_" + name + "." + bindingInfo.bindingTarget;
             var arg0 = arg0_name;
-            UnityEngine.Debug.Log(bindingInfo.bindingTargetType.type);
-            UnityEngine.Debug.Log(bindingInfo.isMethod);
+            //UnityEngine.Debug.Log(bindingInfo.bindingTargetType.type);
+            //UnityEngine.Debug.Log(bindingInfo.isMethod);
 
             if (!bindingInfo.isMethod)
             {

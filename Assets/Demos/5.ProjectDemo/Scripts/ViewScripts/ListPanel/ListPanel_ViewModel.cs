@@ -1,6 +1,6 @@
 ///*************************************************************************************
 ///* 作    者：       zouhunter
-///* 创建时间：       2018-11-19 08:46:28
+///* 创建时间：       2018-11-19 09:36:29
 ///* 说    明：       1.部分代码自动生成///                       2.尽量使用MVVM模式///                       3.宏定义内会读成注释
 ///* ************************************************************************************/
 ///<summary>
@@ -27,8 +27,19 @@ public abstract class ListPanel_ViewModel : BridgeUI.Binding.ViewModelObject
 		}
 	}
 
+	protected System.String title {
+		get {
+			return GetValue<System.String> (keyword_title);
+		}
+		set {
+			SetValue<System.String> (keyword_title, value);
+		}
+	}
+
 	#endregion 属性列表
 	protected const string keyword_options = "options";
 
 	protected const string keyword_on_selectid = "on_selectid";
+
+	protected const string keyword_title = "title";
 }

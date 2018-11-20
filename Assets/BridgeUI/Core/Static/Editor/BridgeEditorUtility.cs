@@ -235,7 +235,7 @@ namespace BridgeUI.Drawer
         private static void InternalApplyPrefab(GameObject gitem)
         {
             var instanceRoot = PrefabUtility.FindValidUploadPrefabInstanceRoot(gitem);
-            var prefab = PrefabUtility.GetPrefabObject(instanceRoot);
+            var prefab = PrefabUtility.GetPrefabParent(instanceRoot);
             if (prefab != null)
             {
                 if (prefab.name == gitem.name)
@@ -481,7 +481,7 @@ namespace BridgeUI.Drawer
             var changed = false;
 
             var instanceRoot = PrefabUtility.FindValidUploadPrefabInstanceRoot(instence as GameObject) as GameObject;
-            var prefab = PrefabUtility.GetPrefabObject(instanceRoot) as GameObject;
+            var prefab = PrefabUtility.GetPrefabParent(instanceRoot) as GameObject;
 
             if (prefab == null) return true;
 

@@ -147,17 +147,15 @@ namespace BridgeUI.CodeGen
             {
                 if (viewScript is PanelBase)
                 {
+                    var viewScriptPath = AssetDatabase.GetAssetPath(viewScript);
+                    //!!!ViewModelScript需要放置到ViewScript下
+                    var vmScriptTempPath = viewScriptPath.Replace(".cs", "_ViewModel.cs");
+                    var viewModelScript = AssetDatabase.LoadAssetAtPath<MonoScript>(vmScriptTempPath);
+
                     var viewModel = (viewScript as PanelBase).ViewModel;
-                    if (viewModel is Binding.ViewModelObject && viewModel.GetType() != typeof(Binding.ViewModelObject))
+                    if (viewModelScript != null)
                     {
-                        GenCodeUtil.UpdateViewModelScript(viewModel as Binding.ViewModelObject, components);
-                    }
-                    else if((viewModel is Binding.ViewModelContainer))
-                    {
-                        var instence = (viewModel as Binding.ViewModelContainer).instence;
-                        if(instence != null){
-                            GenCodeUtil.UpdateViewModelScript(instence, components);
-                        }
+                        GenCodeUtil.UpdateViewModelScript(viewModelScript, components);
                     }
                     else
                     {
@@ -185,6 +183,7 @@ namespace BridgeUI.CodeGen
         public static void CompleteKeyField(string bindingSource, TypeDeclaration classNode)
         {
             var fieldName = GetSourceKeyWord(bindingSource);
+
             var field = classNode.Descendants.OfType<FieldDeclaration>().Where(x => x.Variables.Where(y => y.Name == fieldName).Count() > 0).FirstOrDefault();
 
             if (field == null)
@@ -334,9 +333,8 @@ namespace BridgeUI.CodeGen
         /// </summary>
         /// <param name="viewModel"></param>
         /// <param name="components"></param>
-        public static void UpdateViewModelScript(Binding.ViewModelObject viewModel, List<ComponentItem> components)
+        public static void UpdateViewModelScript(MonoScript monoScript, List<ComponentItem> components)
         {
-            var monoScript = MonoScript.FromScriptableObject(viewModel);
             var classType = monoScript.GetClass();
             var baseType = classType.BaseType;
             var className = classType.Name;
@@ -360,8 +358,7 @@ namespace BridgeUI.CodeGen
             {
                 startRegion = new PreProcessorDirective(PreProcessorDirectiveType.Region, "属性列表");
                 AstNode firstMember = classNode.GetChildByRole(Roles.TypeMemberRole);
-                if (firstMember == null)
-                {
+                if (firstMember == null){
                     firstMember = classNode.LastChild;
                 }
                 classNode.InsertChildBefore<PreProcessorDirective>(firstMember, startRegion, Roles.PreProcessorDirective);
@@ -377,11 +374,15 @@ namespace BridgeUI.CodeGen
             #region 处理属性列表
             foreach (var component in components)
             {
+                var flag = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.FlattenHierarchy;
+
                 foreach (var viewItem in component.viewItems)
                 {
                     //忽略已经存在于父级的属性
-                    if (baseType.GetProperty(viewItem.bindingSource, BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.FlattenHierarchy) != null)
+                    if (baseType.GetProperty(viewItem.bindingSource, flag) != null)
                         continue;
+
+                    //Debug.Log(baseType);
 
                     CompleteKeyField(viewItem.bindingSource, classNode);
 
@@ -399,7 +400,7 @@ namespace BridgeUI.CodeGen
                 foreach (var eventItem in component.eventItems)
                 {
                     //忽略已经存在于父级的属性
-                    if (baseType.GetProperty(eventItem.bindingSource, BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.FlattenHierarchy) != null)
+                    if (baseType.GetProperty(eventItem.bindingSource, flag) != null)
                         continue;
 
                     CompleteKeyField(eventItem.bindingSource, classNode);

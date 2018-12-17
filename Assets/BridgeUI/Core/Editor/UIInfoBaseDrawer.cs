@@ -1,8 +1,8 @@
 ﻿using BridgeUI;
-
 using UnityEditor;
-
 using UnityEngine;
+using System.Collections.Generic;
+
 namespace BridgeUI.Drawer
 {
     public abstract class UIInfoBaseDrawer : PropertyDrawer
@@ -17,6 +17,7 @@ namespace BridgeUI.Drawer
         protected SerializedObject serializedObject;
         protected const float widthBt = 20;
         protected float singleHeight;
+        protected Dictionary<int, Transform> chlidParentDic;
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -131,9 +132,35 @@ namespace BridgeUI.Drawer
             GUI.color = new Color(0.8f, 0.8f, 0.4f);
 
             if (layerProp == null) return;//??
-            string str = Utility.LayerToString((UILayerType)layerProp.intValue, false);// LayerToString();
+            string str = LayerToString((UILayerType)layerProp.intValue);
             EditorGUI.SelectableLabel(infoRect, string.Format("{0} {1}", str, layerIndexProp.intValue));
             GUI.color = Color.white;
+        }
+        private string LayerToString(UILayerType layer)
+        {
+            string str = "";
+
+            switch (layer)
+            {
+                case UILayerType.Base:
+                    str += "[B]";
+                    break;
+                case UILayerType.Tip:
+                    str += "[T]";
+                    break;
+                case UILayerType.Warning:
+                    str += "[W]";
+                    break;
+                case UILayerType.Pop:
+                    str += "[P]";
+                    break;
+                case UILayerType.Story:
+                    str += "[S]";
+                    break;
+                default:
+                    break;
+            }
+            return str;
         }
 
         private bool LayerContains(UILayerType layerEnum)
@@ -186,11 +213,6 @@ namespace BridgeUI.Drawer
                 var go = obj as GameObject;
                 var parent = go.transform.parent;
                 BridgeEditorUtility.SavePrefab(go, true);
-
-                if (parent != null && parent.GetComponent<PanelGroup>() == null && parent.childCount == 0)
-                {
-                    Object.DestroyImmediate(parent.gameObject);
-                }
             }
             instanceIDProp.intValue = 0;
         }
@@ -204,7 +226,7 @@ namespace BridgeUI.Drawer
             if (gopfb != null)
             {
                 GameObject go = PrefabUtility.InstantiatePrefab(gopfb) as GameObject;
-                Utility.SetTranform(go.transform, (UILayerType)layerProp.intValue, layerIndexProp.intValue, parent);
+                Utility.SetTranform(go.transform, (UILayerType)layerProp.intValue, layerIndexProp.intValue, parent, parent,ref chlidParentDic);
                 instanceIDProp.intValue = go.GetInstanceID();
             }
         }

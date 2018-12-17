@@ -49,10 +49,7 @@ namespace BridgeUI
         void Hide();
         void UnHide();
         void RecordChild(IUIPanel childPanel);
-
         void HandleData(Bridge bridge);
-        void Cover();
-    
     }
 
 

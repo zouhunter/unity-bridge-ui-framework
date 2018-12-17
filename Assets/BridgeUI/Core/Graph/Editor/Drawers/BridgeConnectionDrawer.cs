@@ -39,8 +39,6 @@ namespace BridgeUI.Drawer
             connecton.blocking = DrawToggle(connecton.blocking, "执行时跳过这个路径");
             DrawHead("自动打开");
             connecton.show.auto = DrawToggle(connecton.show.auto, "更随上级同步打开");
-            DrawHead("界面遮罩");
-            connecton.show.cover = DrawToggle(connecton.show.cover, "阻止触发在此面板下的UI事件");
             DrawHead("独立显示");
             connecton.show.single = DrawToggle(connecton.show.single, "只显示当前界面（关闭其他）");
             DrawHead("界面互斥");
@@ -69,6 +67,7 @@ namespace BridgeUI.Drawer
             GUI.color = Color.white;
             EditorGUI.LabelField(rect, string.Format("【{0}】", label), EditorStyles.largeLabel);
         }
+     
 
         string[] mutexRules;
         string[] mutexRulesNotice = { "不排斥", "排斥同父级中的同层级", "排斥同层级" };
@@ -121,8 +120,7 @@ namespace BridgeUI.Drawer
         {
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                on = EditorGUILayout.Toggle(on, EditorStyles.radioButton, GUILayout.Width(20));
-                EditorGUILayout.SelectableLabel(" --" + tip);
+                on = EditorGUILayout.ToggleLeft(" --" + tip, on);
             }
             return on;
         }

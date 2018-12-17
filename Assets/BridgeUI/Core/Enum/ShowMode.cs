@@ -12,12 +12,15 @@ using System.Collections;
 using BridgeUI.Model;
 namespace BridgeUI
 {
+
+    //互斥关系
     public enum MutexRule
     {
         NoMutex,//不排斥
         SameParentAndLayer,//排斥同父级中的同层级
         SameLayer,  //排斥同层级
     }
+    //父级显示
     public enum BaseShow
     {
         NoChange,//不改变父级状态
@@ -34,21 +37,10 @@ namespace BridgeUI
         private const int off = 0;
 
         public bool auto { get { return _auto == on ? true : false; } set { _auto = value ? on : off; } }//当上级显示时显示
-        public bool cover { get { return _cover == on ? true : false; } set { _cover = value ? on : off; } }//建立遮罩只允许当前面版操作
         public bool single { get { return _single == on ? true : false; } set { _single = value ? on : off; } }//隐藏所有打开的面板
         public int _auto;
-        public int _cover;
         public int _single;
         public MutexRule mutex;//排斥有相同类型面版
         public BaseShow baseShow;//父级的显示状态
-
-        public ShowMode(bool auto, MutexRule mutex, bool cover, BaseShow baseShow, bool single)
-        {
-            this._auto = auto ? on : off;
-            this._cover = cover ? on : off;
-            this._single = single ? on : off;
-            this.mutex = mutex;
-            this.baseShow = baseShow;
-        }
     }
 }

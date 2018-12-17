@@ -17,8 +17,10 @@ namespace BridgeUI
     public enum UILayerType
     {
         Base = 0,//最低层，可以被任何界面复盖
-        Tip = 1,//自动关闭的小提示（自动关，所以可以高点）
-        Warning = 2//用于程序状态警告（不可以被其他层级掩盖）
+        Pop = 1,//弹窗层，高于Base
+        Tip = 2,//提示层，一般没有关闭按扭
+        Story = 3,//导引层，用于述事及程序引导功能
+        Warning = 4//警示层，程序状态警告
     }
 
     [System.Flags]
@@ -28,7 +30,14 @@ namespace BridgeUI
         AlaphGameObject = 1,//隐藏自己的可见物体
     }
 
-
+    //动态遮罩
+    public enum UIMask
+    {
+        None,                       //无遮罩
+        Normal,                     //普通
+        ClickClose,                 //点击关闭
+        OptionalPenetration,        //选择性穿透
+    }
     [System.Flags]
     public enum CloseRule
     {
@@ -60,5 +69,23 @@ namespace BridgeUI
         public CloseRule closeRule;
         //隐藏规则
         public HideRule hideRule;
+        //动态遮罩
+        public UIMask cover;
+        //遮罩颜色
+        public UnityEngine.Color maskColor;
+
+        public UIType(UnityEngine.Color maskColor)
+        {
+            this.layerIndex = 0;
+            this.form = UIFormType.Fixed;
+            this.hideAlaph = 0;
+            this.layer = UILayerType.Base;
+            this.enterAnim = null;
+            this.quitAnim = null;
+            this.closeRule = CloseRule.DestroyNoraml;
+            this.hideRule = HideRule.HideGameObject;
+            this.cover = UIMask.None;
+            this.maskColor = maskColor;
+        }
     }
 }

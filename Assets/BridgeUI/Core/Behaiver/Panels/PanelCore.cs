@@ -88,6 +88,7 @@ namespace BridgeUI
         protected event UnityAction<object> onReceive;
         protected bool _isShowing = true;
         protected bool _isAlive = true;
+        protected Dictionary<int, Transform> childDic;
 
         #region UNITYAPI
         protected override void Start()
@@ -95,6 +96,7 @@ namespace BridgeUI
             base.Start();
             AppendComponentsByType();
             OnOpenInternal();
+            TryMakeCover();
         }
 
         protected override void OnDestroy()
@@ -126,7 +128,7 @@ namespace BridgeUI
 
         public void SetParent(Transform Trans)
         {
-            Utility.SetTranform(transform, UType.layer, UType.layerIndex, Trans);
+            Utility.SetTranform(transform, UType.layer, UType.layerIndex,group.Trans, Trans,ref childDic);
         }
 
         public void CallBack(object data)
@@ -210,7 +212,7 @@ namespace BridgeUI
             childPanel.Parent = this;
         }
 
-        public void Cover()
+        public Image Cover()
         {
             var covername = Name + "_Cover";
             var rectt = new GameObject(covername, typeof(RectTransform)).GetComponent<RectTransform>();
@@ -220,8 +222,9 @@ namespace BridgeUI
             rectt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 10000);
             rectt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 10000);
             var img = rectt.gameObject.AddComponent<Image>();
-            img.color = new Color(0, 0, 0, 0.01f);
+            img.color = UType.maskColor;
             img.raycastTarget = true;
+            return img;
         }
         #endregion
 
@@ -297,6 +300,31 @@ namespace BridgeUI
             if (UType.enterAnim != null)
             {
                 enterAnim.PlayAnim(null);
+            }
+        }
+
+
+        /// <summary>
+        /// 建立遮罩
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="info"></param>
+        protected void TryMakeCover()
+        {
+            switch (UType.cover)
+            {
+                case UIMask.None:
+                    break;
+                case UIMask.Normal:
+                    Cover();
+                    break;
+                case UIMask.ClickClose:
+                    var img = Cover();
+                    var btn = img.gameObject.AddComponent<Button>();
+                    btn.onClick.AddListener(Close);
+                    break;
+                default:
+                    break;
             }
         }
 

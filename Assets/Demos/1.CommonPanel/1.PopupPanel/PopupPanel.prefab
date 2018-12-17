@@ -276,7 +276,9 @@ MonoBehaviour:
   info: {fileID: 114463390228675818}
   defultTitle: "\u6E29\u99A8\u63D0\u793A"
   queue: 0
-  popDatas: []
+  popDatas:
+  - {fileID: 11400000, guid: cb63fc8455712ae4382bc3b5ca3dcea8, type: 2}
+  - {fileID: 11400000, guid: b334b5a4dc632eb4b8b13d7bfa0e3caa, type: 2}
   onGet:
     m_PersistentCalls:
       m_Calls: []

@@ -9,6 +9,7 @@ using UnityEditor;
 using System;
 using NodeGraph.DataModel;
 using System.Linq;
+using System.Reflection;
 
 namespace BridgeUI.Drawer
 {
@@ -79,13 +80,13 @@ namespace BridgeUI.Drawer
             }
 
         }
-        public static Rect DrawBoxRect(Rect orignalRect, string index,float padding = padding)
+        public static Rect DrawBoxRect(Rect orignalRect, string index, float padding = padding)
         {
             var idRect = new Rect(orignalRect.x - 15, orignalRect.y + 8, 20, 20);
             EditorGUI.LabelField(idRect, index);
             var boxRect = PaddingRect(orignalRect, padding * 0.5f);
             GUI.Box(boxRect, "");
-            var rect = PaddingRect(orignalRect,padding);
+            var rect = PaddingRect(orignalRect, padding);
             return rect;
         }
 
@@ -374,10 +375,6 @@ namespace BridgeUI.Drawer
             {
                 str += "[a]";
             }
-            if (show.cover)
-            {
-                str += "[c]";
-            }
             if (show.mutex != MutexRule.NoMutex)
             {
                 switch (show.mutex)
@@ -503,7 +500,7 @@ namespace BridgeUI.Drawer
                 else
                 {
                     var intenalChanged = IsInteranlPropertyChanged(prefabObj, instenceObj, item.propertyPath);
-                    if(intenalChanged)
+                    if (intenalChanged)
                     {
                         changed = true;
                         Debug.Log("property changed:" + item.propertyPath);
@@ -587,6 +584,33 @@ namespace BridgeUI.Drawer
                 hight += EditorGUI.GetPropertyHeight(prop, null, true);
             }
             return hight;
+        }
+
+        [MenuItem("CONTEXT/PanelBase/显示ViewModel")]
+        public static void CONTEXT_PanelBase_LoadDefultViewModel(MenuCommand command)
+        {
+            var panelBase = command.context as PanelBase;
+            var fieldInfo = GetDefultViewModelFiledInfo();
+            if (fieldInfo != null)
+            {
+                fieldInfo.SetValue(panelBase, ScriptableObject.CreateInstance<Binding.ViewModelObject>());
+            }
+        }
+        [MenuItem("CONTEXT/PanelBase/清除ViewModel")]
+        public static void CONTEXT_PanelBase_ClearDefultViewModel(MenuCommand command)
+        {
+            var panelBase = command.context as PanelBase;
+            var fieldInfo = GetDefultViewModelFiledInfo();
+            if (fieldInfo != null)
+            {
+                fieldInfo.SetValue(panelBase,null);
+            }
+        }
+
+        private static FieldInfo GetDefultViewModelFiledInfo()
+        {
+            var fieldInfo = typeof(PanelBase).GetField("defultViewModel", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetField);
+            return fieldInfo;
         }
     }
 }

@@ -25,13 +25,15 @@ namespace BridgeUI
         protected List<IUIPanel> createdPanels = new List<IUIPanel>();
         protected List<Bridge> createdBridges = new List<Bridge>();
         protected Dictionary<IUIPanel, Stack<IUIPanel>> hidedPanelStack = new Dictionary<IUIPanel, Stack<IUIPanel>>();
-        protected List<UICreateInfo> waitCreateQueue = new List<UICreateInfo>();
+        protected Dictionary<string, UICreateInfo> waitCreateDic = new Dictionary<string, UICreateInfo>();
+        protected List<string> waitCreateQueue = new List<string>();
         protected PanelCreateRule createRule;
         protected event UnityAction onDestroy;
         [BundleLoader("【创建规则】")]
         public BundleLoader bundleCreateRule;
         public UIBindingController bindingCtrl { get; private set; }
         public abstract List<Graph.UIGraph> GraphList { get; }
+        protected Dictionary<int, Transform> childParentDic;
 
         /// <summary>
         /// 关联信息
@@ -102,15 +104,17 @@ namespace BridgeUI
             {
                 var first = waitCreateQueue[0];
                 waitCreateQueue.RemoveAt(0);
-                if (first.uiInfo != null)
+
+                UICreateInfo createInfo;
+                if(waitCreateDic.TryGetValue(first,out createInfo))
                 {
-                    createRule.CreatePanel(first.uiInfo, (x) =>
+                    createRule.CreatePanel(createInfo.uiInfo, (x) =>
                     {
+                        if (createInfo.onCreate != null)
+                            createInfo.onCreate.Invoke(x);
 
-                        if (first.onCreate != null)
-                            first.onCreate.Invoke(x);
-
-                        uiCreateInfoPool.Release(first);
+                        waitCreateDic.Remove(first);
+                        uiCreateInfoPool.Release(createInfo);
                     });
                 }
             }
@@ -124,6 +128,7 @@ namespace BridgeUI
                 item.Hide();
             }
         }
+
         protected virtual void OnDestroy()
         {
             if (onDestroy != null)
@@ -144,44 +149,57 @@ namespace BridgeUI
         {
             Bridge bridge = null;
             UIInfoBase uiNode = null;
-            if (TryMatchPanel(parentPanel, panelName, index, out bridge, out uiNode))
+            if (NeedCreatePanel(parentPanel, panelName, index, out bridge, out uiNode))
             {
-                var parent = root == null ? Trans : root;
-                var action = new UnityAction<GameObject>(go =>
-                {
-                    Utility.SetTranform(go.transform, uiNode.type.layer, uiNode.type.layerIndex, parent);
-                    go.SetActive(true);
-                    var panel = go.GetComponent<IUIPanel>();
-                    if (panel != null)
+                if(!waitCreateDic.ContainsKey(uiNode.panelName)){
+                    var parent = root == null ? Trans : root;
+                    var action = new UnityAction<GameObject>(go =>
                     {
-                        createdPanels.Add(panel);
-                        if (parentPanel != null)
-                        {
-                            parentPanel.RecordChild(panel);
-                        }
-                        if (bridge != null)
-                        {
-                            bridge.OnCreatePanel(panel);
-                        }
-                        InitPanel(panel, bridge, uiNode);
-                        HandBridgeOptions(panel, bridge);
-                    }
-                });
-                var uiCreateInfo = uiCreateInfoPool.Allocate(uiNode, action);
-                waitCreateQueue.Add(uiCreateInfo);
+                        CreateUI(go, uiNode, bridge, parent, parentPanel);
+                    });
+                    var uiCreateInfo = uiCreateInfoPool.Allocate(uiNode, action);
+                    waitCreateQueue.Add(uiNode.panelName);
+                    waitCreateDic.Add(uiNode.panelName,uiCreateInfo);
+                }
             }
             return bridge;
         }
+
+        private void CreateUI(GameObject go, UIInfoBase uiNode,Bridge bridge,Transform parent, IUIPanel parentPanel)
+        {
+            Utility.SetTranform(go.transform, uiNode.type.layer, uiNode.type.layerIndex,Trans, parent,ref childParentDic);
+            go.SetActive(true);
+
+            var panel = go.GetComponent<IUIPanel>();
+            if (panel == null){
+                panel = go.AddComponent<PanelCore>();
+            }
+
+            createdPanels.Add(panel);
+            if (parentPanel != null)
+            {
+                parentPanel.RecordChild(panel);
+            }
+            if (bridge != null)
+            {
+                bridge.OnCreatePanel(panel);
+            }
+            InitPanel(panel, bridge, uiNode);
+            HandBridgeOptions(panel, bridge);
+        }
+
         public void CansaleInstencePanel(string panelName)
         {
-            var match = waitCreateQueue.Find(x => x.uiInfo != null && x.uiInfo.panelName == panelName);
-            if (match != null && match.uiInfo != null)
+            var match = waitCreateQueue.Remove(panelName);
+            UICreateInfo uiCreateInfo;
+            if(waitCreateDic.TryGetValue(panelName,out uiCreateInfo))
             {
-                waitCreateQueue.Remove(match);
-                uiCreateInfoPool.Release(match);
+                uiCreateInfoPool.Release(uiCreateInfo);
+                waitCreateDic.Remove(panelName);
             }
             createRule.CansaleCreatePanel(panelName);
         }
+
         public List<IUIPanel> RetrivePanels(string panelName)
         {
             var panels = createdPanels.FindAll(x => x.Name == panelName);
@@ -200,22 +218,9 @@ namespace BridgeUI
             TryChangeParentState(panel, bridge.Info);
             TryHandleMutexPanels(panel, bridge.Info);
             TryHideGroup(panel, bridge.Info);
-            TryMakeCover(panel, bridge.Info);
             TryAutoOpen(panel.Content, panel);
         }
 
-        /// <summary>
-        /// 建立遮罩
-        /// </summary>
-        /// <param name="panel"></param>
-        /// <param name="info"></param>
-        protected void TryMakeCover(IUIPanel panel, BridgeInfo info)
-        {
-            if (info.showModel.cover)
-            {
-                panel.Cover();
-            }
-        }
         /// <summary>
         /// 隐藏整个面板中其他的ui界面
         /// </summary>
@@ -442,7 +447,7 @@ namespace BridgeUI
         /// <param name="bridgeObj"></param>
         /// <param name="uiNode"></param>
         /// <returns></returns>
-        protected bool TryMatchPanel(IUIPanel parentPanel, string panelName, int index, out Bridge bridgeObj, out UIInfoBase uiNode)
+        protected bool NeedCreatePanel(IUIPanel parentPanel, string panelName, int index, out Bridge bridgeObj, out UIInfoBase uiNode)
         {
             Nodes.TryGetValue(panelName, out uiNode);
 
@@ -503,7 +508,7 @@ namespace BridgeUI
 
             if (bridgeInfo == null)
             {
-                var show = new ShowMode(false, MutexRule.NoMutex, false, BaseShow.NoChange, false);
+                var show = new ShowMode();
                 var info = new BridgeInfo(parentName, panelName, show, null, 0);
                 bridge = bridgePool.Allocate(info, parentPanel);
             }

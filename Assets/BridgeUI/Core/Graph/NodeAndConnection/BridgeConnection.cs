@@ -21,7 +21,7 @@ namespace BridgeUI.Graph
     public class BridgeConnection : Connection
     {
         public bool blocking;//堵塞
-        public ShowMode show = new ShowMode(false, MutexRule.NoMutex, false, BaseShow.NoChange, false);
+        public ShowMode show = new ShowMode();
         public ScriptableObject viewModel;
     }
 }

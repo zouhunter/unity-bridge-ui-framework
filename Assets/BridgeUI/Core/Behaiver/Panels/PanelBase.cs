@@ -66,21 +66,7 @@ namespace BridgeUI
                 OnViewModelChanged(value);
             }
         }
-
-#if UNITY_EDITOR
-
-        [ContextMenu("显示ViewModel")]
-        private void LoadDefultViewModel()
-        {
-            defultViewModel = ScriptableObject.CreateInstance<ViewModelObject>();
-        }
-        [ContextMenu("清除ViewModel")]
-        private void ClearDefultViewModel()
-        {
-            defultViewModel = null;
-        }
-#endif
-
+        
         protected override void Awake()
         {
             base.Awake();

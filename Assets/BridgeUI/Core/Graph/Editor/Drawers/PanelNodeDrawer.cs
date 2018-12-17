@@ -315,8 +315,40 @@ namespace BridgeUI.Drawer
             }
         }
 
+        string[] maskRules;
+        string[] maskRulesNotice = { "无遮罩", "不可点击", "点击后关闭", "选择性穿透" };
+        int maskRulesSelected;
+        private void DrawMaskRules()
+        {
+            if (maskRules == null)
+            {
+                maskRules = System.Enum.GetNames(typeof(UIMask));
+            }
+
+            maskRulesSelected = System.Array.IndexOf(maskRules, nodeInfo.uiType.cover.ToString());
+
+            for (int i = 0; i < maskRules.Length; i++)
+            {
+                var isOn = EditorGUILayout.ToggleLeft(string.Format("{0}--{1}", maskRules[i], maskRulesNotice[i]), maskRulesSelected == i);
+                if (isOn)
+                {
+                    nodeInfo.uiType.cover = (UIMask)i;
+                    maskRulesSelected = i;
+                }
+            }
+
+            if (nodeInfo.uiType.cover != UIMask.None)
+            {
+                using (var hor = new EditorGUILayout.HorizontalScope())
+                {
+                    EditorGUILayout.LabelField("    遮罩颜色", GUILayout.Width(80));
+                    nodeInfo.uiType.maskColor = EditorGUILayout.ColorField(nodeInfo.uiType.maskColor);
+                }
+            }
+        }
+
         string[] layerTypes;
-        string[] layerTypesNotice = { "最低层，可以被任何界面复盖", "自动关闭的小提示（自动关，所以可以高点）", "用于程序状态警告（不可以被其他层级掩盖）" };
+        string[] layerTypesNotice = { "最低层，可以被任何界面复盖", "弹窗层，层级小于模型及特效", "提示层，一般没有关闭按扭", "导引层，用于述事及程序引导功能" , "警示层，程序状态警告" };
         int layerSelected;
         private void DrawLayerType()
         {
@@ -342,7 +374,7 @@ namespace BridgeUI.Drawer
         {
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                nodeInfo.uiType.layerIndex = (int)EditorGUILayout.Slider(nodeInfo.uiType.layerIndex, 0, 100);
+                nodeInfo.uiType.layerIndex = (int)EditorGUILayout.Slider(nodeInfo.uiType.layerIndex, 0, 10);
                 EditorGUILayout.LabelField("(相对)", EditorStyles.largeLabel, GUILayout.Width(lableWidth));
             }
         }
@@ -454,6 +486,7 @@ namespace BridgeUI.Drawer
         private void DrawInforamtion()
         {
             DrawOption("窗体类型", DrawFormType);
+            DrawOption("遮罩类型", DrawMaskRules);
             DrawOption("层级类型", DrawLayerType);
             DrawOption("关闭规则", DrawCloseRule);
             DrawOption("隐藏规则", DrawHideType);

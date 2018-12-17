@@ -15,7 +15,7 @@ namespace BridgeUI.Model
     [System.Serializable]
     public class NodeInfo
     {
-        public UIType uiType = new UIType();
+        public UIType uiType = new UIType(new Color(.1f,.1f,.1f,.1f));
         public string guid;
         public string discription;
     }

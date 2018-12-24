@@ -92,7 +92,7 @@ namespace BridgeUI.Drawer
         private void DrawOption()
         {
             EditorGUI.BeginChangeCheck();
-            selected = GUILayout.Toolbar(selected, option, EditorStyles.toolbarButton,GUILayout.Width(200));// GUILayout.Toolbar(defultTypeProp.enumValueIndex, option, EditorStyles.toolbarButton);
+            selected = GUILayout.Toolbar(selected, option, EditorStyles.toolbarButton, GUILayout.Width(200));// GUILayout.Toolbar(defultTypeProp.enumValueIndex, option, EditorStyles.toolbarButton);
             if (EditorGUI.EndChangeCheck())
             {
                 UpdateMarchList();
@@ -112,27 +112,49 @@ namespace BridgeUI.Drawer
         protected virtual void DrawRuntimeItems()
         {
             tempGraphObj.Update();
-            if (1<<selected == (int)LoadType.DirectLink)
+            if (1 << selected == (int)LoadType.DirectLink)
             {
                 prefabInfoList.DoLayoutList();
             }
             else if (1 << selected == (int)LoadType.AssetBundle)
             {
-                EditorGUILayout.PropertyField(bundleCreateRuleProp);
+                var rect = GUILayoutUtility.GetRect(EditorGUIUtility.currentViewWidth, EditorGUIUtility.singleLineHeight);
+                DrawBundleCreateRule(rect, bundleCreateRuleProp);
                 bundleInfoList.DoLayoutList();
             }
-            else if(1 << selected == (int)LoadType.Resources)
+            else if (1 << selected == (int)LoadType.Resources)
             {
                 resourceInfoList.DoLayoutList();
             }
-            tempGraphObj.ApplyModifiedProperties();
+            tempGraphObj.ApplyModifiedProperties(); 
         }
 
-   
+        private void DrawBundleCreateRule(Rect position, SerializedProperty property)
+        {
+            int labelWidth = 100;
+            int btnWidth = 60;
+            var rect0 = new Rect(position.x, position.y, labelWidth, position.height);
+            var rect1 = new Rect(position.x + labelWidth, position.y, position.width - btnWidth - labelWidth, position.height);
+            var rect2 = new Rect(position.x + position.width - btnWidth, position.y, btnWidth, position.height);
+            EditorGUI.LabelField(rect0, "资源包加载规则");
+            property.objectReferenceValue = EditorGUI.ObjectField(rect1, property.objectReferenceValue, typeof(BundleLoader), false);
+            var path = property.propertyPath;
+            var obj = property.serializedObject.targetObject;
+            if (GUI.Button(rect2, "new", EditorStyles.miniButtonRight))
+            {
+                BridgeUI.Drawer.BundleUtil.CreateNewBundleCreateRule(x =>
+                {
+                    property = new SerializedObject(obj).FindProperty(path);
+                    property.objectReferenceValue = x;
+                    property.serializedObject.ApplyModifiedProperties();
+                });
+            }
+        }
+
 
         private void UpdateMarchList()
         {
-            if (1<<selected == (int)LoadType.DirectLink)
+            if (1 << selected == (int)LoadType.DirectLink)
             {
                 var prefabs = GetPrefabUIInfos(query);
                 tempGraph.p_nodes.Clear();
@@ -150,7 +172,7 @@ namespace BridgeUI.Drawer
                 tempGraphObj.Update();
             }
 
-            if(1 << selected == (int)LoadType.Resources)
+            if (1 << selected == (int)LoadType.Resources)
             {
                 var resources = GetResourceUIInfos(query);
                 tempGraph.r_nodes.Clear();
@@ -172,11 +194,11 @@ namespace BridgeUI.Drawer
                     {
                         GroupLoadItems((tempGraph.p_nodes).ToArray());
                     }
-                    else if(1 << selected == (int)LoadType.AssetBundle)
+                    else if (1 << selected == (int)LoadType.AssetBundle)
                     {
                         GroupLoadItems((tempGraph.b_nodes).ToArray());
                     }
-                    else if(1 << selected == (int)LoadType.Resources)
+                    else if (1 << selected == (int)LoadType.Resources)
                     {
                         GroupLoadItems((tempGraph.r_nodes).ToArray());
                     }
@@ -200,24 +222,24 @@ namespace BridgeUI.Drawer
             }
         }
 
-      
+
         private void GroupLoadItems(UIInfoBase[] infoList)
         {
             for (int i = 0; i < infoList.Length; i++)
             {
                 UIInfoBase item = infoList[i];
                 GameObject prefab = null;
-                if(item is PrefabUIInfo)
+                if (item is PrefabUIInfo)
                 {
                     prefab = (item as PrefabUIInfo).prefab;
                 }
-                else if(item is BundleUIInfo)
+                else if (item is BundleUIInfo)
                 {
                     var guid = (item as BundleUIInfo).guid;
                     var path = AssetDatabase.GUIDToAssetPath(guid);
                     prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                 }
-                else if(item is ResourceUIInfo)
+                else if (item is ResourceUIInfo)
                 {
                     var guid = (item as ResourceUIInfo).guid;
                     var path = AssetDatabase.GUIDToAssetPath(guid);
@@ -309,12 +331,12 @@ namespace BridgeUI.Drawer
             {
                 var item = panelgroup.graphList[i];
                 if (item == null) continue;
-                if (selectedGraph == -1|| selectedGraph == i)
+                if (selectedGraph == -1 || selectedGraph == i)
                 {
                     nodes.AddRange(item.b_nodes);
                 }
             }
-          
+
             if (string.IsNullOrEmpty(fliter))
             {
                 return nodes;

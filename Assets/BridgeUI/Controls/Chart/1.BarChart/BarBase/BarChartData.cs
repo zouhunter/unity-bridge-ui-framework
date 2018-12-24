@@ -112,7 +112,7 @@ namespace BridgeUI.Control.Chart
         {
             if (!barDic.ContainsKey(id))
             {
-                Debug.LogWarning(string.Format("The key{0} you want to replace is not exist in the dictionary{2}",id,barDic.ToString()));
+                Debug.LogWarning(string.Format("The key{0} you want to replace is not exist in the dictionary{1}",id,barDic.ToString()));
                 return;
             }
             barDic[id] = bars;
@@ -122,7 +122,7 @@ namespace BridgeUI.Control.Chart
         {
             if (!barDic.ContainsKey(id))
             {
-                Debug.LogWarning(string.Format("The key{0} you want to remove is not exist in the dictionary{2}",id,barDic.ToString()));
+                Debug.LogWarning(string.Format("The key{0} you want to remove is not exist in the dictionary{1}",id,barDic.ToString()));
                 return;
             }
             barDic.Remove(id);

@@ -34,7 +34,7 @@ Shader "Shader Forge/Mask" {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #define UNITY_PASS_FORWARDBASE
+            //#define UNITY_PASS_FORWARDBASE
             #pragma multi_compile _ PIXELSNAP_ON
             #include "UnityCG.cginc"
             #pragma multi_compile_fwdbase
@@ -73,7 +73,7 @@ Shader "Shader Forge/Mask" {
                 float4 _MainTex_var = tex2D(_MainTex,TRANSFORM_TEX(i.uv0, _MainTex));
                 float4 _Mask_var = tex2D(_Mask,TRANSFORM_TEX(i.uv0, _Mask));
                 float node_7594 = 1.0;
-                float node_603 = (_MainTex_var.a*_Color.a*i.vertexColor.a*saturate(floor((_Mask_var.r+_Fade) * node_7594) / (node_7594 - 1))); // A
+                float node_603 = (_MainTex_var.a*_Color.a*i.vertexColor.a*saturate(floor((_Mask_var.r+_Fade) * node_7594) / (node_7594 - 1 + 0.01f))); // A
                 float3 emissive = ((_MainTex_var.rgb*_Color.rgb*i.vertexColor.rgb)*node_603);
                 float3 finalColor = emissive;
                 return fixed4(finalColor,node_603);

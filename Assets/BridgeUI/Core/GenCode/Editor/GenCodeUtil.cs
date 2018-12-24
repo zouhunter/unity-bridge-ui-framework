@@ -87,7 +87,7 @@ namespace BridgeUI.CodeGen
         /// </summary>
         /// <param name="component"></param>
         /// <param name="components"></param>
-        public static void AnalysisComponent(MonoBehaviour component, List<ComponentItem> components,GenCodeRule rule)
+        public static void AnalysisComponent(MonoBehaviour component, List<ComponentItem> components, GenCodeRule rule)
         {
             var fields = component.GetType().GetFields(BindingFlags.GetField | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -220,12 +220,17 @@ namespace BridgeUI.CodeGen
                 SortClassMembers(classNode);
 
                 var prefabPath = AssetDatabase.GetAssetPath(go);
-                var script = go.GetComponent(type);
+                Component script = null;
+                if (type != null)
+                {
+                    script = go.GetComponent(type);
+                }
+
                 var scriptPath = "";
                 if (script != null)
                 {
                     var vScript = MonoScript.FromMonoBehaviour(script as MonoBehaviour);
-                    if(vScript.name == go.name)
+                    if (vScript.name == go.name)
                     {
                         scriptPath = AssetDatabase.GetAssetPath(vScript);
                     }
@@ -286,6 +291,10 @@ namespace BridgeUI.CodeGen
             {
                 return sourceKey.Replace("keyword_", "");
             }
+            if (sourceKey.Contains("\""))
+            {
+                sourceKey = sourceKey.Replace("\"", "");
+            }
             return sourceKey;
         }
         /// <summary>
@@ -294,7 +303,7 @@ namespace BridgeUI.CodeGen
         /// <param name="classname"></param>
         /// <param name="scriptPath"></param>
         /// <param name="components"></param>
-        public static void CreateNewViewModelScript(string className, string scriptPath,List<ComponentItem> components)
+        public static void CreateNewViewModelScript(string className, string scriptPath, List<ComponentItem> components)
         {
             UICoder oldViewModel = new UICoder(className);
             var tree = oldViewModel.tree;
@@ -338,18 +347,18 @@ namespace BridgeUI.CodeGen
             var classType = monoScript.GetClass();
             var baseType = classType.BaseType;
             var className = classType.Name;
-            
+
             var scriptPath = AssetDatabase.GetAssetPath(monoScript);
-            var scriptValue = GenerateViewModelScript(className, monoScript.text, baseType,components);
+            var scriptValue = GenerateViewModelScript(className, monoScript.text, baseType, components);
             System.IO.File.WriteAllText(scriptPath, scriptValue);
         }
 
-        private static string GenerateViewModelScript(string className, string oldScript,Type baseType, List<ComponentItem> components)
+        private static string GenerateViewModelScript(string className, string oldScript, Type baseType, List<ComponentItem> components)
         {
             UICoder oldViewModel = new UICoder(className);
             oldViewModel.Load(oldScript);
             var tree = oldViewModel.tree;
-            
+
             var classNode = tree.Descendants.OfType<TypeDeclaration>().Where(x => x.Name == className).First();
 
             PreProcessorDirective startRegion = classNode.Descendants.OfType<PreProcessorDirective>().Where(x => x.Type == PreProcessorDirectiveType.Region && x.Argument == "属性列表").FirstOrDefault();
@@ -358,7 +367,8 @@ namespace BridgeUI.CodeGen
             {
                 startRegion = new PreProcessorDirective(PreProcessorDirectiveType.Region, "属性列表");
                 AstNode firstMember = classNode.GetChildByRole(Roles.TypeMemberRole);
-                if (firstMember == null){
+                if (firstMember == null)
+                {
                     firstMember = classNode.LastChild;
                 }
                 classNode.InsertChildBefore<PreProcessorDirective>(firstMember, startRegion, Roles.PreProcessorDirective);
@@ -458,7 +468,7 @@ namespace BridgeUI.CodeGen
             return scriptValue;
         }
 
-     
+
 
         /// <summary>
         /// 向viewModel添加属性
@@ -500,7 +510,7 @@ namespace BridgeUI.CodeGen
             expression = new IdentifierExpression("SetValue");
             typeArguement = new MemberType(new SimpleType(type.Namespace), typeName);
             expression.TypeArguments.Add(typeArguement);
-            statement = new ExpressionStatement(new InvocationExpression(expression, new IdentifierExpression(GetSourceKeyWord( source)), new IdentifierExpression("value")));
+            statement = new ExpressionStatement(new InvocationExpression(expression, new IdentifierExpression(GetSourceKeyWord(source)), new IdentifierExpression("value")));
             body.Add(statement);
             #endregion
 
@@ -567,7 +577,8 @@ namespace BridgeUI.CodeGen
             var mainScript = (from main in supported
                               where MonoScript.FromMonoBehaviour(main).GetClass().Name == prefab.name
                               select main).FirstOrDefault();
-            if(mainScript != null){
+            if (mainScript != null)
+            {
                 return new MonoBehaviour[] { mainScript };
             }
             return supported.ToArray();

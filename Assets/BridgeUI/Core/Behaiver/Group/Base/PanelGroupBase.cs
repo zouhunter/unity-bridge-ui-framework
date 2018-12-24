@@ -29,7 +29,6 @@ namespace BridgeUI
         protected List<string> waitCreateQueue = new List<string>();
         protected PanelCreateRule createRule;
         protected event UnityAction onDestroy;
-        [BundleLoader("【创建规则】")]
         public BundleLoader bundleCreateRule;
         public UIBindingController bindingCtrl { get; private set; }
         public abstract List<Graph.UIGraph> GraphList { get; }
@@ -190,7 +189,7 @@ namespace BridgeUI
 
         public void CansaleInstencePanel(string panelName)
         {
-            var match = waitCreateQueue.Remove(panelName);
+            waitCreateQueue.Remove(panelName);
             UICreateInfo uiCreateInfo;
             if(waitCreateDic.TryGetValue(panelName,out uiCreateInfo))
             {

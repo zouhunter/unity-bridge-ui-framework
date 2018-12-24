@@ -14,13 +14,6 @@ using BridgeUI.Model;
 
 namespace BridgeUI.Model
 {
-    public class BundleLoaderAttribute : PropertyAttribute {
-        public string title;
-        public BundleLoaderAttribute(string title)
-        {
-            this.title = title;
-        }
-    }
 
     public abstract class BundleLoader:ScriptableObject
     {

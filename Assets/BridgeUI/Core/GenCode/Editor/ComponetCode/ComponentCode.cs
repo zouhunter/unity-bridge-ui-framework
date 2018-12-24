@@ -380,6 +380,7 @@ namespace BridgeUI.CodeGen
                 var isMethod = false;
                 var targetName = AnalysisTargetFromLamdaArgument(invocation.Arguments.First().ToString(), out isMethod);
                 //UnityEngine.Debug.Log("解析出字段：" + targetName);
+                //UnityEngine.Debug.Log("目标名：" + sourceName);
 
                 if (string.IsNullOrEmpty(targetName))
                 {

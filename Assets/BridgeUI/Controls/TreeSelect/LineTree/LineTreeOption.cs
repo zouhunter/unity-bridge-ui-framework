@@ -11,6 +11,7 @@ namespace BridgeUI.Control.Tree
         public LineTreeItem prefab;
         public GridLayoutGroup.Axis axisType { get; set; }
         public System.Func<int, LineTreeRule> ruleGetter { get; set; }
+        public GameObjectPool pool;
     }
 
 }

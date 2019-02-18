@@ -19,45 +19,20 @@ namespace BridgeUI.Extend.XLua
 {
     [LuaCallCSharp]
     [BridgeUI.Attributes.PanelParent]
-    public class LuaPanel : PanelBase
+    public abstract class LuaPanel : BindingViewBase
     {
-        public enum ResourceType
-        {
-            OriginLink,
-            StreamingFile,
-            WebFile,
-            AssetBundle,
-            Resource,
-            RuntimeString,
-        }
-        [HideInInspector]
-        public ResourceType resourceType;
-        [HideInInspector]
-        public TextAsset luaScript;
-        [HideInInspector]
-        public string streamingPath;
-        [HideInInspector]
-        public string webUrl;
-        [HideInInspector]
-        public string assetBundleName;
-        [HideInInspector]
-        public string assetName;
-        [HideInInspector]
-        public string menu;
-        [HideInInspector]
-        public string scriptName;
-        [HideInInspector]
-        public Model.BundleLoader bundleLoader;
         internal static LuaEnv luaEnv = new LuaEnv(); //all lua behaviour shared one luaenv only!
         internal static float lastGCTime = 0;
         internal const float GCInterval = 1;//1 second 
-        protected const string luaOnInit = "oninit";
-        protected const string luaUpdate = "update";
-        protected const string luaOnDestroy = "ondestroy";
 
-        protected LuaViewModel luaViewModel { get { return ViewModel as LuaViewModel; } }
+        protected const byte luaOnInit = 255;
+        protected const byte luaUpdate = 254;
+        protected const byte luaOnRecover = 253;
+        protected const byte luaHandleData = 252;
+
+        protected LuaViewModel luaViewModel { get { return VM as LuaViewModel; } }
         private LuaTable tableCreated;
-        public override PropertyBinder Binder
+        public override UIPanelBinder Binder
         {
             get
             {
@@ -68,13 +43,71 @@ namespace BridgeUI.Extend.XLua
                 return _binder;
             }
         }
+        private Dictionary<byte, string> keywordDic;
 
-        protected override void Start()
+        private LuaPanel_Reference luaPanelReference;
+
+        private ResourceType resourceType
         {
-            base.Start();
-            if (bundleLoader)
-                bundleLoader.InitEnviroment();
+            get
+            {
+                return luaPanelReference.resourceType;
+            }
+        }
+        private string scriptName
+        {
+            get { return luaPanelReference.scriptName; }
+        }
+        private TextAsset luaScript
+        {
+            get
+            {
+                return luaPanelReference.luaScript;
+            }
+        }
+        private Model.BundleLoader bundleLoader
+        {
+            get
+            {
+                return luaPanelReference.bundleLoader;
+            }
+        }
+        private string assetBundleName
+        {
+            get
+            {
+                return luaPanelReference.assetBundleName;
+            }
+        }
+        private string assetName
+        {
+            get
+            {
+                return luaPanelReference.assetName;
+            }
+        }
+
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+            keywordDic = CreatePropertyDic();
             LoadLuaScriptOnAwake();
+        }
+
+        protected abstract Dictionary<byte,string> CreatePropertyDic();
+
+        protected override void OnRelease()
+        {
+            base.OnRelease();
+            Binder.InvokeEvent(luaOnRecover);
+        }
+
+        protected override void OnBinding(GameObject target)
+        {
+            base.OnBinding(target);
+            luaPanelReference = target.GetComponent<LuaPanel_Reference>();
+            luaPanelReference.onUpdate = Update;
         }
 
         protected virtual void Update()
@@ -87,12 +120,6 @@ namespace BridgeUI.Extend.XLua
             }
         }
 
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            Binder.InvokeEvent(luaOnDestroy);
-        }
-
         private void LoadLuaScriptOnAwake()
         {
             ClearLoadedTable();
@@ -102,17 +129,17 @@ namespace BridgeUI.Extend.XLua
                 case ResourceType.OriginLink:
                     InitScritEnv(luaScript.text);
                     break;
-                case ResourceType.StreamingFile:
-                    url =
-#if UNITY_EDITOR || UNITY_STANDALONE
-                    "file:///" +
-#endif
-                    Application.streamingAssetsPath + "/" + streamingPath;
-                    StartCoroutine(LoadScriptFromUrl(url));
-                    break;
-                case ResourceType.WebFile:
-                    StartCoroutine(LoadScriptFromUrl(webUrl));
-                    break;
+                //                case ResourceType.StreamingFile:
+                //                    url =
+                //#if UNITY_EDITOR || UNITY_STANDALONE
+                //                    "file:///" +
+                //#endif
+                //                    Application.streamingAssetsPath + "/" + streamingPath;
+                //                    StartCoroutine(LoadScriptFromUrl(url));
+                //                    break;
+                //                case ResourceType.WebFile:
+                //                    StartCoroutine(LoadScriptFromUrl(webUrl));
+                //                    break;
                 case ResourceType.AssetBundle:
                     LoadScriptFromBundle();
                     break;
@@ -173,10 +200,10 @@ namespace BridgeUI.Extend.XLua
             }
         }
 
-        [LuaCallCSharp]
-        public void SetValue(string key, object value)
+        [LuaCallCSharp]//注意使用Lua中的id对应！！！
+        public void SetValue(byte byteID, object value)
         {
-            Binder.SetBoxValue(value, key);
+            Binder.SetBoxValue(value, byteID);
         }
 
         private void InitScritEnv(string text)
@@ -191,11 +218,11 @@ namespace BridgeUI.Extend.XLua
             meta.Dispose();
 
             tableCreated.Set("self", this);
-            luaEnv.DoString(text, name, tableCreated);
+            luaEnv.DoString(text, Name, tableCreated);
 
             var model = new LuaViewModel();
-            model.Init(this.tableCreated);
-            ViewModel = model;
+            model.Init(this.tableCreated, keywordDic);
+            VM = model;
             Binder.InvokeEvent(luaOnInit);
         }
 
@@ -221,7 +248,7 @@ namespace BridgeUI.Extend.XLua
 
             if (luaViewModel != null)
             {
-                var action = luaViewModel.GetBindableProperty<UnityAction<object>>("handle_data");
+                var action = luaViewModel.GetBindableProperty<UnityAction<object>>(luaHandleData);
                 if (action.Value != null)
                 {
                     action.Value.Invoke(data);

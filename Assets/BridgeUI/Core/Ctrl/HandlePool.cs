@@ -15,28 +15,29 @@ namespace BridgeUI
 {
     public class UIHandlePool
     {
-        private List<UIHandle> activedHandles = new List<UIHandle>();
+        private Dictionary<string, UIHandle> activedHandles;
         private ObjectPool<UIHandle> innerPool;
 
         public UIHandlePool()
         {
-            innerPool = new ObjectPool<UIHandle>(CreateInstence);
+            activedHandles = new Dictionary<string, UIHandle>();
+            innerPool = new ObjectPool<UIHandle>();
         }
 
         public UIHandle Allocate(string panelName)
         {
-            var handle = activedHandles.Find(x => x.PanelName == panelName);
-            if(handle != null)
+            UIHandle uiHandle;
+            if (activedHandles.TryGetValue(panelName,out uiHandle))
             {
-                return handle;
+                return uiHandle;
             }
             else
             {
-                handle = innerPool.Allocate();
-                activedHandles.Add(handle);
-                handle.Reset(panelName, OnRelease);
+                uiHandle = innerPool.Allocate();
+                activedHandles.Add(panelName, uiHandle);
+                uiHandle.Reset(panelName, OnRelease);
+                return uiHandle;
             }
-            return handle;
         }
 
         private UIHandle CreateInstence()
@@ -46,7 +47,7 @@ namespace BridgeUI
 
         private void OnRelease(UIHandle handle)
         {
-            activedHandles.Remove(handle);
+            activedHandles.Remove(handle.PanelName);
             innerPool.Release(handle);
         }
     }

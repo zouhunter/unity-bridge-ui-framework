@@ -18,10 +18,10 @@ namespace BridgeUI
     /// </summary>
     public abstract class UIInfoBase
     {
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         public int instanceID;
         public string discription;
-#endif
+//#endif
         public string panelName;
         public UIType type;
         public abstract string IDName { get; }

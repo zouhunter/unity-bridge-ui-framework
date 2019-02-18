@@ -45,8 +45,8 @@ namespace BridgeUI.Drawer
             DrawMutexRules();
             DrawHead("父级变化");
             DrawBaseShow();
-            DrawHead("数据模型");
-            DrawViewModel();
+            //DrawHead("数据模型");
+            //DrawViewModel();
         }
 
         private void DrawTitle(string title)
@@ -125,32 +125,32 @@ namespace BridgeUI.Drawer
             return on;
         }
 
-        private void DrawViewModel()
-        {
-            using (var hor = new EditorGUILayout.HorizontalScope())
-            {
-                var model = EditorGUILayout.ObjectField(new GUIContent("IViewModel"), connecton.viewModel, typeof(ScriptableObject), false) ;
+        //private void DrawViewModel()
+        //{
+        //    using (var hor = new EditorGUILayout.HorizontalScope())
+        //    {
+        //        var model = EditorGUILayout.ObjectField(new GUIContent("IViewModel"), connecton.viewModel, typeof(ScriptableObject), false) ;
 
-                if(model != connecton.viewModel && model is Binding.IViewModel)
-                {
-                    connecton.viewModel = model as ScriptableObject;
-                }
+        //        if(model != connecton.viewModel && model is Binding.IViewModel)
+        //        {
+        //            connecton.viewModel = model as ScriptableObject;
+        //        }
 
-                if(model == null)
-                {
-                    connecton.viewModel = null;
-                }
+        //        if(model == null)
+        //        {
+        //            connecton.viewModel = null;
+        //        }
 
-                if (GUILayout.Button("new", EditorStyles.miniButtonRight, GUILayout.Width(60)))
-                {
-                    MvvmUtil.CreateNewViewModel((viewModel) =>
-                    {
-                        connecton.viewModel = viewModel;
-                    });
+        //        if (GUILayout.Button("new", EditorStyles.miniButtonRight, GUILayout.Width(60)))
+        //        {
+        //            MvvmUtil.CreateNewViewModel((viewModel) =>
+        //            {
+        //                connecton.viewModel = viewModel;
+        //            });
 
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
     }
 
 }

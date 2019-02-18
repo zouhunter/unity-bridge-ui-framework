@@ -47,6 +47,11 @@ namespace BridgeUI.Drawer
             resourceInfoList = new UIInfoListDrawer("资源路径");
             resourceInfoList.InitReorderList(tempGraphObj.FindProperty("r_nodes"));
             UpdateMarchList();
+            UpdateRuntimeInfo();
+        }
+        private void OnDisable()
+        {
+            UpdateRuntimeInfo();
         }
 
         public override void OnInspectorGUI()
@@ -72,9 +77,16 @@ namespace BridgeUI.Drawer
             {
                 graphList = new GraphListDrawer("界面配制图表");
                 graphList.onSelectID += OnSelectGraphID;
+                graphList.onChanged += OnGraphListChanged;
                 graphList.InitReorderList(graphListProp);
             }
             graphList.DoLayoutList();
+        }
+
+        private void OnGraphListChanged()
+        {
+            UpdateRuntimeInfo();
+            UpdateMarchList();
         }
 
         private void OnSelectGraphID(int arg0)
@@ -101,12 +113,22 @@ namespace BridgeUI.Drawer
 
         private void DrawMatchField()
         {
-            EditorGUI.BeginChangeCheck();
-            query = EditorGUILayout.TextField(query);
-            if (EditorGUI.EndChangeCheck())
+            using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                UpdateMarchList();
+                if (GUILayout.Button("Refesh", EditorStyles.miniButtonRight, GUILayout.Width(60)))
+                {
+                    OnGraphListChanged();
+                }
+
+                EditorGUI.BeginChangeCheck();
+                query = EditorGUILayout.TextField(query);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    UpdateMarchList();
+                }
+                
             }
+          
         }
 
         protected virtual void DrawRuntimeItems()
@@ -126,7 +148,7 @@ namespace BridgeUI.Drawer
             {
                 resourceInfoList.DoLayoutList();
             }
-            tempGraphObj.ApplyModifiedProperties(); 
+            tempGraphObj.ApplyModifiedProperties();
         }
 
         private void DrawBundleCreateRule(Rect position, SerializedProperty property)
@@ -180,6 +202,8 @@ namespace BridgeUI.Drawer
                 EditorUtility.SetDirty(tempGraph);
                 tempGraphObj.Update();
             }
+
+
         }
 
         private void DrawToolButtons()
@@ -303,13 +327,15 @@ namespace BridgeUI.Drawer
                 var item = proprety[i];
                 var obj = EditorUtility.InstanceIDToObject(item.instanceID);
                 if (obj == null) continue;
-                var prefab = PrefabUtility.GetPrefabParent(obj);
+                var prefab = PrefabUtility.GetCorrespondingObjectFromSource(obj);
                 if (prefab != null)
                 {
-                    var root = PrefabUtility.FindPrefabRoot((GameObject)prefab);
+                    var root = PrefabUtility.GetOutermostPrefabInstanceRoot((GameObject)prefab);
                     if (root != null)
                     {
-                        PrefabUtility.ReplacePrefab(obj as GameObject, root, ReplacePrefabOptions.ConnectToPrefab);
+                        var prefabPath = AssetDatabase.GetAssetPath(root);
+                        bool success;
+                        PrefabUtility.SaveAsPrefabAsset(obj as GameObject, prefabPath, out success);
                     }
                 }
             }
@@ -318,7 +344,9 @@ namespace BridgeUI.Drawer
         protected abstract List<PrefabUIInfo> GetPrefabUIInfos(string fliter);
         protected abstract List<BundleUIInfo> GetBundleUIInfos(string fliter);
         protected abstract List<ResourceUIInfo> GetResourceUIInfos(string fliter);
+        protected abstract void UpdateRuntimeInfo();//将信息解析到运行时代码
     }
+
     [CustomEditor(typeof(PanelGroup))]
     public class PanelGroupDrawer : PanelGroupBaseDrawer
     {
@@ -327,13 +355,17 @@ namespace BridgeUI.Drawer
         {
             var panelgroup = target as PanelGroup;
             var nodes = new List<BundleUIInfo>();
-            for (int i = 0; i < panelgroup.graphList.Count; i++)
+
+            if (selectedGraph == -1)
             {
-                var item = panelgroup.graphList[i];
-                if (item == null) continue;
-                if (selectedGraph == -1 || selectedGraph == i)
+                nodes.AddRange(panelgroup.B_nodes);
+            }
+            else
+            {
+                var graph = GetUIGraph(panelgroup, selectedGraph);
+                if (graph != null)
                 {
-                    nodes.AddRange(item.b_nodes);
+                    nodes.AddRange(graph.b_nodes);
                 }
             }
 
@@ -350,15 +382,20 @@ namespace BridgeUI.Drawer
         {
             var panelgroup = target as PanelGroup;
             var nodes = new List<PrefabUIInfo>();
-            for (int i = 0; i < panelgroup.graphList.Count; i++)
+
+            if (selectedGraph == -1)
             {
-                var item = panelgroup.graphList[i];
-                if (item == null) continue;
-                if (selectedGraph == -1 || selectedGraph == i)
+                nodes.AddRange(panelgroup.P_nodes);
+            }
+            else
+            {
+                var graph = GetUIGraph(panelgroup, selectedGraph);
+                if (graph != null)
                 {
-                    nodes.AddRange(item.p_nodes);
+                    nodes.AddRange(graph.p_nodes);
                 }
             }
+
             if (string.IsNullOrEmpty(fliter))
             {
                 return nodes;
@@ -372,15 +409,20 @@ namespace BridgeUI.Drawer
         {
             var panelgroup = target as PanelGroup;
             var nodes = new List<ResourceUIInfo>();
-            for (int i = 0; i < panelgroup.graphList.Count; i++)
+
+            if (selectedGraph == -1)
             {
-                var item = panelgroup.graphList[i];
-                if (item == null) continue;
-                if (selectedGraph == -1 || selectedGraph == i)
+                nodes.AddRange(panelgroup.R_nodes);
+            }
+            else
+            {
+                var graph = GetUIGraph(panelgroup, selectedGraph);
+                if (graph != null)
                 {
-                    nodes.AddRange(item.r_nodes);
+                    nodes.AddRange(graph.r_nodes);
                 }
             }
+
             if (string.IsNullOrEmpty(fliter))
             {
                 return nodes;
@@ -389,6 +431,50 @@ namespace BridgeUI.Drawer
             {
                 return nodes.FindAll(x => x.panelName.ToLower().Contains(fliter.ToLower()));
             }
+        }
+
+        protected override void UpdateRuntimeInfo()
+        {
+            if (Application.isPlaying) return;
+            //更新graph信息解析
+            var panelgroup = target as PanelGroup;
+            if (panelgroup != null)
+            {
+                panelgroup.Bridges.Clear();
+                panelgroup.P_nodes.Clear();
+                panelgroup.B_nodes.Clear();
+                panelgroup.R_nodes.Clear();
+
+                var graphGUIDs = panelgroup.GraphList;
+                for (int i = 0; i < graphGUIDs.Count; i++)
+                {
+                    var graph = GetUIGraph(panelgroup, i);
+                    if (graph != null)
+                    {
+                        if (graph.bridges != null) panelgroup.Bridges.AddRange(graph.bridges);
+                        if (graph.p_nodes != null) panelgroup.P_nodes.AddRange(graph.p_nodes);
+                        if (graph.b_nodes != null) panelgroup.B_nodes.AddRange(graph.b_nodes);
+                        if (graph.r_nodes != null) panelgroup.R_nodes.AddRange(graph.r_nodes);
+                        Debug.LogFormat("analysis graph : {0}, recoding complete.",graph.name);
+                    }
+                }
+                EditorUtility.SetDirty(panelgroup);
+            }
+        }
+
+        private BridgeUI.Graph.UIGraph GetUIGraph(PanelGroup panelgroup, int index)
+        {
+            var graphGUID = panelgroup.GetGraphAtIndex(index);
+            if (!string.IsNullOrEmpty(graphGUID))
+            {
+                var graphPath = AssetDatabase.GUIDToAssetPath(graphGUID);
+                if (!string.IsNullOrEmpty(graphPath))
+                {
+                    var graph = AssetDatabase.LoadAssetAtPath<BridgeUI.Graph.UIGraph>(graphPath);
+                    return graph;
+                }
+            }
+            return null;
         }
     }
 
@@ -461,6 +547,11 @@ namespace BridgeUI.Drawer
             {
                 return nodes.FindAll(x => x.panelName.ToLower().Contains(fliter.ToLower()));
             }
+        }
+
+        protected override void UpdateRuntimeInfo()
+        {
+
         }
     }
 }

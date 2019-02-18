@@ -7,7 +7,6 @@ using System;
 
 namespace BridgeUI.Trigger
 {
-    [RequireComponent(typeof(PanelCore))]
     public class OpenCloseBehaiver : MonoBehaviour
     {
         [SerializeField]
@@ -19,11 +18,11 @@ namespace BridgeUI.Trigger
         [SerializeField]
         private bool fromIndex;
 
-        private PanelCore panelCore;
+        private IDiffuseView panelCore;
 
         private void Awake()
         {
-            panelCore = GetComponentInParent<PanelCore>();
+            panelCore = GetComponentInParent<IDiffuseView>();
 
             if (selectable is Button)
             {

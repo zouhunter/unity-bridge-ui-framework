@@ -13,6 +13,12 @@ namespace BridgeUI
         public UnityEngine.Events.UnityAction<T> onRelease { get; set; }
         protected virtual Func<T> createFunc { get; set; }
         protected Stack<T> stack;
+        public ObjectPool()
+        {
+            this.createFunc = new Func<T>(() => Activator.CreateInstance<T>());
+            this.stack = new Stack<T>();
+        }
+
         public ObjectPool(Func<T> createFunc)
         {
             this.createFunc = createFunc;
@@ -21,13 +27,13 @@ namespace BridgeUI
 
         internal T Allocate()
         {
-            if(stack.Count == 0)
+            if (stack.Count == 0)
             {
 #if BridgeUI_Log
                 if (log) Debug.Log("create new " + typeof(T).FullName);
 #endif
                 var instence = createFunc();
-                if(onCreate != null)
+                if (onCreate != null)
                 {
                     onCreate.Invoke(instence);
                 }

@@ -35,13 +35,69 @@ namespace BridgeUI.Extend.AssetBundleTools
         private AssetBundleLoader loader;
 #endif
         private PanelGroupObj groupObj;
-        public override List<BridgeUI.Graph.UIGraph> GraphList
+
+        public List<BridgeUI.Graph.UIGraph> GraphList
         {
             get
             {
                 return groupObj.graphList;
             }
         }
+
+        private List<BridgeInfo> bridgeInfos;
+        private Dictionary<string, UIInfoBase> infoDic;
+        public override List<BridgeInfo> Bridges
+        {
+            get
+            {
+                if (bridgeInfos == null)
+                {
+                    bridgeInfos = new List<BridgeInfo>();
+                    if (GraphList != null)
+                    {
+                        foreach (var graph in GraphList)
+                        {
+                            bridgeInfos.AddRange(graph.bridges);
+                        }
+                    }
+                }
+                return bridgeInfos;
+            }
+        }
+        public override Dictionary<string, UIInfoBase> Nodes
+        {
+            get
+            {
+                if (infoDic == null)
+                {
+                    infoDic = new Dictionary<string, UIInfoBase>();
+                    if (GraphList != null)
+                    {
+                        foreach (var graph in GraphList)
+                        {
+                            if (graph.b_nodes != null)
+                                graph.b_nodes.ForEach(x =>
+                                {
+                                    infoDic.Add(x.panelName, x);
+                                });
+                            if (graph.r_nodes != null)
+                                graph.r_nodes.ForEach(x =>
+                                {
+                                    infoDic.Add(x.panelName, x);
+                                });
+                            if (graph.p_nodes != null)
+                                graph.p_nodes.ForEach(x =>
+                                {
+                                    infoDic.Add(x.panelName, x);
+                                });
+                        }
+                    }
+
+                }
+                return infoDic;
+            }
+        }
+
         /// <summary>
         /// 在start中调用防止线程等待（webgl）
         /// </summary>

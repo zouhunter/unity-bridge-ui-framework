@@ -43,7 +43,7 @@ public class PanelNameGenerater
     private void GenerateInternal(string[] panelNames)
     {
         CodeCompileUnit compunit = new CodeCompileUnit();
-        CodeNamespace sample = new CodeNamespace();
+        CodeNamespace sample = new CodeNamespace(BridgeUI.Setting.commonNameSpace);
         compunit.Namespaces.Add(sample);
 
 

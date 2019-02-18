@@ -12,7 +12,7 @@ namespace BridgeUI.Binding
         /// <param name="Binder"></param>
         /// <param name="inputField"></param>
         /// <param name="sourceName"></param>
-        public static void BindingInputField(this PropertyBinder Binder, InputField inputField, string sourceName)
+        public static void BindingInputField(this UIPanelBinder Binder, InputField inputField, byte sourceName)
         {
             Binder.RegistValueChange<string>(x => inputField.text = x, sourceName);
             Binder.RegistValueEvent(inputField.onValueChanged, sourceName);
@@ -23,7 +23,7 @@ namespace BridgeUI.Binding
         /// <param name="Binder"></param>
         /// <param name="inputField"></param>
         /// <param name="sourceName"></param>
-        public static void BindingText(this PropertyBinder Binder, Text textComponent, string sourceName)
+        public static void BindingText(this UIPanelBinder Binder, Text textComponent, byte sourceName)
         {
             Binder.RegistValueChange<string>(x => textComponent.text = x, sourceName);
         }
@@ -33,7 +33,7 @@ namespace BridgeUI.Binding
         /// <param name="Binder"></param>
         /// <param name="sliderComponent"></param>
         /// <param name="sourceName"></param>
-        public static void BindingSlider(this PropertyBinder Binder, Slider sliderComponent, string sourceName)
+        public static void BindingSlider(this UIPanelBinder Binder, Slider sliderComponent, byte sourceName)
         {
             Binder.RegistValueChange<float>(x => sliderComponent.value = x, sourceName);
             Binder.RegistValueEvent(sliderComponent.onValueChanged, sourceName);
@@ -44,7 +44,7 @@ namespace BridgeUI.Binding
         /// <param name="Binder"></param>
         /// <param name="dropdown"></param>
         /// <param name="sourceName"></param>
-        public static void BindingDropdown(this PropertyBinder Binder, Dropdown dropdown, string sourceName)
+        public static void BindingDropdown(this UIPanelBinder Binder, Dropdown dropdown, byte sourceName)
         {
             Binder.RegistValueChange<int>(x => dropdown.value = x, sourceName);
             Binder.RegistValueEvent(dropdown.onValueChanged, sourceName);
@@ -56,7 +56,7 @@ namespace BridgeUI.Binding
         /// <param name="Binder"></param>
         /// <param name="button"></param>
         /// <param name="sourceName"></param>
-        public static void BindingButton(this PropertyBinder Binder, Button button, string sourceName)
+        public static void BindingButton(this UIPanelBinder Binder, Button button, byte sourceName)
         {
             Binder.RegistEvent(button.onClick, sourceName);
         }
@@ -67,7 +67,7 @@ namespace BridgeUI.Binding
         /// <param name="Binder"></param>
         /// <param name="toggle"></param>
         /// <param name="sourceName"></param>
-        public static void BindingToggle(this PropertyBinder Binder, Toggle toggle, string sourceName)
+        public static void BindingToggle(this UIPanelBinder Binder, Toggle toggle, byte sourceName)
         {
             Binder.RegistValueChange<bool>(x=> toggle.isOn = x, sourceName);
             Binder.RegistValueEvent(toggle.onValueChanged, sourceName);
@@ -79,7 +79,7 @@ namespace BridgeUI.Binding
         /// <param name="Binder"></param>
         /// <param name="rawImage"></param>
         /// <param name="sourceName"></param>
-        public static void BindingRawImage(this PropertyBinder Binder,RawImage rawImage,string sourceName)
+        public static void BindingRawImage(this UIPanelBinder Binder,RawImage rawImage, byte sourceName)
         {
             Binder.RegistValueChange<Texture>(x => rawImage.texture = x, sourceName);
         }
@@ -90,7 +90,7 @@ namespace BridgeUI.Binding
         /// <param name="Binder"></param>
         /// <param name="image"></param>
         /// <param name="sourceName"></param>
-        public static void BindingImage(this PropertyBinder Binder, Image image, string sourceName)
+        public static void BindingImage(this UIPanelBinder Binder, Image image, byte sourceName)
         {
             Binder.RegistValueChange<Sprite>(x => image.sprite = x, sourceName);
         }

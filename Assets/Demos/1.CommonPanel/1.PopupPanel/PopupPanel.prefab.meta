@@ -1,8 +1,7 @@
 fileFormatVersion: 2
 guid: 7e11abdec5e3dbb4c91d5e2411be07aa
-NativeFormatImporter:
+PrefabImporter:
   externalObjects: {}
-  mainObjectFileID: 100100000
   userData: 
   assetBundleName: bridgeui/panels/popuppanel.assetbundle
   assetBundleVariant: 

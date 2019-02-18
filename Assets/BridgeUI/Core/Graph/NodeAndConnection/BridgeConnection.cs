@@ -22,6 +22,5 @@ namespace BridgeUI.Graph
     {
         public bool blocking;//堵塞
         public ShowMode show = new ShowMode();
-        public ScriptableObject viewModel;
     }
 }

@@ -1,8 +1,7 @@
 fileFormatVersion: 2
 guid: a41db1c1d5f30cc40a374e0694970cbb
-NativeFormatImporter:
+PrefabImporter:
   externalObjects: {}
-  mainObjectFileID: -1
   userData: 
   assetBundleName: bridgeui/panels/inputpanel.assetbundle
   assetBundleVariant: 

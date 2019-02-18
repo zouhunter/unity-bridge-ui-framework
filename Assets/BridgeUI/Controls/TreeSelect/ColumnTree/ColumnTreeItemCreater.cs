@@ -27,6 +27,7 @@ namespace BridgeUI.Control.Tree
         private GameObjectPool gameObjectPool;
 
 
+        public GameObjectPool ObjPool { get { return gameObjectPool; } }
         public bool AnyToggleOn { get { return group.AnyTogglesOn(); } }
         public string Selected { get { return selected; } }
         public int SelectedID { get { if(!string.IsNullOrEmpty(selected))return System.Array.IndexOf(options, selected); return -1; } }
@@ -34,9 +35,10 @@ namespace BridgeUI.Control.Tree
         public UnityAction<int> onChoiseID { get; set; }
         
 
-        public ColumnTreeItemCreater(ColumnTreeRule rule)
+        public ColumnTreeItemCreater(ColumnTreeRule rule, GameObjectPool gameObjectPool)
         {
             this.rule = rule;
+            this.gameObjectPool = gameObjectPool;
             InitEnviroment();
         }
 
@@ -80,7 +82,6 @@ namespace BridgeUI.Control.Tree
         /// </summary>
         private void InitEnviroment()
         {
-            gameObjectPool = UIFacade.PanelPool;
             group = m_parent.GetComponentInChildren<ToggleGroup>();
             if (group == null)
                 group = m_parent.gameObject.AddComponent<ToggleGroup>();

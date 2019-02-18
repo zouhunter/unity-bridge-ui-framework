@@ -6,11 +6,13 @@ using System;
 public class TreeTest : MonoBehaviour {
     public TreeNode1 node;
     public List<TreeSelector> selectors;
+
 	// Use this for initialization
 	void Start () {
 
         foreach (var selector in selectors)
         {
+            selector.Initialize(this);
             selector.onSelect = OnSelect;
             selector.onSelectID = OnSelectId;
             selector.CreateTree(node);

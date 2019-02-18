@@ -5,6 +5,7 @@ using BridgeUI.Graph;
 using BridgeUI;
 using System;
 using NodeGraph;
+using BridgeUI.Model;
 
 namespace BridgeUI.Extend.AssetBundleTools
 {
@@ -37,15 +38,71 @@ namespace BridgeUI.Extend.AssetBundleTools
         [HideInInspector]
         public string resourcePath;
         private List<UIGraph> _graphList;
-        public override List<UIGraph> GraphList
+        public List<UIGraph> GraphList
         {
             get
             {
                 return _graphList;
             }
         }
-        private void Awake()
+
+        private List<BridgeInfo> bridgeInfos;
+        private Dictionary<string, UIInfoBase> infoDic;
+        public override List<BridgeInfo> Bridges
         {
+            get
+            {
+                if(bridgeInfos == null)
+                {
+                    bridgeInfos = new List<BridgeInfo>();
+                    if(GraphList != null)
+                    {
+                        foreach (var graph in GraphList)
+                        {
+                            bridgeInfos.AddRange(graph.bridges);
+                        }
+                    }
+                }
+                return bridgeInfos;
+            }
+        }
+        public override Dictionary<string, UIInfoBase> Nodes
+        {
+            get
+            {
+                if (infoDic == null)
+                {
+                    infoDic = new Dictionary<string, UIInfoBase>();
+                    if (GraphList != null)
+                    {
+                        foreach (var graph in GraphList)
+                        {
+                            if (graph.b_nodes != null)
+                                graph.b_nodes.ForEach(x =>
+                                {
+                                    infoDic.Add(x.panelName, x);
+                                });
+                            if (graph.r_nodes != null)
+                                graph.r_nodes.ForEach(x =>
+                                {
+                                    infoDic.Add(x.panelName, x);
+                                });
+                            if (graph.p_nodes != null)
+                                graph.p_nodes.ForEach(x =>
+                                {
+                                    infoDic.Add(x.panelName, x);
+                                });
+                        }
+                    }
+                    
+                }
+                return infoDic;
+            }
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
             StartCoroutine(DelyLoadGraphList());
         }
 

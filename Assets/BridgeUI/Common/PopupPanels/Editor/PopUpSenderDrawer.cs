@@ -6,8 +6,8 @@ using System;
 
 namespace BridgeUI.Common
 {
-    [CustomEditor(typeof(PopUpSender))]
-    public class PopUpSenderDrawer : Editor
+    [CustomEditor(typeof(PopupSender))]
+    public class PopupSenderDrawer : Editor
     {
         private SerializedProperty popEnumProp;
         private SerializedProperty scriptProp;

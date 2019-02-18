@@ -9,19 +9,34 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 ///<summary>
 ///[代码说明信息]
 ///<summary>
-public class InnerGroupTestPanel : BridgeUI.SinglePanel
+public class InnerGroupTestPanel : ViewBaseComponent
 {
-	protected override void Awake ()
-	{
-		base.Awake ();
-		m_openPopUp.onClick.AddListener (OpenPopUpTest);
-	}
+    [SerializeField]
+    private UnityEngine.UI.Button m_openPopUp;
 
-	protected void OpenPopUpTest ()
+    [SerializeField]
+    private UnityEngine.UI.Button m_openPopUpSelf;
+
+    protected void Awake()
+    {
+        m_openPopUp.onClick.AddListener(OpenPopUpTest);
+        m_openPopUpSelf.onClick.AddListener(OpenPopupSelfOnly);
+    }
+
+    private void OpenPopupSelfOnly()
+    {
+        Open(PanelNames.PopupPanel, new string[] {
+            "只加载同group的面板",
+            "。。。预测加载不出来！"
+        });
+    }
+
+    protected void OpenPopUpTest ()
 	{
 		UIFacade.Instence.Open (PanelNames.PopupPanel, new string[] {
 			"子模块界面打开方案",
@@ -29,6 +44,14 @@ public class InnerGroupTestPanel : BridgeUI.SinglePanel
 		});
 	}
 
-	[SerializeField]
-	private UnityEngine.UI.Button m_openPopUp;
+
+    protected override void OnInitialize()
+    {
+    }
+
+    protected override void OnRecover()
+    {
+    }
+
+   
 }

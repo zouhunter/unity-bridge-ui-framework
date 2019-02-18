@@ -4,12 +4,13 @@ namespace BridgeUI.Binding
 {
     public interface IViewModel
     {
-        bool ContainsKey(string key);
-        void OnBinding(IBindingContext context);
-        void OnUnBinding(IBindingContext context);
-        BindableProperty<T> GetBindableProperty<T>(string keyward);
-        IBindableProperty GetBindableProperty(string keyward, System.Type type);
-        void SetBindableProperty(string keyward, IBindableProperty value);
+        bool ContainsKey(byte keyword);
+        void OnAfterBinding(BridgeUI.IUIPanel panel);
+        void OnBeforeUnBinding(BridgeUI.IUIPanel panel);
+        bool HaveDefultProperty(byte keyword);
+        BindableProperty<T> GetBindableProperty<T>(byte keyword);
+        IBindableProperty GetBindableProperty(byte keyword, System.Type type);
+        void SetBindableProperty(byte keyword, IBindableProperty value);
     }
 
 }

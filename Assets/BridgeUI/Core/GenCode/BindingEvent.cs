@@ -24,8 +24,7 @@ namespace BridgeUI.CodeGen
 
     public enum BindingType
     {
-        NoBinding = 0,
-        Normal = 1,
-        WithTarget = 2
+        Simple = 0,
+        Full = 1
     }
 }

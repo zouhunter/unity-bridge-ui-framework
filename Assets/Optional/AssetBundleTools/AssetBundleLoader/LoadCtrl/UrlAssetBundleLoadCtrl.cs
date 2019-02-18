@@ -5,6 +5,8 @@ using System.IO;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
+
 namespace AssetBundles
 {
     public interface IUrlAssetBundleLoadCtrl

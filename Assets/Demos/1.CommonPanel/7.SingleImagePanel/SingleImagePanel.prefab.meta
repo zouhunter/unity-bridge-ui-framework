@@ -1,8 +1,7 @@
 fileFormatVersion: 2
 guid: adec64d1277f9724681a8cc49e0f22c0
-NativeFormatImporter:
+PrefabImporter:
   externalObjects: {}
-  mainObjectFileID: -1
   userData: 
   assetBundleName: bridgeui/panels/singleimagepanel.assetbundle
   assetBundleVariant: 

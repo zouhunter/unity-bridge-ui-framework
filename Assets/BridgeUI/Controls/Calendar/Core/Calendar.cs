@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 namespace BridgeUI.Control
 {
     //from:https://github.com/ll4080333/UnityCodes.git
-    public class Calendar : UIBehaviour
+    public class Calendar : BridgeUIControl
     {
         #region click events
         public class DayClickEvent : UnityEvent<DateTime>{}
@@ -34,7 +34,6 @@ namespace BridgeUI.Control
             get { return m_onYearClickEvent; }
             set { m_onYearClickEvent = value; }
         }
-
         #endregion
 
         #region private && public members
@@ -51,8 +50,7 @@ namespace BridgeUI.Control
         private readonly List<DMY> _daysPool = new List<DMY>();
         private readonly List<DMY> _monthYearPool = new List<DMY>();
         #endregion
-
-        protected override void Awake()
+        protected void Awake()
         {
             m_Transform = transform;
             _timeButtonText = m_Transform.Find("Title/TimeButton/Text").GetComponent<Text>();
@@ -271,6 +269,17 @@ namespace BridgeUI.Control
             for ( int i = 0 ; i < _monthYearPool.Count ; i++ )
                 _monthYearPool[i].SetYear(dateTimes[i] , DisplayType);
         }
+
+        protected override void OnInititalize()
+        {
+            
+        }
+
+        protected override void OnUnInitialize()
+        {
+
+        }
+
         #endregion
     }
 

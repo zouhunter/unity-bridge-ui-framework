@@ -10,93 +10,79 @@ namespace BridgeUI
     /// <summary>
     /// 界面操作接口
     /// </summary>
-    public sealed class UIFacade : IUIFacade
+    public class UIFacadeInternal : IUIFacade
     {
-        private static UIFacade _instence;
-        public static UIFacade Instence
-        {
-            get
-            {
-                if (_instence == null)
-                {
-                    _instence = new UIFacade();
-                }
-                return _instence;
-            }
-        }
-        private static GameObjectPool _panelPool;
-        public static GameObjectPool PanelPool
-        {
-            get
-            {
-                if (_panelPool == null || !_panelPool.transform)
-                {
-                    var gameObjectPool = new GameObject("PanelPool");
-                    _panelPool = new GameObjectPool(gameObjectPool.transform);
-                }
-                return _panelPool;
-            }
-        }
-        // Facade实例
-        // 面板组
-        private static List<IPanelGroup> groupList = new List<IPanelGroup>();
         //handle池
-        private static UIHandlePool handlePool = new UIHandlePool();
+        private UIHandlePool handlePool = new UIHandlePool();
         private event UnityAction<IUIPanel> onCreate;
         private event UnityAction<IUIPanel> onClose;
 
-        public static void RegistGroup(IPanelGroup group)
+        public void Open(string panelName, object data = null)
         {
-            if (!groupList.Contains(group))
-            {
-                groupList.Add(group);
-            }
+            this.Open(null, panelName, data);
         }
 
-        public static void UnRegistGroup(IPanelGroup group)
+        public void Open(IUIPanel parentPanel, string panelName, object data = null)
         {
-            if (groupList.Contains(group))
-            {
-                groupList.Remove(group);
-            }
+            this.Open(parentPanel, panelName, -1, data);
         }
-
-        public IUIHandle Open(string panelName, object data = null)
-        {
-            return Open(null, panelName, data);
-        }
-
-        public IUIHandle Open(IUIPanel parent, string panelName, object data = null)
-        {
-            return this.Open(parent, panelName, -1, data);
-        }
-
-        public IUIHandle Open(IUIPanel parent, string panelName, int index, object data = null)
+        public void Open(IUIPanel parentPanel, string panelName, int index, object data = null)
         {
             var handle = handlePool.Allocate(panelName);
+            Open_Internal(handle, parentPanel, panelName, index, data);
+        }
 
+
+        public void Open(string panelName, IPanelVisitor uiData)
+        {
+            Open(null, panelName, uiData);
+        }
+
+        public void Open(IUIPanel parentPanel, string panelName, IPanelVisitor uiData)
+        {
+            var handle = handlePool.Allocate(panelName);
+            object data = null;
+            if (uiData != null)
+            {
+                data = uiData.Data;
+                uiData.Binding(handle);
+                handle.RegistOnRecover(uiData.Recover);
+            }
+            Open_Internal(handle, parentPanel, panelName, -1, data);
+        }
+
+        private void Open_Internal(UIHandle handle, IUIPanel parent, string panelName, int index, object data = null)
+        {
             var currentGroup = parent == null ? null : parent.Group;
-
+            var openOK = false;
             if (currentGroup != null)//限制性打开
             {
-                InternalOpen(parent, currentGroup, handle, panelName, index);
+                openOK = InternalOpen(parent, currentGroup, handle, panelName, index);
             }
             else
             {
+                var groupList = Utility.GetActivePanelGroups();
                 foreach (var group in groupList)
                 {
-                    InternalOpen(parent, group, handle, panelName, index);
+                    openOK |= InternalOpen(parent, group, handle, panelName, index);
                 }
             }
 
-            if (data != null)
+            if (openOK)
             {
-                handle.Send(data);
+                if (data != null)
+                {
+                    handle.Send(data);
+                }
             }
-
-            return handle;
+            else
+            {
+#if UNITY_EDITOR
+                Debug.Log("未打开成功，请检查配制信息");
+#endif
+            }
+            handle.Dispose();
         }
- 
 
         public void Hide(string panelName)
         {
@@ -111,14 +97,14 @@ namespace BridgeUI
             }
             else
             {
+                var groupList = Utility.GetActivePanelGroups();
+
                 foreach (var group in groupList)
                 {
                     InternalHide(group, panelName);
                 }
             }
         }
-
-
 
         public void Close(IPanelGroup currentGroup, string panelName)
         {
@@ -128,21 +114,26 @@ namespace BridgeUI
             }
             else
             {
+                var groupList = Utility.GetActivePanelGroups();
+
                 foreach (var group in groupList)
                 {
                     InteralClose(group, panelName);
                 }
             }
         }
+
         public void Close(string panelName)
         {
             Close(null, panelName);
         }
 
-
         public bool IsPanelOpen(string panelName)
         {
             bool globleHave = false;
+
+            var groupList = Utility.GetActivePanelGroups();
+
             foreach (var item in groupList)
             {
                 globleHave |= IsPanelOpen(item, panelName);
@@ -156,16 +147,60 @@ namespace BridgeUI
             return (panels != null && panels.Count > 0);
         }
 
+        public bool IsPanelOpen<T>(string panelName, out T[] panels)
+        {
+            var groupList = Utility.GetActivePanelGroups();
+            var objpanels = new List<T>();
+            var findPanel = false;
+            foreach (var item in groupList)
+            {
+                T[] subpanels = null;
+                if (IsPanelOpen(item, panelName, out subpanels))
+                {
+                    objpanels.AddRange(subpanels);
+                    findPanel = true;
+                }
+            }
+
+            if (findPanel)
+            {
+                panels = objpanels.ToArray();
+            }
+            else
+            {
+                panels = null;
+            }
+
+            return findPanel;
+        }
+
+
+        public bool IsPanelOpen<T>(IPanelGroup parentPanel, string panelName, out T[] panels)
+        {
+            var obj_panels = parentPanel.RetrivePanels(panelName);
+            if (obj_panels != null && obj_panels.Count > 0)
+            {
+                panels = obj_panels.ToArray() as T[];
+                return true;
+            }
+            else
+            {
+                panels = null;
+                return false;
+            }
+        }
+
+
         public void RegistCreate(UnityAction<IUIPanel> onCreate)
         {
             if (onCreate == null) return;
             this.onCreate -= onCreate;
             this.onCreate += onCreate;
         }
-        
+
         public void RegistClose(UnityAction<IUIPanel> onClose)
         {
-            if (onClose == null) return ;
+            if (onClose == null) return;
             this.onClose -= onClose;
             this.onClose += onClose;
         }
@@ -181,15 +216,43 @@ namespace BridgeUI
             this.onClose -= onClose;
         }
 
-        internal void InternalOpen(IUIPanel parentPanel, IPanelGroup group, IUIHandleInternal handle, string panelName, int index)
+        internal bool InternalOpen(IUIPanel parentPanel, IPanelGroup group, IUIHandleInternal handle, string panelName, int index)
         {
             var Content = parentPanel == null ? null : parentPanel.Content;
-            Bridge bridgeObj = group.InstencePanel(parentPanel, panelName, index, Content);
-            if (bridgeObj != null) {
+
+            UIInfoBase uiInfo;
+
+            group.Nodes.TryGetValue(panelName, out uiInfo);
+
+            if (uiInfo == null)
+            {
+                return false;
+            }
+
+            Bridge bridge;
+
+
+            if (group.TryOpenOldPanel(panelName, uiInfo, parentPanel,out bridge))
+            {
                 handle.RegistCreate(OnCreate);
                 handle.RegistClose(OnClose);
-                handle.RegistBridge(bridgeObj);
+                handle.RegistBridge(bridge);
+                return true;
             }
+            else
+            {
+                if (group.CreateInfoAndBridge(panelName, parentPanel, index, uiInfo, out bridge))
+                {
+                    handle.RegistCreate(OnCreate);
+                    handle.RegistClose(OnClose);
+                    handle.RegistBridge(bridge);
+
+                    group.CreatePanel(uiInfo, bridge, parentPanel);
+                    return true;
+                }
+            }
+
+            return false;
         }
         private void InternalHide(IPanelGroup group, string panelName)
         {
@@ -202,6 +265,7 @@ namespace BridgeUI
                 }
             }
         }
+
         private void InteralClose(IPanelGroup group, string panelName)
         {
             var panels = group.RetrivePanels(panelName);
@@ -217,7 +281,7 @@ namespace BridgeUI
 
         private void OnCreate(IUIPanel panel)
         {
-            if(this.onCreate != null)
+            if (this.onCreate != null)
             {
                 this.onCreate.Invoke(panel);
             }
@@ -225,9 +289,28 @@ namespace BridgeUI
 
         private void OnClose(IUIPanel panel)
         {
-            if(this.onClose != null)
+            if (this.onClose != null)
             {
                 this.onClose.Invoke(panel);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 便于使用的单例
+    /// </summary>
+    public sealed class UIFacade
+    {
+        private static UIFacadeInternal _instence;
+        public static UIFacadeInternal Instence
+        {
+            get
+            {
+                if (_instence == null)
+                {
+                    _instence = new UIFacadeInternal();
+                }
+                return _instence;
             }
         }
     }

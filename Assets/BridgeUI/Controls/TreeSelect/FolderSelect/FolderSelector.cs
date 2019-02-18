@@ -4,6 +4,7 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace BridgeUI.Control.Tree
 {
@@ -23,12 +24,8 @@ namespace BridgeUI.Control.Tree
                 return currentSelection.Count();
             }
         }
-        protected override void Awake()
-        {
-            base.Awake();
-            creater.onSelectID.AddListener(OnBodySelect);
-            creater.singleChoise = true;
-        }
+
+
         #region public
         public override void CreateTree(Tree.TreeNode nodeBase)
         {
@@ -199,6 +196,18 @@ namespace BridgeUI.Control.Tree
 
             //更新显示
             ChargeHeadOption(currentSelection.ToArray());
+        }
+
+        protected override void OnInititalize()
+        {
+            creater.Initialize(context);
+            creater.onSelectID.AddListener(OnBodySelect);
+            creater.SetSingleSelect();
+        }
+
+        protected override void OnUnInitialize()
+        {
+            creater.onSelectID.RemoveListener(OnBodySelect);
         }
     }
 }

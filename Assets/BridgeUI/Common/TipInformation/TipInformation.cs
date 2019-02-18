@@ -1,13 +1,13 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using BridgeUI;
+
 namespace BridgeUI.Common
 {
-    public class TipInformation : SinglePanel
+    public class TipInformation : ViewBaseComponent
     {
         public const string closeKey = "close";
         public InputField.OnChangeEvent onGetText;
@@ -24,7 +24,7 @@ namespace BridgeUI.Common
                 if (timer > lifeTime)
                 {
                     timer = 0f;
-                    Destroy(gameObject);
+                    Object.Destroy(gameObject);
                 }
             }
         }
@@ -44,7 +44,7 @@ namespace BridgeUI.Common
             onGetText.Invoke(this.info.text);
         }
 
-        protected override void HandleData(object message)
+        protected override void OnMessageReceive(object message)
         {
             string title = null;
             string info = null;
@@ -99,6 +99,14 @@ namespace BridgeUI.Common
             }
 
             OnReceive(title, info);
+        }
+
+        protected override void OnInitialize()
+        {
+        }
+
+        protected override void OnRecover()
+        {
         }
     }
 }

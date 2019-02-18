@@ -26,7 +26,8 @@ namespace BridgeUI.Model
         /// <param name="onCreate"></param>
         public void CreatePanel(UIInfoBase itemInfo, UnityEngine.Events.UnityAction<GameObject> onCreate)
         {
-            if (_cansaleKeys.Contains(itemInfo.panelName)) _cansaleKeys.RemoveAll(x => x == itemInfo.panelName);
+            if (_cansaleKeys.Contains(itemInfo.panelName))
+                _cansaleKeys.RemoveAll(x => x == itemInfo.panelName);
 
             if (!_loadingKeys.Contains(itemInfo.IDName))
             {

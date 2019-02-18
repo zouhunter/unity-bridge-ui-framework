@@ -13,17 +13,22 @@ namespace BridgeUI.Drawer
     public class BindingWindow : EditorWindow
     {
 
-        [UnityEditor.Callbacks.OnOpenAsset()]
+        [UnityEditor.Callbacks.OnOpenAsset(0)]
         public static bool OnOpenAsset(int instanceID, int line)
         {
             var prefab = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
             if (prefab != null && prefab.GetComponent<RectTransform>())
             {
-                GenCodeUtil.ChoiseAnUserMonobehiver(prefab, v => {
-                    if(v)
+                GenCodeUtil.ChoiseAnReferenceMonobehiver(prefab, v =>
+                {
+                    if (v)
                     {
                         var window = GetWindow<BindingWindow>();
                         window.OpenWith(v);
+                    }
+                    else
+                    {
+                        Debug.LogError("预制体上未找到引用脚本！");
                     }
                 });
                 return true;
@@ -37,23 +42,25 @@ namespace BridgeUI.Drawer
         private string[] options = { "控件管理", "检视面板" };
         private MonoBehaviour panelCompnent;
         private Editor panelDrawer;
-        private GenCodeRule rule = new GenCodeRule();
+        private GenCodeRule rule;
         private System.Collections.Generic.List<ComponentItem> components = new List<ComponentItem>();
         private ReorderableList preComponentList;
         private ComponentItemDrawer itemDrawer = new ComponentItemDrawer();
-        private bool BindingAble
-        {
-            get
-            {
-                return typeof(PanelBase).IsAssignableFrom(typeof(PanelBase).Assembly.GetType(GenCodeUtil.supportBaseTypes[rule.baseTypeIndex]));
-            }
-        }
         private Vector2 scrollPos;
+        private bool bindingAble;
+
         private void OpenWith(MonoBehaviour behaiver)
         {
             this.prefab = behaiver.gameObject;
+            rule = new GenCodeRule(Setting.defultNameSpace);
             InitPanelNode();
             SwitchComponent(behaiver);
+        }
+        private void UpdateBindingAble()
+        {
+            var baseTypeStr = GenCodeUtil.supportBaseTypes[rule.baseTypeIndex];
+            var baseType = typeof(BindingViewBase).Assembly.GetType(baseTypeStr);
+            bindingAble = typeof(BindingViewBase).IsAssignableFrom(baseType);
         }
 
         private void OnGUI()
@@ -70,24 +77,27 @@ namespace BridgeUI.Drawer
         {
             if (preComponentList == null)
             {
+                UpdateBindingAble();
+
                 preComponentList = new ReorderableList(components, typeof(ComponentItem));
                 preComponentList.drawHeaderCallback = DrawComponetHeader;
                 //preComponentList.elementHeight = itemDrawer.singleLineHeight;
                 preComponentList.showDefaultBackground = true;
+
                 preComponentList.elementHeightCallback += (index) =>
                 {
                     var prop = components[index];
-                    return itemDrawer.GetItemHeight(prop, BindingAble);
+                    return itemDrawer.GetItemHeight(prop,bindingAble);
                 };
                 preComponentList.drawElementCallback += (rect, index, isFocused, isActive) =>
                 {
-                    itemDrawer.DrawItemOnRect(rect, index, components[index], BindingAble);
+                    itemDrawer.DrawItemOnRect(rect, index, components[index], bindingAble);
                 };
                 preComponentList.drawElementBackgroundCallback += (rect, index, isFocused, isActive) =>
                 {
                     if (components.Count > index && index >= 0)
                     {
-                        itemDrawer.DrawBackground(rect, isFocused, components[index], BindingAble);
+                        itemDrawer.DrawBackground(rect, isFocused, components[index], bindingAble);
                     }
                 };
 
@@ -108,34 +118,34 @@ namespace BridgeUI.Drawer
         private void SwitchComponent(MonoBehaviour v)
         {
             panelCompnent = v;
-            if (panelCompnent != null){
+            if (panelCompnent != null)
+            {
                 panelDrawer = UnityEditor.Editor.CreateEditor(panelCompnent);
             }
-            InitPanelBase(v);
-            GenCodeUtil.AnalysisComponent(panelCompnent, components,rule);
+            GenCodeUtil.AnalysisComponent(panelCompnent, components, rule);
         }
 
-        private void InitPanelBase(MonoBehaviour v)
-        {
-            if (v is PanelBase)
-            {
-                var type = v.GetType();
-                var find = false;
-                while (!find && type.BaseType != typeof(object))
-                {
-                    type = type.BaseType;
-                    for (int i = 0; i < GenCodeUtil.supportBaseTypes.Length; i++)
-                    {
-                        if(type.FullName == GenCodeUtil.supportBaseTypes[i])
-                        {
-                            rule.baseTypeIndex = i;
-                            find = true;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+        //private void InitPanelBase(MonoBehaviour v)
+        //{
+        //    if (v is BindingViewBase)
+        //    {
+        //        var type = v.GetType();
+        //        var find = false;
+        //        while (!find && type.BaseType != typeof(object))
+        //        {
+        //            type = type.BaseType;
+        //            for (int i = 0; i < GenCodeUtil.supportBaseTypes.Length; i++)
+        //            {
+        //                if (type.FullName == GenCodeUtil.supportBaseTypes[i])
+        //                {
+        //                    rule.baseTypeIndex = i;
+        //                    find = true;
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         private void DrawComponetHeader(Rect rect)
         {
@@ -172,7 +182,8 @@ namespace BridgeUI.Drawer
                 prefab = EditorGUILayout.ObjectField(prefab, typeof(GameObject), false) as GameObject;
                 if (EditorGUI.EndChangeCheck())
                 {
-                    GenCodeUtil.ChoiseAnUserMonobehiver(prefab, v => {
+                    GenCodeUtil.ChoiseAnReferenceMonobehiver(prefab, v =>
+                    {
                         OpenWith(v);
                     });
                 }
@@ -224,14 +235,15 @@ namespace BridgeUI.Drawer
 
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
+                GUILayout.FlexibleSpace();
                 if (GUILayout.Button(new GUIContent("→", "快速绑定"), EditorStyles.toolbarButton, GUILayout.Width(20)))
                 {
-                    BridgeUI.CodeGen.GenCodeUtil.BindingUI(panelCompnent, components);
+                    BridgeUI.CodeGen.GenCodeUtil.BindingUIComponents(panelCompnent, components);
                 }
             }
 
             GUILayout.Space(5);
-            
+
             if (panelDrawer != null)
             {
                 panelDrawer.OnInspectorGUI();
@@ -244,10 +256,12 @@ namespace BridgeUI.Drawer
         {
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                GUILayout.FlexibleSpace();
+                GUILayout.Label("命名空间", GUILayout.Width(60));
+                rule.nameSpace = GUILayout.TextField(rule.nameSpace);
                 if (GUILayout.Button(new GUIContent("←", "快速解析"), EditorStyles.toolbarButton, GUILayout.Width(20)))
                 {
-                    GenCodeUtil.ChoiseAnUserMonobehiver(prefab, component => {
+                    GenCodeUtil.ChoiseAnReferenceMonobehiver(prefab, component =>
+                    {
                         if (component == null)
                         {
                             EditorApplication.Beep();
@@ -255,10 +269,10 @@ namespace BridgeUI.Drawer
                         else
                         {
                             //从旧的脚本解析出
-                            GenCodeUtil.AnalysisComponent(component, components,rule);
+                            GenCodeUtil.AnalysisComponent(component, components, rule);
                         }
                     });
-                    
+
                 }
 
             }
@@ -266,13 +280,19 @@ namespace BridgeUI.Drawer
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("BaseType:", GUILayout.Width(lableWidth));
+                EditorGUI.BeginChangeCheck();
                 rule.baseTypeIndex = EditorGUILayout.Popup(rule.baseTypeIndex, GenCodeUtil.supportBaseTypes);
-                if (GUILayout.Button(new GUIContent("update", "更新脚本控件信息"), EditorStyles.miniButton, GUILayout.Width(60)))
+                if(EditorGUI.EndChangeCheck())
+                {
+                    UpdateBindingAble();
+                }
+                if (GUILayout.Button("update", EditorStyles.miniButton, GUILayout.Width(60)))
                 {
                     var go = prefab;
-                    rule.bindingAble = BindingAble;
-                    GenCodeUtil.UpdateScripts(go, components, rule);
+                    rule.bindingAble = bindingAble;
+                    GenCodeUtil.UpdateBindingScripts(go, components, rule);
                 }
+
             }
 
 
@@ -304,8 +324,9 @@ namespace BridgeUI.Drawer
                             if (item is GameObject)
                             {
                                 var obj = item as GameObject;
-                                var parent = PrefabUtility.GetPrefabParent(obj);
-                                if (parent){
+                                var parent = PrefabUtility.GetCorrespondingObjectFromSource(obj);
+                                if (parent)
+                                {
                                     obj = parent as GameObject;
                                 }
                                 var c_item = new ComponentItem(obj);

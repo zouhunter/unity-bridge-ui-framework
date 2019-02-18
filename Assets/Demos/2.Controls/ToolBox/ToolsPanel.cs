@@ -17,7 +17,7 @@ using System.Linq;
 /// <summary>
 /// MonoBehaiver
 /// <summary>
-public class ToolsPanel : SinglePanel
+public class ToolsPanel : ViewBaseComponent
 {
     [SerializeField]
     private ToolContainer toolContainer;
@@ -26,17 +26,7 @@ public class ToolsPanel : SinglePanel
     private GameObject current;
     [SerializeField]
     private List<ToolData> toolDatas;
-    protected override void Awake()
-    {
-        surchField.onEndEdit.AddListener(OnFliterChanged);
-    }
-
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        OnFliterChanged(null);
-    }
-
+    
     public static void CollectTreeLeaf<T>(T root, ref List<T> leafs) where T : ModelTree
     {
         if (leafs == null) leafs = new List<T>();
@@ -64,5 +54,17 @@ public class ToolsPanel : SinglePanel
             var worpData = toolDatas.Where(x => x.title.Contains(arg0)).ToList();
             toolContainer.tools = worpData;
         }
+    }
+
+    protected override void OnInitialize()
+    {
+        surchField.onEndEdit.AddListener(OnFliterChanged);
+        toolContainer.Initialize(this);
+        OnFliterChanged(null);
+    }
+
+    protected override void OnRecover()
+    {
+        toolContainer.Recover();
     }
 }

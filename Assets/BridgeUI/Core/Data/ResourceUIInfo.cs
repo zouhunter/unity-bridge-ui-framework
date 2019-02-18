@@ -14,10 +14,10 @@ namespace BridgeUI.Model
     [System.Serializable]
     public class ResourceUIInfo : UIInfoBase
     {
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         public string guid;
         public bool good;
-#endif
+//#endif
         public string resourcePath;
         public override string IDName { get { return resourcePath + panelName; } }
     }

@@ -12,8 +12,10 @@ namespace BridgeUI
         Transform Trans { get; }
         Dictionary<string, UIInfoBase> Nodes { get; }
         List<IUIPanel> RetrivePanels(string panelName);
-        UIBindingController bindingCtrl { get; }
-        Bridge InstencePanel(IUIPanel parentPanel, string panelName, int index, Transform root);
+        UIBindingController BindingCtrl { get; }
+        bool TryOpenOldPanel(string panelName, UIInfoBase uiInfo, IUIPanel parentPanel, out Bridge bridgeObj);
+        bool CreateInfoAndBridge(string panelName, IUIPanel parentPanel, int index, UIInfoBase uiInfo, out Bridge bridgeObj);
+        void CreatePanel(UIInfoBase uiNode, Bridge bridge, IUIPanel parentPanel);
         void CansaleInstencePanel(string panelName);
     }
 }

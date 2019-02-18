@@ -24,11 +24,12 @@ public class CommonPanelTest : MonoBehaviour
             }
             if (GUILayout.Button("PopUpPanel -enum network"))
             {
-                var handle = UIFacade.Instence.Open(PanelNames.PopupPanel, NetWorkInfos.OnNetError);
-                handle.RegistCallBack((panel, data) =>
-                {
-                    Debug.Log("call back :" + data);
-                });
+                UIFacade.Instence.Open(PanelNames.PopupPanel, NetWorkInfos.OnNetError);
+                //var handle = 
+                //handle.RegistCallBack((panel, data) =>
+                //{
+                //    Debug.Log("call back :" + data);
+                //});
             }
             if (GUILayout.Button("PopUpPanel -enum file"))
             {

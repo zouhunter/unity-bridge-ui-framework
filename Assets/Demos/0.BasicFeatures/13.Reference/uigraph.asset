@@ -1,0 +1,478 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d2d9de1cba75443b53732fa8104050, type: 3}
+  m_Name: uigraph
+  m_EditorClassIdentifier: 
+  m_allNodes:
+  - m_name: SperatePanel
+    m_id: 5bfb4d0a-e980-45c5-9110-2599f14d3e20
+    m_x: 408
+    m_y: 276
+    m_node: {fileID: 114259666967928302}
+    m_inputPoints:
+    - id: aca265ed-3c96-4bf8-a683-a2ab1fb1e4bd
+      label: "\u2192"
+      parentId: 5bfb4d0a-e980-45c5-9110-2599f14d3e20
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 20
+      type: bridge
+    m_outputPoints:
+    - id: 0ec5ae8b-154e-4dc1-af52-6d4c7bc43771
+      label: empty(0)
+      parentId: 5bfb4d0a-e980-45c5-9110-2599f14d3e20
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 119
+        y: 21.5
+        width: 10
+        height: 23
+      max: 20
+      type: bridge
+  - m_name: AnyState
+    m_id: b4304368-653e-406c-bab6-332feb7b5667
+    m_x: 12
+    m_y: 84
+    m_node: {fileID: 114551266655383798}
+    m_inputPoints: []
+    m_outputPoints:
+    - id: 3dc0c155-2136-4524-b40e-677b79c4bf91
+      label: "\u2192"
+      parentId: b4304368-653e-406c-bab6-332feb7b5667
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  - m_name: SelectablePanel
+    m_id: 7f3f9623-ad31-4a07-8d47-6d620bbb1da8
+    m_x: 192
+    m_y: 276
+    m_node: {fileID: 114006909662613432}
+    m_inputPoints:
+    - id: 0ff71cf8-1a84-440b-88dd-fc0022b425cb
+      label: "\u2192"
+      parentId: 7f3f9623-ad31-4a07-8d47-6d620bbb1da8
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 20
+      type: bridge
+    m_outputPoints:
+    - id: 6bb3b5a4-2c54-45f3-83f9-8364bd0feb6c
+      label: Button(0)
+      parentId: 7f3f9623-ad31-4a07-8d47-6d620bbb1da8
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 133
+        y: 21.5
+        width: 10
+        height: 23
+      max: 20
+      type: bridge
+  - m_name: EmptyPanel
+    m_id: 61332525-e6a5-49d2-9697-b5817fabda2d
+    m_x: 600
+    m_y: 312
+    m_node: {fileID: 114350091575757118}
+    m_inputPoints:
+    - id: ddfa4e66-6c62-4585-a28a-9a744140091e
+      label: "\u2192"
+      parentId: 61332525-e6a5-49d2-9697-b5817fabda2d
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 20
+      type: bridge
+    m_outputPoints: []
+  m_allConnections:
+  - m_id: 9c07e980-4c71-4902-b44e-cc3adc9eff79
+    m_fromNodeId: b4304368-653e-406c-bab6-332feb7b5667
+    m_fromNodeConnectionPointId: 3dc0c155-2136-4524-b40e-677b79c4bf91
+    m_toNodeId: 7f3f9623-ad31-4a07-8d47-6d620bbb1da8
+    m_toNodeConnectionPoiontId: 0ff71cf8-1a84-440b-88dd-fc0022b425cb
+    m_type: bridge
+    m_connection: {fileID: 114222545365191904}
+  - m_id: b42ba80f-8dcc-49c8-a0d0-7f03979686b6
+    m_fromNodeId: 7f3f9623-ad31-4a07-8d47-6d620bbb1da8
+    m_fromNodeConnectionPointId: 6bb3b5a4-2c54-45f3-83f9-8364bd0feb6c
+    m_toNodeId: 5bfb4d0a-e980-45c5-9110-2599f14d3e20
+    m_toNodeConnectionPoiontId: aca265ed-3c96-4bf8-a683-a2ab1fb1e4bd
+    m_type: bridge
+    m_connection: {fileID: 114391791859344562}
+  - m_id: 4e897132-0233-4803-9fbf-649df2b3569b
+    m_fromNodeId: 5bfb4d0a-e980-45c5-9110-2599f14d3e20
+    m_fromNodeConnectionPointId: 0ec5ae8b-154e-4dc1-af52-6d4c7bc43771
+    m_toNodeId: 61332525-e6a5-49d2-9697-b5817fabda2d
+    m_toNodeConnectionPoiontId: ddfa4e66-6c62-4585-a28a-9a744140091e
+    m_type: bridge
+    m_connection: {fileID: 114381867809123970}
+  m_lastModified: 131946467782868045
+  m_graphDescription: 
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
+  loadType: 1
+  b_nodes: []
+  p_nodes:
+  - instanceID: 0
+    discription: 
+    panelName: SperatePanel
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 3
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+    prefab: {fileID: 1012276616904055487, guid: 2eba6a5b78a53404e93af16186ba9e44,
+      type: 3}
+  - instanceID: 0
+    discription: 
+    panelName: SelectablePanel
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+    prefab: {fileID: 1607587773768233449, guid: f42259d3c74a5fa4c8d5d54eaac64ad3,
+      type: 3}
+  - instanceID: 0
+    discription: 
+    panelName: EmptyPanel
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+    prefab: {fileID: 8450794553522169006, guid: 167faa3d108002b4893665c83b72c736,
+      type: 3}
+  r_nodes: []
+  bridges:
+  - inNode: 
+    outNode: SelectablePanel
+    index: 0
+    showModel:
+      _auto: 1
+      _single: 0
+      mutex: 0
+      baseShow: 0
+  - inNode: SelectablePanel
+    outNode: SperatePanel
+    index: 0
+    showModel:
+      _auto: 0
+      _single: 0
+      mutex: 0
+      baseShow: 1
+  - inNode: SperatePanel
+    outNode: EmptyPanel
+    index: 0
+    showModel:
+      _auto: 0
+      _single: 0
+      mutex: 0
+      baseShow: 0
+--- !u!114 &114006909662613432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: SelectablePanel
+  m_EditorClassIdentifier: 
+  selected: 1
+  instenceID: 0
+  assetName: SelectablePanel
+  style: 1
+  nodedescribe:
+  - Button
+  rule:
+    baseTypeIndex: 0
+    nameSpace: GView
+    canInherit: 0
+    bindingAble: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+    guid: f42259d3c74a5fa4c8d5d54eaac64ad3
+    discription: 
+--- !u!114 &114222545365191904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 1
+    _single: 0
+    mutex: 0
+    baseShow: 0
+--- !u!114 &114259666967928302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: SperatePanel
+  m_EditorClassIdentifier: 
+  selected: 1
+  instenceID: 0
+  assetName: SperatePanel
+  style: 1
+  nodedescribe:
+  - empty
+  rule:
+    baseTypeIndex: 2
+    nameSpace: GView
+    canInherit: 0
+    bindingAble: 0
+  components:
+  - open: 0
+    name: apply_btn
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - type: 0
+      bindingSource: apply_click
+      bindingTarget: onClick
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Button+ButtonClickedEvent
+    - type: 0
+      bindingSource: apply_btn
+      bindingTarget: onClick
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Button+ButtonClickedEvent
+    target: {fileID: 1012276617682264058, guid: 2eba6a5b78a53404e93af16186ba9e44,
+      type: 3}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
+    name: title
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Text
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems:
+    - isMethod: 0
+      bindingSource: title
+      bindingTarget: text
+      bindingTargetType:
+        assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        typeName: System.String
+    - isMethod: 0
+      bindingSource: font_size
+      bindingTarget: fontSize
+      bindingTargetType:
+        assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        typeName: System.Int32
+    eventItems: []
+    target: {fileID: 1012276616434113938, guid: 2eba6a5b78a53404e93af16186ba9e44,
+      type: 3}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
+    name: close
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems: []
+    eventItems:
+    - type: 0
+      bindingSource: on_close_click
+      bindingTarget: onClick
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Button+ButtonClickedEvent
+    target: {fileID: 3651845704554996215, guid: 2eba6a5b78a53404e93af16186ba9e44,
+      type: 3}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 3
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+    guid: 2eba6a5b78a53404e93af16186ba9e44
+    discription: 
+--- !u!114 &114350091575757118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: EmptyPanel
+  m_EditorClassIdentifier: 
+  selected: 1
+  instenceID: 0
+  assetName: EmptyPanel
+  style: 1
+  nodedescribe: []
+  rule:
+    baseTypeIndex: 0
+    nameSpace: GView
+    canInherit: 0
+    bindingAble: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+    guid: 167faa3d108002b4893665c83b72c736
+    discription: 
+--- !u!114 &114381867809123970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 0
+    _single: 0
+    mutex: 0
+    baseShow: 0
+--- !u!114 &114391791859344562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 0
+    _single: 0
+    mutex: 0
+    baseShow: 1
+--- !u!114 &114551266655383798
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
+  m_Name: BridgeUI.Graph.AnyNode
+  m_EditorClassIdentifier: 

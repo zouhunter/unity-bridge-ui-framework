@@ -1,0 +1,236 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d2d9de1cba75443b53732fa8104050, type: 3}
+  m_Name: graphA
+  m_EditorClassIdentifier: 
+  m_allNodes:
+  - m_name: RemotePanel
+    m_id: 1c75dad7-9f1b-4a97-9c22-7c2cca715272
+    m_x: 370
+    m_y: 160
+    m_node: {fileID: 114168316168891138}
+    m_inputPoints:
+    - id: 2a63cb9b-cf4f-44f7-9664-29934e29200c
+      label: "\u2192"
+      parentId: 1c75dad7-9f1b-4a97-9c22-7c2cca715272
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints:
+    - id: 56755b85-2be0-4e50-85bf-3ba3c72d963e
+      label: Button(0)
+      parentId: 1c75dad7-9f1b-4a97-9c22-7c2cca715272
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 118
+        y: 21.5
+        width: 10
+        height: 23
+      max: 20
+      type: bridge
+  - m_name: PopupPanel
+    m_id: b8b1edc0-b98f-475a-8f3e-ce729862394d
+    m_x: 552
+    m_y: 204
+    m_node: {fileID: 114432702166604054}
+    m_inputPoints:
+    - id: b6129d96-f3c0-4c14-8193-c730cb1ba8b7
+      label: 
+      parentId: b8b1edc0-b98f-475a-8f3e-ce729862394d
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 100
+      type: bridge
+    m_outputPoints: []
+  - m_name: AnyState
+    m_id: faaf738a-62f1-4bd9-a1be-7c9a2226e770
+    m_x: 194
+    m_y: 136
+    m_node: {fileID: 114795662446696180}
+    m_inputPoints: []
+    m_outputPoints:
+    - id: f87e50c0-e6fa-440a-a9d9-c2cea97e8dc6
+      label: +
+      parentId: faaf738a-62f1-4bd9-a1be-7c9a2226e770
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  m_allConnections:
+  - m_id: a4ff04ba-596f-4b08-b976-12f68e00f3f1
+    m_fromNodeId: faaf738a-62f1-4bd9-a1be-7c9a2226e770
+    m_fromNodeConnectionPointId: f87e50c0-e6fa-440a-a9d9-c2cea97e8dc6
+    m_toNodeId: 1c75dad7-9f1b-4a97-9c22-7c2cca715272
+    m_toNodeConnectionPoiontId: 2a63cb9b-cf4f-44f7-9664-29934e29200c
+    m_type: bridge
+    m_connection: {fileID: 114429075506013072}
+  - m_id: 851d2c20-c9a6-4540-a7e0-aa33aace341a
+    m_fromNodeId: 1c75dad7-9f1b-4a97-9c22-7c2cca715272
+    m_fromNodeConnectionPointId: 56755b85-2be0-4e50-85bf-3ba3c72d963e
+    m_toNodeId: b8b1edc0-b98f-475a-8f3e-ce729862394d
+    m_toNodeConnectionPoiontId: b6129d96-f3c0-4c14-8193-c730cb1ba8b7
+    m_type: bridge
+    m_connection: {fileID: 114464040839027092}
+  m_lastModified: 131784541375636463
+  m_graphDescription: 
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
+  loadType: 1
+  b_nodes: []
+  p_nodes:
+  - instanceID: 0
+    discription: 
+    panelName: RemotePanel
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+    prefab: {fileID: 1143669146650200, guid: b0ee069d0bc82f848bcb15f720ae214d, type: 3}
+  r_nodes: []
+  bridges:
+  - inNode: 
+    outNode: RemotePanel
+    index: 0
+    showModel:
+      _auto: 1
+      _single: 0
+      mutex: 0
+      baseShow: 0
+  - inNode: RemotePanel
+    outNode: PopupPanel
+    index: 0
+    showModel:
+      _auto: 0
+      _single: 0
+      mutex: 0
+      baseShow: 0
+--- !u!114 &114168316168891138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: RemotePanel
+  m_EditorClassIdentifier: 
+  selected: 3
+  instenceID: 0
+  assetName: RemotePanel
+  style: 2
+  nodedescribe:
+  - Button
+  rule:
+    baseTypeIndex: 0
+    nameSpace: 
+    canInherit: 0
+    bindingAble: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+    guid: b0ee069d0bc82f848bcb15f720ae214d
+    discription: 
+--- !u!114 &114429075506013072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 1
+    _single: 0
+    mutex: 0
+    baseShow: 0
+--- !u!114 &114432702166604054
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff5f928ce618db4b9be54804a0ed0da, type: 3}
+  m_Name: RemoteNode
+  m_EditorClassIdentifier: 
+--- !u!114 &114464040839027092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 0
+    _single: 0
+    mutex: 0
+    baseShow: 0
+--- !u!114 &114795662446696180
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
+  m_Name: AnyNode
+  m_EditorClassIdentifier: 

@@ -127,7 +127,9 @@ namespace BridgeUI.Extend.AssetBundleTools
 
         private bool CheckMenu()
         {
-            if (!resetMenuProp.boolValue) menuProp.stringValue = AssetBundleLoader.defultMenu;
+            if (!resetMenuProp.boolValue)
+                menuProp.stringValue = AssetBundleLoader.defultMenu;
+
             return !menuProp.stringValue.Contains("/")
                 && !menuProp.stringValue.Contains("\\")
                 && System.IO.Directory.Exists(Application.streamingAssetsPath + "/" + menuProp.stringValue);

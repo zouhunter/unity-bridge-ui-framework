@@ -20,18 +20,73 @@ namespace BridgeUI.Control.Tree
         [SerializeField, Header("[支持最多七层的规则]")]
         private List<ColumnTreeRule> rules = new List<ColumnTreeRule>();
         private ColumnTreeItemCreater[] creaters;
-        private ColumnTreeItemCreater rootCreater { get { if (creaters == null || creaters.Length == 0) return null; return creaters[0]; } }
-        private bool treeCreating;
-        protected override void Awake()
+        private ColumnTreeItemCreater rootCreater
         {
-            base.Awake();
-            InitCreaters();
+            get
+            {
+                if (creaters == null || creaters.Length == 0)
+                    return null;
+                return creaters[0];
+            }
         }
+        private bool treeCreating;
+        private GameObject itemPool;
+        private GameObjectPool pool;
 
         public override void CreateTree(TreeNode nodeBase)
         {
             base.CreateTree(nodeBase);
             AutoSelectFirst();
+        }
+        public override void AutoSelectFirst()
+        {
+            if (!Initialized) return;
+
+            if (rootCreater != null)
+            {
+                treeCreating = true;
+                OpenSelect(rootCreater, rootNode);
+                treeCreating = false;
+            }
+            OnSelectionChanged(GetCurrentSelected(creaters.Length));
+        }
+
+        public override void SetSelect(params string[] path)
+        {
+            if (!Initialized) return;
+
+            for (int i = 0; i < creaters.Length; i++)
+            {
+                var creater = creaters[i];
+                var node = GetTreeNode(rootNode, path, i);
+                var options = node.childern.Select(x => x.name).ToArray();
+                creater.OpenSelect(options);
+
+                if (options.Length > 0)
+                {
+                    creater.SetActiveItem(path[i], path.Length <= i);
+                }
+
+            }
+
+        }
+
+        public override void SetSelect(params int[] path)
+        {
+            if (!Initialized) return;
+
+            for (int i = 0; i < creaters.Length; i++)
+            {
+                var creater = creaters[i];
+                var node = GetTreeNode(rootNode, path, i);
+                var options = node.childern.Select(x => x.name).ToArray();
+                creater.OpenSelect(options);
+
+                if (options.Length > 0)
+                {
+                    creater.SetActiveItem(path[i], path.Length <= i);
+                }
+            }
         }
 
         private void OpenSelect(ColumnTreeItemCreater creater, TreeNode node)
@@ -53,58 +108,11 @@ namespace BridgeUI.Control.Tree
             creaters = new ColumnTreeItemCreater[rules.Count];
             for (int i = 0; i < creaters.Length; i++)
             {
-                creaters[i] = new ColumnTreeItemCreater(rules[i]);
+                creaters[i] = new ColumnTreeItemCreater(rules[i], pool);
                 var index = i + 1;
                 creaters[i].onChoise = (type) => { OnItemClicked(index, type); };
             }
         }
-
-        public override void AutoSelectFirst()
-        {
-            if (rootCreater != null)
-            {
-                treeCreating = true;
-                OpenSelect(rootCreater, rootNode);
-                treeCreating = false;
-            }
-            OnSelectionChanged(GetCurrentSelected(creaters.Length));
-        }
-
-        public override void SetSelect(params string[] path)
-        {
-            for (int i = 0; i < creaters.Length; i++)
-            {
-                var creater = creaters[i];
-                var node = GetTreeNode(rootNode, path,i);
-                var options = node.childern.Select(x => x.name).ToArray();
-                creater.OpenSelect(options);
-
-                if (options.Length > 0)
-                {
-                    creater.SetActiveItem(path[i], path.Length <= i);
-                }
-
-            }
-
-        }
-
-        public override void SetSelect(params int[] path)
-        {
-            for (int i = 0; i < creaters.Length; i++)
-            {
-                var creater = creaters[i];
-                var node = GetTreeNode(rootNode, path,i);
-                var options = node.childern.Select(x => x.name).ToArray();
-                creater.OpenSelect(options);
-
-                if (options.Length > 0)
-                {
-                    creater.SetActiveItem(path[i], path.Length <= i);
-                }
-            }
-        }
-
-
         private void OnItemClicked(int layer, string type)
         {
             List<string> selected = GetCurrentSelected(layer);
@@ -129,33 +137,53 @@ namespace BridgeUI.Control.Tree
             return selected;
         }
 
-        private TreeNode GetTreeNode(TreeNode node, string[] selection,int deepth = -1)
+        private TreeNode GetTreeNode(TreeNode node, string[] selection, int deepth = -1)
         {
             var root = node;
             if (deepth < 0) deepth = selection.Length;
             for (int i = 0; i < deepth; i++)
             {
-                root = Array.Find( root.childern,x => x.name == selection[i]);
+                root = Array.Find(root.childern, x => x.name == selection[i]);
             }
             return root;
         }
-        private TreeNode GetTreeNode(TreeNode node, int[] selection,int deepth = -1)
+        private TreeNode GetTreeNode(TreeNode node, int[] selection, int deepth = -1)
         {
             var root = node;
             if (deepth < 0) deepth = selection.Length;
             for (int i = 0; i < deepth; i++)
             {
-                if(root.childern != null && root.childern.Length > selection[i])
-                root = root.childern[selection[i]];
+                if (root.childern != null && root.childern.Length > selection[i])
+                    root = root.childern[selection[i]];
             }
             return root;
         }
 
         public override void ClearTree()
         {
+            if (!Initialized) return;
+
             foreach (var item in creaters)
             {
                 item.Clear();
+            }
+        }
+
+        protected override void OnInititalize()
+        {
+            pool = BridgeUI.Utility.CreatePool(transform, out itemPool);
+            InitCreaters();
+        }
+
+
+        protected override void OnUnInitialize()
+        {
+            ClearTree();
+            creaters = null;
+
+            if (itemPool != null)
+            {
+                GameObject.Destroy(itemPool);
             }
         }
     }

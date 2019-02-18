@@ -39,6 +39,20 @@ namespace BridgeUI.CodeGen
                 return type;
             }
         }
+        public bool IsIUIControl
+        {
+            get
+            {
+                if (componentType == null) return false;
+
+                if (typeof(BridgeUI.IUIControl).IsAssignableFrom(componentType))
+                {
+                    return true;
+                }
+                Debug.Log(componentType);
+                return false;
+            }
+        }
         public ComponentItem() { }
 
         public ComponentItem(GameObject target)

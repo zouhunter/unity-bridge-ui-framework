@@ -10,10 +10,10 @@ namespace BridgeUI.Binding
 #if BridgeUI_Log
         public static bool log { get; set; }
 #endif
-        private List<IBindingContext> _contexts = new List<IBindingContext>();
-        public List<IBindingContext> Contexts { get { return _contexts; } }
-        private readonly Dictionary<string, IBindableProperty> innerDic = new Dictionary<string, IBindableProperty>();
-        protected IBindableProperty this[string key]
+        private List<IUIPanel> _contexts = new List<IUIPanel>();
+        public List<IUIPanel> Contexts { get { return _contexts; } }
+        private readonly Dictionary<byte, IBindableProperty> innerDic = new Dictionary<byte, IBindableProperty>();
+        protected IBindableProperty this[byte key]
         {
             get
             {
@@ -28,109 +28,84 @@ namespace BridgeUI.Binding
                 innerDic[key] = value;
             }
         }
-        public bool ContainsKey(string key)
+        public bool ContainsKey(byte key)
         {
             return innerDic.ContainsKey(key);
         }
-        public virtual void SetBindableProperty(string keyward, IBindableProperty value)
+        public virtual void SetBindableProperty(byte keyword, IBindableProperty value)
         {
-            if (this[keyward] == null)
+            if (this[keyword] == null)
             {
-                this[keyward] = value;
+                this[keyword] = value;
             }
-            else if (this[keyward] == value)
+            else if (this[keyword] == value)
             {
-                this[keyward].ValueBoxed = value.ValueBoxed;
+                this[keyword].ValueBoxed = value.ValueBoxed;
             }
             else
             {
-                this[keyward] = value;
+                this[keyword] = value;
             }
         }
-        public virtual BindableProperty<T> GetBindableProperty<T>(string keyward)
+        public virtual BindableProperty<T> GetBindableProperty<T>(byte keyword)
         {
-            if (!ContainsKey(keyward) || !(this[keyward] is BindableProperty<T>))
+            if (!ContainsKey(keyword) || this[keyword] == null)
             {
-                this[keyward] = new BindableProperty<T>();
+                var prop = new BindableProperty<T>();
+                this[keyword] = prop;
+                return prop;
             }
-            return this[keyward] as BindableProperty<T>;
+            else if (this[keyword] is BindableProperty<T>)
+            {
+                return this[keyword] as BindableProperty<T>;
+            }
+            else 
+            {
+                throw new Exception("类型不一致,请检查！" + this[keyword].GetType());
+            }
         }
-        public virtual IBindableProperty GetBindableProperty(string keyward, System.Type type)
+        public virtual IBindableProperty GetBindableProperty(byte keyword, System.Type type)
         {
             var fullType = typeof(BindableProperty<>).MakeGenericType(type);
-            if (!ContainsKey(keyward) || this[keyward].GetType() != fullType)
+
+            if (!ContainsKey(keyword) || this[keyword] == null)
             {
-                this[keyward] = System.Activator.CreateInstance(fullType) as IBindableProperty;
+                this[keyword] = System.Activator.CreateInstance(fullType) as IBindableProperty;
             }
-            return this[keyward] as IBindableProperty;
+            if (this[keyword].GetType() == fullType)
+            {
+                return this[keyword] as IBindableProperty;
+            }
+            else
+            {
+                throw new Exception("类型不一致,请检查！" + this[keyword].GetType());
+            }
         }
-        protected virtual T GetValue<T>(string keyward)
+
+        protected virtual T GetValue<T>(byte keyword)
         {
-            return GetBindableProperty<T>(keyward).Value;
+            return GetBindableProperty<T>(keyword).Value;
         }
-        protected virtual void SetValue<T>(string keyward, T value)
+        protected virtual void SetValue<T>(byte keyword, T value)
         {
-            GetBindableProperty<T>(keyward).Value = value;
+            GetBindableProperty<T>(keyword).Value = value;
         }
-        public virtual void OnBinding(IBindingContext context) { this._contexts.Add(context); }
-        public virtual void OnUnBinding(IBindingContext context) { this._contexts.Remove(context); }
-        public virtual void Monitor<T>(string sourceName, UnityAction<T> onValueChanged)
+        public virtual void OnAfterBinding(BridgeUI.IUIPanel panel) {
+            this._contexts.Add(panel);
+        }
+        public virtual void OnBeforeUnBinding(BridgeUI.IUIPanel panel) {
+            this._contexts.Remove(panel);
+        }
+        public virtual void Monitor<T>(byte sourceName, UnityAction<T> onValueChanged)
         {
-            if (!string.IsNullOrEmpty(sourceName) && onValueChanged != null)
+            if (onValueChanged != null)
             {
                 GetBindableProperty<T>(sourceName).RegistValueChanged(onValueChanged);
             }
         }
+        public bool HaveDefultProperty(byte keyword)
+        {
+            return innerDic.ContainsKey(keyword);
+        }
     }
-
-    public class ViewModelObject : ScriptableObject, IViewModel
-    {
-        protected ViewModel viewModel = new ViewModel();
-        protected List<IBindingContext> Contexts { get { return viewModel.Contexts; } }
-
-        public virtual bool ContainsKey(string key)
-        {
-            return viewModel.ContainsKey(key);
-        }
-
-        public virtual IBindableProperty GetBindableProperty(string keyward, Type type)
-        {
-            return viewModel.GetBindableProperty(keyward,type);
-        }
-
-        public virtual BindableProperty<T> GetBindableProperty<T>(string keyward)
-        {
-            return viewModel.GetBindableProperty<T>(keyward);
-        }
-
-        public virtual void OnBinding(IBindingContext context)
-        {
-            viewModel.OnBinding(context);
-        }
-
-        public virtual void OnUnBinding(IBindingContext context)
-        {
-            viewModel.OnUnBinding(context);
-        }
-
-        public virtual void SetBindableProperty(string keyward, IBindableProperty value)
-        {
-            viewModel.SetBindableProperty(keyward,value);
-        }
-        #region 
-        protected virtual T GetValue<T>(string keyward)
-        {
-            return viewModel.GetBindableProperty<T>(keyward).Value;
-        }
-        protected virtual void SetValue<T>(string keyward, T value)
-        {
-            viewModel.GetBindableProperty<T>(keyward).Value = value;
-        }
-        protected virtual void Monitor<T>(string sourceName, UnityAction<T> onValueChanged)
-        {
-            viewModel.Monitor(sourceName, onValueChanged);
-        }
-        #endregion
-    }
-
 }

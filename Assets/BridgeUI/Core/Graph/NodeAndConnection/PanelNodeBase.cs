@@ -22,6 +22,5 @@ namespace BridgeUI.Graph
                 return nodeInfo;
             }
         }
-
     }
 }

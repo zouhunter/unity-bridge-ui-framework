@@ -22,6 +22,7 @@ namespace BridgeUI
         protected UnityAction onComplete { get; set; }
         protected int completedTween;
         private List<uTweener> _tweeners;
+        private Coroutine coroutine;
         public virtual List<uTweener> tweeners
         {
             get
@@ -32,10 +33,10 @@ namespace BridgeUI
                 return _tweeners;
             }
         }
+
         public virtual void SetContext(MonoBehaviour context)
         {
             panel = context;
-            panel.StartCoroutine(UpdateState());
         }
 
         private IEnumerator UpdateState()
@@ -62,6 +63,14 @@ namespace BridgeUI
         }
         public virtual void PlayAnim(UnityAction onComplete)
         {
+            if (panel == null) return;
+
+            if(coroutine != null){
+                panel.StopCoroutine(coroutine);
+            }
+
+            coroutine = panel.StartCoroutine(UpdateState());
+
             if (onComplete != null)
             {
                 this.onComplete = onComplete;

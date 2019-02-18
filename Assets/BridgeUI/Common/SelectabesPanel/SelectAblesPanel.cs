@@ -16,11 +16,10 @@ namespace BridgeUI.Common
     /// <summary>
     /// 只有一些button的面板
     /// </summary>
-    [Attributes.PanelParent]
-    public class SelectAblesPanel : SinglePanel, IPortGroup
+    public class SelectAblesPanel : ViewBaseComponent, IPortGroup
     {
-        [SerializeField, HideInInspector]
-        protected List<Selectable> selectables;
+        [HideInInspector]
+        public List<Selectable> selectables;
         public virtual string[] Ports
         {
             get
@@ -29,13 +28,9 @@ namespace BridgeUI.Common
             }
         }
 
-        protected override void Awake()
-        {
-            base.Awake();
-            RegistSelectables();
-        }
+        protected event System.Action onRecover;
 
-        public virtual void RegistSelectables()
+        protected override void OnInitialize()
         {
             for (int i = 0; i < selectables.Count; i++)
             {
@@ -44,14 +39,24 @@ namespace BridgeUI.Common
 
                 if (item is Button)
                 {
-                    (item as Button).onClick.AddListener(() =>
+                    var btn = item as Button;
+
+                    UnityEngine.Events.UnityAction action = () =>
                     {
                         this.Open(GetPort(index), GetData(index));
-                    });
+                    };
+
+                    onRecover += () =>
+                    {
+                        btn.onClick.RemoveListener(action);
+                    };
+
+                    btn.onClick.AddListener(action);
                 }
                 else if (item is Toggle)
                 {
-                    (item as Toggle).onValueChanged.AddListener((isOn) =>
+                    var toggle = (item as Toggle);
+                    UnityEngine.Events.UnityAction<bool> action = (isOn) =>
                     {
                         if (isOn)
                         {
@@ -61,19 +66,40 @@ namespace BridgeUI.Common
                         {
                             this.Close(GetPort(index));
                         }
-                    });
+                    };
+
+                    onRecover += () => { toggle.onValueChanged.RemoveListener(action); };
+
+                    toggle.onValueChanged.AddListener(action);
                 }
 
             }
+        }
+
+        protected override void OnRecover()
+        {
+            if (onRecover != null)
+            {
+                onRecover.Invoke();
+                onRecover = null;
+            }
+        }
+        public override void Close()
+        {
+            base.Close();
+
         }
 
         public virtual int GetPort(int index)
         {
             return index;
         }
+
         public virtual object GetData(int index)
         {
             return null;
         }
+
     }
+
 }

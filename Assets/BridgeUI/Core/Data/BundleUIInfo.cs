@@ -14,10 +14,10 @@ namespace BridgeUI.Model
     [System.Serializable]
     public class BundleUIInfo : UIInfoBase
     {
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         public string guid;
         public bool good;
-#endif
+//#endif
         public string bundleName;
         public override string IDName { get { return bundleName + panelName; } }
     }

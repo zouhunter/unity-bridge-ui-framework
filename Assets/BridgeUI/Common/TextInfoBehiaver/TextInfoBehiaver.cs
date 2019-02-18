@@ -9,7 +9,7 @@ using BridgeUI;
 
 namespace BridgeUI.Common
 {
-    public class TextInfoBehiaver : SinglePanel
+    public class TextInfoBehiaver : ViewBaseComponent
     {
         public InputField.SubmitEvent onGet;
         [SerializeField]
@@ -27,16 +27,8 @@ namespace BridgeUI.Common
         private string textInfo;
         private int? fontSize;
 
-        protected override void Start()
+        protected override void OnMessageReceive(object data)
         {
-            base.Start();
-            textBody = textBehaiver.gameObject;
-            eventData = new PointerEventData(EventSystem.current);
-            ShowText();
-        }
-        protected override void HandleData(object data)
-        {
-            base.HandleData(data);
             var dic = data as Hashtable;
             if (dic.ContainsKey("fontSize"))
             {
@@ -79,7 +71,7 @@ namespace BridgeUI.Common
             }
             if (!show || (timer -= Time.deltaTime) < 0)
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
             }
         }
 
@@ -96,6 +88,17 @@ namespace BridgeUI.Common
                 textBehaiver.text.text = textInfo;
                 onGet.Invoke(textBehaiver.text.text);
             }
+        }
+
+        protected override void OnInitialize()
+        {
+            textBody = textBehaiver.gameObject;
+            eventData = new PointerEventData(EventSystem.current);
+            ShowText();
+        }
+
+        protected override void OnRecover()
+        {
         }
     }
 }

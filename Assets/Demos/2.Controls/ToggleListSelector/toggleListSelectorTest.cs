@@ -18,13 +18,14 @@ public class toggleListSelectorTest : MonoBehaviour {
 
     public void Start()
     {
+        toggleList.Initialize();
         toggleList.onSelectID.AddListener(onSelectOne);
         toggleList.onSelectIDs.AddListener(OnSelectMany);
     }
 
-    void Update()
+    void OnGUI()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (GUILayout.Button("ABC"))
         {
             options = new string[3];
             options[0] = "A";
@@ -32,7 +33,7 @@ public class toggleListSelectorTest : MonoBehaviour {
             options[2] = "C";
             toggleList.options = options;
         }
-        if (Input.GetKeyDown(KeyCode.B))
+        if (GUILayout.Button("BCD"))
         {
             options = new string[3];
             options[0] = "B";
@@ -41,17 +42,14 @@ public class toggleListSelectorTest : MonoBehaviour {
             toggleList.options = options;
         }
     }
-    void OnGUI()
-    {
-        GUILayout.Label("输入A 或者 B");
-    }
     private void OnSelectMany(int[] arg0)
     {
-        Debug.Log("选择了：");
+        string str = "选择了：";
         foreach (var item in arg0)
         {
-            Debug.Log(item);
+            str += item;
         }
+        Debug.Log(str);
     }
 
     private void onSelectOne(int arg0)

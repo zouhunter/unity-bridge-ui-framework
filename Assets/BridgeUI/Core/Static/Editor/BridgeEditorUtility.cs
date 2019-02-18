@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using ShowMode = BridgeUI.ShowMode;
-using BridgeUI;
+using BridgeUI.Binding;
 using UnityEditor;
 using System;
 using NodeGraph.DataModel;
@@ -44,7 +44,11 @@ namespace BridgeUI.Drawer
         [PreferenceItem("Bridge UI")]
         public static void PreferencesGUI()
         {
-            BridgeUI.Setting.bundleNameFormat = EditorGUILayout.TextField("默认AssetBundle路径:", BridgeUI.Setting.bundleNameFormat);
+            BridgeUI.Setting.bundleNameFormat = EditorGUILayout.TextField("资源格式:", BridgeUI.Setting.bundleNameFormat);
+            BridgeUI.Setting.commonNameSpace = EditorGUILayout.TextField("常量命名空间:", BridgeUI.Setting.commonNameSpace);
+            BridgeUI.Setting.defultNameSpace = EditorGUILayout.TextField("面板命名空间:", BridgeUI.Setting.defultNameSpace);
+            Setting.userName = EditorGUILayout.TextField("用户名称:", Setting.userName);
+            Setting.script_path = EditorGUILayout.TextField("脚本路径:", Setting.script_path);
         }
 
         public static Dictionary<UnityEngine.Object, Editor> editorDic = new Dictionary<UnityEngine.Object, Editor>();
@@ -235,13 +239,14 @@ namespace BridgeUI.Drawer
         }
         private static void InternalApplyPrefab(GameObject gitem)
         {
-            var instanceRoot = PrefabUtility.FindValidUploadPrefabInstanceRoot(gitem);
-            var prefab = PrefabUtility.GetPrefabParent(instanceRoot);
+            var instanceRoot = PrefabUtility.GetOutermostPrefabInstanceRoot(gitem);
+            var prefab = PrefabUtility.GetCorrespondingObjectFromSource(instanceRoot);
             if (prefab != null)
             {
                 if (prefab.name == gitem.name)
                 {
-                    PrefabUtility.ReplacePrefab(gitem, prefab, ReplacePrefabOptions.ConnectToPrefab);
+                    var path = AssetDatabase.GetAssetPath(prefab);
+                    PrefabUtility.SaveAsPrefabAsset(gitem, path);
                 }
             }
         }
@@ -477,8 +482,8 @@ namespace BridgeUI.Drawer
             var modifyed = PrefabUtility.GetPropertyModifications(instence);
             var changed = false;
 
-            var instanceRoot = PrefabUtility.FindValidUploadPrefabInstanceRoot(instence as GameObject) as GameObject;
-            var prefab = PrefabUtility.GetPrefabParent(instanceRoot) as GameObject;
+            var instanceRoot = PrefabUtility.GetOutermostPrefabInstanceRoot(instence as GameObject) as GameObject;
+            var prefab = PrefabUtility.GetCorrespondingObjectFromSource(instanceRoot) as GameObject;
 
             if (prefab == null) return true;
 
@@ -586,30 +591,9 @@ namespace BridgeUI.Drawer
             return hight;
         }
 
-        [MenuItem("CONTEXT/PanelBase/显示ViewModel")]
-        public static void CONTEXT_PanelBase_LoadDefultViewModel(MenuCommand command)
-        {
-            var panelBase = command.context as PanelBase;
-            var fieldInfo = GetDefultViewModelFiledInfo();
-            if (fieldInfo != null)
-            {
-                fieldInfo.SetValue(panelBase, ScriptableObject.CreateInstance<Binding.ViewModelObject>());
-            }
-        }
-        [MenuItem("CONTEXT/PanelBase/清除ViewModel")]
-        public static void CONTEXT_PanelBase_ClearDefultViewModel(MenuCommand command)
-        {
-            var panelBase = command.context as PanelBase;
-            var fieldInfo = GetDefultViewModelFiledInfo();
-            if (fieldInfo != null)
-            {
-                fieldInfo.SetValue(panelBase,null);
-            }
-        }
-
         private static FieldInfo GetDefultViewModelFiledInfo()
         {
-            var fieldInfo = typeof(PanelBase).GetField("defultViewModel", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetField);
+            var fieldInfo = typeof(BindingViewBase).GetField("defultViewModel", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetField);
             return fieldInfo;
         }
     }

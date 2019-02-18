@@ -24,46 +24,25 @@ namespace BridgeUI.Control
     /// 这是一个列表创建器（用于快速创建一组对象）
     /// 建议数量100
     /// </summary>
-    public class ListViewer : MonoBehaviour
+    public class ListViewer : BridgeUIControl
     {
         public List<GameObject> CreatedItems { get { return createdItems; } }
         [SerializeField]
         private Transform parent;
         [SerializeField]
         private GameObject pfb;
-        private GameObjectPool _objectPool;
-        protected GameObjectPool objectPool {
-            get
-            {
-                if(_objectPool == null)
-                {
-                    _objectPool = UIFacade.PanelPool;
-                }
-                return _objectPool;
-            }
-        }
+        protected GameObjectPool objectPool;
         protected bool isword;
         protected List<GameObject> createdItems = new List<GameObject>();
 
         public  UnityAction<GameObject> onGetFrom { get; set; }
         public  UnityAction<GameObject> onSaveBack { get; set; }
-
-        protected virtual void Awake()
-        {
-            pfb.gameObject.SetActive(false);
-            _objectPool = UIFacade.PanelPool;
-            isword = !parent.GetComponent<RectTransform>();
-        }
-        protected virtual void OnDestroy()
-        {
-            if(_objectPool != null)
-            {
-                ClearOldItems();
-            }
-        }
+        private GameObject itemPool;
 
         public GameObject[] CreateItems(int length,bool clean = true)
         {
+            if (!Initialized) return null;
+
             if(clean){
                 ClearOldItems();
             }
@@ -80,6 +59,8 @@ namespace BridgeUI.Control
 
         public GameObject AddItem()
         {
+            if (!Initialized) return null;
+
             if (pfb == null) return null;
             GameObject go;
             go = objectPool.GetPoolObject(pfb.gameObject, parent, isword);
@@ -92,12 +73,16 @@ namespace BridgeUI.Control
 
         public void RemoveItem(GameObject item)
         {
+            if (!Initialized) return;
+
             createdItems.Remove(item);
             objectPool.SavePoolObject(item.gameObject, isword);
         }
 
         public void ClearOldItems()
         {
+            if (!Initialized) return;
+
             foreach (var item in createdItems)
             {
                if(onSaveBack != null) onSaveBack.Invoke(item);
@@ -105,6 +90,21 @@ namespace BridgeUI.Control
             }
 
             createdItems.Clear();
+        }
+
+        protected override void OnInititalize()
+        {
+            objectPool = Utility.CreatePool(transform, out itemPool);
+            pfb.gameObject.SetActive(false);
+            isword = !parent.GetComponent<RectTransform>();
+        }
+
+        protected override void OnUnInitialize()
+        {
+            ClearOldItems();
+            objectPool = null;
+            if (itemPool)
+                Destroy(itemPool);
         }
     }
 

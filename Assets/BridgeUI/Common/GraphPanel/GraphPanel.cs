@@ -9,14 +9,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using System;
+
 namespace BridgeUI.Common
 {
     ///<summary>
     ///[代码说明信息]
     ///<summary>
-    [Attributes.PanelParent]
-    public class GraphPanel : BridgeUI.SinglePanel
+    public class GraphPanel : ViewBaseComponent
     {
         [SerializeField]
         protected Button m_save;
@@ -28,16 +27,17 @@ namespace BridgeUI.Common
         protected string path;
         protected GraphNodeBehaiver rootItem;
 
-        protected override void Start()
+        protected override void OnInitialize()
         {
-            base.Start();
             m_nodePrefab.gameObject.SetActive(false);
             m_save.onClick.AddListener(OnSave);
         }
-
-        protected override void HandleData(object data)
+        protected override void OnRecover()
         {
-            base.HandleData(data);
+            m_save.onClick.RemoveListener(OnSave);
+        }
+        protected override void OnMessageReceive(object data)
+        {
             selector = data as SelectorData;
             if(selector == null){
                 selector = new SelectorDataRoot();
@@ -58,7 +58,7 @@ namespace BridgeUI.Common
         {
             if (deepth < 7)
             {
-                GraphNodeBehaiver horizontal = Instantiate(m_nodePrefab, parent, false);
+                GraphNodeBehaiver horizontal = Object.Instantiate(m_nodePrefab, parent, false);
                 horizontal.gameObject.SetActive(true);
                 return horizontal;
             }

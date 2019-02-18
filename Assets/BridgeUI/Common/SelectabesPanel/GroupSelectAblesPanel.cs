@@ -13,11 +13,10 @@ using System.Collections.Generic;
 
 namespace BridgeUI.Common
 {
-    [Attributes.PanelParent]
     public class GroupSelectAblesPanel : SelectAblesPanel
     {
         [SerializeField]
         protected Transform content;
-        public override Transform Content { get { return content == null ? Group.Trans : content; } }
+        public override Transform Content { get { return content; } }
     }
 }

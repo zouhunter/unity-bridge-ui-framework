@@ -1,15 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
-using System;
-using BridgeUI.Model;
-using System.Reflection;
+
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace BridgeUI
 {
     public class UIThreadFacade : MonoBehaviour
     {
-        private UIFacade UIFacade { get { return UIFacade.Instence; } }
+        private UIFacadeInternal uiFacade { get { return BridgeUI.UIFacade.Instence; } }
         private Queue<Action> mainThreadActions = new Queue<Action>();
         public static UIThreadFacade Instence { get; private set; }
 
@@ -28,35 +27,35 @@ namespace BridgeUI
         public void Close(string panelName)
         {
             mainThreadActions.Enqueue(new Action(()=> {
-                UIFacade.Close(panelName);
+                uiFacade.Close(panelName);
             }));
         }
 
         public void Close(IPanelGroup parentGroup, string panelName)
         {
             mainThreadActions.Enqueue(new Action(() => {
-                UIFacade.Close(parentGroup,panelName);
+                uiFacade.Close(parentGroup,panelName);
             }));
         }
 
         public void Hide(string panelName)
         {
             mainThreadActions.Enqueue(new Action(() => {
-                UIFacade.Hide(panelName);
+                uiFacade.Hide(panelName);
             }));
         }
 
         public void Hide(IPanelGroup parentGroup, string panelName)
         {
             mainThreadActions.Enqueue(new Action(() => {
-                UIFacade.Hide(parentGroup,panelName);
+                uiFacade.Hide(parentGroup,panelName);
             }));
         }
 
         public void IsPanelOpen(string panelName, UnityAction<bool> onJudge = null)
         {
             mainThreadActions.Enqueue(new Action(() => {
-                var isOpen = UIFacade.IsPanelOpen(panelName);
+                var isOpen = uiFacade.IsPanelOpen(panelName);
                 if (onJudge != null)
                 {
                     onJudge.Invoke(isOpen);
@@ -67,7 +66,7 @@ namespace BridgeUI
         public void IsPanelOpen(IPanelGroup parentGroup, string panelName,UnityAction<bool> onJudge = null)
         {
             mainThreadActions.Enqueue(new Action(() => {
-                var isOpen = UIFacade.IsPanelOpen(panelName);
+                var isOpen = uiFacade.IsPanelOpen(panelName);
                 if (onJudge != null)
                 {
                     onJudge.Invoke(isOpen);
@@ -75,46 +74,40 @@ namespace BridgeUI
             }));
         }
 
-        public void Open(string panelName, object data = null,UnityAction<IUIHandle> onGetHandle = null)
+        public void Open(string panelName, object data = null)
         {
-            mainThreadActions.Enqueue(new Action(() => {
-              var handle =  UIFacade.Open( panelName, data);
-                if(onGetHandle != null)
-                {
-                    onGetHandle.Invoke(handle);
-                }
+            mainThreadActions.Enqueue(new Action(() =>
+            {
+                uiFacade.Open(panelName, data);
             }));
         }
 
-        public void Open(IUIPanel parentPanel, string panelName, object data = null, UnityAction<IUIHandle> onGetHandle =null)
+        public void Open(IUIPanel parentPanel, string panelName, object data = null)
         {
-            mainThreadActions.Enqueue(new Action(() => {
-                var handle = UIFacade.Open(parentPanel, panelName, data);
-                if (handle != null)
-                {
-                    onGetHandle.Invoke(handle);
-                }
+            mainThreadActions.Enqueue(new Action(() =>
+            {
+                uiFacade.Open(parentPanel, panelName, data);
             }));
         }
 
         public void RegistClose(UnityAction<IUIPanel> onClose)
         {
-            UIFacade.Instence.RegistClose(onClose);
+            uiFacade.RegistClose(onClose);
         }
 
         public void RegistCreate(UnityAction<IUIPanel> onCreate)
         {
-            UIFacade.Instence.RegistCreate(onCreate);
+            uiFacade.RegistCreate(onCreate);
         }
 
         public void RemoveClose(UnityAction<IUIPanel> onClose)
         {
-            UIFacade.Instence.RemoveClose(onClose);
+            uiFacade.RemoveClose(onClose);
         }
 
         public void RemoveCreate(UnityAction<IUIPanel> onCreate)
         {
-            UIFacade.Instence.RemoveClose(onCreate);
+            uiFacade.RemoveClose(onCreate);
 
         }
     }

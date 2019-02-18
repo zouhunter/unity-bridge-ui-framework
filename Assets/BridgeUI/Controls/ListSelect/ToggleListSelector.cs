@@ -24,7 +24,14 @@ namespace BridgeUI.Control
         private bool stopEvent;
         private Dictionary<string, Toggle> createdDic = new Dictionary<string, Toggle>();
         public bool AnyToggleOn { get { return group.AnyTogglesOn(); } }
-
+        private bool _singleChoise;
+        protected override bool singleChoise
+        {
+            get
+            {
+                return _singleChoise;
+            }
+        }
         protected override void Awake()
         {
             base.Awake();
@@ -39,6 +46,14 @@ namespace BridgeUI.Control
             {
                 group = m_parent.gameObject.AddComponent<ToggleGroup>();
             }
+        }
+        public void SetSingleSelect()
+        {
+            _singleChoise = true;
+        }
+        public void SetMutiSelect()
+        {
+            _singleChoise = false;
         }
         public void SetSelect(string key, bool trigger = false)
         {

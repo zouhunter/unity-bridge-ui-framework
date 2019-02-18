@@ -18,24 +18,17 @@ namespace BridgeUI
 {
     public class UIHandle : IUIHandleInternal
     {
+        private readonly List<IUIPanel> contexts = new List<IUIPanel>();
         private readonly List<Bridge> bridges = new List<Bridge>();
         private readonly List<UnityAction<IUIPanel, object>> onCallBack = new List<UnityAction<IUIPanel, object>>();
         private readonly List<UnityAction<IUIPanel>> onCreate = new List<UnityAction<IUIPanel>>();
         private readonly List<UnityAction<IUIPanel>> onClose = new List<UnityAction<IUIPanel>>();
         private UnityAction<UIHandle> onRelease { get; set; }
-        public bool Active
+        private event UnityAction onRecover;
+
+        public IUIPanel[] GetActivePanels()
         {
-            get
-            {
-                return bridges.Count > 0;
-            }
-        }
-        public IUIPanel[] Contexts
-        {
-            get
-            {
-                return bridges.Select(x => x.OutPanel).ToArray();
-            }
+            return contexts.ToArray();
         }
         public string PanelName { get; private set; }
 
@@ -43,7 +36,14 @@ namespace BridgeUI
         {
             this.PanelName = panelName;
             this.onRelease = onRelease;
+            this.onRecover = null;
         }
+
+        public void RegistOnRecover(UnityAction onRecover)
+        {
+            this.onRecover += onRecover;
+        }
+
         public void RegistBridge(Bridge obj)
         {
             if (!bridges.Contains(obj))
@@ -69,14 +69,14 @@ namespace BridgeUI
 
             if (bridges.Count == 0)
             {
-                Release();
+                Dispose();
             }
         }
-
 
         private void OnBridgeCallBack(IUIPanel panel, object data)
         {
             var array = onCallBack.ToArray();
+
             foreach (var item in array)
             {
                 item.Invoke(panel, data);
@@ -85,98 +85,113 @@ namespace BridgeUI
 
         private void OnCloseCallBack(IUIPanel panel)
         {
+            contexts.Remove(panel);
+
             var array = onClose.ToArray();
             foreach (var item in array)
             {
                 item.Invoke(panel);
             }
-            onClose.Clear();
         }
         private void OnCreatePanel(IUIPanel panel)
         {
+            contexts.Add(panel);
+
             var array = onCreate.ToArray();
             foreach (var item in array)
             {
                 item.Invoke(panel);
             }
-            onCreate.Clear();
         }
 
-        private void Release()
+        public void Dispose()
         {
+            if (bridges.Count > 0)
+            {
+                for (int i = 0; i < bridges.Count; i++)
+                {
+                    var bridge = bridges[i];
+                    bridge.onCallBack -= OnBridgeCallBack;
+                    bridge.onRelease -= UnRegistBridge;
+                    bridge.onCreate -= OnCreatePanel;
+                }
+                bridges.Clear();
+            }
+
+            onCallBack.Clear();
+            onCreate.Clear();
+            onClose.Clear();
+            contexts.Clear();
+
             if (onRelease != null)
             {
                 onRelease(this);
+                onRelease = null;
             }
-            Clean();
-        }
 
-        private void Clean()
-        {
-            this.onCallBack.Clear();
+            if(onRecover != null)
+            {
+                onRecover.Invoke();
+                this.onRecover = null;
+            }
         }
-
-        public IUIHandle Send(object data)
+        public void Send(object data)
         {
-            foreach (var item in bridges){
+            foreach (var item in bridges)
+            {
                 item.Send(data);
             }
-            return this;
         }
 
-        public IUIHandle RegistCallBack(UnityAction<IUIPanel, object> onCallBack)
+        public void RegistCallBack(UnityAction<IUIPanel, object> onCallBack)
         {
-            if (onCallBack == null) return null;
+            if (onCallBack == null) return;
             if (!this.onCallBack.Contains(onCallBack))
             {
                 this.onCallBack.Add(onCallBack);
             }
-            return this;
         }
 
-        public IUIHandle RemoveCallBack(UnityAction<IUIPanel, object> onCallBack)
+        public void RemoveCallBack(UnityAction<IUIPanel, object> onCallBack)
         {
-            if (onCallBack == null) return null;
+            if (onCallBack == null) return;
             if (this.onCallBack.Contains(onCallBack))
             {
                 this.onCallBack.Remove(onCallBack);
             }
-            return this;
         }
 
-        public IUIHandle RegistCreate(UnityAction<IUIPanel> onCreate)
+        public void RegistCreate(UnityAction<IUIPanel> onCreate)
         {
-            if(onCreate != null && !this.onCreate.Contains(onCreate)){
+            if (onCreate != null && !this.onCreate.Contains(onCreate))
+            {
                 this.onCreate.Add(onCreate);
             }
-            return this;
         }
 
-        public IUIHandle RemoveCreate(UnityAction<IUIPanel> onCreate)
+        public void RemoveCreate(UnityAction<IUIPanel> onCreate)
         {
             if (onCreate != null && this.onCreate.Contains(onCreate))
             {
                 this.onCreate.Remove(onCreate);
             }
-            return this;
         }
 
-        public IUIHandle RegistClose(UnityAction<IUIPanel> onClose)
+        public void RegistClose(UnityAction<IUIPanel> onClose)
         {
             if (onClose != null && !this.onClose.Contains(onClose))
             {
                 this.onClose.Add(onClose);
             }
-            return this;
         }
 
-        public IUIHandle RemoveClose(UnityAction<IUIPanel> onClose)
+        public void RemoveClose(UnityAction<IUIPanel> onClose)
         {
             if (onClose != null && this.onClose.Contains(onClose))
             {
                 this.onClose.Remove(onClose);
             }
-            return this;
         }
+
     }
 }

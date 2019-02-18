@@ -18,8 +18,14 @@ namespace BridgeUI.CodeGen
     public class GenCodeRule
     {
         public int baseTypeIndex;
+        public string nameSpace;
         public bool canInherit;
         public bool bindingAble;
         public UnityAction<Component> onGenerated;
+
+        public GenCodeRule(string nameSpace)
+        {
+            this.nameSpace = nameSpace;
+        }
     }
 }

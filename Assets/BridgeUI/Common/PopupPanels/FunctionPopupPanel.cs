@@ -20,11 +20,12 @@ namespace BridgeUI.Common
     public class FunctionPopupPanel : PopupPanel
     {
         public Button deniBtn;
-        protected override void Awake()
-        {
-            base.Awake();
-            deniBtn.onClick.AddListener(OnButtonAction);
-        }
+        //protected override void Awake()
+        //{
+        //    base.Awake();
+        //    deniBtn.onClick.AddListener(OnButtonAction);
+        //}
+
         public override void Close()
         {
             callBack = true;

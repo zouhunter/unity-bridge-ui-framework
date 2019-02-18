@@ -14,7 +14,7 @@ using System.Linq;
 
 namespace BridgeUI.Control.Tree
 {
-    public abstract class TreeSelector : UIBehaviour
+    public abstract class TreeSelector : BridgeUIControl
     {
         protected TreeNode rootNode;
         public UnityAction<int[]> onSelectID { get; set; }
@@ -22,6 +22,8 @@ namespace BridgeUI.Control.Tree
 
         public virtual void CreateTree(TreeNode nodeBase)
         {
+            if (!Initialized) return;
+
             this.rootNode = nodeBase;
             RebuildRelationship(rootNode);
         }

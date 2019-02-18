@@ -16,10 +16,14 @@ namespace BridgeUI
 {
     public interface IUIFacade
     {
-        IUIHandle Open(string panelName,  object data = null);
-        IUIHandle Open(IUIPanel parentPanel, string panelName,  object data = null);
+        void Open(string panelName, object data = null);
+        void Open(IUIPanel parentPanel, string panelName, object data = null);
+        void Open(string panelName, IPanelVisitor uiData);
+        void Open(IUIPanel parentPanel, string panelName, IPanelVisitor uiData);
         bool IsPanelOpen(string panelName);
+        bool IsPanelOpen<T>(string panelName, out T[] panels);
         bool IsPanelOpen(IPanelGroup parentGroup, string panelName);
+        bool IsPanelOpen<T>(IPanelGroup parentPanel, string panelName, out T[] panels);
         void Hide(string panelName);
         void Hide(IPanelGroup parentGroup, string panelName);
         void Close(string panelName);

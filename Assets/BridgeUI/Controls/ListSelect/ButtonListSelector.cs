@@ -19,16 +19,11 @@ namespace BridgeUI.Control
     [System.Serializable]
     public class ButtonListSelector : ListSelector
     {
-        public override bool singleChoise
+        protected override bool singleChoise
         {
             get
             {
                 return true;
-            }
-
-            set
-            {
-                base.singleChoise = value;
             }
         }
      

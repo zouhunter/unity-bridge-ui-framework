@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace BridgeUI.Control
 {
-    public class BorderImage : Image
+    public class BoarderImage : Image
     {
         [SerializeField]
         private float left;

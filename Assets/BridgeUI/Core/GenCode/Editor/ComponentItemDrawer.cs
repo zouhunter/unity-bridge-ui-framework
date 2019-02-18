@@ -36,6 +36,7 @@ namespace BridgeUI.Drawer
         public float singleLineHeight = EditorGUIUtility.singleLineHeight + padding * 2;
         private float viewHeight;
         private float eventHeight;
+        private bool  bindingAble;
         private MemberViewer viewMemberViewer = new MemberViewer();
         private MemberViewer eventMemberViewer = new MemberViewer();
         private static Dictionary<Type, Texture> _previewIcons;
@@ -71,8 +72,10 @@ namespace BridgeUI.Drawer
             }
         }
 
-        public float GetItemHeight(ComponentItem item, bool bindingAble)
+        public float GetItemHeight(ComponentItem item,bool bindingAble)
         {
+            this.bindingAble = bindingAble;
+
             if (item.isScriptComponent)
             {
                 return singleLineHeight;
@@ -80,25 +83,27 @@ namespace BridgeUI.Drawer
             else
             {
                 UpdateHeights(item, bindingAble);
-                var height = singleLineHeight + (item.open ? ((bindingAble ? viewHeight : 0) + eventHeight) : 0f);
+                var height = singleLineHeight + (item.open ? viewHeight + eventHeight : 0f);
                 return height;
             }
         }
 
         public void DrawItemOnRect(Rect rect, int index, ComponentItem item, bool bindingAble)
         {
-            rect.height = GetItemHeight(item, bindingAble);
+            this.bindingAble = bindingAble;
+            rect.height = GetItemHeight(item,bindingAble);
             DrawInfoHead(rect, item);
             DrawIndex(rect, index);
             if (item.open && !item.isScriptComponent)
             {
-                DrawLists(rect, item, bindingAble);
+                DrawLists(rect, item);
             }
         }
-        public void DrawBackground(Rect rect, bool active, ComponentItem item, bool bindingAble)
+        public void DrawBackground(Rect rect, bool active, ComponentItem item,bool bindingAble)
         {
+            this.bindingAble = bindingAble;
             item.open = active;
-            rect.height = GetItemHeight(item, bindingAble);
+            rect.height = GetItemHeight(item,bindingAble);
             var innerRect1 = new Rect(rect.x + padding, rect.y + padding, rect.width - 2 * padding, rect.height - 2 * padding);
             var color = GUI.backgroundColor;
             GUI.backgroundColor = active ? activeColor : fieldColor;
@@ -150,7 +155,7 @@ namespace BridgeUI.Drawer
             var newTarget = EditorGUI.ObjectField(targetRect, item.scriptTarget, item.componentType, true);
             if (newTarget != item.scriptTarget)
             {
-                var prefabTarget = PrefabUtility.GetPrefabParent(newTarget);
+                var prefabTarget = PrefabUtility.GetCorrespondingObjectFromSource(newTarget);
                 Debug.Log(prefabTarget);
                 if (prefabTarget != null)
                 {
@@ -175,7 +180,7 @@ namespace BridgeUI.Drawer
             var newTarget = EditorGUI.ObjectField(targetRect, item.target, item.componentType, true);
             if (newTarget != item.target)
             {
-                var prefabTarget = PrefabUtility.GetPrefabParent(newTarget);
+                var prefabTarget = PrefabUtility.GetCorrespondingObjectFromSource(newTarget);
                 if (prefabTarget != null)
                 {
                     newTarget = prefabTarget;
@@ -185,7 +190,7 @@ namespace BridgeUI.Drawer
 
             if (EditorGUI.EndChangeCheck() && item.target)
             {
-                var parent = PrefabUtility.GetPrefabParent(item.target);
+                var parent = PrefabUtility.GetCorrespondingObjectFromSource(item.target);
                 if (parent)
                 {
                     item.target = parent as GameObject;
@@ -205,36 +210,23 @@ namespace BridgeUI.Drawer
             EditorGUI.LabelField(indexRect, index.ToString());
         }
 
-        private void DrawLists(Rect rect, ComponentItem item, bool bindingAble)
+        private void DrawLists(Rect rect, ComponentItem item)
         {
             UpdateHeights(item, bindingAble);
             var innerRect1 = new Rect(rect.x + padding, rect.y, rect.width - 30, rect.height - 2 * padding);
 
-            if (bindingAble)
-            {
-                viewList = GetViewList(item);
-                var viewRect = new Rect(innerRect1.x, innerRect1.y + singleLineHeight, innerRect1.width, viewHeight);
-                viewList.DoList(viewRect);
-            }
+            viewList = GetViewList(item);
+            var viewRect = new Rect(innerRect1.x, innerRect1.y + singleLineHeight, innerRect1.width, viewHeight);
+            viewList.DoList(viewRect);
 
-            eventList = GetEventList(item, bindingAble);
-
+            eventList = GetEventList(item);
             var eventRect = new Rect(innerRect1.x, innerRect1.y + viewHeight + singleLineHeight, innerRect1.width, eventHeight);
-
             eventList.DoList(eventRect);
         }
 
         private void UpdateHeights(ComponentItem item, bool bindingAble)
         {
-            if (bindingAble)
-            {
-                viewHeight = (EditorGUIUtility.singleLineHeight + padding) * (item.viewItems.Count >= 1 ? item.viewItems.Count + 2 : 3);
-            }
-            else
-            {
-                viewHeight = 0;
-            }
-
+            viewHeight = (EditorGUIUtility.singleLineHeight + padding) * (item.viewItems.Count >= 1 ? item.viewItems.Count + 2 : 3);
             eventHeight = (EditorGUIUtility.singleLineHeight + padding) * (item.eventItems.Count >= 1 ? item.eventItems.Count + 2 : 3);
         }
 
@@ -271,16 +263,15 @@ namespace BridgeUI.Drawer
                         viewItem.bindingTargetType = new BridgeUI.TypeInfo(viewMemberViewer.currentTypes[viewNameIndex]);
                         viewItem.bindingTarget = viewMemberViewer.currentNames[viewNameIndex];
                         viewItem.isMethod = viewMemberViewer.currentMethods.Contains(viewItem.bindingTarget);
-                        Debug.Log(viewItem.bindingTarget + ":"+ viewItem.isMethod);
                     }
                     EditorGUI.BeginDisabledGroup(true);
-                    EditorGUI.Toggle(enableRect, true);
+                    EditorGUI.Toggle(enableRect, bindingAble);
                     EditorGUI.EndDisabledGroup();
                 };
             }
             return viewDic[item];
         }
-        private ReorderableList GetEventList(ComponentItem item, bool bindngAble)
+        private ReorderableList GetEventList(ComponentItem item)
         {
             if (!eventDic.ContainsKey(item) || eventDic[item] == null)
             {
@@ -289,6 +280,7 @@ namespace BridgeUI.Drawer
                 {
                     EditorGUI.LabelField(rect, "Events");
                 };
+
                 list.drawElementCallback = (rect, index, a, f) =>
                 {
                     var eventItem = item.eventItems[index];
@@ -312,7 +304,7 @@ namespace BridgeUI.Drawer
                         eventItem.bindingTargetType = new BridgeUI.TypeInfo(eventMemberViewer.currentTypes[viewNameIndex]);
                         eventItem.bindingTarget = eventMemberViewer.currentNames[viewNameIndex];
                     }
-                    EditorGUI.BeginDisabledGroup(!bindngAble);
+                    EditorGUI.BeginDisabledGroup(!bindingAble);
                     eventItem.type = (BindingType)EditorGUI.EnumPopup(enableRect, eventItem.type);
                     EditorGUI.EndDisabledGroup();
                 };

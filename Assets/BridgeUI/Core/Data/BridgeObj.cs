@@ -15,18 +15,18 @@ namespace BridgeUI.Model
     {
         #region 加载规则
         public string inNode;
+        public string outNode;
         public short index;
         public ShowMode showModel;
-        public ScriptableObject viewModel;
-        public string outNode;
+        //public ScriptableObject viewModel;
         #endregion
-        public BridgeInfo(string inNode,string outNode,ShowMode showModel, ScriptableObject viewModel, short index)
+        public BridgeInfo(string inNode,string outNode,ShowMode showModel,/* ScriptableObject viewModel, */short index)
         {
             this.inNode = inNode;
             this.outNode = outNode;
             this.showModel = showModel;
             this.index = index;
-            this.viewModel = viewModel;
+            //this.viewModel = viewModel;
         }
     }
 
@@ -46,28 +46,34 @@ namespace BridgeUI.Model
         {
             this.onReleaseFromPool = onReleaseFromPool;
         }
-        public void Reset(BridgeInfo info, IUIPanel parentPanel)
+
+        public void ResetInfo(BridgeInfo info)
         {
-            this.Info = info;
-            this.InPanel = parentPanel;
+            this.Info = new BridgeInfo(info.inNode, info.outNode, info.showModel, info.index);
             this.onCreate = null;
             this.onGet = null;
             this.onCallBack = null;
             this.dataQueue.Clear();
 
+        }
+
+        public void SetInPanel(IUIPanel parentPanel)
+        {
+            this.InPanel = parentPanel;
             if (InPanel != null)
             {
-                Info = new BridgeInfo(parentPanel.Name,Info.outNode,Info.showModel,Info.viewModel,0);
+                Info = new BridgeInfo(parentPanel.Name, Info.outNode, Info.showModel, Info.index);
             }
             else
             {
-                Info = new BridgeInfo("", Info.outNode, Info.showModel, Info.viewModel, 0);
+                Info = new BridgeInfo("", Info.outNode, Info.showModel, Info.index);
             }
         }
 
         public void Send(object data)
         {
             dataQueue.Enqueue(data);
+
             if (onGet != null)
             {
                 onGet.Invoke(dataQueue);
@@ -81,18 +87,17 @@ namespace BridgeUI.Model
 
         public void Release()
         {
+            if (onReleaseFromPool != null)
+            {
+                onReleaseFromPool(this);
+            }
             if (onRelease != null)
             {
                 onRelease(this);
             }
-
-            if(onReleaseFromPool != null)
-            {
-                onReleaseFromPool(this);
-            }
         }
 
-        internal void OnCreatePanel(IUIPanel panel)
+        public void OnCreatePanel(IUIPanel panel)
         {
             OutPanel = panel;
             if (onCreate != null)

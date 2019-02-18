@@ -528,13 +528,14 @@ namespace BridgeUI.Drawer
                 var instanceIDPorp = item.FindPropertyRelative("instanceID");
                 var obj = EditorUtility.InstanceIDToObject(instanceIDPorp.intValue);
                 if (obj == null) continue;
-                var prefab = PrefabUtility.GetPrefabParent(obj);
+                var prefab = PrefabUtility.GetCorrespondingObjectFromSource(obj);
                 if (prefab != null)
                 {
-                    var root = PrefabUtility.FindPrefabRoot((GameObject)prefab);
+                    var root = PrefabUtility.GetOutermostPrefabInstanceRoot((GameObject)prefab);
                     if (root != null)
                     {
-                        PrefabUtility.ReplacePrefab(obj as GameObject, root, ReplacePrefabOptions.ConnectToPrefab);
+                        var assetPath = AssetDatabase.GetAssetPath(root);
+                        PrefabUtility.SaveAsPrefabAsset(obj as GameObject, assetPath);
                     }
                 }
             }

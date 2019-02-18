@@ -10,34 +10,31 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 
 namespace BridgeUI.Common
 {
     /// <summary>
     /// 右键菜单
     /// </summary>
-    public class RadiaMenuPanel : SinglePanel
+    public class RadiaMenuPanel : ViewBaseComponent
     {
         [SerializeField]
         private Control.RadialMenu m_radiaPrefab;
+        public Control.RadialMenu MenuPrefab { get { return m_radiaPrefab; } }
+ 
         private Control.RadialMenu _radiaMenu;
 
-        protected override void Awake()
+        protected override void OnInitialize()
         {
-            base.Awake();
-            InitRadiaMenu();
-        }
-
-        private void InitRadiaMenu()
-        {
-            _radiaMenu = Instantiate(m_radiaPrefab);
+            _radiaMenu = Object.Instantiate(MenuPrefab);
             _radiaMenu.transform.SetParent(transform, false);
         }
-
-        protected override void HandleData(object data)
+        protected override void OnRecover()
         {
-            base.HandleData(data);
+            GameObject.Destroy(_radiaMenu.gameObject);
+        }
+        protected override void OnMessageReceive(object data)
+        {
             if (data is UnityAction<Control.RadialMenu>)
             {
                 _radiaMenu.Reset();

@@ -8,6 +8,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Collections;
 using System.Collections.Generic;
 using BridgeUI;
 using System;
@@ -16,16 +17,19 @@ namespace BridgeUI.Common
     /// <summary>
     /// 等待面板
     /// </summary>
-    public class WaitPopPanel : SingleCloseAblePanel
+    public class WaitPopPanel : CloseAblePanel
     {
         [SerializeField]
         private Text m_title;
 
-        protected override void PropBindings()
+        protected override void OnMessageReceive(object data)
         {
-            base.PropBindings();
-            Binder.RegistValueChange<bool>(x=>m_close.interactable = x, "cansaleAble");
-            Binder.RegistValueChange<string>(x=>m_title.text = x, "title");
+            if(data is IDictionary)
+            {
+                var dic = data as IDictionary;
+                m_close.interactable = (bool)dic[00];
+                m_title.text = (string)dic[01];
+            }
         }
     }
 }

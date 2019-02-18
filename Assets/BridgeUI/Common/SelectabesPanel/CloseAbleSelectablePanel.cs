@@ -8,16 +8,20 @@ using BridgeUI;
 
 namespace BridgeUI.Common
 {
-    [Attributes.PanelParent]
     public class CloseAbleSelectablePanel : SelectAblesPanel
     {
         [SerializeField]
         protected Button m_close;
 
-        protected override void Awake()
+        protected override void OnInitialize()
         {
-            base.Awake();
+            base.OnInitialize();
             m_close.onClick.AddListener(Close);
+        }
+        protected override void OnRecover()
+        {
+            base.OnRecover();
+            m_close.onClick.RemoveListener(Close);
         }
     }
 }

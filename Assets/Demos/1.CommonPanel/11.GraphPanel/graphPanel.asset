@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -50,14 +51,17 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
-    prefab: {fileID: 1053018935430422, guid: 7cd7db2967025d64cb5bb1211cf0858b, type: 2}
+      cover: 0
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+    prefab: {fileID: 1053018935430422, guid: 7cd7db2967025d64cb5bb1211cf0858b, type: 3}
   r_nodes: []
   bridges: []
 --- !u!114 &114012449446268218
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -71,6 +75,7 @@ MonoBehaviour:
   nodedescribe: []
   rule:
     baseTypeIndex: 0
+    nameSpace: 
     canInherit: 0
     bindingAble: 0
   components: []
@@ -84,5 +89,7 @@ MonoBehaviour:
       quitAnim: {fileID: 0}
       closeRule: 0
       hideRule: 0
+      cover: 0
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
     guid: 7cd7db2967025d64cb5bb1211cf0858b
     discription: 

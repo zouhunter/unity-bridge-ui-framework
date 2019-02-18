@@ -1,0 +1,601 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d2d9de1cba75443b53732fa8104050, type: 3}
+  m_Name: layersGroup
+  m_EditorClassIdentifier: 
+  m_allNodes:
+  - m_name: a.AnyPanel
+    m_id: 2d531ada-60da-4b59-80c0-c9763ef78a0e
+    m_x: 221
+    m_y: 118
+    m_node: {fileID: 114137962415932570}
+    m_inputPoints: []
+    m_outputPoints:
+    - id: 3320eb25-cffe-4c10-99d8-5ae628525711
+      label: "\u2192"
+      parentId: 2d531ada-60da-4b59-80c0-c9763ef78a0e
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  - m_name: BasePanel
+    m_id: 9923fed8-08d1-4d30-b469-1d24d9527637
+    m_x: 516
+    m_y: 216
+    m_node: {fileID: 114881636809025142}
+    m_inputPoints:
+    - id: 99bc8575-c992-4d2e-94b6-5a3e68a803e5
+      label: "\u2192"
+      parentId: 9923fed8-08d1-4d30-b469-1d24d9527637
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 20
+      type: bridge
+    m_outputPoints:
+    - id: be0d723f-060f-4576-b477-81871a0a45d8
+      label: (0)
+      parentId: 9923fed8-08d1-4d30-b469-1d24d9527637
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 20
+      type: bridge
+  - m_name: PopPanel
+    m_id: 5aafdf36-1a5e-42fa-815c-048961f97403
+    m_x: 636
+    m_y: 144
+    m_node: {fileID: 114959319257482142}
+    m_inputPoints:
+    - id: 8cf96732-99f3-4e31-a052-f33e5491d7c1
+      label: "\u2192"
+      parentId: 5aafdf36-1a5e-42fa-815c-048961f97403
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 20
+      type: bridge
+    m_outputPoints: []
+  - m_name: StoryPanel
+    m_id: d1ad667e-9ec7-49e7-b075-352957dd4d95
+    m_x: 492
+    m_y: 36
+    m_node: {fileID: 114814398216948356}
+    m_inputPoints:
+    - id: 59405a06-d3c1-4bda-bd3d-e12e0601024e
+      label: "\u2192"
+      parentId: d1ad667e-9ec7-49e7-b075-352957dd4d95
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 20
+      type: bridge
+    m_outputPoints:
+    - id: f1dd2149-e761-4ba8-8b80-3331c4a469f6
+      label: (0)
+      parentId: d1ad667e-9ec7-49e7-b075-352957dd4d95
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 20
+      type: bridge
+  - m_name: TipPanel
+    m_id: ee7d2d48-0d34-480f-9a91-207c60d0df57
+    m_x: 540
+    m_y: 324
+    m_node: {fileID: 114621486022215770}
+    m_inputPoints:
+    - id: c9070303-1f01-4ac5-80dd-f54c68909642
+      label: "\u2192"
+      parentId: ee7d2d48-0d34-480f-9a91-207c60d0df57
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 20
+      type: bridge
+    m_outputPoints: []
+  - m_name: WorningPanel
+    m_id: 0602c396-a09d-4983-9737-388cae3d0ef3
+    m_x: 720
+    m_y: 72
+    m_node: {fileID: 114281722916898598}
+    m_inputPoints:
+    - id: 6d8df68a-2f48-42b1-9c21-697e7e7d3b60
+      label: "\u2192"
+      parentId: 0602c396-a09d-4983-9737-388cae3d0ef3
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 20
+      type: bridge
+    m_outputPoints: []
+  m_allConnections:
+  - m_id: d57f628f-7ddd-428e-a78e-66536b238768
+    m_fromNodeId: 2d531ada-60da-4b59-80c0-c9763ef78a0e
+    m_fromNodeConnectionPointId: 3320eb25-cffe-4c10-99d8-5ae628525711
+    m_toNodeId: 9923fed8-08d1-4d30-b469-1d24d9527637
+    m_toNodeConnectionPoiontId: 99bc8575-c992-4d2e-94b6-5a3e68a803e5
+    m_type: bridge
+    m_connection: {fileID: 114049422053326396}
+  - m_id: e09c1980-dccb-4371-add8-807b603f435e
+    m_fromNodeId: 2d531ada-60da-4b59-80c0-c9763ef78a0e
+    m_fromNodeConnectionPointId: 3320eb25-cffe-4c10-99d8-5ae628525711
+    m_toNodeId: d1ad667e-9ec7-49e7-b075-352957dd4d95
+    m_toNodeConnectionPoiontId: 59405a06-d3c1-4bda-bd3d-e12e0601024e
+    m_type: bridge
+    m_connection: {fileID: 114241052898806166}
+  - m_id: 9e9e2b01-3f87-428a-966a-3945d155a4ad
+    m_fromNodeId: 2d531ada-60da-4b59-80c0-c9763ef78a0e
+    m_fromNodeConnectionPointId: 3320eb25-cffe-4c10-99d8-5ae628525711
+    m_toNodeId: 5aafdf36-1a5e-42fa-815c-048961f97403
+    m_toNodeConnectionPoiontId: 8cf96732-99f3-4e31-a052-f33e5491d7c1
+    m_type: bridge
+    m_connection: {fileID: 114806096175566362}
+  - m_id: e5c1fd6e-d4b6-4eca-a421-4f0fd3f542a6
+    m_fromNodeId: 2d531ada-60da-4b59-80c0-c9763ef78a0e
+    m_fromNodeConnectionPointId: 3320eb25-cffe-4c10-99d8-5ae628525711
+    m_toNodeId: ee7d2d48-0d34-480f-9a91-207c60d0df57
+    m_toNodeConnectionPoiontId: c9070303-1f01-4ac5-80dd-f54c68909642
+    m_type: bridge
+    m_connection: {fileID: 114361913608324538}
+  - m_id: 45fba674-53c8-4f17-904b-7112e137a5bf
+    m_fromNodeId: 2d531ada-60da-4b59-80c0-c9763ef78a0e
+    m_fromNodeConnectionPointId: 3320eb25-cffe-4c10-99d8-5ae628525711
+    m_toNodeId: 0602c396-a09d-4983-9737-388cae3d0ef3
+    m_toNodeConnectionPoiontId: 6d8df68a-2f48-42b1-9c21-697e7e7d3b60
+    m_type: bridge
+    m_connection: {fileID: 114899845887259190}
+  m_lastModified: 131895355420183888
+  m_graphDescription: 
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
+  loadType: 1
+  b_nodes: []
+  p_nodes:
+  - instanceID: 0
+    discription: 
+    panelName: BasePanel
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 128, g: 128, b: 128, a: 128}
+    prefab: {fileID: 1913821947898182, guid: 0c25cb2cf661c954599eb0c336560139, type: 3}
+  - instanceID: 0
+    discription: 
+    panelName: PopPanel
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 1
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 2
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.101960786}
+    prefab: {fileID: 1653352151405708, guid: b5cd15061cde89244917a96f939fcbb3, type: 3}
+  - instanceID: 0
+    discription: 
+    panelName: StoryPanel
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 3
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 128, g: 128, b: 128, a: 128}
+    prefab: {fileID: 1399270530578266, guid: 20d228f52367cda4287981b05c8dfbb9, type: 3}
+  - instanceID: 0
+    discription: 
+    panelName: TipPanel
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 2
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 2
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.101960786}
+    prefab: {fileID: 1803647917507738, guid: 2c757189254845643878486a2b6cec14, type: 3}
+  - instanceID: 0
+    discription: 
+    panelName: WorningPanel
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 4
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 2
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.101960786}
+    prefab: {fileID: 1781963769016396, guid: 5f6541c5538a6c74bbaa191bb533af14, type: 3}
+  r_nodes: []
+  bridges:
+  - inNode: 
+    outNode: BasePanel
+    index: 0
+    showModel:
+      _auto: 1
+      _single: 0
+      mutex: 0
+      baseShow: 0
+  - inNode: 
+    outNode: StoryPanel
+    index: 0
+    showModel:
+      _auto: 1
+      _single: 0
+      mutex: 0
+      baseShow: 0
+  - inNode: 
+    outNode: PopPanel
+    index: 0
+    showModel:
+      _auto: 1
+      _single: 0
+      mutex: 0
+      baseShow: 0
+  - inNode: 
+    outNode: TipPanel
+    index: 0
+    showModel:
+      _auto: 1
+      _single: 0
+      mutex: 0
+      baseShow: 0
+  - inNode: 
+    outNode: WorningPanel
+    index: 0
+    showModel:
+      _auto: 1
+      _single: 0
+      mutex: 0
+      baseShow: 0
+--- !u!114 &114049422053326396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 1
+    _single: 0
+    mutex: 0
+    baseShow: 0
+--- !u!114 &114137962415932570
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
+  m_Name: BridgeUI.Graph.AnyNode
+  m_EditorClassIdentifier: 
+--- !u!114 &114241052898806166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 1
+    _single: 0
+    mutex: 0
+    baseShow: 0
+--- !u!114 &114281722916898598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: WorningPanel
+  m_EditorClassIdentifier: 
+  selected: 3
+  instenceID: 0
+  assetName: WorningPanel
+  style: 1
+  nodedescribe: []
+  rule:
+    baseTypeIndex: 0
+    nameSpace: 
+    canInherit: 0
+    bindingAble: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 4
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 2
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.101960786}
+    guid: 5f6541c5538a6c74bbaa191bb533af14
+    discription: 
+--- !u!114 &114361913608324538
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 1
+    _single: 0
+    mutex: 0
+    baseShow: 0
+--- !u!114 &114621486022215770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: TipPanel
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  assetName: TipPanel
+  style: 1
+  nodedescribe: []
+  rule:
+    baseTypeIndex: 0
+    nameSpace: 
+    canInherit: 0
+    bindingAble: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 2
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 2
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.101960786}
+    guid: 2c757189254845643878486a2b6cec14
+    discription: 
+--- !u!114 &114806096175566362
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 1
+    _single: 0
+    mutex: 0
+    baseShow: 0
+--- !u!114 &114814398216948356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: StoryPanel
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  assetName: StoryPanel
+  style: 1
+  nodedescribe:
+  - 
+  rule:
+    baseTypeIndex: 0
+    nameSpace: 
+    canInherit: 0
+    bindingAble: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 3
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 128, g: 128, b: 128, a: 128}
+    guid: 20d228f52367cda4287981b05c8dfbb9
+    discription: 
+--- !u!114 &114881636809025142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: BasePanel
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  assetName: BasePanel
+  style: 1
+  nodedescribe:
+  - 
+  rule:
+    baseTypeIndex: 0
+    nameSpace: 
+    canInherit: 0
+    bindingAble: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 128, g: 128, b: 128, a: 128}
+    guid: 0c25cb2cf661c954599eb0c336560139
+    discription: 
+--- !u!114 &114899845887259190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 1
+    _single: 0
+    mutex: 0
+    baseShow: 0
+--- !u!114 &114959319257482142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: PopPanel
+  m_EditorClassIdentifier: 
+  selected: 0
+  instenceID: 0
+  assetName: PopPanel
+  style: 1
+  nodedescribe: []
+  rule:
+    baseTypeIndex: 0
+    nameSpace: 
+    canInherit: 0
+    bindingAble: 0
+  components: []
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 1
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 2
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.101960786}
+    guid: b5cd15061cde89244917a96f939fcbb3
+    discription: 

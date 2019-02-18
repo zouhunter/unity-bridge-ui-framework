@@ -17,27 +17,34 @@ namespace BridgeUI.Common
     /// <summary>
     /// 自适应图片显示面板
     /// </summary>
-    public class SingleImagePanel : SingleCloseAblePanel
+    public class SingleImagePanel : ViewBaseComponent
     {
         [SerializeField]
         private Image m_image;
         [SerializeField]
         private Text m_title;
 
-        protected override void Awake()
+        protected override void OnMessageReceive(object data)
         {
-            base.Awake();
-            Binder.RegistValueChange<string>(x=>m_title.text = x,"title");
-            Binder.RegistValueChange<Sprite>(x=>m_image.sprite = x, "sprite");
+            if(data is IDictionary)
+            {
+                var dic = data as IDictionary;
+                m_title.text = dic["title"].ToString();
+                m_image.sprite = dic["sprite"] as Sprite;
+            }
         }
 
-        protected override void HandleData(object data)
+        protected override void OnInitialize()
         {
-            base.HandleData(data);
             if (m_image.sprite != null)
             {
                 m_image.GetComponent<LayoutElement>().preferredHeight = m_image.GetComponent<LayoutElement>().preferredWidth / ((float)m_image.sprite.texture.width / m_image.sprite.texture.height);
             }
+        }
+
+        protected override void OnRecover()
+        {
+            m_image.sprite = null;
         }
     }
 }

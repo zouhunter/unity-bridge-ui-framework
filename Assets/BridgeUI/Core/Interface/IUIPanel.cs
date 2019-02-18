@@ -17,13 +17,14 @@ namespace BridgeUI
     public interface IChildPanelOpenClose
     {
         #region OpenClose
-        IUIHandle Open(string panelName, object data = null);
-        IUIHandle Open(int index, object data = null);
+        void Open(string panelName, object data = null);
+        void Open(int index, object data = null);
         void Hide(string panelName);
         void Hide(int index);
         void Close(string panelName);
         void Close(int index);
         bool IsOpen(int index);
+        bool IsOpen(string panelName);
         #endregion
     }
     /// <summary>
@@ -33,6 +34,7 @@ namespace BridgeUI
 
     public interface IUIPanel: IChildPanelOpenClose
     {
+        GameObject Target { get; }
         string Name { get; }
         int InstenceID { get; }
         IPanelGroup Group { get; set; }
@@ -40,11 +42,13 @@ namespace BridgeUI
         Transform Content { get; }
         Transform Root { get; }
         List<IUIPanel> ChildPanels { get; }
-        event PanelCloseEvent onDelete;
+        event PanelCloseEvent onClose;
         UIType UType { get; set; }
         bool IsShowing { get; }
         bool IsAlive { get; }
-        void SetParent(Transform parent);
+        void Binding(GameObject target);
+        void SetParent(Transform Trans, Dictionary<int, Transform> transDic, Dictionary<int, IUIPanel> transRefDic);
+        void CallBack(object data);
         void Close();
         void Hide();
         void UnHide();

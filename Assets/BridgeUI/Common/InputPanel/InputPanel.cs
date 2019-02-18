@@ -19,19 +19,26 @@ namespace BridgeUI.Common
     /// <summary>
     /// 输入面板
     /// </summary>
-    public sealed class InputPanel : SingleCloseAblePanel
+    public sealed class InputPanel : ViewBaseComponent
     {
+        public Button close;
         public Text title;
         public InputField info;
-        protected override void Awake()
+
+        protected override void OnInitialize()
         {
-            base.Awake();
-            info.onEndEdit.AddListener((x)=> {
-                CallBack(x);
-            });
+            info.onEndEdit.AddListener(CallBack);
+            close.onClick.AddListener(Close);
         }
-        protected override void HandleData(object message)
+
+        protected override void OnRecover()
         {
+
+        }
+
+        protected override void OnMessageReceive(object message)
+        {
+            base.OnMessageReceive(message);
             var dic = message as Hashtable;
             if (message != null && dic["title"] != null)
             {

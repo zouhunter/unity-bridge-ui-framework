@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-using BridgeUI.Common;
 using BridgeUI;
 
 namespace BridgeUI.Control

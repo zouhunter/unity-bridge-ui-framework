@@ -23,7 +23,7 @@ namespace BridgeUI.Common
     /// [title]
     /// [info]
     /// </summary>
-    public class PopupPanel : SingleCloseAblePanel
+    public class PopupPanel : CloseAblePanel
     {
         public Text title;
         public Text info;
@@ -34,8 +34,25 @@ namespace BridgeUI.Common
 
         protected bool callBack;
         private bool donthide = false;
-        private Queue<KeyValuePair<string, string>> valueQueue = new Queue<KeyValuePair<string, string>>();
+        private Queue<KeyValuePair<string, string>> valueQueue;
         private bool isShowing;
+
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+            isShowing = false;
+            callBack = false;
+            donthide = false;
+            valueQueue = new Queue<KeyValuePair<string, string>>();
+        }
+
+        protected override void OnRecover()
+        {
+            base.OnRecover();
+            valueQueue.Clear();
+            valueQueue = null;
+        }
 
         public override void Close()
         {
@@ -54,9 +71,10 @@ namespace BridgeUI.Common
 
         }
 
-        protected override void HandleData(object data)
+        protected override void OnMessageReceive(object data)
         {
-            base.HandleData(data);
+            if (!Initialized) return;
+
             if(data is Enum)
             {
                 HandleEnum(data as Enum);
@@ -146,5 +164,6 @@ namespace BridgeUI.Common
             info.text = item.Value;
             onGet.Invoke(item.Key + item.Value);
         }
+
     }
 }

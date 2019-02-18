@@ -1,8 +1,7 @@
 fileFormatVersion: 2
 guid: 18a7e6dbfc818c0459f38e3317513bb4
-NativeFormatImporter:
+PrefabImporter:
   externalObjects: {}
-  mainObjectFileID: -1
   userData: 
   assetBundleName: bridgeui/panels/waitpoppanel.assetbundle
   assetBundleVariant: 

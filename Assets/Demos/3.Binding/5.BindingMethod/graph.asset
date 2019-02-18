@@ -1,0 +1,272 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d2d9de1cba75443b53732fa8104050, type: 3}
+  m_Name: graph
+  m_EditorClassIdentifier: 
+  m_allNodes:
+  - m_name: AnyState
+    m_id: 423ca61b-8dcc-471b-94ef-e34718052030
+    m_x: 62
+    m_y: 155
+    m_node: {fileID: 114309275575609262}
+    m_inputPoints: []
+    m_outputPoints:
+    - id: 6d783b13-3347-4312-8525-5a4b5ded8ba0
+      label: +
+      parentId: 423ca61b-8dcc-471b-94ef-e34718052030
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 111
+        y: 21.5
+        width: 10
+        height: 23
+      max: 100
+      type: bridge
+  - m_name: bindingMethodTest
+    m_id: 688a3f69-a280-4f0c-ab80-a0e89813930c
+    m_x: 276
+    m_y: 72
+    m_node: {fileID: 114768085225508954}
+    m_inputPoints:
+    - id: 3b352f45-3f47-41c6-88bd-589bc7609796
+      label: "\u2192"
+      parentId: 688a3f69-a280-4f0c-ab80-a0e89813930c
+      isInput: 1
+      buttonRect:
+        serializedVersion: 2
+        x: 0
+        y: 18.5
+        width: 21
+        height: 29
+      max: 20
+      type: bridge
+    m_outputPoints:
+    - id: 02bece94-fc70-4fa5-886d-1221aa3ef969
+      label: "\u63A7\u4EF6\u901A\u9053(0)"
+      parentId: 688a3f69-a280-4f0c-ab80-a0e89813930c
+      isInput: 0
+      buttonRect:
+        serializedVersion: 2
+        x: 149
+        y: 21.5
+        width: 10
+        height: 23
+      max: 20
+      type: bridge
+  m_allConnections:
+  - m_id: 847dfbc2-9599-4709-a29d-961ef052b7c4
+    m_fromNodeId: 423ca61b-8dcc-471b-94ef-e34718052030
+    m_fromNodeConnectionPointId: 6d783b13-3347-4312-8525-5a4b5ded8ba0
+    m_toNodeId: 688a3f69-a280-4f0c-ab80-a0e89813930c
+    m_toNodeConnectionPoiontId: 3b352f45-3f47-41c6-88bd-589bc7609796
+    m_type: bridge
+    m_connection: {fileID: 114101800268242206}
+  m_lastModified: 131783065235626317
+  m_graphDescription: 
+  m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
+  loadType: 1
+  b_nodes: []
+  p_nodes:
+  - instanceID: 0
+    discription: 
+    panelName: bindingMethodTest
+    type:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+    prefab: {fileID: 172206, guid: 2a44c603d9b16fe44b5764f940b1abf1, type: 3}
+  r_nodes: []
+  bridges:
+  - inNode: 
+    index: 0
+    showModel:
+      _auto: 1
+      _single: 0
+      mutex: 0
+      baseShow: 0
+    viewModel: {fileID: 11400000, guid: fb832de497bbf7442b253e73beef6b74, type: 2}
+    outNode: bindingMethodTest
+--- !u!114 &114101800268242206
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcf91097135a8449520bf75b8b99d9, type: 3}
+  m_Name: BridgeUI.Graph.BridgeConnection
+  m_EditorClassIdentifier: 
+  blocking: 0
+  show:
+    _auto: 1
+    _single: 0
+    mutex: 0
+    baseShow: 0
+  viewModel: {fileID: 11400000, guid: fb832de497bbf7442b253e73beef6b74, type: 2}
+--- !u!114 &114309275575609262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675bf750736914440bad550322193fba, type: 3}
+  m_Name: Luncher
+  m_EditorClassIdentifier: 
+--- !u!114 &114768085225508954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
+  m_Name: bindingMethodTest
+  m_EditorClassIdentifier: 
+  selected: 2
+  instenceID: 0
+  assetName: bindingMethodTest
+  style: 1
+  nodedescribe:
+  - "\u63A7\u4EF6\u901A\u9053"
+  rule:
+    baseTypeIndex: 0
+    nameSpace: 
+    canInherit: 0
+    bindingAble: 0
+  components:
+  - open: 0
+    name: bindingMethodTest
+    componentID: 0
+    components:
+    - assembleName: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: bindingMethodTest
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems:
+    - isMethod: 1
+      bindingSource: value
+      bindingTarget: SetValue
+      bindingTargetType:
+        assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        typeName: System.String[]
+    eventItems: []
+    target: {fileID: 172206, guid: 2a44c603d9b16fe44b5764f940b1abf1, type: 3}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
+    name: btn
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems:
+    - isMethod: 0
+      bindingSource: color
+      bindingTarget: colors
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.ColorBlock
+    eventItems:
+    - type: 1
+      bindingSource: ButtonClicked
+      bindingTarget: onClick
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.Button+ButtonClickedEvent
+    target: {fileID: 185914, guid: 2a44c603d9b16fe44b5764f940b1abf1, type: 3}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
+    name: list
+    componentID: 0
+    components:
+    - assembleName: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: BridgeUI.Control.ButtonListSelector
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.VerticalLayoutGroup
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems:
+    - isMethod: 0
+      bindingSource: value
+      bindingTarget: options
+      bindingTargetType:
+        assembleName: mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        typeName: System.String[]
+    eventItems: []
+    target: {fileID: 1703508286976370, guid: 2a44c603d9b16fe44b5764f940b1abf1, type: 3}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  - open: 0
+    name: close
+    componentID: 0
+    components:
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Button
+    - assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.UI.Image
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.RectTransform
+    - assembleName: UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      typeName: UnityEngine.GameObject
+    viewItems:
+    - isMethod: 0
+      bindingSource: color
+      bindingTarget: colors
+      bindingTargetType:
+        assembleName: UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        typeName: UnityEngine.UI.ColorBlock
+    eventItems: []
+    target: {fileID: 1477119682217498, guid: 2a44c603d9b16fe44b5764f940b1abf1, type: 3}
+    scriptTarget: {fileID: 0}
+    isScriptComponent: 0
+  nodeInfo:
+    uiType:
+      layerIndex: 0
+      form: 0
+      layer: 0
+      hideAlaph: 0
+      enterAnim: {fileID: 0}
+      quitAnim: {fileID: 0}
+      closeRule: 0
+      hideRule: 0
+      cover: 0
+      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+    guid: 2a44c603d9b16fe44b5764f940b1abf1
+    discription: 

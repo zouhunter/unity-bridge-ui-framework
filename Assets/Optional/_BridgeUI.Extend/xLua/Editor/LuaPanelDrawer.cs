@@ -11,12 +11,11 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+
 namespace BridgeUI.Extend.XLua
 {
-
-    using ResourceType = LuaPanel.ResourceType;
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(LuaPanel), editorForChildClasses: true)]
+    [CustomEditor(typeof(LuaPanel_Reference), editorForChildClasses: true)]
     public class LuaPanelDrawer : Editor
     {
         SerializedProperty scriptPorp;
@@ -91,7 +90,7 @@ namespace BridgeUI.Extend.XLua
 
         private void SwitchDrawProps()
         {
-            var type = (LuaPanel.ResourceType)resourceType.intValue;
+            var type = (ResourceType)resourceType.intValue;
             switch (type)
             {
                 case ResourceType.OriginLink:

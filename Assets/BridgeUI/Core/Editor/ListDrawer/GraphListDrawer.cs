@@ -10,6 +10,7 @@ namespace BridgeUI.Drawer
 {
     public class GraphListDrawer : ReorderListDrawer
     {
+        public event Action onChanged;
         public GraphListDrawer(string title) : base(title) { }
 
         public override void InitReorderList(SerializedProperty property)
@@ -30,11 +31,22 @@ namespace BridgeUI.Drawer
                 GUI.backgroundColor = oldColor;
             }
         }
+
         protected override void DrawElementCallBack(Rect rect, int index, bool isActive, bool isFocused)
         {
             base.DrawElementCallBack(rect, index, isActive, isFocused);
             var prop = property.GetArrayElementAtIndex(index);
-            var graph = prop.objectReferenceValue;
+            var graphGUID = prop.stringValue;
+            BridgeUI.Graph.UIGraph graph = null;
+            if (!string.IsNullOrEmpty(graphGUID))
+            {
+                var path = AssetDatabase.GUIDToAssetPath(graphGUID);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    graph = AssetDatabase.LoadAssetAtPath<Graph.UIGraph>(path);
+                }
+            }
+
             var graphName = graph == null ? "empty" : graph.name;
 
             rect = BridgeEditorUtility.DrawBoxRect(rect, index.ToString("00"));
@@ -50,14 +62,19 @@ namespace BridgeUI.Drawer
 
             if (graph != null)
             {
-                if (GUI.Button(btnRect, " ", EditorStyles.objectFieldMiniThumb)) {
+                if (GUI.Button(btnRect, " ", EditorStyles.objectFieldMiniThumb))
+                {
                     EditorGUIUtility.PingObject(graph);
                 }
                 DragGroupObj(btnRect, prop);
             }
             else
             {
-                prop.objectReferenceValue = EditorGUI.ObjectField(btnRect, prop.objectReferenceValue, typeof(BridgeUI.Graph.UIGraph), false);
+                var graphNew = EditorGUI.ObjectField(btnRect, graph, typeof(BridgeUI.Graph.UIGraph), false) as Graph.UIGraph;
+                if (graphNew != null && graphNew != graph)
+                {
+                    SetProperyValue(prop, graphNew);
+                }
             }
         }
         public override void DoLayoutList()
@@ -93,14 +110,17 @@ namespace BridgeUI.Drawer
                             {
                                 property.InsertArrayElementAtIndex(property.arraySize);
                                 var prop = property.GetArrayElementAtIndex(property.arraySize - 1);
-                                SetProperyValue(prop, obj);
+                                if (prop.objectReferenceValue != null)
+                                {
+                                    SetProperyValue(prop, obj as Graph.UIGraph);
+                                }
                             }
                         }
                     }
                     break;
             }
 
-            if(Event.current.type == EventType.MouseUp && rect.Contains( Event.current.mousePosition))
+            if (Event.current.type == EventType.MouseUp && rect.Contains(Event.current.mousePosition))
             {
                 reorderList.ReleaseKeyboardFocus();
                 SetOnSelect(-1);
@@ -126,9 +146,9 @@ namespace BridgeUI.Drawer
                         if (DragAndDrop.objectReferences.Length > 0)
                         {
                             var obj = DragAndDrop.objectReferences[0];
-                            if (obj is NodeGraph.DataModel.NodeGraphObj)
+                            if (obj is BridgeUI.Graph.UIGraph)
                             {
-                                SetProperyValue(prop, obj);
+                                SetProperyValue(prop, obj as BridgeUI.Graph.UIGraph);
                             }
                         }
                         DragAndDrop.AcceptDrag();
@@ -138,10 +158,13 @@ namespace BridgeUI.Drawer
             }
         }
 
-        protected virtual void SetProperyValue(SerializedProperty property,UnityEngine.Object obj)
+        protected void SetProperyValue(SerializedProperty property, Graph.UIGraph obj)
         {
-            property.objectReferenceValue = obj;
+            var path = AssetDatabase.GetAssetPath(obj);
+            var guid = AssetDatabase.AssetPathToGUID(path);
+            property.stringValue = guid;
             property.serializedObject.ApplyModifiedProperties();
+            EditorApplication.delayCall +=  OnGraphChanged;
         }
 
         protected override float ElementHeightCallback(int index)
@@ -149,6 +172,14 @@ namespace BridgeUI.Drawer
             var prop = property.GetArrayElementAtIndex(index);
             var height = EditorGUI.GetPropertyHeight(prop, null, true) + BridgeUI.Drawer.BridgeEditorUtility.padding * 2;
             return height;
+        }
+
+        private void OnGraphChanged()
+        {
+            if(onChanged != null)
+            {
+                onChanged.Invoke();
+            }
         }
     }
 }

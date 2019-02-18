@@ -1,0 +1,7 @@
+E:\Gitee\unity-bridgeui-framework\BridgeUIEvent\BridgeUIEvent\bin\Debug\BridgeUI.Events.dll
+E:\Gitee\unity-bridgeui-framework\BridgeUIEvent\BridgeUIEvent\bin\Debug\BridgeUI.Events.pdb
+E:\Gitee\unity-bridgeui-framework\BridgeUIEvent\BridgeUIEvent\bin\Debug\UnityEngine.dll
+E:\Gitee\unity-bridgeui-framework\BridgeUIEvent\BridgeUIEvent\bin\Debug\UnityEngine.xml
+E:\Gitee\unity-bridgeui-framework\BridgeUIEvent\BridgeUIEvent\obj\Debug\BridgeUIEvent.csprojResolveAssemblyReference.cache
+E:\Gitee\unity-bridgeui-framework\BridgeUIEvent\BridgeUIEvent\obj\Debug\BridgeUI.Events.dll
+E:\Gitee\unity-bridgeui-framework\BridgeUIEvent\BridgeUIEvent\obj\Debug\BridgeUI.Events.pdb

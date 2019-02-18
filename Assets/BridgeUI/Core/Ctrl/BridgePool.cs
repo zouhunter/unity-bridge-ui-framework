@@ -33,7 +33,8 @@ namespace BridgeUI
         internal Bridge Allocate(BridgeInfo info,IUIPanel parentPanel = null)
         {
             var bridge = innerPool.Allocate();
-            bridge.Reset(info,parentPanel);
+            bridge.ResetInfo(info);
+            bridge.SetInPanel(parentPanel);
             return bridge;
         }
         private void OnRelease(Bridge bridge)

@@ -14,7 +14,12 @@ using System;
 
 namespace BridgeUI.Control
 {
-    public abstract class ListSelector : MonoBehaviour
+    /// <summary>
+    /// 需要绑定：(否则无法使用)
+    /// 1.GameObjectPool
+    /// 2.singleChoise
+    /// </summary>
+    public abstract class ListSelector : BridgeUIControl
     {
         [SerializeField]
         protected Transform m_parent;
@@ -37,8 +42,11 @@ namespace BridgeUI.Control
             set
             {
                 _options = value;
-                ClearCreated();
-                SetOptions(_options);
+                if(Initialized)
+                {
+                    ClearCreated();
+                    SetOptions(_options);
+                }
             }
         }
         public GameObject[] CreatedItems
@@ -48,25 +56,17 @@ namespace BridgeUI.Control
                 return createdItems.ToArray();
             }
         }
-        public virtual bool singleChoise { get; set; }
+        protected abstract bool singleChoise { get; }
+        public GameObjectPool objectPool { get; set; }
 
-        protected List<int> selecteds = new List<int>();
+
+        protected List<int> selecteds;
         protected string[] _options;
         protected event UnityAction onResetEvent;
-        protected List<GameObject> createdItems = new List<GameObject>();
-        private GameObjectPool _objectPool;
-        protected GameObjectPool objectPool
-        {
-            get
-            {
-                if (_objectPool == null)
-                {
-                    _objectPool = UIFacade.PanelPool;
-                }
-                return _objectPool;
-            }
-        }
+        protected List<GameObject> createdItems;
         private int _currentID;
+        private GameObject itemPool;
+
         protected virtual void Awake()
         {
             m_prefab.gameObject.SetActive(false);
@@ -160,6 +160,22 @@ namespace BridgeUI.Control
                 onResetEvent.Invoke();
                 onResetEvent = delegate { };
             }
+        }
+        protected override void OnInititalize()
+        {
+            objectPool = BridgeUI.Utility.CreatePool(transform, out itemPool);
+            createdItems = new List<GameObject>();
+            selecteds = new List<int>();
+        }
+        protected override void OnUnInitialize()
+        {
+            ClearCreated();
+            selecteds.Clear();
+            selecteds = null;
+            _options = null;
+            onResetEvent = null;
+            if (itemPool)
+                GameObject.Destroy(itemPool);
         }
     }
 }

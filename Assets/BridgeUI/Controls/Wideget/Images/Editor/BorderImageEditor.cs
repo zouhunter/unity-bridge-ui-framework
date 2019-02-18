@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEditor;
 namespace BridgeUI.Control
 {
-    [CustomEditor(typeof(BorderImage))]
+    [CustomEditor(typeof(BoarderImage))]
     public class BorderImageEditor : UnityEditor.UI.ImageEditor
     {
         private SerializedProperty left;

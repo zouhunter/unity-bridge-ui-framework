@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -12,25 +13,6 @@ MonoBehaviour:
   m_Name: common
   m_EditorClassIdentifier: 
   m_allNodes:
-  - m_name: ButtonOpenPanel
-    m_id: fae30cf6-ed0d-46c6-bffd-35dfea55ec0a
-    m_x: 312
-    m_y: 48
-    m_node: {fileID: 11409300}
-    m_inputPoints:
-    - id: eedd3895-fa08-4cee-ad44-1ce0d2510c23
-      label: "\u2192"
-      parentId: fae30cf6-ed0d-46c6-bffd-35dfea55ec0a
-      isInput: 1
-      buttonRect:
-        serializedVersion: 2
-        x: 0
-        y: 18.5
-        width: 21
-        height: 29
-      max: 100
-      type: bridge
-    m_outputPoints: []
   - m_name: ButtonsPanel
     m_id: 0e8f09d6-56c1-4b9e-aff8-d2368e93c4bf
     m_x: 120
@@ -88,8 +70,8 @@ MonoBehaviour:
       type: bridge
   - m_name: InputPanel
     m_id: e6e89bc9-6f93-4272-9535-ac7cc9ce1dcf
-    m_x: 120
-    m_y: 200
+    m_x: 108
+    m_y: 384
     m_node: {fileID: 11444604}
     m_inputPoints:
     - id: f9f90d99-dd92-423a-ae0a-26d59caf1650
@@ -107,8 +89,8 @@ MonoBehaviour:
     m_outputPoints: []
   - m_name: PopupPanel
     m_id: 821487a1-7e3f-4f6c-a747-726d3015aa50
-    m_x: 110
-    m_y: 260
+    m_x: 108
+    m_y: 252
     m_node: {fileID: 11469332}
     m_inputPoints:
     - id: 124596b1-fec7-4c6c-88e0-36dbda3c58a7
@@ -203,7 +185,7 @@ MonoBehaviour:
   - m_name: WaitPopPanel
     m_id: bc855942-b6a3-41cc-b27a-e90402e3efc6
     m_x: 348
-    m_y: 312
+    m_y: 324
     m_node: {fileID: 11451530}
     m_inputPoints:
     - id: 384459cb-bde3-499a-9070-8e5260139ae6
@@ -239,28 +221,11 @@ MonoBehaviour:
       max: 100
       type: bridge
   m_allConnections: []
-  m_lastModified: 131692476682705989
+  m_lastModified: 131947911091519715
   m_graphDescription: 
   m_controllerType: BridgeUI.Drawer.BridgeUIGraphCtrl
   loadType: 4
   b_nodes:
-  - instanceID: 0
-    discription: 
-    panelName: ButtonOpenPanel
-    type:
-      layerIndex: 0
-      form: 0
-      layer: 0
-      hideAlaph: 0
-      enterAnim: {fileID: 0}
-      quitAnim: {fileID: 0}
-      closeRule: 0
-      hideRule: 0
-      cover: 0
-      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
-    guid: 5e7386df05c992344b12b73fd369f769
-    good: 1
-    bundleName: bridgeui/panels/buttonopenpanel.assetbundle
   - instanceID: 0
     discription: 
     panelName: ButtonsPanel
@@ -300,7 +265,7 @@ MonoBehaviour:
     panelName: PopupPanel
     type:
       layerIndex: 0
-      form: 0
+      form: 1
       layer: 0
       hideAlaph: 0
       enterAnim: {fileID: 0}
@@ -403,8 +368,9 @@ MonoBehaviour:
 --- !u!114 &11401830
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -418,6 +384,7 @@ MonoBehaviour:
   nodedescribe: []
   rule:
     baseTypeIndex: 0
+    nameSpace: 
     canInherit: 0
     bindingAble: 0
   components: []
@@ -435,53 +402,19 @@ MonoBehaviour:
       maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
     guid: adec64d1277f9724681a8cc49e0f22c0
     discription: 
---- !u!114 &11409300
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
-  m_Name: ButtonOpenPanel
-  m_EditorClassIdentifier: 
-  selected: 3
-  instenceID: 0
-  assetName: ButtonOpenPanel
-  style: 2
-  nodedescribe: []
-  rule:
-    baseTypeIndex: 0
-    canInherit: 0
-    bindingAble: 0
-  components: []
-  nodeInfo:
-    uiType:
-      layerIndex: 0
-      form: 0
-      layer: 0
-      hideAlaph: 0
-      enterAnim: {fileID: 0}
-      quitAnim: {fileID: 0}
-      closeRule: 0
-      hideRule: 0
-      cover: 0
-      maskColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
-    guid: 5e7386df05c992344b12b73fd369f769
-    discription: 
 --- !u!114 &11410418
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: ButtonsPanel
   m_EditorClassIdentifier: 
-  selected: 3
+  selected: 2
   instenceID: 0
   assetName: ButtonsPanel
   style: 1
@@ -491,6 +424,7 @@ MonoBehaviour:
   - Button
   rule:
     baseTypeIndex: 0
+    nameSpace: 
     canInherit: 0
     bindingAble: 0
   components: []
@@ -511,8 +445,9 @@ MonoBehaviour:
 --- !u!114 &11431614
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -526,6 +461,7 @@ MonoBehaviour:
   nodedescribe: []
   rule:
     baseTypeIndex: 0
+    nameSpace: 
     canInherit: 0
     bindingAble: 0
   components: []
@@ -546,8 +482,9 @@ MonoBehaviour:
 --- !u!114 &11431910
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -561,6 +498,7 @@ MonoBehaviour:
   nodedescribe: []
   rule:
     baseTypeIndex: 0
+    nameSpace: 
     canInherit: 0
     bindingAble: 0
   components: []
@@ -581,8 +519,9 @@ MonoBehaviour:
 --- !u!114 &11439136
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -596,6 +535,7 @@ MonoBehaviour:
   nodedescribe: []
   rule:
     baseTypeIndex: 0
+    nameSpace: 
     canInherit: 0
     bindingAble: 0
   components: []
@@ -616,8 +556,9 @@ MonoBehaviour:
 --- !u!114 &11444604
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -631,6 +572,7 @@ MonoBehaviour:
   nodedescribe: []
   rule:
     baseTypeIndex: 0
+    nameSpace: 
     canInherit: 0
     bindingAble: 0
   components: []
@@ -651,8 +593,9 @@ MonoBehaviour:
 --- !u!114 &11451530
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -666,6 +609,7 @@ MonoBehaviour:
   nodedescribe: []
   rule:
     baseTypeIndex: 0
+    nameSpace: 
     canInherit: 0
     bindingAble: 0
   components: []
@@ -686,28 +630,30 @@ MonoBehaviour:
 --- !u!114 &11469332
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5e9259400e78dc4e9dcf1f2f3215a73, type: 3}
   m_Name: PopupPanel
   m_EditorClassIdentifier: 
-  selected: 2
+  selected: 0
   instenceID: 0
   assetName: PopupPanel
   style: 1
   nodedescribe: []
   rule:
     baseTypeIndex: 0
+    nameSpace: 
     canInherit: 0
     bindingAble: 0
   components: []
   nodeInfo:
     uiType:
       layerIndex: 0
-      form: 0
+      form: 1
       layer: 0
       hideAlaph: 0
       enterAnim: {fileID: 0}
@@ -721,8 +667,9 @@ MonoBehaviour:
 --- !u!114 &11497860
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0

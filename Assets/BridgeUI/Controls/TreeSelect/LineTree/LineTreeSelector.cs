@@ -14,6 +14,7 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace BridgeUI.Control.Tree
 {
@@ -30,12 +31,8 @@ namespace BridgeUI.Control.Tree
         private HorizontalOrVerticalLayoutGroup root;
 
         private LineTreeItemCreater creater;
+        private GameObject itemPool;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            InitRoot();
-        }
         /// <summary>
         /// 创建树型ui
         /// </summary>
@@ -43,6 +40,9 @@ namespace BridgeUI.Control.Tree
         public override void CreateTree(TreeNode nodeBase)
         {
             base.CreateTree(nodeBase);
+
+            if (!Initialized) return;
+
             var created = creater.CreateTreeSelectItems(nodeBase.childern.ToArray());
             foreach (var item in created)
             {
@@ -56,6 +56,8 @@ namespace BridgeUI.Control.Tree
         /// <param name="path"></param>
         public override void SetSelect(params string[] path)
         {
+            if (!Initialized) return;
+
             var list = new List<string>(path);
             var idPath = GetIDPath(list);
             SetSelect(idPath);
@@ -66,11 +68,15 @@ namespace BridgeUI.Control.Tree
         /// <param name="path"></param>
         public override void SetSelect(params int[] path)
         {
+            if (!Initialized) return;
+
             var list = new List<int>(path);
             creater.SetChildActive(list);
         }
         public override void ClearTree()
         {
+            if (!Initialized) return;
+
             if (creater != null)
             {
                 creater.Clear();
@@ -80,6 +86,8 @@ namespace BridgeUI.Control.Tree
 
         public override void AutoSelectFirst()
         {
+            if (!Initialized) return;
+
             var currentCreater = creater;
             while (currentCreater != null && currentCreater.CreatedItems != null && currentCreater.CreatedItems.Count() > 0)
             {
@@ -87,16 +95,6 @@ namespace BridgeUI.Control.Tree
                 firstChild.SetToggle(true,true);
                 currentCreater = firstChild.Creater;
             }
-        }
-
-        /// <summary>
-        /// 初始化环境
-        /// </summary>
-        private void InitRoot()
-        {
-            option.ruleGetter = GetRule;
-            option.axisType = root is HorizontalLayoutGroup ? GridLayoutGroup.Axis.Horizontal : GridLayoutGroup.Axis.Vertical;
-            creater = new LineTreeItemCreater(0, root.transform, option);
         }
 
         /// <summary>
@@ -120,6 +118,24 @@ namespace BridgeUI.Control.Tree
                 }
             }
             return rule;
+        }
+
+        protected override void OnInititalize()
+        {
+            option.ruleGetter = GetRule;
+            option.axisType = root is HorizontalLayoutGroup ? GridLayoutGroup.Axis.Horizontal : GridLayoutGroup.Axis.Vertical;
+            option.pool = BridgeUI.Utility.CreatePool(transform, out itemPool);
+            creater = new LineTreeItemCreater(0, root.transform, option);
+        }
+
+     
+        protected override void OnUnInitialize()
+        {
+            creater.Clear();
+            creater = null;
+            if (itemPool != null){
+                GameObject.Destroy(itemPool);
+            }
         }
     }
 }

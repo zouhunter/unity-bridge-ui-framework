@@ -8,6 +8,7 @@
 using System;
 using UnityEngine;
 using BridgeUI.Binding;
+using System.Collections.Generic;
 
 using XLua;
 namespace BridgeUI.Extend.XLua
@@ -17,19 +18,26 @@ namespace BridgeUI.Extend.XLua
     /// <summary>
     public class LuaViewModel : Binding.ViewModel
     {
-        protected LuaTable scriptEnv;
+        protected LuaTable luaTable;
+        protected Dictionary<byte, string> propDic;
 
-        public void Init(LuaTable scriptEnv)
+        public void Init(LuaTable table,Dictionary<byte,string> propDic)
         {
-            this.scriptEnv = scriptEnv;
+            this.luaTable = table;
+            this.propDic = propDic;
         }
 
-        public override BindableProperty<T> GetBindableProperty<T>(string name)
+        public override BindableProperty<T> GetBindableProperty<T>(byte id)
         {
-            var prop = base.GetBindableProperty<T>(name);
+            var prop = base.GetBindableProperty<T>(id);
             if (prop.ValueBoxed == null)
             {
-                prop.Value = scriptEnv.Get<T>(name);
+                if(propDic != null && propDic.ContainsKey(id))
+                {
+                    var propertyName = propDic[id];
+                    prop.Value = luaTable.Get<string, T>(propertyName);///未实现
+                    Debug.Log(propertyName+ ": "+typeof(T).FullName + ":" + prop.Value);
+                }
             }
             return prop;
         }

@@ -19,6 +19,7 @@ public class deepselect : MonoBehaviour {
     public TreeNode1 rootNode;
     void Start()
     {
+        selector.Initialize(null);
         selector.onSelect = OnSelect;
         selector.CreateTree(rootNode);
     }

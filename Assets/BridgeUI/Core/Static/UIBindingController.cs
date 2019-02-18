@@ -9,7 +9,7 @@ namespace BridgeUI
 {
     public class UIBindingItem
     {
-        public Func<IUIPanel, object, IUIHandle> openAction { get; set; }
+        public Action<IUIPanel, object> openAction { get; set; }
         public Action closeAction { get; set; }
         public Action hideAction { get; set; }
         public Func<bool> isOpenAction { get; set; }
@@ -50,13 +50,12 @@ namespace BridgeUI
             return false;
         }
 
-        public IUIHandle OpenRegistedPanel(IUIPanel panel, int key, object data = null)
+        public void OpenRegistedPanel(IUIPanel panel, int key, object data = null)
         {
             var bindingItem = FindBindingItem(panel.Name, key);
             if (bindingItem!= null && bindingItem.openAction != null){
-                return bindingItem.openAction.Invoke(panel, data);
+                bindingItem.openAction.Invoke(panel, data);
             }
-            return null;
         }
 
         public void HideRegistedPanel(IUIPanel panel, int key)

@@ -13,6 +13,7 @@ namespace BridgeUI.Control
     {
         [SerializeField]
         private RectTransform m_imageRect;
+        [SerializeField]
         private Text m_title;
         private string title;
         public string itemName { get { return title; } }
@@ -27,12 +28,8 @@ namespace BridgeUI.Control
                 return m_imageRect.GetComponent<UnityEngine.UI.Graphic>();
             }
         }
-        private void Awake()
-        {
-            m_title = GetComponentInChildren<Text>();
-        }
 
-        internal void Init(string title, Sprite sprite, Texture texture)
+        public void Init(string title, Sprite sprite, Texture texture)
         {
             this.title = title;
             if (m_title) m_title.text = title;

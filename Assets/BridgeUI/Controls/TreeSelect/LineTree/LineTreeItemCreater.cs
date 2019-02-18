@@ -11,19 +11,18 @@ namespace BridgeUI.Control.Tree
     {
         private int deepth;
         private Transform parent;
-        private GameObjectPool pool;
         private LineTreeItem[] created;
         private LineTreeOption option;
         private ToggleGroup group;
         public ToggleGroup Group { get { return group; } }
         public LineTreeItem[] CreatedItems { get { return created; } }
+        private GameObjectPool pool { get { return option.pool; } }
 
         public LineTreeItemCreater(int deepth, Transform parent, LineTreeOption option)
         {
             this.deepth = deepth;
             this.parent = parent;
             this.option = option;
-            pool = UIFacade.PanelPool;
         }
 
         public LineTreeItem[] CreateTreeSelectItems(TreeNode[] childNodes)
@@ -85,7 +84,7 @@ namespace BridgeUI.Control.Tree
                     if (item.Creater != null)
                         item.Creater.Clear();
 
-                    UIFacade.PanelPool.SavePoolObject(item.gameObject, false);
+                    if(pool!= null)  pool.SavePoolObject(item.gameObject, false);
 
                     if (item.childContent != null)
                         UnityEngine.Object.DestroyImmediate(item.childContent.gameObject);

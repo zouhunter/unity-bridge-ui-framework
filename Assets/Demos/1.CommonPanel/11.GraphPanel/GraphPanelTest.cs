@@ -14,7 +14,8 @@ public class GraphPanelTest : MonoBehaviour {
     {
         if (GUILayout.Button("Open Graph 0"))
         {
-            UIFacade.Instence.Open("GraphPanel", selecorData).RegistCallBack((p,x)=> selecorData = x as SelectorDataRoot);
+            UIFacade.Instence.Open("GraphPanel", selecorData);
+            //.RegistCallBack((p,x)=> selecorData = x as SelectorDataRoot);
         }
     }
 }

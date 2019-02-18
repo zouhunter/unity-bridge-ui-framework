@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections;
 using NodeGraph;
 using NodeGraph.DataModel;
+using BridgeUI.Binding;
 
 namespace BridgeUI.Drawer
 {
@@ -36,7 +37,7 @@ namespace BridgeUI.Drawer
                     if (!string.IsNullOrEmpty(path))
                     {
                         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                        GenCodeUtil.ChoiseAnUserMonobehiver(prefab, v => _panelCompnent = v);
+                        GenCodeUtil.ChoiseAnReferenceMonobehiver(prefab, v => _panelCompnent = v);
                     }
                 }
 
@@ -56,22 +57,31 @@ namespace BridgeUI.Drawer
         }
         private string[] options = { "参数配制", "控件指定", "面板脚本", "辅助内容" };
         private System.Type[] supportedAnimPlayers;
-        private GenCodeRule rule { get { if (panelNode == null) return default(GenCodeRule); return panelNode.rule; } }
+        private GenCodeRule rule {
+            get
+            {
+                if (panelNode == null)
+                    return default(GenCodeRule);
+                return panelNode.rule;
+            }
+            set
+            {
+                if (panelNode == null && value != null)
+                    panelNode.rule = value;
+            }
+        }
         private System.Collections.Generic.List<ComponentItem> components { get { if (panelNode == null) return null; return panelNode.components; } }
         private ComponentItemDrawer itemDrawer;
         private StringListDrawer nodeProtListDrawer;
-        private bool BindingAble
-        {
-            get
-            {
-                return typeof(PanelBase).IsAssignableFrom(typeof(PanelBase).Assembly.GetType(GenCodeUtil.supportBaseTypes[rule.baseTypeIndex]));
-            }
-        }
+        private bool bindingAble;
 
         private void OnEnable()
         {
             panelNode = target as Graph.PanelNodeBase;
             itemDrawer = new ComponentItemDrawer();
+            if(panelNode.rule == null){
+                panelNode.rule = new GenCodeRule(Setting.defultNameSpace);
+            }
             InitPanelPortDrawer();
             InitAnimPlayers();
             OnPrefabChanged();
@@ -86,6 +96,19 @@ namespace BridgeUI.Drawer
             SwitchDrawOption();
             serializedObject.ApplyModifiedProperties();
         }
+
+        private void UpdateBindingAble()
+        {
+            if (GenCodeUtil.supportBaseTypes.Length == 0) bindingAble = false;
+
+            if (GenCodeUtil.supportBaseTypes.Length <= rule.baseTypeIndex)
+            {
+                rule.baseTypeIndex = 0;
+            }
+
+            bindingAble = typeof(BindingViewBase).IsAssignableFrom(typeof(BindingViewBase).Assembly.GetType(GenCodeUtil.supportBaseTypes[rule.baseTypeIndex]));
+        }
+
         private void InitPanelPortDrawer()
         {
             if (nodeProtListDrawer == null)
@@ -112,6 +135,8 @@ namespace BridgeUI.Drawer
         {
             if (preComponentList == null)
             {
+                UpdateBindingAble();
+
                 preComponentList = new ReorderableList(components, typeof(ComponentItem));
                 preComponentList.drawHeaderCallback = DrawComponetHeader;
                 //preComponentList.elementHeight = itemDrawer.singleLineHeight;
@@ -119,17 +144,17 @@ namespace BridgeUI.Drawer
                 preComponentList.elementHeightCallback += (index) =>
                 {
                     var prop = components[index];
-                    return itemDrawer.GetItemHeight(prop, BindingAble);
+                    return itemDrawer.GetItemHeight(prop, bindingAble);
                 };
                 preComponentList.drawElementCallback += (rect, index, isFocused, isActive) =>
                 {
-                    itemDrawer.DrawItemOnRect(rect, index, components[index], BindingAble);
+                    itemDrawer.DrawItemOnRect(rect, index, components[index], bindingAble);
                 };
                 preComponentList.drawElementBackgroundCallback += (rect, index, isFocused, isActive) =>
                 {
                     if (components.Count > index && index >= 0)
                     {
-                        itemDrawer.DrawBackground(rect, isFocused, components[index], BindingAble);
+                        itemDrawer.DrawBackground(rect, isFocused, components[index], bindingAble);
                     }
                 };
 
@@ -206,10 +231,12 @@ namespace BridgeUI.Drawer
 
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
-                GUILayout.FlexibleSpace();
+                GUILayout.Label("命名空间", GUILayout.Width(60));
+                rule.nameSpace = GUILayout.TextField(rule.nameSpace);
+
                 if (GUILayout.Button(new GUIContent("←", "快速解析"), EditorStyles.toolbarButton, GUILayout.Width(20)))
                 {
-                    GenCodeUtil.ChoiseAnUserMonobehiver(nodeInfo.GetPrefab(), component =>
+                    GenCodeUtil.ChoiseAnReferenceMonobehiver(nodeInfo.GetPrefab(), component =>
                     {
                         if (component == null)
                         {
@@ -229,11 +256,16 @@ namespace BridgeUI.Drawer
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("BaseType:", GUILayout.Width(lableWidth));
+                EditorGUI.BeginChangeCheck();
                 rule.baseTypeIndex = EditorGUILayout.Popup(rule.baseTypeIndex, GenCodeUtil.supportBaseTypes);
+                if(EditorGUI.EndChangeCheck())
+                {
+                    UpdateBindingAble();
+                }
                 if (GUILayout.Button(new GUIContent("update", "更新脚本控件信息"), EditorStyles.miniButton, GUILayout.Width(60)))
                 {
                     var go = nodeInfo.GetPrefab();
-                    GenCodeUtil.UpdateScripts(go, components, rule);
+                    GenCodeUtil.UpdateBindingScripts(go, components, rule);
                 }
             }
 
@@ -268,7 +300,7 @@ namespace BridgeUI.Drawer
                             if (item is GameObject)
                             {
                                 var obj = item as GameObject;
-                                var parent = PrefabUtility.GetPrefabParent(obj); 
+                                var parent = PrefabUtility.GetCorrespondingObjectFromSource(obj); 
                                 if (parent)
                                 {
                                     obj = parent as GameObject;
@@ -560,9 +592,10 @@ namespace BridgeUI.Drawer
 
             using (var hor = new EditorGUILayout.HorizontalScope())
             {
+                GUILayout.FlexibleSpace();
                 if (GUILayout.Button(new GUIContent("→", "快速绑定"), EditorStyles.toolbarButton, GUILayout.Width(20)))
                 {
-                    GenCodeUtil.BindingUI(panelCompnent, components);
+                    GenCodeUtil.BindingUIComponents(panelCompnent, components);
                 }
             }
 

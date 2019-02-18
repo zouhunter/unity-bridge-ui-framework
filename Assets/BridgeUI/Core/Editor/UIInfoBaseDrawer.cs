@@ -17,7 +17,7 @@ namespace BridgeUI.Drawer
         protected SerializedObject serializedObject;
         protected const float widthBt = 20;
         protected float singleHeight;
-        protected Dictionary<int, Transform> chlidParentDic;
+        protected Dictionary<int, Transform> chlidParentDic = new Dictionary<int, Transform>();
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -226,7 +226,7 @@ namespace BridgeUI.Drawer
             if (gopfb != null)
             {
                 GameObject go = PrefabUtility.InstantiatePrefab(gopfb) as GameObject;
-                Utility.SetTranform(go.transform, (UILayerType)layerProp.intValue, layerIndexProp.intValue, parent, parent,ref chlidParentDic);
+                Utility.SetTranform(go.transform, (UILayerType)layerProp.intValue, layerIndexProp.intValue, parent, parent,chlidParentDic,null);
                 instanceIDProp.intValue = go.GetInstanceID();
             }
         }

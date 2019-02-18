@@ -52,8 +52,6 @@ namespace BridgeUI.Control
             for (int i = 0; i < items.Length; i++)
             {
                 var icon = items[i].GetComponent<ToolIconItem>();
-                if (icon == null)
-                    icon = items[i].AddComponent<ToolIconItem>();
                 var info = list[i];
                 icon.Init(info.title, info.sprite, info.texture);
                 icon.onDrag = OnDragItem;
@@ -198,9 +196,8 @@ namespace BridgeUI.Control
             return item;
         }
 
-        protected override void OnDestroy()
+        protected virtual void OnDestroy()
         {
-            base.OnDestroy();
             foreach (var item in pool)
             {
                 if (item && item.gameObject)

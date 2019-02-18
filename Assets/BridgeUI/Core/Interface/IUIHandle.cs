@@ -11,21 +11,30 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using BridgeUI.Model;
+using System;
 
 namespace BridgeUI
 {
+    public interface IPanelVisitor
+    {
+        object Data { get; }
+        IUIHandle uiHandle { get; }
+        void Binding(IUIHandle uiHandle);
+        void Recover();
+    }
+
     public interface IUIHandle
     {
         string PanelName { get; }
-        IUIPanel[] Contexts { get; }
-        bool Active { get; }
-        IUIHandle Send(object data);
-        IUIHandle RegistCallBack(UnityAction<IUIPanel, object> onCallBack);
-        IUIHandle RemoveCallBack(UnityAction<IUIPanel, object> onCallBack);
-        IUIHandle RegistCreate(UnityAction<IUIPanel> onCreate);
-        IUIHandle RemoveCreate(UnityAction<IUIPanel> onCreate);
-        IUIHandle RegistClose(UnityAction<IUIPanel> onCreate);
-        IUIHandle RemoveClose(UnityAction<IUIPanel> onCreate);
+        IUIPanel[] GetActivePanels();
+        void Send(object data);
+        void RegistCallBack(UnityAction<IUIPanel, object> onCallBack);
+        void RemoveCallBack(UnityAction<IUIPanel, object> onCallBack);
+        void RegistCreate(UnityAction<IUIPanel> onCreate);
+        void RemoveCreate(UnityAction<IUIPanel> onCreate);
+        void RegistClose(UnityAction<IUIPanel> onClose);
+        void RemoveClose(UnityAction<IUIPanel> onClose);
+        void Dispose();
     }
 
     internal interface IUIHandleInternal : IUIHandle
